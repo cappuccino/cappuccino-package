@@ -142,7 +142,7 @@ _26=_26.replace(/\<key\>\s*CF\$UID\s*\<\/key\>/g,"<key>CP$UID</key>");
 return objj_msgSend(CPData,"dataWithString:",_26);
 }
 })]);
-i;15;Converter+Mac.jp;6;main.jI;23;Foundation/Foundation.jI;14;AppKit/CPCib.ji;14;NSFoundation.ji;10;NSAppKit.ji;24;Nib2CibKeyedUnarchiver.ji;11;Converter.jc;1273;
+i;15;Converter+Mac.jp;6;main.jI;23;Foundation/Foundation.jI;14;AppKit/CPCib.ji;14;NSFoundation.ji;10;NSAppKit.ji;24;Nib2CibKeyedUnarchiver.ji;11;Converter.jc;1245;
 var _1=require("file"),OS=require("os");
 CPLogRegister(CPLogPrint);
 printUsage=function(){
@@ -166,37 +166,38 @@ require("browser/timeout").serviceTimeouts();
 });
 _3();
 };
-main=function(){
-var _7=arguments.length;
-if(_7<1){
+main=function(_7){
+_7.shift();
+var _8=_7.length;
+if(_8<1){
 return printUsage();
 }
-var _8=0,_9=[],_a=objj_msgSend(objj_msgSend(Converter,"alloc"),"init");
-for(;_8<_7;++_8){
-switch(arguments[_8]){
+var _9=0,_a=[],_b=objj_msgSend(objj_msgSend(Converter,"alloc"),"init");
+for(;_9<_8;++_9){
+switch(_7[_9]){
 case "-help":
 case "--help":
 printUsage();
 break;
 case "--mac":
-objj_msgSend(_a,"setFormat:",NibFormatMac);
+objj_msgSend(_b,"setFormat:",NibFormatMac);
 break;
 case "-F":
-_9.push(arguments[++_8]);
+_a.push(_7[++_9]);
 break;
 case "-R":
-objj_msgSend(_a,"setResourcesPath:",arguments[++_8]);
+objj_msgSend(_b,"setResourcesPath:",_7[++_9]);
 break;
 default:
-if(objj_msgSend(_a,"inputPath")){
-objj_msgSend(_a,"setOutputPath:",arguments[_8]);
+if(objj_msgSend(_b,"inputPath")){
+objj_msgSend(_b,"setOutputPath:",_7[_9]);
 }else{
-objj_msgSend(_a,"setInputPath:",arguments[_8]);
+objj_msgSend(_b,"setInputPath:",_7[_9]);
 }
 }
 }
-loadFrameworks(_9,function(){
-objj_msgSend(_a,"convert");
+loadFrameworks(_a,function(){
+objj_msgSend(_b,"convert");
 });
 };
 p;24;Nib2CibKeyedUnarchiver.jI;30;Foundation/CPKeyedUnarchiver.jc;1238;
@@ -249,7 +250,7 @@ _15[_16]=_1.join(_14,_15[_16]);
 }
 return _15;
 };
-p;10;NSAppKit.ji;10;NSButton.ji;8;NSCell.ji;16;NSClassSwapper.ji;12;NSClipView.ji;9;NSColor.ji;13;NSColorWell.ji;18;NSCollectionView.ji;22;NSCollectionViewItem.ji;11;NSControl.ji;16;NSCustomObject.ji;18;NSCustomResource.ji;14;NSCustomView.ji;9;NSEvent.ji;8;NSFont.ji;16;NSIBObjectData.ji;13;NSImageView.ji;10;NSMatrix.ji;8;NSMenu.ji;12;NSMenuItem.ji;16;NSNibConnector.ji;15;NSPopUpButton.ji;13;NSResponder.ji;14;NSScrollView.ji;12;NSScroller.ji;7;NSSet.ji;19;NSSecureTextField.ji;20;NSSegmentedControl.ji;10;NSSlider.ji;13;NSSplitView.ji;15;NSTableColumn.ji;13;NSTableView.ji;11;NSTabView.ji;15;NSTabViewItem.ji;13;NSTextField.ji;11;NSToolbar.ji;8;NSView.ji;18;NSViewController.ji;18;NSWindowTemplate.ji;9;WebView.jc;167;
+p;10;NSAppKit.ji;10;NSButton.ji;8;NSCell.ji;16;NSClassSwapper.ji;12;NSClipView.ji;9;NSColor.ji;13;NSColorWell.ji;18;NSCollectionView.ji;22;NSCollectionViewItem.ji;11;NSControl.ji;16;NSCustomObject.ji;18;NSCustomResource.ji;14;NSCustomView.ji;9;NSEvent.ji;8;NSFont.ji;16;NSIBObjectData.ji;13;NSImageView.ji;10;NSMatrix.ji;8;NSMenu.ji;12;NSMenuItem.ji;16;NSNibConnector.ji;15;NSPopUpButton.ji;13;NSResponder.ji;14;NSScrollView.ji;12;NSScroller.ji;15;NSSearchField.ji;7;NSSet.ji;19;NSSecureTextField.ji;20;NSSegmentedControl.ji;10;NSSlider.ji;13;NSSplitView.ji;15;NSTableColumn.ji;13;NSTableView.ji;11;NSTabView.ji;15;NSTabViewItem.ji;13;NSTextField.ji;11;NSToolbar.ji;28;NSToolbarFlexibleSpaceItem.ji;15;NSToolbarItem.ji;25;NSToolbarShowColorsItem.ji;24;NSToolbarSeparatorItem.ji;20;NSToolbarSpaceItem.ji;8;NSView.ji;18;NSViewController.ji;18;NSWindowTemplate.ji;9;WebView.jc;167;
 CP_NSMapClassName=function(_1){
 if(_1.indexOf("NS")===0){
 var _2="CP"+_1.substr(2);
@@ -981,7 +982,7 @@ with(_b){
 return objj_msgSend(CPFont,"class");
 }
 })]);
-p;14;NSFoundation.ji;9;NSArray.ji;21;NSMutableDictionary.ji;17;NSMutableString.ji;7;NSSet.jp;16;NSIBObjectData.jI;25;AppKit/_CPCibObjectData.ji;8;NSCell.jc;2315;
+p;14;NSFoundation.ji;9;NSArray.ji;21;NSMutableDictionary.ji;17;NSMutableString.ji;7;NSSet.jp;16;NSIBObjectData.jI;25;AppKit/_CPCibObjectData.ji;8;NSCell.jc;2511;
 var _1=objj_getClass("_CPCibObjectData");
 if(!_1){
 objj_exception_throw(new objj_exception(OBJJClassNotFoundException,"*** Could not find definition for class \"_CPCibObjectData\""));
@@ -1040,17 +1041,24 @@ _objectsValues.push(_c);
 });
 }
 }
+var _8=_objectsKeys.length;
+while(_8--){
+var _11=_objectsKeys[_8];
+if(objj_msgSend(_11,"respondsToSelector:",sel_getUid("swapCellsForParents:"))){
+objj_msgSend(_11,"swapCellsForParents:",_9);
+}
+}
 }
 })]);
 var _1=objj_allocateClassPair(_CPCibObjectData,"NSIBObjectData"),_2=_1.isa;
 objj_registerClassPair(_1);
 objj_addClassForBundle(_1,objj_getBundleWithPath(OBJJ_CURRENT_BUNDLE.path));
-class_addMethods(_1,[new objj_method(sel_getUid("initWithCoder:"),function(_11,_12,_13){
-with(_11){
-return objj_msgSend(_11,"NS_initWithCoder:",_13);
+class_addMethods(_1,[new objj_method(sel_getUid("initWithCoder:"),function(_12,_13,_14){
+with(_12){
+return objj_msgSend(_12,"NS_initWithCoder:",_14);
 }
-}),new objj_method(sel_getUid("classForKeyedArchiver"),function(_14,_15){
-with(_14){
+}),new objj_method(sel_getUid("classForKeyedArchiver"),function(_15,_16){
+with(_15){
 return objj_msgSend(_CPCibObjectData,"class");
 }
 })]);
@@ -1181,7 +1189,7 @@ frame.origin.y=CGRectGetMaxY(frame)+_a.height;
 return _6;
 }
 })]);
-p;8;NSMenu.jI;15;AppKit/CPMenu.ji;12;NSMenuItem.jc;1350;
+p;8;NSMenu.jI;15;AppKit/CPMenu.ji;12;NSMenuItem.jc;1478;
 NS_CPMenuNameMap={_NSMainMenu:"_CPMainMenu",_NSAppleMenu:"_CPApplicationMenu",_NSServicesMenu:"_CPServicesMenu",_NSWindowsMenu:"_CPWindowsMenu",_NSFontMenu:"_CPFontMenu",_NSRecentDocumentsMenu:"_CPRecentDocumentsMenu",_NSOpenDocumentsMenu:"_CPOpenDocumentsMenu"};
 var _1=objj_getClass("CPMenu");
 if(!_1){
@@ -1199,7 +1207,7 @@ var _6=NS_CPMenuNameMap[_name];
 if(_6){
 _name=_6;
 }
-_showsStateColumn=YES;
+_showsStateColumn=!objj_msgSend(_5,"containsValueForKey:","NSMenuExcludeMarkColumn")||!objj_msgSend(_5,"decodeBoolForKey:","NSMenuExcludeMarkColumn");
 }
 return _3;
 }
@@ -1216,7 +1224,7 @@ with(_a){
 return objj_msgSend(CPMenu,"class");
 }
 })]);
-p;12;NSMenuItem.jI;19;AppKit/CPMenuItem.ji;9;NSEvent.ji;8;NSMenu.jc;1755;
+p;12;NSMenuItem.jI;19;AppKit/CPMenuItem.ji;9;NSEvent.ji;8;NSMenu.jc;2062;
 var _1=objj_getClass("CPMenuItem");
 if(!_1){
 objj_exception_throw(new objj_exception(OBJJClassNotFoundException,"*** Could not find definition for class \"CPMenuItem\""));
@@ -1237,19 +1245,31 @@ _submenu=objj_msgSend(_5,"decodeObjectForKey:","NSSubmenu");
 _menu=objj_msgSend(_5,"decodeObjectForKey:","NSMenu");
 _keyEquivalent=objj_msgSend(_5,"decodeObjectForKey:","NSKeyEquiv");
 _keyEquivalentModifierMask=CP_NSMapKeyMask(objj_msgSend(_5,"decodeObjectForKey:","NSKeyEquivModMask"));
+_indentationLevel=objj_msgSend(_5,"decodeIntForKey:","NSIndent");
 }
 return _3;
+}
+}),new objj_method(sel_getUid("swapCellsForParents:"),function(_6,_7,_8){
+with(_6){
+var _9=objj_msgSend(_6,"target");
+if(!_9){
+return;
+}
+var _a=_8[objj_msgSend(objj_msgSend(_6,"target"),"UID")];
+if(_a){
+objj_msgSend(_6,"setTarget:",_a);
+}
 }
 })]);
 var _1=objj_allocateClassPair(CPMenuItem,"NSMenuItem"),_2=_1.isa;
 objj_registerClassPair(_1);
 objj_addClassForBundle(_1,objj_getBundleWithPath(OBJJ_CURRENT_BUNDLE.path));
-class_addMethods(_1,[new objj_method(sel_getUid("initWithCoder:"),function(_6,_7,_8){
-with(_6){
-return objj_msgSend(_6,"NS_initWithCoder:",_8);
+class_addMethods(_1,[new objj_method(sel_getUid("initWithCoder:"),function(_b,_c,_d){
+with(_b){
+return objj_msgSend(_b,"NS_initWithCoder:",_d);
 }
-}),new objj_method(sel_getUid("classForKeyedArchiver"),function(_9,_a){
-with(_9){
+}),new objj_method(sel_getUid("classForKeyedArchiver"),function(_e,_f){
+with(_e){
 return objj_msgSend(CPMenuItem,"class");
 }
 })]);
@@ -1328,7 +1348,7 @@ with(_13){
 return objj_msgSend(CPCibOutletConnector,"class");
 }
 })]);
-p;15;NSPopUpButton.jI;22;AppKit/CPPopUpButton.ji;8;NSMenu.jc;2300;
+p;15;NSPopUpButton.jI;22;AppKit/CPPopUpButton.ji;8;NSMenu.jc;2322;
 var _1=objj_getClass("CPPopUpButton");
 if(!_1){
 objj_exception_throw(new objj_exception(OBJJClassNotFoundException,"*** Could not find definition for class \"CPPopUpButton\""));
@@ -1340,7 +1360,7 @@ if(_3=objj_msgSendSuper({receiver:_3,super_class:objj_getClass("CPPopUpButton").
 var _6=objj_msgSend(_5,"decodeObjectForKey:","NSCell");
 _menu=objj_msgSend(_6,"menu");
 _selectedIndex=objj_msgSend(_6,"selectedIndex")||0;
-_pullsDown=objj_msgSend(_6,"pullsDown");
+objj_msgSend(_3,"setPullsDown:",objj_msgSend(_6,"pullsDown"));
 _preferredEdge=objj_msgSend(_6,"preferredEdge");
 }
 return _3;
@@ -1466,7 +1486,7 @@ with(_a){
 return objj_msgSend(CPScroller,"class");
 }
 })]);
-p;14;NSScrollView.jI;21;AppKit/CPScrollView.jc;1518;
+p;14;NSScrollView.jI;21;AppKit/CPScrollView.jc;1365;
 var _1=objj_getClass("CPScrollView");
 if(!_1){
 objj_exception_throw(new objj_exception(OBJJClassNotFoundException,"*** Could not find definition for class \"CPScrollView\""));
@@ -1479,11 +1499,9 @@ var _6=objj_msgSend(_5,"decodeIntForKey:","NSsFlags");
 _verticalScroller=objj_msgSend(_5,"decodeObjectForKey:","NSVScroller");
 _horizontalScroller=objj_msgSend(_5,"decodeObjectForKey:","NSHScroller");
 _contentView=objj_msgSend(_5,"decodeObjectForKey:","NSContentView");
-_hasVerticalScroller=!Boolean(_6&(1<<4));
-_hasHorizontalScroller=!Boolean(_6&(1<<5));
-_autohidesScrollers=Boolean(_6&(1<<9));
-objj_msgSend(_3,"setHasHorizontalScroller:",!_hasHorizontalScroller);
-objj_msgSend(_3,"setHasVerticalScroller:",!_hasVerticalScroller);
+_hasVerticalScroller=!!(_6&(1<<4));
+_hasHorizontalScroller=!!(_6&(1<<5));
+_autohidesScrollers=!!(_6&(1<<9));
 _verticalLineScroll=10;
 _verticalPageScroll=10;
 _horizontalLineScroll=10;
@@ -1504,6 +1522,35 @@ with(_a){
 return objj_msgSend(CPScrollView,"class");
 }
 })]);
+p;15;NSSearchField.jI;22;AppKit/CPSearchField.ji;13;NSTextField.jc;1079;
+var _1=objj_getClass("CPSearchField");
+if(!_1){
+objj_exception_throw(new objj_exception(OBJJClassNotFoundException,"*** Could not find definition for class \"CPSearchField\""));
+}
+var _2=_1.isa;
+class_addMethods(_1,[new objj_method(sel_getUid("NS_initWithCoder:"),function(_3,_4,_5){
+with(_3){
+_3=objj_msgSendSuper({receiver:_3,super_class:objj_getClass("CPSearchField").super_class},"NS_initWithCoder:",_5);
+if(_3){
+}
+return _3;
+}
+})]);
+var _1=objj_allocateClassPair(CPSearchField,"NSSearchField"),_2=_1.isa;
+objj_registerClassPair(_1);
+objj_addClassForBundle(_1,objj_getBundleWithPath(OBJJ_CURRENT_BUNDLE.path));
+class_addMethods(_1,[new objj_method(sel_getUid("initWithCoder:"),function(_6,_7,_8){
+with(_6){
+return objj_msgSend(_6,"NS_initWithCoder:",_8);
+}
+}),new objj_method(sel_getUid("classForKeyedArchiver"),function(_9,_a){
+with(_9){
+return objj_msgSend(CPSearchField,"class");
+}
+})]);
+var _1=objj_allocateClassPair(NSTextFieldCell,"NSSearchFieldCell"),_2=_1.isa;
+objj_registerClassPair(_1);
+objj_addClassForBundle(_1,objj_getBundleWithPath(OBJJ_CURRENT_BUNDLE.path));
 p;19;NSSecureTextField.jI;26;AppKit/CPSecureTextField.ji;13;NSTextField.jc;657;
 var _1=objj_allocateClassPair(CPSecureTextField,"NSSecureTextField"),_2=_1.isa;
 objj_registerClassPair(_1);
@@ -1973,6 +2020,84 @@ return objj_msgSend(_6,"NS_initWithCoder:",_8);
 }),new objj_method(sel_getUid("classForKeyedArchiver"),function(_9,_a){
 with(_9){
 return objj_msgSend(CPToolbar,"class");
+}
+})]);
+p;28;NSToolbarFlexibleSpaceItem.jI;36;AppKit/_CPToolbarFlexibleSpaceItem.jc;371;
+var _1=objj_allocateClassPair(_CPToolbarFlexibleSpaceItem,"NSToolbarFlexibleSpaceItem"),_2=_1.isa;
+objj_registerClassPair(_1);
+objj_addClassForBundle(_1,objj_getBundleWithPath(OBJJ_CURRENT_BUNDLE.path));
+class_addMethods(_1,[new objj_method(sel_getUid("classForKeyedArchiver"),function(_3,_4){
+with(_3){
+return objj_msgSend(_CPToolbarFlexibleSpaceItem,"class");
+}
+})]);
+p;15;NSToolbarItem.jI;22;AppKit/CPToolbarItem.jc;2696;
+NS_CPToolbarItemIdentifierMap={"NSToolbarSeparatorItem":CPToolbarSeparatorItemIdentifier,"NSToolbarSpaceItem":CPToolbarSpaceItemIdentifier,"NSToolbarFlexibleSpaceItem":CPToolbarFlexibleSpaceItemIdentifier,"NSToolbarShowColorsItem":CPToolbarShowColorsItemIdentifier,"NSToolbarShowFontsItem":CPToolbarShowFontsItemIdentifier,"NSToolbarCustomizeToolbarItem":CPToolbarCustomizeToolbarItemIdentifier,"NSToolbarPrintItem":CPToolbarPrintItemIdentifier};
+var _1=objj_getClass("CPToolbarItem");
+if(!_1){
+objj_exception_throw(new objj_exception(OBJJClassNotFoundException,"*** Could not find definition for class \"CPToolbarItem\""));
+}
+var _2=_1.isa;
+class_addMethods(_1,[new objj_method(sel_getUid("NS_initWithCoder:"),function(_3,_4,_5){
+with(_3){
+_3=objj_msgSendSuper({receiver:_3,super_class:objj_getClass("CPToolbarItem").super_class},"init");
+if(_3){
+var _6=objj_msgSend(_5,"decodeObjectForKey:","NSToolbarItemIdentifier");
+_itemIdentifier=NS_CPToolbarItemIdentifierMap[_6]||_6;
+_minSize=objj_msgSend(_5,"decodeSizeForKey:","NSToolbarItemMinSize")||CGSizeMakeZero();
+_maxSize=objj_msgSend(_5,"decodeSizeForKey:","NSToolbarItemMaxSize")||CGSizeMakeZero();
+objj_msgSend(_3,"setLabel:",objj_msgSend(_5,"decodeObjectForKey:","NSToolbarItemLabel"));
+objj_msgSend(_3,"setPaletteLabel:",objj_msgSend(_5,"decodeObjectForKey:","NSToolbarItemPaletteLabel"));
+objj_msgSend(_3,"setToolTip:",objj_msgSend(_5,"decodeObjectForKey:","NSToolbarItemToolTip"));
+objj_msgSend(_3,"setTag:",objj_msgSend(_5,"decodeObjectForKey:","NSToolbarItemTag"));
+objj_msgSend(_3,"setTarget:",objj_msgSend(_5,"decodeObjectForKey:","NSToolbarItemTarget"));
+objj_msgSend(_3,"setAction:",CPSelectorFromString(objj_msgSend(_5,"decodeObjectForKey:","NSToolbarItemAction")));
+objj_msgSend(_3,"setEnabled:",objj_msgSend(_5,"decodeBoolForKey:","NSToolbarItemEnabled"));
+objj_msgSend(_3,"setImage:",objj_msgSend(_5,"decodeBoolForKey:","NSToolbarItemImage"));
+objj_msgSend(_3,"setView:",objj_msgSend(_5,"decodeObjectForKey:","NSToolbarItemView"));
+objj_msgSend(_3,"setVisibilityPriority:",objj_msgSend(_5,"decodeIntForKey:","NSToolbarItemVisibilityPriority"));
+objj_msgSend(_3,"setAutovalidates:",objj_msgSend(_5,"decodeBoolForKey:","NSToolbarItemAutovalidates"));
+}
+return _3;
+}
+})]);
+var _1=objj_allocateClassPair(CPToolbarItem,"NSToolbarItem"),_2=_1.isa;
+objj_registerClassPair(_1);
+objj_addClassForBundle(_1,objj_getBundleWithPath(OBJJ_CURRENT_BUNDLE.path));
+class_addMethods(_1,[new objj_method(sel_getUid("initWithCoder:"),function(_7,_8,_9){
+with(_7){
+return objj_msgSend(_7,"NS_initWithCoder:",_9);
+}
+}),new objj_method(sel_getUid("classForKeyedArchiver"),function(_a,_b){
+with(_a){
+return objj_msgSend(CPToolbarItem,"class");
+}
+})]);
+p;24;NSToolbarSeparatorItem.jI;32;AppKit/_CPToolbarSeparatorItem.jc;359;
+var _1=objj_allocateClassPair(_CPToolbarSeparatorItem,"NSToolbarSeparatorItem"),_2=_1.isa;
+objj_registerClassPair(_1);
+objj_addClassForBundle(_1,objj_getBundleWithPath(OBJJ_CURRENT_BUNDLE.path));
+class_addMethods(_1,[new objj_method(sel_getUid("classForKeyedArchiver"),function(_3,_4){
+with(_3){
+return objj_msgSend(_CPToolbarSeparatorItem,"class");
+}
+})]);
+p;25;NSToolbarShowColorsItem.jI;33;AppKit/_CPToolbarShowColorsItem.jc;362;
+var _1=objj_allocateClassPair(_CPToolbarShowColorsItem,"NSToolbarShowColorsItem"),_2=_1.isa;
+objj_registerClassPair(_1);
+objj_addClassForBundle(_1,objj_getBundleWithPath(OBJJ_CURRENT_BUNDLE.path));
+class_addMethods(_1,[new objj_method(sel_getUid("classForKeyedArchiver"),function(_3,_4){
+with(_3){
+return objj_msgSend(_CPToolbarShowColorsItem,"class");
+}
+})]);
+p;20;NSToolbarSpaceItem.jI;28;AppKit/_CPToolbarSpaceItem.jc;347;
+var _1=objj_allocateClassPair(_CPToolbarSpaceItem,"NSToolbarSpaceItem"),_2=_1.isa;
+objj_registerClassPair(_1);
+objj_addClassForBundle(_1,objj_getBundleWithPath(OBJJ_CURRENT_BUNDLE.path));
+class_addMethods(_1,[new objj_method(sel_getUid("classForKeyedArchiver"),function(_3,_4){
+with(_3){
+return objj_msgSend(_CPToolbarSpaceItem,"class");
 }
 })]);
 p;8;NSView.jI;15;AppKit/CPView.jc;1861;

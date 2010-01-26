@@ -109,8 +109,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("applicationDidFinishLau
         objj_msgSend(toolbarItem, "setAction:", sel_getUid("changeState:"));
         objj_msgSend(toolbarItem, "setLabel:", "State");
         var width = CGRectGetWidth(objj_msgSend(popUpButton, "frame"));
-        objj_msgSend(toolbarItem, "setMinSize:", CGSizeMake(width + 20.0, 32.0));
-        objj_msgSend(toolbarItem, "setMaxSize:", CGSizeMake(width + 20.0, 32.0));
+        objj_msgSend(toolbarItem, "setMinSize:", CGSizeMake(width + 20.0, 24.0));
+        objj_msgSend(toolbarItem, "setMaxSize:", CGSizeMake(width + 20.0, 24.0));
     }
     else if (anItemIdentifier === BKBackgroundColorToolbarItemIdentifier)
     {
@@ -131,8 +131,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("applicationDidFinishLau
         objj_msgSend(toolbarItem, "setAction:", sel_getUid("changeColor:"));
         objj_msgSend(toolbarItem, "setLabel:", "Background Color");
         var width = CGRectGetWidth(objj_msgSend(popUpButton, "frame"));
-        objj_msgSend(toolbarItem, "setMinSize:", CGSizeMake(width, 32.0));
-        objj_msgSend(toolbarItem, "setMaxSize:", CGSizeMake(width, 32.0));
+        objj_msgSend(toolbarItem, "setMinSize:", CGSizeMake(width, 24.0));
+        objj_msgSend(toolbarItem, "setMaxSize:", CGSizeMake(width, 24.0));
     }
     else if (anItemIdentifier === BKLearnMoreToolbarItemIdentifier)
     {
@@ -146,8 +146,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("applicationDidFinishLau
         objj_msgSend(toolbarItem, "setTarget:", nil);
         objj_msgSend(toolbarItem, "setAction:", sel_getUid("learnMore:"));
         var width = CGRectGetWidth(objj_msgSend(button, "frame"));
-        objj_msgSend(toolbarItem, "setMinSize:", CGSizeMake(width, 32.0));
-        objj_msgSend(toolbarItem, "setMaxSize:", CGSizeMake(width, 32.0));
+        objj_msgSend(toolbarItem, "setMinSize:", CGSizeMake(width, 24.0));
+        objj_msgSend(toolbarItem, "setMaxSize:", CGSizeMake(width, 24.0));
     }
     return toolbarItem;
 }

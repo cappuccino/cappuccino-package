@@ -1,4 +1,4 @@
-@STATIC;1.0;p;15;Configuration.jI;25;Foundation/CPDictionary.jI;21;Foundation/CPString.jI;21;Foundation/CPObject.jc;4158;
+@STATIC;1.0;p;15;Configuration.jI;25;Foundation/CPDictionary.jI;21;Foundation/CPString.jI;21;Foundation/CPObject.jc;4157;
 var _1=require("file"),_2=require("system"),_3=require("objective-j/plist");
 var _4=nil,_5=nil,_6=nil;
 var _7=objj_allocateClassPair(CPObject,"Configuration"),_8=_7.isa;
@@ -74,7 +74,7 @@ objj_msgSend(_4,"setObject:forKey:","Your Company","organization.name");
 objj_msgSend(_4,"setObject:forKey:","feedback @nospam@ yourcompany.com","organization.email");
 objj_msgSend(_4,"setObject:forKey:","http://yourcompany.com","organization.url");
 objj_msgSend(_4,"setObject:forKey:","com.yourcompany","organization.identifier");
-var _22=new Date(),_23=["Janurary","February","March","April","May","June","July","August","September","October","November","December"];
+var _22=new Date(),_23=["January","February","March","April","May","June","July","August","September","October","November","December"];
 objj_msgSend(_4,"setObject:forKey:",_22.getFullYear(),"project.year");
 objj_msgSend(_4,"setObject:forKey:",_23[_22.getMonth()]+" "+_22.getDate()+", "+_22.getFullYear(),"project.date");
 }
@@ -133,8 +133,8 @@ objj_msgSend(_2e,"save");
 }
 }
 };
-p;10;Generate.ji;15;Configuration.jc;4216;
-var OS=require("OS"),_1=require("system"),_2=require("file"),_3=require("objective-j");
+p;10;Generate.ji;15;Configuration.jc;4356;
+var OS=require("os"),_1=require("system"),_2=require("file"),_3=require("objective-j");
 gen=function(){
 var _4=0,_5=arguments.length,_6=false,_7=false,_8=false,_9=false,_a="Application",_b="";
 for(;_4<_5;++_4){
@@ -179,7 +179,7 @@ if(_7){
 createFrameworksInFile(_10,_6,_9);
 }else{
 if(!_2.exists(_10)){
-OS.system("cp -vR "+_d+" "+_10);
+_2.copyTree(_d,_10);
 var _12=_2.glob(_2.join(_10,"**","*")),_4=0,_5=_12.length,_13=_2.basename(_10),_14=objj_msgSend(_11,"valueForKey:","organization.identifier")||"";
 objj_msgSend(_11,"setTemporaryValue:forKey:",_13,"project.name");
 objj_msgSend(_11,"setTemporaryValue:forKey:",_14+"."+toIdentifier(_13),"project.identifier");
@@ -189,14 +189,22 @@ var _15=_12[_4];
 if(_2.isDirectory(_15)){
 continue;
 }
-if([".png",".jpg",".jpeg",".gif",".tif",".tiff"].indexOf(_2.extension(_15))!==-1){
+if(_2.basename(_15)===".DS_Store"){
 continue;
 }
+if([".png",".jpg",".jpeg",".gif",".tif",".tiff"].indexOf(_2.extension(_15).toLowerCase())!==-1){
+continue;
+}
+try{
 var _16=_2.read(_15,{charset:"UTF-8"}),key=nil,_17=objj_msgSend(_11,"keyEnumerator");
 while(key=objj_msgSend(_17,"nextObject")){
 _16=_16.replace(new RegExp("__"+RegExp.escape(key)+"__","g"),objj_msgSend(_11,"valueForKey:",key));
 }
 _2.write(_15,_16,{charset:"UTF-8"});
+}
+catch(anException){
+print("Copying and modifying "+_15+" failed.");
+}
 }
 var _18=_10;
 if(_f.FrameworksPath){
@@ -209,7 +217,7 @@ print("Directory already exists");
 }
 };
 createFrameworksInFile=function(_19,_1a,_1b){
-var _1c=_2.path(_19);
+var _1c=_2.path(_2.absolute(_19));
 var _1d=["Foundation","AppKit"];
 if(!_1c.isDirectory()){
 throw new Error("Can't create Frameworks. Directory does not exist: "+_1c);
@@ -295,15 +303,16 @@ _33=YES;
 }
 return _30;
 };
-p;6;main.jI;23;Foundation/Foundation.ji;15;Configuration.ji;10;Generate.jc;1915;
-main=function(){
-if(system.args.length<1){
+p;6;main.jI;23;Foundation/Foundation.ji;15;Configuration.ji;10;Generate.jc;1887;
+main=function(_1){
+_1.shift();
+if(_1.length<1){
 return printUsage();
 }
-var _1=0,_2=system.args.length;
-for(;_1<_2;++_1){
-var _3=system.args[_1];
-switch(_3){
+var _2=0,_3=_1.length;
+for(;_2<_3;++_2){
+var _4=_1[_2];
+switch(_4){
 case "version":
 case "--version":
 return print("capp version 0.7.1");
@@ -311,11 +320,11 @@ case "-h":
 case "--help":
 return printUsage();
 case "config":
-return config.apply(this,system.args.slice(_1+1));
+return config.apply(this,_1.slice(_2+1));
 case "gen":
-return gen.apply(this,system.args.slice(_1+1));
+return gen.apply(this,_1.slice(_2+1));
 default:
-print("unknown command "+_3);
+print("unknown command "+_4);
 }
 }
 };
@@ -335,39 +344,39 @@ print("    name value        Set a value for a given key");
 print("    -l, --list        List all variables set in config file.");
 print("    --get name        Get the value for a given key");
 };
-getFiles=function(_4,_5,_6){
-var _7=[],_8=_4.listFiles(),_9=typeof _5!=="string";
-if(_8){
-var _a=0,_b=_8.length;
-for(;_a<_b;++_a){
-var _c=_8[_a],_d=FILE.basename(_c),_e=!_5;
-if(_6&&fileArrayContainsFile(_6,_c)){
+getFiles=function(_5,_6,_7){
+var _8=[],_9=_5.listFiles(),_a=typeof _6!=="string";
+if(_9){
+var _b=0,_c=_9.length;
+for(;_b<_c;++_b){
+var _d=_9[_b],_e=FILE.basename(_d),_f=!_6;
+if(_7&&fileArrayContainsFile(_7,_d)){
 continue;
 }
-if(!_e){
-if(_9){
-var _f=_5.length;
-while(_f--&&!_e){
-var _10=_5[_f];
-if(_d.substring(_d.length-_10.length-1)===("."+_10)){
-_e=true;
+if(!_f){
+if(_a){
+var _10=_6.length;
+while(_10--&&!_f){
+var _11=_6[_10];
+if(_e.substring(_e.length-_11.length-1)===("."+_11)){
+_f=true;
 }
 }
 }else{
-if(_d.substring(_d.length-_5.length-1)===("."+_5)){
-_e=true;
+if(_e.substring(_e.length-_6.length-1)===("."+_6)){
+_f=true;
 }
 }
 }
-if(FILE.isDirectory(_c)){
-_7=_7.concat(getFiles(_c,_5,_6));
+if(FILE.isDirectory(_d)){
+_8=_8.concat(getFiles(_d,_6,_7));
 }else{
-if(_e){
-_7.push(_c);
+if(_f){
+_8.push(_d);
 }
 }
 }
 }
-return _7;
+return _8;
 };
 e;

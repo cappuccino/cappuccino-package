@@ -1,217 +1,290 @@
-@STATIC;1.0;p;6;main.jI;23;Foundation/Foundation.ji;21;objj-analysis-tools.jc;10290;
-var _1="main.j",_2="Frameworks";
-var _3="Usage: press root_directory output_directory [options]\n        --main path         The relative path (from root_directory) to the main file (default: 'main.j')\n        --frameworks path   The relative path (from root_directory) to the frameworks directory (default: 'Frameworks')\n        --platforms         Platform names, colon separated (default: 'browser:objj')\n        --png               Run pngcrush on all PNGs (pngcrush must be installed!)\n        --flatten           Flatten all code into a single Application.js file and attempt add script tag to index.html (useful for Adobe AIR and CDN deployment)\n        --nostrip           Don't strip any files\n        --v                 Verbose";
-main=function(){
-var _4=null,_5=null,_6=null,_7=null,_8=["browser","objj"],_9=false,_a=false,_b=false,_c=false;
-var _d=false;
-while(system.args.length&&!_d){
-var _e=system.args.shift();
-switch(_e){
-case "--main":
-if(system.args.length){
-_6=system.args.shift();
-}else{
-_d=true;
+@STATIC;1.0;p;6;main.jc;198;
+var OS=require("os");
+if(system.engine!=="rhino"){
+system.args.splice(1,2);
+var _1="NARWHAL_ENGINE_HOME='' NARWHAL_ENGINE='rhino' "+system.args.map(OS.enquote).join(" ");
+OS.exit(OS.system(_1));
 }
-break;
-case "--frameworks":
-if(system.args.length){
-_7=system.args.shift().replace(/\/$/,"");
-}else{
-_d=true;
-}
-break;
-case "--platforms":
-if(system.args.length){
-_8=system.args.shift().split(":");
-}else{
-_d=true;
-}
-break;
-case "--png":
-_9=true;
-break;
-case "--flatten":
-_a=true;
-break;
-case "--nostrip":
-_b=true;
-break;
-case "--v":
-_c=true;
-break;
-default:
-if(_4==null){
-_4=_e.replace(/\/$/,"");
-}else{
-if(_5==null){
-_5=_e.replace(/\/$/,"");
-}else{
-_d=true;
-}
-}
-}
-}
-if(_c){
-CPLogRegister(CPLogPrint);
-}else{
-CPLogRegisterRange(CPLogPrint,"fatal","info");
-}
-if(_d||_4==null||_5==null||!_8.length){
-print(_3);
+I;23;Foundation/Foundation.ji;21;objj-analysis-tools.jc;10071;
+var _1=require("args");
+var _2=require("file");
+var OS=require("os");
+var _3=require("browser/dom");
+var _4=require("interpreter");
+var _5=new _3.XMLSerializer();
+var _6=new _1.Parser();
+_6.usage("INPUT_PROJECT OUTPUT_PROJECT");
+_6.help("Optimizes Cappuccino applications for deployment to the web.");
+_6.option("-m","--main","main").def("main.j").set().help("The relative path (from INPUT_PROJECT) to the main file (default: 'main.j')");
+_6.option("-F","--framework","frameworks").def(["Frameworks"]).push().help("Add a frameworks directory, relative to INPUT_PROJECT (default: ['Frameworks'])");
+_6.option("-E","--environment","environments").def(["W3C"]).push().help("Add a platform name (default: ['W3C', 'IE7', 'IE8'])");
+_6.option("-l","--flatten","flatten").def(false).set(true).help("Flatten all code into a single Application.js file and attempt add script tag to index.html (useful for Adobe AIR and CDN deployment)");
+_6.option("-f","--force","force").def(false).set(true).help("Force overwriting OUTPUT_PROJECT if it exists");
+_6.option("-n","--nostrip","strip").def(true).set(false).help("Do not strip any files");
+_6.option("-p","--pngcrush","png").def(false).set(true).help("Run pngcrush on all PNGs (pngcrush must be installed!)");
+_6.option("-v","--verbose","verbose").def(false).set(true).help("Verbose logging");
+_6.helpful();
+main=function(_7){
+var _8=_6.parse(_7);
+if(_8.args.length<2){
+_6.printUsage(_8);
 return;
 }
-_4=absolutePath(_4);
-var _f=_4+"/"+(_6||_1),_10=_4+"/"+(_7||_2);
-CPLog.info("Application root:    "+_4);
-CPLog.info("Output directory:    "+_5);
-CPLog.info("Main file:           "+_f);
-CPLog.info("Frameworks:          "+_10);
-var cx=Packages.org.mozilla.javascript.Context.getCurrentContext(),_11=makeObjjScope(cx);
-_11.OBJJ_INCLUDE_PATHS=[_10];
-_11.OBJJ_PLATFORMS=_8;
-var _12=[],_13=[];
-_11.objj_search.prototype.didReceiveBundleResponseOriginal=_11.objj_search.prototype.didReceiveBundleResponse;
-_11.objj_search.prototype.didReceiveBundleResponse=function(_14){
-var _15={success:_14.success,filePath:pathRelativeTo(_14.filePath,_4)};
-if(_14.success){
-var _16=new Packages.java.io.ByteArrayOutputStream();
-outputTransformer(_16,_14.xml,"UTF-8");
-_15.text=CPPropertyListCreate280NorthData(CPPropertyListCreateFromXMLData({string:String(_16.toString())})).string;
-}
-_12.push(_15);
-this.didReceiveBundleResponseOriginal.apply(this,arguments);
-};
-CPLog.error("PHASE 1: Loading application...");
-var _17=findGlobalDefines(cx,_11,_f,_13);
-var _18=coalesceGlobalDefines(_17);
-CPLog.trace("Global defines:");
-for(var i in _18){
-CPLog.trace("    "+i+" => "+_18[i]);
-}
-CPLog.error("PHASE 2: Walk dependency tree...");
-var _19={};
-if(_b){
-_19=_11.objj_files;
+CPLogRegister(CPLogPrint);
+var _9=_2.path(_8.args[0]).join("").absolute();
+var _a=_2.path(_8.args[1]).join("").absolute();
+if(_a.exists()){
+if(_8.force){
+_a.rmtree();
 }else{
-if(!_11.objj_files[_f]){
+CPLog.error("OUTPUT_PROJECT "+_a+" exists. Use -f to overwrite.");
+OS.exit(1);
+}
+}
+press(_9,_a,_8);
+};
+press=function(_b,_c,_d){
+CPLog.info("===========================================");
+CPLog.info("Application root:    "+_b);
+CPLog.info("Output directory:    "+_c);
+var _e={};
+_d.environments.forEach(function(_f){
+pressEnvironment(_b,_e,_f,_d);
+});
+CPLog.error("PHASE 4: copy to output ("+_b+" to "+_c+")");
+_2.copyTree(_b,_c);
+for(var _10 in _e){
+var _11=_c.join(_b.relative(_10));
+var _12=_11.dirname();
+if(!_12.exists()){
+CPLog.warn(_12+" doesn't exist, creating directories.");
+_12.mkdirs();
+}
+if(typeof _e[_10]!=="string"){
+_e[_10]=_e[_10].join("");
+}
+CPLog.info((_11.exists()?"Overwriting: ":"Writing:     ")+_11);
+_2.write(_11,_e[_10],{charset:"UTF-8"});
+}
+if(_d.png){
+pngcrushDirectory(_c);
+}
+};
+pressEnvironment=function(_13,_14,_15,_16){
+var _17=String(_13.join(_16.main));
+var _18=_16.frameworks.map(function(_19){
+return _13.join(_19);
+});
+CPLog.info("===========================================");
+CPLog.info("Main file:           "+_17);
+CPLog.info("Frameworks:          "+_18);
+CPLog.info("Environment:         "+_15);
+var _1a=new _4.Context();
+var _1b=setupObjectiveJ(_1a);
+_1b.OBJJ_INCLUDE_PATHS=_18;
+_1b.OBJJ_ENVIRONMENTS=[_15,"ObjJ"];
+var _1c=[];
+var _1d=[];
+var _1e=[];
+functionHookBefore(_1b.objj_search.prototype,"didReceiveBundleResponse",function(_1f){
+var _20={success:_1f.success,filePath:_13.relative(_1f.filePath).toString()};
+if(_1f.success){
+var _21=_5.serializeToString(_1f.xml);
+_20.text=CPPropertyListCreate280NorthData(CPPropertyListCreateFromXMLData({string:_21})).string;
+}
+_1c.push(_20);
+});
+functionHookBefore(_1b.objj_search.prototype,"didReceiveExecutableResponse",function(_22){
+_1d.push(_22);
+});
+_1a.rootPath=_13;
+_1a.scope=_1b;
+CPLog.error("PHASE 1: Loading application...");
+var _23=findGlobalDefines(_1a,_17,_1e);
+var _24=coalesceGlobalDefines(_23);
+CPLog.trace("Global defines:");
+Object.keys(_24).sort().forEach(function(_25){
+CPLog.trace("    "+_25+" => "+_13.relative(_24[_25]));
+});
+CPLog.error("PHASE 2: Walk dependency tree...");
+var _26={};
+if(_16.nostrip){
+_26=_1b.objj_files;
+}else{
+if(!_1b.objj_files[_17]){
 CPLog.error("Root file not loaded!");
 return;
 }
 CPLog.warn("Analyzing dependencies...");
-var _1a={scope:_11,dependencies:_18,processedFiles:{},ignoreFrameworkImports:true,importCallback:function(_1b,_1c){
-_19[_1c]=true;
-},referenceCallback:function(_1d,_1e){
-_19[_1e]=true;
-}};
-_19[_f]=true;
-traverseDependencies(_1a,_11.objj_files[_f]);
-var _1f=0,_20=0;
-for(var _21 in _11.objj_files){
-if(_19[_21]){
-CPLog.debug("Included: "+_21);
-_1f++;
-}else{
-CPLog.info("Excluded: "+_21);
-}
-_20++;
-}
-CPLog.warn("Total required files: "+_1f+" out of "+_20);
-}
-var _22={};
-if(_a){
-CPLog.error("PHASE 3a: Flattening...");
-var _23=[],_24=readFile(_4+"/index.html");
-var _25=function(_26){
-var _27=new objj_bundle();
-_27.path=_26.filePath;
-if(_26.success){
-var _28=new objj_data();
-_28.string=_26.text;
-_27.info=CPPropertyListCreateFrom280NorthData(_28);
-}else{
-_27.info=new objj_dictionary();
-}
-objj_bundles[_26.filePath]=_27;
+_1a.dependencies=_24;
+_1a.ignoreFrameworkImports=true;
+_1a.importCallback=function(_27,_28){
+_26[_28]=true;
 };
-_23.push("var __fakeDidReceiveBundleResponse = "+String(_25));
-_23.push("var __fakeBundleArchives = "+JSON.stringify(_12)+";");
-_23.push("for (var i = 0; i < __fakeBundleArchives.length; i++) __fakeDidReceiveBundleResponse(__fakeBundleArchives[i]);");
-for(var i=0;i<_13.length;i++){
-if(_19[_13[i].file.path]){
-_23.push("(function() {");
-_23.push("var OBJJ_CURRENT_BUNDLE = objj_bundles['"+pathRelativeTo(_13[i].bundle.path,_4)+"'];");
-_23.push(_13[i].info);
-_23.push("})();");
+_1a.referenceCallback=function(_29,_2a){
+_26[_2a]=true;
+};
+_26[_17]=true;
+traverseDependencies(_1a,_1b.objj_files[_17]);
+var _2b=0,_2c=0;
+for(var _2d in _1b.objj_files){
+if(/\.keyedtheme$/.test(_2d)){
+_26[_2d]=true;
+}
+if(_26[_2d]){
+CPLog.debug("Included: "+_13.relative(_2d));
+_2b++;
 }else{
-CPLog.info("Stripping "+_13[i].file.path);
+CPLog.info("Excluded: "+_13.relative(_2d));
+}
+_2c++;
+}
+CPLog.warn("Total required files: "+_2b+" out of "+_2c);
+}
+if(_16.flatten){
+CPLog.error("PHASE 3a: Flattening...");
+var _2e="Application-"+_15+".js";
+var _2f="index-"+_15+".html";
+var _30=function(_31){
+var _32=new objj_bundle();
+_32.path=_31.filePath;
+if(_31.success){
+var _33=new objj_data();
+_33.string=_31.text;
+_32.info=CPPropertyListCreateFrom280NorthData(_33);
+}else{
+_32.info=new objj_dictionary();
+}
+objj_bundles[_31.filePath]=_32;
+};
+var _34=function(_35){
+var _36=function(_37){
+return (_37).substr(0,(_37).lastIndexOf("/")+1);
+};
+for(var _38 in _35){
+if(objj_bundles[_38]){
+var _39=_35[_38];
+objj_bundles[_38]._URIMap={};
+for(var _3a in _39){
+var URI=_39[_3a];
+if(URI.toLowerCase().indexOf("mhtml:")===0){
+objj_bundles[_38]._URIMap[_3a]="mhtml:"+_36(window.location.href)+"/"+URI.substr("mhtml:".length);
 }
 }
-_23.push("if (window.addEventListener)                 window.addEventListener('load', function(){main()}, false);             else if (window.attachEvent)                 window.attachEvent('onload', function(){main()});");
-_24=_24.replace(/(\bOBJJ_MAIN_FILE\s*=|\bobjj_import\s*\()/g,"//$&");
-_24=_24.replace(/([ \t]*)(<\/head>)/,"$1    <script src = \"Application.js\" type = \"text/javascript\"></script>\n$1$2");
-_22[_4+"/Application.js"]=_23.join("\n");
-_22[_4+"/index.html"]=_24;
+}else{
+console.log("no bundle for "+_38);
+}
+}
+};
+var _3b=[];
+var _3c={};
+Object.keys(_1b.objj_bundles).forEach(function(_3d){
+var _3e=_1b.objj_bundles[_3d];
+var _3f=_13.relative(_3e.path);
+if(_3e._URIMap){
+_3c[_3f]={};
+Object.keys(_3e._URIMap).forEach(function(_40){
+var _41=_3e._URIMap[_40];
+var _42;
+if(_42=_41.match(/^mhtml:[^!]*!(.*)$/)){
+_41="mhtml:"+_2e+"!"+_42[1];
+}
+_3c[_3f][_40]=_41;
+});
+}
+});
+_3b.push("(function() {");
+_3b.push("    var didReceiveBundleResponse = "+String(_30));
+_3b.push("    var setupURIMaps = "+String(_34));
+_3b.push("    var bundleArchiveResponses = "+JSON.stringify(_1c)+";");
+_3b.push("    for (var i = 0; i < bundleArchiveResponses.length; i++)");
+_3b.push("        didReceiveBundleResponse(bundleArchiveResponses[i]);");
+_3b.push("    var URIMaps = "+JSON.stringify(_3c)+";");
+_3b.push("    setupURIMaps(URIMaps);");
+_3b.push("})();");
+_1e.forEach(function(_43){
+if(_26[_43.file.path]){
+_3b.push("(function(OBJJ_CURRENT_BUNDLE) {");
+_3b.push(_43.info);
+_3b.push("})(objj_bundles['"+_13.relative(_43.bundle.path)+"']);");
+}else{
+CPLog.info("Stripping "+_13.relative(_43.file.path));
+}
+});
+_3b.push("if (window.addEventListener)");
+_3b.push("    window.addEventListener('load', main, false);");
+_3b.push("else if (window.attachEvent)");
+_3b.push("    window.attachEvent('onload', main);");
+_1d.forEach(function(_44){
+var _45=_44.text.lastIndexOf("/*");
+var _46=_44.text.lastIndexOf("*/");
+if(_45>=0&&_46>_45){
+_3b.push(_44.text.slice(_45,_46+2));
+}
+});
+var _47=_2.read(_2.join(_13,"index.html"),{charset:"UTF-8"});
+_47=_47.replace(/(\bOBJJ_MAIN_FILE\s*=|\bobjj_import\s*\()/g,"//$&");
+_47=_47.replace(/([ \t]*)(<\/head>)/,"$1    <script src = \""+_2e+"\" type = \"text/javascript\"></script>\n$1$2");
+_14[_13.join(_2e)]=_3b.join("\n");
+_14[_13.join(_2f)]=_47;
 }else{
 CPLog.error("PHASE 3b: Rebuild .sj");
-var _29={};
-for(var _21 in _19){
-var _2a=_11.objj_files[_21],_2b=basename(_21),_2c=dirname(_21);
-if(_2a.path!=_21){
-CPLog.warn("Sanity check failed (file path): "+_2a.path+" vs. "+_21);
+var _48={};
+for(var _2d in _26){
+var _49=_1b.objj_files[_2d],_4a=_2.basename(_2d),_4b=_2.dirname(_2d);
+if(_49.path!=_2d){
+CPLog.warn("Sanity check failed (file path): "+_49.path+" vs. "+_2d);
 }
-if(_2a.bundle){
-var _2d=dirname(_2a.bundle.path);
-if(!_29[_2a.bundle.path]){
-_29[_2a.bundle.path]=_2a.bundle;
+if(_49.bundle){
+var _4c=_2.path(_49.bundle.path).dirname();
+if(!_48[_49.bundle.path]){
+_48[_49.bundle.path]=_49.bundle;
 }
-if(_2d!=_2c){
-CPLog.warn("Sanity check failed (directory path): "+_2c+" vs. "+_2d);
+if(_4c!=_4b){
+CPLog.warn("Sanity check failed (directory path): "+_4b+" vs. "+_4c);
 }
-var _2e=_2a.bundle.info,_2f=objj_msgSend(_2e,"objectForKey:","CPBundleReplacedFiles");
-if(_2f&&objj_msgSend(_2f,"containsObject:",_2b)){
-var _30="",_31=objj_msgSend(_2e,"objectForKey:","CPBundlePlatforms");
-if(_31){
-_30=objj_msgSend(_31,"firstObjectCommonWithArray:",_11.OBJJ_PLATFORMS);
-if(_30){
-_30=_30+".platform/";
+var _4d=_49.bundle.info,_4e=objj_msgSend(_4d,"objectForKey:","CPBundlePlatforms"),_4f=objj_msgSend(_4d,"objectForKey:","CPBundleReplacedFiles");
+var _50="";
+if(_4e){
+_50=objj_msgSend(_4e,"firstObjectCommonWithArray:",_1b.OBJJ_PLATFORMS);
 }
+var _51=objj_msgSend(_4f,"objectForKey:",_50);
+if(_51&&objj_msgSend(_51,"containsObject:",_4a)){
+var _52=_4c.join(_50+".platform",objj_msgSend(_4d,"objectForKey:","CPBundleExecutable"));
+if(!_14[_52]){
+_14[_52]=[];
+_14[_52].push("@STATIC;1.0;");
 }
-var _32=_2d+"/"+_30+objj_msgSend(_2e,"objectForKey:","CPBundleExecutable");
-if(!_22[_32]){
-_22[_32]=[];
-_22[_32].push("@STATIC;1.0;");
-}
-_22[_32].push("p;");
-_22[_32].push(_2b.length+";");
-_22[_32].push(_2b);
-for(var i=0;i<_2a.fragments.length;i++){
-if(_2a.fragments[i].type&FRAGMENT_CODE){
-_22[_32].push("c;");
-_22[_32].push(_2a.fragments[i].info.length+";");
-_22[_32].push(_2a.fragments[i].info);
+_14[_52].push("p;");
+_14[_52].push(_4a.length+";");
+_14[_52].push(_4a);
+for(var i=0;i<_49.fragments.length;i++){
+if(_49.fragments[i].type&FRAGMENT_CODE){
+_14[_52].push("c;");
+_14[_52].push(_49.fragments[i].info.length+";");
+_14[_52].push(_49.fragments[i].info);
 }else{
-if(_2a.fragments[i].type&FRAGMENT_FILE){
-var _33=false;
-if(_2a.fragments[i].conditionallyIgnore){
-var _34=findImportInObjjFiles(_11,_2a.fragments[i]);
-if(!_34||!_19[_34]){
-_33=true;
+if(_49.fragments[i].type&FRAGMENT_FILE){
+var _53=false;
+if(_49.fragments[i].conditionallyIgnore){
+var _54=findImportInObjjFiles(_1b,_49.fragments[i]);
+if(!_54||!_26[_54]){
+_53=true;
 }
 }
-if(!_33){
-if(_2a.fragments[i].type&FRAGMENT_LOCAL){
-var _35=pathRelativeTo(_2a.fragments[i].info,_2c);
-_22[_32].push("i;");
-_22[_32].push(_35.length+";");
-_22[_32].push(_35);
+if(!_53){
+if(_49.fragments[i].type&FRAGMENT_LOCAL){
+var _55=pathRelativeTo(_49.fragments[i].info,_4b);
+_14[_52].push("i;");
+_14[_52].push(_55.length+";");
+_14[_52].push(_55);
 }else{
-_22[_32].push("I;");
-_22[_32].push(_2a.fragments[i].info.length+";");
-_22[_32].push(_2a.fragments[i].info);
+_14[_52].push("I;");
+_14[_52].push(_49.fragments[i].info.length+";");
+_14[_52].push(_49.fragments[i].info);
 }
 }else{
-CPLog.info("Ignoring import fragment "+_2a.fragments[i].info+" in "+_21);
+CPLog.info("Ignoring import fragment "+_49.fragments[i].info+" in "+_13.relative(_2d));
 }
 }else{
 CPLog.error("Unknown fragment type");
@@ -219,398 +292,330 @@ CPLog.error("Unknown fragment type");
 }
 }
 }else{
-_22[_21]=_2a.contents;
+_14[_2d]=_49.contents;
 }
 }else{
-CPLog.warn("No bundle for "+_21);
+CPLog.warn("No bundle for "+_13.relative(_2d));
 }
 }
 CPLog.error("PHASE 3.5: fix bundle plists");
-for(var _21 in _29){
-var _2c=dirname(_21),_2e=_29[_21].info,_2f=objj_msgSend(_2e,"objectForKey:","CPBundleReplacedFiles");
-CPLog.info("Modifying .sj: "+_21);
-if(_2f){
-var _36=[];
-objj_msgSend(_2e,"setObject:forKey:",_36,"CPBundleReplacedFiles");
-for(var i=0;i<_2f.length;i++){
-var _37=_2c+"/"+_2f[i];
-if(!_19[_37]){
-CPLog.info("Removing: "+_2f[i]);
+for(var _2d in _48){
+var _4b=_2.dirname(_2d),_4d=_48[_2d].info,_51=objj_msgSend(_4d,"objectForKey:","CPBundleReplacedFiles");
+CPLog.info("Modifying .sj: "+_13.relative(_2d));
+if(_51){
+var _56=[];
+objj_msgSend(_4d,"setObject:forKey:",_56,"CPBundleReplacedFiles");
+for(var i=0;i<_51.length;i++){
+var _57=_4b+"/"+_51[i];
+if(!_26[_57]){
+CPLog.info("Removing: "+_51[i]);
 }else{
-_36.push(_2f[i]);
+_56.push(_51[i]);
 }
 }
 }
-_22[_21]=CPPropertyListCreateXMLData(_2e).string;
+_14[_2d]=CPPropertyListCreateXMLData(_4d).string;
 }
 }
-CPLog.error("PHASE 4: copy to output");
-var _38=new Packages.java.io.File(_4),_39=new Packages.java.io.File(_5);
-copyDirectory(_38,_39,_9);
-for(var _21 in _22){
-var _2a=new java.io.File(_39,pathRelativeTo(_21,_4));
-var _3a=_2a.getParentFile();
-if(!_3a.exists()){
-CPLog.warn(_3a+" doesn't exist, creating directories.");
-_3a.mkdirs();
-}
-CPLog.info("Writing out "+_2a);
-var _3b=new java.io.BufferedWriter(new java.io.FileWriter(_2a));
-if(typeof _22[_21]=="string"){
-_3b.write(_22[_21]);
+};
+pngcrushDirectory=function(_58){
+var _59=_2.path(_58);
+var _5a=_59.glob("**/*.png");
+system.stderr.print("Running pngcrush on "+_5a.length+" pngs:");
+_5a.forEach(function(dst){
+var _5b=_59.join(dst);
+var _5c=_2.path(_5b+".tmp");
+var p=OS.popen(["pngcrush","-rem","alla","-reduce",_5b,_5c]);
+if(p.wait()){
+CPLog.warn("pngcrush failed. Ensure it's installed and on your PATH.");
 }else{
-_3b.write(_22[_21].join(""));
+_2.move(_5c,_5b);
+system.stderr.write(".").flush();
 }
-_3b.close();
-}
+});
+system.stderr.print("");
 };
-copyDirectory=function(src,dst,_3c){
-CPLog.trace("Copying directory "+src);
-dst.mkdirs();
-var _3d=src.listFiles();
-for(var i=0;i<_3d.length;i++){
-if(_3d[i].isFile()){
-copyFile(_3d[i],new Packages.java.io.File(dst,_3d[i].getName()),_3c);
-}else{
-if(_3d[i].isDirectory()){
-copyDirectory(_3d[i],new Packages.java.io.File(dst,_3d[i].getName()),_3c);
-}
-}
-}
+functionHookBefore=function(_5d,_5e,_5f){
+var _60=_5d[_5e];
+_5d[_5e]=function(){
+_5f.apply(this,arguments);
+var _61=_60.apply(this,arguments);
+return _61;
 };
-copyFile=function(src,dst,_3e){
-if(_3e&&(/.png$/).test(src.getName())){
-CPLog.warn("Optimizing .png "+src);
-exec(["pngcrush","-rem","alla","-reduce",src.getAbsolutePath(),dst.getAbsolutePath()]);
-}else{
-CPLog.trace("Copying file "+src);
-var _3f=(new Packages.java.io.FileInputStream(src)).getChannel(),_40=(new Packages.java.io.FileOutputStream(dst)).getChannel();
-_3f.transferTo(0,_3f.size(),_40);
-_3f.close();
-_40.close();
-}
 };
-dirname=function(_41){
-return _41.substring(0,_41.lastIndexOf("/"));
+pathRelativeTo=function(_62,_63){
+return _2.relative(_2.join(_63,""),_62);
 };
-basename=function(_42){
-return _42.substring(_42.lastIndexOf("/")+1);
-};
-absolutePath=function(_43){
-return String((new Packages.java.io.File(_43)).getCanonicalPath());
-};
-pathRelativeTo=function(_44,_45){
-var _46=[],_47=_44.split("/"),_48=_45?_45.split("/"):[];
-var i=0;
-while(i<_47.length){
-if(_47[i]!=_48[i]){
-break;
+p;21;objj-analysis-tools.jc;6496;
+var _1=require("file");
+traverseDependencies=function(_2,_3){
+if(!_2.processedFiles){
+_2.processedFiles={};
 }
-i++;
-}
-for(var j=i;j<_48.length;j++){
-_46.push("..");
-}
-for(var j=i;j<_47.length;j++){
-_46.push(_47[j]);
-}
-var _49=_46.join("/");
-return _49;
-};
-exec=function(){
-var _4a=false;
-var _4b=Packages.java.lang.Runtime.getRuntime();
-var p=_4b.exec.apply(_4b,arguments);
-var _4c=new Packages.java.io.BufferedReader(new Packages.java.io.InputStreamReader(p.getInputStream())),_4d="",_4e=new Packages.java.io.BufferedReader(new Packages.java.io.InputStreamReader(p.getErrorStream())),_4f="";
-var _50=false;
-while(!_50){
-_50=true;
-if(s=_4c.readLine()){
-_4d+=s;
-if(_4a){
-CPLog.info("exec: "+s);
-}
-_50=false;
-}
-if(s=_4e.readLine()){
-_4f+=s;
-CPLog.warn("exec: "+s);
-_50=false;
-}
-}
-var _51=p.waitFor();
-return {code:_51,stdout:_4d,stderr:_4f};
-};
-outputTransformer=function(os,_52,_53,_54){
-var _55=new Packages.javax.xml.transform.dom.DOMSource(_52);
-var _56=new Packages.javax.xml.transform.stream.StreamResult(os);
-var tf=Packages.javax.xml.transform.TransformerFactory.newInstance();
-var _57=tf.newTransformer();
-_57.setOutputProperty(Packages.javax.xml.transform.OutputKeys.VERSION,"1.0");
-_57.setOutputProperty(Packages.javax.xml.transform.OutputKeys.INDENT,"yes");
-if(_53){
-_57.setOutputProperty(Packages.javax.xml.transform.OutputKeys.ENCODING,_53);
-}
-if(_54){
-_57.setOutputProperty(Packages.javax.xml.transform.OutputKeys.STANDALONE,(_54?"yes":"no"));
-}
-String(_57.transform(_55,_56));
-};
-p;21;objj-analysis-tools.jc;5537;
-var _1=OBJJ_HOME+"/lib/Frameworks/Objective-J/rhino.platform/Objective-J.js",_2=OBJJ_HOME+"/lib/press/bridge.js",_3="/Users/tlrobinson/280North/git/cappuccino/Tools/press/env.js";
-traverseDependencies=function(_4,_5){
-if(_4.processedFiles[_5.path]){
+if(_2.processedFiles[_3.path]){
 return;
 }
-_4.processedFiles[_5.path]=true;
-var _6=false;
-if(_4.ignoreAllImports){
-CPLog.warn("Ignoring all import fragments. ("+_5.path+")");
-_6=true;
+_2.processedFiles[_3.path]=true;
+var _4=false;
+if(_2.ignoreAllImports){
+CPLog.warn("Ignoring all import fragments. ("+_2.rootPath.relative(_3.path)+")");
+_4=true;
 }else{
-if(_4.ignoreFrameworkImports){
-var _7=_5.path.match(new RegExp("([^\\/]+)\\/([^\\/]+)\\.j$"));
-if(_7&&_7[1]===_7[2]){
-CPLog.warn("Framework import file! Ignoring all import fragments. ("+_5.path+")");
-_6=true;
+if(_2.ignoreFrameworkImports){
+var _5=_3.path.match(new RegExp("([^\\/]+)\\/([^\\/]+)\\.j$"));
+if(_5&&_5[1]===_5[2]){
+CPLog.warn("Framework import file! Ignoring all import fragments. ("+_2.rootPath.relative(_3.path)+")");
+_4=true;
 }
 }
 }
-if(!_5.fragments){
-if(_5.included){
-CPLog.warn(_5.path+" is included but missing fragments");
+if(!_3.fragments){
+if(_3.included){
+CPLog.warn(_2.rootPath.relative(_3.path)+" is included but missing fragments");
 }else{
-CPLog.warn("Preprocessing "+_5.path);
+CPLog.warn("Preprocessing "+_2.rootPath.relative(_3.path));
 }
-_5.fragments=objj_preprocess(_5.contents,_5.bundle,_5);
+_3.fragments=objj_preprocess(_3.contents,_3.bundle,_3);
 }
-if(!_4.bundleImages){
-_4.bundleImages={};
+if(!_2.bundleImages){
+_2.bundleImages={};
 }
-if(!_4.bundleImages[_5.bundle.path]){
-var _8=new java.io.File(dirname(_5.bundle.path)+"/Resources");
-if(_8.exists()){
-_4.bundleImages[_5.bundle.path]={};
-var _9=find(_8,(new RegExp("\\.png$")));
-for(var i=0;i<_9.length;i++){
-var _a=pathRelativeTo(_9[i].getCanonicalPath(),_8.getCanonicalPath());
-_4.bundleImages[_5.bundle.path][_a]=1;
-}
-}
-}
-var _b=_4.bundleImages[_5.bundle.path];
-var _c={},_d={};
-CPLog.debug("Processing "+_5.path+" fragments ("+_5.fragments.length+")");
-for(var i=0;i<_5.fragments.length;i++){
-var _e=_5.fragments[i];
-if(_e.type&FRAGMENT_CODE){
-var _f=new objj_lexer(_e.info,NULL);
-var _10;
-while(_10=_f.skip_whitespace()){
-if(_4.dependencies.hasOwnProperty(_10)){
-var _11=_4.dependencies[_10];
-for(var j=0;j<_11.length;j++){
-if(_11[j]!=_5.path){
-if(!_c[_11[j]]){
-_c[_11[j]]={};
-}
-_c[_11[j]][_10]=true;
+if(!_2.bundleImages[_3.bundle.path]){
+var _6=_1.path(_3.bundle.path).dirname().join("/Resources");
+if(_6.exists()){
+_2.bundleImages[_3.bundle.path]={};
+_6.glob("**/*.png").forEach(function(_7){
+var _8=_6.join(_7);
+var _9=pathRelativeTo(_8.absolute(),_6.absolute());
+_2.bundleImages[_3.bundle.path][_9]=1;
+});
 }
 }
+var _a=_2.bundleImages[_3.bundle.path];
+var _b={},_c={};
+CPLog.debug("Processing "+_3.fragments.length+" fragments in "+_2.rootPath.relative(_3.path));
+for(var i=0;i<_3.fragments.length;i++){
+var _d=_3.fragments[i];
+if(_d.type&FRAGMENT_CODE){
+var _e=new objj_lexer(_d.info,NULL);
+var _f;
+while(_f=_e.skip_whitespace()){
+if(_2.dependencies.hasOwnProperty(_f)){
+var _10=_2.dependencies[_f];
+for(var j=0;j<_10.length;j++){
+if(_10[j]!=_3.path){
+if(!_b[_10[j]]){
+_b[_10[j]]={};
 }
-var _7=_10.match(new RegExp("^['\"](.*)['\"]$"));
-if(_7&&_b&&_b[_7[1]]){
-_b[_7[1]]=(_b[_7[1]]|2);
+_b[_10[j]][_f]=true;
 }
 }
-}else{
-if(_e.type&FRAGMENT_FILE){
-if(_6){
-_e.conditionallyIgnore=true;
-}else{
-var _12=findImportInObjjFiles(_4.scope,_e);
-if(_12){
-if(_12!=_5.path){
-_d[_12]=true;
-}else{
-CPLog.error("Ignoring self import (why are you importing yourself!?): "+_5.path);
+}
+var _5=_f.match(new RegExp("^['\"](.*)['\"]$"));
+if(_5&&_a&&_a[_5[1]]){
+_a[_5[1]]=(_a[_5[1]]|2);
+}
 }
 }else{
-CPLog.error("Couldn't find file for import "+_e.info+"("+_e.type+")");
-}
-}
-}
-}
-}
-for(var _12 in _d){
-if(_12!=_5.path){
-if(_4.importCallback){
-_4.importCallback(_5.path,_12);
-}
-if(_4.scope.objj_files[_12]){
-traverseDependencies(_4,_4.scope.objj_files[_12]);
+if(_d.type&FRAGMENT_FILE){
+if(_4){
+_d.conditionallyIgnore=true;
 }else{
-CPLog.error("Missing imported file: "+_12);
-}
-}
-}
-if(_4.importedFiles){
-_4.importedFiles[_5.path]=_d;
-}
-for(var _13 in _c){
-if(_13!=_5.path){
-if(_4.referenceCallback){
-_4.referenceCallback(_5.path,_13,_c[_13]);
-}
-if(_4.scope.objj_files.hasOwnProperty(_13)){
-traverseDependencies(_4,_4.scope.objj_files[_13]);
+var _11=findImportInObjjFiles(_2.scope,_d);
+if(_11){
+if(_11!=_3.path){
+_c[_11]=true;
 }else{
-CPLog.error("Missing referenced file: "+_13);
+CPLog.error("Ignoring self import (why are you importing yourself?!): "+_2.rootPath.relative(_3.path));
+}
+}else{
+CPLog.error("Couldn't find file for import "+_d.info+" ("+_d.type+")");
 }
 }
 }
-if(_4.referencedFiles){
-_4.referencedFiles[_5.path]=_c;
+}
+}
+for(var _11 in _c){
+if(_11!=_3.path){
+if(_2.importCallback){
+_2.importCallback(_3.path,_11);
+}
+if(_2.scope.objj_files[_11]){
+traverseDependencies(_2,_2.scope.objj_files[_11]);
+}else{
+CPLog.error("Missing imported file: "+_11);
+}
+}
+}
+if(_2.importedFiles){
+_2.importedFiles[_3.path]=_c;
+}
+for(var _12 in _b){
+if(_12!=_3.path){
+if(_2.referenceCallback){
+_2.referenceCallback(_3.path,_12,_b[_12]);
+}
+if(_2.scope.objj_files.hasOwnProperty(_12)){
+traverseDependencies(_2,_2.scope.objj_files[_12]);
+}else{
+CPLog.error("Missing referenced file: "+_12);
+}
+}
+}
+if(_2.referencedFiles){
+_2.referencedFiles[_3.path]=_b;
 }
 };
-findImportInObjjFiles=function(_14,_15){
-var _16=null;
-if(_15.type&FRAGMENT_LOCAL){
-var _17=_15.info;
-if(_14.objj_files[_17]){
-_16=_17;
+findImportInObjjFiles=function(_13,_14){
+var _15=null;
+if(_14.type&FRAGMENT_LOCAL){
+var _16=_14.info;
+if(_13.objj_files[_16]){
+_15=_16;
 }
 }else{
-var _18=_14.OBJJ_INCLUDE_PATHS.length;
-while(_18--){
-var _17=_14.OBJJ_INCLUDE_PATHS[_18].replace(new RegExp("\\/$"),"")+"/"+_15.info;
-if(_14.objj_files[_17]){
-_16=_17;
+var _17=_13.OBJJ_INCLUDE_PATHS.length;
+while(_17--){
+var _16=_13.OBJJ_INCLUDE_PATHS[_17].replace(new RegExp("\\/$"),"")+"/"+_14.info;
+if(_13.objj_files[_16]){
+_15=_16;
 break;
 }
 }
 }
-return _16;
+return _15;
 };
-findGlobalDefines=function(_19,_1a,_1b,_1c){
-addMockBrowserEnvironment(_1a);
-var _1d=cloneProperties(_1a,true);
-_1d["bundle"]=true;
-var _1e={};
-var _1f=_1a.fragment_evaluate_file;
-_1a.fragment_evaluate_file=function(_20){
-return _1f(_20);
-};
-var _21=_1a.fragment_evaluate_code;
-_1a.fragment_evaluate_code=function(_22){
-CPLog.debug("Evaling "+_22.file.path+" / "+_22.bundle.path);
-var _23=cloneProperties(_1a);
-if(_1c){
-_1c.push(_22);
+var _18=objj_allocateClassPair(CPObject,"PressBundleDelgate"),_19=_18.isa;
+class_addIvars(_18,[new objj_ivar("didFinishLoadingCallback")]);
+objj_registerClassPair(_18);
+objj_addClassForBundle(_18,objj_getBundleWithPath(OBJJ_CURRENT_BUNDLE.path));
+class_addMethods(_18,[new objj_method(sel_getUid("initWithCallback:"),function(_1a,_1b,_1c){
+with(_1a){
+if(_1a=objj_msgSendSuper({receiver:_1a,super_class:objj_getClass("CPObject")},"init")){
+didFinishLoadingCallback=_1c;
 }
-var _24=_21(_22);
+return _1a;
+}
+}),new objj_method(sel_getUid("bundleDidFinishLoading:"),function(_1d,_1e,_1f){
+with(_1d){
+print("didFinishLoading: "+_1f);
+if(didFinishLoadingCallback){
+didFinishLoadingCallback(_1f);
+}
+}
+})]);
+findGlobalDefines=function(_20,_21,_22,_23){
+var _24=cloneProperties(_20.scope,true);
+_24["bundle"]=true;
 var _25={};
-diff(_23,_1a,_1d,_25,_25,null);
-_1e[_22.file.path]=_25;
-return _24;
+var _26=_20.scope.fragment_evaluate_file;
+_20.scope.fragment_evaluate_file=function(_27){
+return _26(_27);
 };
-runWithScope(_19,_1a,function(_26){
-objj_import(_26,true,NULL);
-},[_1b]);
-return _1e;
+var _28=_20.scope.fragment_evaluate_code;
+_20.scope.fragment_evaluate_code=function(_29){
+CPLog.debug("Evaluating "+_20.rootPath.relative(_29.file.path)+" ("+_20.rootPath.relative(_29.bundle.path)+")");
+var _2a=cloneProperties(_20.scope);
+if(_22){
+_22.push(_29);
+}
+var _2b=_28(_29);
+var _2c={};
+diff(_2a,_20.scope,_24,_2c,_2c,null);
+_25[_29.file.path]=_2c;
+return _2b;
 };
-coalesceGlobalDefines=function(_27){
-var _28={};
-for(var _29 in _27){
-var _2a=_27[_29];
-for(var _2b in _2a){
-if(!_28[_2b]){
-_28[_2b]=[];
+var _2d=objj_msgSend(objj_msgSend(PressBundleDelgate,"alloc"),"initWithCallback:",_23);
+var _2e=[];
+(_20.eval("("+(function(_2f,_30,_31){
+with(require("objective-j").window){
+objj_import(_2f,true,function(){
+_31=_31||[];
+var _32=objj_msgSend(objj_msgSend(CPBundle,"bundleForClass:",objj_msgSend(CPApplication,"class")),"pathForResource:",objj_msgSend(CPApplication,"defaultThemeName"));
+var _33=objj_msgSend(objj_msgSend(CPBundle,"alloc"),"initWithPath:",_32+"/Info.plist");
+objj_msgSend(_33,"loadWithDelegate:",_30);
+_31.forEach(function(_34){
+var _35=objj_msgSend(objj_msgSend(CPBundle,"alloc"),"initWithPath:",_34);
+objj_msgSend(_35,"loadWithDelegate:",_30);
+});
+});
 }
-_28[_2b].push(_29);
-}
-}
-return _28;
+})+")"))(_21,_2d,_2e);
+_20.scope.require("browser/timeout").serviceTimeouts();
+return _25;
 };
-makeObjjScope=function(_2c,_2d){
-var _2e=_2c.initStandardObjects();
-if(_2d){
-_2e.objj_alert=print;
-_2e.debug=true;
+coalesceGlobalDefines=function(_36){
+var _37={};
+for(var _38 in _36){
+var _39=_36[_38];
+for(var _3a in _39){
+if(!_37[_3a]){
+_37[_3a]=[];
 }
-_2e.print=function(_2f){
-Packages.java.lang.System.out.println(String(_2f));
-};
-var _30=readFile(_2);
-if(_30){
-_2c.evaluateString(_2e,_30,"bridge.js",1,null);
-}else{
-CPLog.warn("Missing bridge.js");
+_37[_3a].push(_38);
 }
-var _31=readFile(_1);
-if(_31){
-_2c.evaluateString(_2e,_31,"Objective-J.js",1,null);
-}else{
-CPLog.warn("Missing Objective-J.js");
 }
-return _2e;
+return _37;
 };
-runWithScope=function(_32,_33,_34,_35){
-_33.__runWithScopeArgs=_35||[];
-var _36="("+_34+").apply(this, this.__runWithScopeArgs); serviceTimeouts();";
-return _32.evaluateString(_33,_36,"<cmd>",1,null);
+setupObjectiveJ=function(_3b,_3c){
+_3b.global.NARWHAL_HOME=system.prefix;
+_3b.global.NARWHAL_ENGINE_HOME=_1.join(system.prefix,"engines","rhino");
+var _3d=_1.join(_3b.global.NARWHAL_ENGINE_HOME,"bootstrap.js");
+_3b.evalFile(_3d);
+var _3e=_3b.global.require("objective-j");
+addMockBrowserEnvironment(_3e.window);
+return _3e.window;
 };
-addMockBrowserEnvironment=function(_37){
-_37.Element=function(){
+addMockBrowserEnvironment=function(_3f){
+if(!_3f.window){
+_3f.window=_3f;
+}
+if(!_3f.location){
+_3f.location={};
+}
+if(!_3f.location.href){
+_3f.location.href="";
+}
+if(!_3f.Element){
+_3f.Element=function(){
 this.style={};
 };
-_37.document={createElement:function(){
-return new _37.Element();
+}
+if(!_3f.document){
+_3f.document={createElement:function(){
+return new _3f.Element();
 }};
-};
-cloneProperties=function(_38,_39){
-var _3a={};
-for(var _3b in _38){
-_3a[_3b]=_39?true:_38[_3b];
-}
-return _3a;
-};
-diff=function(_3c,_3d,_3e,_3f,_40,_41){
-for(var i in _3d){
-if(_3f&&!_3e[i]&&typeof _3c[i]=="undefined"){
-_3f[i]=true;
-}
-}
-for(var i in _3d){
-if(_40&&!_3e[i]&&typeof _3c[i]!="undefined"&&typeof _3d[i]!="undefined"&&_3c[i]!==_3d[i]){
-_40[i]=true;
-}
-}
-for(var i in _3c){
-if(_41&&!_3e[i]&&typeof _3d[i]=="undefined"){
-_41[i]=true;
-}
 }
 };
-allKeys=function(_42){
-var _43=[];
-for(var i in _42){
-_43.push(i);
+cloneProperties=function(_40,_41){
+var _42={};
+for(var _43 in _40){
+_42[_43]=_41?true:_40[_43];
 }
-return _43.sort();
+return _42;
 };
-find=function(src,_44){
-var _45=[];
-var _46=src.listFiles();
-for(var i=0;i<_46.length;i++){
-if(_46[i].isFile()&&_44.test(_46[i].getAbsolutePath())){
-_45.push(_46[i]);
-}else{
-if(_46[i].isDirectory()){
-_45=Array.prototype.concat.apply(_45,find(_46[i],_44));
+diff=function(_44,_45,_46,_47,_48,_49){
+for(var i in _45){
+if(_47&&!_46[i]&&typeof _44[i]=="undefined"){
+_47[i]=true;
 }
 }
+for(var i in _45){
+if(_48&&!_46[i]&&typeof _44[i]!="undefined"&&typeof _45[i]!="undefined"&&_44[i]!==_45[i]){
+_48[i]=true;
 }
-return _45;
+}
+for(var i in _44){
+if(_49&&!_46[i]&&typeof _45[i]=="undefined"){
+_49[i]=true;
+}
+}
+};
+allKeys=function(_4a){
+var _4b=[];
+for(var i in _4a){
+_4b.push(i);
+}
+return _4b.sort();
 };
 e;

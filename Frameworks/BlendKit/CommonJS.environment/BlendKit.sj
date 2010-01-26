@@ -96,8 +96,8 @@ objj_msgSend(_26,"setTarget:",nil);
 objj_msgSend(_26,"setAction:",sel_getUid("changeState:"));
 objj_msgSend(_26,"setLabel:","State");
 var _28=CGRectGetWidth(objj_msgSend(_27,"frame"));
-objj_msgSend(_26,"setMinSize:",CGSizeMake(_28+20,32));
-objj_msgSend(_26,"setMaxSize:",CGSizeMake(_28+20,32));
+objj_msgSend(_26,"setMinSize:",CGSizeMake(_28+20,24));
+objj_msgSend(_26,"setMaxSize:",CGSizeMake(_28+20,24));
 }else{
 if(_24===_4){
 var _27=objj_msgSend(CPPopUpButton,"buttonWithTitle:","Window Background");
@@ -117,8 +117,8 @@ objj_msgSend(_26,"setTarget:",nil);
 objj_msgSend(_26,"setAction:",sel_getUid("changeColor:"));
 objj_msgSend(_26,"setLabel:","Background Color");
 var _28=CGRectGetWidth(objj_msgSend(_27,"frame"));
-objj_msgSend(_26,"setMinSize:",CGSizeMake(_28,32));
-objj_msgSend(_26,"setMaxSize:",CGSizeMake(_28,32));
+objj_msgSend(_26,"setMinSize:",CGSizeMake(_28,24));
+objj_msgSend(_26,"setMaxSize:",CGSizeMake(_28,24));
 }else{
 if(_24===_2){
 var _2a=objj_msgSend(objj_msgSend(CPBundle,"mainBundle"),"objectForInfoDictionaryKey:","BKLearnMoreButtonTitle");
@@ -132,8 +132,8 @@ objj_msgSend(_26,"setLabel:","Learn More");
 objj_msgSend(_26,"setTarget:",nil);
 objj_msgSend(_26,"setAction:",sel_getUid("learnMore:"));
 var _28=CGRectGetWidth(objj_msgSend(_2b,"frame"));
-objj_msgSend(_26,"setMinSize:",CGSizeMake(_28,32));
-objj_msgSend(_26,"setMaxSize:",CGSizeMake(_28,32));
+objj_msgSend(_26,"setMinSize:",CGSizeMake(_28,24));
+objj_msgSend(_26,"setMaxSize:",CGSizeMake(_28,24));
 }
 }
 }
