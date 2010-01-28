@@ -16991,7 +16991,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"])]);
 }
 
-p;13;CPTextField.ji;11;CPControl.ji;17;CPStringDrawing.ji;17;CPCompatibility.jc;39603;
+p;13;CPTextField.ji;11;CPControl.ji;17;CPStringDrawing.ji;17;CPCompatibility.jc;39863;
 CPLineBreakByWordWrapping = 0;
 CPLineBreakByCharWrapping = 1;
 CPLineBreakByClipping = 2;
@@ -17459,34 +17459,43 @@ class_addMethods(the_class, [new objj_method(sel_getUid("_inputElement"), functi
 },["void","id"]), new objj_method(sel_getUid("copy:"), function $CPTextField__copy_(self, _cmd, sender)
 { with(self)
 {
-    var selectedRange = objj_msgSend(self, "selectedRange");
-    if (selectedRange.length < 1)
-        return;
-    var pasteboard = objj_msgSend(CPPasteboard, "generalPasteboard"),
-        stringValue = objj_msgSend(self, "stringValue"),
-        stringForPasting = objj_msgSend(stringValue, "substringWithRange:", selectedRange);
-    objj_msgSend(pasteboard, "declareTypes:owner:", [CPStringPboardType], nil);
-    objj_msgSend(pasteboard, "setString:forType:", stringForPasting, CPStringPboardType);
+    if (!objj_msgSend(CPPlatform, "isBrowser"))
+    {
+        var selectedRange = objj_msgSend(self, "selectedRange");
+        if (selectedRange.length < 1)
+            return;
+        var pasteboard = objj_msgSend(CPPasteboard, "generalPasteboard"),
+            stringValue = objj_msgSend(self, "stringValue"),
+            stringForPasting = objj_msgSend(stringValue, "substringWithRange:", selectedRange);
+        objj_msgSend(pasteboard, "declareTypes:owner:", [CPStringPboardType], nil);
+        objj_msgSend(pasteboard, "setString:forType:", stringForPasting, CPStringPboardType);
+    }
 }
 },["void","id"]), new objj_method(sel_getUid("cut:"), function $CPTextField__cut_(self, _cmd, sender)
 { with(self)
 {
-    objj_msgSend(self, "copy:", sender);
-    objj_msgSend(self, "deleteBackwards:", sender);
+    if (!objj_msgSend(CPPlatform, "isBrowser"))
+    {
+        objj_msgSend(self, "copy:", sender);
+        objj_msgSend(self, "deleteBackwards:", sender);
+    }
 }
 },["void","id"]), new objj_method(sel_getUid("paste:"), function $CPTextField__paste_(self, _cmd, sender)
 { with(self)
 {
-    var pasteboard = objj_msgSend(CPPasteboard, "generalPasteboard");
-    if (!objj_msgSend(objj_msgSend(pasteboard, "types"), "containsObject:", CPStringPboardType))
-        return;
-    objj_msgSend(self, "deleteBackwards:", sender);
-    var selectedRange = objj_msgSend(self, "selectedRange"),
-        stringValue = objj_msgSend(self, "stringValue"),
-        pasteString = objj_msgSend(pasteboard, "stringForType:", CPStringPboardType),
-        newValue = objj_msgSend(stringValue, "stringByReplacingCharactersInRange:withString:", selectedRange, pasteString);
-    objj_msgSend(self, "setStringValue:", newValue);
-    objj_msgSend(self, "setSelectedRange:", CPMakeRange(selectedRange.location+pasteString.length, 0));
+    if (!objj_msgSend(CPPlatform, "isBrowser"))
+    {
+        var pasteboard = objj_msgSend(CPPasteboard, "generalPasteboard");
+        if (!objj_msgSend(objj_msgSend(pasteboard, "types"), "containsObject:", CPStringPboardType))
+            return;
+        objj_msgSend(self, "deleteBackwards:", sender);
+        var selectedRange = objj_msgSend(self, "selectedRange"),
+            stringValue = objj_msgSend(self, "stringValue"),
+            pasteString = objj_msgSend(pasteboard, "stringForType:", CPStringPboardType),
+            newValue = objj_msgSend(stringValue, "stringByReplacingCharactersInRange:withString:", selectedRange, pasteString);
+        objj_msgSend(self, "setStringValue:", newValue);
+        objj_msgSend(self, "setSelectedRange:", CPMakeRange(selectedRange.location+pasteString.length, 0));
+    }
 }
 },["void","id"]), new objj_method(sel_getUid("selectedRange"), function $CPTextField__selectedRange(self, _cmd)
 { with(self)
@@ -31731,7 +31740,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithLevel:"), funct
 },["CPArray"])]);
 }
 
-p;22;CPPlatformWindow+DOM.jI;21;Foundation/CPObject.jI;22;Foundation/CPRunLoop.ji;9;CPEvent.ji;17;CPCompatibility.ji;18;CPDOMWindowLayer.ji;12;CPPlatform.ji;18;CPPlatformWindow.ji;26;CPPlatformWindow+DOMKeys.jc;46690;
+p;22;CPPlatformWindow+DOM.jI;21;Foundation/CPObject.jI;22;Foundation/CPRunLoop.ji;9;CPEvent.ji;17;CPCompatibility.ji;18;CPDOMWindowLayer.ji;12;CPPlatform.ji;18;CPPlatformWindow.ji;26;CPPlatformWindow+DOMKeys.jc;46670;
 var PlatformWindows = objj_msgSend(CPSet, "set");
 var CPDOMEventGetClickCount,
     CPDOMEventStop,
@@ -31750,7 +31759,7 @@ if(!the_class) objj_exception_throw(new objj_exception(OBJJClassNotFoundExceptio
 var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_getUid("_init"), function $CPPlatformWindow___init(self, _cmd)
 { with(self)
 {
-    self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPPlatformWindow").super_class }, "init");
+    self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPObject") }, "init");
     if (self)
     {
         _DOMWindow = window;

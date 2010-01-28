@@ -133,175 +133,176 @@ objj_msgSend(_2e,"save");
 }
 }
 };
-p;10;Generate.ji;15;Configuration.jc;4356;
+p;10;Generate.ji;15;Configuration.jc;4403;
 var OS=require("os"),_1=require("system"),_2=require("file"),_3=require("objective-j");
+var _4=require("packages").catalog["cappuccino"].directory;
 gen=function(){
-var _4=0,_5=arguments.length,_6=false,_7=false,_8=false,_9=false,_a="Application",_b="";
-for(;_4<_5;++_4){
-var _c=arguments[_4];
-switch(_c){
+var _5=0,_6=arguments.length,_7=false,_8=false,_9=false,_a=false,_b="Application",_c="";
+for(;_5<_6;++_5){
+var _d=arguments[_5];
+switch(_d){
 case "-l":
-_6=true;
+_7=true;
 break;
 case "-t":
 case "--template":
-_a=arguments[++_4];
+_b=arguments[++_5];
 break;
 case "-f":
 case "--frameworks":
-_7=true;
-break;
-case "--noconfig":
 _8=true;
 break;
-case "--force":
+case "--noconfig":
 _9=true;
 break;
+case "--force":
+_a=true;
+break;
 default:
-_b=_c;
+_c=_d;
 }
 }
-if(_b.length===0){
-_b=_7?".":"Untitled";
+if(_c.length===0){
+_c=_8?".":"Untitled";
 }
-var _d=null;
-if(_2.isAbsolute(_a)){
-_d=_2.join(_a);
+var _e=null;
+if(_2.isAbsolute(_b)){
+_e=_2.join(_b);
 }else{
-_d=_2.join(_1.env["SELF_HOME"],"lib","capp","Resources","Templates",_a);
+_e=_2.join(_4,"lib","capp","Resources","Templates",_b);
 }
-var _e=_2.join(_d,"template.config"),_f={};
-if(_2.isFile(_e)){
-_f=JSON.parse(_2.read(_e,{charset:"UTF-8"}));
+var _f=_2.join(_e,"template.config"),_10={};
+if(_2.isFile(_f)){
+_10=JSON.parse(_2.read(_f,{charset:"UTF-8"}));
 }
-var _10=_b,_11=_8?objj_msgSend(Configuration,"defaultConfiguration"):objj_msgSend(Configuration,"userConfiguration");
-if(_7){
-createFrameworksInFile(_10,_6,_9);
+var _11=_c,_12=_9?objj_msgSend(Configuration,"defaultConfiguration"):objj_msgSend(Configuration,"userConfiguration");
+if(_8){
+createFrameworksInFile(_11,_7,_a);
 }else{
-if(!_2.exists(_10)){
-_2.copyTree(_d,_10);
-var _12=_2.glob(_2.join(_10,"**","*")),_4=0,_5=_12.length,_13=_2.basename(_10),_14=objj_msgSend(_11,"valueForKey:","organization.identifier")||"";
-objj_msgSend(_11,"setTemporaryValue:forKey:",_13,"project.name");
-objj_msgSend(_11,"setTemporaryValue:forKey:",_14+"."+toIdentifier(_13),"project.identifier");
-objj_msgSend(_11,"setTemporaryValue:forKey:",toIdentifier(_13),"project.nameasidentifier");
-for(;_4<_5;++_4){
-var _15=_12[_4];
-if(_2.isDirectory(_15)){
+if(!_2.exists(_11)){
+_2.copyTree(_e,_11);
+var _13=_2.glob(_2.join(_11,"**","*")),_5=0,_6=_13.length,_14=_2.basename(_11),_15=objj_msgSend(_12,"valueForKey:","organization.identifier")||"";
+objj_msgSend(_12,"setTemporaryValue:forKey:",_14,"project.name");
+objj_msgSend(_12,"setTemporaryValue:forKey:",_15+"."+toIdentifier(_14),"project.identifier");
+objj_msgSend(_12,"setTemporaryValue:forKey:",toIdentifier(_14),"project.nameasidentifier");
+for(;_5<_6;++_5){
+var _16=_13[_5];
+if(_2.isDirectory(_16)){
 continue;
 }
-if(_2.basename(_15)===".DS_Store"){
+if(_2.basename(_16)===".DS_Store"){
 continue;
 }
-if([".png",".jpg",".jpeg",".gif",".tif",".tiff"].indexOf(_2.extension(_15).toLowerCase())!==-1){
+if([".png",".jpg",".jpeg",".gif",".tif",".tiff"].indexOf(_2.extension(_16).toLowerCase())!==-1){
 continue;
 }
 try{
-var _16=_2.read(_15,{charset:"UTF-8"}),key=nil,_17=objj_msgSend(_11,"keyEnumerator");
-while(key=objj_msgSend(_17,"nextObject")){
-_16=_16.replace(new RegExp("__"+RegExp.escape(key)+"__","g"),objj_msgSend(_11,"valueForKey:",key));
+var _17=_2.read(_16,{charset:"UTF-8"}),key=nil,_18=objj_msgSend(_12,"keyEnumerator");
+while(key=objj_msgSend(_18,"nextObject")){
+_17=_17.replace(new RegExp("__"+RegExp.escape(key)+"__","g"),objj_msgSend(_12,"valueForKey:",key));
 }
-_2.write(_15,_16,{charset:"UTF-8"});
+_2.write(_16,_17,{charset:"UTF-8"});
 }
 catch(anException){
-print("Copying and modifying "+_15+" failed.");
+print("Copying and modifying "+_16+" failed.");
 }
 }
-var _18=_10;
-if(_f.FrameworksPath){
-_18=_2.join(_18,_f.FrameworksPath);
+var _19=_11;
+if(_10.FrameworksPath){
+_19=_2.join(_19,_10.FrameworksPath);
 }
-createFrameworksInFile(_18,_6);
+createFrameworksInFile(_19,_7);
 }else{
 print("Directory already exists");
 }
 }
 };
-createFrameworksInFile=function(_19,_1a,_1b){
-var _1c=_2.path(_2.absolute(_19));
-var _1d=["Foundation","AppKit"];
-if(!_1c.isDirectory()){
-throw new Error("Can't create Frameworks. Directory does not exist: "+_1c);
+createFrameworksInFile=function(_1a,_1b,_1c){
+var _1d=_2.path(_2.absolute(_1a));
+var _1e=["Foundation","AppKit"];
+if(!_1d.isDirectory()){
+throw new Error("Can't create Frameworks. Directory does not exist: "+_1d);
 }
-var _1e=_1c.join("Frameworks"),_1f=_1c.join("Frameworks","Debug");
-print("Creating Frameworks directory in "+_1e+".");
-_1f.mkdirs();
-if(_1a){
+var _1f=_1d.join("Frameworks"),_20=_1d.join("Frameworks","Debug");
+print("Creating Frameworks directory in "+_1f+".");
+_20.mkdirs();
+if(_1b){
 if(!(_1.env["CAPP_BUILD"]||_1.env["STEAM_BUILD"])){
 throw "CAPP_BUILD or STEAM_BUILD must be defined";
 }
-var _20=_2.path(_1.env["CAPP_BUILD"]||_1.env["STEAM_BUILD"]);
-var _21=_20.join("Release"),_22=_20.join("Debug");
-_1d.concat("Objective-J").forEach(function(_23){
-installFramework(_21.join(_23),_1e.join(_23),_1b,true);
-installFramework(_22.join(_23),_1f.join(_23),_1b,true);
+var _21=_2.path(_1.env["CAPP_BUILD"]||_1.env["STEAM_BUILD"]);
+var _22=_21.join("Release"),_23=_21.join("Debug");
+_1e.concat("Objective-J").forEach(function(_24){
+installFramework(_22.join(_24),_1f.join(_24),_1c,true);
+installFramework(_23.join(_24),_20.join(_24),_1c,true);
 });
 }else{
-var _24=_2.path(_3.OBJJ_HOME);
-var _25=_24.join("Frameworks","Objective-J");
-var _26=_24.join("Frameworks","Debug","Objective-J");
-installFramework(_25,_1e.join("Objective-J"),_1b,false);
-installFramework(_26,_1f.join("Objective-J"),_1b,false);
-_1d.forEach(function(_27){
-var _28;
-for(var i=0,_28=false;!_28&&i<_3.objj_frameworks.length;i++){
-var _29=_2.path(_3.objj_frameworks[i]).join(_27);
-if(_2.isDirectory(_29)){
-installFramework(_29,_1e.join(_27),_1b,false);
-_28=true;
-}
-}
-if(!_28){
-print("Warning: Couldn't find framework \""+_27+"\"");
-}
-for(var i=0,_28=false;!_28&&i<_3.objj_debug_frameworks.length;i++){
-var _2a=_2.path(_3.objj_debug_frameworks[i]).join(_27);
+var _25=_2.path(_3.OBJJ_HOME);
+var _26=_25.join("Frameworks","Objective-J");
+var _27=_25.join("Frameworks","Debug","Objective-J");
+installFramework(_26,_1f.join("Objective-J"),_1c,false);
+installFramework(_27,_20.join("Objective-J"),_1c,false);
+_1e.forEach(function(_28){
+var _29;
+for(var i=0,_29=false;!_29&&i<_3.objj_frameworks.length;i++){
+var _2a=_2.path(_3.objj_frameworks[i]).join(_28);
 if(_2.isDirectory(_2a)){
-installFramework(_2a,_1f.join(_27),_1b,false);
-_28=true;
+installFramework(_2a,_1f.join(_28),_1c,false);
+_29=true;
 }
 }
-if(!_28){
-print("Warning: Couldn't find debug framework \""+_27+"\"");
+if(!_29){
+print("Warning: Couldn't find framework \""+_28+"\"");
+}
+for(var i=0,_29=false;!_29&&i<_3.objj_debug_frameworks.length;i++){
+var _2b=_2.path(_3.objj_debug_frameworks[i]).join(_28);
+if(_2.isDirectory(_2b)){
+installFramework(_2b,_20.join(_28),_1c,false);
+_29=true;
+}
+}
+if(!_29){
+print("Warning: Couldn't find debug framework \""+_28+"\"");
 }
 });
 }
 };
-installFramework=function(_2b,_2c,_2d,_2e){
-if(_2c.exists()){
-if(_2d){
-_2c.rmtree();
+installFramework=function(_2c,_2d,_2e,_2f){
+if(_2d.exists()){
+if(_2e){
+_2d.rmtree();
 }else{
-print("Warning: "+_2c+" already exists. Use --force to overwrite.");
+print("Warning: "+_2d+" already exists. Use --force to overwrite.");
 return;
 }
 }
-if(_2b.exists()){
-print((_2e?"Symlinking ":"Copying ")+_2b+" to "+_2c);
-if(_2e){
-_2.symlink(_2b,_2c);
+if(_2c.exists()){
+print((_2f?"Symlinking ":"Copying ")+_2c+" to "+_2d);
+if(_2f){
+_2.symlink(_2c,_2d);
 }else{
-_2.copyTree(_2b,_2c);
+_2.copyTree(_2c,_2d);
 }
 }else{
-print("Warning: "+_2b+" doesn't exist.");
+print("Warning: "+_2c+" doesn't exist.");
 }
 };
-toIdentifier=function(_2f){
-var _30="",_31=0,_32=_2f.length,_33=NO,_34=new RegExp("^[a-zA-Z_$]"),_35=new RegExp("^[a-zA-Z_$0-9]");
-for(;_31<_32;++_31){
-var _36=_2f.charAt(_31);
-if((_31===0)&&_34.test(_36)||_35.test(_36)){
-if(_33){
-_30+=_36.toUpperCase();
+toIdentifier=function(_30){
+var _31="",_32=0,_33=_30.length,_34=NO,_35=new RegExp("^[a-zA-Z_$]"),_36=new RegExp("^[a-zA-Z_$0-9]");
+for(;_32<_33;++_32){
+var _37=_30.charAt(_32);
+if((_32===0)&&_35.test(_37)||_36.test(_37)){
+if(_34){
+_31+=_37.toUpperCase();
 }else{
-_30+=_36;
+_31+=_37;
 }
-_33=NO;
+_34=NO;
 }else{
-_33=YES;
+_34=YES;
 }
 }
-return _30;
+return _31;
 };
 p;6;main.jI;23;Foundation/Foundation.ji;15;Configuration.ji;10;Generate.jc;1887;
 main=function(_1){

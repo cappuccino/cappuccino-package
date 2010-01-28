@@ -1,10 +1,55 @@
-@STATIC;1.0;p;6;main.jc;198;
-var OS=require("os");
-if(system.engine!=="rhino"){
-system.args.splice(1,2);
-var _1="NARWHAL_ENGINE_HOME='' NARWHAL_ENGINE='rhino' "+system.args.map(OS.enquote).join(" ");
-OS.exit(OS.system(_1));
+@STATIC;1.0;p;20;cib-analysis-tools.jI;23;Foundation/Foundation.jI;15;AppKit/AppKit.jc;1519;
+findCibClassDependencies=function(_1){
+var _2=objj_msgSend(objj_msgSend(CPCib,"alloc"),"initWithContentsOfURL:",_1);
+var _3={};
+var _4=CPClassFromString;
+CPClassFromString=function(_5){
+var _6=_4(_5);
+_3[_5]=true;
+return _6;
+};
+objj_msgSend(CPApplication,"sharedApplication");
+try{
+var x=objj_msgSend(_2,"pressInstantiate");
 }
+catch(e){
+CPLog.warn("Exception thrown when instantiating "+_1+": "+e);
+}
+finally{
+CPClassFromString=_4;
+}
+return Object.keys(_3);
+};
+var _7=objj_getClass("CPCib");
+if(!_7){
+objj_exception_throw(new objj_exception(OBJJClassNotFoundException,"*** Could not find definition for class \"CPCib\""));
+}
+var _8=_7.isa;
+class_addMethods(_7,[new objj_method(sel_getUid("pressInstantiate"),function(_9,_a){
+with(_9){
+var _b=_bundle,_c=nil;
+if(!_b&&_c){
+_b=objj_msgSend(CPBundle,"bundleForClass:",objj_msgSend(_c,"class"));
+}
+var _d=objj_msgSend(objj_msgSend(_CPCibKeyedUnarchiver,"alloc"),"initForReadingWithData:bundle:awakenCustomResources:",_data,_b,_awakenCustomResources),_e=nil;
+if(_e){
+var _f=nil,_10=objj_msgSend(_e,"keyEnumerator");
+while(_f=objj_msgSend(_10,"nextObject")){
+objj_msgSend(_d,"setClass:forClassName:",objj_msgSend(_e,"objectForKey:",_f),_f);
+}
+}
+objj_msgSend(_d,"setExternalObjectsForProxyIdentifiers:",nil);
+var _11=objj_msgSend(_d,"decodeObjectForKey:","CPCibObjectDataKey");
+if(!_11||!objj_msgSend(_11,"isKindOfClass:",objj_msgSend(_CPCibObjectData,"class"))){
+return NO;
+}
+var _12=nil;
+objj_msgSend(_11,"instantiateWithOwner:topLevelObjects:",_c,_12);
+return YES;
+}
+})]);
+p;6;main.jc;43;
+require("narwhal").ensureEngine("rhino");
 I;23;Foundation/Foundation.ji;21;objj-analysis-tools.jc;10071;
 var _1=require("args");
 var _2=require("file");
@@ -346,7 +391,7 @@ return _61;
 pathRelativeTo=function(_62,_63){
 return _2.relative(_2.join(_63,""),_62);
 };
-p;21;objj-analysis-tools.jc;6496;
+p;21;objj-analysis-tools.jc;6199;
 var _1=require("file");
 traverseDependencies=function(_2,_3){
 if(!_2.processedFiles){
@@ -531,12 +576,9 @@ var _2e=[];
 with(require("objective-j").window){
 objj_import(_2f,true,function(){
 _31=_31||[];
-var _32=objj_msgSend(objj_msgSend(CPBundle,"bundleForClass:",objj_msgSend(CPApplication,"class")),"pathForResource:",objj_msgSend(CPApplication,"defaultThemeName"));
-var _33=objj_msgSend(objj_msgSend(CPBundle,"alloc"),"initWithPath:",_32+"/Info.plist");
+_31.forEach(function(_32){
+var _33=objj_msgSend(objj_msgSend(CPBundle,"alloc"),"initWithPath:",_32);
 objj_msgSend(_33,"loadWithDelegate:",_30);
-_31.forEach(function(_34){
-var _35=objj_msgSend(objj_msgSend(CPBundle,"alloc"),"initWithPath:",_34);
-objj_msgSend(_35,"loadWithDelegate:",_30);
 });
 });
 }
@@ -544,78 +586,78 @@ objj_msgSend(_35,"loadWithDelegate:",_30);
 _20.scope.require("browser/timeout").serviceTimeouts();
 return _25;
 };
-coalesceGlobalDefines=function(_36){
-var _37={};
-for(var _38 in _36){
-var _39=_36[_38];
-for(var _3a in _39){
-if(!_37[_3a]){
-_37[_3a]=[];
+coalesceGlobalDefines=function(_34){
+var _35={};
+for(var _36 in _34){
+var _37=_34[_36];
+for(var _38 in _37){
+if(!_35[_38]){
+_35[_38]=[];
 }
-_37[_3a].push(_38);
+_35[_38].push(_36);
 }
 }
-return _37;
+return _35;
 };
-setupObjectiveJ=function(_3b,_3c){
-_3b.global.NARWHAL_HOME=system.prefix;
-_3b.global.NARWHAL_ENGINE_HOME=_1.join(system.prefix,"engines","rhino");
-var _3d=_1.join(_3b.global.NARWHAL_ENGINE_HOME,"bootstrap.js");
-_3b.evalFile(_3d);
-var _3e=_3b.global.require("objective-j");
-addMockBrowserEnvironment(_3e.window);
-return _3e.window;
+setupObjectiveJ=function(_39,_3a){
+_39.global.NARWHAL_HOME=system.prefix;
+_39.global.NARWHAL_ENGINE_HOME=_1.join(system.prefix,"engines","rhino");
+var _3b=_1.join(_39.global.NARWHAL_ENGINE_HOME,"bootstrap.js");
+_39.evalFile(_3b);
+var _3c=_39.global.require("objective-j");
+addMockBrowserEnvironment(_3c.window);
+return _3c.window;
 };
-addMockBrowserEnvironment=function(_3f){
-if(!_3f.window){
-_3f.window=_3f;
+addMockBrowserEnvironment=function(_3d){
+if(!_3d.window){
+_3d.window=_3d;
 }
-if(!_3f.location){
-_3f.location={};
+if(!_3d.location){
+_3d.location={};
 }
-if(!_3f.location.href){
-_3f.location.href="";
+if(!_3d.location.href){
+_3d.location.href="";
 }
-if(!_3f.Element){
-_3f.Element=function(){
+if(!_3d.Element){
+_3d.Element=function(){
 this.style={};
 };
 }
-if(!_3f.document){
-_3f.document={createElement:function(){
-return new _3f.Element();
+if(!_3d.document){
+_3d.document={createElement:function(){
+return new _3d.Element();
 }};
 }
 };
-cloneProperties=function(_40,_41){
-var _42={};
-for(var _43 in _40){
-_42[_43]=_41?true:_40[_43];
+cloneProperties=function(_3e,_3f){
+var _40={};
+for(var _41 in _3e){
+_40[_41]=_3f?true:_3e[_41];
 }
-return _42;
+return _40;
 };
-diff=function(_44,_45,_46,_47,_48,_49){
-for(var i in _45){
-if(_47&&!_46[i]&&typeof _44[i]=="undefined"){
+diff=function(_42,_43,_44,_45,_46,_47){
+for(var i in _43){
+if(_45&&!_44[i]&&typeof _42[i]=="undefined"){
+_45[i]=true;
+}
+}
+for(var i in _43){
+if(_46&&!_44[i]&&typeof _42[i]!="undefined"&&typeof _43[i]!="undefined"&&_42[i]!==_43[i]){
+_46[i]=true;
+}
+}
+for(var i in _42){
+if(_47&&!_44[i]&&typeof _43[i]=="undefined"){
 _47[i]=true;
 }
 }
-for(var i in _45){
-if(_48&&!_46[i]&&typeof _44[i]!="undefined"&&typeof _45[i]!="undefined"&&_44[i]!==_45[i]){
-_48[i]=true;
-}
-}
-for(var i in _44){
-if(_49&&!_46[i]&&typeof _45[i]=="undefined"){
-_49[i]=true;
-}
-}
 };
-allKeys=function(_4a){
-var _4b=[];
-for(var i in _4a){
-_4b.push(i);
+allKeys=function(_48){
+var _49=[];
+for(var i in _48){
+_49.push(i);
 }
-return _4b.sort();
+return _49.sort();
 };
 e;

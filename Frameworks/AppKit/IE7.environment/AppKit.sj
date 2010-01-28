@@ -14932,7 +14932,7 @@ objj_msgSend(_2c,"encodeObject:forKey:",_view,_25);
 objj_msgSend(_2c,"encodeObject:forKey:",_auxiliaryView,_26);
 }
 })]);
-p;13;CPTextField.ji;11;CPControl.ji;17;CPStringDrawing.ji;17;CPCompatibility.jc;27028;
+p;13;CPTextField.ji;11;CPControl.ji;17;CPStringDrawing.ji;17;CPCompatibility.jc;27163;
 CPLineBreakByWordWrapping=0;
 CPLineBreakByCharWrapping=1;
 CPLineBreakByClipping=2;
@@ -15360,6 +15360,7 @@ objj_msgSend(_79,"selectText:",_7b);
 }
 }),new objj_method(sel_getUid("copy:"),function(_7d,_7e,_7f){
 with(_7d){
+if(!objj_msgSend(CPPlatform,"isBrowser")){
 var _80=objj_msgSend(_7d,"selectedRange");
 if(_80.length<1){
 return;
@@ -15368,13 +15369,17 @@ var _81=objj_msgSend(CPPasteboard,"generalPasteboard"),_82=objj_msgSend(_7d,"str
 objj_msgSend(_81,"declareTypes:owner:",[CPStringPboardType],nil);
 objj_msgSend(_81,"setString:forType:",_83,CPStringPboardType);
 }
+}
 }),new objj_method(sel_getUid("cut:"),function(_84,_85,_86){
 with(_84){
+if(!objj_msgSend(CPPlatform,"isBrowser")){
 objj_msgSend(_84,"copy:",_86);
 objj_msgSend(_84,"deleteBackwards:",_86);
 }
+}
 }),new objj_method(sel_getUid("paste:"),function(_87,_88,_89){
 with(_87){
+if(!objj_msgSend(CPPlatform,"isBrowser")){
 var _8a=objj_msgSend(CPPasteboard,"generalPasteboard");
 if(!objj_msgSend(objj_msgSend(_8a,"types"),"containsObject:",CPStringPboardType)){
 return;
@@ -15383,6 +15388,7 @@ objj_msgSend(_87,"deleteBackwards:",_89);
 var _8b=objj_msgSend(_87,"selectedRange"),_8c=objj_msgSend(_87,"stringValue"),_8d=objj_msgSend(_8a,"stringForType:",CPStringPboardType),_8e=objj_msgSend(_8c,"stringByReplacingCharactersInRange:withString:",_8b,_8d);
 objj_msgSend(_87,"setStringValue:",_8e);
 objj_msgSend(_87,"setSelectedRange:",CPMakeRange(_8b.location+_8d.length,0));
+}
 }
 }),new objj_method(sel_getUid("selectedRange"),function(_8f,_90){
 with(_8f){
@@ -27714,7 +27720,7 @@ with(_14){
 return _windows;
 }
 })]);
-p;22;CPPlatformWindow+DOM.jI;21;Foundation/CPObject.jI;22;Foundation/CPRunLoop.ji;9;CPEvent.ji;17;CPCompatibility.ji;18;CPDOMWindowLayer.ji;12;CPPlatform.ji;18;CPPlatformWindow.ji;26;CPPlatformWindow+DOMKeys.jc;27808;
+p;22;CPPlatformWindow+DOM.jI;21;Foundation/CPObject.jI;22;Foundation/CPRunLoop.ji;9;CPEvent.ji;17;CPCompatibility.ji;18;CPDOMWindowLayer.ji;12;CPPlatform.ji;18;CPPlatformWindow.ji;26;CPPlatformWindow+DOMKeys.jc;27788;
 var _1=objj_msgSend(CPSet,"set");
 var _2,_3,_4;
 var _5={},_6={},_7={61:187,59:186};
@@ -27727,7 +27733,7 @@ objj_exception_throw(new objj_exception(OBJJClassNotFoundException,"*** Could no
 var _a=_9.isa;
 class_addMethods(_9,[new objj_method(sel_getUid("_init"),function(_b,_c){
 with(_b){
-_b=objj_msgSendSuper({receiver:_b,super_class:objj_getClass("CPPlatformWindow").super_class},"init");
+_b=objj_msgSendSuper({receiver:_b,super_class:objj_getClass("CPObject")},"init");
 if(_b){
 _DOMWindow=window;
 _contentRect={origin:{x:0,y:0},size:{width:0,height:0}};
