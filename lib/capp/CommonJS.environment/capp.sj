@@ -79,7 +79,7 @@ _8.push(_d);
 }
 return _8;
 };
-p;10;Generate.jt;6567;@STATIC;1.0;i;15;Configuration.jt;6528;
+p;10;Generate.jt;6582;@STATIC;1.0;i;15;Configuration.jt;6543;
 objj_executeFile("Configuration.j",true);
 var OS=require("os"),_1=require("system"),_2=require("file"),_3=require("objective-j");
 var _4=require("term").stream;
@@ -104,7 +104,7 @@ var _6=require("packages").catalog["cappuccino"].directory;
 var _7=_2.join(_6,"lib","capp","Resources","Templates");
 gen=function(){
 var _8=["capp gen"].concat(Array.prototype.slice.call(arguments));
-var _9=_5.parse(_8);
+var _9=_5.parse(_8,null,null,true);
 if(_9.args.length>1){
 _5.printUsage(_9);
 OS.exit(1);
