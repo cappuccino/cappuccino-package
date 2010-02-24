@@ -1,4 +1,168 @@
-@STATIC;1.0;p;22;BKShowcaseController.jt;20985;@STATIC;1.0;I;16;AppKit/CPTheme.jI;15;AppKit/CPView.jt;20924;objj_executeFile("AppKit/CPTheme.j", false);
+@STATIC;1.0;p;19;BKThemeDescriptor.jt;6902;@STATIC;1.0;I;21;Foundation/CPObject.jt;6857;objj_executeFile("Foundation/CPObject.j", false);
+var ItemSizes = { },
+    ThemedObjects = { },
+    BackgroundColors = { },
+    LightCheckersColor = nil,
+    DarkCheckersColor = nil,
+    WindowBackgroundColor = nil;
+{var the_class = objj_allocateClassPair(CPObject, "BKThemeDescriptor"),
+meta_class = the_class.isa;objj_registerClassPair(the_class);
+class_addMethods(meta_class, [new objj_method(sel_getUid("allThemeDescriptorClasses"), function $BKThemeDescriptor__allThemeDescriptorClasses(self, _cmd)
+{ with(self)
+{
+    var themeDescriptorClasses = [];
+    for (candidate in global)
+    {
+        var theClass = objj_getClass(candidate),
+            theClassName = class_getName(theClass);
+        if (theClassName === "BKThemeDescriptor")
+            continue;
+        var index = theClassName.indexOf("ThemeDescriptor");
+        if ((index >= 0) && (index === theClassName.length - "ThemeDescriptor".length))
+            themeDescriptorClasses.push(theClass);
+    }
+    objj_msgSend(themeDescriptorClasses, "sortUsingSelector:", sel_getUid("compare:"));
+    return themeDescriptorClasses;
+}
+},["CPArray"]), new objj_method(sel_getUid("lightCheckersColor"), function $BKThemeDescriptor__lightCheckersColor(self, _cmd)
+{ with(self)
+{
+    if (!LightCheckersColor)
+        LightCheckersColor = objj_msgSend(CPColor, "colorWithPatternImage:", objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(objj_msgSend(CPBundle, "bundleForClass:", objj_msgSend(BKThemeDescriptor, "class")), "pathForResource:", "light-checkers.png"), CGSizeMake(12.0, 12.0)));
+    return LightCheckersColor;
+}
+},["CPColor"]), new objj_method(sel_getUid("darkCheckersColor"), function $BKThemeDescriptor__darkCheckersColor(self, _cmd)
+{ with(self)
+{
+    if (!DarkCheckersColor)
+        DarkCheckersColor = objj_msgSend(CPColor, "colorWithPatternImage:", objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(objj_msgSend(CPBundle, "bundleForClass:", objj_msgSend(BKThemeDescriptor, "class")), "pathForResource:", "dark-checkers.png"), CGSizeMake(12.0, 12.0)));
+    return DarkCheckersColor;
+}
+},["CPColor"]), new objj_method(sel_getUid("windowBackgroundColor"), function $BKThemeDescriptor__windowBackgroundColor(self, _cmd)
+{ with(self)
+{
+    return objj_msgSend(_CPStandardWindowView, "bodyBackgroundColor");
+}
+},["CPColor"]), new objj_method(sel_getUid("defaultShowcaseBackgroundColor"), function $BKThemeDescriptor__defaultShowcaseBackgroundColor(self, _cmd)
+{ with(self)
+{
+    return objj_msgSend(_CPStandardWindowView, "bodyBackgroundColor");
+}
+},["CPColor"]), new objj_method(sel_getUid("showcaseBackgroundColor"), function $BKThemeDescriptor__showcaseBackgroundColor(self, _cmd)
+{ with(self)
+{
+    var className = objj_msgSend(self, "className");
+    if (!BackgroundColors[className])
+        BackgroundColors[className] = objj_msgSend(self, "defaultShowcaseBackgroundColor");
+    return BackgroundColors[className];
+}
+},["CPColor"]), new objj_method(sel_getUid("setShowcaseBackgroundColor:"), function $BKThemeDescriptor__setShowcaseBackgroundColor_(self, _cmd, aColor)
+{ with(self)
+{
+    BackgroundColors[objj_msgSend(self, "className")] = aColor;
+}
+},["void","CPColor"]), new objj_method(sel_getUid("itemSize"), function $BKThemeDescriptor__itemSize(self, _cmd)
+{ with(self)
+{
+    var className = objj_msgSend(self, "className");
+    if (!ItemSizes[className])
+        objj_msgSend(self, "calculateThemedObjectTemplates");
+    return CGSizeMakeCopy(ItemSizes[className]);
+}
+},["CGSize"]), new objj_method(sel_getUid("themedObjectTemplates"), function $BKThemeDescriptor__themedObjectTemplates(self, _cmd)
+{ with(self)
+{
+    var className = objj_msgSend(self, "className");
+    if (!ThemedObjects[className])
+        objj_msgSend(self, "calculateThemedObjectTemplates");
+    return ThemedObjects[className];
+}
+},["CPArray"]), new objj_method(sel_getUid("calculateThemedObjectTemplates"), function $BKThemeDescriptor__calculateThemedObjectTemplates(self, _cmd)
+{ with(self)
+{
+    var templates = [],
+        itemSize = CGSizeMake(0.0, 0.0),
+        methods = class_copyMethodList(objj_msgSend(self, "class").isa),
+        index = 0,
+        count = objj_msgSend(methods, "count");
+    for (; index < count; ++index)
+    {
+        var method = methods[index],
+            selector = method_getName(method);
+        if (selector.indexOf("themed") !== 0)
+            continue;
+        var impl = method_getImplementation(method),
+            object = impl(self, selector);
+        if (!object)
+            continue;
+        var template = objj_msgSend(objj_msgSend(BKThemedObjectTemplate, "alloc"), "init");
+        objj_msgSend(template, "setValue:forKey:", object, "themedObject");
+        objj_msgSend(template, "setValue:forKey:", BKLabelFromIdentifier(selector), "label");
+        objj_msgSend(templates, "addObject:", template);
+        if (objj_msgSend(object, "isKindOfClass:", objj_msgSend(CPView, "class")))
+        {
+            var size = objj_msgSend(object, "frame").size,
+                labelWidth = objj_msgSend(objj_msgSend(template, "valueForKey:", "label"), "sizeWithFont:", objj_msgSend(CPFont, "boldSystemFontOfSize:", 12.0)).width + 20.0;
+            if (size.width > itemSize.width)
+                itemSize.width = size.width;
+            if (labelWidth > itemSize.width)
+                itemSize.width = labelWidth;
+            if (size.height > itemSize.height)
+                itemSize.height = size.height;
+        }
+    }
+    var className = objj_msgSend(self, "className");
+    ItemSizes[className] = itemSize;
+    ThemedObjects[className] = templates;
+}
+},["void"]), new objj_method(sel_getUid("compare:"), function $BKThemeDescriptor__compare_(self, _cmd, aThemeDescriptor)
+{ with(self)
+{
+    return objj_msgSend(objj_msgSend(self, "themeName"), "compare:", objj_msgSend(aThemeDescriptor, "themeName"));
+}
+},["int","BKThemeDescriptor"])]);
+}
+BKLabelFromIdentifier= function(anIdentifier)
+{
+    var string = anIdentifier.substr("themed".length);
+        index = 0,
+        count = string.length,
+        label = "",
+        lastCapital = null,
+        isLeadingCapital = YES;
+    for (; index < count; ++index)
+    {
+        var character = string.charAt(index),
+            isCapital = /^[A-Z]/.test(character);
+        if (isCapital)
+        {
+            if (!isLeadingCapital)
+            {
+                if (lastCapital === null)
+                    label += ' ' + character.toLowerCase();
+                else
+                    label += character;
+            }
+            lastCapital = character;
+        }
+        else
+        {
+            if (isLeadingCapital && lastCapital !== null)
+                label += lastCapital;
+            label += character;
+            lastCapital = null;
+            isLeadingCapital = NO;
+        }
+    }
+    return label;
+}
+
+p;10;BlendKit.jt;315;@STATIC;1.0;i;22;BKShowcaseController.ji;19;BKThemeDescriptor.ji;17;BKThemeTemplate.ji;24;BKThemedObjectTemplate.jt;195;objj_executeFile("BKShowcaseController.j", true);
+objj_executeFile("BKThemeDescriptor.j", true);
+objj_executeFile("BKThemeTemplate.j", true);
+objj_executeFile("BKThemedObjectTemplate.j", true);
+
+p;22;BKShowcaseController.jt;20985;@STATIC;1.0;I;16;AppKit/CPTheme.jI;15;AppKit/CPView.jt;20924;objj_executeFile("AppKit/CPTheme.j", false);
 objj_executeFile("AppKit/CPView.j", false);
 var LEFT_PANEL_WIDTH = 176.0;
 var BKLearnMoreToolbarItemIdentifier = "BKLearnMoreToolbarItemIdentifier",
@@ -317,163 +481,28 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("setBackgroundColor:"),
 },["CPColor"])]);
 }
 
-p;19;BKThemeDescriptor.jt;6902;@STATIC;1.0;I;21;Foundation/CPObject.jt;6857;objj_executeFile("Foundation/CPObject.j", false);
-var ItemSizes = { },
-    ThemedObjects = { },
-    BackgroundColors = { },
-    LightCheckersColor = nil,
-    DarkCheckersColor = nil,
-    WindowBackgroundColor = nil;
-{var the_class = objj_allocateClassPair(CPObject, "BKThemeDescriptor"),
-meta_class = the_class.isa;objj_registerClassPair(the_class);
-class_addMethods(meta_class, [new objj_method(sel_getUid("allThemeDescriptorClasses"), function $BKThemeDescriptor__allThemeDescriptorClasses(self, _cmd)
+p;17;BKThemeTemplate.jt;1157;@STATIC;1.0;I;21;Foundation/CPObject.jt;1112;objj_executeFile("Foundation/CPObject.j", false);
+{var the_class = objj_allocateClassPair(CPObject, "BKThemeTemplate"),
+meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_name"), new objj_ivar("_description")]);
+objj_registerClassPair(the_class);
+class_addMethods(the_class, [new objj_method(sel_getUid("initWithCoder:"), function $BKThemeTemplate__initWithCoder_(self, _cmd, aCoder)
 { with(self)
 {
-    var themeDescriptorClasses = [];
-    for (candidate in global)
+    self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("BKThemeTemplate").super_class }, "init");
+    if (self)
     {
-        var theClass = objj_getClass(candidate),
-            theClassName = class_getName(theClass);
-        if (theClassName === "BKThemeDescriptor")
-            continue;
-        var index = theClassName.indexOf("ThemeDescriptor");
-        if ((index >= 0) && (index === theClassName.length - "ThemeDescriptor".length))
-            themeDescriptorClasses.push(theClass);
+        _name = objj_msgSend(aCoder, "decodeObjectForKey:", "BKThemeTemplateName");
+        _description = objj_msgSend(aCoder, "decodeObjectForKey:", "BKThemeTemplateDescription");
     }
-    objj_msgSend(themeDescriptorClasses, "sortUsingSelector:", sel_getUid("compare:"));
-    return themeDescriptorClasses;
+    return self;
 }
-},["CPArray"]), new objj_method(sel_getUid("lightCheckersColor"), function $BKThemeDescriptor__lightCheckersColor(self, _cmd)
+},["id","CPCoder"]), new objj_method(sel_getUid("encodeWithCoder:"), function $BKThemeTemplate__encodeWithCoder_(self, _cmd, aCoder)
 { with(self)
 {
-    if (!LightCheckersColor)
-        LightCheckersColor = objj_msgSend(CPColor, "colorWithPatternImage:", objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(objj_msgSend(CPBundle, "bundleForClass:", objj_msgSend(BKThemeDescriptor, "class")), "pathForResource:", "light-checkers.png"), CGSizeMake(12.0, 12.0)));
-    return LightCheckersColor;
+    objj_msgSend(aCoder, "encodeObject:forKey:", _name, "BKThemeTemplateName");
+    objj_msgSend(aCoder, "encodeObject:forKey:", _description, "BKThemeTemplateDescription");
 }
-},["CPColor"]), new objj_method(sel_getUid("darkCheckersColor"), function $BKThemeDescriptor__darkCheckersColor(self, _cmd)
-{ with(self)
-{
-    if (!DarkCheckersColor)
-        DarkCheckersColor = objj_msgSend(CPColor, "colorWithPatternImage:", objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(objj_msgSend(CPBundle, "bundleForClass:", objj_msgSend(BKThemeDescriptor, "class")), "pathForResource:", "dark-checkers.png"), CGSizeMake(12.0, 12.0)));
-    return DarkCheckersColor;
-}
-},["CPColor"]), new objj_method(sel_getUid("windowBackgroundColor"), function $BKThemeDescriptor__windowBackgroundColor(self, _cmd)
-{ with(self)
-{
-    return objj_msgSend(_CPStandardWindowView, "bodyBackgroundColor");
-}
-},["CPColor"]), new objj_method(sel_getUid("defaultShowcaseBackgroundColor"), function $BKThemeDescriptor__defaultShowcaseBackgroundColor(self, _cmd)
-{ with(self)
-{
-    return objj_msgSend(_CPStandardWindowView, "bodyBackgroundColor");
-}
-},["CPColor"]), new objj_method(sel_getUid("showcaseBackgroundColor"), function $BKThemeDescriptor__showcaseBackgroundColor(self, _cmd)
-{ with(self)
-{
-    var className = objj_msgSend(self, "className");
-    if (!BackgroundColors[className])
-        BackgroundColors[className] = objj_msgSend(self, "defaultShowcaseBackgroundColor");
-    return BackgroundColors[className];
-}
-},["CPColor"]), new objj_method(sel_getUid("setShowcaseBackgroundColor:"), function $BKThemeDescriptor__setShowcaseBackgroundColor_(self, _cmd, aColor)
-{ with(self)
-{
-    BackgroundColors[objj_msgSend(self, "className")] = aColor;
-}
-},["void","CPColor"]), new objj_method(sel_getUid("itemSize"), function $BKThemeDescriptor__itemSize(self, _cmd)
-{ with(self)
-{
-    var className = objj_msgSend(self, "className");
-    if (!ItemSizes[className])
-        objj_msgSend(self, "calculateThemedObjectTemplates");
-    return CGSizeMakeCopy(ItemSizes[className]);
-}
-},["CGSize"]), new objj_method(sel_getUid("themedObjectTemplates"), function $BKThemeDescriptor__themedObjectTemplates(self, _cmd)
-{ with(self)
-{
-    var className = objj_msgSend(self, "className");
-    if (!ThemedObjects[className])
-        objj_msgSend(self, "calculateThemedObjectTemplates");
-    return ThemedObjects[className];
-}
-},["CPArray"]), new objj_method(sel_getUid("calculateThemedObjectTemplates"), function $BKThemeDescriptor__calculateThemedObjectTemplates(self, _cmd)
-{ with(self)
-{
-    var templates = [],
-        itemSize = CGSizeMake(0.0, 0.0),
-        methods = class_copyMethodList(objj_msgSend(self, "class").isa),
-        index = 0,
-        count = objj_msgSend(methods, "count");
-    for (; index < count; ++index)
-    {
-        var method = methods[index],
-            selector = method_getName(method);
-        if (selector.indexOf("themed") !== 0)
-            continue;
-        var impl = method_getImplementation(method),
-            object = impl(self, selector);
-        if (!object)
-            continue;
-        var template = objj_msgSend(objj_msgSend(BKThemedObjectTemplate, "alloc"), "init");
-        objj_msgSend(template, "setValue:forKey:", object, "themedObject");
-        objj_msgSend(template, "setValue:forKey:", BKLabelFromIdentifier(selector), "label");
-        objj_msgSend(templates, "addObject:", template);
-        if (objj_msgSend(object, "isKindOfClass:", objj_msgSend(CPView, "class")))
-        {
-            var size = objj_msgSend(object, "frame").size,
-                labelWidth = objj_msgSend(objj_msgSend(template, "valueForKey:", "label"), "sizeWithFont:", objj_msgSend(CPFont, "boldSystemFontOfSize:", 12.0)).width + 20.0;
-            if (size.width > itemSize.width)
-                itemSize.width = size.width;
-            if (labelWidth > itemSize.width)
-                itemSize.width = labelWidth;
-            if (size.height > itemSize.height)
-                itemSize.height = size.height;
-        }
-    }
-    var className = objj_msgSend(self, "className");
-    ItemSizes[className] = itemSize;
-    ThemedObjects[className] = templates;
-}
-},["void"]), new objj_method(sel_getUid("compare:"), function $BKThemeDescriptor__compare_(self, _cmd, aThemeDescriptor)
-{ with(self)
-{
-    return objj_msgSend(objj_msgSend(self, "themeName"), "compare:", objj_msgSend(aThemeDescriptor, "themeName"));
-}
-},["int","BKThemeDescriptor"])]);
-}
-BKLabelFromIdentifier= function(anIdentifier)
-{
-    var string = anIdentifier.substr("themed".length);
-        index = 0,
-        count = string.length,
-        label = "",
-        lastCapital = null,
-        isLeadingCapital = YES;
-    for (; index < count; ++index)
-    {
-        var character = string.charAt(index),
-            isCapital = /^[A-Z]/.test(character);
-        if (isCapital)
-        {
-            if (!isLeadingCapital)
-            {
-                if (lastCapital === null)
-                    label += ' ' + character.toLowerCase();
-                else
-                    label += character;
-            }
-            lastCapital = character;
-        }
-        else
-        {
-            if (isLeadingCapital && lastCapital !== null)
-                label += lastCapital;
-            label += character;
-            lastCapital = null;
-            isLeadingCapital = NO;
-        }
-    }
-    return label;
+},["void","CPCoder"])]);
 }
 
 p;24;BKThemedObjectTemplate.jt;1209;@STATIC;1.0;I;15;AppKit/CPView.jt;1170;objj_executeFile("AppKit/CPView.j", false);
@@ -499,34 +528,5 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithCoder:"), funct
 }
 },["void","CPCoder"])]);
 }
-
-p;17;BKThemeTemplate.jt;1157;@STATIC;1.0;I;21;Foundation/CPObject.jt;1112;objj_executeFile("Foundation/CPObject.j", false);
-{var the_class = objj_allocateClassPair(CPObject, "BKThemeTemplate"),
-meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_name"), new objj_ivar("_description")]);
-objj_registerClassPair(the_class);
-class_addMethods(the_class, [new objj_method(sel_getUid("initWithCoder:"), function $BKThemeTemplate__initWithCoder_(self, _cmd, aCoder)
-{ with(self)
-{
-    self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("BKThemeTemplate").super_class }, "init");
-    if (self)
-    {
-        _name = objj_msgSend(aCoder, "decodeObjectForKey:", "BKThemeTemplateName");
-        _description = objj_msgSend(aCoder, "decodeObjectForKey:", "BKThemeTemplateDescription");
-    }
-    return self;
-}
-},["id","CPCoder"]), new objj_method(sel_getUid("encodeWithCoder:"), function $BKThemeTemplate__encodeWithCoder_(self, _cmd, aCoder)
-{ with(self)
-{
-    objj_msgSend(aCoder, "encodeObject:forKey:", _name, "BKThemeTemplateName");
-    objj_msgSend(aCoder, "encodeObject:forKey:", _description, "BKThemeTemplateDescription");
-}
-},["void","CPCoder"])]);
-}
-
-p;10;BlendKit.jt;315;@STATIC;1.0;i;22;BKShowcaseController.ji;19;BKThemeDescriptor.ji;17;BKThemeTemplate.ji;24;BKThemedObjectTemplate.jt;195;objj_executeFile("BKShowcaseController.j", true);
-objj_executeFile("BKThemeDescriptor.j", true);
-objj_executeFile("BKThemeTemplate.j", true);
-objj_executeFile("BKThemedObjectTemplate.j", true);
 
 e;

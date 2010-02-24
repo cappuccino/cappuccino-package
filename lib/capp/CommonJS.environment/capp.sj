@@ -1,139 +1,83 @@
-@STATIC;1.0;p;15;Configuration.jt;4345;@STATIC;1.0;I;25;Foundation/CPDictionary.jI;21;Foundation/CPString.jI;21;Foundation/CPObject.jt;4244;
-objj_executeFile("Foundation/CPDictionary.j",false);
-objj_executeFile("Foundation/CPString.j",false);
-objj_executeFile("Foundation/CPObject.j",false);
-var _1=require("file"),_2=require("system");
-var _3=nil,_4=nil,_5=nil;
-var _6=objj_allocateClassPair(CPObject,"Configuration"),_7=_6.isa;
-class_addIvars(_6,[new objj_ivar("path"),new objj_ivar("dictionary"),new objj_ivar("temporaryDictionary")]);
-objj_registerClassPair(_6);
-class_addMethods(_6,[new objj_method(sel_getUid("initWithPath:"),function(_8,_9,_a){
-with(_8){
-_8=objj_msgSendSuper({receiver:_8,super_class:objj_getClass("Configuration").super_class},"init");
-if(_8){
-path=_a;
-temporaryDictionary=objj_msgSend(CPDictionary,"dictionary");
-if(path&&_1.isReadable(path)){
-dictionary=CFPropertyList.readPropertyListFromFile(path);
+@STATIC;1.0;p;6;main.jt;2218;@STATIC;1.0;I;23;Foundation/Foundation.ji;15;Configuration.ji;10;Generate.jt;2136;
+objj_executeFile("Foundation/Foundation.j",false);
+objj_executeFile("Configuration.j",true);
+objj_executeFile("Generate.j",true);
+main=function(_1){
+_1.shift();
+if(_1.length<1){
+return printUsage();
 }
-if(!dictionary){
-dictionary=objj_msgSend(CPDictionary,"dictionary");
+var _2=0,_3=_1.length;
+for(;_2<_3;++_2){
+var _4=_1[_2];
+switch(_4){
+case "version":
+case "--version":
+return print("capp version 0.7.1");
+case "-h":
+case "--help":
+return printUsage();
+case "config":
+return config.apply(this,_1.slice(_2+1));
+case "gen":
+return gen.apply(this,_1.slice(_2+1));
+default:
+print("unknown command "+_4);
+}
+}
+};
+printUsage=function(){
+print("capp [--version] COMMAND [ARGS]");
+print("    --version         Print version");
+print("    -h, --help        Print usage");
+print("");
+print("    gen PATH          Generate new project at PATH from a predefined template");
+print("    -l                Symlink the Frameworks folder to your $CAPP_BUILD or $STEAM_BUILD directory");
+print("    -t, --template    Specify the template name to use (listed in capp/Resources/Templates)");
+print("    -f, --frameworks  Create only frameworks, not a full application");
+print("    --force           Overwrite Frameworks directory if it already exists");
+print("    --symlink         Create a symlink to the source Frameworks");
+print("    --build           Source the Frameworks directory files from your $CAPP_BUILD or $STEAM_BUILD directory");
+print("");
+print("    config ");
+print("    name value        Set a value for a given key");
+print("    -l, --list        List all variables set in config file.");
+print("    --get name        Get the value for a given key");
+};
+getFiles=function(_5,_6,_7){
+var _8=[],_9=_5.listFiles(),_a=typeof _6!=="string";
+if(_9){
+var _b=0,_c=_9.length;
+for(;_b<_c;++_b){
+var _d=_9[_b],_e=FILE.basename(_d),_f=!_6;
+if(_7&&fileArrayContainsFile(_7,_d)){
+continue;
+}
+if(!_f){
+if(_a){
+var _10=_6.length;
+while(_10--&&!_f){
+var _11=_6[_10];
+if(_e.substring(_e.length-_11.length-1)===("."+_11)){
+_f=true;
+}
+}
+}else{
+if(_e.substring(_e.length-_6.length-1)===("."+_6)){
+_f=true;
+}
+}
+}
+if(FILE.isDirectory(_d)){
+_8=_8.concat(getFiles(_d,_6,_7));
+}else{
+if(_f){
+_8.push(_d);
+}
+}
 }
 }
 return _8;
-}
-}),new objj_method(sel_getUid("path"),function(_b,_c){
-with(_b){
-return path;
-}
-}),new objj_method(sel_getUid("storedKeyEnumerator"),function(_d,_e){
-with(_d){
-return objj_msgSend(dictionary,"keyEnumerator");
-}
-}),new objj_method(sel_getUid("keyEnumerator"),function(_f,_10){
-with(_f){
-var set=objj_msgSend(CPSet,"setWithArray:",objj_msgSend(dictionary,"allKeys"));
-objj_msgSend(set,"addObjectsFromArray:",objj_msgSend(temporaryDictionary,"allKeys"));
-objj_msgSend(set,"addObjectsFromArray:",objj_msgSend(_3,"allKeys"));
-return objj_msgSend(set,"objectEnumerator");
-}
-}),new objj_method(sel_getUid("valueForKey:"),function(_11,_12,_13){
-with(_11){
-var _14=objj_msgSend(dictionary,"objectForKey:",_13);
-if(!_14){
-_14=objj_msgSend(temporaryDictionary,"objectForKey:",_13);
-}
-if(!_14){
-_14=objj_msgSend(_3,"objectForKey:",_13);
-}
-return _14;
-}
-}),new objj_method(sel_getUid("setValue:forKey:"),function(_15,_16,_17,_18){
-with(_15){
-objj_msgSend(dictionary,"setObject:forKey:",_17,_18);
-}
-}),new objj_method(sel_getUid("setTemporaryValue:forKey:"),function(_19,_1a,_1b,_1c){
-with(_19){
-objj_msgSend(temporaryDictionary,"setObject:forKey:",_1b,_1c);
-}
-}),new objj_method(sel_getUid("save"),function(_1d,_1e){
-with(_1d){
-if(!objj_msgSend(_1d,"path")){
-return;
-}
-plist.writePlist(objj_msgSend(_1d,"path"),dictionary);
-}
-})]);
-class_addMethods(_7,[new objj_method(sel_getUid("initialize"),function(_1f,_20){
-with(_1f){
-if(_1f!==objj_msgSend(Configuration,"class")){
-return;
-}
-_3=objj_msgSend(CPDictionary,"dictionary");
-objj_msgSend(_3,"setObject:forKey:","You","user.name");
-objj_msgSend(_3,"setObject:forKey:","you@yourcompany.com","user.email");
-objj_msgSend(_3,"setObject:forKey:","Your Company","organization.name");
-objj_msgSend(_3,"setObject:forKey:","feedback @nospam@ yourcompany.com","organization.email");
-objj_msgSend(_3,"setObject:forKey:","http://yourcompany.com","organization.url");
-objj_msgSend(_3,"setObject:forKey:","com.yourcompany","organization.identifier");
-var _21=new Date(),_22=["January","February","March","April","May","June","July","August","September","October","November","December"];
-objj_msgSend(_3,"setObject:forKey:",_21.getFullYear(),"project.year");
-objj_msgSend(_3,"setObject:forKey:",_22[_21.getMonth()]+" "+_21.getDate()+", "+_21.getFullYear(),"project.date");
-}
-}),new objj_method(sel_getUid("defaultConfiguration"),function(_23,_24){
-with(_23){
-if(!_4){
-_4=objj_msgSend(objj_msgSend(_23,"alloc"),"initWithPath:",nil);
-}
-return _4;
-}
-}),new objj_method(sel_getUid("userConfiguration"),function(_25,_26){
-with(_25){
-if(!_5){
-_5=objj_msgSend(objj_msgSend(_25,"alloc"),"initWithPath:",_1.join(_2.env["HOME"],".cappconfig"));
-}
-return _5;
-}
-})]);
-config=function(){
-var _27=0,_28=arguments.length,key=NULL,_29=NULL,_2a=NO,_2b=NO;
-for(;_27<_28;++_27){
-var _2c=arguments[_27];
-switch(_2c){
-case "--get":
-_2a=YES;
-break;
-case "-l":
-case "--list":
-_2b=YES;
-break;
-default:
-if(key===NULL){
-key=_2c;
-}else{
-_29=_2c;
-}
-}
-}
-var _2d=objj_msgSend(Configuration,"userConfiguration");
-if(_2b){
-var key=nil,_2e=objj_msgSend(_2d,"storedKeyEnumerator");
-while(key=objj_msgSend(_2e,"nextObject")){
-print(key+"="+objj_msgSend(_2d,"valueForKey:",key));
-}
-}else{
-if(_2a){
-var _29=objj_msgSend(_2d,"valueForKey:",key);
-if(_29){
-print(_29);
-}
-}else{
-if(key!==NULL&&_29!==NULL){
-objj_msgSend(_2d,"setValue:forKey:",_29,key);
-objj_msgSend(_2d,"save");
-}
-}
-}
 };
 p;10;Generate.jt;6567;@STATIC;1.0;i;15;Configuration.jt;6528;
 objj_executeFile("Configuration.j",true);
@@ -348,85 +292,141 @@ _4.print("    + "+_3d);
 });
 });
 };
-p;6;main.jt;2218;@STATIC;1.0;I;23;Foundation/Foundation.ji;15;Configuration.ji;10;Generate.jt;2136;
-objj_executeFile("Foundation/Foundation.j",false);
-objj_executeFile("Configuration.j",true);
-objj_executeFile("Generate.j",true);
-main=function(_1){
-_1.shift();
-if(_1.length<1){
-return printUsage();
+p;15;Configuration.jt;4345;@STATIC;1.0;I;25;Foundation/CPDictionary.jI;21;Foundation/CPString.jI;21;Foundation/CPObject.jt;4244;
+objj_executeFile("Foundation/CPDictionary.j",false);
+objj_executeFile("Foundation/CPString.j",false);
+objj_executeFile("Foundation/CPObject.j",false);
+var _1=require("file"),_2=require("system");
+var _3=nil,_4=nil,_5=nil;
+var _6=objj_allocateClassPair(CPObject,"Configuration"),_7=_6.isa;
+class_addIvars(_6,[new objj_ivar("path"),new objj_ivar("dictionary"),new objj_ivar("temporaryDictionary")]);
+objj_registerClassPair(_6);
+class_addMethods(_6,[new objj_method(sel_getUid("initWithPath:"),function(_8,_9,_a){
+with(_8){
+_8=objj_msgSendSuper({receiver:_8,super_class:objj_getClass("Configuration").super_class},"init");
+if(_8){
+path=_a;
+temporaryDictionary=objj_msgSend(CPDictionary,"dictionary");
+if(path&&_1.isReadable(path)){
+dictionary=CFPropertyList.readPropertyListFromFile(path);
 }
-var _2=0,_3=_1.length;
-for(;_2<_3;++_2){
-var _4=_1[_2];
-switch(_4){
-case "version":
-case "--version":
-return print("capp version 0.7.1");
-case "-h":
-case "--help":
-return printUsage();
-case "config":
-return config.apply(this,_1.slice(_2+1));
-case "gen":
-return gen.apply(this,_1.slice(_2+1));
-default:
-print("unknown command "+_4);
-}
-}
-};
-printUsage=function(){
-print("capp [--version] COMMAND [ARGS]");
-print("    --version         Print version");
-print("    -h, --help        Print usage");
-print("");
-print("    gen PATH          Generate new project at PATH from a predefined template");
-print("    -l                Symlink the Frameworks folder to your $CAPP_BUILD or $STEAM_BUILD directory");
-print("    -t, --template    Specify the template name to use (listed in capp/Resources/Templates)");
-print("    -f, --frameworks  Create only frameworks, not a full application");
-print("    --force           Overwrite Frameworks directory if it already exists");
-print("    --symlink         Create a symlink to the source Frameworks");
-print("    --build           Source the Frameworks directory files from your $CAPP_BUILD or $STEAM_BUILD directory");
-print("");
-print("    config ");
-print("    name value        Set a value for a given key");
-print("    -l, --list        List all variables set in config file.");
-print("    --get name        Get the value for a given key");
-};
-getFiles=function(_5,_6,_7){
-var _8=[],_9=_5.listFiles(),_a=typeof _6!=="string";
-if(_9){
-var _b=0,_c=_9.length;
-for(;_b<_c;++_b){
-var _d=_9[_b],_e=FILE.basename(_d),_f=!_6;
-if(_7&&fileArrayContainsFile(_7,_d)){
-continue;
-}
-if(!_f){
-if(_a){
-var _10=_6.length;
-while(_10--&&!_f){
-var _11=_6[_10];
-if(_e.substring(_e.length-_11.length-1)===("."+_11)){
-_f=true;
-}
-}
-}else{
-if(_e.substring(_e.length-_6.length-1)===("."+_6)){
-_f=true;
-}
-}
-}
-if(FILE.isDirectory(_d)){
-_8=_8.concat(getFiles(_d,_6,_7));
-}else{
-if(_f){
-_8.push(_d);
-}
-}
+if(!dictionary){
+dictionary=objj_msgSend(CPDictionary,"dictionary");
 }
 }
 return _8;
+}
+}),new objj_method(sel_getUid("path"),function(_b,_c){
+with(_b){
+return path;
+}
+}),new objj_method(sel_getUid("storedKeyEnumerator"),function(_d,_e){
+with(_d){
+return objj_msgSend(dictionary,"keyEnumerator");
+}
+}),new objj_method(sel_getUid("keyEnumerator"),function(_f,_10){
+with(_f){
+var set=objj_msgSend(CPSet,"setWithArray:",objj_msgSend(dictionary,"allKeys"));
+objj_msgSend(set,"addObjectsFromArray:",objj_msgSend(temporaryDictionary,"allKeys"));
+objj_msgSend(set,"addObjectsFromArray:",objj_msgSend(_3,"allKeys"));
+return objj_msgSend(set,"objectEnumerator");
+}
+}),new objj_method(sel_getUid("valueForKey:"),function(_11,_12,_13){
+with(_11){
+var _14=objj_msgSend(dictionary,"objectForKey:",_13);
+if(!_14){
+_14=objj_msgSend(temporaryDictionary,"objectForKey:",_13);
+}
+if(!_14){
+_14=objj_msgSend(_3,"objectForKey:",_13);
+}
+return _14;
+}
+}),new objj_method(sel_getUid("setValue:forKey:"),function(_15,_16,_17,_18){
+with(_15){
+objj_msgSend(dictionary,"setObject:forKey:",_17,_18);
+}
+}),new objj_method(sel_getUid("setTemporaryValue:forKey:"),function(_19,_1a,_1b,_1c){
+with(_19){
+objj_msgSend(temporaryDictionary,"setObject:forKey:",_1b,_1c);
+}
+}),new objj_method(sel_getUid("save"),function(_1d,_1e){
+with(_1d){
+if(!objj_msgSend(_1d,"path")){
+return;
+}
+plist.writePlist(objj_msgSend(_1d,"path"),dictionary);
+}
+})]);
+class_addMethods(_7,[new objj_method(sel_getUid("initialize"),function(_1f,_20){
+with(_1f){
+if(_1f!==objj_msgSend(Configuration,"class")){
+return;
+}
+_3=objj_msgSend(CPDictionary,"dictionary");
+objj_msgSend(_3,"setObject:forKey:","You","user.name");
+objj_msgSend(_3,"setObject:forKey:","you@yourcompany.com","user.email");
+objj_msgSend(_3,"setObject:forKey:","Your Company","organization.name");
+objj_msgSend(_3,"setObject:forKey:","feedback @nospam@ yourcompany.com","organization.email");
+objj_msgSend(_3,"setObject:forKey:","http://yourcompany.com","organization.url");
+objj_msgSend(_3,"setObject:forKey:","com.yourcompany","organization.identifier");
+var _21=new Date(),_22=["January","February","March","April","May","June","July","August","September","October","November","December"];
+objj_msgSend(_3,"setObject:forKey:",_21.getFullYear(),"project.year");
+objj_msgSend(_3,"setObject:forKey:",_22[_21.getMonth()]+" "+_21.getDate()+", "+_21.getFullYear(),"project.date");
+}
+}),new objj_method(sel_getUid("defaultConfiguration"),function(_23,_24){
+with(_23){
+if(!_4){
+_4=objj_msgSend(objj_msgSend(_23,"alloc"),"initWithPath:",nil);
+}
+return _4;
+}
+}),new objj_method(sel_getUid("userConfiguration"),function(_25,_26){
+with(_25){
+if(!_5){
+_5=objj_msgSend(objj_msgSend(_25,"alloc"),"initWithPath:",_1.join(_2.env["HOME"],".cappconfig"));
+}
+return _5;
+}
+})]);
+config=function(){
+var _27=0,_28=arguments.length,key=NULL,_29=NULL,_2a=NO,_2b=NO;
+for(;_27<_28;++_27){
+var _2c=arguments[_27];
+switch(_2c){
+case "--get":
+_2a=YES;
+break;
+case "-l":
+case "--list":
+_2b=YES;
+break;
+default:
+if(key===NULL){
+key=_2c;
+}else{
+_29=_2c;
+}
+}
+}
+var _2d=objj_msgSend(Configuration,"userConfiguration");
+if(_2b){
+var key=nil,_2e=objj_msgSend(_2d,"storedKeyEnumerator");
+while(key=objj_msgSend(_2e,"nextObject")){
+print(key+"="+objj_msgSend(_2d,"valueForKey:",key));
+}
+}else{
+if(_2a){
+var _29=objj_msgSend(_2d,"valueForKey:",key);
+if(_29){
+print(_29);
+}
+}else{
+if(key!==NULL&&_29!==NULL){
+objj_msgSend(_2d,"setValue:forKey:",_29,key);
+objj_msgSend(_2d,"save");
+}
+}
+}
 };
 e;
