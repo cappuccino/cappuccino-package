@@ -4566,7 +4566,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["id","CPCoder"])]);
 }
 
-p;13;CPSplitView.jt;25061;@STATIC;1.0;i;9;CPImage.ji;8;CPView.jt;25016;objj_executeFile("CPImage.j", true);
+p;13;CPSplitView.jt;25309;@STATIC;1.0;i;9;CPImage.ji;8;CPView.jt;25264;objj_executeFile("CPImage.j", true);
 objj_executeFile("CPView.j", true);
 CPSplitViewDidResizeSubviewsNotification = "CPSplitViewDidResizeSubviewsNotification";
 CPSplitViewWillResizeSubviewsNotification = "CPSplitViewWillResizeSubviewsNotification";
@@ -4687,7 +4687,10 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     if (!_DOMDividerElements[_drawingDivider])
     {
         _DOMDividerElements[_drawingDivider] = document.createElement("div");
-        _DOMDividerElements[_drawingDivider].style.cursor = "move";
+        if(_isVertical)
+            _DOMDividerElements[_drawingDivider].style.cursor = objj_msgSend(objj_msgSend(CPCursor, "resizeLeftRightCursor"), "_cssString");
+        else
+            _DOMDividerElements[_drawingDivider].style.cursor = objj_msgSend(objj_msgSend(CPCursor, "resizeUpDownCursor"), "_cssString");
         _DOMDividerElements[_drawingDivider].style.position = "absolute";
         _DOMDividerElements[_drawingDivider].style.backgroundRepeat = "repeat";
         _DOMElement.appendChild(_DOMDividerElements[_drawingDivider]);

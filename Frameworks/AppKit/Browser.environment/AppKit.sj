@@ -4012,7 +4012,7 @@ objj_msgSend(_b1,"setDelegate:",_b1);
 return _b1;
 }
 })]);
-p;13;CPSplitView.jt;17723;@STATIC;1.0;i;9;CPImage.ji;8;CPView.jt;17678;
+p;13;CPSplitView.jt;17938;@STATIC;1.0;i;9;CPImage.ji;8;CPView.jt;17893;
 objj_executeFile("CPImage.j",true);
 objj_executeFile("CPView.j",true);
 CPSplitViewDidResizeSubviewsNotification="CPSplitViewDidResizeSubviewsNotification";
@@ -4119,7 +4119,11 @@ objj_msgSend(_2d,"drawDividerInRect:",objj_msgSend(_2d,"rectOfDividerAtIndex:",_
 with(_31){
 if(!_DOMDividerElements[_drawingDivider]){
 _DOMDividerElements[_drawingDivider]=document.createElement("div");
-_DOMDividerElements[_drawingDivider].style.cursor="move";
+if(_isVertical){
+_DOMDividerElements[_drawingDivider].style.cursor=objj_msgSend(objj_msgSend(CPCursor,"resizeLeftRightCursor"),"_cssString");
+}else{
+_DOMDividerElements[_drawingDivider].style.cursor=objj_msgSend(objj_msgSend(CPCursor,"resizeUpDownCursor"),"_cssString");
+}
 _DOMDividerElements[_drawingDivider].style.position="absolute";
 _DOMDividerElements[_drawingDivider].style.backgroundRepeat="repeat";
 _DOMElement.appendChild(_DOMDividerElements[_drawingDivider]);
