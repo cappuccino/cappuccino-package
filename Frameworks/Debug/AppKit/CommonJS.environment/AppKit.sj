@@ -7101,7 +7101,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("openPanel"), function 
 },["id"])]);
 }
 
-p;12;CPDocument.jt;27906;@STATIC;1.0;I;21;Foundation/CPString.jI;20;Foundation/CPArray.ji;13;CPResponder.ji;13;CPSavePanel.ji;18;CPViewController.ji;20;CPWindowController.jt;27751;objj_executeFile("Foundation/CPString.j", false);
+p;12;CPDocument.jt;27863;@STATIC;1.0;I;21;Foundation/CPString.jI;20;Foundation/CPArray.ji;13;CPResponder.ji;13;CPSavePanel.ji;18;CPViewController.ji;20;CPWindowController.jt;27708;objj_executeFile("Foundation/CPString.j", false);
 objj_executeFile("Foundation/CPArray.j", false);
 objj_executeFile("CPResponder.j", true);
 objj_executeFile("CPSavePanel.j", true);
@@ -7594,8 +7594,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
     objj_msgSend(_canCloseAlert, "setDelegate:", self);
     objj_msgSend(_canCloseAlert, "setAlertStyle:", CPWarningAlertStyle);
     objj_msgSend(_canCloseAlert, "setTitle:", "Unsaved Document");
-    objj_msgSend(_canCloseAlert, "setMessageText:", sprintf("Do you want to save the changes you've made to the document \"%@\"?",
-                                        objj_msgSend(self, "displayName") || objj_msgSend(self, "fileName")));
+    objj_msgSend(_canCloseAlert, "setMessageText:", "Do you want to save the changes you've made to the document \"" + (objj_msgSend(self, "displayName") || objj_msgSend(self, "fileName")) + "\"?");
     objj_msgSend(_canCloseAlert, "addButtonWithTitle:", "Save");
     objj_msgSend(_canCloseAlert, "addButtonWithTitle:", "Cancel");
     objj_msgSend(_canCloseAlert, "addButtonWithTitle:", "Don't Save");
@@ -15594,7 +15593,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("run"), function $_CPDi
 }
 objj_msgSend(_CPDisplayServer, "run");
 
-p;11;CPToolbar.jt;35699;@STATIC;1.0;I;21;Foundation/CPObject.ji;15;CPPopUpButton.ji;15;CPToolbarItem.jt;35613;objj_executeFile("Foundation/CPObject.j", false);
+p;11;CPToolbar.jt;35691;@STATIC;1.0;I;21;Foundation/CPObject.ji;15;CPPopUpButton.ji;15;CPToolbarItem.jt;35605;objj_executeFile("Foundation/CPObject.j", false);
 objj_executeFile("CPPopUpButton.j", true);
 objj_executeFile("CPToolbarItem.j", true);
 CPToolbarDisplayModeDefault = 0;
@@ -15749,7 +15748,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPToo
         {
             item = objj_msgSend(objj_msgSend(_delegate, "toolbar:itemForItemIdentifier:willBeInsertedIntoToolbar:", self, identifier, toolbar), "copy");
             if (!item)
-                objj_msgSend(CPException, "raise:reason:", CPInvalidArgumentException, sprintf("_delegate %s returned nil toolbar item returned for identifier %s", _delegate, identifier));
+                objj_msgSend(CPException, "raise:reason:", CPInvalidArgumentException, "Toolbar delegate " + _delegate + " returned nil toolbar item for identifier " + identifier);
         }
         objj_msgSend(_identifiedItems, "setObject:forKey:", item, identifier);
     }
@@ -16317,7 +16316,7 @@ return _maxSize;
 },["void","CPString","id","CPDictionary","id"])]);
 }
 
-p;15;CPApplication.jt;35890;@STATIC;1.0;I;21;Foundation/CPBundle.ji;17;CPCompatibility.ji;9;CPEvent.ji;8;CPMenu.ji;13;CPResponder.ji;22;CPDocumentController.ji;14;CPThemeBlend.ji;14;CPCibLoading.ji;12;CPPlatform.jt;35697;objj_executeFile("Foundation/CPBundle.j", false);
+p;15;CPApplication.jt;35881;@STATIC;1.0;I;21;Foundation/CPBundle.ji;17;CPCompatibility.ji;9;CPEvent.ji;8;CPMenu.ji;13;CPResponder.ji;22;CPDocumentController.ji;14;CPThemeBlend.ji;14;CPCibLoading.ji;12;CPPlatform.jt;35688;objj_executeFile("Foundation/CPBundle.j", false);
 objj_executeFile("CPCompatibility.j", true);
 objj_executeFile("CPEvent.j", true);
 objj_executeFile("CPMenu.j", true);
@@ -16502,10 +16501,10 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPApp
         objj_msgSend(copyrightLabel, "setAlignment:", CPCenterTextAlignment);
         objj_msgSend(imageView, "setImage:", applicationIcon || objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", standardPath, CGSizeMake(256, 256)));
         objj_msgSend(applicationLabel, "setStringValue:", applicationTitle || "");
-        if (version && applicationVersion)
-            objj_msgSend(versionLabel, "setStringValue:", sprintf("Version %@ (%@)", applicationVersion, version));
+        if (applicationVersion && version)
+            objj_msgSend(versionLabel, "setStringValue:", "Version " + applicationVersion + " (" + version + ")");
         else if (applicationVersion || version)
-            objj_msgSend(versionLabel, "setStringValue:", sprintf("Version %@", applicationVersion || version));
+            objj_msgSend(versionLabel, "setStringValue:", "Version " + (applicationVersion || version));
         else
             objj_msgSend(versionLabel, "setStringValue:", "");
         objj_msgSend(copyrightLabel, "setStringValue:", copyright || "");

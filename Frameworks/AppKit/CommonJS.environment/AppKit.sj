@@ -6181,7 +6181,7 @@ with(_1d){
 return objj_msgSend(objj_msgSend(CPOpenPanel,"alloc"),"init");
 }
 })]);
-p;12;CPDocument.jt;18932;@STATIC;1.0;I;21;Foundation/CPString.jI;20;Foundation/CPArray.ji;13;CPResponder.ji;13;CPSavePanel.ji;18;CPViewController.ji;20;CPWindowController.jt;18777;
+p;12;CPDocument.jt;18926;@STATIC;1.0;I;21;Foundation/CPString.jI;20;Foundation/CPArray.ji;13;CPResponder.ji;13;CPSavePanel.ji;18;CPViewController.ji;20;CPWindowController.jt;18771;
 objj_executeFile("Foundation/CPString.j",false);
 objj_executeFile("Foundation/CPArray.j",false);
 objj_executeFile("CPResponder.j",true);
@@ -6635,7 +6635,7 @@ _canCloseAlert=objj_msgSend(objj_msgSend(CPAlert,"alloc"),"init");
 objj_msgSend(_canCloseAlert,"setDelegate:",_ca);
 objj_msgSend(_canCloseAlert,"setAlertStyle:",CPWarningAlertStyle);
 objj_msgSend(_canCloseAlert,"setTitle:","Unsaved Document");
-objj_msgSend(_canCloseAlert,"setMessageText:",sprintf("Do you want to save the changes you've made to the document \"%@\"?",objj_msgSend(_ca,"displayName")||objj_msgSend(_ca,"fileName")));
+objj_msgSend(_canCloseAlert,"setMessageText:","Do you want to save the changes you've made to the document \""+(objj_msgSend(_ca,"displayName")||objj_msgSend(_ca,"fileName"))+"\"?");
 objj_msgSend(_canCloseAlert,"addButtonWithTitle:","Save");
 objj_msgSend(_canCloseAlert,"addButtonWithTitle:","Cancel");
 objj_msgSend(_canCloseAlert,"addButtonWithTitle:","Don't Save");
@@ -13633,7 +13633,7 @@ objj_msgSend(_5,"performSelector:target:argument:order:modes:",sel_getUid("run")
 }
 })]);
 objj_msgSend(_CPDisplayServer,"run");
-p;11;CPToolbar.jt;24301;@STATIC;1.0;I;21;Foundation/CPObject.ji;15;CPPopUpButton.ji;15;CPToolbarItem.jt;24215;
+p;11;CPToolbar.jt;24289;@STATIC;1.0;I;21;Foundation/CPObject.ji;15;CPPopUpButton.ji;15;CPToolbarItem.jt;24203;
 objj_executeFile("Foundation/CPObject.j",false);
 objj_executeFile("CPPopUpButton.j",true);
 objj_executeFile("CPToolbarItem.j",true);
@@ -13769,7 +13769,7 @@ _38=objj_msgSend(CPToolbarItem,"_standardItemWithItemIdentifier:",_36);
 if(_delegate&&!_38){
 _38=objj_msgSend(objj_msgSend(_delegate,"toolbar:itemForItemIdentifier:willBeInsertedIntoToolbar:",_34,_36,_37),"copy");
 if(!_38){
-objj_msgSend(CPException,"raise:reason:",CPInvalidArgumentException,sprintf("_delegate %s returned nil toolbar item returned for identifier %s",_delegate,_36));
+objj_msgSend(CPException,"raise:reason:",CPInvalidArgumentException,"Toolbar delegate "+_delegate+" returned nil toolbar item for identifier "+_36);
 }
 }
 objj_msgSend(_identifiedItems,"setObject:forKey:",_38,_36);
@@ -14236,7 +14236,7 @@ objj_msgSend(_d6,"updateFromItem");
 }
 }
 })]);
-p;15;CPApplication.jt;25603;@STATIC;1.0;I;21;Foundation/CPBundle.ji;17;CPCompatibility.ji;9;CPEvent.ji;8;CPMenu.ji;13;CPResponder.ji;22;CPDocumentController.ji;14;CPThemeBlend.ji;14;CPCibLoading.ji;12;CPPlatform.jt;25410;
+p;15;CPApplication.jt;25587;@STATIC;1.0;I;21;Foundation/CPBundle.ji;17;CPCompatibility.ji;9;CPEvent.ji;8;CPMenu.ji;13;CPResponder.ji;22;CPDocumentController.ji;14;CPThemeBlend.ji;14;CPCibLoading.ji;12;CPPlatform.jt;25394;
 objj_executeFile("Foundation/CPBundle.j",false);
 objj_executeFile("CPCompatibility.j",true);
 objj_executeFile("CPEvent.j",true);
@@ -14393,11 +14393,11 @@ objj_msgSend(_3b,"setAlignment:",CPCenterTextAlignment);
 objj_msgSend(_3c,"setAlignment:",CPCenterTextAlignment);
 objj_msgSend(_39,"setImage:",_32||objj_msgSend(objj_msgSend(CPImage,"alloc"),"initWithContentsOfFile:size:",_3d,CGSizeMake(256,256)));
 objj_msgSend(_3a,"setStringValue:",_31||"");
-if(_33&&_34){
-objj_msgSend(_3b,"setStringValue:",sprintf("Version %@ (%@)",_34,_33));
+if(_34&&_33){
+objj_msgSend(_3b,"setStringValue:","Version "+_34+" ("+_33+")");
 }else{
 if(_34||_33){
-objj_msgSend(_3b,"setStringValue:",sprintf("Version %@",_34||_33));
+objj_msgSend(_3b,"setStringValue:","Version "+(_34||_33));
 }else{
 objj_msgSend(_3b,"setStringValue:","");
 }
