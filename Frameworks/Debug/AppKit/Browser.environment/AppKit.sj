@@ -8792,7 +8792,7 @@ CPThemeAttributeDecode= function(aCoder, anAttributeName, aDefaultValue, aTheme,
     return attribute;
 }
 
-p;19;CPTableHeaderView.jt;20524;@STATIC;1.0;i;15;CPTableColumn.ji;13;CPTableView.ji;8;CPView.jt;20454;objj_executeFile("CPTableColumn.j", true);
+p;19;CPTableHeaderView.jt;20378;@STATIC;1.0;i;15;CPTableColumn.ji;13;CPTableView.ji;8;CPView.jt;20308;objj_executeFile("CPTableColumn.j", true);
 objj_executeFile("CPTableView.j", true);
 objj_executeFile("CPView.j", true);
 var CPThemeStatePressed = CPThemeState("pressed");
@@ -9112,8 +9112,6 @@ _tableView = newValue;
 },["void","CPEvent"]), new objj_method(sel_getUid("viewDidMoveToWindow"), function $CPTableHeaderView__viewDidMoveToWindow(self, _cmd)
 { with(self)
 {
-    if (objj_msgSend(_tableView, "allowsColumnResizing"))
-        objj_msgSend(objj_msgSend(self, "window"), "setAcceptsMouseMovedEvents:", YES);
 }
 },["void"]), new objj_method(sel_getUid("mouseEntered:"), function $CPTableHeaderView__mouseEntered_(self, _cmd, theEvent)
 { with(self)

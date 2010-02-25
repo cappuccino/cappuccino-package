@@ -7698,7 +7698,7 @@ objj_msgSend(_83,"setParentAttribute:",objj_msgSend(_81,"_attributeWithName:forC
 }
 return _83;
 };
-p;19;CPTableHeaderView.jt;14336;@STATIC;1.0;i;15;CPTableColumn.ji;13;CPTableView.ji;8;CPView.jt;14266;
+p;19;CPTableHeaderView.jt;14205;@STATIC;1.0;i;15;CPTableColumn.ji;13;CPTableView.ji;8;CPView.jt;14135;
 objj_executeFile("CPTableColumn.j",true);
 objj_executeFile("CPTableView.j",true);
 objj_executeFile("CPView.j",true);
@@ -7974,9 +7974,6 @@ objj_msgSend(objj_msgSend(CPCursor,"arrowCursor"),"set");
 }
 }),new objj_method(sel_getUid("viewDidMoveToWindow"),function(_65,_66){
 with(_65){
-if(objj_msgSend(_tableView,"allowsColumnResizing")){
-objj_msgSend(objj_msgSend(_65,"window"),"setAcceptsMouseMovedEvents:",YES);
-}
 }
 }),new objj_method(sel_getUid("mouseEntered:"),function(_67,_68,_69){
 with(_67){
