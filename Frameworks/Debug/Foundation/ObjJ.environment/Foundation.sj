@@ -36,7 +36,7 @@ var meta_class = the_class.isa;class_addMethods(meta_class, [new objj_method(sel
 },["id","CPData","CPPropertyListFormat","id"])]);
 }
 
-p;20;CPAttributedString.jt;21379;@STATIC;1.0;i;10;CPObject.ji;10;CPString.ji;14;CPDictionary.ji;9;CPRange.jt;21297;objj_executeFile("CPObject.j", true);
+p;20;CPAttributedString.jt;21381;@STATIC;1.0;i;10;CPObject.ji;10;CPString.ji;14;CPDictionary.ji;9;CPRange.jt;21299;objj_executeFile("CPObject.j", true);
 objj_executeFile("CPString.j", true);
 objj_executeFile("CPDictionary.j", true);
 objj_executeFile("CPRange.j", true);
@@ -428,7 +428,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithString:"), func
     index++;
     return index;
 }
-},["void","unsigned","BOOL"]), new objj_method(sel_getUid("_coalesceRangeEntriesFromIndex:toIndex:"), function $CPAttributedString___coalesceRangeEntriesFromIndex_toIndex_(self, _cmd, start, end)
+},["Number","unsigned","BOOL"]), new objj_method(sel_getUid("_coalesceRangeEntriesFromIndex:toIndex:"), function $CPAttributedString___coalesceRangeEntriesFromIndex_toIndex_(self, _cmd, start, end)
 { with(self)
 {
     var current = start;
@@ -4180,7 +4180,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("mainQueue"), function 
 },["CPOperationQueue"])]);
 }
 
-p;7;CPURL.jt;17547;@STATIC;1.0;I;21;Foundation/CPObject.jt;17501;
+p;7;CPURL.jt;17545;@STATIC;1.0;I;21;Foundation/CPObject.jt;17499;
 
 
 objj_executeFile("Foundation/CPObject.j", false);
@@ -4320,7 +4320,7 @@ return _relative;
     }
     return nil;
 }
-},["CPString"]), new objj_method(sel_getUid("parameterString"), function $CPURL__parameterString(self, _cmd)
+},["Number"]), new objj_method(sel_getUid("parameterString"), function $CPURL__parameterString(self, _cmd)
 { with(self)
 {
     var str = objj_msgSend(self, "absoluteString");
