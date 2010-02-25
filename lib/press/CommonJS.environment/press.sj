@@ -1,4 +1,4 @@
-@STATIC;1.0;p;6;main.jt;7023;@STATIC;1.0;I;23;Foundation/Foundation.jI;15;AppKit/AppKit.ji;21;objj-analysis-tools.ji;20;cib-analysis-tools.jt;6905;
+@STATIC;1.0;p;6;main.jt;8382;@STATIC;1.0;I;23;Foundation/Foundation.jI;15;AppKit/AppKit.ji;21;objj-analysis-tools.ji;20;cib-analysis-tools.jt;8264;
 require("narwhal").ensureEngine("rhino");
 objj_executeFile("Foundation/Foundation.j",false);
 objj_executeFile("AppKit/AppKit.j",false);
@@ -40,162 +40,185 @@ press=function(_8,_9,_a){
 _2.print("\x00yellow("+Array(81).join("=")+"\x00)");
 _2.print("Application root:    \x00green("+_8+"\x00)");
 _2.print("Output directory:    \x00green("+_9+"\x00)");
-var _b={};
-_a.environments.forEach(function(_c){
-pressEnvironment(_8,_b,_c,_a);
+var _b={},_c={executable:0,data:0,mhtml:0};
+_a.environments.forEach(function(_d){
+var _e=pressEnvironment(_8,_b,_d,_a);
+for(var i in _e){
+_c[i]+=_e[i];
+}
 });
 _2.print("\x00red(PHASE 4:\x00) copy to output \x00green("+_8+"\x00) => \x00green("+_9+"\x00)");
 _1.copyTree(_8,_9);
-for(var _d in _b){
-var _e=_9.join(_8.relative(_d));
-var _f=_e.dirname();
-if(!_f.exists()){
-CPLog.warn(_f+" doesn't exist, creating directories.");
-_f.mkdirs();
+for(var _f in _b){
+var _10=_9.join(_8.relative(_f));
+var _11=_10.dirname();
+if(!_11.exists()){
+CPLog.warn(_11+" doesn't exist, creating directories.");
+_11.mkdirs();
 }
-if(typeof _b[_d]!=="string"){
-_b[_d]=_b[_d].join("");
+if(typeof _b[_f]!=="string"){
+_b[_f]=_b[_f].join("");
 }
-_2.print((_e.exists()?"\x00red(Overwriting:\x00) ":"\x00green(Writing:\x00)     ")+_e);
-_1.write(_e,_b[_d],{charset:"UTF-8"});
+_2.print((_10.exists()?"\x00red(Overwriting:\x00) ":"\x00green(Writing:\x00)     ")+_10);
+_1.write(_10,_b[_f],{charset:"UTF-8"});
 }
+_2.print("\x00red(PHASE 4a:\x00) Add application size data to Info.plist");
+var _12=_1.join(_9,"Info.plist"),_13=_1.read(_12,{charset:"UTF-8"}),_14=CFPropertyList.sniffedFormatOfString(_13),_15=CFPropertyList.propertyListFromString(_13);
+var _16=_15.valueForKey("CPDefaultTheme")||"Aristo",_17=_1.join(_9,_a.frameworks,"AppKit","Resources",_16+".blend");
+if(_1.exists(_17)){
+var _18=_1.join(_17,_a.environments[0]+".environment"),_19=_1.join(_18,_16+".blend.sj"),_1a=_1.join(_18,"dataURLs.txt"),_1b=_1.join(_18,"MHTMLPaths.txt");
+_c.executable+=_1.read(_19,{charset:"UTF-8"}).length;
+_c.data+=_1.read(_1a,{charset:"UTF-8"}).length;
+_c.mhtml+=_1.read(_1b,{charset:"UTF-8"}).length;
+}
+_15.setValueForKey("CPApplicationSize",objj_msgSend(CPDictionary,"dictionaryWithJSObject:",_c));
+_1.write(_12,CFPropertyList.stringFromPropertyList(_15,_14),{charset:"UTF-8"});
 if(_a.png){
 pngcrushDirectory(_9);
 }
 };
-pressEnvironment=function(_10,_11,_12,_13){
-var _14=String(_10.join(_13.main));
-var _15=_13.frameworks.map(function(_16){
-return _10.join(_16);
+pressEnvironment=function(_1c,_1d,_1e,_1f){
+var _20=String(_1c.join(_1f.main));
+var _21=_1f.frameworks.map(function(_22){
+return _1c.join(_22);
 });
 _2.print("\x00yellow("+Array(81).join("=")+"\x00)");
-_2.print("Main file:           \x00green("+_14+"\x00)");
-_2.print("Frameworks:          \x00green("+_15+"\x00)");
-_2.print("Environment:         \x00green("+_12+"\x00)");
-var _17=new ObjectiveJRuntimeAnalyzer(_10);
-var _18=_17.require("objective-j");
-_17.setIncludePaths(_15);
-_17.setEnvironments([_12,"ObjJ"]);
-var _19=_1.glob(_10.join("**","*.cib")).filter(function(_1a){
-return !(/Frameworks/).test(_1a);
+_2.print("Main file:           \x00green("+_20+"\x00)");
+_2.print("Frameworks:          \x00green("+_21+"\x00)");
+_2.print("Environment:         \x00green("+_1e+"\x00)");
+var _23=new ObjectiveJRuntimeAnalyzer(_1c);
+var _24=_23.require("objective-j");
+_23.setIncludePaths(_21);
+_23.setEnvironments([_1e,"ObjJ"]);
+var _25=_1.glob(_1c.join("**","*.cib")).filter(function(_26){
+return !(/Frameworks/).test(_26);
 });
 _2.print("\x00red(PHASE 1:\x00) Loading application...");
-_17.initializeGlobalRecorder();
-_17.load(_14);
-_17.finishLoading();
-var _1b=_17.mapGlobalsToFiles();
+_23.initializeGlobalRecorder();
+_23.load(_20);
+_23.finishLoading();
+var _27=_23.mapGlobalsToFiles();
 _2.print("Global defines:");
-Object.keys(_1b).sort().forEach(function(_1c){
-_2.print("\x00blue("+_1c+"\x00) => \x00cyan("+_1b[_1c].map(_10.relative.bind(_10))+"\x00)");
+Object.keys(_27).sort().forEach(function(_28){
+_2.print("\x00blue("+_28+"\x00) => \x00cyan("+_27[_28].map(_1c.relative.bind(_1c))+"\x00)");
 });
 _2.print("\x00red(PHASE 2:\x00) Traverse dependency graph...");
-var _1d={};
-_1d[_14]=true;
-var _1e={ignoreFrameworkImports:true,importCallback:function(_1f,_20){
-_1d[_20]=true;
-},referenceCallback:function(_21,_22){
-_1d[_22]=true;
-},progressCallback:function(_23){
-_2.print("Processing \x00cyan("+_23+"\x00)");
-},ignoreFrameworkImportsCallback:function(_24){
-_2.print("\x00yellow(Ignoring imports in "+_24+"\x00)");
+var _29={};
+_29[_20]=true;
+var _2a={ignoreFrameworkImports:true,importCallback:function(_2b,_2c){
+_29[_2c]=true;
+},referenceCallback:function(_2d,_2e){
+_29[_2e]=true;
+},progressCallback:function(_2f){
+_2.print("Processing \x00cyan("+_2f+"\x00)");
+},ignoreFrameworkImportsCallback:function(_30){
+_2.print("\x00yellow(Ignoring imports in "+_30+"\x00)");
 }};
-mainExecutable=_17.executableForImport(_14);
-_17.traverseDependencies(mainExecutable,_1e);
-var _25=_17.mapGlobalsToFiles();
-_19.forEach(function(_26){
-var _27=findCibClassDependencies(_26);
-_2.print("Cib: \x00green("+_10.relative(_26)+"\x00) => \x00cyan("+_27+"\x00)");
-var _28={};
-markFilesReferencedByTokens(_27,_25,_28);
-_17.checkReferenced(_1e,null,_28);
+mainExecutable=_23.executableForImport(_20);
+_23.traverseDependencies(mainExecutable,_2a);
+var _31=_23.mapGlobalsToFiles();
+_25.forEach(function(_32){
+var _33=findCibClassDependencies(_32);
+_2.print("Cib: \x00green("+_1c.relative(_32)+"\x00) => \x00cyan("+_33+"\x00)");
+var _34={};
+markFilesReferencedByTokens(_33,_31,_34);
+_23.checkReferenced(_2a,null,_34);
 });
-var _29=0,_2a=0;
-var _2b=0,_2c=0;
-_18.FileExecutable.allFileExecutables().forEach(function(_2d){
-var _2e=_2d.path();
-if(/\.keyedtheme$/.test(_2e)){
-_1d[_2e]=true;
+var _35=0,_36=0;
+var _37=0,_38=0,_39=0,_3a=0;
+_24.FileExecutable.allFileExecutables().forEach(function(_3b){
+var _3c=_3b.path();
+if(/\.keyedtheme$/.test(_3c)){
+_29[_3c]=true;
 }
-if(_1d[_2e]){
-_2.print("Included: \x00green("+_10.relative(_2e)+"\x00)");
-_29++;
-_2b+=_2d.code().length;
+if(_29[_3c]){
+_2.print("Included: \x00green("+_1c.relative(_3c)+"\x00)");
+_35++;
+_37+=_3b.code().length;
 }else{
-_2.print("Excluded: \x00red("+_10.relative(_2e)+"\x00)");
+_2.print("Excluded: \x00red("+_1c.relative(_3c)+"\x00)");
 }
-_2a++;
-_2c+=_2d.code().length;
+_36++;
+_38+=_3b.code().length;
 },this);
-_2.print(sprintf("Saved \x00green(%f%%\x00) (\x00blue(%s\x00)); Total required files: \x00magenta(%d\x00) (\x00blue(%s\x00)) of \x00magenta(%d\x00) (\x00blue(%s\x00));",Math.round(((_2b-_2c)/_2c)*-100),bytesToString(_2c-_2b),_29,bytesToString(_2b),_2a,bytesToString(_2c)));
+_2.print(sprintf("Saved \x00green(%f%%\x00) (\x00blue(%s\x00)); Total required files: \x00magenta(%d\x00) (\x00blue(%s\x00)) of \x00magenta(%d\x00) (\x00blue(%s\x00));",Math.round(((_37-_38)/_38)*-100),bytesToString(_38-_37),_35,bytesToString(_37),_36,bytesToString(_38)));
 _2.print("\x00red(PHASE 3b:\x00) Rebuild .sj files");
-for(var _2f in _1d){
-var _30=_17.executableForImport(_2f),_31=_17.context.global.CFBundle.bundleContainingPath(_30.path()),_32=_1.relative(_1.join(_31.path(),""),_30.path());
-if(_30.path()!==_2f){
-CPLog.warn("Sanity check failed (file path): "+_30.path()+" vs. "+_2f);
+var _3d={};
+for(var _3e in _29){
+var _3f=_23.executableForImport(_3e),_40=_23.context.global.CFBundle.bundleContainingPath(_3f.path()),_41=_1.relative(_1.join(_40.path(),""),_3f.path());
+if(_3f.path()!==_3e){
+CPLog.warn("Sanity check failed (file path): "+_3f.path()+" vs. "+_3e);
 }
-if(_31&&_31.infoDictionary()){
-var _33=_31.executablePath();
-if(_33){
-if(_1e.ignoredImports[_2f]){
-_2.print("Stripping extra imports from \x00blue("+_2f+"\x00)");
-var _34=_30.code();
-var _1b=_30.fileDependencies();
-for(var i=0;i<_1b.length;i++){
-var _35=_1b[i];
-var _36=new _18.FileExecutableSearch(_35.isLocal()?_1.join(_1.dirname(_2f),_35.path()):_35.path(),_35.isLocal()).result();
-var _37=_36.path();
-if(!_1d[_37]){
-_2.print(" -> \x00red("+_37+"\x00)");
-var _38=new RegExp([RegExp.escape("objj_executeFile"),RegExp.escape("("),"[\"']"+RegExp.escape(_35.path())+"[\"']",RegExp.escape(","),RegExp.escape(_35.isLocal()?"true":"false"),RegExp.escape(")")].join("\\s*"),"g");
-_34=_34.replace(_38,"/* $& */ (undefined)");
-_1b.splice(i--,1);
-}
-}
-if(_34!==_30.code()){
-_30.setCode(_34);
+if(_40&&_40.infoDictionary()){
+var _42=_40.executablePath();
+if(_42){
+if(_2a.ignoredImports[_3e]){
+_2.print("Stripping extra imports from \x00blue("+_3e+"\x00)");
+var _43=_3f.code();
+var _27=_3f.fileDependencies();
+for(var i=0;i<_27.length;i++){
+var _44=_27[i];
+var _45=new _24.FileExecutableSearch(_44.isLocal()?_1.join(_1.dirname(_3e),_44.path()):_44.path(),_44.isLocal()).result();
+var _46=_45.path();
+if(!_29[_46]){
+_2.print(" -> \x00red("+_46+"\x00)");
+var _47=new RegExp([RegExp.escape("objj_executeFile"),RegExp.escape("("),"[\"']"+RegExp.escape(_44.path())+"[\"']",RegExp.escape(","),RegExp.escape(_44.isLocal()?"true":"false"),RegExp.escape(")")].join("\\s*"),"g");
+_43=_43.replace(_47,"/* $& */ (undefined)");
+_27.splice(i--,1);
 }
 }
-if(!_11[_33]){
-_11[_33]=[];
-_11[_33].push("@STATIC;1.0;");
+if(_43!==_3f.code()){
+_3f.setCode(_43);
 }
-var _39=_30.toMarkedString();
-_11[_33].push("p;"+_32.length+";"+_32);
-_11[_33].push("t;"+_39.length+";"+_39);
-_2.print("Adding \x00green("+_10.relative(_2f)+"\x00) to \x00cyan("+_10.relative(_33)+"\x00)");
+}
+if(!_1d[_42]){
+_1d[_42]=[];
+_1d[_42].push("@STATIC;1.0;");
+}
+var _48=_3f.toMarkedString();
+_1d[_42].push("p;"+_41.length+";"+_41);
+_1d[_42].push("t;"+_48.length+";"+_48);
+_2.print("Adding \x00green("+_1c.relative(_3e)+"\x00) to \x00cyan("+_1c.relative(_42)+"\x00)");
 }else{
-_2.print("Passing .j through: \x00green("+_10.relative(_2f)+"\x00)");
+_2.print("Passing .j through: \x00green("+_1c.relative(_3e)+"\x00)");
+}
+if(!_3d[_40.path()]&&_40.hasSpritedImages()){
+_3d[_40.path()]=_40;
+_2.print("Sizing bundle's sprited resources \x00green("+_40.path()+"\x00)");
+var _49=_1.join(_40.path(),_1e+".environment"),_4a=_1.join(_49,"dataURLs.txt"),_4b=_1.join(_49,"MHTMLPaths.txt");
+_39+=_1.read(_4a,{charset:"UTF-8"}).length;
+_3a+=_1.read(_4b,{charset:"UTF-8"}).length;
 }
 }else{
-CPLog.warn("No bundle (or info dictionary for) "+_10.relative(_2f));
+CPLog.warn("No bundle (or info dictionary for) "+_1c.relative(_3e));
 }
 }
+return {executable:_37,data:_39,mhtml:_3a};
 };
-pngcrushDirectory=function(_3a){
-var _3b=_1.path(_3a);
-var _3c=_3b.glob("**/*.png");
-system.stderr.print("Running pngcrush on "+_3c.length+" pngs:");
-_3c.forEach(function(dst){
-var _3d=_3b.join(dst);
-var _3e=_1.path(_3d+".tmp");
-var p=OS.popen(["pngcrush","-rem","alla","-reduce",_3d,_3e]);
+pngcrushDirectory=function(_4c){
+var _4d=_1.path(_4c);
+var _4e=_4d.glob("**/*.png");
+system.stderr.print("Running pngcrush on "+_4e.length+" pngs:");
+_4e.forEach(function(dst){
+var _4f=_4d.join(dst);
+var _50=_1.path(_4f+".tmp");
+var p=OS.popen(["pngcrush","-rem","alla","-reduce",_4f,_50]);
 if(p.wait()){
 CPLog.warn("pngcrush failed. Ensure it's installed and on your PATH.");
 }else{
-_1.move(_3e,_3d);
+_1.move(_50,_4f);
 system.stderr.write(".").flush();
 }
 });
 system.stderr.print("");
 };
-bytesToString=function(_3f){
+bytesToString=function(_51){
 var n=0;
-while(_3f>1024){
-_3f/=1024;
+while(_51>1024){
+_51/=1024;
 n++;
 }
-return Math.round(_3f*100)/100+" "+["","K","M"][n]+"B";
+return Math.round(_51*100)/100+" "+["","K","M"][n]+"B";
 };
 p;21;objj-analysis-tools.jt;6710;@STATIC;1.0;t;6691;
 var _1=require("file");
