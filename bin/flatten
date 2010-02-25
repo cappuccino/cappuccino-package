@@ -1,0 +1,190 @@
+#!/usr/bin/env objj
+
+require("narwhal").ensureEngine("rhino");
+
+@import <Foundation/Foundation.j>
+
+@import "../lib/cappuccino/objj-analysis-tools.j"
+
+var FILE = require("file");
+
+var stream = require("term").stream;
+var parser = new (require("args").Parser)();
+
+parser.usage("INPUT_PROJECT OUTPUT_PROJECT");
+parser.help("Combine a Cappuccino application into a single JavaScript file.");
+
+parser.helpful();
+
+function main(args)
+{
+    var options = parser.parse(args);
+
+    if (options.args.length < 2) {
+        parser.printUsage(options);
+        return;
+    }
+
+    var rootPath = FILE.path(options.args[0]).join("").absolute();
+    var outputPath = FILE.path(options.args[1]).join("").absolute();
+
+    var flattener = new ObjectiveJFlattener(rootPath);
+
+    flattener.setIncludePaths([rootPath.join("Frameworks")]);
+    flattener.setEnvironments(["Browser", "ObjJ"]);
+
+    flattener.load(rootPath.join("main.j"));
+    flattener.finishLoading();
+
+    var root = flattener.require("objective-j").StaticResource.root;
+
+    // FIXME: shouldn't have to do this manually
+    var components = rootPath.split("/").slice(1, -1);
+    var node = root;
+    while (components.length) {
+        node = node._children[components.shift()];
+    }
+    applicationRoot = node;
+
+    print(applicationRoot.toString());
+
+    var applicationJS = flattener.buildApplicationJS(applicationRoot);
+
+    FILE.copyTree(rootPath, outputPath);
+
+    outputPath.join("Application.js").write(applicationJS);
+
+    rewriteMainHTML(outputPath.join("index.html"));
+    rewriteMainHTML(outputPath.join("index-debug.html"));
+}
+
+// ObjectiveJFlattener inherits from ObjectiveJRuntimeAnalyzer
+function ObjectiveJFlattener(rootPath) {
+    ObjectiveJRuntimeAnalyzer.apply(this, arguments);
+
+    this.resourceBuffer = [];
+    this.bundleBuffer = [];
+    this.functionsBuffer = [];
+
+    this._outputBundles = {};
+}
+
+ObjectiveJFlattener.prototype = Object.create(ObjectiveJRuntimeAnalyzer.prototype);
+
+ObjectiveJFlattener.prototype.buildApplicationJS = function(applicationRoot) {
+    print(applicationRoot);
+
+    this.serializeStaticResources(applicationRoot);
+    this.serializeStaticFileExecutables();
+
+    var buffer = []
+
+    buffer.push("(function(){");
+
+    buffer.push(this.bundleBuffer.join("\n"));
+
+    buffer.push("var nodeStack = [];");
+    buffer.push("var applicationRoot = ObjectiveJ.StaticResource.root.nodeAtSubPath(ObjectiveJ.StaticResource.cwd, YES);");
+    buffer.push("var currentNode = null;");
+    buffer.push("var newNode;");
+
+    buffer.push(this.resourceBuffer.join("\n"));
+
+    buffer.push("})();");
+
+    buffer.push(this.functionsBuffer.join("\n"));
+
+    buffer.push("ObjectiveJ.bootstrap();");
+
+    return buffer.join("\n");
+}
+
+ObjectiveJFlattener.prototype.serializeStaticFileExecutables = function() {
+    this.require("objective-j").FileExecutable.allFileExecutables().forEach(function(aFileExecutable) {
+        var deps = aFileExecutable.fileDependencies().map(function(dependency) {
+            return "new ObjectiveJ.FileDependency("+JSON.stringify(dependency.path())+","+JSON.stringify(dependency.isLocal())+")"
+        }).join(",");
+
+        var func = aFileExecutable._function.toString();
+        // HACK
+        func = func.replace(", require, exports, module, system, print, window", "");
+
+        this.functionsBuffer.push("var path = ObjectiveJ.StaticResource.cwd + "+JSON.stringify("/"+this.rootPath.relative(aFileExecutable.path()))+";");
+        this.functionsBuffer.push("new ObjectiveJ.FileExecutable(path,"+
+            "new ObjectiveJ.Executable(null, ["+deps+"], path, "+func+"));");
+    }, this);
+}
+
+ObjectiveJFlattener.prototype.serializeStaticResources = function(node, depth) {
+    depth = depth || 0;
+
+    //print(Array(depth+1).join(" ") + node);
+
+    var bundle = this.context.global.CFBundle.bundleContainingPath(node.path());
+    if (!bundle) {
+        stream.print("\0yellow(Warning:\0) No bundle for path: \0cyan("+node.path()+"\0)");
+    }
+    else if (!this._outputBundles[bundle.path()]) {
+        this._outputBundles[bundle.path()] = bundle;
+        stream.print("Writing bundle: \0cyan("+bundle.path()+"\0)");
+        print(bundle.infoDictionary())
+
+        this.bundleBuffer.push("var bundle = new CFBundle("+JSON.stringify(this.rootPath.relative(bundle.path()).toString())+");");
+        this.bundleBuffer.push("bundle._loadStatus = " + (1<<4) + ";");
+        if (bundle.infoDictionary()) {
+            this.bundleBuffer.push("bundle._infoDictionary = CFPropertyList.propertyListFromString(" +
+                JSON.stringify(CPPropertyListCreateData(bundle.infoDictionary()).rawString()) + ");");
+        }
+    }
+
+    // not the root node:
+    if (depth > 0) {
+        this.resourceBuffer.push("newNode = new ObjectiveJ.StaticResource(" +
+            JSON.stringify(node.name()) +
+            ", currentNode, " +
+            JSON.stringify(node.isDirectory()) + ", " +
+            JSON.stringify(node.isResolved()) + ");");
+    } else {
+        this.resourceBuffer.push("newNode = applicationRoot;");
+    }
+
+    // var contents = node.contents();
+    // if (contents) {
+    //     this.resourceBuffer.push("newNode._contents = " + JSON.stringify(contents) + ";");
+    // }
+
+    if (!node.children())
+        return;
+
+    this.resourceBuffer.push("nodeStack.push(currentNode);");
+    this.resourceBuffer.push("currentNode = newNode;");
+
+    var children = node.children();
+    for (var name in children) {
+        this.serializeStaticResources(children[name], depth+1);
+    }
+
+    this.resourceBuffer.push("currentNode = nodeStack.pop();");
+}
+
+function rewriteMainHTML(indexHTMLPath) {
+    var indexHTML = indexHTMLPath.read();
+
+    // "$1" is the matching indentation
+    var scriptTagsBefore = '$1<script type = "text/javascript">\n$1    OBJJ_AUTO_BOOTSTRAP = false;\n$1</script>';
+    var scriptTagsAfter  = '$1<script type = "text/javascript" src = "Application.js"></script>';
+
+    // attempt to find Objective-J script tag and add ours
+    var newIndexHTML = indexHTML.replace(/([ \t]+)<script[^>]+Objective-J\.js[^>]+>(?:\s*<\/script>)?/,
+        scriptTagsBefore+'\n$&\n'+scriptTagsAfter);
+
+    if (newIndexHTML === indexHTML) {
+        stream.print("\0yellow(Warning: Unable to automatically modify "+indexHTMLPath + "\0)");
+        stream.print("\nAdd the following before the Objective-J script tag:");
+        stream.print(scriptTagsBefore.replace(/\$1/g, "    "));
+        stream.print("\nAdd the following after the Objective-J script tag:");
+        stream.print(scriptTagsAfter.replace(/\$1/g, "    "));
+    } else {
+        indexHTMLPath.write(newIndexHTML);
+    }
+}
