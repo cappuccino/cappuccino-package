@@ -449,7 +449,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPEvent"])]);
 }
 
-p;13;CPTableView.jt;124172;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;124029;objj_executeFile("Foundation/CPArray.j", false);
+p;13;CPTableView.jt;124375;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;124232;objj_executeFile("Foundation/CPArray.j", false);
 objj_executeFile("AppKit/CGGradient.j", false);
 objj_executeFile("CPControl.j", true);
 objj_executeFile("CPTableColumn.j", true);
@@ -1769,6 +1769,7 @@ _disableAutomaticResizing = newValue;
         {
             var row = rowArray[rowIndex],
                 dataView = objj_msgSend(self, "_newDataViewForRow:tableColumn:", row, tableColumn),
+                isButton = objj_msgSend(dataView, "isKindOfClass:", objj_msgSend(CPButton, "class")),
                 isTextField = objj_msgSend(dataView, "isKindOfClass:", objj_msgSend(CPTextField, "class"));
             objj_msgSend(dataView, "setFrame:", objj_msgSend(self, "frameOfDataViewAtColumn:row:", column, row));
             objj_msgSend(dataView, "setObjectValue:", objj_msgSend(self, "_objectValueForTableColumn:row:", tableColumn, row));
@@ -1781,9 +1782,12 @@ _disableAutomaticResizing = newValue;
             if (objj_msgSend(dataView, "superview") !== self)
                 objj_msgSend(self, "addSubview:", dataView);
             _dataViewsForTableColumns[tableColumnUID][row] = dataView;
-            if (_editingCellIndex && _editingCellIndex.x === column && _editingCellIndex.y === row) {
-                _editingCellIndex = undefined;
-                if (isTextField) {
+            if (isButton || (_editingCellIndex && _editingCellIndex.x === column && _editingCellIndex.y === row))
+            {
+                if (!isButton)
+                    _editingCellIndex = undefined;
+                if (isTextField)
+                {
                     objj_msgSend(dataView, "setEditable:", YES);
                     objj_msgSend(dataView, "setSendsActionOnEndEditing:", YES);
                     objj_msgSend(dataView, "setSelectable:", YES);
@@ -1793,7 +1797,9 @@ _disableAutomaticResizing = newValue;
                 objj_msgSend(dataView, "setAction:", sel_getUid("_commitDataViewObjectValue:"));
                 dataView.tableViewEditedColumnObj = tableColumn;
                 dataView.tableViewEditedRowIndex = row;
-            } else if (isTextField) {
+            }
+            else if (isTextField)
+            {
                 objj_msgSend(dataView, "setEditable:", NO);
                 objj_msgSend(dataView, "setSelectable:", NO);
             }
