@@ -6131,7 +6131,7 @@ with(_1d){
 return objj_msgSend(objj_msgSend(objj_msgSend(_1d,"class"),"alloc"),"initWithRequest:callback:delegate:startImmediately:",_1f,_20,_21,YES);
 }
 })]);
-p;18;CPKeyValueCoding.jt;6257;@STATIC;1.0;i;9;CPArray.ji;14;CPDictionary.ji;8;CPNull.ji;10;CPObject.ji;13;CPArray+KVO.jt;6161;
+p;18;CPKeyValueCoding.jt;6331;@STATIC;1.0;i;9;CPArray.ji;14;CPDictionary.ji;8;CPNull.ji;10;CPObject.ji;21;CPKeyValueObserving.ji;13;CPArray+KVO.jt;6209;
 objj_executeFile("CPArray.j",true);
 objj_executeFile("CPDictionary.j",true);
 objj_executeFile("CPNull.j",true);
@@ -6307,6 +6307,7 @@ with(_44){
 objj_msgSend(_44,"setObject:forKey:",_46,_47);
 }
 })]);
+objj_executeFile("CPKeyValueObserving.j",true);
 objj_executeFile("CPArray+KVO.j",true);
 p;23;CPInvocationOperation.jt;1529;@STATIC;1.0;I;21;Foundation/CPObject.jI;25;Foundation/CPInvocation.ji;13;CPOperation.jt;1436;
 objj_executeFile("Foundation/CPObject.j",false);

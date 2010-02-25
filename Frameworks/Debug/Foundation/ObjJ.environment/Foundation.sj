@@ -7159,7 +7159,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("sendRequest:callback:d
 },["CPJSONPConnection","CPURLRequest","CPString","id"])]);
 }
 
-p;18;CPKeyValueCoding.jt;9235;@STATIC;1.0;i;9;CPArray.ji;14;CPDictionary.ji;8;CPNull.ji;10;CPObject.ji;13;CPArray+KVO.jt;9139;objj_executeFile("CPArray.j", true);
+p;18;CPKeyValueCoding.jt;9310;@STATIC;1.0;i;9;CPArray.ji;14;CPDictionary.ji;8;CPNull.ji;10;CPObject.ji;21;CPKeyValueObserving.ji;13;CPArray+KVO.jt;9188;objj_executeFile("CPArray.j", true);
 objj_executeFile("CPDictionary.j", true);
 objj_executeFile("CPNull.j", true);
 objj_executeFile("CPObject.j", true);
@@ -7361,6 +7361,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 }
 },["void","id","CPString"])]);
 }
+objj_executeFile("CPKeyValueObserving.j", true);
 objj_executeFile("CPArray+KVO.j", true);
 
 p;23;CPInvocationOperation.jt;2147;@STATIC;1.0;I;21;Foundation/CPObject.jI;25;Foundation/CPInvocation.ji;13;CPOperation.jt;2054;objj_executeFile("Foundation/CPObject.j", false);
