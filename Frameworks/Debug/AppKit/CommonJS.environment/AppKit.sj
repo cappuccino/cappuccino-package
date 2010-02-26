@@ -449,7 +449,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPEvent"])]);
 }
 
-p;13;CPTableView.jt;124375;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;124232;objj_executeFile("Foundation/CPArray.j", false);
+p;13;CPTableView.jt;124584;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;124441;objj_executeFile("Foundation/CPArray.j", false);
 objj_executeFile("AppKit/CGGradient.j", false);
 objj_executeFile("CPControl.j", true);
 objj_executeFile("CPTableColumn.j", true);
@@ -895,7 +895,8 @@ _disableAutomaticResizing = newValue;
         _selectedColumnIndexes = objj_msgSend(columns, "copy");
     objj_msgSend(self, "_updateHighlightWithOldColumns:newColumns:", previousSelectedIndexes, _selectedColumnIndexes);
     objj_msgSend(_tableDrawView, "display");
-    objj_msgSend(_headerView, "setNeedsDisplay:", YES);
+    if (_headerView)
+        objj_msgSend(_headerView, "setNeedsDisplay:", YES);
     objj_msgSend(self, "_noteSelectionDidChange");
 }
 },["void","CPIndexSet","BOOL"]), new objj_method(sel_getUid("selectRowIndexes:byExtendingSelection:"), function $CPTableView__selectRowIndexes_byExtendingSelection_(self, _cmd, rows, shouldExtendSelection)
@@ -908,7 +909,8 @@ _disableAutomaticResizing = newValue;
     {
         objj_msgSend(self, "_updateHighlightWithOldColumns:newColumns:", _selectedColumnIndexes, objj_msgSend(CPIndexSet, "indexSet"));
         _selectedColumnIndexes = objj_msgSend(CPIndexSet, "indexSet");
-        objj_msgSend(_headerView, "setNeedsDisplay:", YES);
+        if (_headerView)
+            objj_msgSend(_headerView, "setNeedsDisplay:", YES);
     }
     var previousSelectedIndexes = objj_msgSend(_selectedRowIndexes, "copy");
     if (shouldExtendSelection)
@@ -977,8 +979,11 @@ _disableAutomaticResizing = newValue;
                 dataView = dataViewsInTableColumn[rowIndex];
             objj_msgSend(dataView, "unsetThemeState:", CPThemeStateHighlighted);
         }
-        var headerView = objj_msgSend(_tableColumns[columnIndex], "headerView");
-        objj_msgSend(headerView, "unsetThemeState:", CPThemeStateHighlighted);
+        if (_headerView)
+        {
+            var headerView = objj_msgSend(_tableColumns[columnIndex], "headerView");
+            objj_msgSend(headerView, "unsetThemeState:", CPThemeStateHighlighted);
+        }
     }
     count = selectColumns.length;
     while (count--)
@@ -992,8 +997,11 @@ _disableAutomaticResizing = newValue;
                 dataView = dataViewsInTableColumn[rowIndex];
             objj_msgSend(dataView, "setThemeState:", CPThemeStateHighlighted);
         }
-        var headerView = objj_msgSend(_tableColumns[columnIndex], "headerView");
-        objj_msgSend(headerView, "setThemeState:", CPThemeStateHighlighted);
+        if (_headerView)
+        {
+            var headerView = objj_msgSend(_tableColumns[columnIndex], "headerView");
+            objj_msgSend(headerView, "setThemeState:", CPThemeStateHighlighted);
+        }
     }
 }
 },["void","CPIndexSet","CPIndexSet"]), new objj_method(sel_getUid("selectedColumnIndexes"), function $CPTableView__selectedColumnIndexes(self, _cmd)
@@ -1539,10 +1547,13 @@ _disableAutomaticResizing = newValue;
 {
     if (_currentHighlightedTableColumn == aTableColumn)
         return;
-    if (_currentHighlightedTableColumn != nil)
-        objj_msgSend(objj_msgSend(_currentHighlightedTableColumn, "headerView"), "unsetThemeState:", CPThemeStateHighlighted);
-    if (aTableColumn != nil)
-        objj_msgSend(objj_msgSend(aTableColumn, "headerView"), "setThemeState:", CPThemeStateHighlighted);
+    if (_headerView)
+    {
+        if (_currentHighlightedTableColumn != nil)
+            objj_msgSend(objj_msgSend(_currentHighlightedTableColumn, "headerView"), "unsetThemeState:", CPThemeStateHighlighted);
+        if (aTableColumn != nil)
+            objj_msgSend(objj_msgSend(aTableColumn, "headerView"), "setThemeState:", CPThemeStateHighlighted);
+    }
     _currentHighlightedTableColumn = aTableColumn;
 }
 },["void","CPTableColumn"]), new objj_method(sel_getUid("canDragRowsWithIndexes:atPoint:"), function $CPTableView__canDragRowsWithIndexes_atPoint_(self, _cmd, rowIndexes, mouseDownPoint)
@@ -8510,7 +8521,7 @@ CPThemeAttributeDecode= function(aCoder, anAttributeName, aDefaultValue, aTheme,
     return attribute;
 }
 
-p;19;CPTableHeaderView.jt;20378;@STATIC;1.0;i;15;CPTableColumn.ji;13;CPTableView.ji;8;CPView.jt;20308;objj_executeFile("CPTableColumn.j", true);
+p;19;CPTableHeaderView.jt;20389;@STATIC;1.0;i;15;CPTableColumn.ji;13;CPTableView.ji;8;CPView.jt;20319;objj_executeFile("CPTableColumn.j", true);
 objj_executeFile("CPTableView.j", true);
 objj_executeFile("CPView.j", true);
 var CPThemeStatePressed = CPThemeState("pressed");
@@ -8694,8 +8705,9 @@ _tableView = newValue;
         objj_msgSend(CPException, "raise:reason:", "invalid", "tried to get headerRectOfColumn: on invalid column");
     var tableRange = _tableView._tableColumnRanges[aColumnIndex],
         bounds = objj_msgSend(self, "bounds");
-    bounds.origin.x = tableRange.location;
-    bounds.size.width = tableRange.length;
+    var rMinX = ROUND(tableRange.location);
+    bounds.origin.x = rMinX;
+    bounds.size.width = FLOOR(tableRange.length + tableRange.location - rMinX);
     return bounds;
 }
 },["CGRect","int"]), new objj_method(sel_getUid("_cursorRectForColumn:"), function $CPTableHeaderView___cursorRectForColumn_(self, _cmd, column)
@@ -8805,7 +8817,7 @@ _tableView = newValue;
 },["void","CPEvent"]), new objj_method(sel_getUid("_updateResizeCursor:"), function $CPTableHeaderView___updateResizeCursor_(self, _cmd, theEvent)
 { with(self)
 {
-    if (!objj_msgSend(_tableView, "allowsColumnResizing") || !objj_msgSend(_tableView, "columnAutoresizingStyle"))
+    if (!objj_msgSend(_tableView, "allowsColumnResizing"))
     {
         objj_msgSend(objj_msgSend(CPCursor, "arrowCursor"), "set");
         return;
