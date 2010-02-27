@@ -11964,7 +11964,7 @@ _1bd.ty-=(_1c1.origin.y);
 }
 return _1bd;
 };
-p;8;CPFont.jt;2818;@STATIC;1.0;t;2799;
+p;8;CPFont.jt;3326;@STATIC;1.0;t;3307;
 var _1={},_2="Arial, sans-serif",_3=new RegExp("\\s*,\\s*","g");
 var _4=objj_allocateClassPair(CPObject,"CPFont"),_5=_4.isa;
 class_addIvars(_4,[new objj_ivar("_name"),new objj_ivar("_size"),new objj_ivar("_isBold"),new objj_ivar("_cssString")]);
@@ -11993,39 +11993,47 @@ return _cssString;
 with(_f){
 return _name;
 }
-})]);
-class_addMethods(_5,[new objj_method(sel_getUid("fontWithName:size:"),function(_11,_12,_13,_14){
+}),new objj_method(sel_getUid("isEqual:"),function(_11,_12,_13){
 with(_11){
-return _1[(NO?"bold ":"")+ROUND(_14)+"px "+((_13===_2)?_13:("\""+_13.replace(_3,"\", \"")+"\", "+_2))]||objj_msgSend(objj_msgSend(CPFont,"alloc"),"_initWithName:size:bold:",_13,_14,NO);
+return objj_msgSend(_13,"isKindOfClass:",objj_msgSend(CPFont,"class"))&&objj_msgSend(_13,"cssString")===objj_msgSend(_11,"cssString");
 }
-}),new objj_method(sel_getUid("boldFontWithName:size:"),function(_15,_16,_17,_18){
-with(_15){
-return _1[(YES?"bold ":"")+ROUND(_18)+"px "+((_17===_2)?_17:("\""+_17.replace(_3,"\", \"")+"\", "+_2))]||objj_msgSend(objj_msgSend(CPFont,"alloc"),"_initWithName:size:bold:",_17,_18,YES);
-}
-}),new objj_method(sel_getUid("systemFontOfSize:"),function(_19,_1a,_1b){
-with(_19){
-return _1[(NO?"bold ":"")+ROUND(_1b)+"px "+((_2===_2)?_2:("\""+_2.replace(_3,"\", \"")+"\", "+_2))]||objj_msgSend(objj_msgSend(CPFont,"alloc"),"_initWithName:size:bold:",_2,_1b,NO);
-}
-}),new objj_method(sel_getUid("boldSystemFontOfSize:"),function(_1c,_1d,_1e){
-with(_1c){
-return _1[(YES?"bold ":"")+ROUND(_1e)+"px "+((_2===_2)?_2:("\""+_2.replace(_3,"\", \"")+"\", "+_2))]||objj_msgSend(objj_msgSend(CPFont,"alloc"),"_initWithName:size:bold:",_2,_1e,YES);
+}),new objj_method(sel_getUid("description"),function(_14,_15){
+with(_14){
+return objj_msgSend(CPString,"stringWithFormat:","%@ %@ %f pt.",objj_msgSendSuper({receiver:_14,super_class:objj_getClass("CPFont").super_class},"description"),objj_msgSend(_14,"familyName"),objj_msgSend(_14,"size"));
 }
 })]);
-var _1f="CPFontNameKey",_20="CPFontSizeKey",_21="CPFontIsBoldKey";
+class_addMethods(_5,[new objj_method(sel_getUid("fontWithName:size:"),function(_16,_17,_18,_19){
+with(_16){
+return _1[(NO?"bold ":"")+ROUND(_19)+"px "+((_18===_2)?_18:("\""+_18.replace(_3,"\", \"")+"\", "+_2))]||objj_msgSend(objj_msgSend(CPFont,"alloc"),"_initWithName:size:bold:",_18,_19,NO);
+}
+}),new objj_method(sel_getUid("boldFontWithName:size:"),function(_1a,_1b,_1c,_1d){
+with(_1a){
+return _1[(YES?"bold ":"")+ROUND(_1d)+"px "+((_1c===_2)?_1c:("\""+_1c.replace(_3,"\", \"")+"\", "+_2))]||objj_msgSend(objj_msgSend(CPFont,"alloc"),"_initWithName:size:bold:",_1c,_1d,YES);
+}
+}),new objj_method(sel_getUid("systemFontOfSize:"),function(_1e,_1f,_20){
+with(_1e){
+return _1[(NO?"bold ":"")+ROUND(_20)+"px "+((_2===_2)?_2:("\""+_2.replace(_3,"\", \"")+"\", "+_2))]||objj_msgSend(objj_msgSend(CPFont,"alloc"),"_initWithName:size:bold:",_2,_20,NO);
+}
+}),new objj_method(sel_getUid("boldSystemFontOfSize:"),function(_21,_22,_23){
+with(_21){
+return _1[(YES?"bold ":"")+ROUND(_23)+"px "+((_2===_2)?_2:("\""+_2.replace(_3,"\", \"")+"\", "+_2))]||objj_msgSend(objj_msgSend(CPFont,"alloc"),"_initWithName:size:bold:",_2,_23,YES);
+}
+})]);
+var _24="CPFontNameKey",_25="CPFontSizeKey",_26="CPFontIsBoldKey";
 var _4=objj_getClass("CPFont");
 if(!_4){
 throw new SyntaxError("*** Could not find definition for class \"CPFont\"");
 }
 var _5=_4.isa;
-class_addMethods(_4,[new objj_method(sel_getUid("initWithCoder:"),function(_22,_23,_24){
-with(_22){
-return objj_msgSend(_22,"_initWithName:size:bold:",objj_msgSend(_24,"decodeObjectForKey:",_1f),objj_msgSend(_24,"decodeFloatForKey:",_20),objj_msgSend(_24,"decodeBoolForKey:",_21));
+class_addMethods(_4,[new objj_method(sel_getUid("initWithCoder:"),function(_27,_28,_29){
+with(_27){
+return objj_msgSend(_27,"_initWithName:size:bold:",objj_msgSend(_29,"decodeObjectForKey:",_24),objj_msgSend(_29,"decodeFloatForKey:",_25),objj_msgSend(_29,"decodeBoolForKey:",_26));
 }
-}),new objj_method(sel_getUid("encodeWithCoder:"),function(_25,_26,_27){
-with(_25){
-objj_msgSend(_27,"encodeObject:forKey:",_name,_1f);
-objj_msgSend(_27,"encodeFloat:forKey:",_size,_20);
-objj_msgSend(_27,"encodeBool:forKey:",_isBold,_21);
+}),new objj_method(sel_getUid("encodeWithCoder:"),function(_2a,_2b,_2c){
+with(_2a){
+objj_msgSend(_2c,"encodeObject:forKey:",_name,_24);
+objj_msgSend(_2c,"encodeFloat:forKey:",_size,_25);
+objj_msgSend(_2c,"encodeBool:forKey:",_isBold,_26);
 }
 })]);
 p;12;CPCheckBox.jt;1048;@STATIC;1.0;i;10;CPButton.jt;1014;

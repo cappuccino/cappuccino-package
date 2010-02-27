@@ -13656,7 +13656,7 @@ var _CPViewGetTransform = function( fromView, toView)
     return transform;
 }
 
-p;8;CPFont.jt;4447;@STATIC;1.0;t;4428;var _CPFonts = {},
+p;8;CPFont.jt;5085;@STATIC;1.0;t;5066;var _CPFonts = {},
     _CPFontSystemFontFace = "Arial, sans-serif",
     _CPWrapRegExp = new RegExp("\\s*,\\s*", "g");
 {var the_class = objj_allocateClassPair(CPObject, "CPFont"),
@@ -13690,6 +13690,16 @@ class_addMethods(the_class, [new objj_method(sel_getUid("_initWithName:size:bold
 { with(self)
 {
     return _name;
+}
+},["CPString"]), new objj_method(sel_getUid("isEqual:"), function $CPFont__isEqual_(self, _cmd, anObject)
+{ with(self)
+{
+    return objj_msgSend(anObject, "isKindOfClass:", objj_msgSend(CPFont, "class")) && objj_msgSend(anObject, "cssString") === objj_msgSend(self, "cssString");
+}
+},["BOOL","id"]), new objj_method(sel_getUid("description"), function $CPFont__description(self, _cmd)
+{ with(self)
+{
+    return objj_msgSend(CPString, "stringWithFormat:", "%@ %@ %f pt.", objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPFont").super_class }, "description"), objj_msgSend(self, "familyName"), objj_msgSend(self, "size"));
 }
 },["CPString"])]);
 class_addMethods(meta_class, [new objj_method(sel_getUid("fontWithName:size:"), function $CPFont__fontWithName_size_(self, _cmd, aName, aSize)
