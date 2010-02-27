@@ -8521,7 +8521,7 @@ CPThemeAttributeDecode= function(aCoder, anAttributeName, aDefaultValue, aTheme,
     return attribute;
 }
 
-p;19;CPTableHeaderView.jt;20389;@STATIC;1.0;i;15;CPTableColumn.ji;13;CPTableView.ji;8;CPView.jt;20319;objj_executeFile("CPTableColumn.j", true);
+p;19;CPTableHeaderView.jt;20517;@STATIC;1.0;i;15;CPTableColumn.ji;13;CPTableView.ji;8;CPView.jt;20447;objj_executeFile("CPTableColumn.j", true);
 objj_executeFile("CPTableView.j", true);
 objj_executeFile("CPView.j", true);
 var CPThemeStatePressed = CPThemeState("pressed");
@@ -8817,7 +8817,7 @@ _tableView = newValue;
 },["void","CPEvent"]), new objj_method(sel_getUid("_updateResizeCursor:"), function $CPTableHeaderView___updateResizeCursor_(self, _cmd, theEvent)
 { with(self)
 {
-    if (!objj_msgSend(_tableView, "allowsColumnResizing"))
+    if (!objj_msgSend(_tableView, "allowsColumnResizing") || (objj_msgSend(theEvent, "type") === CPLeftMouseUp && !objj_msgSend(objj_msgSend(self, "window"), "acceptsMouseMovedEvents")))
     {
         objj_msgSend(objj_msgSend(CPCursor, "arrowCursor"), "set");
         return;
