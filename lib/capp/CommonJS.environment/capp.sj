@@ -292,7 +292,7 @@ _4.print("    + "+_3d);
 });
 });
 };
-p;15;Configuration.jt;4345;@STATIC;1.0;I;25;Foundation/CPDictionary.jI;21;Foundation/CPString.jI;21;Foundation/CPObject.jt;4244;
+p;15;Configuration.jt;4359;@STATIC;1.0;I;25;Foundation/CPDictionary.jI;21;Foundation/CPString.jI;21;Foundation/CPObject.jt;4258;
 objj_executeFile("Foundation/CPDictionary.j",false);
 objj_executeFile("Foundation/CPString.j",false);
 objj_executeFile("Foundation/CPObject.j",false);
@@ -352,15 +352,16 @@ objj_msgSend(temporaryDictionary,"setObject:forKey:",_1b,_1c);
 }
 }),new objj_method(sel_getUid("save"),function(_1d,_1e){
 with(_1d){
-if(!objj_msgSend(_1d,"path")){
+var _1f=objj_msgSend(_1d,"path");
+if(!_1f){
 return;
 }
-plist.writePlist(objj_msgSend(_1d,"path"),dictionary);
+CFPropertyList.writePropertyListToFile(dictionary,_1f);
 }
 })]);
-class_addMethods(_7,[new objj_method(sel_getUid("initialize"),function(_1f,_20){
-with(_1f){
-if(_1f!==objj_msgSend(Configuration,"class")){
+class_addMethods(_7,[new objj_method(sel_getUid("initialize"),function(_20,_21){
+with(_20){
+if(_20!==objj_msgSend(Configuration,"class")){
 return;
 }
 _3=objj_msgSend(CPDictionary,"dictionary");
@@ -370,61 +371,61 @@ objj_msgSend(_3,"setObject:forKey:","Your Company","organization.name");
 objj_msgSend(_3,"setObject:forKey:","feedback @nospam@ yourcompany.com","organization.email");
 objj_msgSend(_3,"setObject:forKey:","http://yourcompany.com","organization.url");
 objj_msgSend(_3,"setObject:forKey:","com.yourcompany","organization.identifier");
-var _21=new Date(),_22=["January","February","March","April","May","June","July","August","September","October","November","December"];
-objj_msgSend(_3,"setObject:forKey:",_21.getFullYear(),"project.year");
-objj_msgSend(_3,"setObject:forKey:",_22[_21.getMonth()]+" "+_21.getDate()+", "+_21.getFullYear(),"project.date");
+var _22=new Date(),_23=["January","February","March","April","May","June","July","August","September","October","November","December"];
+objj_msgSend(_3,"setObject:forKey:",_22.getFullYear(),"project.year");
+objj_msgSend(_3,"setObject:forKey:",_23[_22.getMonth()]+" "+_22.getDate()+", "+_22.getFullYear(),"project.date");
 }
-}),new objj_method(sel_getUid("defaultConfiguration"),function(_23,_24){
-with(_23){
+}),new objj_method(sel_getUid("defaultConfiguration"),function(_24,_25){
+with(_24){
 if(!_4){
-_4=objj_msgSend(objj_msgSend(_23,"alloc"),"initWithPath:",nil);
+_4=objj_msgSend(objj_msgSend(_24,"alloc"),"initWithPath:",nil);
 }
 return _4;
 }
-}),new objj_method(sel_getUid("userConfiguration"),function(_25,_26){
-with(_25){
+}),new objj_method(sel_getUid("userConfiguration"),function(_26,_27){
+with(_26){
 if(!_5){
-_5=objj_msgSend(objj_msgSend(_25,"alloc"),"initWithPath:",_1.join(_2.env["HOME"],".cappconfig"));
+_5=objj_msgSend(objj_msgSend(_26,"alloc"),"initWithPath:",_1.join(_2.env["HOME"],".cappconfig"));
 }
 return _5;
 }
 })]);
 config=function(){
-var _27=0,_28=arguments.length,key=NULL,_29=NULL,_2a=NO,_2b=NO;
-for(;_27<_28;++_27){
-var _2c=arguments[_27];
-switch(_2c){
+var _28=0,_29=arguments.length,key=NULL,_2a=NULL,_2b=NO,_2c=NO;
+for(;_28<_29;++_28){
+var _2d=arguments[_28];
+switch(_2d){
 case "--get":
-_2a=YES;
+_2b=YES;
 break;
 case "-l":
 case "--list":
-_2b=YES;
+_2c=YES;
 break;
 default:
 if(key===NULL){
-key=_2c;
+key=_2d;
 }else{
-_29=_2c;
+_2a=_2d;
 }
 }
 }
-var _2d=objj_msgSend(Configuration,"userConfiguration");
+var _2e=objj_msgSend(Configuration,"userConfiguration");
+if(_2c){
+var key=nil,_2f=objj_msgSend(_2e,"storedKeyEnumerator");
+while(key=objj_msgSend(_2f,"nextObject")){
+print(key+"="+objj_msgSend(_2e,"valueForKey:",key));
+}
+}else{
 if(_2b){
-var key=nil,_2e=objj_msgSend(_2d,"storedKeyEnumerator");
-while(key=objj_msgSend(_2e,"nextObject")){
-print(key+"="+objj_msgSend(_2d,"valueForKey:",key));
-}
-}else{
+var _2a=objj_msgSend(_2e,"valueForKey:",key);
 if(_2a){
-var _29=objj_msgSend(_2d,"valueForKey:",key);
-if(_29){
-print(_29);
+print(_2a);
 }
 }else{
-if(key!==NULL&&_29!==NULL){
-objj_msgSend(_2d,"setValue:forKey:",_29,key);
-objj_msgSend(_2d,"save");
+if(key!==NULL&&_2a!==NULL){
+objj_msgSend(_2e,"setValue:forKey:",_2a,key);
+objj_msgSend(_2e,"save");
 }
 }
 }
