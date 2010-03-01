@@ -26523,7 +26523,7 @@ with(_1e){
 return NO;
 }
 })]);
-p;7;CPCib.jt;5289;@STATIC;1.0;I;21;Foundation/CPObject.jI;28;Foundation/CPURLConnection.jI;25;Foundation/CPURLRequest.ji;20;_CPCibClassSwapper.ji;20;_CPCibCustomObject.ji;22;_CPCibCustomResource.ji;18;_CPCibCustomView.ji;23;_CPCibKeyedUnarchiver.ji;18;_CPCibObjectData.ji;19;_CPCibProxyObject.ji;22;_CPCibWindowTemplate.jt;4979;
+p;7;CPCib.jt;5279;@STATIC;1.0;I;21;Foundation/CPObject.jI;28;Foundation/CPURLConnection.jI;25;Foundation/CPURLRequest.ji;20;_CPCibClassSwapper.ji;20;_CPCibCustomObject.ji;22;_CPCibCustomResource.ji;18;_CPCibCustomView.ji;23;_CPCibKeyedUnarchiver.ji;18;_CPCibObjectData.ji;19;_CPCibProxyObject.ji;22;_CPCibWindowTemplate.jt;4969;
 objj_executeFile("Foundation/CPObject.j",false);
 objj_executeFile("Foundation/CPURLConnection.j",false);
 objj_executeFile("Foundation/CPURLRequest.j",false);
@@ -26544,7 +26544,7 @@ class_addMethods(_2,[new objj_method(sel_getUid("initWithContentsOfURL:"),functi
 with(_4){
 _4=objj_msgSendSuper({receiver:_4,super_class:objj_getClass("CPCib").super_class},"init");
 if(_4){
-_data=objj_msgSend(CPURLConnection,"sendSynchronousRequest:returningResponse:error:",objj_msgSend(CPURLRequest,"requestWithURL:",_6),nil,nil);
+_data=objj_msgSend(CPURLConnection,"sendSynchronousRequest:returningResponse:",objj_msgSend(CPURLRequest,"requestWithURL:",_6),nil);
 _awakenCustomResources=YES;
 }
 return _4;

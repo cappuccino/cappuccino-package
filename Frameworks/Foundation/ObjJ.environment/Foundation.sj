@@ -4076,7 +4076,7 @@ _1=objj_msgSend(objj_msgSend(CPNull,"alloc"),"init");
 return _1;
 }
 })]);
-p;17;CPWebDAVManager.jt;4325;@STATIC;1.0;t;4306;
+p;17;CPWebDAVManager.jt;4315;@STATIC;1.0;t;4296;
 var _1=function(_2,_3,_4){
 var _5=objj_msgSend(_4,"objectForKey:","resourcetype");
 if(_5===CPWebDAVManagerCollectionResourceType){
@@ -4143,7 +4143,7 @@ _23.push("<a:prop><a:",_1f[_24],"/></a:prop>");
 _23.push("</a:propfind>");
 objj_msgSend(_22,"setHTTPBody:",_23.join(""));
 if(!_21){
-return _26(objj_msgSend(objj_msgSend(CPURLConnection,"sendSynchronousRequest:returningResponse:error:",_22,nil,nil),"rawString"));
+return _26(objj_msgSend(objj_msgSend(CPURLConnection,"sendSynchronousRequest:returningResponse:",_22,nil),"rawString"));
 }else{
 var _27=objj_msgSend(CPURLConnection,"connectionWithRequest:delegate:",_22,_1c);
 objj_msgSend(_blocksForConnections,"setObject:forKey:",_21,objj_msgSend(_27,"UID"));

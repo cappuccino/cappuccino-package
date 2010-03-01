@@ -4808,7 +4808,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("null"), function $CPNu
 },["CPNull"])]);
 }
 
-p;17;CPWebDAVManager.jt;7008;@STATIC;1.0;t;6989;
+p;17;CPWebDAVManager.jt;6997;@STATIC;1.0;t;6978;
 
 
 var setURLResourceValuesForKeysFromProperties = function(aURL, keys, properties)
@@ -4911,7 +4911,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPWeb
     objj_msgSend(request, "setHTTPBody:", HTTPBody.join(""));
 
     if (!aBlock)
-        return parsePROPFINDResponse(objj_msgSend(objj_msgSend(CPURLConnection, "sendSynchronousRequest:returningResponse:error:", request, nil, nil), "rawString"));
+        return parsePROPFINDResponse(objj_msgSend(objj_msgSend(CPURLConnection, "sendSynchronousRequest:returningResponse:", request, nil), "rawString"));
 
     else
     {
