@@ -79,7 +79,7 @@ _8.push(_d);
 }
 return _8;
 };
-p;10;Generate.jt;6576;@STATIC;1.0;i;15;Configuration.jt;6537;
+p;10;Generate.jt;6588;@STATIC;1.0;i;15;Configuration.jt;6549;
 objj_executeFile("Configuration.j",true);
 var OS=require("os"),_1=require("system"),_2=require("file"),_3=require("objective-j");
 var _4=require("term").stream;
@@ -179,6 +179,7 @@ _19=_2.join(_19,_d.FrameworksPath);
 createFrameworksInFile(_10,_19,_9.symlink,_9.useCappBuild);
 }else{
 _4.print("Directory already exists");
+OS.exit(1);
 }
 }
 };
