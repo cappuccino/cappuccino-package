@@ -23101,7 +23101,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 objj_executeFile("CPCheckBox.j", true);
 objj_executeFile("CPRadio.j", true);
 
-p;10;CPWindow.jt;78717;@STATIC;1.0;I;25;Foundation/CPCountedSet.jI;33;Foundation/CPNotificationCenter.jI;26;Foundation/CPUndoManager.ji;12;CGGeometry.ji;13;CPAnimation.ji;13;CPResponder.ji;10;CPScreen.ji;18;CPPlatformWindow.ji;15;_CPWindowView.ji;23;_CPStandardWindowView.ji;23;_CPDocModalWindowView.ji;18;_CPHUDWindowView.ji;25;_CPBorderlessWindowView.ji;31;_CPBorderlessBridgeWindowView.ji;14;CPDragServer.ji;8;CPView.jt;78311;objj_executeFile("Foundation/CPCountedSet.j", false);
+p;10;CPWindow.jt;78747;@STATIC;1.0;I;25;Foundation/CPCountedSet.jI;33;Foundation/CPNotificationCenter.jI;26;Foundation/CPUndoManager.ji;12;CGGeometry.ji;13;CPAnimation.ji;13;CPResponder.ji;10;CPScreen.ji;18;CPPlatformWindow.ji;15;_CPWindowView.ji;23;_CPStandardWindowView.ji;23;_CPDocModalWindowView.ji;18;_CPHUDWindowView.ji;25;_CPBorderlessWindowView.ji;31;_CPBorderlessBridgeWindowView.ji;14;CPDragServer.ji;8;CPView.jt;78341;objj_executeFile("Foundation/CPCountedSet.j", false);
 objj_executeFile("Foundation/CPNotificationCenter.j", false);
 objj_executeFile("Foundation/CPUndoManager.j", false);
 objj_executeFile("CGGeometry.j", true);
@@ -24073,7 +24073,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPWin
 },["BOOL"]), new objj_method(sel_getUid("makeMainWindow"), function $CPWindow__makeMainWindow(self, _cmd)
 { with(self)
 {
-    if (!objj_msgSend(self, "canBecomeMainWindow"))
+    if (CPApp._mainWindow === self || !objj_msgSend(self, "canBecomeMainWindow"))
         return;
     objj_msgSend(CPApp._mainWindow, "resignMainWindow");
     CPApp._mainWindow = self;
