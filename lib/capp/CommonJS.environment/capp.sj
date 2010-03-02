@@ -79,7 +79,7 @@ _8.push(_d);
 }
 return _8;
 };
-p;10;Generate.jt;6582;@STATIC;1.0;i;15;Configuration.jt;6543;
+p;10;Generate.jt;6576;@STATIC;1.0;i;15;Configuration.jt;6537;
 objj_executeFile("Configuration.j",true);
 var OS=require("os"),_1=require("system"),_2=require("file"),_3=require("objective-j");
 var _4=require("term").stream;
@@ -93,7 +93,7 @@ _5.option("--no-frameworks","noFrameworks").set(true).help("Don't copy any defau
 _5.option("--symlink","symlink").set(true).help("Creates a symlink to each framework instead of copying.");
 _5.option("--build","useCappBuild").set(true).help("Uses frameworks in the $CAPP_BUILD.");
 _5.option("-l").action(function(o){
-o.symlink=o.shouldUseCappBuild=true;
+o.symlink=o.useCappBuild=true;
 }).help("Enables both the --symlink and --build options.");
 _5.option("--force","force").set(true).help("Overwrite update existing frameworks.");
 _5.option("--noconfig","noconfig").set().help("Selects a project template to use.");
