@@ -18359,7 +18359,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithItemIdentifier:
 },["void","CPCoder"])]);
 }
 
-p;14;CPScrollView.jt;26761;@STATIC;1.0;i;8;CPView.ji;12;CPClipView.ji;12;CPScroller.jt;26695;objj_executeFile("CPView.j", true);
+p;14;CPScrollView.jt;27835;@STATIC;1.0;i;8;CPView.ji;12;CPClipView.ji;12;CPScroller.jt;27769;objj_executeFile("CPView.j", true);
 objj_executeFile("CPClipView.j", true);
 objj_executeFile("CPScroller.j", true);
 {var the_class = objj_allocateClassPair(CPView, "CPScrollView"),
@@ -18477,6 +18477,16 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
         contentFrame.size.width -= verticalScrollerWidth;
     if (shouldShowHorizontalScroller)
         contentFrame.size.height -= horizontalScrollerHeight;
+    var _window = objj_msgSend(self, "window"),
+        forceCornerSpace = NO;
+    if (_window && objj_msgSend(_window, "contentView"))
+    {
+        var windowIsResizable = !!((objj_msgSend(_window, "styleMask") & CPResizableWindowMask) || (objj_msgSend(_window, "styleMask") & CPBorderlessBridgeWindowMask)),
+            relativeFrame = objj_msgSend(self, "convertRect:fromView:", objj_msgSend(objj_msgSend(_window, "contentView"), "frame"), nil),
+            maxPoint = CGPointMake(CGRectGetMaxX(objj_msgSend(self, "bounds")), CGRectGetMaxY(objj_msgSend(self, "bounds"))),
+            isInWindowCorner = CGRectGetMaxX(relativeFrame) >= maxPoint.x && CGRectGetMaxY(relativeFrame) >= maxPoint.y;
+        forceCornerSpace = windowIsResizable && isInWindowCorner;
+    }
     var scrollPoint = objj_msgSend(_contentView, "bounds").origin,
         wasShowingVerticalScroller = !objj_msgSend(_verticalScroller, "isHidden"),
         wasShowingHorizontalScroller = !objj_msgSend(_horizontalScroller, "isHidden");
@@ -18484,7 +18494,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     {
         var verticalScrollerY = MAX((objj_msgSend(self, "_cornerViewFrame").size.height), headerClipViewHeight),
             verticalScrollerHeight = (objj_msgSend(self, "bounds").size.height) - verticalScrollerY;
-        if (shouldShowHorizontalScroller)
+        if (forceCornerSpace || shouldShowHorizontalScroller)
             verticalScrollerHeight -= horizontalScrollerHeight;
         objj_msgSend(_verticalScroller, "setFloatValue:", (difference.height <= 0.0) ? 0.0 : scrollPoint.y / difference.height);
         objj_msgSend(_verticalScroller, "setKnobProportion:", (contentFrame.size.height) / (documentFrame.size.height));
@@ -18499,7 +18509,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     {
         objj_msgSend(_horizontalScroller, "setFloatValue:", (difference.width <= 0.0) ? 0.0 : scrollPoint.x / difference.width);
         objj_msgSend(_horizontalScroller, "setKnobProportion:", (contentFrame.size.width) / (documentFrame.size.width));
-        objj_msgSend(_horizontalScroller, "setFrame:", { origin: { x:0.0, y:(contentFrame.origin.y + contentFrame.size.height) }, size: { width:(contentFrame.size.width), height:horizontalScrollerHeight } });
+        objj_msgSend(_horizontalScroller, "setFrame:", { origin: { x:0.0, y:(contentFrame.origin.y + contentFrame.size.height) }, size: { width:(contentFrame.size.width) - ((!shouldShowVerticalScroller && forceCornerSpace) ? verticalScrollerWidth : 0), height:horizontalScrollerHeight } });
     }
     else if (wasShowingHorizontalScroller)
     {
@@ -18804,7 +18814,12 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     objj_msgSend(_contentView, "scrollToPoint:", contentBounds.origin);
     objj_msgSend(_headerClipView, "scrollToPoint:", CGPointMake(contentBounds.origin, 0));
 }
-},["void","CPEvent"])]);
+},["void","CPEvent"]), new objj_method(sel_getUid("viewDidMoveToWindow"), function $CPScrollView__viewDidMoveToWindow(self, _cmd)
+{ with(self)
+{
+    objj_msgSend(self, "reflectScrolledClipView:", _contentView);
+}
+},["void"])]);
 }
 var CPScrollViewContentViewKey = "CPScrollViewContentView",
     CPScrollViewHeaderClipViewKey = "CPScrollViewHeaderClipViewKey",
