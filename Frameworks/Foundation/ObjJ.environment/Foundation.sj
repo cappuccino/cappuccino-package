@@ -433,7 +433,7 @@ _a4.range.length=_a5-_a3;
 _a4.attributes=objj_msgSend(_a4.attributes,"copy");
 return [_a2,_a4];
 };
-p;9;CPArray.jt;18298;@STATIC;1.0;i;10;CPObject.ji;9;CPRange.ji;14;CPEnumerator.ji;18;CPSortDescriptor.ji;13;CPException.jt;18190;
+p;9;CPArray.jt;18311;@STATIC;1.0;i;10;CPObject.ji;9;CPRange.ji;14;CPEnumerator.ji;18;CPSortDescriptor.ji;13;CPException.jt;18203;
 objj_executeFile("CPObject.j",true);
 objj_executeFile("CPRange.j",true);
 objj_executeFile("CPEnumerator.j",true);
@@ -501,11 +501,11 @@ return objj_msgSend(_12,"initWithArray:",_14);
 _12=objj_msgSendSuper({receiver:_12,super_class:objj_getClass("CPArray").super_class},"init");
 if(_12){
 var _16=0,_17=objj_msgSend(_14,"count");
-for(;_16<_17;++i){
-if(_14[i].isa){
-_12[i]=objj_msgSend(_14,"copy");
+for(;_16<_17;++_16){
+if(_14[_16].isa){
+_12[_16]=objj_msgSend(_14[_16],"copy");
 }else{
-_12[i]=_14;
+_12[_16]=_14;
 }
 }
 }

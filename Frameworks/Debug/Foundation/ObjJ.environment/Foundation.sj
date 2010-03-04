@@ -488,7 +488,7 @@ var splitRangeEntry = splitRangeEntryAtIndex= function( aRangeEntry, anIndex)
     return [aRangeEntry, newRangeEntry];
 }
 
-p;9;CPArray.jt;27830;@STATIC;1.0;i;10;CPObject.ji;9;CPRange.ji;14;CPEnumerator.ji;18;CPSortDescriptor.ji;13;CPException.jt;27722;objj_executeFile("CPObject.j", true);
+p;9;CPArray.jt;27853;@STATIC;1.0;i;10;CPObject.ji;9;CPRange.ji;14;CPEnumerator.ji;18;CPSortDescriptor.ji;13;CPException.jt;27745;objj_executeFile("CPObject.j", true);
 objj_executeFile("CPRange.j", true);
 objj_executeFile("CPEnumerator.j", true);
 objj_executeFile("CPSortDescriptor.j", true);
@@ -564,12 +564,12 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
     {
         var index = 0,
             count = objj_msgSend(anArray, "count");
-        for(; index < count; ++i)
+        for(; index < count; ++index)
         {
-            if (anArray[i].isa)
-                self[i] = objj_msgSend(anArray, "copy");
+            if (anArray[index].isa)
+                self[index] = objj_msgSend(anArray[index], "copy");
             else
-                self[i] = anArray;
+                self[index] = anArray;
         }
     }
     return self;
