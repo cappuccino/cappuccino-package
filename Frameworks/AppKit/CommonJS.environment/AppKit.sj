@@ -343,7 +343,7 @@ with(_1e){
 objj_msgSend(objj_msgSend(objj_msgSend(_1e,"window"),"platformWindow"),"_propagateCurrentDOMEvent:",YES);
 }
 })]);
-p;13;CPTableView.jt;84060;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;83918;
+p;13;CPTableView.jt;83998;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;83856;
 objj_executeFile("Foundation/CPArray.j",false);
 objj_executeFile("AppKit/CGGradient.j",false);
 objj_executeFile("CPControl.j",true);
@@ -1838,7 +1838,7 @@ _startTrackingTimestamp=new Date();
 if(_implementedDataSourceMethods&_1){
 _trackingPointMovedOutOfClickSlop=NO;
 }
-if(!(_implementedDataSourceMethods&_5)){
+if(row>=0&&!(_implementedDataSourceMethods&_5)){
 objj_msgSend(self,"_updateSelectionWithMouseAtRow:",row);
 }
 objj_msgSend(objj_msgSend(self,"window"),"makeFirstResponder:",self);
@@ -1856,7 +1856,7 @@ objj_msgSend(CPApp,"sendEvent:",_205);
 with(self){
 var row=objj_msgSend(self,"rowAtPoint:",_208);
 if(!_isSelectingSession&&_implementedDataSourceMethods&_5){
-if((ABS(_startTrackingPoint.x-_208.x)>3||(_verticalMotionCanDrag&&ABS(_startTrackingPoint.y-_208.y)>3))||(objj_msgSend(_selectedRowIndexes,"containsIndex:",row))){
+if(row>=0&&(ABS(_startTrackingPoint.x-_208.x)>3||(_verticalMotionCanDrag&&ABS(_startTrackingPoint.y-_208.y)>3))||(objj_msgSend(_selectedRowIndexes,"containsIndex:",row))){
 if(objj_msgSend(_selectedRowIndexes,"containsIndex:",row)){
 _draggedRowIndexes=objj_msgSend(objj_msgSend(CPIndexSet,"alloc"),"initWithIndexSet:",_selectedRowIndexes);
 }else{
@@ -1883,8 +1883,9 @@ return YES;
 }
 }
 _isSelectingSession=YES;
+if(row>=0){
 objj_msgSend(self,"_updateSelectionWithMouseAtRow:",row);
-objj_msgSend(self,"_updateSelectionWithMouseAtRow:",objj_msgSend(self,"rowAtPoint:",_208));
+}
 if((_implementedDataSourceMethods&_1)&&!_trackingPointMovedOutOfClickSlop){
 var _210=5;
 if(ABS(_208.x-_startTrackingPoint.x)>_210||ABS(_208.y-_startTrackingPoint.y)>_210){

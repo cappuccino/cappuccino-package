@@ -384,7 +384,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPEvent"])]);
 }
 
-p;13;CPTableView.jt;124584;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;124441;objj_executeFile("Foundation/CPArray.j", false);
+p;13;CPTableView.jt;124526;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;124383;objj_executeFile("Foundation/CPArray.j", false);
 objj_executeFile("AppKit/CGGradient.j", false);
 objj_executeFile("CPControl.j", true);
 objj_executeFile("CPTableColumn.j", true);
@@ -2078,7 +2078,7 @@ _disableAutomaticResizing = newValue;
     _startTrackingTimestamp = new Date();
     if (_implementedDataSourceMethods & CPTableViewDataSource_tableView_setObjectValue_forTableColumn_row_)
         _trackingPointMovedOutOfClickSlop = NO;
-    if (!(_implementedDataSourceMethods & CPTableViewDataSource_tableView_writeRowsWithIndexes_toPasteboard_))
+    if (row >=0 && !(_implementedDataSourceMethods & CPTableViewDataSource_tableView_writeRowsWithIndexes_toPasteboard_))
         objj_msgSend(self, "_updateSelectionWithMouseAtRow:", row);
     objj_msgSend(objj_msgSend(self, "window"), "makeFirstResponder:", self);
     return YES;
@@ -2097,7 +2097,7 @@ _disableAutomaticResizing = newValue;
     var row = objj_msgSend(self, "rowAtPoint:", aPoint);
     if(!_isSelectingSession && _implementedDataSourceMethods & CPTableViewDataSource_tableView_writeRowsWithIndexes_toPasteboard_)
     {
-        if ((ABS(_startTrackingPoint.x - aPoint.x) > 3 || (_verticalMotionCanDrag && ABS(_startTrackingPoint.y - aPoint.y) > 3)) ||
+        if (row >= 0 && (ABS(_startTrackingPoint.x - aPoint.x) > 3 || (_verticalMotionCanDrag && ABS(_startTrackingPoint.y - aPoint.y) > 3)) ||
             (objj_msgSend(_selectedRowIndexes, "containsIndex:", row)))
         {
             if (objj_msgSend(_selectedRowIndexes, "containsIndex:", row))
@@ -2129,8 +2129,8 @@ _disableAutomaticResizing = newValue;
             return YES;
     }
     _isSelectingSession = YES;
-    objj_msgSend(self, "_updateSelectionWithMouseAtRow:", row);
-    objj_msgSend(self, "_updateSelectionWithMouseAtRow:", objj_msgSend(self, "rowAtPoint:", aPoint));
+    if(row >= 0)
+        objj_msgSend(self, "_updateSelectionWithMouseAtRow:", row);
     if ((_implementedDataSourceMethods & CPTableViewDataSource_tableView_setObjectValue_forTableColumn_row_)
         && !_trackingPointMovedOutOfClickSlop)
     {
