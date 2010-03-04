@@ -12218,7 +12218,7 @@ CPPointMakeZero= function()
     return CPPointMake(0, 0, 0);
 }
 
-p;8;CPView.jt;65871;@STATIC;1.0;I;20;Foundation/CPArray.jI;26;Foundation/CPObjJRuntime.ji;19;CGAffineTransform.ji;12;CGGeometry.ji;9;CPColor.ji;12;CPGeometry.ji;19;CPGraphicsContext.ji;13;CPResponder.ji;9;CPTheme.ji;18;_CPDisplayServer.jt;65646;objj_executeFile("Foundation/CPArray.j", false);
+p;8;CPView.jt;65553;@STATIC;1.0;I;20;Foundation/CPArray.jI;26;Foundation/CPObjJRuntime.ji;19;CGAffineTransform.ji;12;CGGeometry.ji;9;CPColor.ji;12;CPGeometry.ji;19;CPGraphicsContext.ji;13;CPResponder.ji;9;CPTheme.ji;18;_CPDisplayServer.jt;65328;objj_executeFile("Foundation/CPArray.j", false);
 objj_executeFile("Foundation/CPObjJRuntime.j", false);
 objj_executeFile("CGAffineTransform.j", true);
 objj_executeFile("CGGeometry.j", true);
@@ -12414,14 +12414,6 @@ class_addMethods(the_class, [new objj_method(sel_getUid("setupViewFlags"), funct
     if (objj_msgSend(_subviews, "isEqual:", newSubviews))
         return;
     _subviews = objj_msgSend(newSubviews, "copy");
-    var index = 0,
-        count = objj_msgSend(_subviews, "count");
-    for (; index < count; ++index)
-    {
-        var subview = _subviews[index];
-        _DOMElement.removeChild(subview._DOMElement);
-        _DOMElement.appendChild(subview._DOMElement);
-    }
 }
 },["void","CPArray"]), new objj_method(sel_getUid("_setWindow:"), function $CPView___setWindow_(self, _cmd, aWindow)
 { with(self)
@@ -13034,7 +13026,6 @@ class_addMethods(the_class, [new objj_method(sel_getUid("setupViewFlags"), funct
         _DOMContentsElement.style.left = "0px";
         _DOMContentsElement.style.width = ROUND((_frame.size.width)) + "px";
         _DOMContentsElement.style.height = ROUND((_frame.size.height)) + "px";
-        _DOMElement.appendChild(_DOMContentsElement);
         _graphicsContext = objj_msgSend(CPGraphicsContext, "graphicsContextWithGraphicsPort:flipped:", graphicsPort, YES);
     }
     objj_msgSend(CPGraphicsContext, "setCurrentContext:", _graphicsContext);
