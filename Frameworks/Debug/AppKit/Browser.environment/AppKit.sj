@@ -8376,8 +8376,9 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"])]);
 }
 
-p;9;CPTheme.jt;17342;@STATIC;1.0;I;21;Foundation/CPObject.jI;21;Foundation/CPString.jt;17270;objj_executeFile("Foundation/CPObject.j", false);
+p;9;CPTheme.jt;17436;@STATIC;1.0;I;21;Foundation/CPObject.jI;21;Foundation/CPString.jI;30;Foundation/CPKeyedUnarchiver.jt;17329;objj_executeFile("Foundation/CPObject.j", false);
 objj_executeFile("Foundation/CPString.j", false);
+objj_executeFile("Foundation/CPKeyedUnarchiver.j", false);
 var CPThemesByName = { },
     CPThemeDefaultTheme = nil;
 {var the_class = objj_allocateClassPair(CPObject, "CPTheme"),
