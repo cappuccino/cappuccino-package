@@ -11541,7 +11541,7 @@ byteToHex= function(n) {
             hexCharacters.charAt(n % 16);
 }
 
-p;13;CPTextField.jt;39914;@STATIC;1.0;i;11;CPControl.ji;17;CPStringDrawing.ji;17;CPCompatibility.ji;21;_CPImageAndTextView.jt;39808;objj_executeFile("CPControl.j", true);
+p;13;CPTextField.jt;39918;@STATIC;1.0;i;11;CPControl.ji;17;CPStringDrawing.ji;17;CPCompatibility.ji;21;_CPImageAndTextView.jt;39812;objj_executeFile("CPControl.j", true);
 objj_executeFile("CPStringDrawing.j", true);
 objj_executeFile("CPCompatibility.j", true);
 objj_executeFile("_CPImageAndTextView.j", true);
@@ -11791,6 +11791,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("_inputElement"), functi
     window.setTimeout(function()
     {
         element.focus();
+        objj_msgSend(self, "textDidFocus:", objj_msgSend(CPNotification, "notificationWithName:object:userInfo:", CPTextFieldDidFocusNotification, self, nil));
         CPTextFieldInputOwner = self;
     }, 0.0);
     element.value = objj_msgSend(self, "stringValue");
@@ -11803,7 +11804,6 @@ class_addMethods(the_class, [new objj_method(sel_getUid("_inputElement"), functi
         objj_msgSend(objj_msgSend(self, "window"), "platformWindow")._DOMBodyElement.ondrag = function () {};
         objj_msgSend(objj_msgSend(self, "window"), "platformWindow")._DOMBodyElement.onselectstart = function () {};
     }
-    objj_msgSend(self, "textDidFocus:", objj_msgSend(CPNotification, "notificationWithName:object:userInfo:", CPTextFieldDidFocusNotification, self, nil));
     return YES;
 }
 },["BOOL"]), new objj_method(sel_getUid("resignFirstResponder"), function $CPTextField__resignFirstResponder(self, _cmd)
@@ -33386,7 +33386,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("view"), function $_CPM
 },["id"])]);
 }
 
-p;24;_CPMenuItemMenuBarView.jt;10579;@STATIC;1.0;t;10559;
+p;24;_CPMenuItemMenuBarView.jt;10593;@STATIC;1.0;t;10573;
 
 var HORIZONTAL_MARGIN = 8.0,
     SUBMENU_INDICATOR_MARGIN = 3.0,
@@ -33517,7 +33517,7 @@ _menuItem = newValue;
 {
 
     if (!objj_msgSend(_menuItem, "isEnabled"))
-        return;
+        shouldHighlight = NO;
 
     if (shouldHighlight)
     {

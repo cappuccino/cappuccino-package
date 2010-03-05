@@ -28173,7 +28173,7 @@ objj_msgSend(_18,"setAutoresizesSubviews:",YES);
 }),new objj_method(sel_getUid("highlight:"),function(_1e,_1f,_20){
 with(_1e){
 if(!objj_msgSend(_menuItem,"isEnabled")){
-return;
+_20=NO;
 }
 if(_20){
 if(!objj_msgSend(_menuItem,"_isMenuBarButton")){

@@ -32333,7 +32333,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("view"), function $_CPM
 },["id"])]);
 }
 
-p;24;_CPMenuItemMenuBarView.jt;10579;@STATIC;1.0;t;10559;
+p;24;_CPMenuItemMenuBarView.jt;10593;@STATIC;1.0;t;10573;
 
 var HORIZONTAL_MARGIN = 8.0,
     SUBMENU_INDICATOR_MARGIN = 3.0,
@@ -32464,7 +32464,7 @@ _menuItem = newValue;
 {
 
     if (!objj_msgSend(_menuItem, "isEnabled"))
-        return;
+        shouldHighlight = NO;
 
     if (shouldHighlight)
     {

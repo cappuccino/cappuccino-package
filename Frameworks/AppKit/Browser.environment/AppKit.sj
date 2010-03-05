@@ -10306,6 +10306,7 @@ _46.style.height=(_47.size.height)+"px";
 _DOMElement.appendChild(_46);
 window.setTimeout(function(){
 _46.focus();
+objj_msgSend(_43,"textDidFocus:",objj_msgSend(CPNotification,"notificationWithName:object:userInfo:",CPTextFieldDidFocusNotification,_43,nil));
 _4=_43;
 },0);
 _46.value=objj_msgSend(_43,"stringValue");
@@ -10319,7 +10320,6 @@ objj_msgSend(objj_msgSend(_43,"window"),"platformWindow")._DOMBodyElement.ondrag
 objj_msgSend(objj_msgSend(_43,"window"),"platformWindow")._DOMBodyElement.onselectstart=function(){
 };
 }
-objj_msgSend(_43,"textDidFocus:",objj_msgSend(CPNotification,"notificationWithName:object:userInfo:",CPTextFieldDidFocusNotification,_43,nil));
 return YES;
 }
 }),new objj_method(sel_getUid("resignFirstResponder"),function(_48,_49){
@@ -29227,7 +29227,7 @@ objj_msgSend(_18,"setAutoresizesSubviews:",YES);
 }),new objj_method(sel_getUid("highlight:"),function(_1e,_1f,_20){
 with(_1e){
 if(!objj_msgSend(_menuItem,"isEnabled")){
-return;
+_20=NO;
 }
 if(_20){
 if(!objj_msgSend(_menuItem,"_isMenuBarButton")){
