@@ -2380,7 +2380,7 @@ return objj_msgSend(CPMenuItem,"class");
 })]);
 var _1=objj_allocateClassPair(NSButtonCell,"NSMenuItemCell"),_2=_1.isa;
 objj_registerClassPair(_1);
-p;13;NSImageView.jt;3149;@STATIC;1.0;I;20;AppKit/CPImageView.jt;3105;
+p;13;NSImageView.jt;3171;@STATIC;1.0;I;20;AppKit/CPImageView.jt;3127;
 objj_executeFile("AppKit/CPImageView.j",false);
 var _1=objj_getClass("CPImageView");
 if(!_1){
@@ -2392,7 +2392,7 @@ with(_3){
 _3=objj_msgSendSuper({receiver:_3,super_class:objj_getClass("CPImageView").super_class},"NS_initWithCoder:",_5);
 if(_3){
 var _6=objj_msgSend(_5,"decodeObjectForKey:","NSCell");
-_imageScaling=objj_msgSend(_6,"imageScaling");
+objj_msgSend(_3,"setImageScaling:",objj_msgSend(_6,"imageScaling"));
 _isEditable=objj_msgSend(_6,"isEditable");
 }
 return _3;
