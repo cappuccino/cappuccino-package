@@ -1,4 +1,4 @@
-@STATIC;1.0;p;29;CPPropertyListSerialization.jt;2205;@STATIC;1.0;i;10;CPObject.jt;2171;objj_executeFile("CPObject.j", true);
+@STATIC;1.0;p;29;CPPropertyListSerialization.jt;2204;@STATIC;1.0;i;10;CPObject.jt;2170;objj_executeFile("CPObject.j", YES);
 CPPropertyListUnknownFormat = 0;
 CPPropertyListOpenStepFormat = kCFPropertyListOpenStepFormat;
 CPPropertyListXMLFormat_v1_0 = kCFPropertyListXMLFormat_v1_0;
@@ -36,10 +36,10 @@ var meta_class = the_class.isa;class_addMethods(meta_class, [new objj_method(sel
 },["id","CPData","CPPropertyListFormat","id"])]);
 }
 
-p;20;CPAttributedString.jt;21381;@STATIC;1.0;i;10;CPObject.ji;10;CPString.ji;14;CPDictionary.ji;9;CPRange.jt;21299;objj_executeFile("CPObject.j", true);
-objj_executeFile("CPString.j", true);
-objj_executeFile("CPDictionary.j", true);
-objj_executeFile("CPRange.j", true);
+p;20;CPAttributedString.jt;21377;@STATIC;1.0;i;10;CPObject.ji;10;CPString.ji;14;CPDictionary.ji;9;CPRange.jt;21295;objj_executeFile("CPObject.j", YES);
+objj_executeFile("CPString.j", YES);
+objj_executeFile("CPDictionary.j", YES);
+objj_executeFile("CPRange.j", YES);
 {var the_class = objj_allocateClassPair(CPObject, "CPAttributedString"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_string"), new objj_ivar("_rangeEntries")]);
 objj_registerClassPair(the_class);
@@ -488,11 +488,11 @@ var splitRangeEntry = splitRangeEntryAtIndex= function( aRangeEntry, anIndex)
     return [aRangeEntry, newRangeEntry];
 }
 
-p;9;CPArray.jt;27853;@STATIC;1.0;i;10;CPObject.ji;9;CPRange.ji;14;CPEnumerator.ji;18;CPSortDescriptor.ji;13;CPException.jt;27745;objj_executeFile("CPObject.j", true);
-objj_executeFile("CPRange.j", true);
-objj_executeFile("CPEnumerator.j", true);
-objj_executeFile("CPSortDescriptor.j", true);
-objj_executeFile("CPException.j", true);
+p;9;CPArray.jt;27848;@STATIC;1.0;i;10;CPObject.ji;9;CPRange.ji;14;CPEnumerator.ji;18;CPSortDescriptor.ji;13;CPException.jt;27740;objj_executeFile("CPObject.j", YES);
+objj_executeFile("CPRange.j", YES);
+objj_executeFile("CPEnumerator.j", YES);
+objj_executeFile("CPSortDescriptor.j", YES);
+objj_executeFile("CPException.j", YES);
 {var the_class = objj_allocateClassPair(CPEnumerator, "_CPArrayEnumerator"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_array"), new objj_ivar("_index")]);
 objj_registerClassPair(the_class);
@@ -1181,8 +1181,8 @@ meta_class = the_class.isa;objj_registerClassPair(the_class);
 Array.prototype.isa = CPArray;
 objj_msgSend(CPArray, "initialize");
 
-p;14;CPInvocation.jt;4021;@STATIC;1.0;i;10;CPObject.ji;13;CPException.jt;3969;objj_executeFile("CPObject.j", true);
-objj_executeFile("CPException.j", true);
+p;14;CPInvocation.jt;4019;@STATIC;1.0;i;10;CPObject.ji;13;CPException.jt;3967;objj_executeFile("CPObject.j", YES);
+objj_executeFile("CPException.j", YES);
 {var the_class = objj_allocateClassPair(CPObject, "CPInvocation"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_returnValue"), new objj_ivar("_arguments"), new objj_ivar("_methodSignature")]);
 objj_registerClassPair(the_class);
@@ -1281,45 +1281,58 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"])]);
 }
 
-p;10;CPBundle.jt;4609;@STATIC;1.0;i;10;CPObject.ji;14;CPDictionary.ji;14;CPURLRequest.jt;4537;objj_executeFile("CPObject.j", true);
-objj_executeFile("CPDictionary.j", true);
-objj_executeFile("CPURLRequest.j", true);
-var CPBundlesForPaths = { };
+p;10;CPBundle.jt;5252;@STATIC;1.0;i;10;CPObject.ji;14;CPDictionary.jt;5199;objj_executeFile("CPObject.j", YES);
+objj_executeFile("CPDictionary.j", YES);
+var CPBundlesForURLStrings = { };
 {var the_class = objj_allocateClassPair(CPObject, "CPBundle"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_bundle"), new objj_ivar("_delegate")]);
 objj_registerClassPair(the_class);
-class_addMethods(the_class, [new objj_method(sel_getUid("initWithPath:"), function $CPBundle__initWithPath_(self, _cmd, aPath)
+class_addMethods(the_class, [new objj_method(sel_getUid("initWithURL:"), function $CPBundle__initWithURL_(self, _cmd, aURL)
 { with(self)
 {
-    var existingBundle = CPBundlesForPaths[aPath];
+    aURL = new CFURL(aURL);
+    var URLString = aURL.absoluteString(),
+        existingBundle = CPBundlesForURLStrings[URLString];
     if (existingBundle)
         return existingBundle;
     self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPBundle").super_class }, "init");
     if (self)
     {
-        _bundle = new CFBundle(aPath);
-        CPBundlesForPaths[aPath] = self;
+        _bundle = new CFBundle(aURL);
+        CPBundlesForURLStrings[URLString] = self;
     }
     return self;
+}
+},["id","CPURL"]), new objj_method(sel_getUid("initWithPath:"), function $CPBundle__initWithPath_(self, _cmd, aPath)
+{ with(self)
+{
+    return objj_msgSend(self, "initWithURL:", aPath);
 }
 },["id","CPString"]), new objj_method(sel_getUid("classNamed:"), function $CPBundle__classNamed_(self, _cmd, aString)
 { with(self)
 {
 }
-},["Class","CPString"]), new objj_method(sel_getUid("bundlePath"), function $CPBundle__bundlePath(self, _cmd)
+},["Class","CPString"]), new objj_method(sel_getUid("bundleURL"), function $CPBundle__bundleURL(self, _cmd)
 { with(self)
 {
-    return _bundle.path();
+    return _bundle.bundleURL();
+}
+},["CPURL"]), new objj_method(sel_getUid("bundlePath"), function $CPBundle__bundlePath(self, _cmd)
+{ with(self)
+{
+    return objj_msgSend(objj_msgSend(self, "bundleURL"), "path");
 }
 },["CPString"]), new objj_method(sel_getUid("resourcePath"), function $CPBundle__resourcePath(self, _cmd)
 { with(self)
 {
-    var resourcePath = objj_msgSend(self, "bundlePath");
-    if (resourcePath.length)
-        resourcePath += '/';
-    return resourcePath + "Resources";
+    return objj_msgSend(objj_msgSend(self, "resourceURL"), "path");
 }
-},["CPString"]), new objj_method(sel_getUid("principalClass"), function $CPBundle__principalClass(self, _cmd)
+},["CPString"]), new objj_method(sel_getUid("resourceURL"), function $CPBundle__resourceURL(self, _cmd)
+{ with(self)
+{
+    return _bundle.resourcesDirectoryURL();
+}
+},["CPURL"]), new objj_method(sel_getUid("principalClass"), function $CPBundle__principalClass(self, _cmd)
 { with(self)
 {
     var className = objj_msgSend(self, "objectForInfoDictionaryKey:", "CPPrincipalClass");
@@ -1338,7 +1351,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithPath:"), functi
 },["CPDictionary"]), new objj_method(sel_getUid("objectForInfoDictionaryKey:"), function $CPBundle__objectForInfoDictionaryKey_(self, _cmd, aKey)
 { with(self)
 {
-    return _bundle.valueForInfoDictionary(aKey);
+    return _bundle.valueForInfoDictionaryKey(aKey);
 }
 },["id","CPString"]), new objj_method(sel_getUid("loadWithDelegate:"), function $CPBundle__loadWithDelegate_(self, _cmd, aDelegate)
 { with(self)
@@ -1362,7 +1375,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithPath:"), functi
         index = 0,
         count = objj_msgSend(staticResources, "count");
     for (; index < count; ++index)
-        objj_msgSend(staticResourceURLs, "addObject:", objj_msgSend(CPURL, "URLWithString:", staticResources[index].path()));
+        objj_msgSend(staticResourceURLs, "addObject:", staticResources[index].URL());
     return staticResourceURLs;
 }
 },["CPArray"]), new objj_method(sel_getUid("environments"), function $CPBundle__environments(self, _cmd)
@@ -1381,25 +1394,30 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithPath:"), functi
     return objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPBundle").super_class }, "description") + "(" + objj_msgSend(self, "bundlePath") + ")";
 }
 },["CPString"])]);
-class_addMethods(meta_class, [new objj_method(sel_getUid("bundleWithPath:"), function $CPBundle__bundleWithPath_(self, _cmd, aPath)
+class_addMethods(meta_class, [new objj_method(sel_getUid("bundleWithURL:"), function $CPBundle__bundleWithURL_(self, _cmd, aURL)
 { with(self)
 {
-    return objj_msgSend(objj_msgSend(self, "alloc"), "initWithPath:", aPath);
+    return objj_msgSend(objj_msgSend(self, "alloc"), "initWithURL:", aURL);
+}
+},["CPBundle","CPURL"]), new objj_method(sel_getUid("bundleWithPath:"), function $CPBundle__bundleWithPath_(self, _cmd, aPath)
+{ with(self)
+{
+    return objj_msgSend(self, "bundleWithURL:", aPath);
 }
 },["CPBundle","CPString"]), new objj_method(sel_getUid("bundleForClass:"), function $CPBundle__bundleForClass_(self, _cmd, aClass)
 { with(self)
 {
-    return objj_msgSend(self, "bundleWithPath:", CFBundle.bundleForClass(aClass).path());
+    return objj_msgSend(self, "bundleWithURL:", CFBundle.bundleForClass(aClass).bundleURL());
 }
 },["CPBundle","Class"]), new objj_method(sel_getUid("mainBundle"), function $CPBundle__mainBundle(self, _cmd)
 { with(self)
 {
-    return objj_msgSend(CPBundle, "bundleWithPath:", CFBundle.mainBundle().path());
+    return objj_msgSend(CPBundle, "bundleWithPath:", CFBundle.mainBundle().bundleURL());
 }
 },["CPBundle"])]);
 }
 
-p;15;CPObjJRuntime.jt;530;@STATIC;1.0;i;7;CPLog.jt;501;objj_executeFile("CPLog.j", true);
+p;15;CPObjJRuntime.jt;529;@STATIC;1.0;i;7;CPLog.jt;500;objj_executeFile("CPLog.j", YES);
 CPStringFromSelector= function(aSelector)
 {
     return sel_getName(aSelector);
@@ -1424,8 +1442,8 @@ MIN = Math.min;
 MAX = Math.max;
 ABS = Math.abs;
 
-p;12;CPIndexSet.jt;20726;@STATIC;1.0;i;9;CPRange.ji;10;CPObject.jt;20678;objj_executeFile("CPRange.j", true);
-objj_executeFile("CPObject.j", true);
+p;12;CPIndexSet.jt;20724;@STATIC;1.0;i;9;CPRange.ji;10;CPObject.jt;20676;objj_executeFile("CPRange.j", YES);
+objj_executeFile("CPObject.j", YES);
 {var the_class = objj_allocateClassPair(CPObject, "CPIndexSet"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_count"), new objj_ivar("_ranges")]);
 objj_registerClassPair(the_class);
@@ -1979,10 +1997,10 @@ var assumedPositionOfIndex = function(ranges, anIndex)
    return CPNotFound;
 }
 
-p;7;CPSet.jt;11364;@STATIC;1.0;i;10;CPObject.ji;9;CPArray.ji;10;CPNumber.ji;14;CPEnumerator.jt;11282;objj_executeFile("CPObject.j", true);
-objj_executeFile("CPArray.j", true);
-objj_executeFile("CPNumber.j", true);
-objj_executeFile("CPEnumerator.j", true);
+p;7;CPSet.jt;11360;@STATIC;1.0;i;10;CPObject.ji;9;CPArray.ji;10;CPNumber.ji;14;CPEnumerator.jt;11278;objj_executeFile("CPObject.j", YES);
+objj_executeFile("CPArray.j", YES);
+objj_executeFile("CPNumber.j", YES);
+objj_executeFile("CPEnumerator.j", YES);
 {var the_class = objj_allocateClassPair(CPObject, "CPSet"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_contents"), new objj_ivar("_count")]);
 objj_registerClassPair(the_class);
@@ -2293,49 +2311,49 @@ meta_class = the_class.isa;objj_registerClassPair(the_class);
 }
 
 p;7;CPLog.jt;17;@STATIC;1.0;t;1;
-p;12;Foundation.jt;2295;@STATIC;1.0;i;9;CPArray.ji;10;CPBundle.ji;9;CPCoder.ji;8;CPData.ji;8;CPDate.ji;14;CPDictionary.ji;14;CPEnumerator.ji;13;CPException.ji;12;CPIndexSet.ji;14;CPInvocation.ji;19;CPJSONPConnection.ji;17;CPKeyedArchiver.ji;19;CPKeyedUnarchiver.ji;18;CPKeyValueCoding.ji;21;CPKeyValueObserving.ji;7;CPLog.ji;16;CPNotification.ji;22;CPNotificationCenter.ji;8;CPNull.ji;10;CPNumber.ji;10;CPObject.ji;15;CPObjJRuntime.ji;13;CPOperation.ji;18;CPOperationQueue.ji;29;CPPropertyListSerialization.ji;9;CPRange.ji;11;CPRunLoop.ji;7;CPSet.ji;18;CPSortDescriptor.ji;10;CPString.ji;9;CPTimer.ji;15;CPUndoManager.ji;7;CPURL.ji;17;CPURLConnection.ji;14;CPURLRequest.ji;15;CPURLResponse.ji;22;CPUserSessionManager.ji;9;CPValue.jt;1581;objj_executeFile("CPArray.j", true);
-objj_executeFile("CPBundle.j", true);
-objj_executeFile("CPCoder.j", true);
-objj_executeFile("CPData.j", true);
-objj_executeFile("CPDate.j", true);
-objj_executeFile("CPDictionary.j", true);
-objj_executeFile("CPEnumerator.j", true);
-objj_executeFile("CPException.j", true);
-objj_executeFile("CPIndexSet.j", true);
-objj_executeFile("CPInvocation.j", true);
-objj_executeFile("CPJSONPConnection.j", true);
-objj_executeFile("CPKeyedArchiver.j", true);
-objj_executeFile("CPKeyedUnarchiver.j", true);
-objj_executeFile("CPKeyValueCoding.j", true);
-objj_executeFile("CPKeyValueObserving.j", true);
-objj_executeFile("CPLog.j", true);
-objj_executeFile("CPNotification.j", true);
-objj_executeFile("CPNotificationCenter.j", true);
-objj_executeFile("CPNull.j", true);
-objj_executeFile("CPNumber.j", true);
-objj_executeFile("CPObject.j", true);
-objj_executeFile("CPObjJRuntime.j", true);
-objj_executeFile("CPOperation.j", true);
-objj_executeFile("CPOperationQueue.j", true);
-objj_executeFile("CPPropertyListSerialization.j", true);
-objj_executeFile("CPRange.j", true);
-objj_executeFile("CPRunLoop.j", true);
-objj_executeFile("CPSet.j", true);
-objj_executeFile("CPSortDescriptor.j", true);
-objj_executeFile("CPString.j", true);
-objj_executeFile("CPTimer.j", true);
-objj_executeFile("CPUndoManager.j", true);
-objj_executeFile("CPURL.j", true);
-objj_executeFile("CPURLConnection.j", true);
-objj_executeFile("CPURLRequest.j", true);
-objj_executeFile("CPURLResponse.j", true);
-objj_executeFile("CPUserSessionManager.j", true);
-objj_executeFile("CPValue.j", true);
+p;12;Foundation.jt;2257;@STATIC;1.0;i;9;CPArray.ji;10;CPBundle.ji;9;CPCoder.ji;8;CPData.ji;8;CPDate.ji;14;CPDictionary.ji;14;CPEnumerator.ji;13;CPException.ji;12;CPIndexSet.ji;14;CPInvocation.ji;19;CPJSONPConnection.ji;17;CPKeyedArchiver.ji;19;CPKeyedUnarchiver.ji;18;CPKeyValueCoding.ji;21;CPKeyValueObserving.ji;7;CPLog.ji;16;CPNotification.ji;22;CPNotificationCenter.ji;8;CPNull.ji;10;CPNumber.ji;10;CPObject.ji;15;CPObjJRuntime.ji;13;CPOperation.ji;18;CPOperationQueue.ji;29;CPPropertyListSerialization.ji;9;CPRange.ji;11;CPRunLoop.ji;7;CPSet.ji;18;CPSortDescriptor.ji;10;CPString.ji;9;CPTimer.ji;15;CPUndoManager.ji;7;CPURL.ji;17;CPURLConnection.ji;14;CPURLRequest.ji;15;CPURLResponse.ji;22;CPUserSessionManager.ji;9;CPValue.jt;1543;objj_executeFile("CPArray.j", YES);
+objj_executeFile("CPBundle.j", YES);
+objj_executeFile("CPCoder.j", YES);
+objj_executeFile("CPData.j", YES);
+objj_executeFile("CPDate.j", YES);
+objj_executeFile("CPDictionary.j", YES);
+objj_executeFile("CPEnumerator.j", YES);
+objj_executeFile("CPException.j", YES);
+objj_executeFile("CPIndexSet.j", YES);
+objj_executeFile("CPInvocation.j", YES);
+objj_executeFile("CPJSONPConnection.j", YES);
+objj_executeFile("CPKeyedArchiver.j", YES);
+objj_executeFile("CPKeyedUnarchiver.j", YES);
+objj_executeFile("CPKeyValueCoding.j", YES);
+objj_executeFile("CPKeyValueObserving.j", YES);
+objj_executeFile("CPLog.j", YES);
+objj_executeFile("CPNotification.j", YES);
+objj_executeFile("CPNotificationCenter.j", YES);
+objj_executeFile("CPNull.j", YES);
+objj_executeFile("CPNumber.j", YES);
+objj_executeFile("CPObject.j", YES);
+objj_executeFile("CPObjJRuntime.j", YES);
+objj_executeFile("CPOperation.j", YES);
+objj_executeFile("CPOperationQueue.j", YES);
+objj_executeFile("CPPropertyListSerialization.j", YES);
+objj_executeFile("CPRange.j", YES);
+objj_executeFile("CPRunLoop.j", YES);
+objj_executeFile("CPSet.j", YES);
+objj_executeFile("CPSortDescriptor.j", YES);
+objj_executeFile("CPString.j", YES);
+objj_executeFile("CPTimer.j", YES);
+objj_executeFile("CPUndoManager.j", YES);
+objj_executeFile("CPURL.j", YES);
+objj_executeFile("CPURLConnection.j", YES);
+objj_executeFile("CPURLRequest.j", YES);
+objj_executeFile("CPURLResponse.j", YES);
+objj_executeFile("CPUserSessionManager.j", YES);
+objj_executeFile("CPValue.j", YES);
 
-p;10;CPString.jt;15655;@STATIC;1.0;i;10;CPObject.ji;13;CPException.ji;18;CPSortDescriptor.ji;9;CPValue.jt;15566;objj_executeFile("CPObject.j", true);
-objj_executeFile("CPException.j", true);
-objj_executeFile("CPSortDescriptor.j", true);
-objj_executeFile("CPValue.j", true);
+p;10;CPString.jt;15651;@STATIC;1.0;i;10;CPObject.ji;13;CPException.ji;18;CPSortDescriptor.ji;9;CPValue.jt;15562;objj_executeFile("CPObject.j", YES);
+objj_executeFile("CPException.j", YES);
+objj_executeFile("CPSortDescriptor.j", YES);
+objj_executeFile("CPValue.j", YES);
 CPCaseInsensitiveSearch = 1;
 CPLiteralSearch = 2;
 CPBackwardsSearch = 4;
@@ -2722,9 +2740,9 @@ var meta_class = the_class.isa;class_addMethods(meta_class, [new objj_method(sel
 }
 String.prototype.isa = CPString;
 
-p;11;CPRunLoop.jt;10042;@STATIC;1.0;i;10;CPObject.ji;9;CPArray.ji;10;CPString.jt;9980;objj_executeFile("CPObject.j", true);
-objj_executeFile("CPArray.j", true);
-objj_executeFile("CPString.j", true);
+p;11;CPRunLoop.jt;10039;@STATIC;1.0;i;10;CPObject.ji;9;CPArray.ji;10;CPString.jt;9977;objj_executeFile("CPObject.j", YES);
+objj_executeFile("CPArray.j", YES);
+objj_executeFile("CPString.j", YES);
 CPDefaultRunLoopMode = "CPDefaultRunLoopMode";
 _CPRunLoopPerformCompare= function(lhs, rhs)
 {
@@ -2964,8 +2982,8 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("initialize"), function
 },["CPRunLoop"])]);
 }
 
-p;18;CPSortDescriptor.jt;3015;@STATIC;1.0;i;10;CPObject.ji;15;CPObjJRuntime.jt;2961;objj_executeFile("CPObject.j", true);
-objj_executeFile("CPObjJRuntime.j", true);
+p;18;CPSortDescriptor.jt;3013;@STATIC;1.0;i;10;CPObject.ji;15;CPObjJRuntime.jt;2959;objj_executeFile("CPObject.j", YES);
+objj_executeFile("CPObjJRuntime.j", YES);
 CPOrderedAscending = -1;
 CPOrderedSame = 0;
 CPOrderedDescending = 1;
@@ -3028,10 +3046,10 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("sortDescriptorWithKey:
 },["id","CPString","BOOL","SEL"])]);
 }
 
-p;14;CPDictionary.jt;11343;@STATIC;1.0;i;9;CPArray.ji;10;CPObject.ji;14;CPEnumerator.ji;13;CPException.jt;11258;objj_executeFile("CPArray.j", true);
-objj_executeFile("CPObject.j", true);
-objj_executeFile("CPEnumerator.j", true);
-objj_executeFile("CPException.j", true);
+p;14;CPDictionary.jt;11339;@STATIC;1.0;i;9;CPArray.ji;10;CPObject.ji;14;CPEnumerator.ji;13;CPException.jt;11254;objj_executeFile("CPArray.j", YES);
+objj_executeFile("CPObject.j", YES);
+objj_executeFile("CPEnumerator.j", YES);
+objj_executeFile("CPException.j", YES);
 {var the_class = objj_allocateClassPair(CPEnumerator, "_CPDictionaryValueEnumerator"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_keyEnumerator"), new objj_ivar("_dictionary")]);
 objj_registerClassPair(the_class);
@@ -3304,8 +3322,8 @@ meta_class = the_class.isa;objj_registerClassPair(the_class);
 CFDictionary.prototype.isa = CPDictionary;
 CFMutableDictionary.prototype.isa = CPMutableDictionary;
 
-p;16;CPNotification.jt;2275;@STATIC;1.0;i;10;CPObject.ji;13;CPException.jt;2223;objj_executeFile("CPObject.j", true);
-objj_executeFile("CPException.j", true);
+p;16;CPNotification.jt;2273;@STATIC;1.0;i;10;CPObject.ji;13;CPException.jt;2221;objj_executeFile("CPObject.j", YES);
+objj_executeFile("CPException.j", YES);
 {var the_class = objj_allocateClassPair(CPObject, "CPNotification"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_name"), new objj_ivar("_object"), new objj_ivar("_userInfo")]);
 objj_registerClassPair(the_class);
@@ -3355,8 +3373,8 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("notificationWithName:o
 },["CPNotification","CPString","id"])]);
 }
 
-p;8;CPData.jt;6118;@STATIC;1.0;i;10;CPObject.ji;10;CPString.jt;6069;objj_executeFile("CPObject.j", true);
-objj_executeFile("CPString.j", true);
+p;8;CPData.jt;6116;@STATIC;1.0;i;10;CPObject.ji;10;CPString.jt;6067;objj_executeFile("CPObject.j", YES);
+objj_executeFile("CPString.j", YES);
 {var the_class = objj_allocateClassPair(CPObject, "CPData"),
 meta_class = the_class.isa;objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("initWithRawString:"), function $CPData__initWithRawString_(self, _cmd, aString)
@@ -3507,7 +3525,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("dataWithString:"), fun
 CFData.prototype.isa = CPData;
 CFMutableData.prototype.isa = CPData;
 
-p;14;CPCountedSet.jt;1833;@STATIC;1.0;i;7;CPSet.jt;1803;objj_executeFile("CPSet.j", true);
+p;14;CPCountedSet.jt;1832;@STATIC;1.0;i;7;CPSet.jt;1802;objj_executeFile("CPSet.j", YES);
 {var the_class = objj_allocateClassPair(CPMutableSet, "CPCountedSet"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_counts")]);
 objj_registerClassPair(the_class);
@@ -3832,9 +3850,9 @@ objj_class.prototype.toString = objj_object.prototype.toString = function()
         return String(this) + " (-description not implemented)";
 }
 
-p;9;CPProxy.jt;5138;@STATIC;1.0;i;13;CPException.ji;14;CPInvocation.ji;10;CPString.jt;5067;objj_executeFile("CPException.j", true);
-objj_executeFile("CPInvocation.j", true);
-objj_executeFile("CPString.j", true);
+p;9;CPProxy.jt;5135;@STATIC;1.0;i;13;CPException.ji;14;CPInvocation.ji;10;CPString.jt;5064;objj_executeFile("CPException.j", YES);
+objj_executeFile("CPInvocation.j", YES);
+objj_executeFile("CPString.j", YES);
 {var the_class = objj_allocateClassPair(Nil, "CPProxy"),
 meta_class = the_class.isa;objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("methodSignatureForSelector:"), function $CPProxy__methodSignatureForSelector_(self, _cmd, aSelector)
@@ -3960,10 +3978,10 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("load"), function $CPPr
 },["BOOL","SEL"])]);
 }
 
-p;18;CPOperationQueue.jt;7926;@STATIC;1.0;I;21;Foundation/CPObject.ji;13;CPOperation.ji;23;CPInvocationOperation.ji;21;CPFunctionOperation.jt;7809;objj_executeFile("Foundation/CPObject.j", false);
-objj_executeFile("CPOperation.j", true);
-objj_executeFile("CPInvocationOperation.j", true);
-objj_executeFile("CPFunctionOperation.j", true);
+p;18;CPOperationQueue.jt;7920;@STATIC;1.0;I;21;Foundation/CPObject.ji;13;CPOperation.ji;23;CPInvocationOperation.ji;21;CPFunctionOperation.jt;7803;objj_executeFile("Foundation/CPObject.j", NO);
+objj_executeFile("CPOperation.j", YES);
+objj_executeFile("CPInvocationOperation.j", YES);
+objj_executeFile("CPFunctionOperation.j", YES);
 var cpOperationMainQueue = nil;
 {var the_class = objj_allocateClassPair(CPObject, "CPOperationQueue"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_operations"), new objj_ivar("_suspended"), new objj_ivar("_name"), new objj_ivar("_timer")]);
@@ -4180,10 +4198,10 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("mainQueue"), function 
 },["CPOperationQueue"])]);
 }
 
-p;7;CPURL.jt;17545;@STATIC;1.0;I;21;Foundation/CPObject.jt;17499;
+p;7;CPURL.jt;7936;@STATIC;1.0;I;21;Foundation/CPObject.jt;7891;
 
 
-objj_executeFile("Foundation/CPObject.j", false);
+objj_executeFile("Foundation/CPObject.j", NO);
 
 CPURLNameKey = "CPURLNameKey";
 CPURLLocalizedNameKey = "CPURLLocalizedNameKey";
@@ -4212,125 +4230,98 @@ CPURLEffectiveIconKey = "CPURLEffectiveIconKey";
 CPURLCustomIconKey = "CPURLCustomIconKey";
 
 {var the_class = objj_allocateClassPair(CPObject, "CPURL"),
-meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_base"), new objj_ivar("_relative"), new objj_ivar("_resourceValues")]);
-objj_registerClassPair(the_class);
-class_addMethods(the_class, [new objj_method(sel_getUid("baseURL"), function $CPURL__baseURL(self, _cmd)
+meta_class = the_class.isa;objj_registerClassPair(the_class);
+class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPURL__init(self, _cmd)
 { with(self)
 {
-return _base;
+    return nil;
 }
-},["id"]),
-new objj_method(sel_getUid("relativeString"), function $CPURL__relativeString(self, _cmd)
+},["id"]), new objj_method(sel_getUid("initWithScheme:host:path:"), function $CPURL__initWithScheme_host_path_(self, _cmd, aScheme, aHost, aPath)
 { with(self)
 {
-return _relative;
-}
-},["id"]), new objj_method(sel_getUid("initWithScheme:host:path:"), function $CPURL__initWithScheme_host_path_(self, _cmd, scheme, host, path)
-{ with(self)
-{
-    var uri = new URI();
-    uri.scheme = scheme;
-    uri.authority = host;
-    uri.path = path;
-    objj_msgSend(self, "initWithString:", uri.toString());
+    var URLString = (aScheme ? aScheme + ":" : "") + (aHost ? aHost + "//" : "") + (aPath || "");
+
+    return objj_msgSend(self, "initWithString:", URLString);
 }
 },["id","CPString","CPString","CPString"]), new objj_method(sel_getUid("initWithString:"), function $CPURL__initWithString_(self, _cmd, URLString)
 { with(self)
 {
     return objj_msgSend(self, "initWithString:relativeToURL:", URLString, nil);
 }
-},["id","CPString"]), new objj_method(sel_getUid("initWithString:relativeToURL:"), function $CPURL__initWithString_relativeToURL_(self, _cmd, URLString, baseURL)
+},["id","CPString"]), new objj_method(sel_getUid("initWithString:relativeToURL:"), function $CPURL__initWithString_relativeToURL_(self, _cmd, URLString, aBaseURL)
 { with(self)
 {
-    if (!URI_RE.test(URLString))
-        return nil;
-
-    if (self)
-    {
-        _base = baseURL;
-        _relative = URLString;
-        _resourceValues = objj_msgSend(CPDictionary, "dictionary");
-    }
-
-    return self;
+    return new CFURL(URLString, aBaseURL);
 }
 },["id","CPString","CPURL"]), new objj_method(sel_getUid("absoluteURL"), function $CPURL__absoluteURL(self, _cmd)
 { with(self)
 {
-    var absStr = objj_msgSend(self, "absoluteString");
-
-    if (absStr !== _relative)
-        return objj_msgSend(objj_msgSend(CPURL, "alloc"), "initWithString:", absStr);
-
-    return self;
+    return self.absoluteURL();
+}
+},["CPURL"]), new objj_method(sel_getUid("baseURL"), function $CPURL__baseURL(self, _cmd)
+{ with(self)
+{
+    return self.baseURL();
 }
 },["CPURL"]), new objj_method(sel_getUid("absoluteString"), function $CPURL__absoluteString(self, _cmd)
 { with(self)
 {
-    return resolve(objj_msgSend(_base, "absoluteString") || "", _relative);
+    return self.absoluteString();
 }
 },["CPString"]), new objj_method(sel_getUid("relativeString"), function $CPURL__relativeString(self, _cmd)
 { with(self)
 {
-    return _relative;
+    return self.string();
 }
 },["CPString"]), new objj_method(sel_getUid("path"), function $CPURL__path(self, _cmd)
 { with(self)
 {
-    var str = objj_msgSend(self, "absoluteString");
-    return URI_RE.test(str) ? (parse(str).path || nil) : nil;
+    return objj_msgSend(self, "absoluteURL").path();
 }
 },["CPString"]), new objj_method(sel_getUid("relativePath"), function $CPURL__relativePath(self, _cmd)
 { with(self)
 {
-    return URI_RE.test(_relative) ? (parse(_relative).path || nil) : nil;
+    return self.path();
 }
 },["CPString"]), new objj_method(sel_getUid("scheme"), function $CPURL__scheme(self, _cmd)
 { with(self)
 {
-    var str = objj_msgSend(self, "absoluteString");
-    return URI_RE.test(str) ? (parse(str).protocol || nil) : nil;
+    return self.scheme();
 }
 },["CPString"]), new objj_method(sel_getUid("user"), function $CPURL__user(self, _cmd)
 { with(self)
 {
-    var str = objj_msgSend(self, "absoluteString");
-    return URI_RE.test(str) ? (parse(str).user || nil) : nil;
+    return objj_msgSend(self, "absoluteURL").user();
 }
 },["CPString"]), new objj_method(sel_getUid("password"), function $CPURL__password(self, _cmd)
 { with(self)
 {
-    var str = objj_msgSend(self, "absoluteString");
-    return URI_RE.test(str) ? (parse(str).password || nil) : nil;
+    return objj_msgSend(self, "absoluteURL").password();
 }
 },["CPString"]), new objj_method(sel_getUid("host"), function $CPURL__host(self, _cmd)
 { with(self)
 {
-    var str = objj_msgSend(self, "absoluteString");
-    return URI_RE.test(str) ? (parse(str).domain || nil) : nil;
+    return objj_msgSend(self, "absoluteURL").domain();
 }
 },["CPString"]), new objj_method(sel_getUid("port"), function $CPURL__port(self, _cmd)
 { with(self)
 {
-    var str = objj_msgSend(self, "absoluteString");
-    if (URI_RE.test(str)) {
-        var port = parse(str).port;
-        if (port)
-            return parseInt(port, 10);
-    }
-    return nil;
+    var portNumber = objj_msgSend(self, "absoluteURL").portNumber();
+
+    if (portNumber === -1)
+        return nil;
+
+    return portNumber;
 }
 },["Number"]), new objj_method(sel_getUid("parameterString"), function $CPURL__parameterString(self, _cmd)
 { with(self)
 {
-    var str = objj_msgSend(self, "absoluteString");
-    return URI_RE.test(str) ? (parse(str).query || nil) : nil;
+    return self.queryString();
 }
 },["CPString"]), new objj_method(sel_getUid("fragment"), function $CPURL__fragment(self, _cmd)
 { with(self)
 {
-    var str = objj_msgSend(self, "absoluteString");
-    return URI_RE.test(str) ? (parse(str).anchor || nil) : nil;
+    return self.fragment();
 }
 },["CPString"]), new objj_method(sel_getUid("isEqual:"), function $CPURL__isEqual_(self, _cmd, anObject)
 { with(self)
@@ -4342,20 +4333,17 @@ return _relative;
 },["BOOL","id"]), new objj_method(sel_getUid("lastPathComponent"), function $CPURL__lastPathComponent(self, _cmd)
 { with(self)
 {
-    var path = objj_msgSend(self, "path");
-    return path ? path.split("/").pop() : nil;
+    return objj_msgSend(self, "absoluteURL").lastPathComponent();
 }
 },["CPString"]), new objj_method(sel_getUid("pathExtension"), function $CPURL__pathExtension(self, _cmd)
 { with(self)
 {
-    var path = objj_msgSend(self, "path"),
-        ext = path.match(/\.(\w+)$/);
-    return ext ? ext[1] : "";
+    return self.pathExtension();
 }
 },["CPString"]), new objj_method(sel_getUid("standardizedURL"), function $CPURL__standardizedURL(self, _cmd)
 { with(self)
 {
-    return objj_msgSend(CPURL, "URLWithString:relativeToURL:", format(parse(_relative)), _base);
+    return self.standardizedURL();
 }
 },["CPURL"]), new objj_method(sel_getUid("isFileURL"), function $CPURL__isFileURL(self, _cmd)
 { with(self)
@@ -4370,32 +4358,39 @@ return _relative;
 },["CPString"]), new objj_method(sel_getUid("resourceValueForKey:"), function $CPURL__resourceValueForKey_(self, _cmd, aKey)
 { with(self)
 {
-    return objj_msgSend(_resourceValues, "objectForKey:", aKey);
+    return self.resourcePropertyForKey(aKey);
 }
 },["id","CPString"]), new objj_method(sel_getUid("setResourceValue:forKey:"), function $CPURL__setResourceValue_forKey_(self, _cmd, anObject, aKey)
 { with(self)
 {
-    objj_msgSend(_resourceValues, "setObject:forKey:", anObject, aKey);
+    return self.setResourcePropertyForKey(aKey, anObject);
 }
 },["id","id","CPString"]), new objj_method(sel_getUid("staticResourceData"), function $CPURL__staticResourceData(self, _cmd)
 { with(self)
 {
-
-    return CFBundle.dataContentsAtPath(objj_msgSend(self, "path"));
+    return self.staticResourceData();
 }
 },["CPString"])]);
-class_addMethods(meta_class, [new objj_method(sel_getUid("URLWithString:"), function $CPURL__URLWithString_(self, _cmd, URLString)
+class_addMethods(meta_class, [new objj_method(sel_getUid("alloc"), function $CPURL__alloc(self, _cmd)
+{ with(self)
+{
+    return new CFURL();
+}
+},["id"]), new objj_method(sel_getUid("URLWithString:"), function $CPURL__URLWithString_(self, _cmd, URLString)
 { with(self)
 {
     return objj_msgSend(objj_msgSend(self, "alloc"), "initWithString:", URLString);
 }
-},["id","CPString"]), new objj_method(sel_getUid("URLWithString:relativeToURL:"), function $CPURL__URLWithString_relativeToURL_(self, _cmd, URLString, baseURL)
+},["id","CPString"]), new objj_method(sel_getUid("URLWithString:relativeToURL:"), function $CPURL__URLWithString_relativeToURL_(self, _cmd, URLString, aBaseURL)
 { with(self)
 {
-    return objj_msgSend(objj_msgSend(self, "alloc"), "initWithString:relativeToURL:", URLString, baseURL);
+    return objj_msgSend(objj_msgSend(self, "alloc"), "initWithString:relativeToURL:", URLString, aBaseURL);
 }
 },["id","CPString","CPURL"])]);
 }
+
+var CPURLURLStringKey = "CPURLURLStringKey",
+    CPURLBaseURLKey = "CPURLBaseURLKey";
 
 {
 var the_class = objj_getClass("CPURL")
@@ -4403,398 +4398,20 @@ if(!the_class) throw new SyntaxError("*** Could not find definition for class \"
 var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_getUid("initWithCoder:"), function $CPURL__initWithCoder_(self, _cmd, aCoder)
 { with(self)
 {
-    _base = objj_msgSend(aCoder, "decodeObjectForKey:", "CPURLBaseKey");
-    _relative = objj_msgSend(aCoder, "decodeObjectForKey:", "CPURLRelativeKey");
-    return self;
+    return objj_msgSend(self, "initWithURLString:baseURL:", objj_msgSend(aCoder, "decodeObjectForKey:", CPURLURLStringKey), objj_msgSend(aCoder, "decodeObjectForKey:", CPURLBaseURLKey));
 }
 },["id","CPCoder"]), new objj_method(sel_getUid("encodeWithCoder:"), function $CPURL__encodeWithCoder_(self, _cmd, aCoder)
 { with(self)
 {
-    objj_msgSend(aCoder, "encodeObject:forKey:", _base, "CPURLBaseKey");
-    objj_msgSend(aCoder, "encodeObject:forKey:", _relative, "CPURLRelativeKey");
+    objj_msgSend(aCoder, "encodeObject:forKey:", _baseURL, CPURLBaseURLKey);
+    objj_msgSend(aCoder, "encodeObject:forKey:", _string, CPURLURLStringKey);
 }
 },["void","CPCoder"])]);
 }
 
+CFURL.prototype.isa = objj_msgSend(CPURL, "class");
 
-
-
-var URI_RE = /^(?:([^:\/?\#]+):)?(?:\/\/([^\/?\#]*))?([^?\#]*)(?:\?([^\#]*))?(?:\#(.*))?/;
-
-
-
-
-var URI = function(str) {
-    if (!str) str = "";
-    var result = str.match(URI_RE);
-    this.scheme = result[1] || null;
-    this.authority = result[2] || null;
-    this.path = result[3] || null;
-    this.query = result[4] || null;
-    this.fragment = result[5] || null;
-}
-
-
-
-
-URI.prototype.toString = function () {
-    var str = "";
-
-    if (this.scheme)
-        str += this.scheme + ":";
-
-    if (this.authority)
-        str += "//" + this.authority;
-
-    if (this.path)
-        str += this.path;
-
-    if (this.query)
-        str += "?" + this.query;
-
-    if (this.fragment)
-        str += "#" + this.fragment;
-
-    return str;
-}
-
-var parse = function(uri) {
-    return new URI(uri);
-}
-
-var unescape = function(str, plus) {
-    return decodeURI(str).replace(/\+/g, " ");
-}
-
-var unescapeComponent = function(str, plus) {
-    return decodeURIComponent(str).replace(/\+/g, " ");
-}
-
-
-
-
-
-
-var keys = [
-    "url",
-    "protocol",
-    "authorityRoot",
-    "authority",
-        "userInfo",
-            "user",
-            "password",
-        "domain",
-            "domains",
-        "port",
-    "path",
-        "root",
-        "directory",
-            "directories",
-        "file",
-    "query",
-    "anchor"
-];
-
-
-
-
-
-var expressionKeys = [
-    "url",
-    "protocol",
-    "authorityRoot",
-    "authority",
-        "userInfo",
-            "user",
-            "password",
-        "domain",
-        "port",
-    "path",
-        "root",
-        "directory",
-        "file",
-    "query",
-    "anchor"
-];
-
-
-
-var strictExpression = new RegExp(
-    "^" +
-    "(?:" +
-        "([^:/?#]+):" +
-    ")?" +
-    "(?:" +
-        "(//)" +
-        "(" +
-            "(?:" +
-                "(" +
-                    "([^:@]*)" +
-                    ":?" +
-                    "([^:@]*)" +
-                ")?" +
-                "@" +
-            ")?" +
-            "([^:/?#]*)" +
-            "(?::(\\d*))?" +
-        ")" +
-    ")?" +
-    "(" +
-        "(/?)" +
-        "((?:[^?#/]*/)*)" +
-        "([^?#]*)" +
-    ")" +
-    "(?:\\?([^#]*))?" +
-    "(?:#(.*))?"
-);
-
-
-
-
-
-
-
-var Parser = function (expression) {
-    return function (url) {
-        if (typeof url == "undefined")
-            throw new Error("HttpError: URL is undefined");
-        if (typeof url != "string") return new Object(url);
-
-        var items = {};
-        var parts = expression.exec(url);
-
-        for (var i = 0; i < parts.length; i++) {
-            items[expressionKeys[i]] = parts[i] ? parts[i] : "";
-        }
-
-        items.root = (items.root || items.authorityRoot) ? '/' : '';
-
-        items.directories = items.directory.split("/");
-        if (items.directories[items.directories.length - 1] == "") {
-            items.directories.pop();
-        }
-
-
-        var directories = [];
-        for (var i = 0; i < items.directories.length; i++) {
-            var directory = items.directories[i];
-            if (directory == '.') {
-            } else if (directory == '..') {
-                if (directories.length && directories[directories.length - 1] != '..')
-                    directories.pop();
-                else
-                    directories.push('..');
-            } else {
-                directories.push(directory);
-            }
-        }
-        items.directories = directories;
-
-        items.domains = items.domain.split(".");
-
-        return items;
-    };
-};
-
-
-
-
-var parse = Parser(strictExpression);
-
-
-
-
-
-var format = function (object) {
-    if (typeof(object) == 'undefined')
-        throw new Error("UrlError: URL undefined for urls#format");
-    if (object instanceof String || typeof(object) == 'string')
-        return object;
-    var domain =
-        object.domains ?
-        object.domains.join(".") :
-        object.domain;
-    var userInfo = (
-            object.user ||
-            object.password
-        ) ?
-        (
-            (object.user || "") +
-            (object.password ? ":" + object.password : "")
-        ) :
-        object.userInfo;
-    var authority = (
-            userInfo ||
-            domain ||
-            object.port
-        ) ? (
-            (userInfo ? userInfo + "@" : "") +
-            (domain || "") +
-            (object.port ? ":" + object.port : "")
-        ) :
-        object.authority;
-    var directory =
-        object.directories ?
-        object.directories.join("/") :
-        object.directory;
-    var path =
-        directory || object.file ?
-        (
-            (directory ? directory + "/" : "") +
-            (object.file || "")
-        ) :
-        object.path;
-    return (
-        (object.protocol ? object.protocol + ":" : "") +
-        (authority ? "//" + authority : "") +
-        (object.root || (authority && path) ? "/" : "") +
-        (path ? path : "") +
-        (object.query ? "?" + object.query : "") +
-        (object.anchor ? "#" + object.anchor : "")
-    ) || object.url || "";
-};
-
-
-
-
-
-var resolveObject = function (source, relative) {
-    if (!source)
-        return relative;
-
-    source = parse(source);
-    relative = parse(relative);
-
-    if (relative.url == "")
-        return source;
-
-    delete source.url;
-    delete source.authority;
-    delete source.domain;
-    delete source.userInfo;
-    delete source.path;
-    delete source.directory;
-
-    if (
-        relative.protocol && relative.protocol != source.protocol ||
-        relative.authority && relative.authority != source.authority
-    ) {
-        source = relative;
-    } else {
-        if (relative.root) {
-            source.directories = relative.directories;
-        } else {
-
-            var directories = relative.directories;
-            for (var i = 0; i < directories.length; i++) {
-                var directory = directories[i];
-                if (directory == ".") {
-                } else if (directory == "..") {
-                    if (source.directories.length) {
-                        source.directories.pop();
-                    } else {
-                        source.directories.push('..');
-                    }
-                } else {
-                    source.directories.push(directory);
-                }
-            }
-
-            if (relative.file == ".") {
-                relative.file = "";
-            } else if (relative.file == "..") {
-                source.directories.pop();
-                relative.file = "";
-            }
-        }
-    }
-
-    if (relative.root)
-        source.root = relative.root;
-    if (relative.protcol)
-        source.protocol = relative.protocol;
-    if (!(!relative.path && relative.anchor))
-        source.file = relative.file;
-    source.query = relative.query;
-    source.anchor = relative.anchor;
-
-    return source;
-};
-
-
-
-
-
-var relativeObject = function (source, target) {
-    target = parse(target);
-    source = parse(source);
-
-    delete target.url;
-
-    if (
-        target.protocol == source.protocol &&
-        target.authority == source.authority
-    ) {
-        delete target.protocol;
-        delete target.authority;
-        delete target.userInfo;
-        delete target.user;
-        delete target.password;
-        delete target.domain;
-        delete target.domains;
-        delete target.port;
-        if (
-            !!target.root == !!source.root && !(
-                target.root &&
-                target.directories[0] != source.directories[0]
-            )
-        ) {
-            delete target.path;
-            delete target.root;
-            delete target.directory;
-            while (
-                source.directories.length &&
-                target.directories.length &&
-                target.directories[0] == source.directories[0]
-            ) {
-                target.directories.shift();
-                source.directories.shift();
-            }
-            while (source.directories.length) {
-                source.directories.shift();
-                target.directories.unshift('..');
-            }
-
-            if (!target.root && !target.directories.length && !target.file && source.file)
-                target.directories.push('.');
-
-            if (source.file == target.file)
-                delete target.file;
-            if (source.query == target.query)
-                delete target.query;
-            if (source.anchor == target.anchor)
-                delete target.anchor;
-        }
-    }
-
-    return target;
-};
-
-
-
-
-var resolve = function (source, relative) {
-    return format(resolveObject(source, relative));
-};
-
-
-
-
-var relative = function (source, target) {
-    return format(relativeObject(source, target));
-};
-
-p;8;CPNull.jt;496;@STATIC;1.0;i;10;CPObject.jt;463;objj_executeFile("CPObject.j", true);
+p;8;CPNull.jt;495;@STATIC;1.0;i;10;CPObject.jt;462;objj_executeFile("CPObject.j", YES);
 var CPNullSharedNull = nil;
 {var the_class = objj_allocateClassPair(CPObject, "CPNull"),
 meta_class = the_class.isa;objj_registerClassPair(the_class);
@@ -4985,9 +4602,9 @@ var mapURLsAndProperties = function( properties, ignoredURL)
 {
 }
 
-p;15;CPUndoManager.jt;22440;@STATIC;1.0;i;10;CPObject.ji;14;CPInvocation.ji;9;CPProxy.jt;22373;objj_executeFile("CPObject.j", true);
-objj_executeFile("CPInvocation.j", true);
-objj_executeFile("CPProxy.j", true);
+p;15;CPUndoManager.jt;22437;@STATIC;1.0;i;10;CPObject.ji;14;CPInvocation.ji;9;CPProxy.jt;22370;objj_executeFile("CPObject.j", YES);
+objj_executeFile("CPInvocation.j", YES);
+objj_executeFile("CPProxy.j", YES);
 var CPUndoManagerNormal = 0,
     CPUndoManagerUndoing = 1,
     CPUndoManagerRedoing = 2;
@@ -5464,9 +5081,9 @@ class_addMethods(the_class, [new objj_method(sel_getUid("methodSignatureForSelec
 },["void","CPInvocation"])]);
 }
 
-p;13;CPException.jt;4922;@STATIC;1.0;i;9;CPCoder.ji;10;CPObject.ji;10;CPString.jt;4860;objj_executeFile("CPCoder.j", true);
-objj_executeFile("CPObject.j", true);
-objj_executeFile("CPString.j", true);
+p;13;CPException.jt;4919;@STATIC;1.0;i;9;CPCoder.ji;10;CPObject.ji;10;CPString.jt;4857;objj_executeFile("CPCoder.j", YES);
+objj_executeFile("CPObject.j", YES);
+objj_executeFile("CPString.j", YES);
 CPInvalidArgumentException = "CPInvalidArgumentException";
 CPUnsupportedMethodException = "CPUnsupportedMethodException";
 CPRangeException = "CPRangeException";
@@ -5578,7 +5195,7 @@ _CPReportLenientDeprecation= function( aClass, oldSelector, newSelector)
     CPLog.warn("[" + CPStringFromClass(aClass) + " " + CPStringFromSelector(oldSelector) + "] is deprecated, using " + CPStringFromSelector(newSelector) + " instead.");
 }
 
-p;14;CPEnumerator.jt;504;@STATIC;1.0;i;10;CPObject.jt;471;objj_executeFile("CPObject.j", true);
+p;14;CPEnumerator.jt;503;@STATIC;1.0;i;10;CPObject.jt;470;objj_executeFile("CPObject.j", YES);
 {var the_class = objj_allocateClassPair(CPObject, "CPEnumerator"),
 meta_class = the_class.isa;objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("nextObject"), function $CPEnumerator__nextObject(self, _cmd)
@@ -5594,8 +5211,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("nextObject"), function 
 },["CPArray"])]);
 }
 
-p;8;CPDate.jt;7298;@STATIC;1.0;i;10;CPObject.ji;10;CPString.jt;7249;objj_executeFile("CPObject.j", true);
-objj_executeFile("CPString.j", true);
+p;8;CPDate.jt;7296;@STATIC;1.0;i;10;CPObject.ji;10;CPString.jt;7247;objj_executeFile("CPObject.j", YES);
+objj_executeFile("CPString.j", YES);
 var CPDateReferenceDate = new Date(Date.UTC(2001,1,1,0,0,0,0));
 {var the_class = objj_allocateClassPair(CPObject, "CPDate"),
 meta_class = the_class.isa;objj_registerClassPair(the_class);
@@ -5760,7 +5377,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 }
 Date.prototype.isa = CPDate;
 
-p;14;CPURLRequest.jt;3147;@STATIC;1.0;i;10;CPObject.jt;3113;objj_executeFile("CPObject.j", true);
+p;14;CPURLRequest.jt;3000;@STATIC;1.0;i;10;CPObject.jt;2966;objj_executeFile("CPObject.j", YES);
 {var the_class = objj_allocateClassPair(CPObject, "CPURLRequest"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_URL"), new objj_ivar("_HTTPBody"), new objj_ivar("_HTTPMethod"), new objj_ivar("_HTTPHeaderFields")]);
 objj_registerClassPair(the_class);
@@ -5788,10 +5405,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithURL:"), functio
 },["CPURL"]), new objj_method(sel_getUid("setURL:"), function $CPURLRequest__setURL_(self, _cmd, aURL)
 { with(self)
 {
-    if (objj_msgSend(aURL, "isKindOfClass:", objj_msgSend(CPURL, "class")))
-        _URL = aURL;
-    else
-        _URL = objj_msgSend(CPURL, "URLWithString:", String(aURL));
+    _URL = new CFURL(aURL);
 }
 },["void","CPURL"]), new objj_method(sel_getUid("setHTTPBody:"), function $CPURLRequest__setHTTPBody_(self, _cmd, anHTTPBody)
 { with(self)
@@ -5837,8 +5451,8 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("requestWithURL:"), fun
 },["id","CPURL"])]);
 }
 
-p;22;CPUserSessionManager.jt;2689;@STATIC;1.0;I;21;Foundation/CPObject.jI;21;Foundation/CPString.jt;2618;objj_executeFile("Foundation/CPObject.j", false);
-objj_executeFile("Foundation/CPString.j", false);
+p;22;CPUserSessionManager.jt;2683;@STATIC;1.0;I;21;Foundation/CPObject.jI;21;Foundation/CPString.jt;2612;objj_executeFile("Foundation/CPObject.j", NO);
+objj_executeFile("Foundation/CPString.j", NO);
 CPUserSessionUndeterminedStatus = 0;
 CPUserSessionLoggedInStatus = 1;
 CPUserSessionLoggedOutStatus = 2;
@@ -5895,8 +5509,8 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("defaultManager"), func
 },["id"])]);
 }
 
-p;13;CPArray+KVO.jt;17655;@STATIC;1.0;i;9;CPArray.ji;8;CPNull.jt;17610;objj_executeFile("CPArray.j", true);
-objj_executeFile("CPNull.j", true);
+p;13;CPArray+KVO.jt;17653;@STATIC;1.0;i;9;CPArray.ji;8;CPNull.jt;17608;objj_executeFile("CPArray.j", YES);
+objj_executeFile("CPNull.j", YES);
 {
 var the_class = objj_getClass("CPObject")
 if(!the_class) throw new SyntaxError("*** Could not find definition for class \"CPObject\"");
@@ -6273,8 +5887,8 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","id","CPString"])]);
 }
 
-p;9;CPCoder.jt;2790;@STATIC;1.0;i;10;CPObject.ji;13;CPException.jt;2738;objj_executeFile("CPObject.j", true);
-objj_executeFile("CPException.j", true);
+p;9;CPCoder.jt;2788;@STATIC;1.0;i;10;CPObject.ji;13;CPException.jt;2736;objj_executeFile("CPObject.j", YES);
+objj_executeFile("CPException.j", YES);
 {var the_class = objj_allocateClassPair(CPObject, "CPCoder"),
 meta_class = the_class.isa;objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("allowsKeyedCoding"), function $CPCoder__allowsKeyedCoding(self, _cmd)
@@ -6346,8 +5960,8 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["id","CPCoder"])]);
 }
 
-p;21;CPFunctionOperation.jt;1841;@STATIC;1.0;I;21;Foundation/CPObject.ji;13;CPOperation.jt;1778;objj_executeFile("Foundation/CPObject.j", false);
-objj_executeFile("CPOperation.j", true);
+p;21;CPFunctionOperation.jt;1837;@STATIC;1.0;I;21;Foundation/CPObject.ji;13;CPOperation.jt;1774;objj_executeFile("Foundation/CPObject.j", NO);
+objj_executeFile("CPOperation.j", YES);
 {var the_class = objj_allocateClassPair(CPOperation, "CPFunctionOperation"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_functions")]);
 objj_registerClassPair(the_class);
@@ -6394,8 +6008,8 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("functionOperationWithF
 },["id","JSObject"])]);
 }
 
-p;19;CPKeyedUnarchiver.jt;14441;@STATIC;1.0;i;9;CPCoder.ji;8;CPNull.jt;14396;objj_executeFile("CPCoder.j", true);
-objj_executeFile("CPNull.j", true);
+p;19;CPKeyedUnarchiver.jt;14439;@STATIC;1.0;i;9;CPCoder.ji;8;CPNull.jt;14394;objj_executeFile("CPCoder.j", YES);
+objj_executeFile("CPNull.j", YES);
 CPInvalidUnarchiveOperationException = "CPInvalidUnarchiveOperationException";
 var _CPKeyedUnarchiverCannotDecodeObjectOfClassNameOriginalClassesSelector = 1 << 0,
     _CPKeyedUnarchiverDidDecodeObjectSelector = 1 << 1,
@@ -6680,11 +6294,11 @@ var _CPKeyedUnarchiverDecodeObjectAtIndex = function(self, anIndex)
     return object;
 }
 
-p;22;CPNotificationCenter.jt;10361;@STATIC;1.0;i;9;CPArray.ji;14;CPDictionary.ji;13;CPException.ji;16;CPNotification.ji;8;CPNull.jt;10258;objj_executeFile("CPArray.j", true);
-objj_executeFile("CPDictionary.j", true);
-objj_executeFile("CPException.j", true);
-objj_executeFile("CPNotification.j", true);
-objj_executeFile("CPNull.j", true);
+p;22;CPNotificationCenter.jt;10356;@STATIC;1.0;i;9;CPArray.ji;14;CPDictionary.ji;13;CPException.ji;16;CPNotification.ji;8;CPNull.jt;10253;objj_executeFile("CPArray.j", YES);
+objj_executeFile("CPDictionary.j", YES);
+objj_executeFile("CPException.j", YES);
+objj_executeFile("CPNotification.j", YES);
+objj_executeFile("CPNull.j", YES);
 var CPNotificationDefaultCenter = nil;
 {var the_class = objj_allocateClassPair(CPObject, "CPNotificationCenter"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_namedRegistries"), new objj_ivar("_unnamedRegistry")]);
@@ -6899,10 +6513,10 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithObserver:select
 },["void","CPNotification"])]);
 }
 
-p;9;CPTimer.jt;8616;@STATIC;1.0;i;10;CPObject.ji;14;CPInvocation.ji;8;CPDate.ji;11;CPRunLoop.jt;8535;objj_executeFile("CPObject.j", true);
-objj_executeFile("CPInvocation.j", true);
-objj_executeFile("CPDate.j", true);
-objj_executeFile("CPRunLoop.j", true);
+p;9;CPTimer.jt;8612;@STATIC;1.0;i;10;CPObject.ji;14;CPInvocation.ji;8;CPDate.ji;11;CPRunLoop.jt;8531;objj_executeFile("CPObject.j", YES);
+objj_executeFile("CPInvocation.j", YES);
+objj_executeFile("CPDate.j", YES);
+objj_executeFile("CPRunLoop.j", YES);
 {var the_class = objj_allocateClassPair(CPObject, "CPTimer"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_timeInterval"), new objj_ivar("_invocation"), new objj_ivar("_callback"), new objj_ivar("_repeats"), new objj_ivar("_isValid"), new objj_ivar("_fireDate"), new objj_ivar("_userInfo")]);
 objj_registerClassPair(the_class);
@@ -7071,7 +6685,7 @@ window.clearInterval = function(aTimeoutID)
     window.clearTimeout(aTimeoutID);
 }
 
-p;19;CPJSONPConnection.jt;4790;@STATIC;1.0;I;21;Foundation/CPObject.jt;4745;objj_executeFile("Foundation/CPObject.j", false);
+p;19;CPJSONPConnection.jt;4787;@STATIC;1.0;I;21;Foundation/CPObject.jt;4742;objj_executeFile("Foundation/CPObject.j", NO);
 CPJSONPConnectionCallbacks = {};
 CPJSONPCallbackReplacementString = "${JSONP_CALLBACK}";
 {var the_class = objj_allocateClassPair(CPObject, "CPJSONPConnection"),
@@ -7159,10 +6773,10 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("sendRequest:callback:d
 },["CPJSONPConnection","CPURLRequest","CPString","id"])]);
 }
 
-p;18;CPKeyValueCoding.jt;9310;@STATIC;1.0;i;9;CPArray.ji;14;CPDictionary.ji;8;CPNull.ji;10;CPObject.ji;21;CPKeyValueObserving.ji;13;CPArray+KVO.jt;9188;objj_executeFile("CPArray.j", true);
-objj_executeFile("CPDictionary.j", true);
-objj_executeFile("CPNull.j", true);
-objj_executeFile("CPObject.j", true);
+p;18;CPKeyValueCoding.jt;9304;@STATIC;1.0;i;9;CPArray.ji;14;CPDictionary.ji;8;CPNull.ji;10;CPObject.ji;21;CPKeyValueObserving.ji;13;CPArray+KVO.jt;9182;objj_executeFile("CPArray.j", YES);
+objj_executeFile("CPDictionary.j", YES);
+objj_executeFile("CPNull.j", YES);
+objj_executeFile("CPObject.j", YES);
 var CPObjectAccessorsForClass = nil,
     CPObjectModifiersForClass = nil;
 CPUndefinedKeyException = "CPUndefinedKeyException";
@@ -7361,12 +6975,12 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 }
 },["void","id","CPString"])]);
 }
-objj_executeFile("CPKeyValueObserving.j", true);
-objj_executeFile("CPArray+KVO.j", true);
+objj_executeFile("CPKeyValueObserving.j", YES);
+objj_executeFile("CPArray+KVO.j", YES);
 
-p;23;CPInvocationOperation.jt;2147;@STATIC;1.0;I;21;Foundation/CPObject.jI;25;Foundation/CPInvocation.ji;13;CPOperation.jt;2054;objj_executeFile("Foundation/CPObject.j", false);
-objj_executeFile("Foundation/CPInvocation.j", false);
-objj_executeFile("CPOperation.j", true);
+p;23;CPInvocationOperation.jt;2140;@STATIC;1.0;I;21;Foundation/CPObject.jI;25;Foundation/CPInvocation.ji;13;CPOperation.jt;2047;objj_executeFile("Foundation/CPObject.j", NO);
+objj_executeFile("Foundation/CPInvocation.j", NO);
+objj_executeFile("CPOperation.j", YES);
 {var the_class = objj_allocateClassPair(CPOperation, "CPInvocationOperation"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_invocation")]);
 objj_registerClassPair(the_class);
@@ -7422,13 +7036,13 @@ class_addMethods(the_class, [new objj_method(sel_getUid("main"), function $CPInv
 },["id"])]);
 }
 
-p;17;CPKeyedArchiver.jt;16901;@STATIC;1.0;i;8;CPData.ji;9;CPCoder.ji;9;CPArray.ji;10;CPString.ji;10;CPNumber.ji;14;CPDictionary.ji;9;CPValue.jt;16781;objj_executeFile("CPData.j", true);
-objj_executeFile("CPCoder.j", true);
-objj_executeFile("CPArray.j", true);
-objj_executeFile("CPString.j", true);
-objj_executeFile("CPNumber.j", true);
-objj_executeFile("CPDictionary.j", true);
-objj_executeFile("CPValue.j", true);
+p;17;CPKeyedArchiver.jt;16894;@STATIC;1.0;i;8;CPData.ji;9;CPCoder.ji;9;CPArray.ji;10;CPString.ji;10;CPNumber.ji;14;CPDictionary.ji;9;CPValue.jt;16774;objj_executeFile("CPData.j", YES);
+objj_executeFile("CPCoder.j", YES);
+objj_executeFile("CPArray.j", YES);
+objj_executeFile("CPString.j", YES);
+objj_executeFile("CPNumber.j", YES);
+objj_executeFile("CPDictionary.j", YES);
+objj_executeFile("CPValue.j", YES);
 var CPArchiverReplacementClassNames = nil;
 var _CPKeyedArchiverDidEncodeObjectSelector = 1,
     _CPKeyedArchiverWillEncodeObjectSelector = 2,
@@ -7792,8 +7406,8 @@ CPRangeFromString= function(aString)
     return { location:parseInt(aString.substr(1, comma - 1)), length:parseInt(aString.substring(comma + 1, aString.length)) };
 }
 
-p;10;CPNumber.jt;9306;@STATIC;1.0;i;10;CPObject.ji;15;CPObjJRuntime.jt;9252;objj_executeFile("CPObject.j", true);
-objj_executeFile("CPObjJRuntime.j", true);
+p;10;CPNumber.jt;9304;@STATIC;1.0;i;10;CPObject.ji;15;CPObjJRuntime.jt;9250;objj_executeFile("CPObject.j", YES);
+objj_executeFile("CPObjJRuntime.j", YES);
 var __placeholder = new Number(),
     CPNumberUIDs = new CFMutableDictionary();
 {var the_class = objj_allocateClassPair(CPObject, "CPNumber"),
@@ -8066,12 +7680,12 @@ Number.prototype.isa = CPNumber;
 Boolean.prototype.isa = CPNumber;
 objj_msgSend(CPNumber, "initialize");
 
-p;21;CPKeyValueObserving.jt;24783;@STATIC;1.0;i;9;CPArray.ji;14;CPDictionary.ji;13;CPException.ji;8;CPNull.ji;10;CPObject.ji;7;CPSet.ji;13;CPArray+KVO.jt;24657;objj_executeFile("CPArray.j", true);
-objj_executeFile("CPDictionary.j", true);
-objj_executeFile("CPException.j", true);
-objj_executeFile("CPNull.j", true);
-objj_executeFile("CPObject.j", true);
-objj_executeFile("CPSet.j", true);
+p;21;CPKeyValueObserving.jt;24776;@STATIC;1.0;i;9;CPArray.ji;14;CPDictionary.ji;13;CPException.ji;8;CPNull.ji;10;CPObject.ji;7;CPSet.ji;13;CPArray+KVO.jt;24650;objj_executeFile("CPArray.j", YES);
+objj_executeFile("CPDictionary.j", YES);
+objj_executeFile("CPException.j", YES);
+objj_executeFile("CPNull.j", YES);
+objj_executeFile("CPObject.j", YES);
+objj_executeFile("CPSet.j", YES);
 {
 var the_class = objj_getClass("CPObject")
 if(!the_class) throw new SyntaxError("*** Could not find definition for class \"CPObject\"");
@@ -8557,10 +8171,10 @@ var _kvoRemoveMethodForMethod = _kvoRemoveMethodForMethod= function(theKey, theM
         objj_msgSend(self, "didChange:valuesAtIndexes:forKey:", CPKeyValueChangeRemoval, objj_msgSend(CPIndexSet, "indexSetWithIndex:", index), theKey)
     }
 }
-objj_executeFile("CPArray+KVO.j", true);
+objj_executeFile("CPArray+KVO.j", YES);
 
-p;9;CPValue.jt;2275;@STATIC;1.0;i;10;CPObject.ji;9;CPCoder.jt;2228;objj_executeFile("CPObject.j", true);
-objj_executeFile("CPCoder.j", true);
+p;9;CPValue.jt;2273;@STATIC;1.0;i;10;CPObject.ji;9;CPCoder.jt;2226;objj_executeFile("CPObject.j", YES);
+objj_executeFile("CPCoder.j", YES);
 {var the_class = objj_allocateClassPair(CPObject, "CPValue"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_JSObject")]);
 objj_registerClassPair(the_class);
@@ -8615,7 +8229,7 @@ CPJSObjectCreateWithJSON= function(aString)
     return JSON.parse(aString);
 }
 
-p;15;CPURLResponse.jt;1273;@STATIC;1.0;i;10;CPObject.jt;1239;objj_executeFile("CPObject.j", true);
+p;15;CPURLResponse.jt;1272;@STATIC;1.0;i;10;CPObject.jt;1238;objj_executeFile("CPObject.j", YES);
 {var the_class = objj_allocateClassPair(CPObject, "CPURLResponse"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_URL")]);
 objj_registerClassPair(the_class);
@@ -8650,7 +8264,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("_setStatusCode:"), func
 },["int"])]);
 }
 
-p;13;CPOperation.jt;6061;@STATIC;1.0;I;21;Foundation/CPObject.jt;6016;objj_executeFile("Foundation/CPObject.j", false);
+p;13;CPOperation.jt;6058;@STATIC;1.0;I;21;Foundation/CPObject.jt;6013;objj_executeFile("Foundation/CPObject.j", NO);
 CPOperationQueuePriorityVeryLow = -8;
 CPOperationQueuePriorityLow = -4;
 CPOperationQueuePriorityNormal = 0;
@@ -8810,10 +8424,10 @@ class_addMethods(the_class, [new objj_method(sel_getUid("main"), function $CPOpe
 },["void"])]);
 }
 
-p;17;CPURLConnection.jt;7901;@STATIC;1.0;i;10;CPObject.ji;11;CPRunLoop.ji;14;CPURLRequest.ji;15;CPURLResponse.jt;7812;objj_executeFile("CPObject.j", true);
-objj_executeFile("CPRunLoop.j", true);
-objj_executeFile("CPURLRequest.j", true);
-objj_executeFile("CPURLResponse.j", true);
+p;17;CPURLConnection.jt;7897;@STATIC;1.0;i;10;CPObject.ji;11;CPRunLoop.ji;14;CPURLRequest.ji;15;CPURLResponse.jt;7808;objj_executeFile("CPObject.j", YES);
+objj_executeFile("CPRunLoop.j", YES);
+objj_executeFile("CPURLRequest.j", YES);
+objj_executeFile("CPURLResponse.j", YES);
 var CPURLConnectionDelegate = nil;
 {var the_class = objj_allocateClassPair(CPObject, "CPURLConnection"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_request"), new objj_ivar("_delegate"), new objj_ivar("_isCanceled"), new objj_ivar("_isLocalFileConnection"), new objj_ivar("_HTTPRequest")]);

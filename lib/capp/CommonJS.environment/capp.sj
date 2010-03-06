@@ -1,7 +1,7 @@
-@STATIC;1.0;p;6;main.jt;2218;@STATIC;1.0;I;23;Foundation/Foundation.ji;15;Configuration.ji;10;Generate.jt;2136;
-objj_executeFile("Foundation/Foundation.j",false);
-objj_executeFile("Configuration.j",true);
-objj_executeFile("Generate.j",true);
+@STATIC;1.0;p;6;main.jt;2213;@STATIC;1.0;I;23;Foundation/Foundation.ji;15;Configuration.ji;10;Generate.jt;2131;
+objj_executeFile("Foundation/Foundation.j",NO);
+objj_executeFile("Configuration.j",YES);
+objj_executeFile("Generate.j",YES);
 main=function(_1){
 _1.shift();
 if(_1.length<1){
@@ -79,8 +79,8 @@ _8.push(_d);
 }
 return _8;
 };
-p;10;Generate.jt;6588;@STATIC;1.0;i;15;Configuration.jt;6549;
-objj_executeFile("Configuration.j",true);
+p;10;Generate.jt;6587;@STATIC;1.0;i;15;Configuration.jt;6548;
+objj_executeFile("Configuration.j",YES);
 var OS=require("os"),_1=require("system"),_2=require("file"),_3=require("objective-j");
 var _4=require("term").stream;
 var _5=new (require("args").Parser)();
@@ -293,10 +293,10 @@ _4.print("    + "+_3d);
 });
 });
 };
-p;15;Configuration.jt;4359;@STATIC;1.0;I;25;Foundation/CPDictionary.jI;21;Foundation/CPString.jI;21;Foundation/CPObject.jt;4258;
-objj_executeFile("Foundation/CPDictionary.j",false);
-objj_executeFile("Foundation/CPString.j",false);
-objj_executeFile("Foundation/CPObject.j",false);
+p;15;Configuration.jt;4350;@STATIC;1.0;I;25;Foundation/CPDictionary.jI;21;Foundation/CPString.jI;21;Foundation/CPObject.jt;4249;
+objj_executeFile("Foundation/CPDictionary.j",NO);
+objj_executeFile("Foundation/CPString.j",NO);
+objj_executeFile("Foundation/CPObject.j",NO);
 var _1=require("file"),_2=require("system");
 var _3=nil,_4=nil,_5=nil;
 var _6=objj_allocateClassPair(CPObject,"Configuration"),_7=_6.isa;
