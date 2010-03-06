@@ -1811,65 +1811,45 @@ with(_a){
 return objj_msgSend(CPScrollView,"class");
 }
 })]);
-p;18;NSCustomResource.jt;2331;@STATIC;1.0;I;29;AppKit/_CPCibCustomResource.jt;2278;
+p;18;NSCustomResource.jt;1632;@STATIC;1.0;I;29;AppKit/_CPCibCustomResource.jt;1579;
 objj_executeFile("AppKit/_CPCibCustomResource.j",NO);
-var _1=objj_getClass("_CPCibCustomResource");
-if(!_1){
+var _1=require("file");
+var _2=objj_getClass("_CPCibCustomResource");
+if(!_2){
 throw new SyntaxError("*** Could not find definition for class \"_CPCibCustomResource\"");
 }
-var _2=_1.isa;
-class_addMethods(_1,[new objj_method(sel_getUid("NS_initWithCoder:"),function(_3,_4,_5){
-with(_3){
-_3=objj_msgSendSuper({receiver:_3,super_class:objj_getClass("_CPCibCustomResource").super_class},"init");
-if(_3){
-_className=CP_NSMapClassName(objj_msgSend(_5,"decodeObjectForKey:","NSClassName"));
-_resourceName=objj_msgSend(_5,"decodeObjectForKey:","NSResourceName");
-var _6=CGSizeMakeZero();
-if(!objj_msgSend(objj_msgSend(_5,"resourcesPath"),"length")){
+var _3=_2.isa;
+class_addMethods(_2,[new objj_method(sel_getUid("NS_initWithCoder:"),function(_4,_5,_6){
+with(_4){
+_4=objj_msgSendSuper({receiver:_4,super_class:objj_getClass("_CPCibCustomResource").super_class},"init");
+if(_4){
+_className=CP_NSMapClassName(objj_msgSend(_6,"decodeObjectForKey:","NSClassName"));
+_resourceName=objj_msgSend(_6,"decodeObjectForKey:","NSResourceName");
+var _7=CGSizeMakeZero();
+if(!objj_msgSend(objj_msgSend(_6,"resourcesPath"),"length")){
 CPLog.warn("***WARNING: Resources found in nib, but no resources path specified with -R option.");
 }else{
-var _7=objj_msgSend(_5,"resourcePathForName:",_resourceName);
-if(!_7){
+var _8=objj_msgSend(_6,"resourcePathForName:",_resourceName);
+if(!_8){
 CPLog.warn("***WARNING: Resource named "+_resourceName+" not found in supplied resources path.");
 }else{
-_6=imageSize(_7);
+_7=_9(_1.join(_1.cwd(),_8));
 }
 }
-_properties=objj_msgSend(CPDictionary,"dictionaryWithObject:forKey:",_6,"size");
+_properties=objj_msgSend(CPDictionary,"dictionaryWithObject:forKey:",_7,"size");
 }
-return _3;
+return _4;
 }
 })]);
-imageSize=function(_8){
-return (system.engine==="rhino")?javaImageSize(_8):jscImageSize(_8);
-};
-javaImageSize=function(_9){
-var _a=javax.imageio.ImageIO.createImageInputStream(new Packages.java.io.File(_9).getCanonicalFile()),_b=javax.imageio.ImageIO.getImageReaders(_a),_c=null;
-if(_b.hasNext()){
-_c=_b.next();
-}else{
-_a.close();
+var _a=require("cappuccino/image-utility"),_9=_a.sizeOfImageAtPath;
+var _2=objj_allocateClassPair(_CPCibCustomResource,"NSCustomResource"),_3=_2.isa;
+objj_registerClassPair(_2);
+class_addMethods(_2,[new objj_method(sel_getUid("initWithCoder:"),function(_b,_c,_d){
+with(_b){
+return objj_msgSend(_b,"NS_initWithCoder:",_d);
 }
-_c.setInput(_a,true,true);
-var _d=CGSizeMake(_c.getWidth(0),_c.getHeight(0));
-_c.dispose();
-_a.close();
-return _d;
-};
-jscImageSize=function(_e){
-var _f={".png":"image/png",".jpg":"image/jpeg",".jpeg":"image/jpeg",".gif":"image/gif",".tif":"image/tiff",".tiff":"image/tiff"},_10=require("file");
-var _11=new Image();
-_11.src="data:"+_f[_10.extension(_e)]+";base64,"+require("base64").encode(_10.read(_e,{mode:"b"}));
-return CGSizeMake(_11.width,_11.height);
-};
-var _1=objj_allocateClassPair(_CPCibCustomResource,"NSCustomResource"),_2=_1.isa;
-objj_registerClassPair(_1);
-class_addMethods(_1,[new objj_method(sel_getUid("initWithCoder:"),function(_12,_13,_14){
-with(_12){
-return objj_msgSend(_12,"NS_initWithCoder:",_14);
-}
-}),new objj_method(sel_getUid("classForKeyedArchiver"),function(_15,_16){
-with(_15){
+}),new objj_method(sel_getUid("classForKeyedArchiver"),function(_e,_f){
+with(_e){
 return objj_msgSend(_CPCibCustomResource,"class");
 }
 })]);
