@@ -15602,7 +15602,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","float","float"])]);
 }
 
-p;11;CPTabView.jt;27025;@STATIC;1.0;i;13;CPImageView.ji;15;CPTabViewItem.ji;8;CPView.jt;26955;objj_executeFile("CPImageView.j", true);
+p;11;CPTabView.jt;27157;@STATIC;1.0;i;13;CPImageView.ji;15;CPTabViewItem.ji;8;CPView.jt;27087;objj_executeFile("CPImageView.j", true);
 objj_executeFile("CPTabViewItem.j", true);
 objj_executeFile("CPView.j", true);
 CPTopTabsBezelBorder = 0;
@@ -15844,7 +15844,12 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     }
     return contentRect;
 }
-},["CGRect"]), new objj_method(sel_getUid("setDelegate:"), function $CPTabView__setDelegate_(self, _cmd, aDelegate)
+},["CGRect"]), new objj_method(sel_getUid("delegate"), function $CPTabView__delegate(self, _cmd)
+{ with(self)
+{
+    return _delegate;
+}
+},["id"]), new objj_method(sel_getUid("setDelegate:"), function $CPTabView__setDelegate_(self, _cmd, aDelegate)
 { with(self)
 {
     if (_delegate == aDelegate)
