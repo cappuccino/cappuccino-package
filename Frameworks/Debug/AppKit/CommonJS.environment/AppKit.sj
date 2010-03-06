@@ -384,7 +384,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPEvent"])]);
 }
 
-p;13;CPTableView.jt;126382;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;126239;objj_executeFile("Foundation/CPArray.j", false);
+p;13;CPTableView.jt;126385;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;126242;objj_executeFile("Foundation/CPArray.j", false);
 objj_executeFile("AppKit/CGGradient.j", false);
 objj_executeFile("CPControl.j", true);
 objj_executeFile("CPTableColumn.j", true);
@@ -2452,9 +2452,9 @@ _disableAutomaticResizing = newValue;
     var anEvent = objj_msgSend(CPApp, "currentEvent");
     if(objj_msgSend(objj_msgSend(self, "selectedRowIndexes"), "count") > 0)
     {
-       var extend = NO;
-       if((objj_msgSend(anEvent, "modifierFlags") & CPShiftKeyMask) && _allowsMultipleSelection)
-           extend = YES;
+        var extend = NO;
+        if((objj_msgSend(anEvent, "modifierFlags") & CPShiftKeyMask) && _allowsMultipleSelection)
+            extend = YES;
         var i = objj_msgSend(objj_msgSend(self, "selectedRowIndexes"), "lastIndex");
         if(i<objj_msgSend(self, "numberOfRows") - 1)
             i++;
@@ -22564,7 +22564,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 objj_executeFile("CPCheckBox.j", true);
 objj_executeFile("CPRadio.j", true);
 
-p;10;CPWindow.jt;81099;@STATIC;1.0;I;25;Foundation/CPCountedSet.jI;33;Foundation/CPNotificationCenter.jI;26;Foundation/CPUndoManager.ji;12;CGGeometry.ji;13;CPAnimation.ji;13;CPResponder.ji;10;CPScreen.ji;18;CPPlatformWindow.ji;15;_CPWindowView.ji;23;_CPStandardWindowView.ji;23;_CPDocModalWindowView.ji;18;_CPHUDWindowView.ji;25;_CPBorderlessWindowView.ji;31;_CPBorderlessBridgeWindowView.ji;14;CPDragServer.ji;8;CPView.jt;80693;objj_executeFile("Foundation/CPCountedSet.j", false);
+p;10;CPWindow.jt;81232;@STATIC;1.0;I;25;Foundation/CPCountedSet.jI;33;Foundation/CPNotificationCenter.jI;26;Foundation/CPUndoManager.ji;12;CGGeometry.ji;13;CPAnimation.ji;13;CPResponder.ji;10;CPScreen.ji;18;CPPlatformWindow.ji;15;_CPWindowView.ji;23;_CPStandardWindowView.ji;23;_CPDocModalWindowView.ji;18;_CPHUDWindowView.ji;25;_CPBorderlessWindowView.ji;31;_CPBorderlessBridgeWindowView.ji;14;CPDragServer.ji;8;CPView.jt;80826;objj_executeFile("Foundation/CPCountedSet.j", false);
 objj_executeFile("Foundation/CPNotificationCenter.j", false);
 objj_executeFile("Foundation/CPUndoManager.j", false);
 objj_executeFile("CGGeometry.j", true);
@@ -22877,6 +22877,9 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPWin
 },["void","CPWindowOrderingMode","int"]), new objj_method(sel_getUid("setLevel:"), function $CPWindow__setLevel_(self, _cmd, aLevel)
 { with(self)
 {
+    if (aLevel === _level)
+        return;
+    objj_msgSend(_platformWindow, "moveWindow:fromLevel:toLevel:", self, _level, aLevel);
     _level = aLevel;
     if (objj_msgSend(self, "_sharesChromeWithPlatformWindow"))
         objj_msgSend(_platformWindow, "setLevel:", aLevel);
@@ -26548,7 +26551,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("sharedMenuManager"), f
 },["_CPMenuManager"])]);
 }
 
-p;18;_CPMenuBarWindow.jt;19074;@STATIC;1.0;i;15;_CPMenuWindow.jt;19034;
+p;18;_CPMenuBarWindow.jt;19092;@STATIC;1.0;i;15;_CPMenuWindow.jt;19052;
 
 
 
@@ -26580,8 +26583,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $_CPMe
 
     if (self)
     {
-
-        objj_msgSend(self, "setLevel:", -1);
+        objj_msgSend(self, "setLevel:", CPMainMenuWindowLevel);
         objj_msgSend(self, "setAutoresizingMask:", CPWindowWidthSizable);
 
         var contentView = objj_msgSend(self, "contentView");
@@ -28089,7 +28091,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("bootstrap"), function 
 meta_class = the_class.isa;objj_registerClassPair(the_class);
 }
 
-p;18;CPPlatformWindow.jt;5601;@STATIC;1.0;I;21;Foundation/CPObject.jt;5556;objj_executeFile("Foundation/CPObject.j", false);
+p;18;CPPlatformWindow.jt;5814;@STATIC;1.0;I;21;Foundation/CPObject.jt;5769;objj_executeFile("Foundation/CPObject.j", false);
 var PrimaryPlatformWindow = NULL;
 {var the_class = objj_allocateClassPair(CPObject, "CPPlatformWindow"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_contentRect"), new objj_ivar("_level"), new objj_ivar("_hasShadow"), new objj_ivar("_shadowStyle")]);
@@ -28177,7 +28179,11 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithContentRect:"),
 { with(self)
 {
 }
-},["void","id"]), new objj_method(sel_getUid("setLevel:"), function $CPPlatformWindow__setLevel_(self, _cmd, aLevel)
+},["void","id"]), new objj_method(sel_getUid("moveWindow:fromLevel:toLevel:"), function $CPPlatformWindow__moveWindow_fromLevel_toLevel_(self, _cmd, aWindow, fromLevel, toLevel)
+{ with(self)
+{
+}
+},["void","CPWindow","int","int"]), new objj_method(sel_getUid("setLevel:"), function $CPPlatformWindow__setLevel_(self, _cmd, aLevel)
 { with(self)
 {
     _level = aLevel;
@@ -28216,7 +28222,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("visiblePlatformWindows
 },["void","CPPlatformWindow"])]);
 }
 
-p;22;CPPlatformWindow+DOM.jt;47099;@STATIC;1.0;I;21;Foundation/CPObject.jI;22;Foundation/CPRunLoop.ji;9;CPEvent.ji;17;CPCompatibility.ji;18;CPDOMWindowLayer.ji;12;CPPlatform.ji;18;CPPlatformWindow.ji;26;CPPlatformWindow+DOMKeys.jt;46897;objj_executeFile("Foundation/CPObject.j", false);
+p;22;CPPlatformWindow+DOM.jt;47280;@STATIC;1.0;I;21;Foundation/CPObject.jI;22;Foundation/CPRunLoop.ji;9;CPEvent.ji;17;CPCompatibility.ji;18;CPDOMWindowLayer.ji;12;CPPlatform.ji;18;CPPlatformWindow.ji;26;CPPlatformWindow+DOMKeys.jt;47078;objj_executeFile("Foundation/CPObject.j", false);
 objj_executeFile("Foundation/CPRunLoop.j", false);
 objj_executeFile("CPEvent.j", true);
 objj_executeFile("CPCompatibility.j", true);
@@ -28943,7 +28949,10 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
             else
                 low = middle + 1;
         }
-        objj_msgSend(_windowLevels, "insertObject:atIndex:", aLevel, _windowLevels[middle] > aLevel ? middle : middle + 1);
+        var insertionIndex = 0;
+        if (middle !== undefined)
+            insertionIndex = _windowLevels[middle] > aLevel ? middle : middle + 1
+        objj_msgSend(_windowLevels, "insertObject:atIndex:", aLevel, insertionIndex);
         layer._DOMElement.style.zIndex = aLevel;
         _DOMBodyElement.appendChild(layer._DOMElement);
     }
@@ -28953,10 +28962,13 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 { with(self)
 {
     objj_msgSend(CPPlatform, "initializeScreenIfNecessary");
-    var layer = objj_msgSend(self, "layerAtLevel:create:", objj_msgSend(aWindow, "level"), aPlace != CPWindowOut);
-    if (aPlace == CPWindowOut)
+    var layer = objj_msgSend(self, "layerAtLevel:create:", objj_msgSend(aWindow, "level"), aPlace !== CPWindowOut);
+    if (aPlace === CPWindowOut)
         return objj_msgSend(layer, "removeWindow:", aWindow);
-    objj_msgSend(layer, "insertWindow:atIndex:", aWindow, (otherWindow ? (aPlace == CPWindowAbove ? otherWindow._index + 1 : otherWindow._index) : CPNotFound));
+    var insertionIndex = CPNotFound;
+    if (otherWindow)
+        insertionIndex = aPlace === CPWindowAbove ? otherWindow._index + 1 : otherWindow._index;
+    objj_msgSend(layer, "insertWindow:atIndex:", aWindow, insertionIndex);
 }
 },["void","CPWindowOrderingMode","CPWindow","CPWindow"]), new objj_method(sel_getUid("_removeLayers"), function $CPPlatformWindow___removeLayers(self, _cmd)
 { with(self)
