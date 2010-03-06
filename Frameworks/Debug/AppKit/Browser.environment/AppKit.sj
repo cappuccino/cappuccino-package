@@ -2830,7 +2830,7 @@ currentRow = newValue;
 },["void","CGRect"])]);
 }
 
-p;10;CPCursor.jt;10672;@STATIC;1.0;t;10652;var currentCursor = nil,
+p;10;CPCursor.jt;10572;@STATIC;1.0;t;10552;var currentCursor = nil,
     cursorStack = [],
     cursors = {},
     cursorURLFormat = nil;
@@ -3068,7 +3068,6 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("currentCursor"), funct
 },["void","BOOL"]), new objj_method(sel_getUid("_setCursorCSS:"), function $CPCursor___setCursorCSS_(self, _cmd, aString)
 { with(self)
 {
-    objj_msgSend(CPPlatformWindow, "primaryPlatformWindow")._DOMBodyElement.style.cursor = aString;
     var platformWindows = objj_msgSend(objj_msgSend(CPPlatformWindow, "visiblePlatformWindows"), "allObjects");
     for (var i = 0, count = objj_msgSend(platformWindows, "count"); i < count; i++)
         platformWindows[i]._DOMBodyElement.style.cursor = aString;
@@ -16863,7 +16862,7 @@ return _maxSize;
 },["void","CPString","id","CPDictionary","id"])]);
 }
 
-p;15;CPApplication.jt;35881;@STATIC;1.0;I;21;Foundation/CPBundle.ji;17;CPCompatibility.ji;9;CPEvent.ji;8;CPMenu.ji;13;CPResponder.ji;22;CPDocumentController.ji;14;CPThemeBlend.ji;14;CPCibLoading.ji;12;CPPlatform.jt;35688;objj_executeFile("Foundation/CPBundle.j", false);
+p;15;CPApplication.jt;40962;@STATIC;1.0;I;21;Foundation/CPBundle.ji;17;CPCompatibility.ji;9;CPEvent.ji;8;CPMenu.ji;13;CPResponder.ji;22;CPDocumentController.ji;14;CPThemeBlend.ji;14;CPCibLoading.ji;12;CPPlatform.jt;40769;objj_executeFile("Foundation/CPBundle.j", false);
 objj_executeFile("CPCompatibility.j", true);
 objj_executeFile("CPEvent.j", true);
 objj_executeFile("CPMenu.j", true);
@@ -16878,6 +16877,10 @@ CPApp = nil;
 CPApplicationWillFinishLaunchingNotification = "CPApplicationWillFinishLaunchingNotification";
 CPApplicationDidFinishLaunchingNotification = "CPApplicationDidFinishLaunchingNotification";
 CPApplicationWillTerminateNotification = "CPApplicationWillTerminateNotification";
+CPApplicationWillBecomeActiveNotification = "CPApplicationWillBecomeActiveNotification";
+CPApplicationDidBecomeActiveNotification = "CPApplicationDidBecomeActiveNotification";
+CPApplicationWillResignActiveNotification = "CPApplicationWillResignActiveNotification";
+CPApplicationDidResignActiveNotification = "CPApplicationDidResignActiveNotification";
 CPTerminateNow = YES;
 CPTerminateCancel = NO;
 CPTerminateLater = -1;
@@ -16885,7 +16888,7 @@ CPRunStoppedResponse = -1000;
 CPRunAbortedResponse = -1001;
 CPRunContinuesResponse = -1002;
 {var the_class = objj_allocateClassPair(CPResponder, "CPApplication"),
-meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_eventListeners"), new objj_ivar("_currentEvent"), new objj_ivar("_windows"), new objj_ivar("_keyWindow"), new objj_ivar("_mainWindow"), new objj_ivar("_mainMenu"), new objj_ivar("_documentController"), new objj_ivar("_currentSession"), new objj_ivar("_delegate"), new objj_ivar("_finishedLaunching"), new objj_ivar("_namedArgs"), new objj_ivar("_args"), new objj_ivar("_fullArgsString"), new objj_ivar("_applicationIconImage"), new objj_ivar("_aboutPanel")]);
+meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_eventListeners"), new objj_ivar("_currentEvent"), new objj_ivar("_windows"), new objj_ivar("_keyWindow"), new objj_ivar("_mainWindow"), new objj_ivar("_previousKeyWindow"), new objj_ivar("_previousMainWindow"), new objj_ivar("_mainMenu"), new objj_ivar("_documentController"), new objj_ivar("_currentSession"), new objj_ivar("_delegate"), new objj_ivar("_finishedLaunching"), new objj_ivar("_isActive"), new objj_ivar("_namedArgs"), new objj_ivar("_args"), new objj_ivar("_fullArgsString"), new objj_ivar("_applicationIconImage"), new objj_ivar("_aboutPanel")]);
 objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPApplication__init(self, _cmd)
 { with(self)
@@ -16943,12 +16946,24 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPApp
     {
         objj_msgSend(defaultCenter, "removeObserver:name:object:", _delegate, CPApplicationWillFinishLaunchingNotification, self);
         objj_msgSend(defaultCenter, "removeObserver:name:object:", _delegate, CPApplicationDidFinishLaunchingNotification, self);
+        objj_msgSend(defaultCenter, "removeObserver:name:object:", _delegate, CPApplicationWillBecomeActiveNotification, self);
+        objj_msgSend(defaultCenter, "removeObserver:name:object:", _delegate, CPApplicationDidBecomeActiveNotification, self);
+        objj_msgSend(defaultCenter, "removeObserver:name:object:", _delegate, CPApplicationWillResignActiveNotification, self);
+        objj_msgSend(defaultCenter, "removeObserver:name:object:", _delegate, CPApplicationDidResignActiveNotification, self);
     }
     _delegate = aDelegate;
     if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("applicationWillFinishLaunching:")))
         objj_msgSend(defaultCenter, "addObserver:selector:name:object:", _delegate, sel_getUid("applicationWillFinishLaunching:"), CPApplicationWillFinishLaunchingNotification, self);
     if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("applicationDidFinishLaunching:")))
         objj_msgSend(defaultCenter, "addObserver:selector:name:object:", _delegate, sel_getUid("applicationDidFinishLaunching:"), CPApplicationDidFinishLaunchingNotification, self);
+    if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("applicationWillBecomeActive:")))
+        objj_msgSend(defaultCenter, "addObserver:selector:name:object:", _delegate, sel_getUid("applicationWillBecomeActive:"), CPApplicationWillBecomeActiveNotification, self);
+    if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("applicationDidBecomeActive:")))
+        objj_msgSend(defaultCenter, "addObserver:selector:name:object:", _delegate, sel_getUid("applicationDidBecomeActive:"), CPApplicationDidBecomeActiveNotification, self);
+    if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("applicationWillResignActive:")))
+        objj_msgSend(defaultCenter, "addObserver:selector:name:object:", _delegate, sel_getUid("applicationWillResignActive:"), CPApplicationWillResignActiveNotification, self);
+    if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("applicationDidResignActive:")))
+        objj_msgSend(defaultCenter, "addObserver:selector:name:object:", _delegate, sel_getUid("applicationDidResignActive:"), CPApplicationDidResignActiveNotification, self);
 }
 },["void","id"]), new objj_method(sel_getUid("delegate"), function $CPApplication__delegate(self, _cmd)
 { with(self)
@@ -17083,9 +17098,25 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPApp
 },["void","BOOL"]), new objj_method(sel_getUid("activateIgnoringOtherApps:"), function $CPApplication__activateIgnoringOtherApps_(self, _cmd, shouldIgnoreOtherApps)
 { with(self)
 {
+    objj_msgSend(self, "_willBecomeActive");
     objj_msgSend(CPPlatform, "activateIgnoringOtherApps:", shouldIgnoreOtherApps);
+    _isActive = YES;
+    objj_msgSend(self, "_willResignActive");
 }
-},["void","BOOL"]), new objj_method(sel_getUid("hideOtherApplications:"), function $CPApplication__hideOtherApplications_(self, _cmd, aSender)
+},["void","BOOL"]), new objj_method(sel_getUid("deactivate"), function $CPApplication__deactivate(self, _cmd)
+{ with(self)
+{
+    objj_msgSend(self, "_willResignActive");
+    objj_msgSend(CPPlatform, "deactivate");
+    _isActive = NO;
+    objj_msgSend(self, "_didResignActive");
+}
+},["void"]), new objj_method(sel_getUid("isActive"), function $CPApplication__isActive(self, _cmd)
+{ with(self)
+{
+    return _isActive;
+}
+},["void"]), new objj_method(sel_getUid("hideOtherApplications:"), function $CPApplication__hideOtherApplications_(self, _cmd, aSender)
 { with(self)
 {
     objj_msgSend(CPPlatform, "hideOtherApplications:", self);
@@ -17210,6 +17241,11 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPApp
 { with(self)
 {
     return _windows;
+}
+},["CPArray"]), new objj_method(sel_getUid("orderedWindows"), function $CPApplication__orderedWindows(self, _cmd)
+{ with(self)
+{
+    return CPWindowObjectList();
 }
 },["CPArray"]), new objj_method(sel_getUid("hide:"), function $CPApplication__hide_(self, _cmd, aSender)
 { with(self)
@@ -17417,11 +17453,51 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPApp
         return objj_msgSend(_delegate, "application:openURL:", self, aURL);
     return !!objj_msgSend(_documentController, "openDocumentWithContentsOfURL:display:error:", aURL, YES, NULL);
 }
-},["BOOL","CPURL"]), new objj_method(sel_getUid("_didResignActive"), function $CPApplication___didResignActive(self, _cmd)
+},["BOOL","CPURL"]), new objj_method(sel_getUid("_willBecomeActive"), function $CPApplication___willBecomeActive(self, _cmd)
+{ with(self)
+{
+    objj_msgSend(objj_msgSend(CPNotificationCenter, "defaultCenter"), "postNotificationName:object:userInfo:", CPApplicationWillBecomeActiveNotification, self, nil);
+}
+},["void"]), new objj_method(sel_getUid("_didBecomeActive"), function $CPApplication___didBecomeActive(self, _cmd)
+{ with(self)
+{
+    if (!objj_msgSend(self, "keyWindow") && _previousKeyWindow &&
+        objj_msgSend(objj_msgSend(self, "windows"), "indexOfObjectIdenticalTo:", _previousKeyWindow) !== CPNotFound)
+        objj_msgSend(_previousKeyWindow, "makeKeyWindow");
+    if (!objj_msgSend(self, "mainWindow") && _previousMainWindow &&
+        objj_msgSend(objj_msgSend(self, "windows"), "indexOfObjectIdenticalTo:", _previousMainWindow) !== CPNotFound)
+        objj_msgSend(_previousMainWindow, "makeMainWindow");
+    if (objj_msgSend(self, "keyWindow"))
+        objj_msgSend(objj_msgSend(self, "keyWindow"), "orderFront:", self);
+    else if (objj_msgSend(self, "mainWindow"))
+        objj_msgSend(objj_msgSend(self, "mainWindow"), "makeKeyAndOrderFront:", self);
+    else
+        objj_msgSend(objj_msgSend(objj_msgSend(self, "mainMenu"), "window"), "makeKeyWindow");
+    _previousKeyWindow = nil;
+    _previousMainWindow = nil;
+    objj_msgSend(objj_msgSend(CPNotificationCenter, "defaultCenter"), "postNotificationName:object:userInfo:", CPApplicationDidBecomeActiveNotification, self, nil);
+}
+},["void"]), new objj_method(sel_getUid("_willResignActive"), function $CPApplication___willResignActive(self, _cmd)
+{ with(self)
+{
+    objj_msgSend(objj_msgSend(CPNotificationCenter, "defaultCenter"), "postNotificationName:object:userInfo:", CPApplicationWillResignActiveNotification, self, nil);
+}
+},["void"]), new objj_method(sel_getUid("_didResignActive"), function $CPApplication___didResignActive(self, _cmd)
 { with(self)
 {
     if (self._activeMenu)
         objj_msgSend(self._activeMenu, "cancelTracking");
+    if (objj_msgSend(self, "keyWindow"))
+    {
+        _previousKeyWindow = objj_msgSend(self, "keyWindow");
+        objj_msgSend(_previousKeyWindow, "resignKeyWindow");
+    }
+    if (objj_msgSend(self, "mainWindow"))
+    {
+        _previousMainWindow = objj_msgSend(self, "mainWindow");
+        objj_msgSend(_previousMainWindow, "resignMainWindow");
+    }
+    objj_msgSend(objj_msgSend(CPNotificationCenter, "defaultCenter"), "postNotificationName:object:userInfo:", CPApplicationDidResignActiveNotification, self, nil);
 }
 },["void"])]);
 class_addMethods(meta_class, [new objj_method(sel_getUid("sharedApplication"), function $CPApplication__sharedApplication(self, _cmd)
@@ -23003,7 +23079,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 objj_executeFile("CPCheckBox.j", true);
 objj_executeFile("CPRadio.j", true);
 
-p;10;CPWindow.jt;78747;@STATIC;1.0;I;25;Foundation/CPCountedSet.jI;33;Foundation/CPNotificationCenter.jI;26;Foundation/CPUndoManager.ji;12;CGGeometry.ji;13;CPAnimation.ji;13;CPResponder.ji;10;CPScreen.ji;18;CPPlatformWindow.ji;15;_CPWindowView.ji;23;_CPStandardWindowView.ji;23;_CPDocModalWindowView.ji;18;_CPHUDWindowView.ji;25;_CPBorderlessWindowView.ji;31;_CPBorderlessBridgeWindowView.ji;14;CPDragServer.ji;8;CPView.jt;78341;objj_executeFile("Foundation/CPCountedSet.j", false);
+p;10;CPWindow.jt;82529;@STATIC;1.0;I;25;Foundation/CPCountedSet.jI;33;Foundation/CPNotificationCenter.jI;26;Foundation/CPUndoManager.ji;12;CGGeometry.ji;13;CPAnimation.ji;13;CPResponder.ji;10;CPScreen.ji;18;CPPlatformWindow.ji;15;_CPWindowView.ji;23;_CPStandardWindowView.ji;23;_CPDocModalWindowView.ji;18;_CPHUDWindowView.ji;25;_CPBorderlessWindowView.ji;31;_CPBorderlessBridgeWindowView.ji;14;CPDragServer.ji;8;CPView.jt;82123;objj_executeFile("Foundation/CPCountedSet.j", false);
 objj_executeFile("Foundation/CPNotificationCenter.j", false);
 objj_executeFile("Foundation/CPUndoManager.j", false);
 objj_executeFile("CGGeometry.j", true);
@@ -23043,6 +23119,8 @@ CPWindowBelow = 2;
 CPWindowWillCloseNotification = "CPWindowWillCloseNotification";
 CPWindowDidBecomeMainNotification = "CPWindowDidBecomeMainNotification";
 CPWindowDidResignMainNotification = "CPWindowDidResignMainNotification";
+CPWindowDidBecomeKeyNotification = "CPWindowDidBecomeKeyNotification";
+CPWindowDidResignKeyNotification = "CPWindowDidResignKeyNotification";
 CPWindowDidResizeNotification = "CPWindowDidResizeNotification";
 CPWindowDidMoveNotification = "CPWindowDidMoveNotification";
 CPWindowWillBeginSheetNotification = "CPWindowWillBeginSheetNotification";
@@ -23320,11 +23398,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPWin
     if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("windowWillClose:")))
         objj_msgSend(_delegate, "windowWillClose:", self);
     objj_msgSend(_platformWindow, "order:window:relativeTo:", CPWindowOut, self, nil);
-    if (objj_msgSend(CPApp, "keyWindow") == self)
-    {
-        objj_msgSend(self, "resignKeyWindow");
-        CPApp._keyWindow = nil;
-    }
+    objj_msgSend(self, "_updateMainAndKeyWindows");
 }
 },["void","id"]), new objj_method(sel_getUid("orderWindow:relativeTo:"), function $CPWindow__orderWindow_relativeTo_(self, _cmd, aPlace, otherWindowNumber)
 { with(self)
@@ -23516,9 +23590,19 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPWin
 },["void","unsigned"]), new objj_method(sel_getUid("setDelegate:"), function $CPWindow__setDelegate_(self, _cmd, aDelegate)
 { with(self)
 {
+    var defaultCenter = objj_msgSend(CPNotificationCenter, "defaultCenter");
+    objj_msgSend(defaultCenter, "removeObserver:name:object:", _delegate, CPWindowDidResignKeyNotification, self);
+    objj_msgSend(defaultCenter, "removeObserver:name:object:", _delegate, CPWindowDidBecomeKeyNotification, self);
+    objj_msgSend(defaultCenter, "removeObserver:name:object:", _delegate, CPWindowDidBecomeMainNotification, self);
+    objj_msgSend(defaultCenter, "removeObserver:name:object:", _delegate, CPWindowDidResignMainNotification, self);
+    objj_msgSend(defaultCenter, "removeObserver:name:object:", _delegate, CPWindowDidMoveNotification, self);
+    objj_msgSend(defaultCenter, "removeObserver:name:object:", _delegate, CPWindowDidResizeNotification, self);
     _delegate = aDelegate;
     _delegateRespondsToWindowWillReturnUndoManagerSelector = objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("windowWillReturnUndoManager:"));
-    var defaultCenter = objj_msgSend(CPNotificationCenter, "defaultCenter");
+    if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("windowDidResignKey:")))
+        objj_msgSend(defaultCenter, "addObserver:selector:name:object:", _delegate, sel_getUid("windowDidResignKey:"), CPWindowDidResignKeyNotification, self);
+    if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("windowDidBecomeKey:")))
+        objj_msgSend(defaultCenter, "addObserver:selector:name:object:", _delegate, sel_getUid("windowDidBecomeKey:"), CPWindowDidBecomeKeyNotification, self);
     if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("windowDidBecomeMain:")))
         objj_msgSend(defaultCenter, "addObserver:selector:name:object:", _delegate, sel_getUid("windowDidBecomeMain:"), CPWindowDidBecomeMainNotification, self);
     if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("windowDidResignMain:")))
@@ -23738,8 +23822,10 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPWin
 },["int"]), new objj_method(sel_getUid("becomeKeyWindow"), function $CPWindow__becomeKeyWindow(self, _cmd)
 { with(self)
 {
-    if (_firstResponder != self && objj_msgSend(_firstResponder, "respondsToSelector:", sel_getUid("becomeKeyWindow")))
+    CPApp._keyWindow = self;
+    if (_firstResponder !== self && objj_msgSend(_firstResponder, "respondsToSelector:", sel_getUid("becomeKeyWindow")))
         objj_msgSend(_firstResponder, "becomeKeyWindow");
+    objj_msgSend(objj_msgSend(CPNotificationCenter, "defaultCenter"), "postNotificationName:object:", CPWindowDidBecomeKeyNotification, self);
 }
 },["void"]), new objj_method(sel_getUid("canBecomeKeyWindow"), function $CPWindow__canBecomeKeyWindow(self, _cmd)
 { with(self)
@@ -23761,10 +23847,9 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPWin
 },["void","id"]), new objj_method(sel_getUid("makeKeyWindow"), function $CPWindow__makeKeyWindow(self, _cmd)
 { with(self)
 {
-    if (!objj_msgSend(self, "canBecomeKeyWindow"))
+    if (objj_msgSend(CPApp, "keyWindow") === self || !objj_msgSend(self, "canBecomeKeyWindow"))
         return;
-    objj_msgSend(CPApp._keyWindow, "resignKeyWindow");
-    CPApp._keyWindow = self;
+    objj_msgSend(objj_msgSend(CPApp, "keyWindow"), "resignKeyWindow");
     objj_msgSend(self, "becomeKeyWindow");
 }
 },["void"]), new objj_method(sel_getUid("resignKeyWindow"), function $CPWindow__resignKeyWindow(self, _cmd)
@@ -23772,8 +23857,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPWin
 {
     if (_firstResponder != self && objj_msgSend(_firstResponder, "respondsToSelector:", sel_getUid("resignKeyWindow")))
         objj_msgSend(_firstResponder, "resignKeyWindow");
-    if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("windowDidResignKey:")))
-        objj_msgSend(_delegate, "windowDidResignKey:", self);
+    CPApp._keyWindow = nil;
+    objj_msgSend(objj_msgSend(CPNotificationCenter, "defaultCenter"), "postNotificationName:object:", CPWindowDidResignKeyNotification, self);
 }
 },["void"]), new objj_method(sel_getUid("dragImage:at:offset:event:pasteboard:source:slideBack:"), function $CPWindow__dragImage_at_offset_event_pasteboard_source_slideBack_(self, _cmd, anImage, imageLocation, mouseOffset, anEvent, aPasteboard, aSourceObject, slideBack)
 { with(self)
@@ -23889,6 +23974,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPWin
 {
     objj_msgSend(objj_msgSend(CPNotificationCenter, "defaultCenter"), "postNotificationName:object:", CPWindowWillMiniaturizeNotification, self);
     objj_msgSend(objj_msgSend(self, "platformWindow"), "miniaturize:", sender);
+    objj_msgSend(self, "_updateMainAndKeyWindows");
     objj_msgSend(objj_msgSend(CPNotificationCenter, "defaultCenter"), "postNotificationName:object:", CPWindowDidMiniaturizeNotification, self);
     _isMiniaturized = YES;
 }
@@ -23975,15 +24061,15 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPWin
 },["BOOL"]), new objj_method(sel_getUid("makeMainWindow"), function $CPWindow__makeMainWindow(self, _cmd)
 { with(self)
 {
-    if (CPApp._mainWindow === self || !objj_msgSend(self, "canBecomeMainWindow"))
+    if (objj_msgSend(CPApp, "mainWindow") === self || !objj_msgSend(self, "canBecomeMainWindow"))
         return;
-    objj_msgSend(CPApp._mainWindow, "resignMainWindow");
-    CPApp._mainWindow = self;
+    objj_msgSend(objj_msgSend(CPApp, "mainWindow"), "resignMainWindow");
     objj_msgSend(self, "becomeMainWindow");
 }
 },["void"]), new objj_method(sel_getUid("becomeMainWindow"), function $CPWindow__becomeMainWindow(self, _cmd)
 { with(self)
 {
+    CPApp._mainWindow = self;
     objj_msgSend(self, "_synchronizeMenuBarTitleWithWindowTitle");
     objj_msgSend(self, "_synchronizeSaveMenuWithDocumentSaving");
     objj_msgSend(objj_msgSend(CPNotificationCenter, "defaultCenter"), "postNotificationName:object:", CPWindowDidBecomeMainNotification, self);
@@ -23992,6 +24078,61 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPWin
 { with(self)
 {
     objj_msgSend(objj_msgSend(CPNotificationCenter, "defaultCenter"), "postNotificationName:object:", CPWindowDidResignMainNotification, self);
+    CPApp._mainWindow = nil;
+}
+},["void"]), new objj_method(sel_getUid("_updateMainAndKeyWindows"), function $CPWindow___updateMainAndKeyWindows(self, _cmd)
+{ with(self)
+{
+    var allWindows = objj_msgSend(CPApp, "orderedWindows"),
+        windowCount = objj_msgSend(allWindows, "count");
+    if (!windowCount)
+        return;
+    if (objj_msgSend(self, "isKeyWindow"))
+    {
+        var keyWindow = objj_msgSend(CPApp, "keyWindow");
+        objj_msgSend(self, "resignKeyWindow");
+        if (keyWindow && keyWindow !== self && objj_msgSend(keyWindow, "canBecomeKeyWindow"))
+            objj_msgSend(keyWindow, "makeKeyWindow");
+        else
+        {
+            var menuWindow = objj_msgSend(CPApp, "mainMenu")._menuWindow;
+            for (var i = 0; i < windowCount; i++)
+            {
+                var currentWindow = allWindows[i];
+                if (currentWindow === self || currentWindow === menuWindow)
+                    continue;
+                if (objj_msgSend(currentWindow, "isVisible") && objj_msgSend(currentWindow, "canBecomeKeyWindow"))
+                {
+                    objj_msgSend(currentWindow, "makeKeyWindow");
+                    break;
+                }
+            }
+            if (!objj_msgSend(CPApp, "keyWindow"))
+                objj_msgSend(keyWindow, "makeKeyWindow");
+        }
+    }
+    if (objj_msgSend(self, "isMainWindow"))
+    {
+        var mainWindow = objj_msgSend(CPApp, "mainWindow");
+        objj_msgSend(self, "resignMainWindow");
+        if (mainWindow && mainWindow !== self && objj_msgSend(mainWindow, "canBecomeMainWindow"))
+            objj_msgSend(mainWindow, "makeMainWindow");
+        else
+        {
+            var menuWindow = objj_msgSend(CPApp, "mainMenu")._menuWindow;
+            for (var i = 0; i < windowCount; i++)
+            {
+                var currentWindow = allWindows[i];
+                if (currentWindow === self || currentWindow === menuWindow)
+                    continue;
+                if (objj_msgSend(currentWindow, "isVisible") && objj_msgSend(currentWindow, "canBecomeMainWindow"))
+                {
+                    objj_msgSend(currentWindow, "makeMainWindow");
+                    break;
+                }
+            }
+        }
+    }
 }
 },["void"]), new objj_method(sel_getUid("toolbar"), function $CPWindow__toolbar(self, _cmd)
 { with(self)
@@ -28514,7 +28655,7 @@ _CALayerGetTransform= function(fromLayer, toLayer)
     return transform;
 }
 
-p;12;CPPlatform.jt;5397;@STATIC;1.0;I;21;Foundation/CPObject.jt;5352;objj_executeFile("Foundation/CPObject.j", false);
+p;12;CPPlatform.jt;5720;@STATIC;1.0;I;21;Foundation/CPObject.jt;5675;objj_executeFile("Foundation/CPObject.j", false);
 {var the_class = objj_allocateClassPair(CPObject, "CPBasePlatform"),
 meta_class = the_class.isa;objj_registerClassPair(the_class);
 class_addMethods(meta_class, [new objj_method(sel_getUid("bootstrap"), function $CPBasePlatform__bootstrap(self, _cmd)
@@ -28546,7 +28687,11 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("bootstrap"), function 
 { with(self)
 {
 }
-},["void","BOOL"]), new objj_method(sel_getUid("hideOtherApplications:"), function $CPBasePlatform__hideOtherApplications_(self, _cmd, aSender)
+},["void","BOOL"]), new objj_method(sel_getUid("deactivate"), function $CPBasePlatform__deactivate(self, _cmd)
+{ with(self)
+{
+}
+},["void"]), new objj_method(sel_getUid("hideOtherApplications:"), function $CPBasePlatform__hideOtherApplications_(self, _cmd, aSender)
 { with(self)
 {
 }
@@ -28599,7 +28744,13 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("initialize"), function
     if (typeof window["cpActivateIgnoringOtherApps"] === "function")
         window.cpActivateIgnoringOtherApps(!!shouldIgnoreOtherApps);
 }
-},["void","BOOL"]), new objj_method(sel_getUid("hideOtherApplications:"), function $CPPlatform__hideOtherApplications_(self, _cmd, aSender)
+},["void","BOOL"]), new objj_method(sel_getUid("deactivate"), function $CPPlatform__deactivate(self, _cmd)
+{ with(self)
+{
+    if (typeof window["cpDeactivate"] === "function")
+        window.cpDeactivate();
+}
+},["void"]), new objj_method(sel_getUid("hideOtherApplications:"), function $CPPlatform__hideOtherApplications_(self, _cmd, aSender)
 { with(self)
 {
     if (typeof window["cpHideOtherApplications"] === "function")
@@ -28884,7 +29035,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("visiblePlatformWindows
 }
 objj_executeFile("CPPlatformWindow+DOM.j", true);
 
-p;22;CPPlatformWindow+DOM.jt;46832;@STATIC;1.0;I;21;Foundation/CPObject.jI;22;Foundation/CPRunLoop.ji;9;CPEvent.ji;17;CPCompatibility.ji;18;CPDOMWindowLayer.ji;12;CPPlatform.ji;18;CPPlatformWindow.ji;26;CPPlatformWindow+DOMKeys.jt;46630;objj_executeFile("Foundation/CPObject.j", false);
+p;22;CPPlatformWindow+DOM.jt;47099;@STATIC;1.0;I;21;Foundation/CPObject.jI;22;Foundation/CPRunLoop.ji;9;CPEvent.ji;17;CPCompatibility.ji;18;CPDOMWindowLayer.ji;12;CPPlatform.ji;18;CPPlatformWindow.ji;26;CPPlatformWindow+DOMKeys.jt;46897;objj_executeFile("Foundation/CPObject.j", false);
 objj_executeFile("Foundation/CPRunLoop.j", false);
 objj_executeFile("CPEvent.j", true);
 objj_executeFile("CPCompatibility.j", true);
@@ -29709,7 +29860,14 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 class_addMethods(meta_class, [new objj_method(sel_getUid("visiblePlatformWindows"), function $CPPlatformWindow__visiblePlatformWindows(self, _cmd)
 { with(self)
 {
-    return PlatformWindows;
+    if (objj_msgSend(objj_msgSend(CPPlatformWindow, "primaryPlatformWindow"), "isVisible"))
+    {
+        var set = objj_msgSend(CPSet, "setWithSet:", PlatformWindows);
+        objj_msgSend(set, "addObject:", objj_msgSend(CPPlatformWindow, "primaryPlatformWindow"));
+        return set;
+    }
+    else
+        return PlatformWindows;
 }
 },["CPSet"]), new objj_method(sel_getUid("preventCharacterKeysFromPropagating:"), function $CPPlatformWindow__preventCharacterKeysFromPropagating_(self, _cmd, characters)
 { with(self)
@@ -29788,35 +29946,32 @@ var CPDOMEventStop = function(aDOMEvent, aPlatformWindow)
 }
 CPWindowObjectList= function()
 {
-    var platformWindow = objj_msgSend(CPPlatformWindow, "primaryPlatformWindow"),
-        levels = platformWindow._windowLevels,
-        layers = platformWindow._windowLayers,
-        levelCount = levels.length,
+    var platformWindows = objj_msgSend(CPPlatformWindow, "visiblePlatformWindows"),
+        platformWindowEnumerator = objj_msgSend(platformWindows, "objectEnumerator"),
+        platformWindow = nil,
         windowObjects = [];
-    while (levelCount--)
+    while (platformWindow = objj_msgSend(platformWindowEnumerator, "nextObject"))
     {
-        var windows = objj_msgSend(layers, "objectForKey:", levels[levelCount])._windows,
-            windowCount = windows.length;
-        while (windowCount--)
-            windowObjects.push(windows[windowCount]);
+        var levels = platformWindow._windowLevels,
+            layers = platformWindow._windowLayers,
+            levelCount = levels.length;
+        while (levelCount--)
+        {
+            var windows = objj_msgSend(layers, "objectForKey:", levels[levelCount])._windows,
+                windowCount = windows.length;
+            while (windowCount--)
+                windowObjects.push(windows[windowCount]);
+        }
     }
     return windowObjects;
 }
 CPWindowList= function()
 {
-    var platformWindow = objj_msgSend(CPPlatformWindow, "primaryPlatformWindow"),
-        levels = platformWindow._windowLevels,
-        layers = platformWindow._windowLayers,
-        levelCount = levels.length,
-        windowNumbers = [];
-    while (levelCount--)
-    {
-        var windows = objj_msgSend(layers, "objectForKey:", levels[levelCount])._windows,
-            windowCount = windows.length;
-        while (windowCount--)
-            windowNumbers.push(objj_msgSend(windows[windowCount], "windowNumber"));
-    }
-    return windowNumbers;
+    var windowObjectList = CPWindowObjectList(),
+        windowList = [];
+    for (var i = 0, count = objj_msgSend(windowObjectList, "count"); i < count; i++)
+        windowList.push(objj_msgSend(windowObjectList[i], "windowNumber"));
+    return windowList;
 }
 
 p;26;CPPlatformWindow+DOMKeys.jt;3269;@STATIC;1.0;t;3250;CPKeyCodes = {
