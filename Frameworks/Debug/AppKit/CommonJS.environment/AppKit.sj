@@ -384,7 +384,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPEvent"])]);
 }
 
-p;13;CPTableView.jt;124526;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;124383;objj_executeFile("Foundation/CPArray.j", false);
+p;13;CPTableView.jt;126382;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;126239;objj_executeFile("Foundation/CPArray.j", false);
 objj_executeFile("AppKit/CGGradient.j", false);
 objj_executeFile("CPControl.j", true);
 objj_executeFile("CPTableColumn.j", true);
@@ -944,7 +944,12 @@ _disableAutomaticResizing = newValue;
 {
     return _selectedColumnIndexes;
 }
-},["CPIndexSet"]), new objj_method(sel_getUid("selectedRowIndexes"), function $CPTableView__selectedRowIndexes(self, _cmd)
+},["CPIndexSet"]), new objj_method(sel_getUid("selectedRow"), function $CPTableView__selectedRow(self, _cmd)
+{ with(self)
+{
+    return objj_msgSend(_selectedRowIndexes, "lastIndex");
+}
+},["int"]), new objj_method(sel_getUid("selectedRowIndexes"), function $CPTableView__selectedRowIndexes(self, _cmd)
 { with(self)
 {
     return _selectedRowIndexes;
@@ -1545,11 +1550,13 @@ _disableAutomaticResizing = newValue;
 },["void","CPDragOperation","BOOL"]), new objj_method(sel_getUid("setDropRow:dropOperation:"), function $CPTableView__setDropRow_dropOperation_(self, _cmd, row, operation)
 { with(self)
 {
-    if(row < 0 && operation === CPTableViewDropAbove)
-        row = 0;
-    if(row >= objj_msgSend(self, "numberOfRows") && operation === CPTableViewDropOn)
-        objj_msgSend(CPException, "raise:reason:", CPInvalidArgumentException, "Attempt to set dropRow="+ row +", dropOperation=CPTableViewDropOn when [0 - "+
-                           objj_msgSend(self, "numberOfRows") +"] is valid range of rows.");
+    if(row > objj_msgSend(self, "numberOfRows") && operation === CPTableViewDropOn)
+    {
+        var numberOfRows = objj_msgSend(self, "numberOfRows") + 1;
+        var reason = "Attempt to set dropRow=" + row +
+                     " dropOperation=CPTableViewDropOn when [0 - " + numberOfRows + "] is valid range of rows."
+        objj_msgSend(objj_msgSend(CPException, "exceptionWithName:reason:userInfo:", "Error", reason, nil), "raise");
+    }
     _retargetedDropRow = row;
     _retargetedDropOperation = operation;
 }
@@ -1724,7 +1731,7 @@ _disableAutomaticResizing = newValue;
             else
                 objj_msgSend(dataView, "unsetThemeState:", CPThemeStateHighlighted);
             if (_implementedDelegateMethods & CPTableViewDelegate_tableView_willDisplayView_forTableColumn_row_)
-                objj_msgSend(objj_msgSend(self, "delegate"), "tableView:willDisplayView:forTableColumn:row:", self, dataView, tableColumn, row);
+                objj_msgSend(_delegate, "tableView:willDisplayView:forTableColumn:row:", self, dataView, tableColumn, row);
             if (objj_msgSend(dataView, "superview") !== self)
                 objj_msgSend(self, "addSubview:", dataView);
             _dataViewsForTableColumns[tableColumnUID][row] = dataView;
@@ -1786,6 +1793,11 @@ _disableAutomaticResizing = newValue;
 },["void","CPTextView"]), new objj_method(sel_getUid("_newDataViewForRow:tableColumn:"), function $CPTableView___newDataViewForRow_tableColumn_(self, _cmd, aRow, aTableColumn)
 { with(self)
 {
+    if ((_implementedDelegateMethods & CPTableViewDelegate_tableView_dataViewForTableColumn_row_))
+    {
+        var dataView = objj_msgSend(_delegate, "tableView:dataViewForTableColumn:row:", self, aTableColumn, aRow);
+        objj_msgSend(aTableColumn, "setDataView:", dataView);
+    }
     return objj_msgSend(aTableColumn, "_newDataViewForRow:", aRow);
 }
 },["CPView","CPInteger","CPTableColumn"]), new objj_method(sel_getUid("_enqueueReusableDataView:"), function $CPTableView___enqueueReusableDataView_(self, _cmd, aDataView)
@@ -2105,8 +2117,7 @@ _disableAutomaticResizing = newValue;
             else
                 _draggedRowIndexes = objj_msgSend(CPIndexSet, "indexSetWithIndex:", row);
             var pboard = objj_msgSend(CPPasteboard, "pasteboardWithName:", CPDragPboard);
-            if (objj_msgSend(self, "canDragRowsWithIndexes:atPoint:", _draggedRowIndexes, aPoint) &&
-                objj_msgSend(_dataSource, "tableView:writeRowsWithIndexes:toPasteboard:", self, _draggedRowIndexes, pboard))
+            if (objj_msgSend(self, "canDragRowsWithIndexes:atPoint:", _draggedRowIndexes, aPoint) && objj_msgSend(_dataSource, "tableView:writeRowsWithIndexes:toPasteboard:", self, _draggedRowIndexes, pboard))
             {
                 var currentEvent = objj_msgSend(CPApp, "currentEvent"),
                     offset = CPPointMakeZero(),
@@ -2118,12 +2129,13 @@ _disableAutomaticResizing = newValue;
                     view = objj_msgSend(objj_msgSend(CPImageView, "alloc"), "initWithFrame:", CPMakeRect(0, 0, objj_msgSend(image, "size").width, objj_msgSend(image, "size").height));
                     objj_msgSend(view, "setImage:", image);
                 }
-                var bounds = objj_msgSend(view, "bounds"),
-                    viewLocation = CPPointMake(aPoint.x - CGRectGetWidth(bounds)/2 + offset.x, aPoint.y - CGRectGetHeight(bounds)/2 + offset.y);
+                var bounds = objj_msgSend(view, "bounds");
+                var viewLocation = CPPointMake(aPoint.x - CGRectGetWidth(bounds)/2 + offset.x, aPoint.y - CGRectGetHeight(bounds)/2 + offset.y);
                 objj_msgSend(self, "dragView:at:offset:event:pasteboard:source:slideBack:", view, viewLocation, CPPointMakeZero(), objj_msgSend(CPApp, "currentEvent"), pboard, self, YES);
                 _startTrackingPoint = nil;
                 return NO;
             }
+            _draggedRowIndexes = objj_msgSend(CPIndexSet, "indexSet");
         }
         else if (ABS(_startTrackingPoint.x - aPoint.x) < 5 && ABS(_startTrackingPoint.y - aPoint.y) < 5)
             return YES;
@@ -2198,17 +2210,15 @@ _disableAutomaticResizing = newValue;
 },["void","CGPoint","CGPoint","BOOL"]), new objj_method(sel_getUid("draggingEntered:"), function $CPTableView__draggingEntered_(self, _cmd, sender)
 { with(self)
 {
-    var dropOperation = objj_msgSend(self, "_proposedDropOperation"),
-        draggingLocation = objj_msgSend(sender, "draggingLocation"),
-        row;
-    var location = objj_msgSend(self, "convertPoint:fromView:", draggingLocation, nil);
-    row = objj_msgSend(self, "_proposedRowAtPoint:", location);
+    var location = objj_msgSend(self, "convertPoint:fromView:", objj_msgSend(sender, "draggingLocation"), nil),
+        dropOperation = objj_msgSend(self, "_proposedDropOperationAtPoint:", location),
+        row = objj_msgSend(self, "_proposedRowAtPoint:", location);
     if(_retargetedDropRow !== nil)
         row = _retargetedDropRow;
     var draggedTypes = objj_msgSend(self, "registeredDraggedTypes"),
         count = objj_msgSend(draggedTypes, "count"),
-        i;
-    for (i = 0; i < count; i++)
+        i = 0;
+    for (; i < count; i++)
     {
         if (objj_msgSend(objj_msgSend(objj_msgSend(sender, "draggingPasteboard"), "types"), "containsObject:", objj_msgSend(draggedTypes, "objectAtIndex:",  i)))
             return objj_msgSend(self, "_validateDrop:proposedRow:proposedDropOperation:", sender, row, dropOperation);
@@ -2238,30 +2248,31 @@ _disableAutomaticResizing = newValue;
 {
     return YES;
 }
-},["BOOL"]), new objj_method(sel_getUid("_proposedDropOperation"), function $CPTableView___proposedDropOperation(self, _cmd)
+},["BOOL"]), new objj_method(sel_getUid("_proposedDropOperationAtPoint:"), function $CPTableView___proposedDropOperationAtPoint_(self, _cmd, theDragPoint)
 { with(self)
 {
     if(_retargetedDropOperation !== nil)
         return _retargetedDropOperation;
-    else
-        return CPTableViewDropAbove;
+    var row = objj_msgSend(self, "_proposedRowAtPoint:", theDragPoint),
+        rowRect = objj_msgSend(self, "rectOfRow:", row);
+    if (objj_msgSend(self, "intercellSpacing").height < 5.0)
+  rowRect = CPRectInset(rowRect, 0.0, 5.0 - objj_msgSend(self, "intercellSpacing").height);
+    if (CGRectContainsPoint(rowRect, theDragPoint) && row < _numberOfRows)
+        return CPTableViewDropOn;
+    return CPTableViewDropAbove;
 }
-},["CPTableViewDropOperation"]), new objj_method(sel_getUid("_proposedRowAtPoint:"), function $CPTableView___proposedRowAtPoint_(self, _cmd, dragPoint)
+},["CPTableViewDropOperation","CGPoint"]), new objj_method(sel_getUid("_proposedRowAtPoint:"), function $CPTableView___proposedRowAtPoint_(self, _cmd, dragPoint)
 { with(self)
 {
-    var numberOfRows = objj_msgSend(self, "numberOfRows"),
-        row;
-    dragPoint.y += FLOOR(_rowHeight/4);
-    if (dragPoint.y > numberOfRows * (_rowHeight + _intercellSpacing.height))
-    {
-        if (objj_msgSend(self, "_proposedDropOperation") === CPTableViewDropAbove)
-            row = numberOfRows;
-        else
-            row = numberOfRows - 1;
-    }
-    else
-        row = objj_msgSend(self, "rowAtPoint:", dragPoint);
-    return row;
+ var row = FLOOR(dragPoint.y / ( _rowHeight + _intercellSpacing.height ));
+ var lowerRow = row + 1,
+  rect = objj_msgSend(self, "rectOfRow:", row),
+  lowerRect = objj_msgSend(self, "rectOfRow:", lowerRow);
+ if (ABS(CPRectGetMinY(lowerRect) - dragPoint.y) < ABS(dragPoint.y - CPRectGetMinY(rect)))
+  row = lowerRow;
+    if (row >= objj_msgSend(self, "numberOfRows"))
+        row = objj_msgSend(self, "numberOfRows");
+ return row;
 }
 },["CPInteger","CGPoint"]), new objj_method(sel_getUid("_validateDrop:proposedRow:proposedDropOperation:"), function $CPTableView___validateDrop_proposedRow_proposedDropOperation_(self, _cmd, info, row, dropOperation)
 { with(self)
@@ -2270,30 +2281,43 @@ _disableAutomaticResizing = newValue;
         return objj_msgSend(_dataSource, "tableView:validateDrop:proposedRow:proposedDropOperation:", self, info, row, dropOperation);
     return CPDragOperationNone;
 }
-},["void","id","CPInteger","CPTableViewDropOperation"]), new objj_method(sel_getUid("draggingUpdated:"), function $CPTableView__draggingUpdated_(self, _cmd, sender)
+},["void","id","CPInteger","CPTableViewDropOperation"]), new objj_method(sel_getUid("_rectForDropHighlightViewOnRow:"), function $CPTableView___rectForDropHighlightViewOnRow_(self, _cmd, theRowIndex)
 { with(self)
 {
-    var dropOperation = objj_msgSend(self, "_proposedDropOperation"),
-        numberOfRows = objj_msgSend(self, "numberOfRows"),
-        draggingLocation = objj_msgSend(sender, "draggingLocation"),
-        dragOperation,
-        row;
-    var location = objj_msgSend(self, "convertPoint:fromView:", draggingLocation, nil);
-    row = objj_msgSend(self, "_proposedRowAtPoint:", location);
-    dragOperation = objj_msgSend(self, "_validateDrop:proposedRow:proposedDropOperation:", sender, row, dropOperation);
+    if (theRowIndex >= objj_msgSend(self, "numberOfRows"))
+        theRowIndex = objj_msgSend(self, "numberOfRows") - 1;
+    return objj_msgSend(self, "rectOfRow:", theRowIndex);
+}
+},["CPRect","int"]), new objj_method(sel_getUid("_rectForDropHighlightViewBetweenUpperRow:andLowerRow:offset:"), function $CPTableView___rectForDropHighlightViewBetweenUpperRow_andLowerRow_offset_(self, _cmd, theUpperRowIndex, theLowerRowIndex, theOffset)
+{ with(self)
+{
+    if (theLowerRowIndex > objj_msgSend(self, "numberOfRows"))
+        theLowerRowIndex = objj_msgSend(self, "numberOfRows");
+ return objj_msgSend(self, "rectOfRow:", theLowerRowIndex);
+}
+},["CPRect","int","int","CPPoint"]), new objj_method(sel_getUid("draggingUpdated:"), function $CPTableView__draggingUpdated_(self, _cmd, sender)
+{ with(self)
+{
+    var location = objj_msgSend(self, "convertPoint:fromView:", objj_msgSend(sender, "draggingLocation"), nil),
+        dropOperation = objj_msgSend(self, "_proposedDropOperationAtPoint:", location),
+        numberOfRows = objj_msgSend(self, "numberOfRows");
+    var row = objj_msgSend(self, "_proposedRowAtPoint:", location),
+        dragOperation = objj_msgSend(self, "_validateDrop:proposedRow:proposedDropOperation:", sender, row, dropOperation);
+        exposedClipRect = objj_msgSend(self, "exposedClipRect");
     if(_retargetedDropRow !== nil)
         row = _retargetedDropRow;
-    var rowRect;
-    if(_retargetedDropRow === -1)
-        rowRect = objj_msgSend(self, "exposedClipRect");
+    if (dropOperation === CPTableViewDropOn && row >= objj_msgSend(self, "numberOfRows"))
+        row = objj_msgSend(self, "numberOfRows") - 1;
+    var rect = CPRectMakeZero();
+    if (row === -1)
+        rect = exposedClipRect;
+    else if (dropOperation === CPTableViewDropAbove)
+        rect = objj_msgSend(self, "_rectForDropHighlightViewBetweenUpperRow:andLowerRow:offset:", row - 1, row, location);
     else
-        rowRect = objj_msgSend(self, "rectOfRow:", row);
-    var exposedClipRect = objj_msgSend(self, "exposedClipRect");
-    var visibleWidth = (exposedClipRect.size.width);
-    rowRect = { origin: { x:(exposedClipRect.origin.x), y:rowRect.origin.y }, size: { width:visibleWidth, height:rowRect.size.height } };
-    objj_msgSend(_dropOperationFeedbackView, "setDropOperation:", dropOperation);
+        rect = objj_msgSend(self, "_rectForDropHighlightViewOnRow:", row);
+    objj_msgSend(_dropOperationFeedbackView, "setDropOperation:", row !== -1 ? dropOperation : CPDragOperationNone);
     objj_msgSend(_dropOperationFeedbackView, "setHidden:", (dragOperation == CPDragOperationNone));
-    objj_msgSend(_dropOperationFeedbackView, "setFrame:", rowRect);
+    objj_msgSend(_dropOperationFeedbackView, "setFrame:", rect);
     objj_msgSend(_dropOperationFeedbackView, "setCurrentRow:", row);
     objj_msgSend(self, "addSubview:", _dropOperationFeedbackView);
     if (row > 0 && location.y - CGRectGetMinY(exposedClipRect) < _rowHeight)
@@ -2311,13 +2335,11 @@ _disableAutomaticResizing = newValue;
 },["BOOL","id"]), new objj_method(sel_getUid("performDragOperation:"), function $CPTableView__performDragOperation_(self, _cmd, sender)
 { with(self)
 {
-    var operation = objj_msgSend(self, "_proposedDropOperation"),
-        draggingLocation = objj_msgSend(sender, "draggingLocation");
-    var location = objj_msgSend(self, "convertPoint:fromView:", draggingLocation, nil);
-    if(_retargetedDropRow !== nil)
-        var row = _retargetedDropRow;
-    else
-        var row = objj_msgSend(self, "rowAtPoint:", location) - 1;
+    var location = objj_msgSend(self, "convertPoint:fromView:", objj_msgSend(sender, "draggingLocation"), nil);
+        operation = objj_msgSend(self, "_proposedDropOperationAtPoint:", location),
+        row = _retargetedDropRow;
+    if(row === nil)
+        var row = objj_msgSend(self, "_proposedRowAtPoint:", location);
     return objj_msgSend(_dataSource, "tableView:acceptDrop:row:dropOperation:", self, sender, row, operation);
 }
 },["BOOL","id"]), new objj_method(sel_getUid("concludeDragOperation:"), function $CPTableView__concludeDragOperation_(self, _cmd, sender)
@@ -2567,8 +2589,8 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
         _cornerView = objj_msgSend(aCoder, "decodeObjectForKey:", CPTableViewCornerViewKey);
         _selectedColumnIndexes = objj_msgSend(CPIndexSet, "indexSet");
         _selectedRowIndexes = objj_msgSend(CPIndexSet, "indexSet");
-        objj_msgSend(self, "setDataSource:", objj_msgSend(aCoder, "decodeObjectForKey:", CPTableViewDataSourceKey));
-        objj_msgSend(self, "setDelegate:", objj_msgSend(aCoder, "decodeObjectForKey:", CPTableViewDelegateKey));
+        _dataSource = objj_msgSend(aCoder, "decodeObjectForKey:", CPTableViewDataSourceKey);
+        _delegate = objj_msgSend(aCoder, "decodeObjectForKey:", CPTableViewDelegateKey);
         _tableDrawView = objj_msgSend(objj_msgSend(_CPTableDrawView, "alloc"), "initWithTableView:", self);
         objj_msgSend(_tableDrawView, "setBackgroundColor:", objj_msgSend(CPColor, "clearColor"));
         objj_msgSend(self, "addSubview:", _tableDrawView);
@@ -2684,10 +2706,14 @@ currentRow = newValue;
     var context = objj_msgSend(objj_msgSend(CPGraphicsContext, "currentContext"), "graphicsPort");
     CGContextSetStrokeColor(context, objj_msgSend(CPColor, "colorWithHexString:", "4886ca"));
     CGContextSetLineWidth(context, 3);
-    if(dropOperation === CPTableViewDropOn)
+    if (currentRow === -1)
     {
-        var selectedRows = objj_msgSend(tableView, "selectedRowIndexes");
-        var newRect = { origin: { x:aRect.origin.x + 2, y:aRect.origin.y + 2 }, size: { width:aRect.size.width - 4, height:aRect.size.height - 5 } };
+        CGContextStrokeRect(context, objj_msgSend(self, "bounds"));
+    }
+    else if (dropOperation === CPTableViewDropOn)
+    {
+        var selectedRows = objj_msgSend(tableView, "selectedRowIndexes"),
+            newRect = { origin: { x:aRect.origin.x + 2, y:aRect.origin.y + 2 }, size: { width:aRect.size.width - 4, height:aRect.size.height - 5 } };
         if(objj_msgSend(selectedRows, "containsIndex:", currentRow))
         {
             CGContextSetLineWidth(context, 2);
@@ -2700,7 +2726,7 @@ currentRow = newValue;
         }
         CGContextStrokeRoundedRectangleInRect(context, newRect, 8, YES, YES, YES, YES);
     }
-    if(dropOperation === CPTableViewDropAbove)
+    else if (dropOperation === CPTableViewDropAbove)
     {
         objj_msgSend(self, "setFrameOrigin:", CGPointMake(_frame.origin.x, _frame.origin.y - 8));
         var selectedRows = objj_msgSend(tableView, "selectedRowIndexes");
@@ -3415,7 +3441,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:control:"
 },["void"])]);
 }
 
-p;15;CPTableColumn.jt;15488;@STATIC;1.0;I;25;Foundation/CPDictionary.jI;21;Foundation/CPObject.jI;29;Foundation/CPSortDescriptor.jI;21;Foundation/CPString.ji;19;CPTableHeaderView.jt;15328;objj_executeFile("Foundation/CPDictionary.j", false);
+p;15;CPTableColumn.jt;15491;@STATIC;1.0;I;25;Foundation/CPDictionary.jI;21;Foundation/CPObject.jI;29;Foundation/CPSortDescriptor.jI;21;Foundation/CPString.ji;19;CPTableHeaderView.jt;15331;objj_executeFile("Foundation/CPDictionary.j", false);
 objj_executeFile("Foundation/CPObject.j", false);
 objj_executeFile("Foundation/CPSortDescriptor.j", false);
 objj_executeFile("Foundation/CPString.j", false);
@@ -3462,7 +3488,7 @@ _disableResizingPosting = newValue;
         objj_msgSend(textDataView, "setValue:forThemeAttribute:", objj_msgSend(CPColor, "colorWithHexString:", "333333"), "text-color");
         objj_msgSend(textDataView, "setValue:forThemeAttribute:inState:", objj_msgSend(CPColor, "whiteColor"), "text-color", CPThemeStateHighlighted);
         objj_msgSend(textDataView, "setValue:forThemeAttribute:inState:", objj_msgSend(CPFont, "boldSystemFontOfSize:", 12), "font", CPThemeStateHighlighted);
-        objj_msgSend(textDataView, "setValue:forThemeAttribute:", CGInsetMake(4.0, 8.0, 0.0, 8.0), "content-inset");
+        objj_msgSend(textDataView, "setValue:forThemeAttribute:", CPCenterVerticalTextAlignment, "vertical-alignment");
         objj_msgSend(self, "setDataView:", textDataView);
     }
     return self;
@@ -6188,7 +6214,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithViewAnimations:
 },["void","CPArray"])]);
 }
 
-p;18;CPViewController.jt;7034;@STATIC;1.0;I;20;AppKit/CPResponder.jt;6990;objj_executeFile("AppKit/CPResponder.j", false);
+p;18;CPViewController.jt;7527;@STATIC;1.0;I;20;AppKit/CPResponder.jt;7483;objj_executeFile("AppKit/CPResponder.j", false);
 var CPViewControllerCachedCibs;
 {var the_class = objj_allocateClassPair(CPResponder, "CPViewController"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_view"), new objj_ivar("_representedObject"), new objj_ivar("_title"), new objj_ivar("_cibName"), new objj_ivar("_cibBundle"), new objj_ivar("_cibExternalNameTable")]);
@@ -6285,12 +6311,22 @@ return _cibExternalNameTable;
         objj_msgSend(self, "loadView");
         if (_view === nil && objj_msgSend(cibOwner, "isKindOfClass:", objj_msgSend(CPDocument, "class")))
             objj_msgSend(self, "setView:", objj_msgSend(cibOwner, "valueForKey:", "view"));
+        if (!_view)
+        {
+            var reason = objj_msgSend(CPString, "stringWithFormat:", "View for %@ could not be loaded from Cib or no view specified. Override loadView to load the view manually.", self);
+            objj_msgSend(CPException, "raise:reason:", CPInternalInconsistencyException, reason);
+        }
         if (objj_msgSend(cibOwner, "respondsToSelector:", sel_getUid("viewControllerDidLoadCib:")))
             objj_msgSend(cibOwner, "viewControllerDidLoadCib:", self);
+        objj_msgSend(self, "viewDidLoad");
     }
     return _view;
 }
-},["CPView"]), new objj_method(sel_getUid("setView:"), function $CPViewController__setView_(self, _cmd, aView)
+},["CPView"]), new objj_method(sel_getUid("viewDidLoad"), function $CPViewController__viewDidLoad(self, _cmd)
+{ with(self)
+{
+}
+},["void"]), new objj_method(sel_getUid("setView:"), function $CPViewController__setView_(self, _cmd, aView)
 { with(self)
 {
     _view = aView;
@@ -20562,7 +20598,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("shadowWithOffset:blurR
 },["id","CGSize","float","CPColor"])]);
 }
 
-p;15;CPOutlineView.jt;30656;@STATIC;1.0;i;15;CPTableColumn.ji;13;CPTableView.jt;30598;objj_executeFile("CPTableColumn.j", true);
+p;15;CPOutlineView.jt;44111;@STATIC;1.0;i;15;CPTableColumn.ji;13;CPTableView.jt;44053;objj_executeFile("CPTableColumn.j", true);
 objj_executeFile("CPTableView.j", true);
 CPOutlineViewColumnDidMoveNotification = "CPOutlineViewColumnDidMoveNotification";
 CPOutlineViewColumnDidResizeNotification = "CPOutlineViewColumnDidResizeNotification";
@@ -20582,8 +20618,13 @@ var CPOutlineViewDataSource_outlineView_setObjectValue_forTableColumn_byItem_ = 
     CPOutlineViewDataSource_outlineView_persistentObjectForItem_ = 1 << 8,
     CPOutlineViewDataSource_outlineView_writeItems_toPasteboard_ = 1 << 9,
     CPOutlineViewDataSource_outlineView_sortDescriptorsDidChange_ = 1 << 10;
+var CPOutlineViewDelegate_outlineView_dataViewForTableColumn_item_ = 1 << 1,
+    CPOutlineViewDelegate_outlineView_shouldSelectItem_ = 1 << 2;
+    CPOutlineViewDelegate_outlineView_heightOfRowByItem_ = 1 << 3,
+    CPOutlineViewDelegate_outlineView_willDisplayView_forTableColumn_item_ = 1 << 4;
+CPOutlineViewDropOnItemIndex = -1;
 {var the_class = objj_allocateClassPair(CPTableView, "CPOutlineView"),
-meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_outlineViewDataSource"), new objj_ivar("_outlineViewDelegate"), new objj_ivar("_outlineTableColumn"), new objj_ivar("_indentationPerLevel"), new objj_ivar("_indentationMarkerFollowsDataView"), new objj_ivar("_implementedOutlineViewDataSourceMethods"), new objj_ivar("_rootItemInfo"), new objj_ivar("_itemsForRows"), new objj_ivar("_itemInfosForItems"), new objj_ivar("_disclosureControlPrototype"), new objj_ivar("_disclosureControlsForRows"), new objj_ivar("_disclosureControlData"), new objj_ivar("_disclosureControlQueue")]);
+meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_outlineViewDataSource"), new objj_ivar("_outlineViewDelegate"), new objj_ivar("_outlineTableColumn"), new objj_ivar("_indentationPerLevel"), new objj_ivar("_indentationMarkerFollowsDataView"), new objj_ivar("_implementedOutlineViewDataSourceMethods"), new objj_ivar("_implementedOutlineViewDelegateMethods"), new objj_ivar("_rootItemInfo"), new objj_ivar("_itemsForRows"), new objj_ivar("_itemInfosForItems"), new objj_ivar("_disclosureControlPrototype"), new objj_ivar("_disclosureControlsForRows"), new objj_ivar("_disclosureControlData"), new objj_ivar("_disclosureControlQueue"), new objj_ivar("_shouldRetargetItem"), new objj_ivar("_retargetedItem"), new objj_ivar("_shouldRetargetChildIndex"), new objj_ivar("_retargedChildIndex")]);
 objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), function $CPOutlineView__initWithFrame_(self, _cmd, aFrame)
 { with(self)
@@ -20596,9 +20637,14 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
         _itemsForRows = [];
         _itemInfosForItems = { };
         _disclosureControlsForRows = [];
+        _retargetedItem = nil;
+        _shouldRetargetItem = NO;
+        _retargedChildIndex = nil;
+        _shouldRetargetChildIndex = NO;
         objj_msgSend(self, "setIndentationPerLevel:", 16.0);
         objj_msgSend(self, "setIndentationMarkerFollowsDataView:", YES);
         objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPOutlineView").super_class }, "setDataSource:", objj_msgSend(objj_msgSend(_CPOutlineViewTableViewDataSource, "alloc"), "initWithOutlineView:", self));
+        objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPOutlineView").super_class }, "setDelegate:", objj_msgSend(objj_msgSend(_CPOutlineViewTableViewDelegate, "alloc"), "initWithOutlineView:", self));
         objj_msgSend(self, "setDisclosureControlPrototype:", objj_msgSend(objj_msgSend(CPDisclosureButton, "alloc"), "initWithFrame:", CGRectMake(0.0, 0.0, 10.0, 10.0)));
     }
     return self;
@@ -20668,17 +20714,29 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","id"]), new objj_method(sel_getUid("expandItem:"), function $CPOutlineView__expandItem_(self, _cmd, anItem)
 { with(self)
 {
+    objj_msgSend(self, "expandItem:expandChildren:", anItem, NO);
+}
+},["void","id"]), new objj_method(sel_getUid("expandItem:expandChildren:"), function $CPOutlineView__expandItem_expandChildren_(self, _cmd, anItem, shouldExpandChildren)
+{ with(self)
+{
+    var itemInfo = null;
     if (!anItem)
-        return;
-    var itemInfo = _itemInfosForItems[objj_msgSend(anItem, "UID")];
+        itemInfo = _rootItemInfo;
+    else
+        itemInfo = _itemInfosForItems[objj_msgSend(anItem, "UID")];
     if (!itemInfo)
-        return;
-    if (itemInfo.isExpanded)
         return;
     itemInfo.isExpanded = YES;
     objj_msgSend(self, "reloadItem:reloadChildren:", anItem, YES);
+    if (shouldExpandChildren)
+    {
+        var children = itemInfo.children,
+            childIndex = children.length;
+        while (childIndex--)
+            objj_msgSend(self, "expandItem:expandChildren:", children[childIndex], YES);
+    }
 }
-},["void","id"]), new objj_method(sel_getUid("collapseItem:"), function $CPOutlineView__collapseItem_(self, _cmd, anItem)
+},["void","id","BOOL"]), new objj_method(sel_getUid("collapseItem:"), function $CPOutlineView__collapseItem_(self, _cmd, anItem)
 { with(self)
 {
     if (!anItem)
@@ -20782,7 +20840,10 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     var itemInfo = _itemInfosForItems[objj_msgSend(anItem, "UID")];
     if (!itemInfo)
         return nil;
-    return itemInfo.parent;
+    var parent = itemInfo.parent;
+    if (itemInfo[objj_msgSend(parent, "UID")] === _rootItemInfo)
+        parent = nil;
+    return parent;
 }
 },["id","id"]), new objj_method(sel_getUid("frameOfOutlineDataViewAtColumn:row:"), function $CPOutlineView__frameOfOutlineDataViewAtColumn_row_(self, _cmd, aColumn, aRow)
 { with(self)
@@ -20793,7 +20854,36 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     frame.size.width -= indentationWidth;
     return frame;
 }
-},["CGRect","CPInteger","CPInteger"]), new objj_method(sel_getUid("setDelegate:"), function $CPOutlineView__setDelegate_(self, _cmd, aDelegate)
+},["CGRect","CPInteger","CPInteger"]), new objj_method(sel_getUid("selectRowIndexes:byExtendingSelection:"), function $CPOutlineView__selectRowIndexes_byExtendingSelection_(self, _cmd, rows, shouldExtendSelection)
+{ with(self)
+{
+    var previousSelectedRows = [];
+    objj_msgSend(objj_msgSend(self, "selectedRowIndexes"), "getIndexes:maxCount:inIndexRange:", previousSelectedRows, -1, nil);
+    var index = objj_msgSend(previousSelectedRows, "count");
+    while (index--)
+    {
+        var rowIndex = previousSelectedRows[index],
+            item = objj_msgSend(self, "itemAtRow:", rowIndex);
+        if (!objj_msgSend(self, "isExpandable:", item))
+            continue;
+        var control = _disclosureControlsForRows[rowIndex];
+        objj_msgSend(control, "setHighlighted:", NO);
+    }
+    objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPOutlineView").super_class }, "selectRowIndexes:byExtendingSelection:", rows, shouldExtendSelection);
+    var selectedRows = [];
+        objj_msgSend(rows, "getIndexes:maxCount:inIndexRange:", selectedRows, -1, nil);
+        var index = objj_msgSend(selectedRows, "count");
+    while (index--)
+    {
+        var rowIndex = selectedRows[index],
+            item = objj_msgSend(self, "itemAtRow:", rowIndex);
+        if (!objj_msgSend(self, "isExpandable:", item))
+            continue;
+        var control = _disclosureControlsForRows[rowIndex];
+        objj_msgSend(control, "setHighlighted:", YES);
+    }
+}
+},["void","CPIndexSet","BOOL"]), new objj_method(sel_getUid("setDelegate:"), function $CPOutlineView__setDelegate_(self, _cmd, aDelegate)
 { with(self)
 {
     if (_outlineViewDelegate === aDelegate)
@@ -20811,6 +20901,15 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
             objj_msgSend(defaultCenter, "removeObserver:name:object:", _outlineViewDelegate, CPOutlineViewSelectionIsChangingNotification, self);
     }
     _outlineViewDelegate = aDelegate;
+    _implementedOutlineViewDelegateMethods = 0;
+    if (objj_msgSend(_outlineViewDelegate, "respondsToSelector:", sel_getUid("outlineView:dataViewForTableColumn:item:")))
+        _implementedOutlineViewDelegateMethods |= CPOutlineViewDelegate_outlineView_dataViewForTableColumn_item_;
+    if (objj_msgSend(_outlineViewDelegate, "respondsToSelector:", sel_getUid("outlineView:shouldSelectItem:")))
+        _implementedOutlineViewDelegateMethods |= CPOutlineViewDelegate_outlineView_shouldSelectItem_;
+    if (objj_msgSend(_outlineViewDelegate, "respondsToSelector:", sel_getUid("outlineView:heightOfRowByItem:")))
+        _implementedOutlineViewDelegateMethods |= CPOutlineViewDelegate_outlineView_heightOfRowByItem_;
+    if (objj_msgSend(_outlineViewDelegate, "respondsToSelector:", sel_getUid("outlineView:willDisplayView:forTableColumn:item:")))
+        _implementedOutlineViewDelegateMethods |= CPOutlineViewDelegate_outlineView_willDisplayView_forTableColumn_item_;
     if (objj_msgSend(_outlineViewDelegate, "respondsToSelector:", sel_getUid("outlineViewColumnDidMove:")))
         objj_msgSend(defaultCenter, "addObserver:selector:name:object:", _outlineViewDelegate, sel_getUid("outlineViewColumnDidMove:"), CPOutlineViewColumnDidMoveNotification, self);
     if (objj_msgSend(_outlineViewDelegate, "respondsToSelector:", sel_getUid("outlineViewColumnDidResize:")))
@@ -20846,7 +20945,42 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
         return objj_msgSend(self, "frameOfOutlineDataViewAtColumn:row:", aColumn, aRow);
     return objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPOutlineView").super_class }, "frameOfDataViewAtColumn:row:", aColumn, aRow);
 }
-},["CGRect","CPInteger","CPInteger"]), new objj_method(sel_getUid("_loadDataViewsInRows:columns:"), function $CPOutlineView___loadDataViewsInRows_columns_(self, _cmd, rows, columns)
+},["CGRect","CPInteger","CPInteger"]), new objj_method(sel_getUid("setDropItem:dropChildIndex:"), function $CPOutlineView__setDropItem_dropChildIndex_(self, _cmd, theItem, theIndex)
+{ with(self)
+{
+    _retargetedItem = theItem;
+    _shouldRetargetItem = YES;
+    _retargedChildIndex = theIndex;
+    _shouldRetargetChildIndex = YES;
+}
+},["void","id","int"]), new objj_method(sel_getUid("_parentItemForUpperRow:andLowerRow:atMouseOffset:"), function $CPOutlineView___parentItemForUpperRow_andLowerRow_atMouseOffset_(self, _cmd, theUpperRowIndex, theLowerRowIndex, theOffset)
+{ with(self)
+{
+    if (_shouldRetargetItem)
+        return _retargetedItem;
+    var lowerLevel = objj_msgSend(self, "levelForRow:", theLowerRowIndex)
+        upperItem = objj_msgSend(self, "itemAtRow:", theUpperRowIndex);
+        upperLevel = objj_msgSend(self, "levelForItem:", upperItem);
+    while (upperLevel > lowerLevel)
+    {
+        upperLevel = objj_msgSend(self, "levelForItem:", upperItem);
+        if (theOffset.x > (upperLevel + 1) * objj_msgSend(self, "indentationPerLevel"))
+            return objj_msgSend(self, "parentForItem:", upperItem);
+        upperItem = objj_msgSend(self, "parentForItem:", upperItem);
+    }
+    return objj_msgSend(self, "parentForItem:", objj_msgSend(self, "itemAtRow:", theLowerRowIndex));
+}
+},["id","int","int","CPPoint"]), new objj_method(sel_getUid("_rectForDropHighlightViewBetweenUpperRow:andLowerRow:offset:"), function $CPOutlineView___rectForDropHighlightViewBetweenUpperRow_andLowerRow_offset_(self, _cmd, theUpperRowIndex, theLowerRowIndex, theOffset)
+{ with(self)
+{
+    var rect = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPOutlineView").super_class }, "_rectForDropHighlightViewBetweenUpperRow:andLowerRow:offset:", theUpperRowIndex, theLowerRowIndex, theOffset),
+        parentItem = objj_msgSend(self, "_parentItemForUpperRow:andLowerRow:atMouseOffset:", theUpperRowIndex, theLowerRowIndex, theOffset),
+        level = objj_msgSend(self, "levelForItem:", parentItem);
+    rect.origin.x = (level + 1) * objj_msgSend(self, "indentationPerLevel");
+    rect.size.width -= rect.origin.x;
+    return rect;
+}
+},["CPRect","int","int","CPPoint"]), new objj_method(sel_getUid("_loadDataViewsInRows:columns:"), function $CPOutlineView___loadDataViewsInRows_columns_(self, _cmd, rows, columns)
 { with(self)
 {
     objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPOutlineView").super_class }, "_loadDataViewsInRows:columns:", rows, columns);
@@ -21062,7 +21196,74 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithOutlineView:"),
 {
     return objj_msgSend(_outlineView._outlineViewDataSource, "outlineView:objectValueForTableColumn:byItem:", _outlineView, aTableColumn, _outlineView._itemsForRows[aRow]);
 }
-},["id","CPTableView","CPTableColumn","CPInteger"])]);
+},["id","CPTableView","CPTableColumn","CPInteger"]), new objj_method(sel_getUid("tableView:writeRowsWithIndexes:toPasteboard:"), function $_CPOutlineViewTableViewDataSource__tableView_writeRowsWithIndexes_toPasteboard_(self, _cmd, aTableColumn, theIndexes, thePasteboard)
+{ with(self)
+{
+    if (!(_outlineView._implementedOutlineViewDataSourceMethods & CPOutlineViewDataSource_outlineView_writeItems_toPasteboard_))
+        return NO;
+    var rowIndexes = [];
+    objj_msgSend(theIndexes, "getIndexes:maxCount:inIndexRange:", rowIndexes, objj_msgSend(theIndexes, "count"), nil);
+    var rowIndex = objj_msgSend(rowIndexes, "count"),
+        items = [];
+    while (rowIndex--)
+        objj_msgSend(items, "addObject:", objj_msgSend(_outlineView, "itemAtRow:", objj_msgSend(rowIndexes, "objectAtIndex:", rowIndex)));
+    return objj_msgSend(_outlineView._outlineViewDataSource, "outlineView:writeItems:toPasteboard:", _outlineView, items, thePasteboard);
+}
+},["BOOL","CPTableView","CPIndexSet","CPPasteboard"]), new objj_method(sel_getUid("_childIndexForDropOperation:row:offset:"), function $_CPOutlineViewTableViewDataSource___childIndexForDropOperation_row_offset_(self, _cmd, theDropOperation, theRow, theOffset)
+{ with(self)
+{
+    if (_outlineView._shouldRetargetChildIndex)
+        return _outlineView._retargedChildIndex;
+    var childIndex = CPNotFound;
+    if (theDropOperation === CPTableViewDropAbove)
+    {
+        var parentItem = objj_msgSend(_outlineView, "_parentItemForUpperRow:andLowerRow:atMouseOffset:", theRow - 1, theRow, theOffset),
+            itemInfo = (parentItem !== nil) ? _outlineView._itemInfosForItems[objj_msgSend(parentItem, "UID")] : _outlineView._rootItemInfo,
+            children = itemInfo.children;
+        childIndex = objj_msgSend(children, "indexOfObject:", objj_msgSend(_outlineView, "itemAtRow:", theRow));
+        if (childIndex === CPNotFound)
+            childIndex = children.length;
+    }
+    else if (theDropOperation === CPTableViewDropOn)
+        childIndex = -1;
+    return childIndex;
+}
+},["int","CPTableViewDropOperation","int","CPPoint"]), new objj_method(sel_getUid("_parentItemForDropOperation:row:offset:"), function $_CPOutlineViewTableViewDataSource___parentItemForDropOperation_row_offset_(self, _cmd, theDropOperation, theRow, theOffset)
+{ with(self)
+{
+    if (theDropOperation === CPTableViewDropAbove)
+        return objj_msgSend(_outlineView, "_parentItemForUpperRow:andLowerRow:atMouseOffset:", theRow - 1, theRow, theOffset)
+    return objj_msgSend(_outlineView, "itemAtRow:", theRow);
+}
+},["void","CPTableViewDropOperation","int","CPPoint"]), new objj_method(sel_getUid("tableView:validateDrop:proposedRow:proposedDropOperation:"), function $_CPOutlineViewTableViewDataSource__tableView_validateDrop_proposedRow_proposedDropOperation_(self, _cmd, aTableView, theInfo, theRow, theOperation)
+{ with(self)
+{
+    if (!(_outlineView._implementedOutlineViewDataSourceMethods & CPOutlineViewDataSource_outlineView_validateDrop_proposedItem_proposedChildIndex_))
+        return CPDragOperationNone;
+    _outlineView._retargetedItem = nil;
+    _outlineView._shouldRetargetItem = NO;
+    _outlineView._retargedChildIndex = nil;
+    _outlineView._shouldRetargetChildIndex = NO;
+    var location = objj_msgSend(_outlineView, "convertPoint:fromView:", objj_msgSend(theInfo, "draggingLocation"), nil),
+        parentItem = objj_msgSend(self, "_parentItemForDropOperation:row:offset:", theOperation, theRow, location);
+        childIndex = objj_msgSend(self, "_childIndexForDropOperation:row:offset:", theOperation, theRow, location);
+    return objj_msgSend(_outlineView._outlineViewDataSource, "outlineView:validateDrop:proposedItem:proposedChildIndex:", _outlineView, theInfo, parentItem, childIndex);
+}
+},["CPDragOperation","CPTableView","id<CPDraggingInfo>","int","CPTableViewDropOperation"]), new objj_method(sel_getUid("tableView:acceptDrop:row:dropOperation:"), function $_CPOutlineViewTableViewDataSource__tableView_acceptDrop_row_dropOperation_(self, _cmd, aTableView, theInfo, theRow, theOperation)
+{ with(self)
+{
+    if (!(_outlineView._implementedOutlineViewDataSourceMethods & CPOutlineViewDataSource_outlineView_acceptDrop_item_childIndex_))
+        return NO;
+     var location = objj_msgSend(_outlineView, "convertPoint:fromView:", objj_msgSend(theInfo, "draggingLocation"), nil),
+        parentItem = objj_msgSend(self, "_parentItemForDropOperation:row:offset:", theOperation, theRow, location);
+        childIndex = objj_msgSend(self, "_childIndexForDropOperation:row:offset:", theOperation, theRow, location);
+    _outlineView._retargetedItem = nil;
+    _outlineView._shouldRetargetItem = NO;
+    _outlineView._retargedChildIndex = nil;
+    _outlineView._shouldRetargetChildIndex = NO;
+    return objj_msgSend(_outlineView._outlineViewDataSource, "outlineView:acceptDrop:item:childIndex:", _outlineView, theInfo, parentItem, childIndex);
+}
+},["BOOL","CPTableView","id<CPDraggingInfo>","int","CPTableViewDropOperation"])]);
 }
 {var the_class = objj_allocateClassPair(CPObject, "_CPOutlineViewTableViewDelegate"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_outlineView")]);
@@ -21075,7 +21276,40 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithOutlineView:"),
         _outlineView = anOutlineView;
     return self;
 }
-},["id","CPOutlineView"])]);
+},["id","CPOutlineView"]), new objj_method(sel_getUid("tableView:dataViewForTableColumn:row:"), function $_CPOutlineViewTableViewDelegate__tableView_dataViewForTableColumn_row_(self, _cmd, theTableView, theTableColumn, theRow)
+{ with(self)
+{
+    var dataView = nil;
+    if ((_outlineView._implementedOutlineViewDelegateMethods & CPOutlineViewDelegate_outlineView_dataViewForTableColumn_item_))
+            dataView = objj_msgSend(_outlineView._outlineViewDelegate, "outlineView:dataViewForTableColumn:item:", _outlineView, theTableColumn, objj_msgSend(_outlineView, "itemAtRow:", theRow));
+    if (!dataView)
+        dataView = objj_msgSend(theTableColumn, "dataViewForRow:", theRow);
+    return dataView;
+}
+},["CPView","CPTableView","CPTableColumn","int"]), new objj_method(sel_getUid("tableView:shouldSelectRow:"), function $_CPOutlineViewTableViewDelegate__tableView_shouldSelectRow_(self, _cmd, theTableView, theRow)
+{ with(self)
+{
+    if ((_outlineView._implementedOutlineViewDelegateMethods & CPOutlineViewDelegate_outlineView_shouldSelectItem_))
+        return objj_msgSend(_outlineView._outlineViewDelegate, "outlineView:shouldSelectItem:", _outlineView, objj_msgSend(_outlineView, "itemAtRow:", theRow));
+    return YES;
+}
+},["BOOL","CPTableView","int"]), new objj_method(sel_getUid("tableView:heightOfRow:"), function $_CPOutlineViewTableViewDelegate__tableView_heightOfRow_(self, _cmd, theTableView, theRow)
+{ with(self)
+{
+    if ((_outlineView._implementedOutlineViewDelegateMethods & CPOutlineViewDelegate_outlineView_heightOfRowByItem_))
+        return objj_msgSend(_outlineView._outlineViewDelegate, "outlineView:heightOfRowByItem:", _outlineView, objj_msgSend(_outlineView, "itemAtRow:", theRow));
+    return objj_msgSend(theTableView, "rowHeight");
+}
+},["float","CPTableView","int"]), new objj_method(sel_getUid("tableView:willDisplayView:forTableColumn:row:"), function $_CPOutlineViewTableViewDelegate__tableView_willDisplayView_forTableColumn_row_(self, _cmd, aTableView, aView, aTableColumn, aRowIndex)
+{ with(self)
+{
+    if ((_outlineView._implementedOutlineViewDelegateMethods & CPOutlineViewDelegate_outlineView_willDisplayView_forTableColumn_item_))
+    {
+        var item = objj_msgSend(_outlineView, "itemAtRow:", aRowIndex);
+        objj_msgSend(_outlineView._outlineViewDelegate, "outlineView:willDisplayView:forTableColumn:item:", _outlineView, aView, aTableColumn, item);
+    }
+}
+},["void","CPTableView","id","CPTableColumn","int"])]);
 }
 {var the_class = objj_allocateClassPair(CPButton, "CPDisclosureButton"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_angle")]);
@@ -21112,7 +21346,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     CGContextAddLineToPoint(context, 4.5, 8.0);
     CGContextAddLineToPoint(context, 0.0, 0.0);
     CGContextClosePath(context);
-    CGContextSetFillColor(context, (objj_msgSend(self, "themeState") & CPThemeState("highlighted")) ? objj_msgSend(CPColor, "blackColor") : objj_msgSend(CPColor, "grayColor"));
+    CGContextSetFillColor(context, objj_msgSend(self, "isHighlighted") ? objj_msgSend(CPColor, "whiteColor") : objj_msgSend(CPColor, "grayColor"));
     CGContextFillPath(context);
 }
 },["void","CGRect"])]);
