@@ -10042,12 +10042,14 @@ objj_executeFile("CPSliderColorPicker.j", true);
 objj_msgSend(CPColorPanel, "provideColorPickerClass:", CPColorWheelColorPicker);
 objj_msgSend(CPColorPanel, "provideColorPickerClass:", CPSliderColorPicker);
 
-p;13;CPResponder.jt;8817;@STATIC;1.0;I;21;Foundation/CPObject.jt;8772;objj_executeFile("Foundation/CPObject.j", false);
+p;13;CPResponder.jt;9163;@STATIC;1.0;I;21;Foundation/CPObject.jt;9118;objj_executeFile("Foundation/CPObject.j", false);
 CPDeleteKeyCode = 8;
 CPTabKeyCode = 9;
 CPReturnKeyCode = 13;
 CPEscapeKeyCode = 27;
 CPSpaceKeyCode = 32;
+CPPageUpKeyCode = 33;
+CPPageDownKeyCode = 34;
 CPLeftArrowKeyCode = 37;
 CPUpArrowKeyCode = 38;
 CPRightArrowKeyCode = 39;
@@ -10090,6 +10092,10 @@ class_addMethods(the_class, [new objj_method(sel_getUid("acceptsFirstResponder")
         var event = events[index];
         switch(objj_msgSend(event, "keyCode"))
         {
+            case CPPageUpKeyCode: objj_msgSend(self, "doCommandBySelector:", sel_getUid("pageUp:"));
+                                        break;
+            case CPPageDownKeyCode: objj_msgSend(self, "doCommandBySelector:", sel_getUid("pageDown:"));
+                                        break;
             case CPLeftArrowKeyCode: objj_msgSend(self, "doCommandBySelector:", sel_getUid("moveLeft:"));
                                         break;
             case CPRightArrowKeyCode: objj_msgSend(self, "doCommandBySelector:", sel_getUid("moveRight:"));
@@ -18301,7 +18307,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithItemIdentifier:
 },["void","CPCoder"])]);
 }
 
-p;14;CPScrollView.jt;26761;@STATIC;1.0;i;8;CPView.ji;12;CPClipView.ji;12;CPScroller.jt;26695;objj_executeFile("CPView.j", true);
+p;14;CPScrollView.jt;27535;@STATIC;1.0;i;8;CPView.ji;12;CPClipView.ji;12;CPScroller.jt;27469;objj_executeFile("CPView.j", true);
 objj_executeFile("CPClipView.j", true);
 objj_executeFile("CPScroller.j", true);
 {var the_class = objj_allocateClassPair(CPView, "CPScrollView"),
@@ -18718,35 +18724,51 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPEvent"]), new objj_method(sel_getUid("keyDown:"), function $CPScrollView__keyDown_(self, _cmd, anEvent)
 { with(self)
 {
-    var keyCode = objj_msgSend(anEvent, "keyCode"),
-        documentFrame = objj_msgSend(objj_msgSend(self, "documentView"), "frame"),
+    objj_msgSend(self, "interpretKeyEvents:", [anEvent]);
+}
+},["void","CPEvent"]), new objj_method(sel_getUid("pageUp:"), function $CPScrollView__pageUp_(self, _cmd, sender)
+{ with(self)
+{
+    var contentBounds = objj_msgSend(_contentView, "bounds");
+    objj_msgSend(self, "moveByOffset:", CGSizeMake(0.0, -((contentBounds.size.height) - _verticalPageScroll)));
+}
+},["void","id"]), new objj_method(sel_getUid("pageDown:"), function $CPScrollView__pageDown_(self, _cmd, sender)
+{ with(self)
+{
+    var contentBounds = objj_msgSend(_contentView, "bounds");
+    objj_msgSend(self, "moveByOffset:", CGSizeMake(0.0, (contentBounds.size.height) - _verticalPageScroll));
+}
+},["void","id"]), new objj_method(sel_getUid("moveLeft:"), function $CPScrollView__moveLeft_(self, _cmd, sender)
+{ with(self)
+{
+    objj_msgSend(self, "moveByOffset:", CGSizeMake(-_horizontalLineScroll, 0.0));
+}
+},["void","id"]), new objj_method(sel_getUid("moveRight:"), function $CPScrollView__moveRight_(self, _cmd, sender)
+{ with(self)
+{
+    objj_msgSend(self, "moveByOffset:", CGSizeMake(_horizontalLineScroll, 0.0));
+}
+},["void","id"]), new objj_method(sel_getUid("moveUp:"), function $CPScrollView__moveUp_(self, _cmd, sender)
+{ with(self)
+{
+    objj_msgSend(self, "moveByOffset:", CGSizeMake(0.0, -_verticalLineScroll));
+}
+},["void","id"]), new objj_method(sel_getUid("moveDown:"), function $CPScrollView__moveDown_(self, _cmd, sender)
+{ with(self)
+{
+    objj_msgSend(self, "moveByOffset:", CGSizeMake(0.0, _verticalLineScroll));
+}
+},["void","id"]), new objj_method(sel_getUid("moveByOffset:"), function $CPScrollView__moveByOffset_(self, _cmd, aSize)
+{ with(self)
+{
+    var documentFrame = objj_msgSend(objj_msgSend(self, "documentView"), "frame"),
         contentBounds = objj_msgSend(_contentView, "bounds");
-    switch (keyCode)
-    {
-        case 33:
-                    contentBounds.origin.y -= (contentBounds.size.height) - _verticalPageScroll;
-                    break;
-        case 34:
-                    contentBounds.origin.y += (contentBounds.size.height) - _verticalPageScroll;
-                    break;
-        case 38:
-                    contentBounds.origin.y -= _verticalLineScroll;
-                    break;
-        case 40:
-                    contentBounds.origin.y += _verticalLineScroll;
-                    break;
-        case 37:
-                    contentBounds.origin.x -= _horizontalLineScroll;
-                    break;
-        case 49:
-                    contentBounds.origin.x += _horizontalLineScroll;
-                    break;
-        default: return objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPScrollView").super_class }, "keyDown:", anEvent);
-    }
+    contentBounds.origin.x += aSize.width;
+    contentBounds.origin.y += aSize.height;
     objj_msgSend(_contentView, "scrollToPoint:", contentBounds.origin);
     objj_msgSend(_headerClipView, "scrollToPoint:", CGPointMake(contentBounds.origin, 0));
 }
-},["void","CPEvent"])]);
+},["void","CGSize"])]);
 }
 var CPScrollViewContentViewKey = "CPScrollViewContentView",
     CPScrollViewHeaderClipViewKey = "CPScrollViewHeaderClipViewKey",

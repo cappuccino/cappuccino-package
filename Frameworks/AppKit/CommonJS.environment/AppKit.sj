@@ -8731,13 +8731,15 @@ objj_executeFile("CPColorPicker.j",true);
 objj_executeFile("CPSliderColorPicker.j",true);
 objj_msgSend(CPColorPanel,"provideColorPickerClass:",CPColorWheelColorPicker);
 objj_msgSend(CPColorPanel,"provideColorPickerClass:",CPSliderColorPicker);
-p;13;CPResponder.jt;5784;@STATIC;1.0;I;21;Foundation/CPObject.jt;5739;
+p;13;CPResponder.jt;6014;@STATIC;1.0;I;21;Foundation/CPObject.jt;5969;
 objj_executeFile("Foundation/CPObject.j",false);
 CPDeleteKeyCode=8;
 CPTabKeyCode=9;
 CPReturnKeyCode=13;
 CPEscapeKeyCode=27;
 CPSpaceKeyCode=32;
+CPPageUpKeyCode=33;
+CPPageDownKeyCode=34;
 CPLeftArrowKeyCode=37;
 CPUpArrowKeyCode=38;
 CPRightArrowKeyCode=39;
@@ -8771,6 +8773,12 @@ var _11=0,_12=objj_msgSend(_10,"count");
 for(;_11<_12;++_11){
 var _13=_10[_11];
 switch(objj_msgSend(_13,"keyCode")){
+case CPPageUpKeyCode:
+objj_msgSend(_e,"doCommandBySelector:",sel_getUid("pageUp:"));
+break;
+case CPPageDownKeyCode:
+objj_msgSend(_e,"doCommandBySelector:",sel_getUid("pageDown:"));
+break;
 case CPLeftArrowKeyCode:
 objj_msgSend(_e,"doCommandBySelector:",sel_getUid("moveLeft:"));
 break;
@@ -16025,7 +16033,7 @@ return objj_msgSend(_6,"init");
 with(_9){
 }
 })]);
-p;14;CPScrollView.jt;17774;@STATIC;1.0;i;8;CPView.ji;12;CPClipView.ji;12;CPScroller.jt;17708;
+p;14;CPScrollView.jt;18462;@STATIC;1.0;i;8;CPView.ji;12;CPClipView.ji;12;CPScroller.jt;18396;
 objj_executeFile("CPView.j",true);
 objj_executeFile("CPClipView.j",true);
 objj_executeFile("CPScroller.j",true);
@@ -16395,73 +16403,83 @@ objj_msgSend(_headerClipView,"scrollToPoint:",CGPointMake(_83.origin.x,0));
 }
 }),new objj_method(sel_getUid("keyDown:"),function(_84,_85,_86){
 with(_84){
-var _87=objj_msgSend(_86,"keyCode"),_88=objj_msgSend(objj_msgSend(_84,"documentView"),"frame"),_89=objj_msgSend(_contentView,"bounds");
-switch(_87){
-case 33:
-_89.origin.y-=(_89.size.height)-_verticalPageScroll;
-break;
-case 34:
-_89.origin.y+=(_89.size.height)-_verticalPageScroll;
-break;
-case 38:
-_89.origin.y-=_verticalLineScroll;
-break;
-case 40:
-_89.origin.y+=_verticalLineScroll;
-break;
-case 37:
-_89.origin.x-=_horizontalLineScroll;
-break;
-case 49:
-_89.origin.x+=_horizontalLineScroll;
-break;
-default:
-return objj_msgSendSuper({receiver:_84,super_class:objj_getClass("CPScrollView").super_class},"keyDown:",_86);
+objj_msgSend(_84,"interpretKeyEvents:",[_86]);
 }
-objj_msgSend(_contentView,"scrollToPoint:",_89.origin);
-objj_msgSend(_headerClipView,"scrollToPoint:",CGPointMake(_89.origin,0));
+}),new objj_method(sel_getUid("pageUp:"),function(_87,_88,_89){
+with(_87){
+var _8a=objj_msgSend(_contentView,"bounds");
+objj_msgSend(_87,"moveByOffset:",CGSizeMake(0,-((_8a.size.height)-_verticalPageScroll)));
+}
+}),new objj_method(sel_getUid("pageDown:"),function(_8b,_8c,_8d){
+with(_8b){
+var _8e=objj_msgSend(_contentView,"bounds");
+objj_msgSend(_8b,"moveByOffset:",CGSizeMake(0,(_8e.size.height)-_verticalPageScroll));
+}
+}),new objj_method(sel_getUid("moveLeft:"),function(_8f,_90,_91){
+with(_8f){
+objj_msgSend(_8f,"moveByOffset:",CGSizeMake(-_horizontalLineScroll,0));
+}
+}),new objj_method(sel_getUid("moveRight:"),function(_92,_93,_94){
+with(_92){
+objj_msgSend(_92,"moveByOffset:",CGSizeMake(_horizontalLineScroll,0));
+}
+}),new objj_method(sel_getUid("moveUp:"),function(_95,_96,_97){
+with(_95){
+objj_msgSend(_95,"moveByOffset:",CGSizeMake(0,-_verticalLineScroll));
+}
+}),new objj_method(sel_getUid("moveDown:"),function(_98,_99,_9a){
+with(_98){
+objj_msgSend(_98,"moveByOffset:",CGSizeMake(0,_verticalLineScroll));
+}
+}),new objj_method(sel_getUid("moveByOffset:"),function(_9b,_9c,_9d){
+with(_9b){
+var _9e=objj_msgSend(objj_msgSend(_9b,"documentView"),"frame"),_9f=objj_msgSend(_contentView,"bounds");
+_9f.origin.x+=_9d.width;
+_9f.origin.y+=_9d.height;
+objj_msgSend(_contentView,"scrollToPoint:",_9f.origin);
+objj_msgSend(_headerClipView,"scrollToPoint:",CGPointMake(_9f.origin,0));
 }
 })]);
-var _8a="CPScrollViewContentView",_8b="CPScrollViewHeaderClipViewKey",_8c="CPScrollViewVLineScroll",_8d="CPScrollViewHLineScroll",_8e="CPScrollViewVPageScroll",_8f="CPScrollViewHPageScroll",_90="CPScrollViewHasVScroller",_91="CPScrollViewHasHScroller",_92="CPScrollViewVScroller",_93="CPScrollViewHScroller",_94="CPScrollViewAutohidesScroller",_95="CPScrollViewCornerViewKey";
+var _a0="CPScrollViewContentView",_a1="CPScrollViewHeaderClipViewKey",_a2="CPScrollViewVLineScroll",_a3="CPScrollViewHLineScroll",_a4="CPScrollViewVPageScroll",_a5="CPScrollViewHPageScroll",_a6="CPScrollViewHasVScroller",_a7="CPScrollViewHasHScroller",_a8="CPScrollViewVScroller",_a9="CPScrollViewHScroller",_aa="CPScrollViewAutohidesScroller",_ab="CPScrollViewCornerViewKey";
 var _1=objj_getClass("CPScrollView");
 if(!_1){
 throw new SyntaxError("*** Could not find definition for class \"CPScrollView\"");
 }
 var _2=_1.isa;
-class_addMethods(_1,[new objj_method(sel_getUid("initWithCoder:"),function(_96,_97,_98){
-with(_96){
-if(_96=objj_msgSendSuper({receiver:_96,super_class:objj_getClass("CPScrollView").super_class},"initWithCoder:",_98)){
-_verticalLineScroll=objj_msgSend(_98,"decodeFloatForKey:",_8c);
-_verticalPageScroll=objj_msgSend(_98,"decodeFloatForKey:",_8e);
-_horizontalLineScroll=objj_msgSend(_98,"decodeFloatForKey:",_8d);
-_horizontalPageScroll=objj_msgSend(_98,"decodeFloatForKey:",_8f);
-_contentView=objj_msgSend(_98,"decodeObjectForKey:",_8a);
-_headerClipView=objj_msgSend(_98,"decodeObjectForKey:",_8b);
-_verticalScroller=objj_msgSend(_98,"decodeObjectForKey:",_92);
-_horizontalScroller=objj_msgSend(_98,"decodeObjectForKey:",_93);
-_hasVerticalScroller=objj_msgSend(_98,"decodeBoolForKey:",_90);
-_hasHorizontalScroller=objj_msgSend(_98,"decodeBoolForKey:",_91);
-_autohidesScrollers=objj_msgSend(_98,"decodeBoolForKey:",_94);
-_cornerView=objj_msgSend(_98,"decodeObjectForKey:",_95);
-objj_msgSend(objj_msgSend(CPRunLoop,"currentRunLoop"),"performSelector:target:argument:order:modes:",sel_getUid("reflectScrolledClipView:"),_96,_contentView,0,[CPDefaultRunLoopMode]);
+class_addMethods(_1,[new objj_method(sel_getUid("initWithCoder:"),function(_ac,_ad,_ae){
+with(_ac){
+if(_ac=objj_msgSendSuper({receiver:_ac,super_class:objj_getClass("CPScrollView").super_class},"initWithCoder:",_ae)){
+_verticalLineScroll=objj_msgSend(_ae,"decodeFloatForKey:",_a2);
+_verticalPageScroll=objj_msgSend(_ae,"decodeFloatForKey:",_a4);
+_horizontalLineScroll=objj_msgSend(_ae,"decodeFloatForKey:",_a3);
+_horizontalPageScroll=objj_msgSend(_ae,"decodeFloatForKey:",_a5);
+_contentView=objj_msgSend(_ae,"decodeObjectForKey:",_a0);
+_headerClipView=objj_msgSend(_ae,"decodeObjectForKey:",_a1);
+_verticalScroller=objj_msgSend(_ae,"decodeObjectForKey:",_a8);
+_horizontalScroller=objj_msgSend(_ae,"decodeObjectForKey:",_a9);
+_hasVerticalScroller=objj_msgSend(_ae,"decodeBoolForKey:",_a6);
+_hasHorizontalScroller=objj_msgSend(_ae,"decodeBoolForKey:",_a7);
+_autohidesScrollers=objj_msgSend(_ae,"decodeBoolForKey:",_aa);
+_cornerView=objj_msgSend(_ae,"decodeObjectForKey:",_ab);
+objj_msgSend(objj_msgSend(CPRunLoop,"currentRunLoop"),"performSelector:target:argument:order:modes:",sel_getUid("reflectScrolledClipView:"),_ac,_contentView,0,[CPDefaultRunLoopMode]);
 }
-return _96;
+return _ac;
 }
-}),new objj_method(sel_getUid("encodeWithCoder:"),function(_99,_9a,_9b){
-with(_99){
-objj_msgSendSuper({receiver:_99,super_class:objj_getClass("CPScrollView").super_class},"encodeWithCoder:",_9b);
-objj_msgSend(_9b,"encodeObject:forKey:",_contentView,_8a);
-objj_msgSend(_9b,"encodeObject:forKey:",_headerClipView,_8b);
-objj_msgSend(_9b,"encodeObject:forKey:",_verticalScroller,_92);
-objj_msgSend(_9b,"encodeObject:forKey:",_horizontalScroller,_93);
-objj_msgSend(_9b,"encodeFloat:forKey:",_verticalLineScroll,_8c);
-objj_msgSend(_9b,"encodeFloat:forKey:",_verticalPageScroll,_8e);
-objj_msgSend(_9b,"encodeFloat:forKey:",_horizontalLineScroll,_8d);
-objj_msgSend(_9b,"encodeFloat:forKey:",_horizontalPageScroll,_8f);
-objj_msgSend(_9b,"encodeBool:forKey:",_hasVerticalScroller,_90);
-objj_msgSend(_9b,"encodeBool:forKey:",_hasHorizontalScroller,_91);
-objj_msgSend(_9b,"encodeBool:forKey:",_autohidesScrollers,_94);
-objj_msgSend(_9b,"encodeObject:forKey:",_cornerView,_95);
+}),new objj_method(sel_getUid("encodeWithCoder:"),function(_af,_b0,_b1){
+with(_af){
+objj_msgSendSuper({receiver:_af,super_class:objj_getClass("CPScrollView").super_class},"encodeWithCoder:",_b1);
+objj_msgSend(_b1,"encodeObject:forKey:",_contentView,_a0);
+objj_msgSend(_b1,"encodeObject:forKey:",_headerClipView,_a1);
+objj_msgSend(_b1,"encodeObject:forKey:",_verticalScroller,_a8);
+objj_msgSend(_b1,"encodeObject:forKey:",_horizontalScroller,_a9);
+objj_msgSend(_b1,"encodeFloat:forKey:",_verticalLineScroll,_a2);
+objj_msgSend(_b1,"encodeFloat:forKey:",_verticalPageScroll,_a4);
+objj_msgSend(_b1,"encodeFloat:forKey:",_horizontalLineScroll,_a3);
+objj_msgSend(_b1,"encodeFloat:forKey:",_horizontalPageScroll,_a5);
+objj_msgSend(_b1,"encodeBool:forKey:",_hasVerticalScroller,_a6);
+objj_msgSend(_b1,"encodeBool:forKey:",_hasHorizontalScroller,_a7);
+objj_msgSend(_b1,"encodeBool:forKey:",_autohidesScrollers,_aa);
+objj_msgSend(_b1,"encodeObject:forKey:",_cornerView,_ab);
 }
 })]);
 p;17;CPAccordionView.jt;10964;@STATIC;1.0;I;20;Foundation/CPArray.jI;21;Foundation/CPObject.jI;32;Foundation/CPKeyValueObserving.jI;23;Foundation/CPIndexSet.jI;21;Foundation/CPString.jI;15;AppKit/CPView.jt;10782;
