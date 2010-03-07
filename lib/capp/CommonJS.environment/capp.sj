@@ -13,7 +13,7 @@ var _4=_1[_2];
 switch(_4){
 case "version":
 case "--version":
-return print("capp version 0.7.1");
+return print("capp version 0.8.0");
 case "-h":
 case "--help":
 return printUsage();
