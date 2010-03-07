@@ -1,4 +1,4 @@
-@STATIC;1.0;p;9;NSColor.jt;2073;@STATIC;1.0;I;16;AppKit/CPColor.jt;2033;
+@STATIC;1.0;p;9;NSColor.jt;2019;@STATIC;1.0;I;16;AppKit/CPColor.jt;1979;
 objj_executeFile("AppKit/CPColor.j",NO);
 var _1=-1,_2=0,_3=1,_4=2,_5=3,_6=4,_7=5,_8=6;
 var _9=objj_getClass("CPColor");
@@ -16,7 +16,6 @@ var rgb=objj_msgSend(_d,"decodeBytesForKey:","NSRGB"),_10=bytes_to_string(rgb),_
 for(var i=0;i<_11.length&&i<4;i++){
 _12[i]=objj_msgSend(_11[i],"floatValue");
 }
-CPLog.warn("rgb="+rgb+" string="+_10+" values="+_12);
 _f=objj_msgSend(CPColor,"colorWithCalibratedRed:green:blue:alpha:",_12[0],_12[1],_12[2],_12[3]);
 break;
 case 3:
@@ -647,7 +646,7 @@ for(var _f in _a){
 if(_a.hasOwnProperty(_f)){
 var _e=_a[_f],_c=_9[_f];
 _e.forEach(function(_10){
-CPLog.warn("Promoted "+_10+" to child of "+_c);
+CPLog.info("Promoted "+_10+" to child of "+_c);
 _objectsKeys.push(_10);
 _objectsValues.push(_c);
 });
@@ -725,7 +724,7 @@ CP_NSMapClassName=function(_1){
 if(_1.indexOf("NS")===0){
 var _2="CP"+_1.substr(2);
 if(CPClassFromString(_2)){
-CPLog.warn("Mapping "+_1+" to "+_2);
+CPLog.info("Mapping "+_1+" to "+_2);
 return _2;
 }
 }
@@ -1048,7 +1047,7 @@ with(_3){
 return objj_msgSend(_CPToolbarShowColorsItem,"class");
 }
 })]);
-p;11;Converter.jt;3744;@STATIC;1.0;I;21;Foundation/CPObject.jI;19;Foundation/CPData.ji;15;Converter+Mac.jt;3655;
+p;11;Converter.jt;3884;@STATIC;1.0;I;21;Foundation/CPObject.jI;19;Foundation/CPData.ji;15;Converter+Mac.jt;3795;
 objj_executeFile("Foundation/CPObject.j",NO);
 objj_executeFile("Foundation/CPData.j",NO);
 var _1=require("file"),OS=require("os");
@@ -1110,9 +1109,9 @@ if(_1.extension(inputPath)!==".nib"&&_1.isFile(inputPath)&&_1.read(inputPath,{ch
 _1c=NibFormatIPhone;
 }
 if(_1c===NibFormatMac){
-CPLog("Auto-detected Cocoa Nib or Xib File");
+CPLog.info("Auto-detected Cocoa Nib or Xib File");
 }else{
-CPLog("Auto-detected CocoaTouch Xib File");
+CPLog.info("Auto-detected CocoaTouch Xib File");
 }
 }
 var _1d=objj_msgSend(_1a,"CPCompliantNibDataAtFilePath:",inputPath);
@@ -1149,6 +1148,10 @@ _24=String(java.lang.String(_24).replaceAll("\\<key\\>\\s*CF\\$UID\\s*\\</key\\>
 }else{
 _24=_24.replace(/\<key\>\s*CF\$UID\s*\<\/key\>/g,"<key>CP$UID</key>");
 }
+_24=_24.replace(/\u001b/g,function(c){
+CPLog.warn("Warning: Stripping character 0x"+c.charCodeAt(0).toString(16));
+return "";
+});
 return objj_msgSend(CPData,"dataWithRawString:",_24);
 }
 })]);
@@ -1383,7 +1386,7 @@ CPLog.error("Unknown bezel style: "+_bezelStyle);
 _bezelStyle=CPHUDBezelStyle;
 }
 if(objj_msgSend(_7,"isBordered")){
-CPLog.warn("Adjusting CPButton height from "+_frame.size.height+" / "+_bounds.size.height+" to "+24);
+CPLog.info("Adjusting CPButton height from "+_frame.size.height+" / "+_bounds.size.height+" to "+24);
 _frame.size.height=24;
 _bounds.size.height=24;
 }
@@ -1532,70 +1535,69 @@ with(_3){
 return objj_msgSend(_CPToolbarFlexibleSpaceItem,"class");
 }
 })]);
-p;6;main.jt;1640;@STATIC;1.0;I;23;Foundation/Foundation.jI;14;AppKit/CPCib.ji;14;NSFoundation.ji;10;NSAppKit.ji;24;Nib2CibKeyedUnarchiver.ji;11;Converter.jt;1495;
+p;6;main.jt;2126;@STATIC;1.0;I;23;Foundation/Foundation.jI;14;AppKit/CPCib.ji;14;NSFoundation.ji;10;NSAppKit.ji;24;Nib2CibKeyedUnarchiver.ji;11;Converter.jt;1981;
 objj_executeFile("Foundation/Foundation.j",NO);
 objj_executeFile("AppKit/CPCib.j",NO);
 objj_executeFile("NSFoundation.j",YES);
 objj_executeFile("NSAppKit.j",YES);
 objj_executeFile("Nib2CibKeyedUnarchiver.j",YES);
 objj_executeFile("Converter.j",YES);
-CPLogRegister(CPLogPrint,"fatal");
-var _1=require("file"),OS=require("os");
-printUsage=function(){
-print("usage: nib2cib INPUT_FILE [OUTPUT_FILE] [-F /path/to/required/framework] [-R path/to/resources]");
-OS.exit(1);
-};
-loadFrameworks=function(_2,_3){
-if(!_2||_2.length===0){
-return _3();
+var _1=require("file");
+var OS=require("os");
+var _2=new (require("args").Parser)();
+_2.usage("INPUT_FILE [OUTPUT_FILE]");
+_2.option("-F","framework","frameworks").push().help("Add a framework to load");
+_2.option("-R","resources").set().help("Set the Resources directory");
+_2.option("--mac","format").set(NibFormatMac).def(NibFormatUndetermined).help("Set format to Mac");
+_2.option("-v","--verbose","verbose").inc().help("Increase verbosity level");
+_2.option("-q","--quiet","quiet").set(true).help("No output");
+_2.helpful();
+loadFrameworks=function(_3,_4){
+if(!_3||_3.length===0){
+return _4();
 }
-_2.forEach(function(_4){
-print("Loading "+_4);
-var _5=objj_msgSend(objj_msgSend(CPBundle,"alloc"),"initWithPath:",_4);
-objj_msgSend(_5,"loadWithDelegate:",nil);
+_3.forEach(function(_5){
+print("Loading "+_5);
+var _6=objj_msgSend(objj_msgSend(CPBundle,"alloc"),"initWithPath:",_5);
+objj_msgSend(_6,"loadWithDelegate:",nil);
 require("browser/timeout").serviceTimeouts();
 });
-_3();
+_4();
 };
-main=function(_6){
-_6.shift();
-var _7=_6.length;
-if(_7<1){
-return printUsage();
+main=function(_7){
+var _8=_2.parse(_7,null,null,true);
+if(_8.args.length<1||_8.args.length>2){
+_2.printUsage(_8);
+OS.exit(1);
 }
-var _8=0,_9=[],_a=objj_msgSend(objj_msgSend(Converter,"alloc"),"init");
-for(;_8<_7;++_8){
-switch(_6[_8]){
-case "-help":
-case "--help":
-printUsage();
-break;
-case "--mac":
-objj_msgSend(_a,"setFormat:",NibFormatMac);
-break;
-case "-F":
-_9.push(_6[++_8]);
-break;
-case "-R":
-objj_msgSend(_a,"setResourcesPath:",_6[++_8]);
-break;
-case "-v":
-CPLogRegister(CPLogPrint,"warn");
-break;
-case "-vv":
-case "--verbose":
-CPLogRegister(CPLogPrint,"trace");
-break;
-default:
-if(objj_msgSend(_a,"inputPath")){
-objj_msgSend(_a,"setOutputPath:",_6[_8]);
+if(_8.quiet){
 }else{
-objj_msgSend(_a,"setInputPath:",_6[_8]);
+if(_8.verbose===0){
+CPLogRegister(CPLogPrint,"warn");
+}else{
+if(_8.verbose===1){
+CPLogRegister(CPLogPrint,"info");
+}else{
+CPLogRegister(CPLogPrint);
 }
 }
 }
-loadFrameworks(_9,function(){
-objj_msgSend(_a,"convert");
+CPLog.debug("Input:      "+_8.args[0]);
+CPLog.debug("Output:     "+(_8.args[1]||""));
+CPLog.debug("Format:     "+["Auto","Mac","iPhone"][_8.format]);
+CPLog.debug("Resources:  "+(_8.resources||""));
+CPLog.debug("Frameworks: "+_8.frameworks);
+var _9=objj_msgSend(objj_msgSend(Converter,"alloc"),"init");
+if(_8.resources){
+objj_msgSend(_9,"setResourcesPath:",_8.resources);
+}
+objj_msgSend(_9,"setFormat:",_8.format);
+objj_msgSend(_9,"setInputPath:",_8.args[0]);
+if(_8.args.length>1){
+objj_msgSend(_9,"setOutputPath:",_8.args[1]);
+}
+loadFrameworks(_8.frameworks,function(){
+objj_msgSend(_9,"convert");
 });
 };
 p;15;NSTableColumn.jt;1852;@STATIC;1.0;I;22;AppKit/CPTableColumn.jI;26;AppKit/CPTableHeaderView.jt;1775;
@@ -1811,7 +1813,7 @@ with(_a){
 return objj_msgSend(CPScrollView,"class");
 }
 })]);
-p;18;NSCustomResource.jt;1632;@STATIC;1.0;I;29;AppKit/_CPCibCustomResource.jt;1579;
+p;18;NSCustomResource.jt;1634;@STATIC;1.0;I;29;AppKit/_CPCibCustomResource.jt;1581;
 objj_executeFile("AppKit/_CPCibCustomResource.j",NO);
 var _1=require("file");
 var _2=objj_getClass("_CPCibCustomResource");
@@ -1827,11 +1829,11 @@ _className=CP_NSMapClassName(objj_msgSend(_6,"decodeObjectForKey:","NSClassName"
 _resourceName=objj_msgSend(_6,"decodeObjectForKey:","NSResourceName");
 var _7=CGSizeMakeZero();
 if(!objj_msgSend(objj_msgSend(_6,"resourcesPath"),"length")){
-CPLog.warn("***WARNING: Resources found in nib, but no resources path specified with -R option.");
+CPLog.warn("*** WARNING: Resources found in nib, but no resources path specified with -R option.");
 }else{
 var _8=objj_msgSend(_6,"resourcePathForName:",_resourceName);
 if(!_8){
-CPLog.warn("***WARNING: Resource named "+_resourceName+" not found in supplied resources path.");
+CPLog.warn("*** WARNING: Resource named "+_resourceName+" not found in supplied resources path.");
 }else{
 _7=_9(_1.join(_1.cwd(),_8));
 }
