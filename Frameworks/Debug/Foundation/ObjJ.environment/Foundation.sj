@@ -6008,7 +6008,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("functionOperationWithF
 },["id","JSObject"])]);
 }
 
-p;19;CPKeyedUnarchiver.jt;14439;@STATIC;1.0;i;9;CPCoder.ji;8;CPNull.jt;14394;objj_executeFile("CPCoder.j", YES);
+p;19;CPKeyedUnarchiver.jt;14246;@STATIC;1.0;i;9;CPCoder.ji;8;CPNull.jt;14201;objj_executeFile("CPCoder.j", YES);
 objj_executeFile("CPNull.j", YES);
 CPInvalidUnarchiveOperationException = "CPInvalidUnarchiveOperationException";
 var _CPKeyedUnarchiverCannotDecodeObjectOfClassNameOriginalClassesSelector = 1 << 0,
@@ -6026,12 +6026,14 @@ var _CPKeyedArchiverNullString = "$null"
     _CPKeyedArchiverClassNameKey = "$classname",
     _CPKeyedArchiverClassesKey = "$classes",
     _CPKeyedArchiverClassKey = "$class";
-var _CPKeyedUnarchiverArrayClass = Nil,
-    _CPKeyedUnarchiverStringClass = Nil,
-    _CPKeyedUnarchiverDictionaryClass = Nil,
-    _CPKeyedUnarchiverNumberClass = Nil,
-    _CPKeyedUnarchiverDataClass = Nil,
-    _CPKeyedUnarchiverArchiverValueClass = Nil;
+var CPArrayClass = Nil,
+    CPMutableArrayClass = Nil,
+    CPStringClass = Nil,
+    CPDictionaryClass = Nil,
+    CPMutableDictionaryClass = Nil,
+    CPNumberClass = Nil,
+    CPDataClass = Nil,
+    _CPKeyedArchiverValueClass = Nil;
 {var the_class = objj_allocateClassPair(CPCoder, "CPKeyedUnarchiver"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_delegate"), new objj_ivar("_delegateSelectors"), new objj_ivar("_data"), new objj_ivar("_replacementClasses"), new objj_ivar("_objects"), new objj_ivar("_archive"), new objj_ivar("_plistObject"), new objj_ivar("_plistObjects")]);
 objj_registerClassPair(the_class);
@@ -6052,19 +6054,24 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initForReadingWithData:
 },["id","CPData"]), new objj_method(sel_getUid("containsValueForKey:"), function $CPKeyedUnarchiver__containsValueForKey_(self, _cmd, aKey)
 { with(self)
 {
-    return objj_msgSend(_plistObject, "objectForKey:", aKey) != nil;
+    return _plistObject.valueForKey(aKey) != nil;
 }
 },["BOOL","CPString"]), new objj_method(sel_getUid("_decodeDictionaryOfObjectsForKey:"), function $CPKeyedUnarchiver___decodeDictionaryOfObjectsForKey_(self, _cmd, aKey)
 { with(self)
 {
-    var object = objj_msgSend(_plistObject, "objectForKey:", aKey);
-    if (objj_msgSend(object, "isKindOfClass:", _CPKeyedUnarchiverDictionaryClass))
+    var object = _plistObject.valueForKey(aKey),
+        objectClass = object && object.isa;
+    if (objectClass === CPDictionaryClass || objectClass === CPMutableDictionaryClass)
     {
-        var key,
-            keys = objj_msgSend(object, "keyEnumerator"),
-            dictionary = objj_msgSend(CPDictionary, "dictionary");
-        while (key = objj_msgSend(keys, "nextObject"))
-            objj_msgSend(dictionary, "setObject:forKey:", _CPKeyedUnarchiverDecodeObjectAtIndex(self, objj_msgSend(objj_msgSend(object, "objectForKey:", key), "objectForKey:", _CPKeyedArchiverUIDKey)), key);
+        var keys = object.keys(),
+            index = 0,
+            count = keys.length,
+            dictionary = new CFMutableDictionary();
+        for (; index < count; ++index)
+        {
+            var key = keys[index];
+            dictionary.setValueForKey(key, _CPKeyedUnarchiverDecodeObjectAtIndex(self, object.valueForKey(key).valueForKey(_CPKeyedArchiverUIDKey)));
+        }
         return dictionary;
     }
     return nil;
@@ -6119,18 +6126,19 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initForReadingWithData:
 },["CGSize","CPString"]), new objj_method(sel_getUid("decodeObjectForKey:"), function $CPKeyedUnarchiver__decodeObjectForKey_(self, _cmd, aKey)
 { with(self)
 {
-    var object = objj_msgSend(_plistObject, "objectForKey:", aKey);
-    if (objj_msgSend(object, "isKindOfClass:", _CPKeyedUnarchiverDictionaryClass))
-        return _CPKeyedUnarchiverDecodeObjectAtIndex(self, objj_msgSend(object, "objectForKey:", _CPKeyedArchiverUIDKey));
-    else if (objj_msgSend(object, "isKindOfClass:", _CPKeyedUnarchiverNumberClass) || objj_msgSend(object, "isKindOfClass:", _CPKeyedUnarchiverDataClass) || objj_msgSend(object, "isKindOfClass:", _CPKeyedUnarchiverStringClass))
+    var object = _plistObject.valueForKey(aKey),
+        objectClass = object && object.isa;
+    if (objectClass === CPDictionaryClass || objectClass === CPMutableDictionaryClass)
+        return _CPKeyedUnarchiverDecodeObjectAtIndex(self, object.valueForKey(_CPKeyedArchiverUIDKey));
+    else if (objectClass === CPNumberClass || objectClass === CPDataClass || objectClass === CPStringClass)
         return object;
-    else if (objj_msgSend(object, "isKindOfClass:", _CPKeyedUnarchiverArrayClass))
+    else if (objectClass === CPArrayClass || objectClass === CPMutableArrayClass)
     {
         var index = 0,
             count = object.length,
             array = [];
         for (; index < count; ++index)
-            array[index] = _CPKeyedUnarchiverDecodeObjectAtIndex(self, objj_msgSend(object[index], "objectForKey:", _CPKeyedArchiverUIDKey));
+            array[index] = _CPKeyedUnarchiverDecodeObjectAtIndex(self, object[index].valueForKey(_CPKeyedArchiverUIDKey));
         return array;
     }
     return nil;
@@ -6138,8 +6146,9 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initForReadingWithData:
 },["id","CPString"]), new objj_method(sel_getUid("decodeBytesForKey:"), function $CPKeyedUnarchiver__decodeBytesForKey_(self, _cmd, aKey)
 { with(self)
 {
-    var data = objj_msgSend(self, "decodeObjectForKey:", aKey);
-    if (objj_msgSend(data, "isKindOfClass:", objj_msgSend(CPData, "class")))
+    var data = objj_msgSend(self, "decodeObjectForKey:", aKey),
+        objectClass = data.isa;
+    if (objectClass === CPDataClass)
         return data.bytes;
     return nil;
 }
@@ -6194,12 +6203,14 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("initialize"), function
 {
     if (self !== objj_msgSend(CPKeyedUnarchiver, "class"))
         return;
-    _CPKeyedUnarchiverArrayClass = objj_msgSend(CPArray, "class");
-    _CPKeyedUnarchiverStringClass = objj_msgSend(CPString, "class");
-    _CPKeyedUnarchiverDictionaryClass = objj_msgSend(CPDictionary, "class");
-    _CPKeyedUnarchiverNumberClass = objj_msgSend(CPNumber, "class");
-    _CPKeyedUnarchiverDataClass = objj_msgSend(CPData, "class");
-    _CPKeyedUnarchiverArchiverValueClass = objj_msgSend(_CPKeyedArchiverValue, "class");
+    CPArrayClass = objj_msgSend(CPArray, "class");
+    CPMutableArrayClass = objj_msgSend(CPMutableArray, "class");
+    CPStringClass = objj_msgSend(CPString, "class");
+    CPDictionaryClass = objj_msgSend(CPDictionary, "class");
+    CPMutableDictionaryClass = objj_msgSend(CPMutableDictionary, "class");
+    CPNumberClass = objj_msgSend(CPNumber, "class");
+    CPDataClass = objj_msgSend(CPData, "class");
+    _CPKeyedArchiverValueClass = objj_msgSend(_CPKeyedArchiverValue, "class");
 }
 },["void"]), new objj_method(sel_getUid("unarchiveObjectWithData:"), function $CPKeyedUnarchiver__unarchiveObjectWithData_(self, _cmd, data)
 { with(self)
@@ -6223,17 +6234,18 @@ var _CPKeyedUnarchiverDecodeObjectAtIndex = function(self, anIndex)
 {
     var object = self._objects[anIndex];
     if (object)
-        if (object == self._objects[0])
+        if (object === self._objects[0])
             return nil;
         else
             return object;
     var object,
-        plistObject = self._plistObjects[anIndex];
-    if (objj_msgSend(plistObject, "isKindOfClass:", _CPKeyedUnarchiverDictionaryClass))
+        plistObject = self._plistObjects[anIndex],
+        plistObjectClass = plistObject.isa;
+    if (plistObjectClass === CPDictionaryClass || plistObjectClass === CPMutableDictionaryClass)
     {
-        var plistClass = self._plistObjects[objj_msgSend(objj_msgSend(plistObject, "objectForKey:", _CPKeyedArchiverClassKey), "objectForKey:", _CPKeyedArchiverUIDKey)],
-            className = objj_msgSend(plistClass, "objectForKey:", _CPKeyedArchiverClassNameKey),
-            classes = objj_msgSend(plistClass, "objectForKey:", _CPKeyedArchiverClassesKey),
+        var plistClass = self._plistObjects[plistObject.valueForKey(_CPKeyedArchiverClassKey).valueForKey(_CPKeyedArchiverUIDKey)],
+            className = plistClass.valueForKey(_CPKeyedArchiverClassNameKey),
+            classes = plistClass.valueForKey(_CPKeyedArchiverClassesKey),
             theClass = objj_msgSend(self, "classForClassName:", className);
         if (!theClass)
             theClass = CPClassFromString(className);
@@ -6278,9 +6290,9 @@ var _CPKeyedUnarchiverDecodeObjectAtIndex = function(self, anIndex)
     else
     {
         self._objects[anIndex] = object = plistObject;
-        if (objj_msgSend(object, "class") == _CPKeyedUnarchiverStringClass)
+        if (objj_msgSend(object, "class") === CPStringClass)
         {
-            if (object == _CPKeyedArchiverNullString)
+            if (object === _CPKeyedArchiverNullString)
             {
                 self._objects[anIndex] = self._objects[0];
                 return nil;
@@ -6289,7 +6301,7 @@ var _CPKeyedUnarchiverDecodeObjectAtIndex = function(self, anIndex)
                 self._objects[anIndex] = object = plistObject;
         }
     }
-    if (objj_msgSend(object, "isMemberOfClass:", _CPKeyedUnarchiverArchiverValueClass))
+    if (object.isa === _CPKeyedArchiverValueClass)
         object = objj_msgSend(object, "JSObject");
     return object;
 }

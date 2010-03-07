@@ -29592,7 +29592,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","id","CPMutableArray"])]);
 }
 
-p;22;_CPCibCustomResource.jt;4338;@STATIC;1.0;I;21;Foundation/CPObject.jI;21;Foundation/CPString.jt;4267;objj_executeFile("Foundation/CPObject.j", NO);
+p;22;_CPCibCustomResource.jt;4319;@STATIC;1.0;I;21;Foundation/CPObject.jI;21;Foundation/CPString.jt;4248;objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("Foundation/CPString.j", NO);
 var _CPCibCustomResourceClassNameKey = "_CPCibCustomResourceClassNameKey",
     _CPCibCustomResourceResourceNameKey = "_CPCibCustomResourceResourceNameKey",
@@ -29637,7 +29637,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithClassName:resou
     if (objj_msgSend(aCoder, "respondsToSelector:", sel_getUid("bundle")) &&
         (!objj_msgSend(aCoder, "respondsToSelector:", sel_getUid("awakenCustomResources")) || objj_msgSend(aCoder, "awakenCustomResources")))
         if (_className === "CPImage")
-            return objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(objj_msgSend(aCoder, "bundle"), "pathForResource:", _resourceName), objj_msgSend(_properties, "objectForKey:", "size"));
+            return objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(objj_msgSend(aCoder, "bundle"), "pathForResource:", _resourceName), _properties.valueForKey("size"));
     return self;
 }
 },["id","CPCoder"])]);

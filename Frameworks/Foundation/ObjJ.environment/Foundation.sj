@@ -5230,132 +5230,133 @@ objj_msgSend(functionOp,"addExecutionFunction:",_f);
 return functionOp;
 }
 })]);
-p;19;CPKeyedUnarchiver.jt;8765;@STATIC;1.0;i;9;CPCoder.ji;8;CPNull.jt;8721;
+p;19;CPKeyedUnarchiver.jt;8460;@STATIC;1.0;i;9;CPCoder.ji;8;CPNull.jt;8416;
 objj_executeFile("CPCoder.j",YES);
 objj_executeFile("CPNull.j",YES);
 CPInvalidUnarchiveOperationException="CPInvalidUnarchiveOperationException";
 var _1=1<<0,_2=1<<1,_3=1<<2,_4=1<<3,_5=1<<4,_6=1<<5;
 var _7="$null";
 _CPKeyedArchiverUIDKey="CP$UID",_CPKeyedArchiverTopKey="$top",_CPKeyedArchiverObjectsKey="$objects",_CPKeyedArchiverArchiverKey="$archiver",_CPKeyedArchiverVersionKey="$version",_CPKeyedArchiverClassNameKey="$classname",_CPKeyedArchiverClassesKey="$classes",_CPKeyedArchiverClassKey="$class";
-var _8=Nil,_9=Nil,_a=Nil,_b=Nil,_c=Nil,_d=Nil;
-var _e=objj_allocateClassPair(CPCoder,"CPKeyedUnarchiver"),_f=_e.isa;
-class_addIvars(_e,[new objj_ivar("_delegate"),new objj_ivar("_delegateSelectors"),new objj_ivar("_data"),new objj_ivar("_replacementClasses"),new objj_ivar("_objects"),new objj_ivar("_archive"),new objj_ivar("_plistObject"),new objj_ivar("_plistObjects")]);
-objj_registerClassPair(_e);
-class_addMethods(_e,[new objj_method(sel_getUid("initForReadingWithData:"),function(_10,_11,_12){
-with(_10){
-_10=objj_msgSendSuper({receiver:_10,super_class:objj_getClass("CPKeyedUnarchiver").super_class},"init");
-if(_10){
-_archive=objj_msgSend(_12,"plistObject");
+var _8=Nil,_9=Nil,_a=Nil,_b=Nil,_c=Nil,_d=Nil,_e=Nil,_f=Nil;
+var _10=objj_allocateClassPair(CPCoder,"CPKeyedUnarchiver"),_11=_10.isa;
+class_addIvars(_10,[new objj_ivar("_delegate"),new objj_ivar("_delegateSelectors"),new objj_ivar("_data"),new objj_ivar("_replacementClasses"),new objj_ivar("_objects"),new objj_ivar("_archive"),new objj_ivar("_plistObject"),new objj_ivar("_plistObjects")]);
+objj_registerClassPair(_10);
+class_addMethods(_10,[new objj_method(sel_getUid("initForReadingWithData:"),function(_12,_13,_14){
+with(_12){
+_12=objj_msgSendSuper({receiver:_12,super_class:objj_getClass("CPKeyedUnarchiver").super_class},"init");
+if(_12){
+_archive=objj_msgSend(_14,"plistObject");
 _objects=objj_msgSend(CPArray,"arrayWithObject:",objj_msgSend(CPNull,"null"));
 _plistObject=objj_msgSend(_archive,"objectForKey:",_CPKeyedArchiverTopKey);
 _plistObjects=objj_msgSend(_archive,"objectForKey:",_CPKeyedArchiverObjectsKey);
 _replacementClasses=objj_msgSend(CPDictionary,"dictionary");
 }
-return _10;
+return _12;
 }
-}),new objj_method(sel_getUid("containsValueForKey:"),function(_13,_14,_15){
-with(_13){
-return objj_msgSend(_plistObject,"objectForKey:",_15)!=nil;
+}),new objj_method(sel_getUid("containsValueForKey:"),function(_15,_16,_17){
+with(_15){
+return _plistObject.valueForKey(_17)!=nil;
 }
-}),new objj_method(sel_getUid("_decodeDictionaryOfObjectsForKey:"),function(_16,_17,_18){
-with(_16){
-var _19=objj_msgSend(_plistObject,"objectForKey:",_18);
-if(objj_msgSend(_19,"isKindOfClass:",_a)){
-var key,_1a=objj_msgSend(_19,"keyEnumerator"),_1b=objj_msgSend(CPDictionary,"dictionary");
-while(key=objj_msgSend(_1a,"nextObject")){
-objj_msgSend(_1b,"setObject:forKey:",_1c(_16,objj_msgSend(objj_msgSend(_19,"objectForKey:",key),"objectForKey:",_CPKeyedArchiverUIDKey)),key);
+}),new objj_method(sel_getUid("_decodeDictionaryOfObjectsForKey:"),function(_18,_19,_1a){
+with(_18){
+var _1b=_plistObject.valueForKey(_1a),_1c=_1b&&_1b.isa;
+if(_1c===_b||_1c===_c){
+var _1d=_1b.keys(),_1e=0,_1f=_1d.length,_20=new CFMutableDictionary();
+for(;_1e<_1f;++_1e){
+var key=_1d[_1e];
+_20.setValueForKey(key,_21(_18,_1b.valueForKey(key).valueForKey(_CPKeyedArchiverUIDKey)));
 }
-return _1b;
+return _20;
 }
 return nil;
 }
-}),new objj_method(sel_getUid("decodeBoolForKey:"),function(_1d,_1e,_1f){
-with(_1d){
-return objj_msgSend(_1d,"decodeObjectForKey:",_1f);
+}),new objj_method(sel_getUid("decodeBoolForKey:"),function(_22,_23,_24){
+with(_22){
+return objj_msgSend(_22,"decodeObjectForKey:",_24);
 }
-}),new objj_method(sel_getUid("decodeFloatForKey:"),function(_20,_21,_22){
-with(_20){
-return objj_msgSend(_20,"decodeObjectForKey:",_22);
+}),new objj_method(sel_getUid("decodeFloatForKey:"),function(_25,_26,_27){
+with(_25){
+return objj_msgSend(_25,"decodeObjectForKey:",_27);
 }
-}),new objj_method(sel_getUid("decodeDoubleForKey:"),function(_23,_24,_25){
-with(_23){
-return objj_msgSend(_23,"decodeObjectForKey:",_25);
+}),new objj_method(sel_getUid("decodeDoubleForKey:"),function(_28,_29,_2a){
+with(_28){
+return objj_msgSend(_28,"decodeObjectForKey:",_2a);
 }
-}),new objj_method(sel_getUid("decodeIntForKey:"),function(_26,_27,_28){
-with(_26){
-return objj_msgSend(_26,"decodeObjectForKey:",_28);
+}),new objj_method(sel_getUid("decodeIntForKey:"),function(_2b,_2c,_2d){
+with(_2b){
+return objj_msgSend(_2b,"decodeObjectForKey:",_2d);
 }
-}),new objj_method(sel_getUid("decodePointForKey:"),function(_29,_2a,_2b){
-with(_29){
-var _2c=objj_msgSend(_29,"decodeObjectForKey:",_2b);
-if(_2c){
-return CPPointFromString(_2c);
+}),new objj_method(sel_getUid("decodePointForKey:"),function(_2e,_2f,_30){
+with(_2e){
+var _31=objj_msgSend(_2e,"decodeObjectForKey:",_30);
+if(_31){
+return CPPointFromString(_31);
 }else{
 return CPPointMake(0,0);
 }
 }
-}),new objj_method(sel_getUid("decodeRectForKey:"),function(_2d,_2e,_2f){
-with(_2d){
-var _30=objj_msgSend(_2d,"decodeObjectForKey:",_2f);
-if(_30){
-return CPRectFromString(_30);
+}),new objj_method(sel_getUid("decodeRectForKey:"),function(_32,_33,_34){
+with(_32){
+var _35=objj_msgSend(_32,"decodeObjectForKey:",_34);
+if(_35){
+return CPRectFromString(_35);
 }else{
 return CPRectMakeZero();
 }
 }
-}),new objj_method(sel_getUid("decodeSizeForKey:"),function(_31,_32,_33){
-with(_31){
-var _34=objj_msgSend(_31,"decodeObjectForKey:",_33);
-if(_34){
-return CPSizeFromString(_34);
+}),new objj_method(sel_getUid("decodeSizeForKey:"),function(_36,_37,_38){
+with(_36){
+var _39=objj_msgSend(_36,"decodeObjectForKey:",_38);
+if(_39){
+return CPSizeFromString(_39);
 }else{
 return CPSizeMake(0,0);
 }
 }
-}),new objj_method(sel_getUid("decodeObjectForKey:"),function(_35,_36,_37){
-with(_35){
-var _38=objj_msgSend(_plistObject,"objectForKey:",_37);
-if(objj_msgSend(_38,"isKindOfClass:",_a)){
-return _1c(_35,objj_msgSend(_38,"objectForKey:",_CPKeyedArchiverUIDKey));
+}),new objj_method(sel_getUid("decodeObjectForKey:"),function(_3a,_3b,_3c){
+with(_3a){
+var _3d=_plistObject.valueForKey(_3c),_3e=_3d&&_3d.isa;
+if(_3e===_b||_3e===_c){
+return _21(_3a,_3d.valueForKey(_CPKeyedArchiverUIDKey));
 }else{
-if(objj_msgSend(_38,"isKindOfClass:",_b)||objj_msgSend(_38,"isKindOfClass:",_c)||objj_msgSend(_38,"isKindOfClass:",_9)){
-return _38;
+if(_3e===_d||_3e===_e||_3e===_a){
+return _3d;
 }else{
-if(objj_msgSend(_38,"isKindOfClass:",_8)){
-var _39=0,_3a=_38.length,_3b=[];
-for(;_39<_3a;++_39){
-_3b[_39]=_1c(_35,objj_msgSend(_38[_39],"objectForKey:",_CPKeyedArchiverUIDKey));
+if(_3e===_8||_3e===_9){
+var _3f=0,_40=_3d.length,_41=[];
+for(;_3f<_40;++_3f){
+_41[_3f]=_21(_3a,_3d[_3f].valueForKey(_CPKeyedArchiverUIDKey));
 }
-return _3b;
+return _41;
 }
 }
 }
 return nil;
 }
-}),new objj_method(sel_getUid("decodeBytesForKey:"),function(_3c,_3d,_3e){
-with(_3c){
-var _3f=objj_msgSend(_3c,"decodeObjectForKey:",_3e);
-if(objj_msgSend(_3f,"isKindOfClass:",objj_msgSend(CPData,"class"))){
-return _3f.bytes;
+}),new objj_method(sel_getUid("decodeBytesForKey:"),function(_42,_43,_44){
+with(_42){
+var _45=objj_msgSend(_42,"decodeObjectForKey:",_44),_46=_45.isa;
+if(_46===_e){
+return _45.bytes;
 }
 return nil;
 }
-}),new objj_method(sel_getUid("finishDecoding"),function(_40,_41){
-with(_40){
+}),new objj_method(sel_getUid("finishDecoding"),function(_47,_48){
+with(_47){
 if(_delegateSelectors&_4){
-objj_msgSend(_delegate,"unarchiverWillFinish:",_40);
+objj_msgSend(_delegate,"unarchiverWillFinish:",_47);
 }
 if(_delegateSelectors&_5){
-objj_msgSend(_delegate,"unarchiverDidFinish:",_40);
+objj_msgSend(_delegate,"unarchiverDidFinish:",_47);
 }
 }
-}),new objj_method(sel_getUid("delegate"),function(_42,_43){
-with(_42){
+}),new objj_method(sel_getUid("delegate"),function(_49,_4a){
+with(_49){
 return _delegate;
 }
-}),new objj_method(sel_getUid("setDelegate:"),function(_44,_45,_46){
-with(_44){
-_delegate=_46;
+}),new objj_method(sel_getUid("setDelegate:"),function(_4b,_4c,_4d){
+with(_4b){
+_delegate=_4d;
 if(objj_msgSend(_delegate,"respondsToSelector:",sel_getUid("unarchiver:cannotDecodeObjectOfClassName:originalClasses:"))){
 _delegateSelectors|=_1;
 }
@@ -5375,113 +5376,115 @@ if(objj_msgSend(_delegate,"respondsToSelector:",sel_getUid("unarchiver:cannotDec
 _delegateSelectors|=_6;
 }
 }
-}),new objj_method(sel_getUid("setClass:forClassName:"),function(_47,_48,_49,_4a){
-with(_47){
-objj_msgSend(_replacementClasses,"setObject:forKey:",_49,_4a);
-}
-}),new objj_method(sel_getUid("classForClassName:"),function(_4b,_4c,_4d){
-with(_4b){
-return objj_msgSend(_replacementClasses,"objectForKey:",_4d);
-}
-}),new objj_method(sel_getUid("allowsKeyedCoding"),function(_4e,_4f){
+}),new objj_method(sel_getUid("setClass:forClassName:"),function(_4e,_4f,_50,_51){
 with(_4e){
+objj_msgSend(_replacementClasses,"setObject:forKey:",_50,_51);
+}
+}),new objj_method(sel_getUid("classForClassName:"),function(_52,_53,_54){
+with(_52){
+return objj_msgSend(_replacementClasses,"objectForKey:",_54);
+}
+}),new objj_method(sel_getUid("allowsKeyedCoding"),function(_55,_56){
+with(_55){
 return YES;
 }
 })]);
-class_addMethods(_f,[new objj_method(sel_getUid("initialize"),function(_50,_51){
-with(_50){
-if(_50!==objj_msgSend(CPKeyedUnarchiver,"class")){
+class_addMethods(_11,[new objj_method(sel_getUid("initialize"),function(_57,_58){
+with(_57){
+if(_57!==objj_msgSend(CPKeyedUnarchiver,"class")){
 return;
 }
 _8=objj_msgSend(CPArray,"class");
-_9=objj_msgSend(CPString,"class");
-_a=objj_msgSend(CPDictionary,"class");
-_b=objj_msgSend(CPNumber,"class");
-_c=objj_msgSend(CPData,"class");
-_d=objj_msgSend(_CPKeyedArchiverValue,"class");
+_9=objj_msgSend(CPMutableArray,"class");
+_a=objj_msgSend(CPString,"class");
+_b=objj_msgSend(CPDictionary,"class");
+_c=objj_msgSend(CPMutableDictionary,"class");
+_d=objj_msgSend(CPNumber,"class");
+_e=objj_msgSend(CPData,"class");
+_f=objj_msgSend(_CPKeyedArchiverValue,"class");
 }
-}),new objj_method(sel_getUid("unarchiveObjectWithData:"),function(_52,_53,_54){
-with(_52){
-var _55=objj_msgSend(objj_msgSend(_52,"alloc"),"initForReadingWithData:",_54),_56=objj_msgSend(_55,"decodeObjectForKey:","root");
-objj_msgSend(_55,"finishDecoding");
-return _56;
+}),new objj_method(sel_getUid("unarchiveObjectWithData:"),function(_59,_5a,_5b){
+with(_59){
+var _5c=objj_msgSend(objj_msgSend(_59,"alloc"),"initForReadingWithData:",_5b),_5d=objj_msgSend(_5c,"decodeObjectForKey:","root");
+objj_msgSend(_5c,"finishDecoding");
+return _5d;
 }
-}),new objj_method(sel_getUid("unarchiveObjectWithFile:"),function(_57,_58,_59){
-with(_57){
+}),new objj_method(sel_getUid("unarchiveObjectWithFile:"),function(_5e,_5f,_60){
+with(_5e){
 }
-}),new objj_method(sel_getUid("unarchiveObjectWithFile:asynchronously:"),function(_5a,_5b,_5c,_5d){
-with(_5a){
+}),new objj_method(sel_getUid("unarchiveObjectWithFile:asynchronously:"),function(_61,_62,_63,_64){
+with(_61){
 }
 })]);
-var _1c=function(_5e,_5f){
-var _60=_5e._objects[_5f];
-if(_60){
-if(_60==_5e._objects[0]){
+var _21=function(_65,_66){
+var _67=_65._objects[_66];
+if(_67){
+if(_67===_65._objects[0]){
 return nil;
 }else{
-return _60;
+return _67;
 }
 }
-var _60,_61=_5e._plistObjects[_5f];
-if(objj_msgSend(_61,"isKindOfClass:",_a)){
-var _62=_5e._plistObjects[objj_msgSend(objj_msgSend(_61,"objectForKey:",_CPKeyedArchiverClassKey),"objectForKey:",_CPKeyedArchiverUIDKey)],_63=objj_msgSend(_62,"objectForKey:",_CPKeyedArchiverClassNameKey),_64=objj_msgSend(_62,"objectForKey:",_CPKeyedArchiverClassesKey),_65=objj_msgSend(_5e,"classForClassName:",_63);
-if(!_65){
-_65=CPClassFromString(_63);
+var _67,_68=_65._plistObjects[_66],_69=_68.isa;
+if(_69===_b||_69===_c){
+var _6a=_65._plistObjects[_68.valueForKey(_CPKeyedArchiverClassKey).valueForKey(_CPKeyedArchiverUIDKey)],_6b=_6a.valueForKey(_CPKeyedArchiverClassNameKey),_6c=_6a.valueForKey(_CPKeyedArchiverClassesKey),_6d=objj_msgSend(_65,"classForClassName:",_6b);
+if(!_6d){
+_6d=CPClassFromString(_6b);
 }
-if(!_65&&(_5e._delegateSelectors&_6)){
-_65=objj_msgSend(_delegate,"unarchiver:cannotDecodeObjectOfClassName:originalClasses:",_5e,_63,_64);
+if(!_6d&&(_65._delegateSelectors&_6)){
+_6d=objj_msgSend(_delegate,"unarchiver:cannotDecodeObjectOfClassName:originalClasses:",_65,_6b,_6c);
 }
-if(!_65){
-objj_msgSend(CPException,"raise:reason:",CPInvalidUnarchiveOperationException,"-[CPKeyedUnarchiver decodeObjectForKey:]: cannot decode object of class ("+_63+")");
+if(!_6d){
+objj_msgSend(CPException,"raise:reason:",CPInvalidUnarchiveOperationException,"-[CPKeyedUnarchiver decodeObjectForKey:]: cannot decode object of class ("+_6b+")");
 }
-var _66=_5e._plistObject;
-_5e._plistObject=_61;
-_60=objj_msgSend(_65,"allocWithCoder:",_5e);
-_5e._objects[_5f]=_60;
-var _67=objj_msgSend(_60,"initWithCoder:",_5e);
-_5e._plistObject=_66;
-if(_67!=_60){
-if(_5e._delegateSelectors&_3){
-objj_msgSend(_5e._delegate,"unarchiver:willReplaceObject:withObject:",_5e,_60,_67);
+var _6e=_65._plistObject;
+_65._plistObject=_68;
+_67=objj_msgSend(_6d,"allocWithCoder:",_65);
+_65._objects[_66]=_67;
+var _6f=objj_msgSend(_67,"initWithCoder:",_65);
+_65._plistObject=_6e;
+if(_6f!=_67){
+if(_65._delegateSelectors&_3){
+objj_msgSend(_65._delegate,"unarchiver:willReplaceObject:withObject:",_65,_67,_6f);
 }
-_60=_67;
-_5e._objects[_5f]=_67;
+_67=_6f;
+_65._objects[_66]=_6f;
 }
-_67=objj_msgSend(_60,"awakeAfterUsingCoder:",_5e);
-if(_67!=_60){
-if(_5e._delegateSelectors&_3){
-objj_msgSend(_5e._delegate,"unarchiver:willReplaceObject:withObject:",_5e,_60,_67);
+_6f=objj_msgSend(_67,"awakeAfterUsingCoder:",_65);
+if(_6f!=_67){
+if(_65._delegateSelectors&_3){
+objj_msgSend(_65._delegate,"unarchiver:willReplaceObject:withObject:",_65,_67,_6f);
 }
-_60=_67;
-_5e._objects[_5f]=_67;
+_67=_6f;
+_65._objects[_66]=_6f;
 }
-if(_5e._delegate){
-if(_5e._delegateSelectors&_2){
-_67=objj_msgSend(_5e._delegate,"unarchiver:didDecodeObject:",_5e,_60);
+if(_65._delegate){
+if(_65._delegateSelectors&_2){
+_6f=objj_msgSend(_65._delegate,"unarchiver:didDecodeObject:",_65,_67);
 }
-if(_67!=_60){
-if(_5e._delegateSelectors&_3){
-objj_msgSend(_5e._delegate,"unarchiver:willReplaceObject:withObject:",_5e,_60,_67);
+if(_6f!=_67){
+if(_65._delegateSelectors&_3){
+objj_msgSend(_65._delegate,"unarchiver:willReplaceObject:withObject:",_65,_67,_6f);
 }
-_60=_67;
-_5e._objects[_5f]=_67;
+_67=_6f;
+_65._objects[_66]=_6f;
 }
 }
 }else{
-_5e._objects[_5f]=_60=_61;
-if(objj_msgSend(_60,"class")==_9){
-if(_60==_7){
-_5e._objects[_5f]=_5e._objects[0];
+_65._objects[_66]=_67=_68;
+if(objj_msgSend(_67,"class")===_a){
+if(_67===_7){
+_65._objects[_66]=_65._objects[0];
 return nil;
 }else{
-_5e._objects[_5f]=_60=_61;
+_65._objects[_66]=_67=_68;
 }
 }
 }
-if(objj_msgSend(_60,"isMemberOfClass:",_d)){
-_60=objj_msgSend(_60,"JSObject");
+if(_67.isa===_f){
+_67=objj_msgSend(_67,"JSObject");
 }
-return _60;
+return _67;
 };
 p;22;CPNotificationCenter.jt;6517;@STATIC;1.0;i;9;CPArray.ji;14;CPDictionary.ji;13;CPException.ji;16;CPNotification.ji;8;CPNull.jt;6415;
 objj_executeFile("CPArray.j",YES);

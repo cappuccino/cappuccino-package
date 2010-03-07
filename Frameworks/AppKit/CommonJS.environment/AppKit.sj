@@ -25703,7 +25703,7 @@ objj_msgSend(_33,"awakeFromCib");
 }
 }
 })]);
-p;22;_CPCibCustomResource.jt;2936;@STATIC;1.0;I;21;Foundation/CPObject.jI;21;Foundation/CPString.jt;2865;
+p;22;_CPCibCustomResource.jt;2919;@STATIC;1.0;I;21;Foundation/CPObject.jI;21;Foundation/CPString.jt;2848;
 objj_executeFile("Foundation/CPObject.j",NO);
 objj_executeFile("Foundation/CPString.j",NO);
 var _1="_CPCibCustomResourceClassNameKey",_2="_CPCibCustomResourceResourceNameKey",_3="_CPCibCustomResourcePropertiesKey";
@@ -25740,7 +25740,7 @@ objj_msgSend(_10,"encodeObject:forKey:",_properties,_3);
 with(_11){
 if(objj_msgSend(_13,"respondsToSelector:",sel_getUid("bundle"))&&(!objj_msgSend(_13,"respondsToSelector:",sel_getUid("awakenCustomResources"))||objj_msgSend(_13,"awakenCustomResources"))){
 if(_className==="CPImage"){
-return objj_msgSend(objj_msgSend(CPImage,"alloc"),"initWithContentsOfFile:size:",objj_msgSend(objj_msgSend(_13,"bundle"),"pathForResource:",_resourceName),objj_msgSend(_properties,"objectForKey:","size"));
+return objj_msgSend(objj_msgSend(CPImage,"alloc"),"initWithContentsOfFile:size:",objj_msgSend(objj_msgSend(_13,"bundle"),"pathForResource:",_resourceName),_properties.valueForKey("size"));
 }
 }
 return _11;
