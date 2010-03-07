@@ -18585,7 +18585,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("initialize"), function
 },["void"])]);
 }
 
-p;17;CPCompatibility.jt;5420;@STATIC;1.0;i;9;CPEvent.ji;12;CPPlatform.jt;5371;objj_executeFile("CPEvent.j", YES);
+p;17;CPCompatibility.jt;5403;@STATIC;1.0;i;9;CPEvent.ji;12;CPPlatform.jt;5354;objj_executeFile("CPEvent.j", YES);
 objj_executeFile("CPPlatform.j", YES);
 CPUnknownBrowserEngine = 0;
 CPGeckoBrowserEngine = 1;
@@ -18705,18 +18705,18 @@ if (USER_AGENT.indexOf("Mac") !== -1)
 {
     OPERATING_SYSTEM = CPMacOperatingSystem;
     CPPlatformActionKeyMask = CPCommandKeyMask;
-    CPUndoKeyEquivalent = "Z";
+    CPUndoKeyEquivalent = "z";
     CPRedoKeyEquivalent = "Z";
     CPUndoKeyEquivalentModifierMask = CPCommandKeyMask;
-    CPRedoKeyEquivalentModifierMask = CPCommandKeyMask | CPShiftKeyMask;
+    CPRedoKeyEquivalentModifierMask = CPCommandKeyMask;
 }
 else
 {
     if (USER_AGENT.indexOf("Windows") !== -1)
         OPERATING_SYSTEM = CPWindowsOperatingSystem;
     CPPlatformActionKeyMask = CPControlKeyMask;
-    CPUndoKeyEquivalent = "Z";
-    CPRedoKeyEquivalent = "Y";
+    CPUndoKeyEquivalent = "z";
+    CPRedoKeyEquivalent = "y";
     CPUndoKeyEquivalentModifierMask = CPControlKeyMask;
     CPRedoKeyEquivalentModifierMask = CPControlKeyMask;
 }
