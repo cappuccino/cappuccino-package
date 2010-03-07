@@ -1048,108 +1048,108 @@ with(_3){
 return objj_msgSend(_CPToolbarShowColorsItem,"class");
 }
 })]);
-p;11;Converter.jt;3727;@STATIC;1.0;I;21;Foundation/CPObject.jI;19;Foundation/CPData.ji;15;Converter+Mac.jt;3638;
+p;11;Converter.jt;3744;@STATIC;1.0;I;21;Foundation/CPObject.jI;19;Foundation/CPData.ji;15;Converter+Mac.jt;3655;
 objj_executeFile("Foundation/CPObject.j",NO);
 objj_executeFile("Foundation/CPData.j",NO);
-var _1=require("file"),_2=require("os").popen;
+var _1=require("file"),OS=require("os");
 NibFormatUndetermined=0,NibFormatMac=1,NibFormatIPhone=2;
 ConverterConversionException="ConverterConversionException";
-var _3=objj_allocateClassPair(CPObject,"Converter"),_4=_3.isa;
-class_addIvars(_3,[new objj_ivar("format"),new objj_ivar("inputPath"),new objj_ivar("outputPath"),new objj_ivar("resourcesPath")]);
-objj_registerClassPair(_3);
-class_addMethods(_3,[new objj_method(sel_getUid("format"),function(_5,_6){
-with(_5){
+var _2=objj_allocateClassPair(CPObject,"Converter"),_3=_2.isa;
+class_addIvars(_2,[new objj_ivar("format"),new objj_ivar("inputPath"),new objj_ivar("outputPath"),new objj_ivar("resourcesPath")]);
+objj_registerClassPair(_2);
+class_addMethods(_2,[new objj_method(sel_getUid("format"),function(_4,_5){
+with(_4){
 return format;
 }
-}),new objj_method(sel_getUid("setFormat:"),function(_7,_8,_9){
-with(_7){
-format=_9;
+}),new objj_method(sel_getUid("setFormat:"),function(_6,_7,_8){
+with(_6){
+format=_8;
 }
-}),new objj_method(sel_getUid("inputPath"),function(_a,_b){
-with(_a){
+}),new objj_method(sel_getUid("inputPath"),function(_9,_a){
+with(_9){
 return inputPath;
 }
-}),new objj_method(sel_getUid("setInputPath:"),function(_c,_d,_e){
-with(_c){
-inputPath=_e;
+}),new objj_method(sel_getUid("setInputPath:"),function(_b,_c,_d){
+with(_b){
+inputPath=_d;
 }
-}),new objj_method(sel_getUid("outputPath"),function(_f,_10){
-with(_f){
+}),new objj_method(sel_getUid("outputPath"),function(_e,_f){
+with(_e){
 return outputPath;
 }
-}),new objj_method(sel_getUid("setOutputPath:"),function(_11,_12,_13){
-with(_11){
-outputPath=_13;
+}),new objj_method(sel_getUid("setOutputPath:"),function(_10,_11,_12){
+with(_10){
+outputPath=_12;
 }
-}),new objj_method(sel_getUid("resourcesPath"),function(_14,_15){
-with(_14){
+}),new objj_method(sel_getUid("resourcesPath"),function(_13,_14){
+with(_13){
 return resourcesPath;
 }
-}),new objj_method(sel_getUid("setResourcesPath:"),function(_16,_17,_18){
-with(_16){
-resourcesPath=_18;
+}),new objj_method(sel_getUid("setResourcesPath:"),function(_15,_16,_17){
+with(_15){
+resourcesPath=_17;
 }
-}),new objj_method(sel_getUid("init"),function(_19,_1a){
-with(_19){
-_19=objj_msgSendSuper({receiver:_19,super_class:objj_getClass("Converter").super_class},"init");
-if(_19){
-objj_msgSend(_19,"setFormat:",NibFormatUndetermined);
+}),new objj_method(sel_getUid("init"),function(_18,_19){
+with(_18){
+_18=objj_msgSendSuper({receiver:_18,super_class:objj_getClass("Converter").super_class},"init");
+if(_18){
+objj_msgSend(_18,"setFormat:",NibFormatUndetermined);
 }
-return _19;
+return _18;
 }
-}),new objj_method(sel_getUid("convert"),function(_1b,_1c){
-with(_1b){
+}),new objj_method(sel_getUid("convert"),function(_1a,_1b){
+with(_1a){
 try{
 if(objj_msgSend(resourcesPath,"length")&&!_1.isReadable(resourcesPath)){
 objj_msgSend(CPException,"raise:reason:",ConverterConversionException,"Could not read Resources at path \""+resourcesPath+"\"");
 }
-var _1d=_1.read(inputPath,{charset:"UTF-8"}),_1e=format;
-if(_1e===NibFormatUndetermined){
-_1e=NibFormatMac;
-if(_1.extension(inputPath)!==".nib"&&_1d.indexOf("<archive type=\"com.apple.InterfaceBuilder3.CocoaTouch.XIB\"")!==-1){
-_1e=NibFormatIPhone;
+var _1c=format;
+if(_1c===NibFormatUndetermined){
+_1c=NibFormatMac;
+if(_1.extension(inputPath)!==".nib"&&_1.isFile(inputPath)&&_1.read(inputPath,{charset:"UTF-8"}).indexOf("<archive type=\"com.apple.InterfaceBuilder3.CocoaTouch.XIB\"")!==-1){
+_1c=NibFormatIPhone;
 }
-if(_1e===NibFormatMac){
+if(_1c===NibFormatMac){
 CPLog("Auto-detected Cocoa Nib or Xib File");
 }else{
 CPLog("Auto-detected CocoaTouch Xib File");
 }
 }
-var _1f=objj_msgSend(_1b,"CPCompliantNibDataAtFilePath:",inputPath);
-if(_1e===NibFormatMac){
-var _20=objj_msgSend(_1b,"convertedDataFromMacData:resourcesPath:",_1f,resourcesPath);
+var _1d=objj_msgSend(_1a,"CPCompliantNibDataAtFilePath:",inputPath);
+if(_1c===NibFormatMac){
+var _1e=objj_msgSend(_1a,"convertedDataFromMacData:resourcesPath:",_1d,resourcesPath);
 }else{
 objj_msgSend(CPException,"raise:reason:",ConverterConversionException,"nib2cib does not understand this nib format.");
 }
 if(!objj_msgSend(outputPath,"length")){
 outputPath=inputPath.substr(0,inputPath.length-_1.extension(inputPath).length)+".cib";
 }
-_1.write(outputPath,objj_msgSend(_20,"rawString"),{charset:"UTF-8"});
+_1.write(outputPath,objj_msgSend(_1e,"rawString"),{charset:"UTF-8"});
 }
 catch(anException){
 CPLog.fatal(anException);
 }
 }
-}),new objj_method(sel_getUid("CPCompliantNibDataAtFilePath:"),function(_21,_22,_23){
-with(_21){
-var _24=_1.join("/tmp",_1.basename(_23)+".tmp.nib");
-if(_2("/usr/bin/ibtool "+_23+" --compile "+_24).wait()===1){
-throw "Could not compile file at "+_23;
+}),new objj_method(sel_getUid("CPCompliantNibDataAtFilePath:"),function(_1f,_20,_21){
+with(_1f){
+var _22=_1.join("/tmp",_1.basename(_21)+".tmp.nib");
+if(OS.popen(["/usr/bin/ibtool",_21,"--compile",_22]).wait()===1){
+throw "Could not compile file at "+_21;
 }
-var _25=_1.join("/tmp",_1.basename(_23)+".tmp.plist");
-if(_2("/usr/bin/plutil "+" -convert xml1 "+_24+" -o "+_25).wait()===1){
-throw "Could not convert to xml plist for file at "+_23;
+var _23=_1.join("/tmp",_1.basename(_21)+".tmp.plist");
+if(OS.popen(["/usr/bin/plutil","-convert","xml1",_22,"-o",_23]).wait()===1){
+throw "Could not convert to xml plist for file at "+_21;
 }
-if(!_1.isReadable(_25)){
+if(!_1.isReadable(_23)){
 objj_msgSend(CPException,"raise:reason:",ConverterConversionException,"Unable to convert nib file.");
 }
-var _26=_1.read(_25,{charset:"UTF-8"});
+var _24=_1.read(_23,{charset:"UTF-8"});
 if(system.engine==="rhino"){
-_26=String(java.lang.String(_26).replaceAll("\\<key\\>\\s*CF\\$UID\\s*\\</key\\>","<key>CP\\$UID</key>"));
+_24=String(java.lang.String(_24).replaceAll("\\<key\\>\\s*CF\\$UID\\s*\\</key\\>","<key>CP\\$UID</key>"));
 }else{
-_26=_26.replace(/\<key\>\s*CF\$UID\s*\<\/key\>/g,"<key>CP$UID</key>");
+_24=_24.replace(/\<key\>\s*CF\$UID\s*\<\/key\>/g,"<key>CP$UID</key>");
 }
-return objj_msgSend(CPData,"dataWithRawString:",_26);
+return objj_msgSend(CPData,"dataWithRawString:",_24);
 }
 })]);
 objj_executeFile("Converter+Mac.j",YES);
