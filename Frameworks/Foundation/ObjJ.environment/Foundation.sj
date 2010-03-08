@@ -5230,7 +5230,7 @@ objj_msgSend(functionOp,"addExecutionFunction:",_f);
 return functionOp;
 }
 })]);
-p;19;CPKeyedUnarchiver.jt;8373;@STATIC;1.0;i;9;CPCoder.ji;8;CPNull.jt;8329;
+p;19;CPKeyedUnarchiver.jt;8381;@STATIC;1.0;i;9;CPCoder.ji;8;CPNull.jt;8337;
 objj_executeFile("CPCoder.j",YES);
 objj_executeFile("CPNull.j",YES);
 CPInvalidUnarchiveOperationException="CPInvalidUnarchiveOperationException";
@@ -5443,7 +5443,7 @@ _67=objj_msgSend(_6d,"allocWithCoder:",_65);
 _65._objects[_66]=_67;
 var _6f=objj_msgSend(_67,"initWithCoder:",_65);
 _65._plistObject=_6e;
-if(_6f!=_67){
+if(_6f!==_67){
 if(_65._delegateSelectors&_3){
 objj_msgSend(_65._delegate,"unarchiver:willReplaceObject:withObject:",_65,_67,_6f);
 }
@@ -5481,7 +5481,7 @@ _65._objects[_66]=_67=_68;
 }
 }
 }
-if(_67.isa===_f){
+if(_67&&(_67.isa===_f)){
 _67=objj_msgSend(_67,"JSObject");
 }
 return _67;

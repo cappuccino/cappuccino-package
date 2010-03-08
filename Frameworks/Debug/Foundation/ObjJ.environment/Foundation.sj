@@ -6008,7 +6008,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("functionOperationWithF
 },["id","JSObject"])]);
 }
 
-p;19;CPKeyedUnarchiver.jt;14152;@STATIC;1.0;i;9;CPCoder.ji;8;CPNull.jt;14107;objj_executeFile("CPCoder.j", YES);
+p;19;CPKeyedUnarchiver.jt;14165;@STATIC;1.0;i;9;CPCoder.ji;8;CPNull.jt;14120;objj_executeFile("CPCoder.j", YES);
 objj_executeFile("CPNull.j", YES);
 CPInvalidUnarchiveOperationException = "CPInvalidUnarchiveOperationException";
 var _CPKeyedUnarchiverCannotDecodeObjectOfClassNameOriginalClassesSelector = 1 << 0,
@@ -6259,7 +6259,7 @@ var _CPKeyedUnarchiverDecodeObjectAtIndex = function(self, anIndex)
         self._objects[anIndex] = object;
         var processedObject = objj_msgSend(object, "initWithCoder:", self);
         self._plistObject = savedPlistObject;
-        if (processedObject != object)
+        if (processedObject !== object)
         {
             if (self._delegateSelectors & _CPKeyedUnarchiverWillReplaceObjectWithObjectSelector)
                 objj_msgSend(self._delegate, "unarchiver:willReplaceObject:withObject:", self, object, processedObject);
@@ -6301,7 +6301,7 @@ var _CPKeyedUnarchiverDecodeObjectAtIndex = function(self, anIndex)
                 self._objects[anIndex] = object = plistObject;
         }
     }
-    if (object.isa === _CPKeyedArchiverValueClass)
+    if (object && (object.isa === _CPKeyedArchiverValueClass))
         object = objj_msgSend(object, "JSObject");
     return object;
 }
