@@ -6008,7 +6008,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("functionOperationWithF
 },["id","JSObject"])]);
 }
 
-p;19;CPKeyedUnarchiver.jt;14246;@STATIC;1.0;i;9;CPCoder.ji;8;CPNull.jt;14201;objj_executeFile("CPCoder.j", YES);
+p;19;CPKeyedUnarchiver.jt;14152;@STATIC;1.0;i;9;CPCoder.ji;8;CPNull.jt;14107;objj_executeFile("CPCoder.j", YES);
 objj_executeFile("CPNull.j", YES);
 CPInvalidUnarchiveOperationException = "CPInvalidUnarchiveOperationException";
 var _CPKeyedUnarchiverCannotDecodeObjectOfClassNameOriginalClassesSelector = 1 << 0,
@@ -6044,10 +6044,10 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initForReadingWithData:
     if (self)
     {
         _archive = objj_msgSend(data, "plistObject");
-        _objects = objj_msgSend(CPArray, "arrayWithObject:", objj_msgSend(CPNull, "null"));
+        _objects = [objj_msgSend(CPNull, "null")];
         _plistObject = objj_msgSend(_archive, "objectForKey:", _CPKeyedArchiverTopKey);
         _plistObjects = objj_msgSend(_archive, "objectForKey:", _CPKeyedArchiverObjectsKey);
-        _replacementClasses = objj_msgSend(CPDictionary, "dictionary");
+        _replacementClasses = new CFMutableDictionary();
     }
     return self;
 }
@@ -6185,12 +6185,12 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initForReadingWithData:
 },["void","id"]), new objj_method(sel_getUid("setClass:forClassName:"), function $CPKeyedUnarchiver__setClass_forClassName_(self, _cmd, aClass, aClassName)
 { with(self)
 {
-    objj_msgSend(_replacementClasses, "setObject:forKey:", aClass, aClassName);
+    _replacementClasses.setValueForKey(aClassName, aClass);
 }
 },["void","Class","CPString"]), new objj_method(sel_getUid("classForClassName:"), function $CPKeyedUnarchiver__classForClassName_(self, _cmd, aClassName)
 { with(self)
 {
-    return objj_msgSend(_replacementClasses, "objectForKey:", aClassName);
+    return _replacementClasses.valueForKey(aClassName);
 }
 },["Class","CPString"]), new objj_method(sel_getUid("allowsKeyedCoding"), function $CPKeyedUnarchiver__allowsKeyedCoding(self, _cmd)
 { with(self)
@@ -6267,7 +6267,7 @@ var _CPKeyedUnarchiverDecodeObjectAtIndex = function(self, anIndex)
             self._objects[anIndex] = processedObject;
         }
         processedObject = objj_msgSend(object, "awakeAfterUsingCoder:", self);
-        if (processedObject != object)
+        if (processedObject !== object)
         {
             if (self._delegateSelectors & _CPKeyedUnarchiverWillReplaceObjectWithObjectSelector)
                 objj_msgSend(self._delegate, "unarchiver:willReplaceObject:withObject:", self, object, processedObject);
