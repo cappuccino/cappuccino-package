@@ -1,5 +1,6 @@
-@STATIC;1.0;p;9;NSColor.jt;2019;@STATIC;1.0;I;16;AppKit/CPColor.jt;1979;
+@STATIC;1.0;p;9;NSColor.jt;2089;@STATIC;1.0;I;16;AppKit/CPColor.jI;15;AppKit/CPData.jt;2029;
 objj_executeFile("AppKit/CPColor.j",NO);
+objj_executeFile("AppKit/CPData.j",NO);
 var _1=-1,_2=0,_3=1,_4=2,_5=3,_6=4,_7=5,_8=6;
 var _9=objj_getClass("CPColor");
 if(!_9){
@@ -12,7 +13,7 @@ var _e=objj_msgSend(_d,"decodeIntForKey:","NSColorSpace"),_f;
 switch(_e){
 case 1:
 case 2:
-var rgb=objj_msgSend(_d,"decodeBytesForKey:","NSRGB"),_10=bytes_to_string(rgb),_11=objj_msgSend(_10,"componentsSeparatedByString:"," "),_12=[0,0,0,1];
+var rgb=objj_msgSend(_d,"decodeBytesForKey:","NSRGB"),_10=CFData.bytesToString(rgb),_11=objj_msgSend(_10,"componentsSeparatedByString:"," "),_12=[0,0,0,1];
 for(var i=0;i<_11.length&&i<4;i++){
 _12[i]=objj_msgSend(_11[i],"floatValue");
 }
@@ -20,7 +21,7 @@ _f=objj_msgSend(CPColor,"colorWithCalibratedRed:green:blue:alpha:",_12[0],_12[1]
 break;
 case 3:
 case 4:
-var _13=objj_msgSend(_d,"decodeBytesForKey:","NSWhite"),_10=bytes_to_string(_13),_11=objj_msgSend(_10,"componentsSeparatedByString:"," "),_12=[0,1];
+var _13=objj_msgSend(_d,"decodeBytesForKey:","NSWhite"),_10=CFData.bytesToString(_13),_11=objj_msgSend(_10,"componentsSeparatedByString:"," "),_12=[0,1];
 for(var i=0;i<_11.length&&i<2;i++){
 _12[i]=objj_msgSend(_11[i],"floatValue");
 }
