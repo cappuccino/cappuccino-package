@@ -1,6 +1,6 @@
-@STATIC;1.0;p;9;NSColor.jt;2089;@STATIC;1.0;I;16;AppKit/CPColor.jI;15;AppKit/CPData.jt;2029;
+@STATIC;1.0;p;9;NSColor.jt;2097;@STATIC;1.0;I;19;Foundation/CPData.jI;16;AppKit/CPColor.jt;2033;
+objj_executeFile("Foundation/CPData.j",NO);
 objj_executeFile("AppKit/CPColor.j",NO);
-objj_executeFile("AppKit/CPData.j",NO);
 var _1=-1,_2=0,_3=1,_4=2,_5=3,_6=4,_7=5,_8=6;
 var _9=objj_getClass("CPColor");
 if(!_9){
