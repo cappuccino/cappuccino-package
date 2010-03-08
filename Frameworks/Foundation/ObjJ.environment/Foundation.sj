@@ -2098,7 +2098,7 @@ objj_executeFile("CPURLRequest.j",YES);
 objj_executeFile("CPURLResponse.j",YES);
 objj_executeFile("CPUserSessionManager.j",YES);
 objj_executeFile("CPValue.j",YES);
-p;10;CPString.jt;10233;@STATIC;1.0;i;10;CPObject.ji;13;CPException.ji;18;CPSortDescriptor.ji;9;CPValue.jt;10144;
+p;10;CPString.jt;10266;@STATIC;1.0;i;10;CPObject.ji;13;CPException.ji;18;CPSortDescriptor.ji;9;CPValue.jt;10177;
 objj_executeFile("CPObject.j",YES);
 objj_executeFile("CPException.j",YES);
 objj_executeFile("CPSortDescriptor.j",YES);
@@ -2121,7 +2121,7 @@ with(_a){
 if(!_c){
 objj_msgSend(CPException,"raise:reason:",CPInvalidArgumentException,"initWithFormat: the format can't be 'nil'");
 }
-_a=sprintf.apply(this,Array.prototype.slice.call(arguments,2));
+_a=ObjectiveJ.sprintf.apply(this,Array.prototype.slice.call(arguments,2));
 return _a;
 }
 }),new objj_method(sel_getUid("description"),function(_d,_e){
@@ -2141,7 +2141,7 @@ with(_14){
 if(!_16){
 objj_msgSend(CPException,"raise:reason:",CPInvalidArgumentException,"initWithFormat: the format can't be 'nil'");
 }
-return _14+sprintf.apply(this,Array.prototype.slice.call(arguments,2));
+return _14+ObjectiveJ.sprintf.apply(this,Array.prototype.slice.call(arguments,2));
 }
 }),new objj_method(sel_getUid("stringByAppendingString:"),function(_17,_18,_19){
 with(_17){
@@ -2403,7 +2403,7 @@ with(_9d){
 if(!_9f){
 objj_msgSend(CPException,"raise:reason:",CPInvalidArgumentException,"initWithFormat: the format can't be 'nil'");
 }
-return sprintf.apply(this,Array.prototype.slice.call(arguments,2));
+return ObjectiveJ.sprintf.apply(this,Array.prototype.slice.call(arguments,2));
 }
 })]);
 var _5=objj_getClass("CPString");
