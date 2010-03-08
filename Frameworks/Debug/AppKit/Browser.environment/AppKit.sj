@@ -16914,7 +16914,7 @@ return _maxSize;
 },["void","CPString","id","CPDictionary","id"])]);
 }
 
-p;15;CPApplication.jt;40951;@STATIC;1.0;I;21;Foundation/CPBundle.ji;17;CPCompatibility.ji;9;CPEvent.ji;8;CPMenu.ji;13;CPResponder.ji;22;CPDocumentController.ji;14;CPThemeBlend.ji;14;CPCibLoading.ji;12;CPPlatform.jt;40758;objj_executeFile("Foundation/CPBundle.j", NO);
+p;15;CPApplication.jt;40384;@STATIC;1.0;I;21;Foundation/CPBundle.ji;17;CPCompatibility.ji;9;CPEvent.ji;8;CPMenu.ji;13;CPResponder.ji;22;CPDocumentController.ji;14;CPThemeBlend.ji;14;CPCibLoading.ji;12;CPPlatform.jt;40191;objj_executeFile("Foundation/CPBundle.j", NO);
 objj_executeFile("CPCompatibility.j", YES);
 objj_executeFile("CPEvent.j", YES);
 objj_executeFile("CPMenu.j", YES);
@@ -17457,7 +17457,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPApp
 },["void","CPWindow"]), new objj_method(sel_getUid("arguments"), function $CPApplication__arguments(self, _cmd)
 { with(self)
 {
-    if(_fullArgsString != window.location.hash)
+    if(_fullArgsString !== window.location.hash)
         objj_msgSend(self, "_reloadArguments");
     return _args;
 }
@@ -17483,10 +17483,15 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPApp
 { with(self)
 {
     _fullArgsString = window.location.hash;
-    var args = _fullArgsString.replace("#", "").split("/").slice(0);
-    for(var i=0, count = args.length; i<count; i++)
-        args[i] = decodeURIComponent(args[i]);
-    _args = args;
+    if (_fullArgsString.length)
+    {
+        var args = _fullArgsString.substring(1).split("/");
+        for (var i = 0, count = args.length; i < count; i++)
+            args[i] = decodeURIComponent(args[i]);
+        _args = args;
+    }
+    else
+        _args = [];
 }
 },["void"]), new objj_method(sel_getUid("namedArguments"), function $CPApplication__namedArguments(self, _cmd)
 { with(self)
@@ -17589,25 +17594,8 @@ CPApplicationMain= function(args, namedArgs)
     if (!principalClass)
         principalClass = objj_msgSend(CPApplication, "class");
     objj_msgSend(principalClass, "sharedApplication");
-    if (!args)
-    {
-        var args = objj_msgSend(CPApp, "arguments");
-        if(objj_msgSend(args, "containsObject:", "debug"))
-            CPLogRegister(CPLogPopup);
-    }
-    if (!namedArgs)
-    {
-        var searchParams = window.location.search.substring(1).split("&");
-            namedArgs = objj_msgSend(CPDictionary, "dictionary");
-        for(var i=0; i<searchParams.length; i++)
-        {
-            var index = searchParams[i].indexOf('=');
-            if(index == -1)
-                objj_msgSend(namedArgs, "setObject:forKey:",  "", searchParams[i]);
-            else
-                objj_msgSend(namedArgs, "setObject:forKey:",  searchParams[i].substring(index+1),  searchParams[i].substring(0, index));
-        }
-    }
+    if (objj_msgSend(args, "containsObject:", "debug"))
+        CPLogRegister(CPLogPopup);
     CPApp._args = args;
     CPApp._namedArgs = namedArgs;
     objj_msgSend(_CPAppBootstrapper, "performActions");
