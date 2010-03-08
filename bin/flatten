@@ -1,0 +1,248 @@
+#!/usr/bin/env objj
+
+require("narwhal").ensureEngine("rhino");
+
+@import <Foundation/Foundation.j>
+
+@import "../lib/cappuccino/objj-analysis-tools.j"
+
+var FILE = require("file");
+var OS = require("os");
+
+var stream = require("term").stream;
+var parser = new (require("args").Parser)();
+
+parser.usage("INPUT_PROJECT OUTPUT_PROJECT");
+parser.help("Combine a Cappuccino application into a single JavaScript file.");
+
+parser.option("-m", "--main", "main")
+    .def("main.j")
+    .set()
+    .help("The relative path (from INPUT_PROJECT) to the main file (default: 'main.j')");
+
+parser.option("-F", "--framework", "frameworks")
+    .push()
+    .help("Add a frameworks directory, relative to INPUT_PROJECT (default: ['Frameworks'])");
+
+parser.option("-f", "--force", "force")
+    .def(false)
+    .set(true)
+    .help("Force overwriting OUTPUT_PROJECT if it exists");
+
+parser.option("--index", "index")
+    .def("index.html")
+    .set()
+    .help("The root HTML file to modify (default: index.html)");
+
+parser.option("-v", "--verbose", "verbose")
+   .def(false)
+   .set(true)
+   .help("Verbose logging");
+
+parser.helpful();
+
+function main(args)
+{
+    var options = parser.parse(args);
+
+    if (options.args.length < 2) {
+        parser.printUsage(options);
+        return;
+    }
+
+    var rootPath = FILE.path(options.args[0]).join("").absolute();
+    var outputPath = FILE.path(options.args[1]).join("").absolute();
+
+    if (outputPath.exists()) {
+        if (options.force) {
+            // FIXME: why doesn't this work?!
+            //outputPath.rmtree();
+            OS.system(["rm", "-rf", outputPath]);
+        } else {
+            stream.print("\0red(OUTPUT_PROJECT " + outputPath + " exists. Use -f to overwrite.\0)");
+            OS.exit(1);
+        }
+    }
+
+    options.frameworks.push("Frameworks");
+
+    var mainPath = String(rootPath.join(options.main));
+    var frameworks = options.frameworks.map(function(framework) { return rootPath.join(framework); });
+    var environment = "Browser";
+
+    stream.print("\0yellow("+Array(81).join("=")+"\0)");
+    stream.print("Application root:    \0green(" + rootPath + "\0)");
+    stream.print("Output directory:    \0green(" + outputPath + "\0)");
+
+    stream.print("\0yellow("+Array(81).join("=")+"\0)");
+    stream.print("Main file:           \0green(" + mainPath + "\0)");
+    stream.print("Frameworks:          \0green(" + frameworks + "\0)");
+    stream.print("Environment:         \0green(" + environment + "\0)");
+
+    var flattener = new ObjectiveJFlattener(rootPath);
+
+    flattener.setIncludePaths(frameworks);
+    flattener.setEnvironments([environment, "ObjJ"]);
+
+    flattener.load(mainPath);
+    flattener.finishLoading();
+
+    var rootResources = flattener.require("objective-j").StaticResource.rootResources();
+
+    var root = rootResources["file:"];
+
+    // FIXME: shouldn't have to do this manually
+    var components = rootPath.split("/").slice(0, -1);
+    components[0] = "/";
+    var node = root;
+    while (components.length) {
+        node = node.children()[components.shift()];
+    }
+    applicationRoot = node;
+
+    print(applicationRoot.toString());
+
+    var applicationJS = flattener.buildApplicationJS(applicationRoot);
+
+    FILE.copyTree(rootPath, outputPath);
+
+    outputPath.join("Application.js").write(applicationJS);
+
+    rewriteMainHTML(outputPath.join(options.index));
+}
+
+// ObjectiveJFlattener inherits from ObjectiveJRuntimeAnalyzer
+function ObjectiveJFlattener(rootPath) {
+    ObjectiveJRuntimeAnalyzer.apply(this, arguments);
+
+    this.resourceBuffer = [];
+    this.bundleBuffer = [];
+    this.functionsBuffer = [];
+
+    this._outputBundles = {};
+}
+
+ObjectiveJFlattener.prototype = Object.create(ObjectiveJRuntimeAnalyzer.prototype);
+
+ObjectiveJFlattener.prototype.buildApplicationJS = function(applicationRoot) {
+    this.serializeStaticResources(applicationRoot);
+    this.serializeStaticFileExecutables();
+
+    var buffer = []
+
+    buffer.push("(function(){");
+
+    buffer.push("var appURL = new CFURL('.', ObjectiveJ.pageURL);")
+
+    buffer.push(this.bundleBuffer.join("\n"));
+
+    buffer.push("var nodeStack = [];");
+    buffer.push("var applicationRoot = ObjectiveJ.StaticResource.resourceAtURL(appURL, true);");
+    buffer.push("var currentNode = null;");
+    buffer.push("var newNode;");
+
+    buffer.push(this.resourceBuffer.join("\n"));
+
+    buffer.push("})();");
+
+    buffer.push(this.functionsBuffer.join("\n"));
+
+    buffer.push("ObjectiveJ.bootstrap();");
+
+    return buffer.join("\n");
+}
+
+ObjectiveJFlattener.prototype.serializeStaticFileExecutables = function() {
+    this.require("objective-j").FileExecutable.allFileExecutables().forEach(function(aFileExecutable) {
+        var deps = aFileExecutable.fileDependencies().map(function(dependency) {
+            return "new ObjectiveJ.FileDependency(new CFURL("+JSON.stringify(dependency.path())+"),"+JSON.stringify(dependency.isLocal())+")"
+        }).join(",");
+
+        var func = aFileExecutable._function.toString();
+        // HACK
+        func = func.replace(", require, exports, module, system, print, window", "");
+
+        this.functionsBuffer.push("var path = "+JSON.stringify(this.rootPath.relative(aFileExecutable.path()).toString())+";");
+        this.functionsBuffer.push("new ObjectiveJ.FileExecutable(path,"+
+            "new ObjectiveJ.Executable(null, ["+deps+"], path, "+func+"));");
+    }, this);
+}
+
+ObjectiveJFlattener.prototype.serializeStaticResources = function(node, depth) {
+    depth = depth || 0;
+
+    var bundle = this.context.global.CFBundle.bundleContainingURL(node.URL());
+    if (!bundle) {
+        stream.print("\0yellow(Warning:\0) No bundle for path: \0cyan("+node.URL()+"\0)");
+    }
+    else if (!this._outputBundles[bundle.path()]) {
+        this._outputBundles[bundle.path()] = bundle;
+        stream.print("Writing bundle: \0cyan("+bundle.path()+"\0)");
+        print(bundle.infoDictionary())
+
+        var relative = this.rootPath.relative(bundle.path()).toString();
+        this.bundleBuffer.push("var bundle = new CFBundle("+(relative ? JSON.stringify(relative) : "appURL")+");");
+        this.bundleBuffer.push("bundle._loadStatus = " + (1<<4) + ";");
+        if (bundle.infoDictionary()) {
+            this.bundleBuffer.push("bundle._infoDictionary = CFPropertyList.propertyListFromString(" +
+                JSON.stringify(CPPropertyListCreateData(bundle.infoDictionary()).rawString()) + ");");
+        }
+    }
+
+    // not the root node:
+    if (depth > 0) {
+        this.resourceBuffer.push("newNode = new ObjectiveJ.StaticResource(" +
+            JSON.stringify(node.name()) +
+            ", currentNode, " +
+            JSON.stringify(node.isDirectory()) + ", " +
+            JSON.stringify(node.isResolved()) + ");");
+    } else {
+        this.resourceBuffer.push("newNode = applicationRoot;");
+    }
+
+    // var contents = node.contents();
+    // if (contents) {
+    //     this.resourceBuffer.push("newNode._contents = " + JSON.stringify(contents) + ";");
+    // }
+
+    if (!node.children())
+        return;
+
+    this.resourceBuffer.push("nodeStack.push(currentNode);");
+    this.resourceBuffer.push("currentNode = newNode;");
+
+    var children = node.children();
+    for (var name in children) {
+        this.serializeStaticResources(children[name], depth+1);
+    }
+
+    this.resourceBuffer.push("currentNode = nodeStack.pop();");
+}
+
+// "$1" is the matching indentation
+var scriptTagsBefore = '$1<script type = "text/javascript">\n$1    OBJJ_AUTO_BOOTSTRAP = false;\n$1</script>';
+var scriptTagsAfter  = '$1<script type = "text/javascript" src = "Application.js"></script>';
+
+function rewriteMainHTML(indexHTMLPath) {
+    if (indexHTMLPath.isFile()) {
+        var indexHTML = indexHTMLPath.read();
+
+        // attempt to find Objective-J script tag and add ours
+        var newIndexHTML = indexHTML.replace(/([ \t]+)<script[^>]+Objective-J\.js[^>]+>(?:\s*<\/script>)?/,
+            scriptTagsBefore+'\n$&\n'+scriptTagsAfter);
+
+        if (newIndexHTML !== indexHTML) {
+            stream.print("\0green(Modified: "+indexHTMLPath+".\0)");
+            indexHTMLPath.write(newIndexHTML);
+            return;
+        }
+    } else {
+        stream.print("\0yellow(Warning: "+indexHTMLPath+" does not exist. Specify an alternate index HTML file with the --index option.\0)");
+    }
+
+    stream.print("\0yellow(Warning: Unable to automatically modify "+indexHTMLPath + ".\0)");
+    stream.print("\nAdd the following before the Objective-J script tag:");
+    stream.print(scriptTagsBefore.replace(/\$1/g, "    "));
+    stream.print("\nAdd the following after the Objective-J script tag:");
+    stream.print(scriptTagsAfter.replace(/\$1/g, "    "));
+}
