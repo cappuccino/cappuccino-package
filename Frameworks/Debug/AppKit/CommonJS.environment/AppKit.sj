@@ -384,7 +384,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPEvent"])]);
 }
 
-p;13;CPTableView.jt;126375;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;126232;objj_executeFile("Foundation/CPArray.j", NO);
+p;13;CPTableView.jt;126555;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;126412;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("AppKit/CGGradient.j", NO);
 objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPTableColumn.j", YES);
@@ -939,7 +939,12 @@ _disableAutomaticResizing = newValue;
         }
     }
 }
-},["void","CPIndexSet","CPIndexSet"]), new objj_method(sel_getUid("selectedColumnIndexes"), function $CPTableView__selectedColumnIndexes(self, _cmd)
+},["void","CPIndexSet","CPIndexSet"]), new objj_method(sel_getUid("selectedColumn"), function $CPTableView__selectedColumn(self, _cmd)
+{ with(self)
+{
+    objj_msgSend(_selectedColumnIndexes, "lastIndex");
+}
+},["int"]), new objj_method(sel_getUid("selectedColumnIndexes"), function $CPTableView__selectedColumnIndexes(self, _cmd)
 { with(self)
 {
     return _selectedColumnIndexes;
@@ -20625,7 +20630,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("shadowWithOffset:blurR
 },["id","CGSize","float","CPColor"])]);
 }
 
-p;15;CPOutlineView.jt;44109;@STATIC;1.0;i;15;CPTableColumn.ji;13;CPTableView.jt;44051;objj_executeFile("CPTableColumn.j", YES);
+p;15;CPOutlineView.jt;44856;@STATIC;1.0;i;15;CPTableColumn.ji;13;CPTableView.jt;44798;objj_executeFile("CPTableColumn.j", YES);
 objj_executeFile("CPTableView.j", YES);
 CPOutlineViewColumnDidMoveNotification = "CPOutlineViewColumnDidMoveNotification";
 CPOutlineViewColumnDidResizeNotification = "CPOutlineViewColumnDidResizeNotification";
@@ -20646,9 +20651,10 @@ var CPOutlineViewDataSource_outlineView_setObjectValue_forTableColumn_byItem_ = 
     CPOutlineViewDataSource_outlineView_writeItems_toPasteboard_ = 1 << 9,
     CPOutlineViewDataSource_outlineView_sortDescriptorsDidChange_ = 1 << 10;
 var CPOutlineViewDelegate_outlineView_dataViewForTableColumn_item_ = 1 << 1,
-    CPOutlineViewDelegate_outlineView_shouldSelectItem_ = 1 << 2;
+    CPOutlineViewDelegate_outlineView_shouldSelectItem_ = 1 << 2,
     CPOutlineViewDelegate_outlineView_heightOfRowByItem_ = 1 << 3,
-    CPOutlineViewDelegate_outlineView_willDisplayView_forTableColumn_item_ = 1 << 4;
+    CPOutlineViewDelegate_outlineView_willDisplayView_forTableColumn_item_ = 1 << 4,
+    CPOutlineViewDelegate_outlineView_isGroupItem_ = 1 << 5;
 CPOutlineViewDropOnItemIndex = -1;
 {var the_class = objj_allocateClassPair(CPTableView, "CPOutlineView"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_outlineViewDataSource"), new objj_ivar("_outlineViewDelegate"), new objj_ivar("_outlineTableColumn"), new objj_ivar("_indentationPerLevel"), new objj_ivar("_indentationMarkerFollowsDataView"), new objj_ivar("_implementedOutlineViewDataSourceMethods"), new objj_ivar("_implementedOutlineViewDelegateMethods"), new objj_ivar("_rootItemInfo"), new objj_ivar("_itemsForRows"), new objj_ivar("_itemInfosForItems"), new objj_ivar("_disclosureControlPrototype"), new objj_ivar("_disclosureControlsForRows"), new objj_ivar("_disclosureControlData"), new objj_ivar("_disclosureControlQueue"), new objj_ivar("_shouldRetargetItem"), new objj_ivar("_retargetedItem"), new objj_ivar("_shouldRetargetChildIndex"), new objj_ivar("_retargedChildIndex")]);
@@ -20937,6 +20943,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
         _implementedOutlineViewDelegateMethods |= CPOutlineViewDelegate_outlineView_heightOfRowByItem_;
     if (objj_msgSend(_outlineViewDelegate, "respondsToSelector:", sel_getUid("outlineView:willDisplayView:forTableColumn:item:")))
         _implementedOutlineViewDelegateMethods |= CPOutlineViewDelegate_outlineView_willDisplayView_forTableColumn_item_;
+    if (objj_msgSend(_outlineViewDelegate, "respondsToSelector:", sel_getUid("outlineView:isGroupItem:")))
+         _implementedOutlineViewDelegateMethods |= CPOutlineViewDelegate_outlineView_isGroupItem_;
     if (objj_msgSend(_outlineViewDelegate, "respondsToSelector:", sel_getUid("outlineViewColumnDidMove:")))
         objj_msgSend(defaultCenter, "addObserver:selector:name:object:", _outlineViewDelegate, sel_getUid("outlineViewColumnDidMove:"), CPOutlineViewColumnDidMoveNotification, self);
     if (objj_msgSend(_outlineViewDelegate, "respondsToSelector:", sel_getUid("outlineViewColumnDidResize:")))
@@ -21336,7 +21344,14 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithOutlineView:"),
         objj_msgSend(_outlineView._outlineViewDelegate, "outlineView:willDisplayView:forTableColumn:item:", _outlineView, aView, aTableColumn, item);
     }
 }
-},["void","CPTableView","id","CPTableColumn","int"])]);
+},["void","CPTableView","id","CPTableColumn","int"]), new objj_method(sel_getUid("tableView:isGroupRow:"), function $_CPOutlineViewTableViewDelegate__tableView_isGroupRow_(self, _cmd, aTableView, row)
+{ with(self)
+{
+    if ((_outlineView._implementedOutlineViewDelegateMethods & CPOutlineViewDelegate_outlineView_isGroupItem_))
+        return objj_msgSend(_outlineView._outlineViewDelegate, "outlineView:isGroupItem:", _outlineView, objj_msgSend(_outlineView, "itemAtRow:", theRow));
+    return NO;
+}
+},["BOOL","CPTableView","int"])]);
 }
 {var the_class = objj_allocateClassPair(CPButton, "CPDisclosureButton"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_angle")]);
