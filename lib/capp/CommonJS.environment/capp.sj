@@ -1,4 +1,4 @@
-@STATIC;1.0;p;6;main.jt;2213;@STATIC;1.0;I;23;Foundation/Foundation.ji;15;Configuration.ji;10;Generate.jt;2131;
+@STATIC;1.0;p;6;main.jt;2234;@STATIC;1.0;I;23;Foundation/Foundation.ji;15;Configuration.ji;10;Generate.jt;2152;
 objj_executeFile("Foundation/Foundation.j",NO);
 objj_executeFile("Configuration.j",YES);
 objj_executeFile("Generate.j",YES);
@@ -13,7 +13,7 @@ var _4=_1[_2];
 switch(_4){
 case "version":
 case "--version":
-return print("capp version 0.8.0");
+return print(require("cappuccino").fullVersionString());
 case "-h":
 case "--help":
 return printUsage();
