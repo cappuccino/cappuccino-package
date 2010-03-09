@@ -384,7 +384,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPEvent"])]);
 }
 
-p;13;CPTableView.jt;126575;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;126432;objj_executeFile("Foundation/CPArray.j", NO);
+p;13;CPTableView.jt;126605;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;126462;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("AppKit/CGGradient.j", NO);
 objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPTableColumn.j", YES);
@@ -876,14 +876,14 @@ _disableAutomaticResizing = newValue;
         {
             var rowIndex = deselectRows[count];
             var view = dataViewsInTableColumn[rowIndex];
-            objj_msgSend(view, "unsetThemeState:", CPThemeStateSelected);
+            objj_msgSend(view, "unsetThemeState:", CPThemeStateHighlighted);
         }
         count = selectRows.length;
         while (count--)
         {
             var rowIndex = selectRows[count];
             var view = dataViewsInTableColumn[rowIndex];
-            objj_msgSend(view, "setThemeState:", CPThemeStateSelected);
+            objj_msgSend(view, "setThemeState:", CPThemeStateHighlighted);
         }
     }
 }
@@ -912,12 +912,12 @@ _disableAutomaticResizing = newValue;
         {
             var rowIndex = selectRows[i],
                 dataView = dataViewsInTableColumn[rowIndex];
-            objj_msgSend(dataView, "unsetThemeState:", CPThemeStateSelected);
+            objj_msgSend(dataView, "unsetThemeState:", CPThemeStateHighlighted);
         }
         if (_headerView)
         {
             var headerView = objj_msgSend(_tableColumns[columnIndex], "headerView");
-            objj_msgSend(headerView, "unsetThemeState:", CPThemeStateSelected);
+            objj_msgSend(headerView, "unsetThemeState:", CPThemeStateHighlighted);
         }
     }
     count = selectColumns.length;
@@ -930,12 +930,12 @@ _disableAutomaticResizing = newValue;
         {
             var rowIndex = selectRows[i],
                 dataView = dataViewsInTableColumn[rowIndex];
-            objj_msgSend(dataView, "setThemeState:", CPThemeStateSelected);
+            objj_msgSend(dataView, "setThemeState:", CPThemeStateHighlighted);
         }
         if (_headerView)
         {
             var headerView = objj_msgSend(_tableColumns[columnIndex], "headerView");
-            objj_msgSend(headerView, "setThemeState:", CPThemeStateSelected);
+            objj_msgSend(headerView, "setThemeState:", CPThemeStateHighlighted);
         }
     }
 }
@@ -1495,9 +1495,9 @@ _disableAutomaticResizing = newValue;
     if (_headerView)
     {
         if (_currentHighlightedTableColumn != nil)
-            objj_msgSend(objj_msgSend(_currentHighlightedTableColumn, "headerView"), "unsetThemeState:", CPThemeStateSelected);
+            objj_msgSend(objj_msgSend(_currentHighlightedTableColumn, "headerView"), "unsetThemeState:", CPThemeStateHighlighted);
         if (aTableColumn != nil)
-            objj_msgSend(objj_msgSend(aTableColumn, "headerView"), "setThemeState:", CPThemeStateSelected);
+            objj_msgSend(objj_msgSend(aTableColumn, "headerView"), "setThemeState:", CPThemeStateHighlighted);
     }
     _currentHighlightedTableColumn = aTableColumn;
 }
@@ -1732,9 +1732,9 @@ _disableAutomaticResizing = newValue;
             objj_msgSend(dataView, "setFrame:", objj_msgSend(self, "frameOfDataViewAtColumn:row:", column, row));
             objj_msgSend(dataView, "setObjectValue:", objj_msgSend(self, "_objectValueForTableColumn:row:", tableColumn, row));
             if (isColumnSelected || objj_msgSend(self, "isRowSelected:", row))
-                objj_msgSend(dataView, "setThemeState:", CPThemeStateSelected);
+                objj_msgSend(dataView, "setThemeState:", CPThemeStateHighlighted);
             else
-                objj_msgSend(dataView, "unsetThemeState:", CPThemeStateSelected);
+                objj_msgSend(dataView, "unsetThemeState:", CPThemeStateHighlighted);
             if (_implementedDelegateMethods & CPTableViewDelegate_tableView_willDisplayView_forTableColumn_row_)
                 objj_msgSend(_delegate, "tableView:willDisplayView:forTableColumn:row:", self, dataView, tableColumn, row);
             if (objj_msgSend(dataView, "superview") !== self)
@@ -3447,7 +3447,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:control:"
 },["void"])]);
 }
 
-p;15;CPTableColumn.jt;15472;@STATIC;1.0;I;25;Foundation/CPDictionary.jI;21;Foundation/CPObject.jI;29;Foundation/CPSortDescriptor.jI;21;Foundation/CPString.ji;19;CPTableHeaderView.jt;15312;objj_executeFile("Foundation/CPDictionary.j", NO);
+p;15;CPTableColumn.jt;15478;@STATIC;1.0;I;25;Foundation/CPDictionary.jI;21;Foundation/CPObject.jI;29;Foundation/CPSortDescriptor.jI;21;Foundation/CPString.ji;19;CPTableHeaderView.jt;15318;objj_executeFile("Foundation/CPDictionary.j", NO);
 objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("Foundation/CPSortDescriptor.j", NO);
 objj_executeFile("Foundation/CPString.j", NO);
@@ -3492,8 +3492,8 @@ _disableResizingPosting = newValue;
         var textDataView = objj_msgSend(CPTextField, "new");
         objj_msgSend(textDataView, "setLineBreakMode:", CPLineBreakByTruncatingTail);
         objj_msgSend(textDataView, "setValue:forThemeAttribute:", objj_msgSend(CPColor, "colorWithHexString:", "333333"), "text-color");
-        objj_msgSend(textDataView, "setValue:forThemeAttribute:inState:", objj_msgSend(CPColor, "whiteColor"), "text-color", CPThemeStateSelected);
-        objj_msgSend(textDataView, "setValue:forThemeAttribute:inState:", objj_msgSend(CPFont, "boldSystemFontOfSize:", 12), "font", CPThemeStateSelected);
+        objj_msgSend(textDataView, "setValue:forThemeAttribute:inState:", objj_msgSend(CPColor, "whiteColor"), "text-color", CPThemeStateHighlighted);
+        objj_msgSend(textDataView, "setValue:forThemeAttribute:inState:", objj_msgSend(CPFont, "boldSystemFontOfSize:", 12), "font", CPThemeStateHighlighted);
         objj_msgSend(textDataView, "setValue:forThemeAttribute:", CPCenterVerticalTextAlignment, "vertical-alignment");
         objj_msgSend(self, "setDataView:", textDataView);
     }
@@ -8499,9 +8499,10 @@ CPThemeAttributeDecode= function(aCoder, anAttributeName, aDefaultValue, aTheme,
     return attribute;
 }
 
-p;19;CPTableHeaderView.jt;20473;@STATIC;1.0;i;15;CPTableColumn.ji;13;CPTableView.ji;8;CPView.jt;20403;objj_executeFile("CPTableColumn.j", YES);
+p;19;CPTableHeaderView.jt;20514;@STATIC;1.0;i;15;CPTableColumn.ji;13;CPTableView.ji;8;CPView.jt;20444;objj_executeFile("CPTableColumn.j", YES);
 objj_executeFile("CPTableView.j", YES);
 objj_executeFile("CPView.j", YES);
+var CPThemeStatePressed = CPThemeState("pressed");
 {var the_class = objj_allocateClassPair(CPView, "_CPTableColumnHeaderView"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_textField")]);
 objj_registerClassPair(the_class);
@@ -8533,11 +8534,11 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 { with(self)
 {
     var themeState = objj_msgSend(self, "themeState");
-    if(themeState & CPThemeStateSelected && themeState & CPThemeStateHighlighted)
+    if(themeState & CPThemeStateHighlighted && themeState & CPThemeStatePressed)
         objj_msgSend(self, "setBackgroundColor:", objj_msgSend(CPColor, "colorWithPatternImage:", CPAppKitImage("tableview-headerview-highlighted-pressed.png", CGSizeMake(1.0, 22.0))));
-    else if (themeState & CPThemeStateSelected)
-        objj_msgSend(self, "setBackgroundColor:", objj_msgSend(CPColor, "colorWithPatternImage:", CPAppKitImage("tableview-headerview-highlighted.png", CGSizeMake(1.0, 22.0))));
     else if (themeState & CPThemeStateHighlighted)
+        objj_msgSend(self, "setBackgroundColor:", objj_msgSend(CPColor, "colorWithPatternImage:", CPAppKitImage("tableview-headerview-highlighted.png", CGSizeMake(1.0, 22.0))));
+    else if (themeState & CPThemeStatePressed)
         objj_msgSend(self, "setBackgroundColor:", objj_msgSend(CPColor, "colorWithPatternImage:", CPAppKitImage("tableview-headerview-pressed.png", CGSizeMake(1.0, 22.0))));
     else
         objj_msgSend(self, "setBackgroundColor:", objj_msgSend(CPColor, "colorWithPatternImage:", CPAppKitImage("tableview-headerview.png", CGSizeMake(1.0, 22.0))));
@@ -8703,12 +8704,12 @@ _tableView = newValue;
     if (_pressedColumn != -1)
     {
         var headerView = objj_msgSend(_tableView._tableColumns[_pressedColumn], "headerView");
-        objj_msgSend(headerView, "unsetThemeState:", CPThemeStateHighlighted);
+        objj_msgSend(headerView, "unsetThemeState:", CPThemeStatePressed);
     }
     if (column != -1)
     {
         var headerView = objj_msgSend(_tableView._tableColumns[column], "headerView");
-        objj_msgSend(headerView, "setThemeState:", CPThemeStateHighlighted);
+        objj_msgSend(headerView, "setThemeState:", CPThemeStatePressed);
     }
     _pressedColumn = column;
 }
