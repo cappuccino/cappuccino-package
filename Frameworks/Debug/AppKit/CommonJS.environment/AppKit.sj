@@ -384,7 +384,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPEvent"])]);
 }
 
-p;13;CPTableView.jt;126555;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;126412;objj_executeFile("Foundation/CPArray.j", NO);
+p;13;CPTableView.jt;126559;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;126416;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("AppKit/CGGradient.j", NO);
 objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPTableColumn.j", YES);
@@ -420,22 +420,22 @@ var CPTableViewDelegate_selectionShouldChangeInTableView_ = 1 << 0,
     CPTableViewDelegate_tableView_willDisplayView_forTableColumn_row_ = 1 << 17,
     CPTableViewDelegate_tableViewSelectionDidChange_ = 1 << 18,
     CPTableViewDelegate_tableViewSelectionIsChanging_ = 1 << 19;
-CPTableViewDraggingDestinationFeedbackStyleNone = -1,
-CPTableViewDraggingDestinationFeedbackStyleRegular = 0,
+CPTableViewDraggingDestinationFeedbackStyleNone = -1;
+CPTableViewDraggingDestinationFeedbackStyleRegular = 0;
 CPTableViewDraggingDestinationFeedbackStyleSourceList = 1;
-CPTableViewDropOn = 0,
+CPTableViewDropOn = 0;
 CPTableViewDropAbove = 1;
-CPTableViewSelectionHighlightStyleNone = -1,
-CPTableViewSelectionHighlightStyleRegular = 0,
+CPTableViewSelectionHighlightStyleNone = -1;
+CPTableViewSelectionHighlightStyleRegular = 0;
 CPTableViewSelectionHighlightStyleSourceList = 1;
 CPTableViewGridNone = 0;
 CPTableViewSolidVerticalGridLineMask = 1 << 0;
 CPTableViewSolidHorizontalGridLineMask = 1 << 1;
-CPTableViewNoColumnAutoresizing = 0,
-CPTableViewUniformColumnAutoresizingStyle = 1,
-CPTableViewSequentialColumnAutoresizingStyle = 2,
-CPTableViewReverseSequentialColumnAutoresizingStyle = 3,
-CPTableViewLastColumnOnlyAutoresizingStyle = 4,
+CPTableViewNoColumnAutoresizing = 0;
+CPTableViewUniformColumnAutoresizingStyle = 1;
+CPTableViewSequentialColumnAutoresizingStyle = 2;
+CPTableViewReverseSequentialColumnAutoresizingStyle = 3;
+CPTableViewLastColumnOnlyAutoresizingStyle = 4;
 CPTableViewFirstColumnOnlyAutoresizingStyle = 5;
 {var the_class = objj_allocateClassPair(CPView, "_CPTableDrawView"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_tableView")]);
@@ -1665,7 +1665,7 @@ _disableAutomaticResizing = newValue;
     _exposedColumns = exposedColumns;
     objj_msgSend(_tableDrawView, "setFrame:", exposedRect);
     objj_msgSend(_tableDrawView, "display");
-    for (identifier in _cachedDataViews)
+    for (var identifier in _cachedDataViews)
     {
         var dataViews = _cachedDataViews[identifier],
             count = dataViews.length;
