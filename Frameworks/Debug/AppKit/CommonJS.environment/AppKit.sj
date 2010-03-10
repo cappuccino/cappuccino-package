@@ -384,7 +384,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPEvent"])]);
 }
 
-p;13;CPTableView.jt;126575;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;126432;objj_executeFile("Foundation/CPArray.j", NO);
+p;13;CPTableView.jt;126652;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;126509;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("AppKit/CGGradient.j", NO);
 objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPTableColumn.j", YES);
@@ -1794,9 +1794,10 @@ _disableAutomaticResizing = newValue;
 { with(self)
 {
     objj_msgSend(_dataSource, "tableView:setObjectValue:forTableColumn:row:", self, objj_msgSend(sender, "objectValue"), sender.tableViewEditedColumnObj, sender.tableViewEditedRowIndex);
-    objj_msgSend(sender, "setEditable:", NO);
+    if (objj_msgSend(sender, "respondsToSelector:", sel_getUid("setEditable:")))
+        objj_msgSend(sender, "setEditable:", NO);
 }
-},["void","CPTextView"]), new objj_method(sel_getUid("_newDataViewForRow:tableColumn:"), function $CPTableView___newDataViewForRow_tableColumn_(self, _cmd, aRow, aTableColumn)
+},["void","id"]), new objj_method(sel_getUid("_newDataViewForRow:tableColumn:"), function $CPTableView___newDataViewForRow_tableColumn_(self, _cmd, aRow, aTableColumn)
 { with(self)
 {
     if ((_implementedDelegateMethods & CPTableViewDelegate_tableView_dataViewForTableColumn_row_))

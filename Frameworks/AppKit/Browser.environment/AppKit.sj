@@ -440,7 +440,7 @@ with(_26){
 objj_msgSend(objj_msgSend(objj_msgSend(_26,"window"),"platformWindow"),"_propagateCurrentDOMEvent:",YES);
 }
 })]);
-p;13;CPTableView.jt;85566;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;85424;
+p;13;CPTableView.jt;85641;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;85499;
 objj_executeFile("Foundation/CPArray.j",NO);
 objj_executeFile("AppKit/CGGradient.j",NO);
 objj_executeFile("CPControl.j",YES);
@@ -1715,7 +1715,9 @@ objj_msgSend(_1c2,"setFrame:",objj_msgSend(self,"frameOfDataViewAtColumn:row:",_
 }),new objj_method(sel_getUid("_commitDataViewObjectValue:"),function(self,_1c3,_1c4){
 with(self){
 objj_msgSend(_dataSource,"tableView:setObjectValue:forTableColumn:row:",self,objj_msgSend(_1c4,"objectValue"),_1c4.tableViewEditedColumnObj,_1c4.tableViewEditedRowIndex);
+if(objj_msgSend(_1c4,"respondsToSelector:",sel_getUid("setEditable:"))){
 objj_msgSend(_1c4,"setEditable:",NO);
+}
 }
 }),new objj_method(sel_getUid("_newDataViewForRow:tableColumn:"),function(self,_1c5,aRow,_1c6){
 with(self){
