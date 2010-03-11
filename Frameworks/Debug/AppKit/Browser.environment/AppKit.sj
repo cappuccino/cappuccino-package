@@ -29070,7 +29070,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("initialize"), function
 },["void"])]);
 }
 
-p;18;CPPlatformString.jt;3818;@STATIC;1.0;I;21;Foundation/CPObject.jt;3773;objj_executeFile("Foundation/CPObject.j", NO);
+p;18;CPPlatformString.jt;4016;@STATIC;1.0;I;21;Foundation/CPObject.jt;3971;objj_executeFile("Foundation/CPObject.j", NO);
 {var the_class = objj_allocateClassPair(CPObject, "CPBasePlatformString"),
 meta_class = the_class.isa;objj_registerClassPair(the_class);
 class_addMethods(meta_class, [new objj_method(sel_getUid("bootstrap"), function $CPBasePlatformString__bootstrap(self, _cmd)
@@ -29119,10 +29119,13 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("bootstrap"), function 
     DOMIFrameDocument.body.appendChild(DOMDivElement);
     DOMSpanElement = DOMIFrameDocument.createElement("span");
     DOMSpanElement.style.position = "absolute";
-    DOMSpanElement.style.whiteSpace = "pre";
     DOMSpanElement.style.visibility = "visible";
     DOMSpanElement.style.padding = "0px";
     DOMSpanElement.style.margin = "0px";
+    try {
+        DOMSpanElement.style.whiteSpace = "pre";
+    }
+    catch (e) {}
     DOMDivElement.appendChild(DOMSpanElement);
 }
 },["void"]), new objj_method(sel_getUid("sizeOfString:withFont:forWidth:"), function $CPPlatformString__sizeOfString_withFont_forWidth_(self, _cmd, aString, aFont, aWidth)
@@ -29140,16 +29143,25 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("bootstrap"), function 
     if (!aWidth)
     {
         style.width = "";
-        style.whiteSpace = "pre";
+        try {
+            style.whiteSpace = "pre";
+        }
+        catch (e) {}
+        style.wordWrap = "normal";
     }
     else
     {
         style.width = ROUND(aWidth) + "px";
+        try
+        {
+            style.whiteSpace = "-o-pre-wrap";
+            style.whiteSpace = "-pre-wrap";
+            style.whiteSpace = "-moz-pre-wrap";
+            style.whiteSpace = "pre-wrap";
+        } catch(e)
+        {
+        }
         style.wordWrap = "break-word";
-        style.whiteSpace = "-o-pre-wrap";
-        style.whiteSpace = "-pre-wrap";
-        style.whiteSpace = "-moz-pre-wrap";
-        style.whiteSpace = "pre-wrap";
     }
     style.font = objj_msgSend(aFont, "cssString");
     if (CPFeatureIsCompatible(CPJavascriptInnerTextFeature))
