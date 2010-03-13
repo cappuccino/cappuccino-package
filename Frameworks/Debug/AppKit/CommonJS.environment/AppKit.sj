@@ -3776,7 +3776,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["id","int"])]);
 }
 
-p;15;CPSearchField.jt;26806;@STATIC;1.0;i;13;CPTextField.jt;26768;objj_executeFile("CPTextField.j", YES);
+p;15;CPSearchField.jt;26059;@STATIC;1.0;i;13;CPTextField.jt;26021;objj_executeFile("CPTextField.j", YES);
 CPSearchFieldRecentsTitleMenuItemTag = 1000;
 CPSearchFieldRecentsMenuItemTag = 1001;
 CPSearchFieldClearRecentsMenuItemTag = 1002;
@@ -3791,46 +3791,35 @@ objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), function $CPSearchField__initWithFrame_(self, _cmd, frame)
 { with(self)
 {
-    self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPSearchField").super_class }, "initWithFrame:", frame);
-    if (self != nil)
+    if (self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPSearchField").super_class }, "initWithFrame:", frame))
     {
         _recentSearches = objj_msgSend(CPArray, "array");
         _maximumRecents = 10;
         _sendsWholeSearchString = NO;
         _sendsSearchStringImmediately = NO;
         _recentsAutosaveName = nil;
-        objj_msgSend(self, "setBezeled:", YES);
-        objj_msgSend(self, "setBezelStyle:", CPTextFieldRoundedBezel);
-        objj_msgSend(self, "setBordered:", YES);
-        objj_msgSend(self, "setEditable:", YES);
-        objj_msgSend(self, "setDelegate:", self);
-        _cancelButton = objj_msgSend(objj_msgSend(CPButton, "alloc"), "initWithFrame:", CPMakeRect(frame.size.width - 27,(frame.size.height-22)/2,22,22));
-        objj_msgSend(self, "resetCancelButton");
-        objj_msgSend(_cancelButton, "setHidden:", YES);
-        objj_msgSend(_cancelButton, "setAutoresizingMask:", CPViewMinXMargin);
-        objj_msgSend(self, "addSubview:", _cancelButton);
-        _searchButton = objj_msgSend(objj_msgSend(CPButton, "alloc"), "initWithFrame:", CPMakeRect(5,(frame.size.height-25)/2,25,25));
-        objj_msgSend(self, "resetSearchButton");
-        objj_msgSend(self, "addSubview:", _searchButton);
+        objj_msgSend(self, "_initWithFrame:", frame);
     }
     return self;
 }
-},["id","CPRect"]), new objj_method(sel_getUid("copy"), function $CPSearchField__copy(self, _cmd)
+},["id","CGRect"]), new objj_method(sel_getUid("_initWithFrame:"), function $CPSearchField___initWithFrame_(self, _cmd, frame)
 { with(self)
 {
-    var copy = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPSearchField").super_class }, "copy");
-    objj_msgSend(copy, "setCancelButton:", objj_msgSend(_cancelButton, "copy"));
-    objj_msgSend(copy, "setSearchButton:", objj_msgSend(_searchButton, "copy"));
-    objj_msgSend(copy, "setSendsWholeSearchString:", objj_msgSend(_sendsWholeSearchString, "copy"));
-    objj_msgSend(copy, "setSendsSearchStringImmediately:", objj_msgSend(_sendsSearchStringImmediately, "copy"));
-    objj_msgSend(copy, "setMaximumRecents:", _maximumRecents);
-    if (_recentsAutosaveName)
-        objj_msgSend(copy, "setrecentsAutosaveName:", objj_msgSend(_recentsAutosaveName, "copy"));
-    if (_searchMenuTemplate)
-        objj_msgSend(copy, "setSearchMenutemplate:", objj_msgSend(_searchMenuTemplate, "copy"));
-    return copy;
+    objj_msgSend(self, "setBezeled:", YES);
+    objj_msgSend(self, "setBezelStyle:", CPTextFieldRoundedBezel);
+    objj_msgSend(self, "setBordered:", YES);
+    objj_msgSend(self, "setEditable:", YES);
+    objj_msgSend(self, "setDelegate:", self);
+    _cancelButton = objj_msgSend(objj_msgSend(CPButton, "alloc"), "initWithFrame:", CPMakeRect(frame.size.width - 27,(frame.size.height-22)/2,22,22));
+    objj_msgSend(self, "resetCancelButton");
+    objj_msgSend(_cancelButton, "setHidden:", YES);
+    objj_msgSend(_cancelButton, "setAutoresizingMask:", CPViewMinXMargin);
+    objj_msgSend(self, "addSubview:", _cancelButton);
+    _searchButton = objj_msgSend(objj_msgSend(CPButton, "alloc"), "initWithFrame:", CPMakeRect(5,(frame.size.height-25)/2,25,25));
+    objj_msgSend(self, "resetSearchButton");
+    objj_msgSend(self, "addSubview:", _searchButton);
 }
-},["id"]), new objj_method(sel_getUid("setSearchButton:"), function $CPSearchField__setSearchButton_(self, _cmd, button)
+},["void","CGRect"]), new objj_method(sel_getUid("setSearchButton:"), function $CPSearchField__setSearchButton_(self, _cmd, button)
 { with(self)
 {
     _searchButton = button;
@@ -4268,17 +4257,19 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"]), new objj_method(sel_getUid("initWithCoder:"), function $CPSearchField__initWithCoder_(self, _cmd, coder)
 { with(self)
 {
-    self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPSearchField").super_class }, "initWithCoder:", coder);
-    _searchButton = objj_msgSend(coder, "decodeObjectForKey:", CPSearchButtonKey);
-    _cancelButton = objj_msgSend(coder, "decodeObjectForKey:", CPCancelButtonKey);
-    _recentsAutosaveName = objj_msgSend(coder, "decodeObjectForKey:", CPRecentsAutosaveNameKey);
-    _sendsWholeSearchString = objj_msgSend(coder, "decodeBoolForKey:", CPSendsWholeSearchStringKey);
-    _sendsSearchStringImmediately = objj_msgSend(coder, "decodeBoolForKey:", CPSendsSearchStringImmediatelyKey);
-    _maximumRecents = objj_msgSend(coder, "decodeIntForKey:", CPMaximumRecentsKey);
-    var template = objj_msgSend(coder, "decodeObjectForKey:", CPSearchMenuTemplateKey);
-    if (template)
-        objj_msgSend(self, "setSearchMenuTemplate:", template);
-    objj_msgSend(self, "setDelegate:", self);
+    if (self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPSearchField").super_class }, "initWithCoder:", coder))
+    {
+        _searchButton = objj_msgSend(coder, "decodeObjectForKey:", CPSearchButtonKey);
+        _cancelButton = objj_msgSend(coder, "decodeObjectForKey:", CPCancelButtonKey);
+        _recentsAutosaveName = objj_msgSend(coder, "decodeObjectForKey:", CPRecentsAutosaveNameKey);
+        _sendsWholeSearchString = objj_msgSend(coder, "decodeBoolForKey:", CPSendsWholeSearchStringKey);
+        _sendsSearchStringImmediately = objj_msgSend(coder, "decodeBoolForKey:", CPSendsSearchStringImmediatelyKey);
+        _maximumRecents = objj_msgSend(coder, "decodeIntForKey:", CPMaximumRecentsKey);
+        var template = objj_msgSend(coder, "decodeObjectForKey:", CPSearchMenuTemplateKey);
+        if (template)
+            objj_msgSend(self, "setSearchMenuTemplate:", template);
+        objj_msgSend(self, "setDelegate:", self);
+    }
     return self;
 }
 },["id","CPCoder"])]);

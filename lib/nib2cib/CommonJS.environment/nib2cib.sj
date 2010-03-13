@@ -344,7 +344,7 @@ with(_1f){
 return objj_msgSend(_CPSegmentItem,"class");
 }
 })]);
-p;15;NSSearchField.jt;1028;@STATIC;1.0;I;22;AppKit/CPSearchField.ji;13;NSTextField.jt;965;
+p;15;NSSearchField.jt;1097;@STATIC;1.0;I;22;AppKit/CPSearchField.ji;13;NSTextField.jt;1033;
 objj_executeFile("AppKit/CPSearchField.j",NO);
 objj_executeFile("NSTextField.j",YES);
 var _1=objj_getClass("CPSearchField");
@@ -364,7 +364,9 @@ var _1=objj_allocateClassPair(CPSearchField,"NSSearchField"),_2=_1.isa;
 objj_registerClassPair(_1);
 class_addMethods(_1,[new objj_method(sel_getUid("initWithCoder:"),function(_6,_7,_8){
 with(_6){
-return objj_msgSend(_6,"NS_initWithCoder:",_8);
+_6=objj_msgSend(_6,"NS_initWithCoder:",_8);
+objj_msgSend(_6,"_initWithFrame:",objj_msgSend(_6,"frame"));
+return _6;
 }
 }),new objj_method(sel_getUid("classForKeyedArchiver"),function(_9,_a){
 with(_9){

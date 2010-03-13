@@ -3625,7 +3625,7 @@ with(_7d){
 objj_msgSend(CPException,"raise:reason:",CPUnsupportedMethodException,"dataCellForRow: is not supported. Use -dataViewForRow:row instead.");
 }
 })]);
-p;15;CPSearchField.jt;19494;@STATIC;1.0;i;13;CPTextField.jt;19456;
+p;15;CPSearchField.jt;18810;@STATIC;1.0;i;13;CPTextField.jt;18772;
 objj_executeFile("CPTextField.j",YES);
 CPSearchFieldRecentsTitleMenuItemTag=1000;
 CPSearchFieldRecentsMenuItemTag=1001;
@@ -3637,46 +3637,33 @@ class_addIvars(_5,[new objj_ivar("_searchButton"),new objj_ivar("_cancelButton")
 objj_registerClassPair(_5);
 class_addMethods(_5,[new objj_method(sel_getUid("initWithFrame:"),function(_7,_8,_9){
 with(_7){
-_7=objj_msgSendSuper({receiver:_7,super_class:objj_getClass("CPSearchField").super_class},"initWithFrame:",_9);
-if(_7!=nil){
+if(_7=objj_msgSendSuper({receiver:_7,super_class:objj_getClass("CPSearchField").super_class},"initWithFrame:",_9)){
 _recentSearches=objj_msgSend(CPArray,"array");
 _maximumRecents=10;
 _sendsWholeSearchString=NO;
 _sendsSearchStringImmediately=NO;
 _recentsAutosaveName=nil;
-objj_msgSend(_7,"setBezeled:",YES);
-objj_msgSend(_7,"setBezelStyle:",CPTextFieldRoundedBezel);
-objj_msgSend(_7,"setBordered:",YES);
-objj_msgSend(_7,"setEditable:",YES);
-objj_msgSend(_7,"setDelegate:",_7);
-_cancelButton=objj_msgSend(objj_msgSend(CPButton,"alloc"),"initWithFrame:",CPMakeRect(_9.size.width-27,(_9.size.height-22)/2,22,22));
-objj_msgSend(_7,"resetCancelButton");
-objj_msgSend(_cancelButton,"setHidden:",YES);
-objj_msgSend(_cancelButton,"setAutoresizingMask:",CPViewMinXMargin);
-objj_msgSend(_7,"addSubview:",_cancelButton);
-_searchButton=objj_msgSend(objj_msgSend(CPButton,"alloc"),"initWithFrame:",CPMakeRect(5,(_9.size.height-25)/2,25,25));
-objj_msgSend(_7,"resetSearchButton");
-objj_msgSend(_7,"addSubview:",_searchButton);
+objj_msgSend(_7,"_initWithFrame:",_9);
 _cancelButton._DOMElement.style.cursor="default";
 _searchButton._DOMElement.style.cursor="default";
 }
 return _7;
 }
-}),new objj_method(sel_getUid("copy"),function(_a,_b){
+}),new objj_method(sel_getUid("_initWithFrame:"),function(_a,_b,_c){
 with(_a){
-var _c=objj_msgSendSuper({receiver:_a,super_class:objj_getClass("CPSearchField").super_class},"copy");
-objj_msgSend(_c,"setCancelButton:",objj_msgSend(_cancelButton,"copy"));
-objj_msgSend(_c,"setSearchButton:",objj_msgSend(_searchButton,"copy"));
-objj_msgSend(_c,"setSendsWholeSearchString:",objj_msgSend(_sendsWholeSearchString,"copy"));
-objj_msgSend(_c,"setSendsSearchStringImmediately:",objj_msgSend(_sendsSearchStringImmediately,"copy"));
-objj_msgSend(_c,"setMaximumRecents:",_maximumRecents);
-if(_recentsAutosaveName){
-objj_msgSend(_c,"setrecentsAutosaveName:",objj_msgSend(_recentsAutosaveName,"copy"));
-}
-if(_searchMenuTemplate){
-objj_msgSend(_c,"setSearchMenutemplate:",objj_msgSend(_searchMenuTemplate,"copy"));
-}
-return _c;
+objj_msgSend(_a,"setBezeled:",YES);
+objj_msgSend(_a,"setBezelStyle:",CPTextFieldRoundedBezel);
+objj_msgSend(_a,"setBordered:",YES);
+objj_msgSend(_a,"setEditable:",YES);
+objj_msgSend(_a,"setDelegate:",_a);
+_cancelButton=objj_msgSend(objj_msgSend(CPButton,"alloc"),"initWithFrame:",CPMakeRect(_c.size.width-27,(_c.size.height-22)/2,22,22));
+objj_msgSend(_a,"resetCancelButton");
+objj_msgSend(_cancelButton,"setHidden:",YES);
+objj_msgSend(_cancelButton,"setAutoresizingMask:",CPViewMinXMargin);
+objj_msgSend(_a,"addSubview:",_cancelButton);
+_searchButton=objj_msgSend(objj_msgSend(CPButton,"alloc"),"initWithFrame:",CPMakeRect(5,(_c.size.height-25)/2,25,25));
+objj_msgSend(_a,"resetSearchButton");
+objj_msgSend(_a,"addSubview:",_searchButton);
 }
 }),new objj_method(sel_getUid("setSearchButton:"),function(_d,_e,_f){
 with(_d){
@@ -4055,7 +4042,7 @@ objj_msgSend(_b0,"encodeObject:forKey:",_searchMenuTemplate,_ad);
 }
 }),new objj_method(sel_getUid("initWithCoder:"),function(_b1,_b2,_b3){
 with(_b1){
-_b1=objj_msgSendSuper({receiver:_b1,super_class:objj_getClass("CPSearchField").super_class},"initWithCoder:",_b3);
+if(_b1=objj_msgSendSuper({receiver:_b1,super_class:objj_getClass("CPSearchField").super_class},"initWithCoder:",_b3)){
 _searchButton=objj_msgSend(_b3,"decodeObjectForKey:",_a7);
 _cancelButton=objj_msgSend(_b3,"decodeObjectForKey:",_a8);
 _recentsAutosaveName=objj_msgSend(_b3,"decodeObjectForKey:",_a9);
@@ -4067,6 +4054,7 @@ if(_b4){
 objj_msgSend(_b1,"setSearchMenuTemplate:",_b4);
 }
 objj_msgSend(_b1,"setDelegate:",_b1);
+}
 return _b1;
 }
 })]);
