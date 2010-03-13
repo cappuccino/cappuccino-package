@@ -4105,7 +4105,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["id","int"])]);
 }
 
-p;15;CPSearchField.jt;26179;@STATIC;1.0;i;13;CPTextField.jt;26141;objj_executeFile("CPTextField.j", YES);
+p;15;CPSearchField.jt;26199;@STATIC;1.0;i;13;CPTextField.jt;26161;objj_executeFile("CPTextField.j", YES);
 CPSearchFieldRecentsTitleMenuItemTag = 1000;
 CPSearchFieldRecentsMenuItemTag = 1001;
 CPSearchFieldClearRecentsMenuItemTag = 1002;
@@ -4141,12 +4141,12 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     objj_msgSend(self, "setBordered:", YES);
     objj_msgSend(self, "setEditable:", YES);
     objj_msgSend(self, "setDelegate:", self);
-    _cancelButton = objj_msgSend(objj_msgSend(CPButton, "alloc"), "initWithFrame:", CPMakeRect(frame.size.width - 27,(frame.size.height-22)/2,22,22));
+    _cancelButton = objj_msgSend(objj_msgSend(CPButton, "alloc"), "initWithFrame:", CGRectMake(frame.size.width - 27,(frame.size.height-22)/2,22,22));
     objj_msgSend(self, "resetCancelButton");
     objj_msgSend(_cancelButton, "setHidden:", YES);
     objj_msgSend(_cancelButton, "setAutoresizingMask:", CPViewMinXMargin);
     objj_msgSend(self, "addSubview:", _cancelButton);
-    _searchButton = objj_msgSend(objj_msgSend(CPButton, "alloc"), "initWithFrame:", CPMakeRect(5,(frame.size.height-25)/2,25,25));
+    _searchButton = objj_msgSend(objj_msgSend(CPButton, "alloc"), "initWithFrame:", CGRectMake(5,(frame.size.height-25)/2,25,25));
     objj_msgSend(self, "resetSearchButton");
     objj_msgSend(self, "addSubview:", _searchButton);
 }
@@ -4549,10 +4549,10 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("initialize"), function
     if (self != objj_msgSend(CPSearchField, "class"))
         return;
     var bundle = objj_msgSend(CPBundle, "bundleForClass:", self);
-    CPSearchFieldSearchImage = objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:", objj_msgSend(bundle, "pathForResource:", "CPSearchField/CPSearchFieldSearch.png"));
-    CPSearchFieldFindImage = objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:", objj_msgSend(bundle, "pathForResource:", "CPSearchField/CPSearchFieldFind.png"));
-    CPSearchFieldCancelImage = objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:", objj_msgSend(bundle, "pathForResource:", "CPSearchField/CPSearchFieldCancel.png"));
-    CPSearchFieldCancelPressedImage = objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:", objj_msgSend(bundle, "pathForResource:", "CPSearchField/CPSearchFieldCancelPressed.png"));
+    CPSearchFieldSearchImage = objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(bundle, "pathForResource:", "CPSearchField/CPSearchFieldSearch.png"), CGSizeMake(25, 22));
+    CPSearchFieldFindImage = objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(bundle, "pathForResource:", "CPSearchField/CPSearchFieldFind.png"), CGSizeMake(25, 22));
+    CPSearchFieldCancelImage = objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(bundle, "pathForResource:", "CPSearchField/CPSearchFieldCancel.png"), CGSizeMake(22, 22));
+    CPSearchFieldCancelPressedImage = objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(bundle, "pathForResource:", "CPSearchField/CPSearchFieldCancelPressed.png"), CGSizeMake(22, 22));
 }
 },["void"]), new objj_method(sel_getUid("_keyboardDelayForPartialSearchString:"), function $CPSearchField___keyboardDelayForPartialSearchString_(self, _cmd, string)
 { with(self)
@@ -4561,9 +4561,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("initialize"), function
 }
 },["double","CPString"])]);
 }
-var CPSearchButtonKey = "CPSearchButtonKey",
-    CPCancelButtonKey = "CPCancelButtonKey",
-    CPRecentsAutosaveNameKey = "CPRecentsAutosaveNameKey",
+var CPRecentsAutosaveNameKey = "CPRecentsAutosaveNameKey",
     CPSendsWholeSearchStringKey = "CPSendsWholeSearchStringKey",
     CPSendsSearchStringImmediatelyKey = "CPSendsSearchStringImmediatelyKey",
     CPMaximumRecentsKey = "CPMaximumRecentsKey",
@@ -4574,9 +4572,13 @@ if(!the_class) throw new SyntaxError("*** Could not find definition for class \"
 var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_getUid("encodeWithCoder:"), function $CPSearchField__encodeWithCoder_(self, _cmd, coder)
 { with(self)
 {
+    objj_msgSend(_searchButton, "removeFromSuperview");
+    objj_msgSend(_cancelButton, "removeFromSuperview");
     objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPSearchField").super_class }, "encodeWithCoder:", coder);
-    objj_msgSend(coder, "encodeObject:forKey:", _searchButton, CPSearchButtonKey);
-    objj_msgSend(coder, "encodeObject:forKey:", _cancelButton, CPCancelButtonKey);
+    if (_searchButton)
+        objj_msgSend(self, "addSubview:", _searchButton);
+    if (_cancelButton)
+        objj_msgSend(self, "addSubview:", _cancelButton);
     objj_msgSend(coder, "encodeBool:forKey:", _sendsWholeSearchString, CPSendsWholeSearchStringKey);
     objj_msgSend(coder, "encodeBool:forKey:", _sendsSearchStringImmediately, CPSendsSearchStringImmediatelyKey);
     objj_msgSend(coder, "encodeInt:forKey:", _maximumRecents, CPMaximumRecentsKey);
@@ -4590,8 +4592,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 {
     if (self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPSearchField").super_class }, "initWithCoder:", coder))
     {
-        _searchButton = objj_msgSend(coder, "decodeObjectForKey:", CPSearchButtonKey);
-        _cancelButton = objj_msgSend(coder, "decodeObjectForKey:", CPCancelButtonKey);
+        objj_msgSend(self, "_initWithFrame:", objj_msgSend(self, "frame"));
         _recentsAutosaveName = objj_msgSend(coder, "decodeObjectForKey:", CPRecentsAutosaveNameKey);
         _sendsWholeSearchString = objj_msgSend(coder, "decodeBoolForKey:", CPSendsWholeSearchStringKey);
         _sendsSearchStringImmediately = objj_msgSend(coder, "decodeBoolForKey:", CPSendsSearchStringImmediatelyKey);
