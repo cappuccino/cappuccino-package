@@ -28248,7 +28248,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("visiblePlatformWindows
 },["void","CPPlatformWindow"])]);
 }
 
-p;22;CPPlatformWindow+DOM.jt;47268;@STATIC;1.0;I;21;Foundation/CPObject.jI;22;Foundation/CPRunLoop.ji;9;CPEvent.ji;17;CPCompatibility.ji;18;CPDOMWindowLayer.ji;12;CPPlatform.ji;18;CPPlatformWindow.ji;26;CPPlatformWindow+DOMKeys.jt;47066;objj_executeFile("Foundation/CPObject.j", NO);
+p;22;CPPlatformWindow+DOM.jt;47818;@STATIC;1.0;I;21;Foundation/CPObject.jI;22;Foundation/CPRunLoop.ji;9;CPEvent.ji;17;CPCompatibility.ji;18;CPDOMWindowLayer.ji;12;CPPlatform.ji;18;CPPlatformWindow.ji;26;CPPlatformWindow+DOMKeys.jt;47616;objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("Foundation/CPRunLoop.j", NO);
 objj_executeFile("CPEvent.j", YES);
 objj_executeFile("CPCompatibility.j", YES);
@@ -28260,6 +28260,7 @@ var PlatformWindows = objj_msgSend(CPSet, "set");
 var CPDOMEventGetClickCount,
     CPDOMEventStop,
     StopDOMEventPropagation;
+var _DOMEventGuard;
 var KeyCodesToPrevent = {},
     CharacterKeysToPrevent = {},
     MozKeyCodeToKeyCodeMap = {
@@ -28351,6 +28352,16 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
     _DOMPasteboardElement.className = "cpdontremove";
     _DOMBodyElement.appendChild(_DOMPasteboardElement);
     _DOMPasteboardElement.blur();
+    _DOMEventGuard = theDocument.createElement("div");
+    _DOMEventGuard.style.position = "absolute";
+    _DOMEventGuard.style.top = "0px";
+    _DOMEventGuard.style.left = "0px";
+    _DOMEventGuard.style.width = "100%";
+    _DOMEventGuard.style.height = "100%";
+    _DOMEventGuard.style.zIndex = "999";
+    _DOMEventGuard.style.display = "none";
+    _DOMEventGuard.className = "cpdontremove";
+    _DOMBodyElement.appendChild(_DOMEventGuard);
 }
 },["void"]), new objj_method(sel_getUid("registerDOMWindow"), function $CPPlatformWindow__registerDOMWindow(self, _cmd)
 { with(self)
@@ -28954,6 +28965,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
     }
     if (StopDOMEventPropagation && (!supportsNativeDragAndDrop || type !== "mousedown" && !isDragging))
         CPDOMEventStop(aDOMEvent, self);
+    _DOMEventGuard.style.display = (CPApp._eventListeners.length === 0) ? "none" : "";
     objj_msgSend(objj_msgSend(CPRunLoop, "currentRunLoop"), "limitDateForMode:", CPDefaultRunLoopMode);
 }
 },["void","DOMEvent"]), new objj_method(sel_getUid("layerAtLevel:create:"), function $CPPlatformWindow__layerAtLevel_create_(self, _cmd, aLevel, aFlag)
