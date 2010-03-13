@@ -1442,7 +1442,7 @@ MIN = Math.min;
 MAX = Math.max;
 ABS = Math.abs;
 
-p;12;CPIndexSet.jt;20724;@STATIC;1.0;i;9;CPRange.ji;10;CPObject.jt;20676;objj_executeFile("CPRange.j", YES);
+p;12;CPIndexSet.jt;20785;@STATIC;1.0;i;9;CPRange.ji;10;CPObject.jt;20737;objj_executeFile("CPRange.j", YES);
 objj_executeFile("CPObject.j", YES);
 {var the_class = objj_allocateClassPair(CPObject, "CPIndexSet"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_count"), new objj_ivar("_ranges")]);
@@ -1880,7 +1880,10 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
             count = _ranges.length,
             shifts = [];
         for (; j < count; ++j)
+        {
             objj_msgSend(shifts, "addObject:", _ranges[j]);
+            _count -= _ranges[j].length;
+        }
         if ((j = i + 1) < count)
         {
             objj_msgSend(_ranges, "removeObjectsInRange:", CPMakeRange(j, count - j));

@@ -1280,7 +1280,7 @@ CPNotFound=-1;
 MIN=Math.min;
 MAX=Math.max;
 ABS=Math.abs;
-p;12;CPIndexSet.jt;11690;@STATIC;1.0;i;9;CPRange.ji;10;CPObject.jt;11642;
+p;12;CPIndexSet.jt;11717;@STATIC;1.0;i;9;CPRange.ji;10;CPObject.jt;11669;
 objj_executeFile("CPRange.j",YES);
 objj_executeFile("CPObject.j",YES);
 var _1=objj_allocateClassPair(CPObject,"CPIndexSet"),_2=_1.isa;
@@ -1675,6 +1675,7 @@ if(_89<0){
 var j=i+1,_8d=_ranges.length,_8e=[];
 for(;j<_8d;++j){
 objj_msgSend(_8e,"addObject:",_ranges[j]);
+_count-=_ranges[j].length;
 }
 if((j=i+1)<_8d){
 objj_msgSend(_ranges,"removeObjectsInRange:",CPMakeRange(j,_8d-j));
