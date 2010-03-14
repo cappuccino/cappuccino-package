@@ -14938,7 +14938,7 @@ objj_msgSend(_d6,"updateFromItem");
 }
 }
 })]);
-p;15;CPApplication.jt;29541;@STATIC;1.0;I;21;Foundation/CPBundle.ji;17;CPCompatibility.ji;9;CPEvent.ji;8;CPMenu.ji;13;CPResponder.ji;22;CPDocumentController.ji;14;CPThemeBlend.ji;14;CPCibLoading.ji;12;CPPlatform.jt;29348;
+p;15;CPApplication.jt;29531;@STATIC;1.0;I;21;Foundation/CPBundle.ji;17;CPCompatibility.ji;9;CPEvent.ji;8;CPMenu.ji;13;CPResponder.ji;22;CPDocumentController.ji;14;CPThemeBlend.ji;14;CPCibLoading.ji;12;CPPlatform.jt;29338;
 objj_executeFile("Foundation/CPBundle.j",NO);
 objj_executeFile("CPCompatibility.j",YES);
 objj_executeFile("CPEvent.j",YES);
@@ -15360,7 +15360,7 @@ if(objj_msgSend(_a2,"respondsToSelector:",_9e)){
 return _a2;
 }
 var _a3=objj_msgSend(_a2,"document");
-if(_a3!=_a1&&objj_msgSend(_a3,"respondsToSelector:",_9e)){
+if(_a3!==_a1&&objj_msgSend(_a3,"respondsToSelector:",_9e)){
 return _a3;
 }
 return nil;
@@ -15504,7 +15504,7 @@ objj_msgSend(objj_msgSend(_e0,"keyWindow"),"orderFront:",_e0);
 if(objj_msgSend(_e0,"mainWindow")){
 objj_msgSend(objj_msgSend(_e0,"mainWindow"),"makeKeyAndOrderFront:",_e0);
 }else{
-objj_msgSend(objj_msgSend(objj_msgSend(_e0,"mainMenu"),"window"),"makeKeyWindow");
+objj_msgSend(objj_msgSend(_e0,"mainMenu")._menuWindow,"makeKeyWindow");
 }
 }
 _previousKeyWindow=nil;
@@ -19986,7 +19986,7 @@ return objj_msgSend(_6,"init");
 with(_9){
 }
 })]);
-p;13;CPButtonBar.jt;6347;@STATIC;1.0;I;15;AppKit/CPView.jt;6308;
+p;13;CPButtonBar.jt;7424;@STATIC;1.0;I;15;AppKit/CPView.jt;7385;
 objj_executeFile("AppKit/CPView.j",NO);
 var _1=objj_allocateClassPair(CPView,"CPButtonBar"),_2=_1.isa;
 class_addIvars(_1,[new objj_ivar("_hasResizeControl"),new objj_ivar("_resizeControlIsLeftAligned"),new objj_ivar("_buttons")]);
@@ -20112,6 +20112,29 @@ return "button-bar";
 }),new objj_method(sel_getUid("themeAttributes"),function(_36,_37){
 with(_36){
 return objj_msgSend(CPDictionary,"dictionaryWithObjects:forKeys:",[CGInsetMake(0,0,0,0),CGSizeMakeZero(),objj_msgSend(CPNull,"null"),objj_msgSend(CPNull,"null"),objj_msgSend(CPNull,"null")],["resize-control-inset","resize-control-size","resize-control-color","bezel-color","button-bezel-color"]);
+}
+})]);
+var _38="CPButtonBarHasResizeControlKey",_39="CPButtonBarResizeControlIsLeftAlignedKey",_3a="CPButtonBarButtonsKey";
+var _1=objj_getClass("CPButtonBar");
+if(!_1){
+throw new SyntaxError("*** Could not find definition for class \"CPButtonBar\"");
+}
+var _2=_1.isa;
+class_addMethods(_1,[new objj_method(sel_getUid("encodeWithCoder:"),function(_3b,_3c,_3d){
+with(_3b){
+objj_msgSendSuper({receiver:_3b,super_class:objj_getClass("CPButtonBar").super_class},"encodeWithCoder:",_3d);
+objj_msgSend(_3d,"encodeBool:forKey:",_hasResizeControl,_38);
+objj_msgSend(_3d,"encodeBool:forKey:",_resizeControlIsLeftAligned,_39);
+objj_msgSend(_3d,"encodeObject:forKey:",_buttons,_3a);
+}
+}),new objj_method(sel_getUid("initWithCoder:"),function(_3e,_3f,_40){
+with(_3e){
+if(_3e=objj_msgSendSuper({receiver:_3e,super_class:objj_getClass("CPButtonBar").super_class},"initWithCoder:",_40)){
+_buttons=objj_msgSend(_40,"decodeObjectForKey:",_3a)||[];
+_hasResizeControl=objj_msgSend(_40,"decodeBoolForKey:",_38);
+_resizeControlIsLeftAligned=objj_msgSend(_40,"decodeBoolForKey:",_39);
+}
+return _3e;
 }
 })]);
 p;22;CPDocumentController.jt;9691;@STATIC;1.0;I;21;Foundation/CPObject.jI;21;Foundation/CPBundle.ji;12;CPDocument.ji;13;CPOpenPanel.jt;9585;
@@ -20798,7 +20821,7 @@ objj_msgSend(_80,"encodeObject:forKey:",_alternateTitle,_79);
 })]);
 objj_executeFile("CPCheckBox.j",YES);
 objj_executeFile("CPRadio.j",YES);
-p;10;CPWindow.jt;59200;@STATIC;1.0;I;25;Foundation/CPCountedSet.jI;33;Foundation/CPNotificationCenter.jI;26;Foundation/CPUndoManager.ji;12;CGGeometry.ji;13;CPAnimation.ji;13;CPResponder.ji;10;CPScreen.ji;18;CPPlatformWindow.ji;15;_CPWindowView.ji;23;_CPStandardWindowView.ji;23;_CPDocModalWindowView.ji;18;_CPHUDWindowView.ji;25;_CPBorderlessWindowView.ji;31;_CPBorderlessBridgeWindowView.ji;14;CPDragServer.ji;8;CPView.jt;58794;
+p;10;CPWindow.jt;59241;@STATIC;1.0;I;25;Foundation/CPCountedSet.jI;33;Foundation/CPNotificationCenter.jI;26;Foundation/CPUndoManager.ji;12;CGGeometry.ji;13;CPAnimation.ji;13;CPResponder.ji;10;CPScreen.ji;18;CPPlatformWindow.ji;15;_CPWindowView.ji;23;_CPStandardWindowView.ji;23;_CPDocModalWindowView.ji;18;_CPHUDWindowView.ji;25;_CPBorderlessWindowView.ji;31;_CPBorderlessBridgeWindowView.ji;14;CPDragServer.ji;8;CPView.jt;58835;
 objj_executeFile("Foundation/CPCountedSet.j",NO);
 objj_executeFile("Foundation/CPNotificationCenter.j",NO);
 objj_executeFile("Foundation/CPUndoManager.j",NO);
@@ -21521,7 +21544,9 @@ with(_e8){
 if(_firstResponder!=_e8&&objj_msgSend(_firstResponder,"respondsToSelector:",sel_getUid("resignKeyWindow"))){
 objj_msgSend(_firstResponder,"resignKeyWindow");
 }
+if(CPApp._keyWindow===_e8){
 CPApp._keyWindow=nil;
+}
 objj_msgSend(objj_msgSend(CPNotificationCenter,"defaultCenter"),"postNotificationName:object:",CPWindowDidResignKeyNotification,_e8);
 }
 }),new objj_method(sel_getUid("dragImage:at:offset:event:pasteboard:source:slideBack:"),function(_ea,_eb,_ec,_ed,_ee,_ef,_f0,_f1,_f2){
@@ -21720,14 +21745,13 @@ objj_msgSend(objj_msgSend(CPNotificationCenter,"defaultCenter"),"postNotificatio
 }),new objj_method(sel_getUid("resignMainWindow"),function(self,_129){
 with(self){
 objj_msgSend(objj_msgSend(CPNotificationCenter,"defaultCenter"),"postNotificationName:object:",CPWindowDidResignMainNotification,self);
+if(CPApp._mainWindow===self){
 CPApp._mainWindow=nil;
+}
 }
 }),new objj_method(sel_getUid("_updateMainAndKeyWindows"),function(self,_12a){
 with(self){
 var _12b=objj_msgSend(CPApp,"orderedWindows"),_12c=objj_msgSend(_12b,"count");
-if(!_12c){
-return;
-}
 if(objj_msgSend(self,"isKeyWindow")){
 var _12d=objj_msgSend(CPApp,"keyWindow");
 objj_msgSend(self,"resignKeyWindow");
@@ -21746,7 +21770,7 @@ break;
 }
 }
 if(!objj_msgSend(CPApp,"keyWindow")){
-objj_msgSend(_12d,"makeKeyWindow");
+objj_msgSend(_12e,"makeKeyWindow");
 }
 }
 }
