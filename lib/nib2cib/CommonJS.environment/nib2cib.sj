@@ -213,7 +213,7 @@ with(_a){
 return objj_msgSend(CPMenu,"class");
 }
 })]);
-p;19;NSTableHeaderView.jt;1105;@STATIC;1.0;I;26;AppKit/CPTableHeaderView.jt;1055;
+p;19;NSTableHeaderView.jt;958;@STATIC;1.0;I;26;AppKit/CPTableHeaderView.jt;909;
 objj_executeFile("AppKit/CPTableHeaderView.j",NO);
 var _1=objj_getClass("CPTableHeaderView");
 if(!_1){
@@ -224,7 +224,6 @@ class_addMethods(_1,[new objj_method(sel_getUid("NS_initWithCoder:"),function(_3
 with(_3){
 if(_3=objj_msgSendSuper({receiver:_3,super_class:objj_getClass("CPTableHeaderView").super_class},"NS_initWithCoder:",_5)){
 _tableView=objj_msgSend(_5,"decodeObjectForKey:","NSTableView");
-objj_msgSend(_3,"setBackgroundColor:",objj_msgSend(CPColor,"colorWithPatternImage:",CPAppKitImage("tableview-headerview.png",CGSizeMake(1,22))));
 }
 return _3;
 }
