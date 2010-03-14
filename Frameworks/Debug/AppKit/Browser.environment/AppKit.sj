@@ -4610,14 +4610,15 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["id","CPCoder"])]);
 }
 
-p;13;CPSplitView.jt;25307;@STATIC;1.0;i;9;CPImage.ji;8;CPView.jt;25262;objj_executeFile("CPImage.j", YES);
+p;13;CPSplitView.jt;26912;@STATIC;1.0;i;13;CPButtonBar.ji;9;CPImage.ji;8;CPView.jt;26849;objj_executeFile("CPButtonBar.j", YES);
+objj_executeFile("CPImage.j", YES);
 objj_executeFile("CPView.j", YES);
 CPSplitViewDidResizeSubviewsNotification = "CPSplitViewDidResizeSubviewsNotification";
 CPSplitViewWillResizeSubviewsNotification = "CPSplitViewWillResizeSubviewsNotification";
 var CPSplitViewHorizontalImage = nil,
     CPSplitViewVerticalImage = nil;
 {var the_class = objj_allocateClassPair(CPView, "CPSplitView"),
-meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_delegate"), new objj_ivar("_isVertical"), new objj_ivar("_isPaneSplitter"), new objj_ivar("_currentDivider"), new objj_ivar("_initialOffset"), new objj_ivar("_originComponent"), new objj_ivar("_sizeComponent"), new objj_ivar("_DOMDividerElements"), new objj_ivar("_dividerImagePath"), new objj_ivar("_drawingDivider"), new objj_ivar("_needsResizeSubviews")]);
+meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_delegate"), new objj_ivar("_isVertical"), new objj_ivar("_isPaneSplitter"), new objj_ivar("_currentDivider"), new objj_ivar("_initialOffset"), new objj_ivar("_originComponent"), new objj_ivar("_sizeComponent"), new objj_ivar("_DOMDividerElements"), new objj_ivar("_dividerImagePath"), new objj_ivar("_drawingDivider"), new objj_ivar("_needsResizeSubviews"), new objj_ivar("_buttonBars")]);
 objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), function $CPSplitView__initWithFrame_(self, _cmd, aFrame)
 { with(self)
@@ -4626,6 +4627,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     {
         _currentDivider = CPNotFound;
         _DOMDividerElements = [];
+        _buttonBars = [];
         objj_msgSend(self, "_setVertical:", YES);
     }
     return self;
@@ -4791,12 +4793,21 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     var frame = objj_msgSend(_subviews[anIndex], "frame"),
         startPosition = frame.origin[_originComponent] + frame.size[_sizeComponent],
         effectiveRect = objj_msgSend(self, "effectiveRectOfDividerAtIndex:", anIndex),
+        buttonBar = _buttonBars[anIndex],
+        buttonBarRect = null,
         additionalRect = null;
+    if (buttonBar != null)
+    {
+        buttonBarRect = objj_msgSend(buttonBar, "resizeControlFrame");
+        buttonBarRect.origin = objj_msgSend(self, "convertPoint:fromView:", buttonBarRect.origin, buttonBar);
+    }
     if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("splitView:effectiveRect:forDrawnRect:ofDividerAtIndex:")))
         effectiveRect = objj_msgSend(_delegate, "splitView:effectiveRect:forDrawnRect:ofDividerAtIndex:", self, effectiveRect, effectiveRect, anIndex);
     if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("splitView:additionalEffectiveRectOfDividerAtIndex:")))
         additionalRect = objj_msgSend(_delegate, "splitView:additionalEffectiveRectOfDividerAtIndex:", self, anIndex);
-    return CGRectContainsPoint(effectiveRect, aPoint) || (additionalRect && CGRectContainsPoint(additionalRect, aPoint));
+    return CGRectContainsPoint(effectiveRect, aPoint) ||
+           (additionalRect && CGRectContainsPoint(additionalRect, aPoint)) ||
+           (buttonBarRect && CGRectContainsPoint(buttonBarRect, aPoint));
 }
 },["BOOL","CPPoint","int"]), new objj_method(sel_getUid("hitTest:"), function $CPSplitView__hitTest_(self, _cmd, aPoint)
 { with(self)
@@ -5008,7 +5019,29 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
    if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("splitViewWillResizeSubviews:")))
        objj_msgSend(objj_msgSend(CPNotificationCenter, "defaultCenter"), "addObserver:selector:name:object:", _delegate, sel_getUid("splitViewWillResizeSubviews:"), CPSplitViewWillResizeSubviewsNotification, self);
 }
-},["void","id"]), new objj_method(sel_getUid("_postNotificationWillResize"), function $CPSplitView___postNotificationWillResize(self, _cmd)
+},["void","id"]), new objj_method(sel_getUid("setButtonBar:forDividerAtIndex:"), function $CPSplitView__setButtonBar_forDividerAtIndex_(self, _cmd, aButtonBar, dividerIndex)
+{ with(self)
+{
+    if (!aButtonBar)
+    {
+        _buttonBars[dividerIndex] = nil;
+        return;
+    }
+    var view = objj_msgSend(aButtonBar, "superview"),
+        subview = aButtonBar;
+    while (view && view !== self)
+    {
+        subview = view;
+        view = objj_msgSend(view, "superview");
+    }
+    if (view !== self)
+        objj_msgSend(CPException, "raise:reason:", CPInvalidArgumentException, "CPSplitView button bar must be a subview of the split view.");
+    var viewIndex = objj_msgSend(objj_msgSend(self, "subviews"), "indexOfObject:", subview);
+    objj_msgSend(aButtonBar, "setHasResizeControl:", YES);
+    objj_msgSend(aButtonBar, "setResizeControlIsLeftAligned:", dividerIndex < viewIndex);
+    _buttonBars[dividerIndex] = aButtonBar;
+}
+},["void","CPButtonBar","unsigned"]), new objj_method(sel_getUid("_postNotificationWillResize"), function $CPSplitView___postNotificationWillResize(self, _cmd)
 { with(self)
 {
     objj_msgSend(objj_msgSend(CPNotificationCenter, "defaultCenter"), "postNotificationName:object:", CPSplitViewWillResizeSubviewsNotification, self);
@@ -5032,7 +5065,8 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("initialize"), function
 }
 var CPSplitViewDelegateKey = "CPSplitViewDelegateKey",
     CPSplitViewIsVerticalKey = "CPSplitViewIsVerticalKey",
-    CPSplitViewIsPaneSplitterKey = "CPSplitViewIsPaneSplitterKey";
+    CPSplitViewIsPaneSplitterKey = "CPSplitViewIsPaneSplitterKey",
+    CPSplitViewButtonBarsKey = "CPSplitViewButtonBarsKey";
 {
 var the_class = objj_getClass("CPSplitView")
 if(!the_class) throw new SyntaxError("*** Could not find definition for class \"CPSplitView\"");
@@ -5044,7 +5078,8 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
     {
         _currentDivider = CPNotFound;
         _DOMDividerElements = [];
-        _delegate = objj_msgSend(aCoder, "decodeObjectForKey:", CPSplitViewDelegateKey);;
+        _buttonBars = objj_msgSend(aCoder, "decodeObjectForKey:", CPSplitViewButtonBarsKey) || [];
+        _delegate = objj_msgSend(aCoder, "decodeObjectForKey:", CPSplitViewDelegateKey);
         _isPaneSplitter = objj_msgSend(aCoder, "decodeBoolForKey:", CPSplitViewIsPaneSplitterKey);
         objj_msgSend(self, "_setVertical:", objj_msgSend(aCoder, "decodeBoolForKey:", CPSplitViewIsVerticalKey));
     }
@@ -22527,7 +22562,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithItemIdentifier:
 },["void","CPCoder"])]);
 }
 
-p;13;CPButtonBar.jt;10334;@STATIC;1.0;I;15;AppKit/CPView.jt;10294;
+p;13;CPButtonBar.jt;11553;@STATIC;1.0;I;15;AppKit/CPView.jt;11513;
 
 
 objj_executeFile("AppKit/CPView.j", NO);
@@ -22551,7 +22586,27 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 
     return self;
 }
-},["id","CGRect"]), new objj_method(sel_getUid("setButtons:"), function $CPButtonBar__setButtons_(self, _cmd, buttons)
+},["id","CGRect"]), new objj_method(sel_getUid("awakeFromCib"), function $CPButtonBar__awakeFromCib(self, _cmd)
+{ with(self)
+{
+    var view = objj_msgSend(self, "superview"),
+        subview = self;
+
+    while (view)
+    {
+        if (objj_msgSend(view, "isKindOfClass:", objj_msgSend(CPSplitView, "class")))
+        {
+            var viewIndex = objj_msgSend(objj_msgSend(view, "subviews"), "indexOfObject:", subview);
+            objj_msgSend(view, "setButtonBar:forDividerAtIndex:", self, viewIndex);
+
+            break;
+        }
+
+        subview = view;
+        view = objj_msgSend(view, "superview");
+    }
+}
+},["void"]), new objj_method(sel_getUid("setButtons:"), function $CPButtonBar__setButtons_(self, _cmd, buttons)
 { with(self)
 {
     _buttons = objj_msgSend(CPArray, "arrayWithArray:", buttons);
@@ -22611,7 +22666,17 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 {
     return _resizeControlIsLeftAligned;
 }
-},["BOOL"]), new objj_method(sel_getUid("rectForEphemeralSubviewNamed:"), function $CPButtonBar__rectForEphemeralSubviewNamed_(self, _cmd, aName)
+},["BOOL"]), new objj_method(sel_getUid("resizeControlFrame"), function $CPButtonBar__resizeControlFrame(self, _cmd)
+{ with(self)
+{
+    var inset = objj_msgSend(self, "currentValueForThemeAttribute:", "resize-control-inset"),
+        size = objj_msgSend(self, "currentValueForThemeAttribute:", "resize-control-size"),
+        currentSize = objj_msgSend(self, "bounds"),
+        leftOrigin = _resizeControlIsLeftAligned ? 0 : currentSize.size.width - size.width - inset.right - inset.left;
+
+    return CGRectMake(leftOrigin, 0, size.width + inset.left + inset.right, size.height + inset.top + inset.bottom);
+}
+},["CGRect"]), new objj_method(sel_getUid("rectForEphemeralSubviewNamed:"), function $CPButtonBar__rectForEphemeralSubviewNamed_(self, _cmd, aName)
 { with(self)
 {
     if (aName === "resize-control-view")
