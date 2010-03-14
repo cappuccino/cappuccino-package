@@ -19140,54 +19140,132 @@ return objj_msgSend(_6,"init");
 with(_9){
 }
 })]);
-p;13;CPButtonBar.jt;2014;@STATIC;1.0;I;15;AppKit/CPView.jt;1975;
+p;13;CPButtonBar.jt;6347;@STATIC;1.0;I;15;AppKit/CPView.jt;6308;
 objj_executeFile("AppKit/CPView.j",NO);
-var _1=objj_allocateClassPair(CPControl,"CPButtonBar"),_2=_1.isa;
+var _1=objj_allocateClassPair(CPView,"CPButtonBar"),_2=_1.isa;
+class_addIvars(_1,[new objj_ivar("_hasResizeControl"),new objj_ivar("_resizeControlIsLeftAligned"),new objj_ivar("_buttons")]);
 objj_registerClassPair(_1);
 class_addMethods(_1,[new objj_method(sel_getUid("initWithFrame:"),function(_3,_4,_5){
 with(_3){
 _3=objj_msgSendSuper({receiver:_3,super_class:objj_getClass("CPButtonBar").super_class},"initWithFrame:",_5);
 if(_3){
+_buttons=[];
 objj_msgSend(_3,"setNeedsLayout");
 }
 return _3;
 }
-}),new objj_method(sel_getUid("rectForEphemeralSubviewNamed:"),function(_6,_7,_8){
+}),new objj_method(sel_getUid("setButtons:"),function(_6,_7,_8){
 with(_6){
-if(_8==="bezel-view"){
-return objj_msgSend(_6,"bounds");
+_buttons=objj_msgSend(CPArray,"arrayWithArray:",_8);
+for(var i=0,_9=objj_msgSend(_buttons,"count");i<_9;i++){
+var _a=_buttons[i];
+var _b=objj_msgSend(_6,"valueForThemeAttribute:inState:","button-bezel-color",CPThemeStateNormal),_c=objj_msgSend(_6,"valueForThemeAttribute:inState:","button-bezel-color",CPThemeStateHighlighted),_d=objj_msgSend(_6,"valueForThemeAttribute:inState:","button-bezel-color",CPThemeStateDisabled);
+objj_msgSend(_a,"setValue:forThemeAttribute:inState:",_b,"bezel-color",CPThemeStateNormal|CPThemeStateBordered);
+objj_msgSend(_a,"setValue:forThemeAttribute:inState:",_c,"bezel-color",CPThemeStateHighlighted|CPThemeStateBordered);
+objj_msgSend(_a,"setValue:forThemeAttribute:inState:",_d,"bezel-color",CPThemeStateDisabled|CPThemeStateBordered);
+objj_msgSend(_a,"setValue:forThemeAttribute:inState:",_b,"bezel-color",CPThemeStateNormal|CPThemeStateBordered|CPPopUpButtonStatePullsDown);
+objj_msgSend(_a,"setValue:forThemeAttribute:inState:",_c,"bezel-color",CPThemeStateHighlighted|CPThemeStateBordered|CPPopUpButtonStatePullsDown);
+objj_msgSend(_a,"setValue:forThemeAttribute:inState:",_d,"bezel-color",CPThemeStateDisabled|CPThemeStateBordered|CPPopUpButtonStatePullsDown);
+objj_msgSend(_a,"setBordered:",YES);
 }
-return objj_msgSendSuper({receiver:_6,super_class:objj_getClass("CPButtonBar").super_class},"rectForEphemeralSubviewNamed:",_8);
+objj_msgSend(_6,"setNeedsLayout");
 }
-}),new objj_method(sel_getUid("createEphemeralSubviewNamed:"),function(_9,_a,_b){
-with(_9){
-if(_b==="bezel-view"){
-var _c=objj_msgSend(objj_msgSend(CPView,"alloc"),"initWithFrame:",{origin:{x:0,y:0},size:{width:0,height:0}});
-objj_msgSend(_c,"setHitTests:",NO);
-return _c;
+}),new objj_method(sel_getUid("buttons"),function(_e,_f){
+with(_e){
+return objj_msgSend(CPArray,"arrayWithArray:",_buttons);
 }
-return objj_msgSendSuper({receiver:_9,super_class:objj_getClass("CPButtonBar").super_class},"createEphemeralSubviewNamed:",_b);
-}
-}),new objj_method(sel_getUid("layoutSubviews"),function(_d,_e){
-with(_d){
-var _f=objj_msgSend(_d,"layoutEphemeralSubviewNamed:positioned:relativeToEphemeralSubviewNamed:","bezel-view",CPWindowBelow,"");
-if(_f){
-objj_msgSend(_f,"setBackgroundColor:",objj_msgSend(_d,"currentValueForThemeAttribute:","bezel-color"));
-}
-}
-}),new objj_method(sel_getUid("addSubview:"),function(_10,_11,_12){
+}),new objj_method(sel_getUid("setHasResizeControl:"),function(_10,_11,_12){
 with(_10){
-objj_msgSendSuper({receiver:_10,super_class:objj_getClass("CPButtonBar").super_class},"addSubview:",_12);
-objj_msgSend(_12,"setAutoresizingMask:",CPViewMinXMargin);
+if(_hasResizeControl===_12){
+return;
+}
+_hasResizeControl=!!_12;
+objj_msgSend(_10,"setNeedsLayout");
+}
+}),new objj_method(sel_getUid("hasResizeControl"),function(_13,_14){
+with(_13){
+return _hasResizeControl;
+}
+}),new objj_method(sel_getUid("setResizeControlIsLeftAligned:"),function(_15,_16,_17){
+with(_15){
+if(_resizeControlIsLeftAligned===_17){
+return;
+}
+_resizeControlIsLeftAligned=!!_17;
+objj_msgSend(_15,"setNeedsLayout");
+}
+}),new objj_method(sel_getUid("resizeControlIsLeftAligned"),function(_18,_19){
+with(_18){
+return _resizeControlIsLeftAligned;
+}
+}),new objj_method(sel_getUid("rectForEphemeralSubviewNamed:"),function(_1a,_1b,_1c){
+with(_1a){
+if(_1c==="resize-control-view"){
+var _1d=objj_msgSend(_1a,"currentValueForThemeAttribute:","resize-control-inset"),_1e=objj_msgSend(_1a,"currentValueForThemeAttribute:","resize-control-size"),_1f=objj_msgSend(_1a,"bounds");
+if(_resizeControlIsLeftAligned){
+return CGRectMake(_1d.left,_1d.top,_1e.width,_1e.height);
+}else{
+return CGRectMake(_1f.size.width-_1e.width-_1d.right,_1d.top,_1e.width,_1e.height);
+}
+}
+return objj_msgSendSuper({receiver:_1a,super_class:objj_getClass("CPButtonBar").super_class},"rectForEphemeralSubviewNamed:",_1c);
+}
+}),new objj_method(sel_getUid("createEphemeralSubviewNamed:"),function(_20,_21,_22){
+with(_20){
+if(_22==="resize-control-view"){
+return objj_msgSend(objj_msgSend(CPView,"alloc"),"initWithFrame:",CGRectMakeZero());
+}
+return objj_msgSendSuper({receiver:_20,super_class:objj_getClass("CPButtonBar").super_class},"createEphemeralSubviewNamed:",_22);
+}
+}),new objj_method(sel_getUid("layoutSubviews"),function(_23,_24){
+with(_23){
+objj_msgSend(_23,"setBackgroundColor:",objj_msgSend(_23,"currentValueForThemeAttribute:","bezel-color"));
+var _25=objj_msgSend(CPArray,"arrayWithArray:",_buttons),_26=objj_msgSend(_25,"count");
+while(_26--){
+if(objj_msgSend(_25[_26],"isHidden")){
+objj_msgSend(_25,"removeObject:",_25[_26]);
+}
+}
+var _27=_resizeControlIsLeftAligned?CGRectGetMaxX(objj_msgSend(_23,"bounds"))+1:-1,_28=CGRectGetHeight(objj_msgSend(_23,"bounds"))-1;
+for(var i=0,_26=objj_msgSend(_25,"count");i<_26;i++){
+var _29=_25[i],_2a=CGRectGetWidth(objj_msgSend(_29,"frame"));
+if(_resizeControlIsLeftAligned){
+objj_msgSend(_29,"setFrame:",CGRectMake(_27-_2a,1,_2a,_28));
+_27-=_2a-1;
+}else{
+objj_msgSend(_29,"setFrame:",CGRectMake(_27,1,_2a,_28));
+_27+=_2a-1;
+}
+objj_msgSend(_23,"addSubview:",_29);
+}
+if(_hasResizeControl){
+var _2b=objj_msgSend(_23,"layoutEphemeralSubviewNamed:positioned:relativeToEphemeralSubviewNamed:","resize-control-view",CPWindowAbove,nil);
+objj_msgSend(_2b,"setAutoresizingMask:",_resizeControlIsLeftAligned?CPViewMaxXMargin:CPViewMinXMargin);
+objj_msgSend(_2b,"setBackgroundColor:",objj_msgSend(_23,"currentValueForThemeAttribute:","resize-control-color"));
+}
 }
 })]);
-class_addMethods(_2,[new objj_method(sel_getUid("themeClass"),function(_13,_14){
-with(_13){
+class_addMethods(_2,[new objj_method(sel_getUid("plusButton"),function(_2c,_2d){
+with(_2c){
+var _2e=objj_msgSend(objj_msgSend(CPButton,"alloc"),"initWithFrame:",CGRectMake(0,0,35,25)),_2f=objj_msgSend(objj_msgSend(CPImage,"alloc"),"initWithContentsOfFile:size:",objj_msgSend(objj_msgSend(CPBundle,"bundleForClass:",_2c),"pathForResource:","plus_button.png"),CGSizeMake(11,12));
+objj_msgSend(_2e,"setImage:",_2f);
+objj_msgSend(_2e,"setImagePosition:",CPImageOnly);
+return _2e;
+}
+}),new objj_method(sel_getUid("minusButton"),function(_30,_31){
+with(_30){
+var _32=objj_msgSend(objj_msgSend(CPButton,"alloc"),"initWithFrame:",CGRectMake(0,0,35,25)),_33=objj_msgSend(objj_msgSend(CPImage,"alloc"),"initWithContentsOfFile:size:",objj_msgSend(objj_msgSend(CPBundle,"bundleForClass:",_30),"pathForResource:","minus_button.png"),CGSizeMake(11,4));
+objj_msgSend(_32,"setImage:",_33);
+objj_msgSend(_32,"setImagePosition:",CPImageOnly);
+return _32;
+}
+}),new objj_method(sel_getUid("themeClass"),function(_34,_35){
+with(_34){
 return "button-bar";
 }
-}),new objj_method(sel_getUid("themeAttributes"),function(_15,_16){
-with(_15){
-return objj_msgSend(CPDictionary,"dictionaryWithObjects:forKeys:",[objj_msgSend(CPNull,"null")],["bezel-color"]);
+}),new objj_method(sel_getUid("themeAttributes"),function(_36,_37){
+with(_36){
+return objj_msgSend(CPDictionary,"dictionaryWithObjects:forKeys:",[CGInsetMake(0,0,0,0),CGSizeMakeZero(),objj_msgSend(CPNull,"null"),objj_msgSend(CPNull,"null"),objj_msgSend(CPNull,"null")],["resize-control-inset","resize-control-size","resize-control-color","bezel-color","button-bezel-color"]);
 }
 })]);
 p;22;CPDocumentController.jt;9691;@STATIC;1.0;I;21;Foundation/CPObject.jI;21;Foundation/CPBundle.ji;12;CPDocument.ji;13;CPOpenPanel.jt;9585;

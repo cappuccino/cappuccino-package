@@ -22527,7 +22527,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithItemIdentifier:
 },["void","CPCoder"])]);
 }
 
-p;13;CPButtonBar.jt;2750;@STATIC;1.0;I;15;AppKit/CPView.jt;2711;
+p;13;CPButtonBar.jt;8710;@STATIC;1.0;I;15;AppKit/CPView.jt;8671;
 
 
 objj_executeFile("AppKit/CPView.j", NO);
@@ -22535,57 +22535,173 @@ objj_executeFile("AppKit/CPView.j", NO);
 
 
 
-{var the_class = objj_allocateClassPair(CPControl, "CPButtonBar"),
-meta_class = the_class.isa;objj_registerClassPair(the_class);
+{var the_class = objj_allocateClassPair(CPView, "CPButtonBar"),
+meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_hasResizeControl"), new objj_ivar("_resizeControlIsLeftAligned"), new objj_ivar("_buttons")]);
+objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), function $CPButtonBar__initWithFrame_(self, _cmd, aFrame)
 { with(self)
 {
     self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPButtonBar").super_class }, "initWithFrame:", aFrame);
 
     if (self)
+    {
+        _buttons = [];
         objj_msgSend(self, "setNeedsLayout");
+    }
 
     return self;
 }
-},["id","CGRect"]), new objj_method(sel_getUid("rectForEphemeralSubviewNamed:"), function $CPButtonBar__rectForEphemeralSubviewNamed_(self, _cmd, aName)
+},["id","CGRect"]), new objj_method(sel_getUid("setButtons:"), function $CPButtonBar__setButtons_(self, _cmd, buttons)
 { with(self)
 {
-    if (aName === "bezel-view")
-        return objj_msgSend(self, "bounds");
+    _buttons = objj_msgSend(CPArray, "arrayWithArray:", buttons);
+
+    for (var i = 0, count = objj_msgSend(_buttons, "count"); i < count; i++)
+    {
+        var button = _buttons[i];
+
+        var normalColor = objj_msgSend(self, "valueForThemeAttribute:inState:", "button-bezel-color", CPThemeStateNormal),
+            highlightedColor = objj_msgSend(self, "valueForThemeAttribute:inState:", "button-bezel-color", CPThemeStateHighlighted),
+            disabledColor = objj_msgSend(self, "valueForThemeAttribute:inState:", "button-bezel-color", CPThemeStateDisabled);
+
+        objj_msgSend(button, "setValue:forThemeAttribute:inState:", normalColor, "bezel-color", CPThemeStateNormal|CPThemeStateBordered);
+        objj_msgSend(button, "setValue:forThemeAttribute:inState:", highlightedColor, "bezel-color", CPThemeStateHighlighted|CPThemeStateBordered);
+        objj_msgSend(button, "setValue:forThemeAttribute:inState:", disabledColor, "bezel-color", CPThemeStateDisabled|CPThemeStateBordered);
+
+
+        objj_msgSend(button, "setValue:forThemeAttribute:inState:", normalColor, "bezel-color", CPThemeStateNormal|CPThemeStateBordered|CPPopUpButtonStatePullsDown);
+        objj_msgSend(button, "setValue:forThemeAttribute:inState:", highlightedColor, "bezel-color", CPThemeStateHighlighted|CPThemeStateBordered|CPPopUpButtonStatePullsDown);
+        objj_msgSend(button, "setValue:forThemeAttribute:inState:", disabledColor, "bezel-color", CPThemeStateDisabled|CPThemeStateBordered|CPPopUpButtonStatePullsDown);
+
+        objj_msgSend(button, "setBordered:", YES);
+    }
+
+    objj_msgSend(self, "setNeedsLayout");
+}
+},["void","CPArray"]), new objj_method(sel_getUid("buttons"), function $CPButtonBar__buttons(self, _cmd)
+{ with(self)
+{
+    return objj_msgSend(CPArray, "arrayWithArray:", _buttons);
+}
+},["CPArray"]), new objj_method(sel_getUid("setHasResizeControl:"), function $CPButtonBar__setHasResizeControl_(self, _cmd, shouldHaveResizeControl)
+{ with(self)
+{
+    if (_hasResizeControl === shouldHaveResizeControl)
+        return;
+
+    _hasResizeControl = !!shouldHaveResizeControl;
+    objj_msgSend(self, "setNeedsLayout");
+}
+},["void","BOOL"]), new objj_method(sel_getUid("hasResizeControl"), function $CPButtonBar__hasResizeControl(self, _cmd)
+{ with(self)
+{
+    return _hasResizeControl;
+}
+},["BOOL"]), new objj_method(sel_getUid("setResizeControlIsLeftAligned:"), function $CPButtonBar__setResizeControlIsLeftAligned_(self, _cmd, shouldBeLeftAligned)
+{ with(self)
+{
+    if (_resizeControlIsLeftAligned === shouldBeLeftAligned)
+        return;
+
+    _resizeControlIsLeftAligned = !!shouldBeLeftAligned;
+    objj_msgSend(self, "setNeedsLayout");
+}
+},["void","BOOL"]), new objj_method(sel_getUid("resizeControlIsLeftAligned"), function $CPButtonBar__resizeControlIsLeftAligned(self, _cmd)
+{ with(self)
+{
+    return _resizeControlIsLeftAligned;
+}
+},["BOOL"]), new objj_method(sel_getUid("rectForEphemeralSubviewNamed:"), function $CPButtonBar__rectForEphemeralSubviewNamed_(self, _cmd, aName)
+{ with(self)
+{
+    if (aName === "resize-control-view")
+    {
+        var inset = objj_msgSend(self, "currentValueForThemeAttribute:", "resize-control-inset"),
+            size = objj_msgSend(self, "currentValueForThemeAttribute:", "resize-control-size"),
+            currentSize = objj_msgSend(self, "bounds");
+
+        if (_resizeControlIsLeftAligned)
+            return CGRectMake(inset.left, inset.top, size.width, size.height);
+        else
+            return CGRectMake(currentSize.size.width - size.width - inset.right, inset.top, size.width, size.height);
+    }
 
     return objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPButtonBar").super_class }, "rectForEphemeralSubviewNamed:", aName);
 }
 },["CGRect","CPString"]), new objj_method(sel_getUid("createEphemeralSubviewNamed:"), function $CPButtonBar__createEphemeralSubviewNamed_(self, _cmd, aName)
 { with(self)
 {
-    if (aName === "bezel-view")
-    {
-        var view = objj_msgSend(objj_msgSend(CPView, "alloc"), "initWithFrame:", { origin: { x:0.0, y:0.0 }, size: { width:0.0, height:0.0 } });
-
-        objj_msgSend(view, "setHitTests:", NO);
-
-        return view;
-    }
+    if (aName === "resize-control-view")
+        return objj_msgSend(objj_msgSend(CPView, "alloc"), "initWithFrame:", CGRectMakeZero());
 
     return objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPButtonBar").super_class }, "createEphemeralSubviewNamed:", aName);
 }
 },["CPView","CPString"]), new objj_method(sel_getUid("layoutSubviews"), function $CPButtonBar__layoutSubviews(self, _cmd)
 { with(self)
 {
-    var bezelView = objj_msgSend(self, "layoutEphemeralSubviewNamed:positioned:relativeToEphemeralSubviewNamed:", "bezel-view", CPWindowBelow, "");
+    objj_msgSend(self, "setBackgroundColor:", objj_msgSend(self, "currentValueForThemeAttribute:", "bezel-color"));
 
-    if (bezelView)
-        objj_msgSend(bezelView, "setBackgroundColor:", objj_msgSend(self, "currentValueForThemeAttribute:", "bezel-color"));
+    var buttonsNotHidden = objj_msgSend(CPArray, "arrayWithArray:", _buttons),
+        count = objj_msgSend(buttonsNotHidden, "count");
+
+    while (count--)
+        if (objj_msgSend(buttonsNotHidden[count], "isHidden"))
+            objj_msgSend(buttonsNotHidden, "removeObject:", buttonsNotHidden[count]);
+
+    var currentButtonOffset = _resizeControlIsLeftAligned ? CGRectGetMaxX(objj_msgSend(self, "bounds")) + 1 : -1,
+        height = CGRectGetHeight(objj_msgSend(self, "bounds")) - 1;
+
+    for (var i = 0, count = objj_msgSend(buttonsNotHidden, "count"); i < count; i++)
+    {
+        var button = buttonsNotHidden[i],
+            width = CGRectGetWidth(objj_msgSend(button, "frame"));
+
+        if (_resizeControlIsLeftAligned)
+        {
+            objj_msgSend(button, "setFrame:", CGRectMake(currentButtonOffset - width, 1, width, height));
+            currentButtonOffset -= width - 1;
+        }
+        else
+        {
+            objj_msgSend(button, "setFrame:", CGRectMake(currentButtonOffset, 1, width, height));
+            currentButtonOffset += width - 1;
+        }
+
+        objj_msgSend(self, "addSubview:", button);
+    }
+
+    if (_hasResizeControl)
+    {
+        var resizeControlView = objj_msgSend(self, "layoutEphemeralSubviewNamed:positioned:relativeToEphemeralSubviewNamed:", "resize-control-view", CPWindowAbove, nil);
+
+        objj_msgSend(resizeControlView, "setAutoresizingMask:",  _resizeControlIsLeftAligned ? CPViewMaxXMargin : CPViewMinXMargin);
+        objj_msgSend(resizeControlView, "setBackgroundColor:", objj_msgSend(self, "currentValueForThemeAttribute:", "resize-control-color"));
+    }
 }
-},["void"]), new objj_method(sel_getUid("addSubview:"), function $CPButtonBar__addSubview_(self, _cmd, aSubview)
+},["void"])]);
+class_addMethods(meta_class, [new objj_method(sel_getUid("plusButton"), function $CPButtonBar__plusButton(self, _cmd)
 { with(self)
 {
-    objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPButtonBar").super_class }, "addSubview:", aSubview);
+    var button = objj_msgSend(objj_msgSend(CPButton, "alloc"), "initWithFrame:", CGRectMake(0, 0, 35, 25)),
+        image = objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(objj_msgSend(CPBundle, "bundleForClass:", self), "pathForResource:", "plus_button.png"), CGSizeMake(11, 12));
 
-    objj_msgSend(aSubview, "setAutoresizingMask:", CPViewMinXMargin);
+    objj_msgSend(button, "setImage:", image);
+    objj_msgSend(button, "setImagePosition:", CPImageOnly);
+
+    return button;
 }
-},["void","CPView"])]);
-class_addMethods(meta_class, [new objj_method(sel_getUid("themeClass"), function $CPButtonBar__themeClass(self, _cmd)
+},["id"]), new objj_method(sel_getUid("minusButton"), function $CPButtonBar__minusButton(self, _cmd)
+{ with(self)
+{
+    var button = objj_msgSend(objj_msgSend(CPButton, "alloc"), "initWithFrame:", CGRectMake(0, 0, 35, 25)),
+        image = objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(objj_msgSend(CPBundle, "bundleForClass:", self), "pathForResource:", "minus_button.png"), CGSizeMake(11, 4));
+
+    objj_msgSend(button, "setImage:", image);
+    objj_msgSend(button, "setImagePosition:", CPImageOnly);
+
+    return button;
+}
+},["id"]), new objj_method(sel_getUid("themeClass"), function $CPButtonBar__themeClass(self, _cmd)
 { with(self)
 {
     return "button-bar";
@@ -22593,7 +22709,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("themeClass"), function
 },["CPString"]), new objj_method(sel_getUid("themeAttributes"), function $CPButtonBar__themeAttributes(self, _cmd)
 { with(self)
 {
-    return objj_msgSend(CPDictionary, "dictionaryWithObjects:forKeys:", [objj_msgSend(CPNull, "null")], ["bezel-color"]);
+    return objj_msgSend(CPDictionary, "dictionaryWithObjects:forKeys:", [CGInsetMake(0.0, 0.0, 0.0, 0.0), CGSizeMakeZero(), objj_msgSend(CPNull, "null"), objj_msgSend(CPNull, "null"), objj_msgSend(CPNull, "null")], ["resize-control-inset", "resize-control-size", "resize-control-color", "bezel-color", "button-bezel-color"]);
 }
 },["id"])]);
 }
