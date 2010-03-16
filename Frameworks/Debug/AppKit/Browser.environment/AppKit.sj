@@ -3250,7 +3250,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("initialize"), function
 },["CGRect","CGRect","CPShadowWeight"])]);
 }
 
-p;21;_CPImageAndTextView.jt;23531;@STATIC;1.0;I;21;Foundation/CPString.ji;9;CPColor.ji;8;CPFont.ji;9;CPImage.ji;8;CPView.ji;11;CPControl.jt;23419;objj_executeFile("Foundation/CPString.j", NO);
+p;21;_CPImageAndTextView.jt;23320;@STATIC;1.0;I;21;Foundation/CPString.ji;9;CPColor.ji;8;CPFont.ji;9;CPImage.ji;8;CPView.ji;11;CPControl.jt;23208;objj_executeFile("Foundation/CPString.j", NO);
 objj_executeFile("CPColor.j", YES);
 objj_executeFile("CPFont.j", YES);
 objj_executeFile("CPImage.j", YES);
@@ -3526,13 +3526,13 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:control:"
             shadowStyle.font = objj_msgSend(_font ? _font : objj_msgSend(CPFont, "systemFontOfSize:", 12.0), "cssString");
             shadowStyle.position = "absolute";
             shadowStyle.whiteSpace = textStyle.whiteSpace;
+            shadowStyle.wordWrap = textStyle.wordWrap;
             shadowStyle.color = objj_msgSend(_textShadowColor, "cssString");
             shadowStyle.zIndex = 150;
             shadowStyle.textOverflow = textStyle.textOverflow;
             if (document.attachEvent)
             {
                 shadowStyle.overflow = textStyle.overflow;
-                shadowStyle.wordWrap = textStyle.wordWrap;
             }
             else
             {
@@ -3573,29 +3573,26 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:control:"
                 case CPLineBreakByClipping: textStyle.overflow = "hidden";
                                                     textStyle.textOverflow = "clip";
                                                     textStyle.whiteSpace = "pre";
-                                                    if (document.attachEvent)
-                                                        textStyle.wordWrap = "normal";
+                                                    textStyle.wordWrap = "normal";
                                                     break;
                 case CPLineBreakByTruncatingHead:
                 case CPLineBreakByTruncatingMiddle:
                 case CPLineBreakByTruncatingTail: textStyle.textOverflow = "ellipsis";
                                                     textStyle.whiteSpace = "nowrap";
                                                     textStyle.overflow = "hidden";
-                                                    if (document.attachEvent)
-                                                        textStyle.wordWrap = "normal";
+                                                    textStyle.wordWrap = "normal";
                                                     break;
                 case CPLineBreakByCharWrapping:
-                case CPLineBreakByWordWrapping: if (document.attachEvent)
-                                                    {
+                case CPLineBreakByWordWrapping: textStyle.wordWrap = "break-word";
+                                                    try {
                                                         textStyle.whiteSpace = "pre";
-                                                        textStyle.wordWrap = "break-word";
-                                                    }
-                                                    else
-                                                    {
                                                         textStyle.whiteSpace = "-o-pre-wrap";
                                                         textStyle.whiteSpace = "-pre-wrap";
                                                         textStyle.whiteSpace = "-moz-pre-wrap";
                                                         textStyle.whiteSpace = "pre-wrap";
+                                                    }
+                                                    catch (e) {
+                                                        textStyle.whiteSpace = "pre";
                                                     }
                                                     textStyle.overflow = "hidden";
                                                     textStyle.textOverflow = "clip";
@@ -3605,7 +3602,6 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:control:"
             {
                 if (document.attachEvent)
                 {
-                    shadowStyle.wordWrap = textStyle.wordWrap;
                     shadowStyle.overflow = textStyle.overflow;
                 }
                 else
@@ -3613,6 +3609,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:control:"
                     shadowStyle.overflowX = textStyle.overflowX;
                     shadowStyle.overflowY = textStyle.overflowY;
                 }
+                shadowStyle.wordWrap = textStyle.wordWrap;
                 shadowStyle.whiteSpace = textStyle.whiteSpace;
                 shadowStyle.textOverflow = textStyle.textOverflow;
             }
@@ -29275,7 +29272,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("initialize"), function
 },["void"])]);
 }
 
-p;18;CPPlatformString.jt;4016;@STATIC;1.0;I;21;Foundation/CPObject.jt;3971;objj_executeFile("Foundation/CPObject.j", NO);
+p;18;CPPlatformString.jt;4397;@STATIC;1.0;I;21;Foundation/CPObject.jt;4352;objj_executeFile("Foundation/CPObject.j", NO);
 {var the_class = objj_allocateClassPair(CPObject, "CPBasePlatformString"),
 meta_class = the_class.isa;objj_registerClassPair(the_class);
 class_addMethods(meta_class, [new objj_method(sel_getUid("bootstrap"), function $CPBasePlatformString__bootstrap(self, _cmd)
@@ -29289,7 +29286,8 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("bootstrap"), function 
 }
 },["CGSize","CPString","CPFont","float"])]);
 }
-var DOMSpanElement = nil,
+var DOMFixedWidthSpanElement = nil,
+    DOMFlexibleWidthSpanElement = nil,
     DOMIFrameElement = nil,
     DefaultFont = nil;
 {var the_class = objj_allocateClassPair(CPBasePlatformString, "CPPlatformString"),
@@ -29302,36 +29300,59 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("bootstrap"), function 
 },["void"]), new objj_method(sel_getUid("createDOMElements"), function $CPPlatformString__createDOMElements(self, _cmd)
 { with(self)
 {
+    var style;
     DOMIFrameElement = document.createElement("iframe");
     DOMIFrameElement.name = "iframe_" + FLOOR(RAND() * 10000);
-    DOMIFrameElement.style.position = "absolute";
-    DOMIFrameElement.style.left = "-100px";
-    DOMIFrameElement.style.top = "-100px";
-    DOMIFrameElement.style.width = "1px";
-    DOMIFrameElement.style.height = "1px";
-    DOMIFrameElement.style.borderWidth = "0px";
-    DOMIFrameElement.style.overflow = "hidden";
-    DOMIFrameElement.style.zIndex = 100000000000;
     DOMIFrameElement.className = "cpdontremove";
+    style = DOMIFrameElement.style;
+    style.position = "absolute";
+    style.left = "-100px";
+    style.top = "-100px";
+    style.width = "1px";
+    style.height = "1px";
+    style.borderWidth = "0px";
+    style.overflow = "hidden";
+    style.zIndex = 100000000000;
     var bodyElement = objj_msgSend(CPPlatform, "mainBodyElement");
     bodyElement.appendChild(DOMIFrameElement);
     var DOMIFrameDocument = (DOMIFrameElement.contentDocument || DOMIFrameElement.contentWindow.document);
-    DOMIFrameDocument.write("<html><head></head><body></body></html>");
+    DOMIFrameDocument.write('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">'+
+                            '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head></head><body></body></html>');
     DOMIFrameDocument.close();
     var DOMDivElement = DOMIFrameDocument.createElement("div");
     DOMDivElement.style.position = "absolute";
     DOMDivElement.style.width = "100000px";
     DOMIFrameDocument.body.appendChild(DOMDivElement);
-    DOMSpanElement = DOMIFrameDocument.createElement("span");
-    DOMSpanElement.style.position = "absolute";
-    DOMSpanElement.style.visibility = "visible";
-    DOMSpanElement.style.padding = "0px";
-    DOMSpanElement.style.margin = "0px";
-    try {
-        DOMSpanElement.style.whiteSpace = "pre";
+    DOMFlexibleWidthSpanElement = DOMIFrameDocument.createElement("span");
+    style = DOMFlexibleWidthSpanElement.style;
+    style.position = "absolute";
+    style.visibility = "visible";
+    style.padding = "0px";
+    style.margin = "0px";
+    style.whiteSpace = "pre";
+    DOMFixedWidthSpanElement = DOMIFrameDocument.createElement("span");
+    style = DOMFixedWidthSpanElement.style;
+    style.display = "block";
+    style.position = "absolute";
+    style.visibility = "visible";
+    style.padding = "0px";
+    style.margin = "0px";
+    style.width = "1px";
+    style.wordWrap = "break-word";
+    try
+    {
+        style.whiteSpace = "pre";
+        style.whiteSpace = "-o-pre-wrap";
+        style.whiteSpace = "-pre-wrap";
+        style.whiteSpace = "-moz-pre-wrap";
+        style.whiteSpace = "pre-wrap";
     }
-    catch (e) {}
-    DOMDivElement.appendChild(DOMSpanElement);
+    catch(e)
+    {
+        style.whiteSpace = "pre";
+    }
+    DOMDivElement.appendChild(DOMFlexibleWidthSpanElement);
+    DOMDivElement.appendChild(DOMFixedWidthSpanElement);
 }
 },["void"]), new objj_method(sel_getUid("sizeOfString:withFont:forWidth:"), function $CPPlatformString__sizeOfString_withFont_forWidth_(self, _cmd, aString, aFont, aWidth)
 { with(self)
@@ -29344,36 +29365,20 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("bootstrap"), function 
     }
     if (!DOMIFrameElement)
         objj_msgSend(self, "createDOMElements");
-    var style = DOMSpanElement.style;
+    var span;
     if (!aWidth)
-    {
-        style.width = "";
-        try {
-            style.whiteSpace = "pre";
-        }
-        catch (e) {}
-        style.wordWrap = "normal";
-    }
+        span = DOMFlexibleWidthSpanElement;
     else
     {
-        style.width = ROUND(aWidth) + "px";
-        try
-        {
-            style.whiteSpace = "-o-pre-wrap";
-            style.whiteSpace = "-pre-wrap";
-            style.whiteSpace = "-moz-pre-wrap";
-            style.whiteSpace = "pre-wrap";
-        } catch(e)
-        {
-        }
-        style.wordWrap = "break-word";
+        span = DOMFixedWidthSpanElement;
+        span.style.width = ROUND(aWidth) + "px";
     }
-    style.font = objj_msgSend(aFont, "cssString");
+    span.style.font = objj_msgSend(aFont, "cssString");
     if (CPFeatureIsCompatible(CPJavascriptInnerTextFeature))
-        DOMSpanElement.innerText = aString;
+        span.innerText = aString;
     else if (CPFeatureIsCompatible(CPJavascriptTextContentFeature))
-        DOMSpanElement.textContent = aString;
-    return { width:DOMSpanElement.clientWidth, height:DOMSpanElement.clientHeight };
+        span.textContent = aString;
+    return { width:span.clientWidth, height:span.clientHeight };
 }
 },["CGSize","CPString","CPFont","float"])]);
 }
