@@ -14961,7 +14961,7 @@ objj_msgSend(_d6,"updateFromItem");
 }
 }
 })]);
-p;15;CPApplication.jt;29531;@STATIC;1.0;I;21;Foundation/CPBundle.ji;17;CPCompatibility.ji;9;CPEvent.ji;8;CPMenu.ji;13;CPResponder.ji;22;CPDocumentController.ji;14;CPThemeBlend.ji;14;CPCibLoading.ji;12;CPPlatform.jt;29338;
+p;15;CPApplication.jt;29468;@STATIC;1.0;I;21;Foundation/CPBundle.ji;17;CPCompatibility.ji;9;CPEvent.ji;8;CPMenu.ji;13;CPResponder.ji;22;CPDocumentController.ji;14;CPThemeBlend.ji;14;CPCibLoading.ji;12;CPPlatform.jt;29275;
 objj_executeFile("Foundation/CPBundle.j",NO);
 objj_executeFile("CPCompatibility.j",YES);
 objj_executeFile("CPEvent.j",YES);
@@ -15415,9 +15415,6 @@ return nil;
 }),new objj_method(sel_getUid("setCallback:forNextEventMatchingMask:untilDate:inMode:dequeue:"),function(_a8,_a9,_aa,_ab,_ac,_ad,_ae){
 with(_a8){
 _eventListeners.push(_af(_ab,_aa));
-if(_eventListeners.length==3){
-objj_debug_print_backtrace();
-}
 }
 }),new objj_method(sel_getUid("setTarget:selector:forNextEventMatchingMask:untilDate:inMode:dequeue:"),function(_b0,_b1,_b2,_b3,_b4,_b5,_b6,_b7){
 with(_b0){
@@ -24764,7 +24761,7 @@ with(_6){
 return _flashMovie;
 }
 })]);
-p;9;CALayer.jt;24849;@STATIC;1.0;I;21;Foundation/CPObject.jI;23;AppKit/CABackingStore.jI;18;AppKit/CGContext.jI;19;AppKit/CGGeometry.ji;12;CGGeometry.jt;24711;
+p;9;CALayer.jt;24760;@STATIC;1.0;I;21;Foundation/CPObject.jI;23;AppKit/CABackingStore.jI;18;AppKit/CGContext.jI;19;AppKit/CGGeometry.ji;12;CGGeometry.jt;24622;
 objj_executeFile("Foundation/CPObject.j",NO);
 objj_executeFile("AppKit/CABackingStore.j",NO);
 objj_executeFile("AppKit/CGContext.j",NO);
@@ -25336,11 +25333,6 @@ return objj_msgSend(objj_msgSend(objj_msgSend(_d5,"class"),"alloc"),"init");
 }
 }),new objj_method(sel_getUid("runLoopUpdateLayers"),function(_d7,_d8){
 with(_d7){
-if(window.oops){
-alert(window.latest);
-objj_debug_print_backtrace();
-}
-window.loop=true;
 for(UID in _2e){
 var _d9=_2e[UID],_da=_d9._runLoopUpdateMask;
 if(_da&_2d){

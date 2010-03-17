@@ -16245,7 +16245,7 @@ return _maxSize;
 },["void","CPString","id","CPDictionary","id"])]);
 }
 
-p;15;CPApplication.jt;40373;@STATIC;1.0;I;21;Foundation/CPBundle.ji;17;CPCompatibility.ji;9;CPEvent.ji;8;CPMenu.ji;13;CPResponder.ji;22;CPDocumentController.ji;14;CPThemeBlend.ji;14;CPCibLoading.ji;12;CPPlatform.jt;40180;objj_executeFile("Foundation/CPBundle.j", NO);
+p;15;CPApplication.jt;40306;@STATIC;1.0;I;21;Foundation/CPBundle.ji;17;CPCompatibility.ji;9;CPEvent.ji;8;CPMenu.ji;13;CPResponder.ji;22;CPDocumentController.ji;14;CPThemeBlend.ji;14;CPCibLoading.ji;12;CPPlatform.jt;40113;objj_executeFile("Foundation/CPBundle.j", NO);
 objj_executeFile("CPCompatibility.j", YES);
 objj_executeFile("CPEvent.j", YES);
 objj_executeFile("CPMenu.j", YES);
@@ -16740,7 +16740,6 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPApp
 { with(self)
 {
     _eventListeners.push(_CPEventListenerMake(aMask, aCallback));
-    if (_eventListeners.length == 3) objj_debug_print_backtrace();
 }
 },["void","Function","unsignedint","CPDate","CPString","BOOL"]), new objj_method(sel_getUid("setTarget:selector:forNextEventMatchingMask:untilDate:inMode:dequeue:"), function $CPApplication__setTarget_selector_forNextEventMatchingMask_untilDate_inMode_dequeue_(self, _cmd, aTarget, aSelector, aMask, anExpiration, aMode, shouldDequeue)
 { with(self)
@@ -27487,7 +27486,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("setFlashMovie:"), funct
 },["CPFlashMovie"])]);
 }
 
-p;9;CALayer.jt;37662;@STATIC;1.0;I;21;Foundation/CPObject.jI;23;AppKit/CABackingStore.jI;18;AppKit/CGContext.jI;19;AppKit/CGGeometry.ji;12;CGGeometry.jt;37524;objj_executeFile("Foundation/CPObject.j", NO);
+p;9;CALayer.jt;37568;@STATIC;1.0;I;21;Foundation/CPObject.jI;23;AppKit/CABackingStore.jI;18;AppKit/CGContext.jI;19;AppKit/CGGeometry.ji;12;CGGeometry.jt;37430;objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("AppKit/CABackingStore.j", NO);
 objj_executeFile("AppKit/CGContext.j", NO);
 objj_executeFile("AppKit/CGGeometry.j", NO);
@@ -28110,8 +28109,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("layer"), function $CAL
 }
 },["CALayer"]), new objj_method(sel_getUid("runLoopUpdateLayers"), function $CALayer__runLoopUpdateLayers(self, _cmd)
 { with(self)
-{if (window.oops) {alert(window.latest); objj_debug_print_backtrace();}
-    window.loop = true;
+{
     for (UID in CALayerRegisteredRunLoopUpdates)
     {
         var layer = CALayerRegisteredRunLoopUpdates[UID],
