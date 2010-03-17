@@ -486,7 +486,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPEvent"])]);
 }
 
-p;13;CPTableView.jt;126771;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;126628;objj_executeFile("Foundation/CPArray.j", NO);
+p;13;CPTableView.jt;127222;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;127079;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("AppKit/CGGradient.j", NO);
 objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPTableColumn.j", YES);
@@ -2658,6 +2658,7 @@ var CPTableViewDataSourceKey = "CPTableViewDataSourceKey",
     CPTableViewGridColorKey = "CPTableViewGridColorKey",
     CPTableViewGridStyleMaskKey = "CPTableViewGridStyleMaskKey",
     CPTableViewUsesAlternatingBackgroundKey = "CPTableViewUsesAlternatingBackgroundKey",
+    CPTableViewAlternatingRowColorsKey = "CPTableViewAlternatingRowColorsKey",
     CPTableViewHeaderViewKey = "CPTableViewHeaderViewKey",
     CPTableViewCornerViewKey = "CPTableViewCornerViewKey";
 {
@@ -2697,6 +2698,8 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
             _intercellSpacing = { width:0.0, height:0.0 };
         _gridColor = objj_msgSend(aCoder, "decodeObjectForKey:", CPTableViewGridColorKey) || objj_msgSend(CPColor, "grayColor");
         _gridStyleMask = objj_msgSend(aCoder, "decodeIntForKey:", CPTableViewGridStyleMaskKey) || CPTableViewGridNone;
+        _alternatingRowBackgroundColors = objj_msgSend(aCoder, "decodeObjectForKey:", CPTableViewAlternatingRowColorsKey);
+        _usesAlternatingRowBackgroundColors = objj_msgSend(aCoder, "decodeObjectForKey:", CPTableViewUsesAlternatingBackgroundKey)
         _headerView = objj_msgSend(aCoder, "decodeObjectForKey:", CPTableViewHeaderViewKey);
         _cornerView = objj_msgSend(aCoder, "decodeObjectForKey:", CPTableViewCornerViewKey);
         _selectedColumnIndexes = objj_msgSend(CPIndexSet, "indexSet");
@@ -2728,6 +2731,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
     objj_msgSend(aCoder, "encodeObject:forKey:", _gridColor, CPTableViewGridColorKey);
     objj_msgSend(aCoder, "encodeInt:forKey:", _gridStyleMask, CPTableViewGridStyleMaskKey);
     objj_msgSend(aCoder, "encodeBool:forKey:", _usesAlternatingRowBackgroundColors, CPTableViewUsesAlternatingBackgroundKey);
+    objj_msgSend(aCoder, "encodeObject:forKey:", _alternatingRowBackgroundColors, CPTableViewAlternatingRowColorsKey)
     objj_msgSend(aCoder, "encodeObject:forKey:", _cornerView, CPTableViewCornerViewKey);
     objj_msgSend(aCoder, "encodeObject:forKey:", _headerView, CPTableViewHeaderViewKey);
 }
