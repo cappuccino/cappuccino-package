@@ -4755,7 +4755,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"])]);
 }
 
-p;18;CPCollectionView.jt;23683;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;Foundation/CPData.jI;23;Foundation/CPIndexSet.jI;28;Foundation/CPKeyedArchiver.jI;30;Foundation/CPKeyedUnarchiver.ji;8;CPView.ji;22;CPCollectionViewItem.jt;23479;objj_executeFile("Foundation/CPArray.j", NO);
+p;18;CPCollectionView.jt;24772;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;Foundation/CPData.jI;23;Foundation/CPIndexSet.jI;28;Foundation/CPKeyedArchiver.jI;30;Foundation/CPKeyedUnarchiver.ji;8;CPView.ji;22;CPCollectionViewItem.jt;24568;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("Foundation/CPData.j", NO);
 objj_executeFile("Foundation/CPIndexSet.j", NO);
 objj_executeFile("Foundation/CPKeyedArchiver.j", NO);
@@ -5126,38 +5126,39 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 {
     return _delegate;
 }
-},["id"])]);
+},["id"]), new objj_method(sel_getUid("itemAtIndex:"), function $CPCollectionView__itemAtIndex_(self, _cmd, anIndex)
+{ with(self)
+{
+    return objj_msgSend(_items, "objectAtIndex:", anIndex);
+}
+},["CPCollectionViewItem","unsigned"]), new objj_method(sel_getUid("frameForItemAtIndex:"), function $CPCollectionView__frameForItemAtIndex_(self, _cmd, anIndex)
+{ with(self)
+{
+    return objj_msgSend(objj_msgSend(objj_msgSend(self, "itemAtIndex:", anIndex), "view"), "frame");
+}
+},["CGRect","unsigned"]), new objj_method(sel_getUid("frameForItemsAtIndexes:"), function $CPCollectionView__frameForItemsAtIndexes_(self, _cmd, anIndexSet)
+{ with(self)
+{
+    var indexArray = [],
+        frame = CGRectNull;
+    objj_msgSend(anIndexSet, "getIndexes:maxCount:inIndexRange:", indexArray, -1, nil);
+    var index = 0,
+        count = objj_msgSend(indexArray, "count");
+    for (; index < count; ++index)
+        frame = CGRectUnion(frame, objj_msgSend(self, "rectForItemAtIndex:", indexArray[index]));
+    return frame;
+}
+},["CGRect","CPIndexSet"])]);
 }
 {
 var the_class = objj_getClass("CPCollectionView")
 if(!the_class) throw new SyntaxError("*** Could not find definition for class \"CPCollectionView\"");
-var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_getUid("rectForItemAtIndex:"), function $CPCollectionView__rectForItemAtIndex_(self, _cmd, index)
+var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_getUid("_scrollToSelection"), function $CPCollectionView___scrollToSelection(self, _cmd)
 { with(self)
 {
-    return objj_msgSend(objj_msgSend(_items[index], "view"), "frame");
-}
-},["CGRect","int"]), new objj_method(sel_getUid("rectForItemsAtIndexes:"), function $CPCollectionView__rectForItemsAtIndexes_(self, _cmd, indexSet)
-{ with(self)
-{
-    var indexArray = [],
-        rect = nil;
-    objj_msgSend(indexSet, "getIndexes:maxCount:inIndexRange:", indexArray, -1, nil);
-    for (var i = 0, count = indexArray.length; i < count; ++i)
-    {
-        var index = indexArray[i];
-        if (rect == nil)
-            rect = objj_msgSend(self, "rectForItemAtIndex:", index);
-        else
-            rect = CGRectUnion(rect, objj_msgSend(self, "rectForItemAtIndex:", index));
-    }
-    return rect;
-}
-},["CGRect","CPIndexSet"]), new objj_method(sel_getUid("_scrollToSelection"), function $CPCollectionView___scrollToSelection(self, _cmd)
-{ with(self)
-{
-    var rect = objj_msgSend(self, "rectForItemsAtIndexes:", objj_msgSend(self, "selectionIndexes"));
-    if (rect)
-        objj_msgSend(self, "scrollRectToVisible:", rect);
+    var frame = objj_msgSend(self, "frameForItemsAtIndexes:", objj_msgSend(self, "selectionIndexes"));
+    if (!CGRectIsNull(frame))
+        objj_msgSend(self, "scrollRectToVisible:", frame);
 }
 },["void"]), new objj_method(sel_getUid("moveLeft:"), function $CPCollectionView__moveLeft_(self, _cmd, sender)
 { with(self)
@@ -5212,6 +5213,23 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
     objj_msgSend(self, "interpretKeyEvents:", [anEvent]);
 }
 },["void","CPEvent"])]);
+}
+{
+var the_class = objj_getClass("CPCollectionView")
+if(!the_class) throw new SyntaxError("*** Could not find definition for class \"CPCollectionView\"");
+var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_getUid("rectForItemAtIndex:"), function $CPCollectionView__rectForItemAtIndex_(self, _cmd, anIndex)
+{ with(self)
+{
+    _CPReportLenientDeprecation(objj_msgSend(self, "class"), _cmd, sel_getUid("frameForItemAtIndex:"));
+    return objj_msgSend(self, "frameForItemAtIndex:", anIndex);
+}
+},["CGRect","int"]), new objj_method(sel_getUid("rectForItemsAtIndexes:"), function $CPCollectionView__rectForItemsAtIndexes_(self, _cmd, anIndexSet)
+{ with(self)
+{
+    _CPReportLenientDeprecation(objj_msgSend(self, "class"), _cmd, sel_getUid("frameForItemsAtIndexes:"));
+    return objj_msgSend(self, "frameForItemsAtIndexes:", anIndexSet);
+}
+},["CGRect","CPIndexSet"])]);
 }
 var CPCollectionViewMinItemSizeKey = "CPCollectionViewMinItemSizeKey",
     CPCollectionViewMaxItemSizeKey = "CPCollectionViewMaxItemSizeKey",
