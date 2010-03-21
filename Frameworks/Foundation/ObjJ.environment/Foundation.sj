@@ -3407,7 +3407,7 @@ return objj_msgSend(this,"description");
 return String(this)+" (-description not implemented)";
 }
 };
-p;9;CPProxy.jt;3569;@STATIC;1.0;i;13;CPException.ji;14;CPInvocation.ji;10;CPString.jt;3498;
+p;9;CPProxy.jt;3560;@STATIC;1.0;i;13;CPException.ji;14;CPInvocation.ji;10;CPString.jt;3489;
 objj_executeFile("CPException.j",YES);
 objj_executeFile("CPInvocation.j",YES);
 objj_executeFile("CPString.j",YES);
@@ -3419,7 +3419,7 @@ objj_msgSend(CPException,"raise:reason:",CPInvalidArgumentException,"-methodSign
 }
 }),new objj_method(sel_getUid("forwardInvocation:"),function(_6,_7,_8){
 with(_6){
-objj_msgSend(CPException,"raise:reason:",CPInvalidArgumentException,"-methodSignatureForSelector: called on abstract CPProxy class.");
+objj_msgSend(CPException,"raise:reason:",CPInvalidArgumentException,"-forwardInvocation: called on abstract CPProxy class.");
 }
 }),new objj_method(sel_getUid("forward::"),function(_9,_a,_b,_c){
 with(_9){

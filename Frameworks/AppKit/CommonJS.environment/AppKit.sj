@@ -4158,7 +4158,7 @@ objj_msgSend(_9f,"encodeBool:forKey:",_isVertical,_97);
 objj_msgSend(_9f,"encodeBool:forKey:",_isPaneSplitter,_98);
 }
 })]);
-p;18;CPCollectionView.jt;17723;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;Foundation/CPData.jI;23;Foundation/CPIndexSet.jI;28;Foundation/CPKeyedArchiver.jI;30;Foundation/CPKeyedUnarchiver.ji;8;CPView.ji;22;CPCollectionViewItem.jt;17519;
+p;18;CPCollectionView.jt;17948;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;Foundation/CPData.jI;23;Foundation/CPIndexSet.jI;28;Foundation/CPKeyedArchiver.jI;30;Foundation/CPKeyedUnarchiver.ji;8;CPView.ji;22;CPCollectionViewItem.jt;17744;
 objj_executeFile("Foundation/CPArray.j",NO);
 objj_executeFile("Foundation/CPData.j",NO);
 objj_executeFile("Foundation/CPIndexSet.j",NO);
@@ -4469,6 +4469,9 @@ if(!objj_msgSend(_delegate,"respondsToSelector:",sel_getUid("collectionView:drag
 return;
 }
 if(!objj_msgSend(_selectionIndexes,"count")){
+return;
+}
+if(objj_msgSend(_delegate,"respondsToSelector:",sel_getUid("collectionView:canDragItemsAtIndexes:withEvent:"))&&!objj_msgSend(_delegate,"collectionView:canDragItemsAtIndexes:withEvent:",_66,_selectionIndexes,_68)){
 return;
 }
 var _69=objj_msgSend(_delegate,"collectionView:dragTypesForItemsAtIndexes:",_66,_selectionIndexes);

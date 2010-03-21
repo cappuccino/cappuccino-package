@@ -3853,7 +3853,7 @@ objj_class.prototype.toString = objj_object.prototype.toString = function()
         return String(this) + " (-description not implemented)";
 }
 
-p;9;CPProxy.jt;5135;@STATIC;1.0;i;13;CPException.ji;14;CPInvocation.ji;10;CPString.jt;5064;objj_executeFile("CPException.j", YES);
+p;9;CPProxy.jt;5126;@STATIC;1.0;i;13;CPException.ji;14;CPInvocation.ji;10;CPString.jt;5055;objj_executeFile("CPException.j", YES);
 objj_executeFile("CPInvocation.j", YES);
 objj_executeFile("CPString.j", YES);
 {var the_class = objj_allocateClassPair(Nil, "CPProxy"),
@@ -3866,7 +3866,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("methodSignatureForSelec
 },["CPMethodSignature","SEL"]), new objj_method(sel_getUid("forwardInvocation:"), function $CPProxy__forwardInvocation_(self, _cmd, anInvocation)
 { with(self)
 {
-    objj_msgSend(CPException, "raise:reason:", CPInvalidArgumentException, "-methodSignatureForSelector: called on abstract CPProxy class.");
+    objj_msgSend(CPException, "raise:reason:", CPInvalidArgumentException, "-forwardInvocation: called on abstract CPProxy class.");
 }
 },["void","CPInvocation"]), new objj_method(sel_getUid("forward::"), function $CPProxy__forward__(self, _cmd, aSelector, args)
 { with(self)
