@@ -4489,7 +4489,7 @@ objj_msgSend(_a0,"encodeBool:forKey:",_isVertical,_98);
 objj_msgSend(_a0,"encodeBool:forKey:",_isPaneSplitter,_99);
 }
 })]);
-p;18;CPCollectionView.jt;17948;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;Foundation/CPData.jI;23;Foundation/CPIndexSet.jI;28;Foundation/CPKeyedArchiver.jI;30;Foundation/CPKeyedUnarchiver.ji;8;CPView.ji;22;CPCollectionViewItem.jt;17744;
+p;18;CPCollectionView.jt;17960;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;Foundation/CPData.jI;23;Foundation/CPIndexSet.jI;28;Foundation/CPKeyedArchiver.jI;30;Foundation/CPKeyedUnarchiver.ji;8;CPView.ji;22;CPCollectionViewItem.jt;17756;
 objj_executeFile("Foundation/CPArray.j",NO);
 objj_executeFile("Foundation/CPData.j",NO);
 objj_executeFile("Foundation/CPIndexSet.j",NO);
@@ -4802,7 +4802,7 @@ return;
 if(!objj_msgSend(_selectionIndexes,"count")){
 return;
 }
-if(objj_msgSend(_delegate,"respondsToSelector:",sel_getUid("collectionView:canDragItemsAtIndexes:withEvent:"))&&!objj_msgSend(_delegate,"collectionView:canDragItemsAtIndexes:withEvent:",_66,_selectionIndexes,_68)){
+if(objj_msgSend(_delegate,"respondsToSelector:",sel_getUid("collectionView:canDragItemsAtIndexes:withEvent:"))&&!objj_msgSend(_delegate,"collectionView:canDragItemsAtIndexes:withEvent:",_66,_selectionIndexes,_mouseDownEvent)){
 return;
 }
 var _69=objj_msgSend(_delegate,"collectionView:dragTypesForItemsAtIndexes:",_66,_selectionIndexes);
