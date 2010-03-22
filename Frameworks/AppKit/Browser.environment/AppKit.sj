@@ -4489,7 +4489,7 @@ objj_msgSend(_a0,"encodeBool:forKey:",_isVertical,_98);
 objj_msgSend(_a0,"encodeBool:forKey:",_isPaneSplitter,_99);
 }
 })]);
-p;18;CPCollectionView.jt;17960;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;Foundation/CPData.jI;23;Foundation/CPIndexSet.jI;28;Foundation/CPKeyedArchiver.jI;30;Foundation/CPKeyedUnarchiver.ji;8;CPView.ji;22;CPCollectionViewItem.jt;17756;
+p;18;CPCollectionView.jt;17959;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;Foundation/CPData.jI;23;Foundation/CPIndexSet.jI;28;Foundation/CPKeyedArchiver.jI;30;Foundation/CPKeyedUnarchiver.ji;8;CPView.ji;22;CPCollectionViewItem.jt;17755;
 objj_executeFile("Foundation/CPArray.j",NO);
 objj_executeFile("Foundation/CPData.j",NO);
 objj_executeFile("Foundation/CPIndexSet.j",NO);
@@ -4905,7 +4905,7 @@ _99=MAX(0,_99-objj_msgSend(_96,"numberOfColumns"));
 objj_msgSend(_96,"setSelectionIndexes:",objj_msgSend(CPIndexSet,"indexSetWithIndex:",_99));
 objj_msgSend(_96,"_scrollToSelection");
 }
-}),new objj_method(sel_getUid("deleteBackwards:"),function(_9a,_9b,_9c){
+}),new objj_method(sel_getUid("deleteBackward:"),function(_9a,_9b,_9c){
 with(_9a){
 if(objj_msgSend(objj_msgSend(_9a,"delegate"),"respondsToSelector:",sel_getUid("collectionView:shouldDeleteItemsAtIndexes:"))){
 objj_msgSend(objj_msgSend(_9a,"delegate"),"collectionView:shouldDeleteItemsAtIndexes:",_9a,objj_msgSend(_9a,"selectionIndexes"));
@@ -10190,7 +10190,7 @@ return "00";
 n=ROUND(MIN(255,MAX(0,256*n)));
 return _ac.charAt((n-n%16)/16)+_ac.charAt(n%16);
 };
-p;13;CPTextField.jt;27293;@STATIC;1.0;i;11;CPControl.ji;17;CPStringDrawing.ji;17;CPCompatibility.ji;21;_CPImageAndTextView.jt;27187;
+p;13;CPTextField.jt;27290;@STATIC;1.0;i;11;CPControl.ji;17;CPStringDrawing.ji;17;CPCompatibility.ji;21;_CPImageAndTextView.jt;27184;
 objj_executeFile("CPControl.j",YES);
 objj_executeFile("CPStringDrawing.j",YES);
 objj_executeFile("CPCompatibility.j",YES);
@@ -10629,7 +10629,7 @@ objj_msgSend(_81,"setString:forType:",_83,CPStringPboardType);
 with(_84){
 if(!objj_msgSend(CPPlatform,"isBrowser")){
 objj_msgSend(_84,"copy:",_86);
-objj_msgSend(_84,"deleteBackwards:",_86);
+objj_msgSend(_84,"deleteBackward:",_86);
 }
 }
 }),new objj_method(sel_getUid("paste:"),function(_87,_88,_89){
@@ -10639,7 +10639,7 @@ var _8a=objj_msgSend(CPPasteboard,"generalPasteboard");
 if(!objj_msgSend(objj_msgSend(_8a,"types"),"containsObject:",CPStringPboardType)){
 return;
 }
-objj_msgSend(_87,"deleteBackwards:",_89);
+objj_msgSend(_87,"deleteBackward:",_89);
 var _8b=objj_msgSend(_87,"selectedRange"),_8c=objj_msgSend(_87,"stringValue"),_8d=objj_msgSend(_8a,"stringForType:",CPStringPboardType),_8e=objj_msgSend(_8c,"stringByReplacingCharactersInRange:withString:",_8b,_8d);
 objj_msgSend(_87,"setStringValue:",_8e);
 objj_msgSend(_87,"setSelectedRange:",CPMakeRange(_8b.location+_8d.length,0));
@@ -10692,7 +10692,7 @@ catch(e){
 with(_9e){
 objj_msgSend(_9e,"selectText:",_a0);
 }
-}),new objj_method(sel_getUid("deleteBackwards:"),function(_a1,_a2,_a3){
+}),new objj_method(sel_getUid("deleteBackward:"),function(_a1,_a2,_a3){
 with(_a1){
 var _a4=objj_msgSend(_a1,"selectedRange"),_a5=objj_msgSend(_a1,"stringValue"),_a6=objj_msgSend(_a5,"stringByReplacingCharactersInRange:withString:",_a4,"");
 objj_msgSend(_a1,"setStringValue:",_a6);

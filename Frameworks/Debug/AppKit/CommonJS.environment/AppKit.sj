@@ -4755,7 +4755,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"])]);
 }
 
-p;18;CPCollectionView.jt;25036;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;Foundation/CPData.jI;23;Foundation/CPIndexSet.jI;28;Foundation/CPKeyedArchiver.jI;30;Foundation/CPKeyedUnarchiver.ji;8;CPView.ji;22;CPCollectionViewItem.jt;24832;objj_executeFile("Foundation/CPArray.j", NO);
+p;18;CPCollectionView.jt;25034;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;Foundation/CPData.jI;23;Foundation/CPIndexSet.jI;28;Foundation/CPKeyedArchiver.jI;30;Foundation/CPKeyedUnarchiver.ji;8;CPView.ji;22;CPCollectionViewItem.jt;24830;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("Foundation/CPData.j", NO);
 objj_executeFile("Foundation/CPIndexSet.j", NO);
 objj_executeFile("Foundation/CPKeyedArchiver.j", NO);
@@ -5197,7 +5197,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
     objj_msgSend(self, "setSelectionIndexes:", objj_msgSend(CPIndexSet, "indexSetWithIndex:", index));
     objj_msgSend(self, "_scrollToSelection");
 }
-},["void","id"]), new objj_method(sel_getUid("deleteBackwards:"), function $CPCollectionView__deleteBackwards_(self, _cmd, sender)
+},["void","id"]), new objj_method(sel_getUid("deleteBackward:"), function $CPCollectionView__deleteBackward_(self, _cmd, sender)
 { with(self)
 {
     if (objj_msgSend(objj_msgSend(self, "delegate"), "respondsToSelector:", sel_getUid("collectionView:shouldDeleteItemsAtIndexes:")))
@@ -11264,7 +11264,7 @@ byteToHex= function(n) {
             hexCharacters.charAt(n % 16);
 }
 
-p;13;CPTextField.jt;32753;@STATIC;1.0;i;11;CPControl.ji;17;CPStringDrawing.ji;17;CPCompatibility.ji;21;_CPImageAndTextView.jt;32647;objj_executeFile("CPControl.j", YES);
+p;13;CPTextField.jt;32749;@STATIC;1.0;i;11;CPControl.ji;17;CPStringDrawing.ji;17;CPCompatibility.ji;21;_CPImageAndTextView.jt;32643;objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPStringDrawing.j", YES);
 objj_executeFile("CPCompatibility.j", YES);
 objj_executeFile("_CPImageAndTextView.j", YES);
@@ -11601,7 +11601,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     if (!objj_msgSend(CPPlatform, "isBrowser"))
     {
         objj_msgSend(self, "copy:", sender);
-        objj_msgSend(self, "deleteBackwards:", sender);
+        objj_msgSend(self, "deleteBackward:", sender);
     }
 }
 },["void","id"]), new objj_method(sel_getUid("paste:"), function $CPTextField__paste_(self, _cmd, sender)
@@ -11612,7 +11612,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
         var pasteboard = objj_msgSend(CPPasteboard, "generalPasteboard");
         if (!objj_msgSend(objj_msgSend(pasteboard, "types"), "containsObject:", CPStringPboardType))
             return;
-        objj_msgSend(self, "deleteBackwards:", sender);
+        objj_msgSend(self, "deleteBackward:", sender);
         var selectedRange = objj_msgSend(self, "selectedRange"),
             stringValue = objj_msgSend(self, "stringValue"),
             pasteString = objj_msgSend(pasteboard, "stringForType:", CPStringPboardType),
@@ -11683,7 +11683,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 {
     objj_msgSend(self, "selectText:", sender);
 }
-},["void","id"]), new objj_method(sel_getUid("deleteBackwards:"), function $CPTextField__deleteBackwards_(self, _cmd, sender)
+},["void","id"]), new objj_method(sel_getUid("deleteBackward:"), function $CPTextField__deleteBackward_(self, _cmd, sender)
 { with(self)
 {
     var selectedRange = objj_msgSend(self, "selectedRange"),
