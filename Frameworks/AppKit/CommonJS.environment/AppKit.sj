@@ -7823,7 +7823,7 @@ objj_msgSendSuper({receiver:_8c,super_class:objj_getClass("CPTableHeaderView").s
 objj_msgSend(_8e,"encodeObject:forKey:",_tableView,_88);
 }
 })]);
-p;13;CPImageView.jt;6687;@STATIC;1.0;I;33;Foundation/CPNotificationCenter.ji;11;CPControl.ji;9;CPImage.ji;14;CPShadowView.jt;6582;
+p;13;CPImageView.jt;6777;@STATIC;1.0;I;33;Foundation/CPNotificationCenter.ji;11;CPControl.ji;9;CPImage.ji;14;CPShadowView.jt;6672;
 objj_executeFile("Foundation/CPNotificationCenter.j",NO);
 objj_executeFile("CPControl.j",YES);
 objj_executeFile("CPImage.j",YES);
@@ -7987,6 +7987,7 @@ with(_41){
 var _44=objj_msgSend(CPKeyedUnarchiver,"unarchiveObjectWithData:",objj_msgSend(objj_msgSend(_43,"draggingPasteboard"),"dataForType:",CPImagesPboardType));
 if(objj_msgSend(_44,"count")){
 objj_msgSend(_41,"setImage:",_44[0]);
+objj_msgSend(_41,"sendAction:to:",objj_msgSend(_41,"action"),objj_msgSend(_41,"target"));
 }
 }
 })]);
