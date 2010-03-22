@@ -486,7 +486,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPEvent"])]);
 }
 
-p;13;CPTableView.jt;127222;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;127079;objj_executeFile("Foundation/CPArray.j", NO);
+p;13;CPTableView.jt;127042;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;126899;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("AppKit/CGGradient.j", NO);
 objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPTableColumn.j", YES);
@@ -1618,7 +1618,6 @@ _disableAutomaticResizing = newValue;
 {
     var bounds = objj_msgSend(self, "bounds"),
         view = objj_msgSend(objj_msgSend(CPView, "alloc"), "initWithFrame:", bounds);
-    objj_msgSend(view, "setBackgroundColor:", objj_msgSend(CPColor, "clearColor"));
     objj_msgSend(view, "setAlphaValue:", 0.7);
     var firstExposedColumn = objj_msgSend(_exposedColumns, "firstIndex"),
         firstExposedRow = objj_msgSend(_exposedRows, "firstIndex"),
@@ -1638,7 +1637,6 @@ _disableAutomaticResizing = newValue;
         {
             var row = rows[rowIndex];
             var dataView = objj_msgSend(self, "_newDataViewForRow:tableColumn:", row, tableColumn);
-            objj_msgSend(dataView, "setBackgroundColor:", objj_msgSend(CPColor, "clearColor"));
             objj_msgSend(dataView, "setFrame:", objj_msgSend(self, "frameOfDataViewAtColumn:row:", column, row));
             objj_msgSend(dataView, "setObjectValue:", objj_msgSend(self, "_objectValueForTableColumn:row:", tableColumn, row));
             objj_msgSend(view, "addSubview:", dataView);
