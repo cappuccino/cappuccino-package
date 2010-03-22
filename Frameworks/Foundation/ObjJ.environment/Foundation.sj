@@ -2709,7 +2709,7 @@ with(_1c){
 return objj_msgSend(objj_msgSend(_1c,"alloc"),"initWithKey:ascending:selector:",_1e,_1f,_20);
 }
 })]);
-p;14;CPDictionary.jt;7543;@STATIC;1.0;i;9;CPArray.ji;10;CPObject.ji;14;CPEnumerator.ji;13;CPException.jt;7459;
+p;14;CPDictionary.jt;7642;@STATIC;1.0;i;9;CPArray.ji;10;CPObject.ji;14;CPEnumerator.ji;13;CPException.jt;7558;
 objj_executeFile("CPArray.j",YES);
 objj_executeFile("CPObject.j",YES);
 objj_executeFile("CPEnumerator.j",YES);
@@ -2910,6 +2910,10 @@ if(!_5d.hasOwnProperty(key)){
 continue;
 }
 var _60=_5d[key];
+if(_60===null){
+objj_msgSend(_5f,"setObject:forKey:",objj_msgSend(CPNull,"null"),key);
+continue;
+}
 if(_5e){
 if(_60.constructor===Object){
 _60=objj_msgSend(CPDictionary,"dictionaryWithJSObject:recursively:",_60,YES);
