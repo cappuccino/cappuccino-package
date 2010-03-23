@@ -22253,7 +22253,7 @@ objj_executeFile("CPWebView.j", YES);
 objj_executeFile("CPWindow.j", YES);
 objj_executeFile("CPWindowController.j", YES);
 
-p;20;CPWindowController.jt;13938;@STATIC;1.0;I;21;Foundation/CPObject.jI;21;Foundation/CPString.ji;13;CPResponder.ji;10;CPWindow.ji;12;CPDocument.jt;13816;objj_executeFile("Foundation/CPObject.j", NO);
+p;20;CPWindowController.jt;13211;@STATIC;1.0;I;21;Foundation/CPObject.jI;21;Foundation/CPString.ji;13;CPResponder.ji;10;CPWindow.ji;12;CPDocument.jt;13089;objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("Foundation/CPString.j", NO);
 objj_executeFile("CPResponder.j", YES);
 objj_executeFile("CPWindow.j", YES);
@@ -22430,22 +22430,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPWin
 {
     return _documents;
 }
-},["CPArray"]), new objj_method(sel_getUid("setViewController:"), function $CPWindowController__setViewController_(self, _cmd, aViewController)
-{ with(self)
-{
-    var containerView = objj_msgSend(self, "viewControllerContainerView") || objj_msgSend(objj_msgSend(self, "window"), "contentView"),
-        view = objj_msgSend(_viewController, "view"),
-        frame = view ? objj_msgSend(view, "frame") : objj_msgSend(containerView, "bounds");
-    objj_msgSend(view, "removeFromSuperview");
-    _viewController = aViewController;
-    view = objj_msgSend(_viewController, "view");
-    if (view)
-    {
-        objj_msgSend(view, "setFrame:", frame);
-        objj_msgSend(containerView, "addSubview:", view);
-    }
-}
-},["void","CPViewController"]), new objj_method(sel_getUid("setViewControllerContainerView:"), function $CPWindowController__setViewControllerContainerView_(self, _cmd, aView)
+},["CPArray"]), new objj_method(sel_getUid("setViewControllerContainerView:"), function $CPWindowController__setViewControllerContainerView_(self, _cmd, aView)
 { with(self)
 {
     _viewControllerContainerView = aView;
@@ -29558,7 +29543,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("visiblePlatformWindows
 }
 objj_executeFile("CPPlatformWindow+DOM.j", YES);
 
-p;22;CPPlatformWindow+DOM.jt;47818;@STATIC;1.0;I;21;Foundation/CPObject.jI;22;Foundation/CPRunLoop.ji;9;CPEvent.ji;17;CPCompatibility.ji;18;CPDOMWindowLayer.ji;12;CPPlatform.ji;18;CPPlatformWindow.ji;26;CPPlatformWindow+DOMKeys.jt;47616;objj_executeFile("Foundation/CPObject.j", NO);
+p;22;CPPlatformWindow+DOM.jt;48139;@STATIC;1.0;I;21;Foundation/CPObject.jI;22;Foundation/CPRunLoop.ji;9;CPEvent.ji;17;CPCompatibility.ji;18;CPDOMWindowLayer.ji;12;CPPlatform.ji;18;CPPlatformWindow.ji;26;CPPlatformWindow+DOMKeys.jt;47937;objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("Foundation/CPRunLoop.j", NO);
 objj_executeFile("CPEvent.j", YES);
 objj_executeFile("CPCompatibility.j", YES);
@@ -30278,7 +30263,15 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
     _DOMEventGuard.style.display = (CPApp._eventListeners.length === 0) ? "none" : "";
     objj_msgSend(objj_msgSend(CPRunLoop, "currentRunLoop"), "limitDateForMode:", CPDefaultRunLoopMode);
 }
-},["void","DOMEvent"]), new objj_method(sel_getUid("layerAtLevel:create:"), function $CPPlatformWindow__layerAtLevel_create_(self, _cmd, aLevel, aFlag)
+},["void","DOMEvent"]), new objj_method(sel_getUid("orderedWindowsAtLevel:"), function $CPPlatformWindow__orderedWindowsAtLevel_(self, _cmd, aLevel)
+{ with(self)
+{
+    var layer = objj_msgSend(self, "layerAtLevel:create:", aLevel, NO);
+    if (!layer)
+        return [];
+    return objj_msgSend(layer, "orderedWindows");
+}
+},["CPArray","int"]), new objj_method(sel_getUid("layerAtLevel:create:"), function $CPPlatformWindow__layerAtLevel_create_(self, _cmd, aLevel, aFlag)
 { with(self)
 {
     var layer = objj_msgSend(_windowLayers, "objectForKey:", aLevel);
