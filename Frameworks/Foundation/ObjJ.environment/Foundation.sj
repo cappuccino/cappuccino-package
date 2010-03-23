@@ -5235,7 +5235,7 @@ objj_msgSend(functionOp,"addExecutionFunction:",_f);
 return functionOp;
 }
 })]);
-p;19;CPKeyedUnarchiver.jt;8381;@STATIC;1.0;i;9;CPCoder.ji;8;CPNull.jt;8337;
+p;19;CPKeyedUnarchiver.jt;8402;@STATIC;1.0;i;9;CPCoder.ji;8;CPNull.jt;8358;
 objj_executeFile("CPCoder.j",YES);
 objj_executeFile("CPNull.j",YES);
 CPInvalidUnarchiveOperationException="CPInvalidUnarchiveOperationException";
@@ -5264,7 +5264,7 @@ return _plistObject.valueForKey(_17)!=nil;
 }
 }),new objj_method(sel_getUid("_decodeDictionaryOfObjectsForKey:"),function(_18,_19,_1a){
 with(_18){
-var _1b=_plistObject.valueForKey(_1a),_1c=_1b&&_1b.isa;
+var _1b=_plistObject.valueForKey(_1a),_1c=(_1b!=nil)&&_1b.isa;
 if(_1c===_b||_1c===_c){
 var _1d=_1b.keys(),_1e=0,_1f=_1d.length,_20=new CFMutableDictionary();
 for(;_1e<_1f;++_1e){
@@ -5320,7 +5320,7 @@ return CPSizeMake(0,0);
 }
 }),new objj_method(sel_getUid("decodeObjectForKey:"),function(_3a,_3b,_3c){
 with(_3a){
-var _3d=_plistObject.valueForKey(_3c),_3e=_3d&&_3d.isa;
+var _3d=_plistObject.valueForKey(_3c),_3e=(_3d!=nil)&&_3d.isa;
 if(_3e===_b||_3e===_c){
 return _21(_3a,_3d.valueForKey(_CPKeyedArchiverUIDKey));
 }else{
@@ -5486,7 +5486,7 @@ _65._objects[_66]=_67=_68;
 }
 }
 }
-if(_67&&(_67.isa===_f)){
+if((_67!=nil)&&(_67.isa===_f)){
 _67=objj_msgSend(_67,"JSObject");
 }
 return _67;
