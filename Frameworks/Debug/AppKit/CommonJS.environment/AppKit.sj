@@ -22317,7 +22317,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","id"])]);
 }
 
-p;10;CPButton.jt;22040;@STATIC;1.0;i;21;_CPImageAndTextView.ji;12;CGGeometry.ji;11;CPControl.ji;17;CPStringDrawing.ji;12;CPCheckBox.ji;9;CPRadio.jt;21909;objj_executeFile("_CPImageAndTextView.j", YES);
+p;10;CPButton.jt;21878;@STATIC;1.0;i;21;_CPImageAndTextView.ji;12;CGGeometry.ji;11;CPControl.ji;17;CPStringDrawing.ji;12;CPCheckBox.ji;9;CPRadio.jt;21747;objj_executeFile("_CPImageAndTextView.j", YES);
 objj_executeFile("CGGeometry.j", YES);
 objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPStringDrawing.j", YES);
@@ -22645,14 +22645,12 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     }
     else
         return objj_msgSend(objj_msgSend(_CPImageAndTextView, "alloc"), "initWithFrame:", { origin: { x:0.0, y:0.0 }, size: { width:0.0, height:0.0 } });
-    return objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPButton").super_class }, "createEphemeralSubviewNamed:", aName);
 }
 },["CPView","CPString"]), new objj_method(sel_getUid("layoutSubviews"), function $CPButton__layoutSubviews(self, _cmd)
 { with(self)
 {
     var bezelView = objj_msgSend(self, "layoutEphemeralSubviewNamed:positioned:relativeToEphemeralSubviewNamed:", "bezel-view", CPWindowBelow, "content-view");
-    if (bezelView)
-        objj_msgSend(bezelView, "setBackgroundColor:", objj_msgSend(self, "currentValueForThemeAttribute:", "bezel-color"));
+    objj_msgSend(bezelView, "setBackgroundColor:", objj_msgSend(self, "currentValueForThemeAttribute:", "bezel-color"));
     var contentView = objj_msgSend(self, "layoutEphemeralSubviewNamed:positioned:relativeToEphemeralSubviewNamed:", "content-view", CPWindowAbove, "bezel-view");
     if (contentView)
     {

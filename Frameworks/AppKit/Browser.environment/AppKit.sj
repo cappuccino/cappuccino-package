@@ -20424,7 +20424,7 @@ with(_86){
 objj_msgSend(_86,"openDocumentWithContentsOfURL:display:error:",objj_msgSend(_88,"tag"),YES,nil);
 }
 })]);
-p;10;CPButton.jt;16018;@STATIC;1.0;i;21;_CPImageAndTextView.ji;12;CGGeometry.ji;11;CPControl.ji;17;CPStringDrawing.ji;12;CPCheckBox.ji;9;CPRadio.jt;15887;
+p;10;CPButton.jt;15880;@STATIC;1.0;i;21;_CPImageAndTextView.ji;12;CGGeometry.ji;11;CPControl.ji;17;CPStringDrawing.ji;12;CPCheckBox.ji;9;CPRadio.jt;15749;
 objj_executeFile("_CPImageAndTextView.j",YES);
 objj_executeFile("CGGeometry.j",YES);
 objj_executeFile("CPControl.j",YES);
@@ -20752,14 +20752,11 @@ return _58;
 }else{
 return objj_msgSend(objj_msgSend(_CPImageAndTextView,"alloc"),"initWithFrame:",{origin:{x:0,y:0},size:{width:0,height:0}});
 }
-return objj_msgSendSuper({receiver:_55,super_class:objj_getClass("CPButton").super_class},"createEphemeralSubviewNamed:",_57);
 }
 }),new objj_method(sel_getUid("layoutSubviews"),function(_59,_5a){
 with(_59){
 var _5b=objj_msgSend(_59,"layoutEphemeralSubviewNamed:positioned:relativeToEphemeralSubviewNamed:","bezel-view",CPWindowBelow,"content-view");
-if(_5b){
 objj_msgSend(_5b,"setBackgroundColor:",objj_msgSend(_59,"currentValueForThemeAttribute:","bezel-color"));
-}
 var _5c=objj_msgSend(_59,"layoutEphemeralSubviewNamed:positioned:relativeToEphemeralSubviewNamed:","content-view",CPWindowAbove,"bezel-view");
 if(_5c){
 objj_msgSend(_5c,"setText:",(objj_msgSend(_59,"hasThemeState:",CPThemeStateHighlighted)&&_alternateTitle)?_alternateTitle:_title);

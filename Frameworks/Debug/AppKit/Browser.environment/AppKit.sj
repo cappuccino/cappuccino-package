@@ -3252,7 +3252,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("initialize"), function
 },["CGRect","CGRect","CPShadowWeight"])]);
 }
 
-p;21;_CPImageAndTextView.jt;23320;@STATIC;1.0;I;21;Foundation/CPString.ji;9;CPColor.ji;8;CPFont.ji;9;CPImage.ji;8;CPView.ji;11;CPControl.jt;23208;objj_executeFile("Foundation/CPString.j", NO);
+p;21;_CPImageAndTextView.jt;23356;@STATIC;1.0;I;21;Foundation/CPString.ji;9;CPColor.ji;8;CPFont.ji;9;CPImage.ji;8;CPView.ji;11;CPControl.jt;23244;objj_executeFile("Foundation/CPString.j", NO);
 objj_executeFile("CPColor.j", YES);
 objj_executeFile("CPFont.j", YES);
 objj_executeFile("CPImage.j", YES);
@@ -3493,6 +3493,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:control:"
     var needsDOMTextElement = _imagePosition !== CPImageOnly && (objj_msgSend(_text, "length") > 0),
         hasDOMTextElement = !!_DOMTextElement;
     if (needsDOMTextElement !== hasDOMTextElement)
+    {
         if (hasDOMTextElement)
         {
             _DOMElement.removeChild(_DOMTextElement);
@@ -3511,10 +3512,12 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:control:"
             hasDOMTextElement = YES;
             _flags |= _CPImageAndTextViewTextChangedFlag | _CPImageAndTextViewFontChangedFlag | _CPImageAndTextViewLineBreakModeChangedFlag;
         }
+    }
     var textStyle = hasDOMTextElement ? _DOMTextElement.style : nil;
     var needsDOMTextShadowElement = hasDOMTextElement && !!_textShadowColor,
         hasDOMTextShadowElement = !!_DOMTextShadowElement;
     if (needsDOMTextShadowElement !== hasDOMTextShadowElement)
+    {
         if (hasDOMTextShadowElement)
         {
             _DOMElement.removeChild(_DOMTextShadowElement);
@@ -3545,6 +3548,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:control:"
             hasDOMTextShadowElement = YES;
             _flags |= _CPImageAndTextViewTextChangedFlag;
         }
+    }
     var shadowStyle = hasDOMTextShadowElement ? _DOMTextShadowElement.style : nil;
     if (hasDOMTextElement)
     {
@@ -3620,6 +3624,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:control:"
     var needsDOMImageElement = _image !== nil && _imagePosition !== CPNoImage,
         hasDOMImageElement = !!_DOMImageElement;
     if (needsDOMImageElement !== hasDOMImageElement)
+    {
         if (hasDOMImageElement)
         {
             _DOMElement.removeChild(_DOMImageElement);
@@ -3642,6 +3647,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:control:"
             _DOMElement.appendChild(_DOMImageElement);
             hasDOMImageElement = YES;
         }
+    }
     var size = objj_msgSend(self, "bounds").size,
         textRect = { origin: { x:0.0, y:0.0 }, size: { width:size.width, height:size.height } };
     if (hasDOMImageElement)
@@ -23096,7 +23102,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","id"])]);
 }
 
-p;10;CPButton.jt;22040;@STATIC;1.0;i;21;_CPImageAndTextView.ji;12;CGGeometry.ji;11;CPControl.ji;17;CPStringDrawing.ji;12;CPCheckBox.ji;9;CPRadio.jt;21909;objj_executeFile("_CPImageAndTextView.j", YES);
+p;10;CPButton.jt;21878;@STATIC;1.0;i;21;_CPImageAndTextView.ji;12;CGGeometry.ji;11;CPControl.ji;17;CPStringDrawing.ji;12;CPCheckBox.ji;9;CPRadio.jt;21747;objj_executeFile("_CPImageAndTextView.j", YES);
 objj_executeFile("CGGeometry.j", YES);
 objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPStringDrawing.j", YES);
@@ -23424,14 +23430,12 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     }
     else
         return objj_msgSend(objj_msgSend(_CPImageAndTextView, "alloc"), "initWithFrame:", { origin: { x:0.0, y:0.0 }, size: { width:0.0, height:0.0 } });
-    return objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPButton").super_class }, "createEphemeralSubviewNamed:", aName);
 }
 },["CPView","CPString"]), new objj_method(sel_getUid("layoutSubviews"), function $CPButton__layoutSubviews(self, _cmd)
 { with(self)
 {
     var bezelView = objj_msgSend(self, "layoutEphemeralSubviewNamed:positioned:relativeToEphemeralSubviewNamed:", "bezel-view", CPWindowBelow, "content-view");
-    if (bezelView)
-        objj_msgSend(bezelView, "setBackgroundColor:", objj_msgSend(self, "currentValueForThemeAttribute:", "bezel-color"));
+    objj_msgSend(bezelView, "setBackgroundColor:", objj_msgSend(self, "currentValueForThemeAttribute:", "bezel-color"));
     var contentView = objj_msgSend(self, "layoutEphemeralSubviewNamed:positioned:relativeToEphemeralSubviewNamed:", "content-view", CPWindowAbove, "bezel-view");
     if (contentView)
     {
