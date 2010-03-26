@@ -17318,7 +17318,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","id"])]);
 }
 
-p;11;CPBrowser.jt;42495;@STATIC;1.0;i;11;CPControl.ji;9;CPImage.ji;13;CPTableView.ji;14;CPScrollView.jt;42409;objj_executeFile("CPControl.j", YES);
+p;11;CPBrowser.jt;43471;@STATIC;1.0;i;11;CPControl.ji;9;CPImage.ji;13;CPTableView.ji;14;CPScrollView.jt;43385;objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPImage.j", YES);
 objj_executeFile("CPTableView.j", YES);
 objj_executeFile("CPScrollView.j", YES);
@@ -17562,7 +17562,28 @@ _defaultColumnWidth = newValue;
 {
     return objj_msgSend(_tableDelegates[column], "_item");
 }
-},["id","int"]), new objj_method(sel_getUid("_column:clickedRow:"), function $CPBrowser___column_clickedRow_(self, _cmd, columnIndex, rowIndex)
+},["id","int"]), new objj_method(sel_getUid("selectedItems"), function $CPBrowser__selectedItems(self, _cmd)
+{ with(self)
+{
+    var selectedColumn = objj_msgSend(self, "selectedColumn"),
+        selectedIndexes = objj_msgSend(self, "selectedRowIndexesInColumn:", selectedColumn),
+        set = objj_msgSend(CPSet, "set"),
+        index = objj_msgSend(selectedIndexes, "firstIndex");
+    while (index !== CPNotFound)
+    {
+        objj_msgSend(set, "addObject:", objj_msgSend(self, "itemAtRow:inColumn:", index, selectedColumn));
+        index = objj_msgSend(selectedIndexes, "indexGreaterThanIndex:", index);
+    }
+    return set;
+}
+},["CPSet"]), new objj_method(sel_getUid("selectedItem"), function $CPBrowser__selectedItem(self, _cmd)
+{ with(self)
+{
+    var selectedColumn = objj_msgSend(self, "selectedColumn"),
+        selectedRow = objj_msgSend(self, "selectedRowInColumn:", selectedColumn);
+    return objj_msgSend(self, "itemAtRow:inColumn:", selectedRow, selectedColumn);
+}
+},["id"]), new objj_method(sel_getUid("_column:clickedRow:"), function $CPBrowser___column_clickedRow_(self, _cmd, columnIndex, rowIndex)
 { with(self)
 {
     objj_msgSend(self, "setLastColumn:", columnIndex);
