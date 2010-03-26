@@ -27916,7 +27916,7 @@ return {origin:{x:_1d,y:_1f},size:{width:(_1e-_1d),height:(_20-_1f)}};
 CPStringFromCGAffineTransform=function(_21){
 return "{"+_21.a+", "+_21.b+", "+_21.c+", "+_21.d+", "+_21.tx+", "+_21.ty+"}";
 };
-p;8;CGPath.jt;7486;@STATIC;1.0;i;12;CGGeometry.ji;19;CGAffineTransform.jt;7426;
+p;8;CGPath.jt;7466;@STATIC;1.0;i;12;CGGeometry.ji;19;CGAffineTransform.jt;7406;
 objj_executeFile("CGGeometry.j",YES);
 objj_executeFile("CGAffineTransform.j",YES);
 kCGPathElementMoveToPoint=0;
@@ -28028,7 +28028,7 @@ break;
 CGPathAddQuadCurveToPoint=function(_26,_27,cpx,cpy,x,y){
 var cp={x:cpx,y:cpy},end={x:x,y:y};
 if(_27){
-cp={x:control.x*_27.a+control.y*_27.c+_27.tx,y:control.x*_27.b+control.y*_27.d+_27.ty};
+cp={x:cp.x*_27.a+cp.y*_27.c+_27.tx,y:cp.x*_27.b+cp.y*_27.d+_27.ty};
 end={x:end.x*_27.a+end.y*_27.c+_27.tx,y:end.x*_27.b+end.y*_27.d+_27.ty};
 }
 _26.elements[_26.count++]={type:kCGPathElementAddQuadCurveToPoint,cpx:cp.x,cpy:cp.y,x:end.x,y:end.y};

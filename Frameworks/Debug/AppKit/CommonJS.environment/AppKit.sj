@@ -14492,7 +14492,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("isFloatingPanel"), func
 },["BOOL"])]);
 }
 
-p;12;CPScroller.jt;24253;@STATIC;1.0;i;11;CPControl.jt;24217;objj_executeFile("CPControl.j", YES);
+p;12;CPScroller.jt;24260;@STATIC;1.0;i;11;CPControl.jt;24224;objj_executeFile("CPControl.j", YES);
 CPScrollerNoPart = 0;
 CPScrollerDecrementPage = 1;
 CPScrollerKnob = 2;
@@ -14602,7 +14602,7 @@ return _isVertical;
 },["CPScrollerPart","CGPoint"]), new objj_method(sel_getUid("checkSpaceForParts"), function $CPScroller__checkSpaceForParts(self, _cmd)
 { with(self)
 {
- var bounds = objj_msgSend(self, "bounds");
+    var bounds = objj_msgSend(self, "bounds");
     if (_knobProportion === 1.0)
     {
         _usableParts = CPNoScrollerParts;
@@ -14644,7 +14644,7 @@ return _isVertical;
             _partRects[CPScrollerDecrementLine] = { origin: { x:0.0, y:0.0 }, size: { width:0.0, height:0.0 } };
             _partRects[CPScrollerKnobSlot] = { origin: { x:trackInset.left, y:0 }, size: { width:width - trackInset.left - trackInset.right, height:height } };
         }
-}
+    }
     else
     {
         var decrementLineSize = objj_msgSend(self, "currentValueForThemeAttribute:", "decrement-line-size"),
@@ -30892,7 +30892,7 @@ CPStringFromCGAffineTransform= function(anAffineTransform)
     return '{' + anAffineTransform.a + ", " + anAffineTransform.b + ", " + anAffineTransform.c + ", " + anAffineTransform.d + ", " + anAffineTransform.tx + ", " + anAffineTransform.ty + '}';
 }
 
-p;8;CGPath.jt;12269;@STATIC;1.0;i;12;CGGeometry.ji;19;CGAffineTransform.jt;12208;objj_executeFile("CGGeometry.j", YES);
+p;8;CGPath.jt;12249;@STATIC;1.0;i;12;CGGeometry.ji;19;CGAffineTransform.jt;12188;objj_executeFile("CGGeometry.j", YES);
 objj_executeFile("CGAffineTransform.j", YES);
 kCGPathElementMoveToPoint = 0;
 kCGPathElementAddLineToPoint = 1;
@@ -31021,7 +31021,7 @@ CGPathAddQuadCurveToPoint= function(aPath, aTransform, cpx, cpy, x, y)
         end = { x:x, y:y };
     if (aTransform)
     {
-        cp = { x:control.x * aTransform.a + control.y * aTransform.c + aTransform.tx, y:control.x * aTransform.b + control.y * aTransform.d + aTransform.ty };
+        cp = { x:cp.x * aTransform.a + cp.y * aTransform.c + aTransform.tx, y:cp.x * aTransform.b + cp.y * aTransform.d + aTransform.ty };
         end = { x:end.x * aTransform.a + end.y * aTransform.c + aTransform.tx, y:end.x * aTransform.b + end.y * aTransform.d + aTransform.ty };
     }
     aPath.elements[aPath.count++] = { type:kCGPathElementAddQuadCurveToPoint, cpx:cp.x, cpy:cp.y, x:end.x, y:end.y }
