@@ -5512,7 +5512,7 @@ with(_25){
 return objj_msgSend(objj_msgSend(CPSavePanel,"alloc"),"init");
 }
 })]);
-p;7;CPBox.jt;5851;@STATIC;1.0;i;8;CPView.jt;5820;
+p;7;CPBox.jt;5932;@STATIC;1.0;i;8;CPView.jt;5901;
 objj_executeFile("CPView.j",YES);
 CPNoBorder=0;
 CPLineBorder=1;
@@ -5606,6 +5606,7 @@ return;
 }
 objj_msgSend(_25,"setFrame:",CGRectInset(objj_msgSend(_23,"bounds"),_contentMargin.width+_borderWidth,_contentMargin.height+_borderWidth));
 objj_msgSend(_23,"replaceSubview:with:",_contentView,_25);
+objj_msgSend(_25,"setAutoresizingMask:",CPViewWidthSizable|CPViewHeightSizable);
 _contentView=_25;
 }
 }),new objj_method(sel_getUid("contentViewMargins"),function(_26,_27){

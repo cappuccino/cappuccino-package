@@ -5918,7 +5918,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("savePanel"), function 
 },["id"])]);
 }
 
-p;7;CPBox.jt;8501;@STATIC;1.0;i;8;CPView.jt;8470;objj_executeFile("CPView.j", YES);
+p;7;CPBox.jt;8590;@STATIC;1.0;i;8;CPView.jt;8559;objj_executeFile("CPView.j", YES);
 CPNoBorder = 0;
 CPLineBorder = 1;
 CPBezelBorder = 2;
@@ -6021,6 +6021,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
         return;
     objj_msgSend(aView, "setFrame:", CGRectInset(objj_msgSend(self, "bounds"), _contentMargin.width + _borderWidth, _contentMargin.height + _borderWidth));
     objj_msgSend(self, "replaceSubview:with:", _contentView, aView);
+    objj_msgSend(aView, "setAutoresizingMask:", CPViewWidthSizable|CPViewHeightSizable);
     _contentView = aView;
 }
 },["void","CPView"]), new objj_method(sel_getUid("contentViewMargins"), function $CPBox__contentViewMargins(self, _cmd)
