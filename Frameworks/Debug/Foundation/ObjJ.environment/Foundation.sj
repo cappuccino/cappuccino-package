@@ -4206,7 +4206,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("mainQueue"), function 
 },["CPOperationQueue"])]);
 }
 
-p;7;CPURL.jt;7936;@STATIC;1.0;I;21;Foundation/CPObject.jt;7891;
+p;7;CPURL.jt;7939;@STATIC;1.0;I;21;Foundation/CPObject.jt;7894;
 
 
 objj_executeFile("Foundation/CPObject.j", NO);
@@ -4406,7 +4406,7 @@ if(!the_class) throw new SyntaxError("*** Could not find definition for class \"
 var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_getUid("initWithCoder:"), function $CPURL__initWithCoder_(self, _cmd, aCoder)
 { with(self)
 {
-    return objj_msgSend(self, "initWithURLString:baseURL:", objj_msgSend(aCoder, "decodeObjectForKey:", CPURLURLStringKey), objj_msgSend(aCoder, "decodeObjectForKey:", CPURLBaseURLKey));
+    return objj_msgSend(self, "initWithString:relativeToURL:", objj_msgSend(aCoder, "decodeObjectForKey:", CPURLURLStringKey), objj_msgSend(aCoder, "decodeObjectForKey:", CPURLBaseURLKey));
 }
 },["id","CPCoder"]), new objj_method(sel_getUid("encodeWithCoder:"), function $CPURL__encodeWithCoder_(self, _cmd, aCoder)
 { with(self)

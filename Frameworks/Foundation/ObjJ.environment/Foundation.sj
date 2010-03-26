@@ -3683,7 +3683,7 @@ with(_30){
 return objj_msgSend(CPOperationQueue,"mainQueue");
 }
 })]);
-p;7;CPURL.jt;5828;@STATIC;1.0;I;21;Foundation/CPObject.jt;5783;
+p;7;CPURL.jt;5831;@STATIC;1.0;I;21;Foundation/CPObject.jt;5786;
 objj_executeFile("Foundation/CPObject.j",NO);
 CPURLNameKey="CPURLNameKey";
 CPURLLocalizedNameKey="CPURLLocalizedNameKey";
@@ -3843,7 +3843,7 @@ throw new SyntaxError("*** Could not find definition for class \"CPURL\"");
 var _2=_1.isa;
 class_addMethods(_1,[new objj_method(sel_getUid("initWithCoder:"),function(_4e,_4f,_50){
 with(_4e){
-return objj_msgSend(_4e,"initWithURLString:baseURL:",objj_msgSend(_50,"decodeObjectForKey:",_4c),objj_msgSend(_50,"decodeObjectForKey:",_4d));
+return objj_msgSend(_4e,"initWithString:relativeToURL:",objj_msgSend(_50,"decodeObjectForKey:",_4c),objj_msgSend(_50,"decodeObjectForKey:",_4d));
 }
 }),new objj_method(sel_getUid("encodeWithCoder:"),function(_51,_52,_53){
 with(_51){
