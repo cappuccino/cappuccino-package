@@ -384,7 +384,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPEvent"])]);
 }
 
-p;13;CPTableView.jt;127042;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;126899;objj_executeFile("Foundation/CPArray.j", NO);
+p;13;CPTableView.jt;126452;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;126309;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("AppKit/CGGradient.j", NO);
 objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPTableColumn.j", YES);
@@ -518,7 +518,7 @@ _disableAutomaticResizing = newValue;
         _retargetedDropOperation = nil;
         _dragOperationDefaultMask = nil;
         _destinationDragStyle = CPTableViewDraggingDestinationFeedbackStyleRegular;
-        _dropOperationFeedbackView = objj_msgSend(objj_msgSend(_dropOperationDrawingView, "alloc"), "initWithFrame:", { origin: { x:0.0, y:0.0 }, size: { width:0.0, height:0.0 } });
+        _dropOperationFeedbackView = objj_msgSend(objj_msgSend(_CPDropOperationDrawingView, "alloc"), "initWithFrame:", { origin: { x:0.0, y:0.0 }, size: { width:0.0, height:0.0 } });
         objj_msgSend(self, "addSubview:", _dropOperationFeedbackView);
         objj_msgSend(_dropOperationFeedbackView, "setHidden:", YES);
         objj_msgSend(_dropOperationFeedbackView, "setTableView:", self);
@@ -1517,27 +1517,18 @@ _disableAutomaticResizing = newValue;
     var bounds = objj_msgSend(self, "bounds"),
         view = objj_msgSend(objj_msgSend(CPView, "alloc"), "initWithFrame:", bounds);
     objj_msgSend(view, "setAlphaValue:", 0.7);
-    var firstExposedColumn = objj_msgSend(_exposedColumns, "firstIndex"),
-        firstExposedRow = objj_msgSend(_exposedRows, "firstIndex"),
-        exposedColumnsLength = objj_msgSend(_exposedColumns, "lastIndex") - firstExposedColumn + 1,
-        exposedRowsLength = objj_msgSend(_exposedRows, "lastIndex") - firstExposedRow + 1,
-        columns = [],
-        rows = [];
-    objj_msgSend(_exposedColumns, "getIndexes:maxCount:inIndexRange:", columns, -1, CPMakeRange(firstExposedColumn, exposedColumnsLength));
-    objj_msgSend(theDraggedRows, "getIndexes:maxCount:inIndexRange:", rows, -1, CPMakeRange(firstExposedRow, exposedRowsLength));
-    var columnIndex = objj_msgSend(columns, "count");
+    var columnIndex = objj_msgSend(theTableColumns, "count");
     while (columnIndex--)
     {
-        var column = columns[columnIndex],
-            tableColumn = objj_msgSend(_tableColumns, "objectAtIndex:", column),
-            rowIndex = objj_msgSend(rows, "count");
-        while (rowIndex--)
+        var tableColumn = objj_msgSend(theTableColumns, "objectAtIndex:", columnIndex),
+            row = objj_msgSend(theDraggedRows, "firstIndex");
+        while (row !== CPNotFound)
         {
-            var row = rows[rowIndex];
             var dataView = objj_msgSend(self, "_newDataViewForRow:tableColumn:", row, tableColumn);
-            objj_msgSend(dataView, "setFrame:", objj_msgSend(self, "frameOfDataViewAtColumn:row:", column, row));
+            objj_msgSend(dataView, "setFrame:", objj_msgSend(self, "frameOfDataViewAtColumn:row:", columnIndex, row));
             objj_msgSend(dataView, "setObjectValue:", objj_msgSend(self, "_objectValueForTableColumn:row:", tableColumn, row));
             objj_msgSend(view, "addSubview:", dataView);
+            row = objj_msgSend(theDraggedRows, "indexGreaterThanIndex:", row);
         }
     }
     var dragPoint = objj_msgSend(self, "convertPoint:fromView:", objj_msgSend(theDragEvent, "locationInWindow"), nil);
@@ -2672,45 +2663,45 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 }
 },["void",null])]);
 }
-{var the_class = objj_allocateClassPair(CPView, "_dropOperationDrawingView"),
+{var the_class = objj_allocateClassPair(CPView, "_CPDropOperationDrawingView"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("dropOperation"), new objj_ivar("tableView"), new objj_ivar("currentRow")]);
 objj_registerClassPair(the_class);
-class_addMethods(the_class, [new objj_method(sel_getUid("dropOperation"), function $_dropOperationDrawingView__dropOperation(self, _cmd)
+class_addMethods(the_class, [new objj_method(sel_getUid("dropOperation"), function $_CPDropOperationDrawingView__dropOperation(self, _cmd)
 { with(self)
 {
 return dropOperation;
 }
 },["id"]),
-new objj_method(sel_getUid("setDropOperation:"), function $_dropOperationDrawingView__setDropOperation_(self, _cmd, newValue)
+new objj_method(sel_getUid("setDropOperation:"), function $_CPDropOperationDrawingView__setDropOperation_(self, _cmd, newValue)
 { with(self)
 {
 dropOperation = newValue;
 }
 },["void","id"]),
-new objj_method(sel_getUid("tableView"), function $_dropOperationDrawingView__tableView(self, _cmd)
+new objj_method(sel_getUid("tableView"), function $_CPDropOperationDrawingView__tableView(self, _cmd)
 { with(self)
 {
 return tableView;
 }
 },["id"]),
-new objj_method(sel_getUid("setTableView:"), function $_dropOperationDrawingView__setTableView_(self, _cmd, newValue)
+new objj_method(sel_getUid("setTableView:"), function $_CPDropOperationDrawingView__setTableView_(self, _cmd, newValue)
 { with(self)
 {
 tableView = newValue;
 }
 },["void","id"]),
-new objj_method(sel_getUid("currentRow"), function $_dropOperationDrawingView__currentRow(self, _cmd)
+new objj_method(sel_getUid("currentRow"), function $_CPDropOperationDrawingView__currentRow(self, _cmd)
 { with(self)
 {
 return currentRow;
 }
 },["id"]),
-new objj_method(sel_getUid("setCurrentRow:"), function $_dropOperationDrawingView__setCurrentRow_(self, _cmd, newValue)
+new objj_method(sel_getUid("setCurrentRow:"), function $_CPDropOperationDrawingView__setCurrentRow_(self, _cmd, newValue)
 { with(self)
 {
 currentRow = newValue;
 }
-},["void","id"]), new objj_method(sel_getUid("drawRect:"), function $_dropOperationDrawingView__drawRect_(self, _cmd, aRect)
+},["void","id"]), new objj_method(sel_getUid("drawRect:"), function $_CPDropOperationDrawingView__drawRect_(self, _cmd, aRect)
 { with(self)
 {
     if(tableView._destinationDragStyle === CPTableViewDraggingDestinationFeedbackStyleNone)
@@ -17327,6 +17318,801 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","id"])]);
 }
 
+p;11;CPBrowser.jt;42548;@STATIC;1.0;I;18;AppKit/CPControl.jI;16;AppKit/CPImage.jI;20;AppKit/CPTableView.jI;21;AppKit/CPScrollView.jt;42433;objj_executeFile("AppKit/CPControl.j", NO);
+objj_executeFile("AppKit/CPImage.j", NO);
+objj_executeFile("AppKit/CPTableView.j", NO);
+objj_executeFile("AppKit/CPScrollView.j", NO);
+{var the_class = objj_allocateClassPair(CPControl, "CPBrowser"),
+meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_delegate"), new objj_ivar("_pathSeparator"), new objj_ivar("_contentView"), new objj_ivar("_horizontalScrollView"), new objj_ivar("_prototypeView"), new objj_ivar("_tableViews"), new objj_ivar("_tableDelegates"), new objj_ivar("_rootItem"), new objj_ivar("_delegateSupportsImages"), new objj_ivar("_doubleAction"), new objj_ivar("_allowsMultipleSelection"), new objj_ivar("_allowsEmptySelection"), new objj_ivar("_tableViewClass"), new objj_ivar("_rowHeight"), new objj_ivar("_imageWidth"), new objj_ivar("_leafWidth"), new objj_ivar("_minColumnWidth"), new objj_ivar("_defaultColumnWidth"), new objj_ivar("_columnWidths")]);
+objj_registerClassPair(the_class);
+class_addMethods(the_class, [new objj_method(sel_getUid("doubleAction"), function $CPBrowser__doubleAction(self, _cmd)
+{ with(self)
+{
+return _doubleAction;
+}
+},["id"]),
+new objj_method(sel_getUid("setDoubleAction:"), function $CPBrowser__setDoubleAction_(self, _cmd, newValue)
+{ with(self)
+{
+_doubleAction = newValue;
+}
+},["void","id"]),
+new objj_method(sel_getUid("tableViewClass"), function $CPBrowser__tableViewClass(self, _cmd)
+{ with(self)
+{
+return _tableViewClass;
+}
+},["id"]),
+new objj_method(sel_getUid("setTableViewClass:"), function $CPBrowser__setTableViewClass_(self, _cmd, newValue)
+{ with(self)
+{
+_tableViewClass = newValue;
+}
+},["void","id"]),
+new objj_method(sel_getUid("defaultColumnWidth"), function $CPBrowser__defaultColumnWidth(self, _cmd)
+{ with(self)
+{
+return _defaultColumnWidth;
+}
+},["id"]),
+new objj_method(sel_getUid("setDefaultColumnWidth:"), function $CPBrowser__setDefaultColumnWidth_(self, _cmd, newValue)
+{ with(self)
+{
+_defaultColumnWidth = newValue;
+}
+},["void","id"]), new objj_method(sel_getUid("initWithFrame:"), function $CPBrowser__initWithFrame_(self, _cmd, aFrame)
+{ with(self)
+{
+    if (self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPBrowser").super_class }, "initWithFrame:", aFrame))
+    {
+        _rowHeight = 23.0;
+        _defaultColumnWidth = 140.0;
+        _minColumnWidth = 80.0;
+        _imageWidth = 23.0;
+        _leafWidth = 13.0;
+        _columnWidths = [];
+        _pathSeparator = "/";
+        _tableViews = [];
+        _tableDelegates = [];
+        _allowsMultipleSelection = YES;
+        _allowsEmptySelection = YES;
+        _tableViewClass = objj_msgSend(_CPBrowserTableView, "class");
+        _prototypeView = objj_msgSend(objj_msgSend(CPTextField, "alloc"), "initWithFrame:", CGRectMakeZero());
+        objj_msgSend(_prototypeView, "setVerticalAlignment:", CPCenterVerticalTextAlignment);
+        objj_msgSend(_prototypeView, "setValue:forThemeAttribute:inState:", objj_msgSend(CPColor, "whiteColor"), "text-color", CPThemeStateSelected);
+        _horizontalScrollView = objj_msgSend(objj_msgSend(CPScrollView, "alloc"), "initWithFrame:", objj_msgSend(self, "bounds"));
+        objj_msgSend(_horizontalScrollView, "setHasVerticalScroller:", NO);
+        objj_msgSend(_horizontalScrollView, "setAutohidesScrollers:", YES);
+        objj_msgSend(_horizontalScrollView, "setAutoresizingMask:", CPViewWidthSizable|CPViewHeightSizable);
+        _contentView = objj_msgSend(objj_msgSend(CPView, "alloc"), "initWithFrame:", CGRectMake(0, 0, 0, CGRectGetHeight(objj_msgSend(self, "bounds"))));
+        objj_msgSend(_contentView, "setAutoresizingMask:", CPViewHeightSizable);
+        objj_msgSend(_horizontalScrollView, "setDocumentView:", _contentView);
+        objj_msgSend(self, "addSubview:", _horizontalScrollView);
+    }
+    return self;
+}
+},["id","CGRect"]), new objj_method(sel_getUid("setPrototypeView:"), function $CPBrowser__setPrototypeView_(self, _cmd, aPrototypeView)
+{ with(self)
+{
+    _prototypeView = objj_msgSend(CPKeyedUnarchiver, "unarchiveObjectWithData:", 
+                        objj_msgSend(CPKeyedArchiver, "archivedDataWithRootObject:", aPrototypeView));
+}
+},["void","CPView"]), new objj_method(sel_getUid("prototypeView"), function $CPBrowser__prototypeView(self, _cmd)
+{ with(self)
+{
+    return objj_msgSend(CPKeyedUnarchiver, "unarchiveObjectWithData:", 
+            objj_msgSend(CPKeyedArchiver, "archivedDataWithRootObject:", _prototypeView));
+}
+},["CPView"]), new objj_method(sel_getUid("setDelegate:"), function $CPBrowser__setDelegate_(self, _cmd, anObject)
+{ with(self)
+{
+    _delegate = anObject;
+    _delegateSupportsImages = objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("browser:imageValueForItem:"));
+    objj_msgSend(self, "loadColumnZero");
+}
+},["void","id"]), new objj_method(sel_getUid("delegate"), function $CPBrowser__delegate(self, _cmd)
+{ with(self)
+{
+    return _delegate;
+}
+},["id"]), new objj_method(sel_getUid("tableViewInColumn:"), function $CPBrowser__tableViewInColumn_(self, _cmd, index)
+{ with(self)
+{
+    return _tableViews[index];
+}
+},["CPTableView","unsigned"]), new objj_method(sel_getUid("columnOfTableView:"), function $CPBrowser__columnOfTableView_(self, _cmd, aTableView)
+{ with(self)
+{
+    return objj_msgSend(_tableViews, "indexOfObject:", aTableView);
+}
+},["unsigned","CPTableView"]), new objj_method(sel_getUid("loadColumnZero"), function $CPBrowser__loadColumnZero(self, _cmd)
+{ with(self)
+{
+    if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("rootItemForBrowser:")))
+        _rootItem = objj_msgSend(_delegate, "rootItemForBrowser:", self);
+    else
+        _rootItem = nil;
+    objj_msgSend(self, "setLastColumn:", -1);
+    objj_msgSend(self, "addColumn");
+}
+},["void"]), new objj_method(sel_getUid("setLastColumn:"), function $CPBrowser__setLastColumn_(self, _cmd, columnIndex)
+{ with(self)
+{
+    if (columnIndex >= _tableViews.length)
+        return;
+    var oldValue = _tableViews.length - 1;
+    var indexPlusOne = columnIndex + 1;
+    objj_msgSend(objj_msgSend(_tableViews.slice(indexPlusOne), "valueForKey:", "enclosingScrollView"), "makeObjectsPerformSelector:", sel_getUid("removeFromSuperview"));
+    _tableViews = _tableViews.slice(0, indexPlusOne);
+    _tableDelegates = _tableDelegates.slice(0, indexPlusOne);
+    if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("browser:didChangeLastColumn:toColumn:")))
+        objj_msgSend(_delegate, "browser:didChangeLastColumn:toColumn:", self, oldValue, columnIndex);
+    objj_msgSend(self, "tile");
+}
+},["void","int"]), new objj_method(sel_getUid("lastColumn"), function $CPBrowser__lastColumn(self, _cmd)
+{ with(self)
+{
+    return _tableViews.length - 1;
+}
+},["int"]), new objj_method(sel_getUid("addColumn"), function $CPBrowser__addColumn(self, _cmd)
+{ with(self)
+{
+    var lastIndex = objj_msgSend(self, "lastColumn"),
+        lastColumn = _tableViews[lastIndex],
+        selectionIndexes = objj_msgSend(lastColumn, "selectedRowIndexes");
+    if (lastIndex >= 0 && objj_msgSend(selectionIndexes, "count") > 1)
+        objj_msgSend(CPException, "raise:reason:", CPInvalidArgumentException, "Can't add column, column "+lastIndex+" has invalid selection.");
+    var index = lastIndex+1,
+        item = index === 0 ? _rootItem : objj_msgSend(_tableDelegates[lastIndex], "childAtIndex:", objj_msgSend(selectionIndexes, "firstIndex"));
+    if (index > 0 && item && objj_msgSend(self, "isLeafItem:", item))
+        return;
+    var table = objj_msgSend(objj_msgSend(_tableViewClass, "alloc"), "initWithFrame:browser:", CGRectMakeZero(), self);
+    objj_msgSend(table, "setHeaderView:", nil);
+    objj_msgSend(table, "setCornerView:", nil);
+    objj_msgSend(table, "setAllowsMultipleSelection:", _allowsMultipleSelection);
+    objj_msgSend(table, "setAllowsEmptySelection:", _allowsEmptySelection);
+    objj_msgSend(table, "registerForDraggedTypes:", objj_msgSend(self, "registeredDraggedTypes"));
+    objj_msgSend(self, "_addTableColumnsToTableView:forColumnIndex:", table, index);
+    var delegate = objj_msgSend(objj_msgSend(_CPBrowserTableDelegate, "alloc"), "init");
+    objj_msgSend(delegate, "_setDelegate:", _delegate);
+    objj_msgSend(delegate, "_setBrowser:", self);
+    objj_msgSend(delegate, "_setIndex:", index);
+    objj_msgSend(delegate, "_setItem:", item);
+    _tableViews[index] = table;
+    _tableDelegates[index] = delegate;
+    objj_msgSend(table, "setDelegate:", delegate);
+    objj_msgSend(table, "setDataSource:", delegate);
+    objj_msgSend(table, "setTarget:", delegate);
+    objj_msgSend(table, "setAction:", sel_getUid("_tableViewClicked:"));
+    objj_msgSend(table, "setDoubleAction:", sel_getUid("_tableViewDoubleClicked:"));
+    objj_msgSend(table, "setDraggingDestinationFeedbackStyle:", CPTableViewDraggingDestinationFeedbackStyleRegular);
+    var scrollView = objj_msgSend(objj_msgSend(_CPBrowserScrollView, "alloc"), "initWithFrame:", CGRectMakeZero());
+    objj_msgSend(scrollView, "_setBrowser:", self);
+    objj_msgSend(scrollView, "setDocumentView:", table);
+    objj_msgSend(scrollView, "setHasHorizontalScroller:", NO);
+    objj_msgSend(scrollView, "setAutoresizingMask:", CPViewHeightSizable);
+    objj_msgSend(_contentView, "addSubview:", scrollView);
+    objj_msgSend(self, "tile");
+    objj_msgSend(self, "scrollColumnToVisible:", index);
+}
+},["void"]), new objj_method(sel_getUid("_addTableColumnsToTableView:forColumnIndex:"), function $CPBrowser___addTableColumnsToTableView_forColumnIndex_(self, _cmd, aTableView, index)
+{ with(self)
+{
+    if (_delegateSupportsImages)
+    {
+        var column = objj_msgSend(objj_msgSend(CPTableColumn, "alloc"), "initWithIdentifier:", "Image"),
+            view = objj_msgSend(objj_msgSend(CPImageView, "alloc"), "initWithFrame:", CGRectMakeZero());
+        objj_msgSend(view, "setImageScaling:", CPScaleProportionally);
+        objj_msgSend(column, "setDataView:", view);
+        objj_msgSend(column, "setResizingMask:", CPTableColumnNoResizing);
+        objj_msgSend(aTableView, "addTableColumn:", column);
+    }
+    var column = objj_msgSend(objj_msgSend(CPTableColumn, "alloc"), "initWithIdentifier:", "Content");
+    objj_msgSend(column, "setDataView:", _prototypeView);
+    objj_msgSend(column, "setResizingMask:", CPTableColumnNoResizing);
+    objj_msgSend(aTableView, "addTableColumn:", column);
+    var column = objj_msgSend(objj_msgSend(CPTableColumn, "alloc"), "initWithIdentifier:", "Leaf"),
+        view = objj_msgSend(objj_msgSend(_CPBrowserLeafView, "alloc"), "initWithFrame:", CGRectMakeZero());
+    objj_msgSend(view, "setBranchImage:", objj_msgSend(objj_msgSend(self, "class"), "branchImage"));
+    objj_msgSend(view, "setHighlightedBranchImage:", objj_msgSend(objj_msgSend(self, "class"), "highlightedBranchImage"));
+    objj_msgSend(column, "setDataView:", view);
+    objj_msgSend(column, "setResizingMask:", CPTableColumnNoResizing);
+    objj_msgSend(aTableView, "addTableColumn:", column);
+}
+},["void","CPTableView","unsigned"]), new objj_method(sel_getUid("reloadColumn:"), function $CPBrowser__reloadColumn_(self, _cmd, column)
+{ with(self)
+{
+    objj_msgSend(objj_msgSend(self, "tableViewInColumn:", column), "reloadData");
+}
+},["void","int"]), new objj_method(sel_getUid("tile"), function $CPBrowser__tile(self, _cmd)
+{ with(self)
+{
+    var xOrigin = 0,
+        scrollerWidth = objj_msgSend(CPScroller, "scrollerWidth"),
+        height = CGRectGetHeight(objj_msgSend(_contentView, "bounds"));
+    for (var i = 0, count = _tableViews.length; i < count; i++)
+    {
+        var tableView = _tableViews[i],
+            scrollView = objj_msgSend(tableView, "enclosingScrollView"),
+            width = objj_msgSend(self, "widthOfColumn:", i),
+            tableHeight = CGRectGetHeight(objj_msgSend(tableView, "bounds"));
+        objj_msgSend(objj_msgSend(tableView, "tableColumnWithIdentifier:", "Image"), "setWidth:", _imageWidth);
+        objj_msgSend(objj_msgSend(tableView, "tableColumnWithIdentifier:", "Content"), "setWidth:", width - (_leafWidth + _delegateSupportsImages ? _imageWidth : 0) - scrollerWidth - scrollerWidth);
+        objj_msgSend(objj_msgSend(tableView, "tableColumnWithIdentifier:", "Leaf"), "setWidth:", _leafWidth);
+        objj_msgSend(tableView, "setRowHeight:", _rowHeight);
+        objj_msgSend(tableView, "setFrameSize:", CGSizeMake(width - scrollerWidth, tableHeight));
+        objj_msgSend(scrollView, "setFrameOrigin:", CGPointMake(xOrigin, 0));
+        objj_msgSend(scrollView, "setFrameSize:", CGSizeMake(width, height));
+        xOrigin += width;
+    }
+    objj_msgSend(_contentView, "setFrameSize:", CGSizeMake(xOrigin, height));
+}
+},["void"]), new objj_method(sel_getUid("itemAtRow:inColumn:"), function $CPBrowser__itemAtRow_inColumn_(self, _cmd, row, column)
+{ with(self)
+{
+    return objj_msgSend(_tableDelegates[column], "childAtIndex:", row);
+}
+},["id","int","int"]), new objj_method(sel_getUid("isLeafItem:"), function $CPBrowser__isLeafItem_(self, _cmd, item)
+{ with(self)
+{
+    return objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("browser:isLeafItem:")) && objj_msgSend(_delegate, "browser:isLeafItem:", self, item);
+}
+},["BOOL","id"]), new objj_method(sel_getUid("parentForItemsInColumn:"), function $CPBrowser__parentForItemsInColumn_(self, _cmd, column)
+{ with(self)
+{
+    return objj_msgSend(_tableDelegates[column], "_item");
+}
+},["id","int"]), new objj_method(sel_getUid("_column:clickedRow:"), function $CPBrowser___column_clickedRow_(self, _cmd, columnIndex, rowIndex)
+{ with(self)
+{
+    objj_msgSend(self, "setLastColumn:", columnIndex);
+    if (rowIndex >= 0)
+        objj_msgSend(self, "addColumn");
+    objj_msgSend(self, "doClick:", self);
+}
+},["void","unsigned","unsigned"]), new objj_method(sel_getUid("sendAction"), function $CPBrowser__sendAction(self, _cmd)
+{ with(self)
+{
+    objj_msgSend(self, "sendAction:to:", _action, _target);
+}
+},["void"]), new objj_method(sel_getUid("doClick:"), function $CPBrowser__doClick_(self, _cmd, sender)
+{ with(self)
+{
+    objj_msgSend(self, "sendAction:to:", _action, _target);
+}
+},["void","id"]), new objj_method(sel_getUid("doDoubleClick:"), function $CPBrowser__doDoubleClick_(self, _cmd, sender)
+{ with(self)
+{
+    objj_msgSend(self, "sendAction:to:", _doubleAction, _target);
+}
+},["void","id"]), new objj_method(sel_getUid("columnContentWidthForColumnWidth:"), function $CPBrowser__columnContentWidthForColumnWidth_(self, _cmd, aWidth)
+{ with(self)
+{
+    return aWidth - (_leafWidth + _delegateSupportsImages ? _imageWidth : 0) - objj_msgSend(CPScroller, "scrollerWidth");
+}
+},["float","float"]), new objj_method(sel_getUid("columnWidthForColumnContentWidth:"), function $CPBrowser__columnWidthForColumnContentWidth_(self, _cmd, aWidth)
+{ with(self)
+{
+    return aWidth + (_leafWidth + _delegateSupportsImages ? _imageWidth : 0) + objj_msgSend(CPScroller, "scrollerWidth");
+}
+},["float","float"]), new objj_method(sel_getUid("setImageWidth:"), function $CPBrowser__setImageWidth_(self, _cmd, aWidth)
+{ with(self)
+{
+    _imageWidth = aWidth;
+    objj_msgSend(self, "tile");
+}
+},["void","float"]), new objj_method(sel_getUid("imageWidth"), function $CPBrowser__imageWidth(self, _cmd)
+{ with(self)
+{
+    return _imageWidth;
+}
+},["float"]), new objj_method(sel_getUid("setMinColumnWidth:"), function $CPBrowser__setMinColumnWidth_(self, _cmd, minWidth)
+{ with(self)
+{
+    _minColumnWidth = minWidth;
+    objj_msgSend(self, "tile");
+}
+},["void","float"]), new objj_method(sel_getUid("minColumnWidth"), function $CPBrowser__minColumnWidth(self, _cmd)
+{ with(self)
+{
+    return _minColumnWidth;
+}
+},["float"]), new objj_method(sel_getUid("setWidth:ofColumn:"), function $CPBrowser__setWidth_ofColumn_(self, _cmd, aWidth, column)
+{ with(self)
+{
+    _columnWidths[column] = aWidth;
+    if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("browser:didResizeColumn:")))
+        objj_msgSend(_delegate, "browser:didResizeColumn:", self, column);
+    objj_msgSend(self, "tile");
+}
+},["void","float","unsigned"]), new objj_method(sel_getUid("widthOfColumn:"), function $CPBrowser__widthOfColumn_(self, _cmd, column)
+{ with(self)
+{
+    var width = _columnWidths[column];
+    if (width == null)
+        width = _defaultColumnWidth;
+    return MAX(objj_msgSend(CPScroller, "scrollerWidth"), MAX(_minColumnWidth, width));
+}
+},["float","unsigned"]), new objj_method(sel_getUid("setRowHeight:"), function $CPBrowser__setRowHeight_(self, _cmd, aHeight)
+{ with(self)
+{
+    _rowHeight = aHeight;
+}
+},["void","float"]), new objj_method(sel_getUid("rowHeight"), function $CPBrowser__rowHeight(self, _cmd)
+{ with(self)
+{
+    return _rowHeight;
+}
+},["float"]), new objj_method(sel_getUid("scrollColumnToVisible:"), function $CPBrowser__scrollColumnToVisible_(self, _cmd, columnIndex)
+{ with(self)
+{
+    objj_msgSend(_contentView, "scrollRectToVisible:", objj_msgSend(objj_msgSend(objj_msgSend(self, "tableViewInColumn:", columnIndex), "enclosingScrollView"), "frame"));
+}
+},["void","unsigned"]), new objj_method(sel_getUid("autohidesScroller"), function $CPBrowser__autohidesScroller(self, _cmd)
+{ with(self)
+{
+    return objj_msgSend(_horizontalScrollView, "autohidesScrollers");
+}
+},["BOOL"]), new objj_method(sel_getUid("setAutohidesScroller:"), function $CPBrowser__setAutohidesScroller_(self, _cmd, shouldHide)
+{ with(self)
+{
+    objj_msgSend(_horizontalScrollView, "setAutohidesScrollers:", shouldHide);
+}
+},["void","BOOL"]), new objj_method(sel_getUid("selectedRowInColumn:"), function $CPBrowser__selectedRowInColumn_(self, _cmd, columnIndex)
+{ with(self)
+{
+    if (columnIndex > objj_msgSend(self, "lastColumn") || columnIndex < 0)
+        return -1;
+    return objj_msgSend(_tableViews[columnIndex], "selectedRow");
+}
+},["unsigned","unsigned"]), new objj_method(sel_getUid("selectedColumn"), function $CPBrowser__selectedColumn(self, _cmd)
+{ with(self)
+{
+    var column = objj_msgSend(self, "lastColumn"),
+        row = objj_msgSend(self, "selectedRowInColumn:", column);
+    if (row >= 0)
+        return column;
+    else
+        return column - 1;
+}
+},["unsigned"]), new objj_method(sel_getUid("selectRow:inColumn:"), function $CPBrowser__selectRow_inColumn_(self, _cmd, row, column)
+{ with(self)
+{
+    var selectedIndexes = row === -1 ? objj_msgSend(CPIndexSet, "indexSet") : objj_msgSend(CPIndexSet, "indexSetWithIndex:", row);
+    objj_msgSend(self, "selectRowIndexes:inColumn:", selectedIndexes, column);
+}
+},["void","unsigned","unsigned"]), new objj_method(sel_getUid("allowsMultipleSelection"), function $CPBrowser__allowsMultipleSelection(self, _cmd)
+{ with(self)
+{
+    return _allowsMultipleSelection;
+}
+},["BOOL"]), new objj_method(sel_getUid("setAllowsMultipleSelection:"), function $CPBrowser__setAllowsMultipleSelection_(self, _cmd, shouldAllow)
+{ with(self)
+{
+    if (_allowsMultipleSelection === shouldAllow)
+        return;
+    _allowsMultipleSelection = shouldAllow;
+    objj_msgSend(_tableViews, "makeObjectsPerformSelector:withObject:", sel_getUid("setAllowsMultipleSelection:"), shouldAllow);
+}
+},["void","BOOL"]), new objj_method(sel_getUid("allowsEmptySelection"), function $CPBrowser__allowsEmptySelection(self, _cmd)
+{ with(self)
+{
+    return _allowsEmptySelection;
+}
+},["BOOL"]), new objj_method(sel_getUid("setAllowsEmptySelection:"), function $CPBrowser__setAllowsEmptySelection_(self, _cmd, shouldAllow)
+{ with(self)
+{
+    if (_allowsEmptySelection === shouldAllow)
+        return;
+    _allowsEmptySelection = shouldAllow;
+    objj_msgSend(_tableViews, "makeObjectsPerformSelector:withObject:", sel_getUid("setAllowsEmptySelection:"), shouldAllow);
+}
+},["void","BOOL"]), new objj_method(sel_getUid("selectedRowIndexesInColumn:"), function $CPBrowser__selectedRowIndexesInColumn_(self, _cmd, column)
+{ with(self)
+{
+    return objj_msgSend(objj_msgSend(self, "tableViewInColumn:", column), "selectedRowIndexes");
+}
+},["CPIndexSet","unsigned"]), new objj_method(sel_getUid("selectRowIndexes:inColumn:"), function $CPBrowser__selectRowIndexes_inColumn_(self, _cmd, indexSet, column)
+{ with(self)
+{
+    if (column < 0 || column > objj_msgSend(self, "lastColumn") + 1)
+        return;
+    if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("browser:selectionIndexesForProposedSelection:inColumn:")))
+        indexSet = objj_msgSend(_delegate, "browser:selectionIndexesForProposedSelection:inColumn:", self, indexSet, column);
+    if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("browser:shouldSelectRowIndexes:inColumn:")) &&
+       !objj_msgSend(_delegate, "browser:shouldSelectRowIndexes:inColumn:", self, indexSet, column))
+        return;
+    if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("browserSelectionIsChanging:")))
+        objj_msgSend(_delegate, "browserSelectionIsChanging:", self);
+    if (column > objj_msgSend(self, "lastColumn"))
+        objj_msgSend(self, "addColumn");
+    objj_msgSend(self, "setLastColumn:", column);
+    objj_msgSend(objj_msgSend(self, "tableViewInColumn:", column), "selectRowIndexes:byExtendingSelection:", indexSet, NO);
+    objj_msgSend(objj_msgSend(self, "window"), "makeFirstResponder:", objj_msgSend(self, "tableViewInColumn:", objj_msgSend(self, "lastColumn")));
+    objj_msgSend(self, "scrollColumnToVisible:", column);
+    if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("browserSelectionDidChange:")))
+        objj_msgSend(_delegate, "browserSelectionDidChange:", self);
+}
+},["void","CPIndexSet","unsigned"]), new objj_method(sel_getUid("setBackgroundColor:"), function $CPBrowser__setBackgroundColor_(self, _cmd, aColor)
+{ with(self)
+{
+    objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPBrowser").super_class }, "setBackgroundColor:", aColor);
+    objj_msgSend(_contentView, "setBackgroundColor:", aColor);
+}
+},["void","CPColor"]), new objj_method(sel_getUid("registerForDraggedTypes:"), function $CPBrowser__registerForDraggedTypes_(self, _cmd, types)
+{ with(self)
+{
+    objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPBrowser").super_class }, "registerForDraggedTypes:", types);
+    objj_msgSend(_tableViews, "makeObjectsPerformSelector:withObject:", sel_getUid("registerForDraggedTypes:"), types);
+}
+},["void","CPArray"]), new objj_method(sel_getUid("canDragRowsWithIndexes:inColumn:withEvent:"), function $CPBrowser__canDragRowsWithIndexes_inColumn_withEvent_(self, _cmd, rowIndexes, columnIndex, dragEvent)
+{ with(self)
+{
+    if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("browser:canDragRowsWithIndexes:inColumn:withEvent:")))
+        return objj_msgSend(_delegate, "browser:canDragRowsWithIndexes:inColumn:withEvent:", self, rowIndexes, columnIndex, dragEvent);
+    return YES;
+}
+},["BOOL","CPIndexSet","int","CPEvent"]), new objj_method(sel_getUid("draggingImageForRowsWithIndexes:inColumn:withEvent:offset:"), function $CPBrowser__draggingImageForRowsWithIndexes_inColumn_withEvent_offset_(self, _cmd, rowIndexes, columnIndex, dragEvent, dragImageOffset)
+{ with(self)
+{
+    if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("browser:draggingImageForRowsWithIndexes:inColumn:withEvent:offset:")))
+        return objj_msgSend(_delegate, "browser:draggingImageForRowsWithIndexes:inColumn:withEvent:offset:", self, rowIndexes, columnIndex, dragEvent, dragImageOffset);
+    return nil;
+}
+},["CPImage","CPIndexSet","int","CPEvent","CGPoint"]), new objj_method(sel_getUid("draggingViewForRowsWithIndexes:inColumn:withEvent:offset:"), function $CPBrowser__draggingViewForRowsWithIndexes_inColumn_withEvent_offset_(self, _cmd, rowIndexes, columnIndex, dragEvent, dragImageOffset)
+{ with(self)
+{
+    if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("browser:draggingViewForRowsWithIndexes:inColumn:withEvent:offset:")))
+        return objj_msgSend(_delegate, "browser:draggingViewForRowsWithIndexes:inColumn:withEvent:offset:", self, rowIndexes, columnIndex, dragEvent, dragImageOffset);
+    return nil;
+}
+},["CPView","CPIndexSet","int","CPEvent","CGPoint"])]);
+class_addMethods(meta_class, [new objj_method(sel_getUid("branchImage"), function $CPBrowser__branchImage(self, _cmd)
+{ with(self)
+{
+    return objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(objj_msgSend(CPBundle, "bundleForClass:", objj_msgSend(self, "class")), "pathForResource:", "browser-leaf.png"), CGSizeMake(9,9));
+}
+},["CPImage"]), new objj_method(sel_getUid("highlightedBranchImage"), function $CPBrowser__highlightedBranchImage(self, _cmd)
+{ with(self)
+{
+    return objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(objj_msgSend(CPBundle, "bundleForClass:", objj_msgSend(self, "class")), "pathForResource:", "browser-leaf-highlighted.png"), CGSizeMake(9,9));
+}
+},["CPImage"])]);
+}
+{var the_class = objj_allocateClassPair(CPView, "_CPBrowserResizeControl"),
+meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_mouseDownX"), new objj_ivar("_browser"), new objj_ivar("_index"), new objj_ivar("_width")]);
+objj_registerClassPair(the_class);
+class_addMethods(the_class, [new objj_method(sel_getUid("mouseDown:"), function $_CPBrowserResizeControl__mouseDown_(self, _cmd, anEvent)
+{ with(self)
+{
+    _mouseDownX = objj_msgSend(anEvent, "locationInWindow").x;
+    _browser = objj_msgSend(objj_msgSend(self, "superview"), "_browser");
+    _index = objj_msgSend(_browser, "columnOfTableView:", objj_msgSend(objj_msgSend(self, "superview"), "documentView"));
+    _width = objj_msgSend(_browser, "widthOfColumn:", _index);
+}
+},["void","CPEvent"]), new objj_method(sel_getUid("mouseDragged:"), function $_CPBrowserResizeControl__mouseDragged_(self, _cmd, anEvent)
+{ with(self)
+{
+    var deltaX = objj_msgSend(anEvent, "locationInWindow").x - _mouseDownX;
+    objj_msgSend(_browser, "setWidth:ofColumn:", _width + deltaX, _index);
+}
+},["void","CPEvent"])]);
+}
+var _CPBrowserResizeControlBackgroundImage = nil;
+{var the_class = objj_allocateClassPair(CPScrollView, "_CPBrowserScrollView"),
+meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_resizeControl"), new objj_ivar("_browser")]);
+objj_registerClassPair(the_class);
+class_addMethods(the_class, [new objj_method(sel_getUid("_browser"), function $_CPBrowserScrollView___browser(self, _cmd)
+{ with(self)
+{
+return _browser;
+}
+},["id"]),
+new objj_method(sel_getUid("_setBrowser:"), function $_CPBrowserScrollView___setBrowser_(self, _cmd, newValue)
+{ with(self)
+{
+_browser = newValue;
+}
+},["void","id"]), new objj_method(sel_getUid("initWithFrame:"), function $_CPBrowserScrollView__initWithFrame_(self, _cmd, aFrame)
+{ with(self)
+{
+    if (self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("_CPBrowserScrollView").super_class }, "initWithFrame:", aFrame))
+    {
+        _resizeControl = objj_msgSend(objj_msgSend(_CPBrowserResizeControl, "alloc"), "initWithFrame:", CGRectMakeZero());
+        objj_msgSend(_resizeControl, "setBackgroundColor:", objj_msgSend(CPColor, "colorWithPatternImage:", objj_msgSend(objj_msgSend(self, "class"), "backgroundImage")));
+        objj_msgSend(self, "addSubview:", _resizeControl);
+    }
+    return self;
+}
+},["void","CGRect"]), new objj_method(sel_getUid("reflectScrolledClipView:"), function $_CPBrowserScrollView__reflectScrolledClipView_(self, _cmd, aClipView)
+{ with(self)
+{
+    objj_msgSendSuper({ receiver:self, super_class:objj_getClass("_CPBrowserScrollView").super_class }, "reflectScrolledClipView:", aClipView);
+    var frame = objj_msgSend(_verticalScroller, "frame");
+    frame.size.height = CGRectGetHeight(objj_msgSend(self, "bounds")) - 14.0 - frame.origin.y;
+    objj_msgSend(_verticalScroller, "setFrameSize:", frame.size);
+    var resizeFrame = CGRectMake(CGRectGetMinX(frame), CGRectGetMaxY(frame), objj_msgSend(CPScroller, "scrollerWidth"), 14.0);
+    objj_msgSend(_resizeControl, "setFrame:", resizeFrame);
+}
+},["void","CPClipView"])]);
+class_addMethods(meta_class, [new objj_method(sel_getUid("backgroundImage"), function $_CPBrowserScrollView__backgroundImage(self, _cmd)
+{ with(self)
+{
+    if (!_CPBrowserResizeControlBackgroundImage)
+    {
+        var path = objj_msgSend(objj_msgSend(CPBundle, "bundleForClass:", objj_msgSend(self, "class")), "pathForResource:", "browser-resize-control.png");
+        _CPBrowserResizeControlBackgroundImage = objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", path, CGSizeMake(15, 14));
+    }
+    return _CPBrowserResizeControlBackgroundImage;
+}
+},["CPImage"])]);
+}
+{var the_class = objj_allocateClassPair(CPTableView, "_CPBrowserTableView"),
+meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_browser")]);
+objj_registerClassPair(the_class);
+class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:browser:"), function $_CPBrowserTableView__initWithFrame_browser_(self, _cmd, aFrame, aBrowser)
+{ with(self)
+{
+    if (self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("_CPBrowserTableView").super_class }, "initWithFrame:", aFrame))
+        _browser = aBrowser;
+    return self;
+}
+},["id","CGRect","CPBrowser"]), new objj_method(sel_getUid("browserView"), function $_CPBrowserTableView__browserView(self, _cmd)
+{ with(self)
+{
+    return _browser;
+}
+},["CPView"]), new objj_method(sel_getUid("canDragRowsWithIndexes:atPoint:"), function $_CPBrowserTableView__canDragRowsWithIndexes_atPoint_(self, _cmd, rowIndexes, mouseDownPoint)
+{ with(self)
+{
+    return objj_msgSend(_browser, "canDragRowsWithIndexes:inColumn:withEvent:", rowIndexes, objj_msgSend(_browser, "columnOfTableView:", self), objj_msgSend(CPApp, "currentEvent"));
+}
+},["BOOL","CPIndexSet","CGPoint"]), new objj_method(sel_getUid("dragImageForRowsWithIndexes:tableColumns:event:offset:"), function $_CPBrowserTableView__dragImageForRowsWithIndexes_tableColumns_event_offset_(self, _cmd, dragRows, theTableColumns, dragEvent, dragImageOffset)
+{ with(self)
+{
+    return objj_msgSend(_browser, "draggingImageForRowsWithIndexes:inColumn:withEvent:offset:", dragRows, objj_msgSend(_browser, "columnOfTableView:", self), dragEvent, dragImageOffset) ||
+           objj_msgSendSuper({ receiver:self, super_class:objj_getClass("_CPBrowserTableView").super_class }, "dragImageForRowsWithIndexes:tableColumns:event:offset:", dragRows, theTableColumns, dragEvent, dragImageOffset);
+}
+},["CPImage","CPIndexSet","CPArray","CPEvent","CPPointPointer"]), new objj_method(sel_getUid("dragViewForRowsWithIndexes:tableColumns:event:offset:"), function $_CPBrowserTableView__dragViewForRowsWithIndexes_tableColumns_event_offset_(self, _cmd, dragRows, theTableColumns, dragEvent, dragViewOffset)
+{ with(self)
+{
+    var count = theTableColumns.length;
+    while (count--)
+    {
+        if (objj_msgSend(theTableColumns[count], "identifier") === "Leaf")
+            objj_msgSend(theTableColumns, "removeObject:", theTableColumns[count]);
+    }
+    return objj_msgSend(_browser, "draggingViewForRowsWithIndexes:inColumn:withEvent:offset:", dragRows, objj_msgSend(_browser, "columnOfTableView:", self), dragEvent, dragViewOffset) ||
+           objj_msgSendSuper({ receiver:self, super_class:objj_getClass("_CPBrowserTableView").super_class }, "dragViewForRowsWithIndexes:tableColumns:event:offset:", dragRows, theTableColumns, dragEvent, dragViewOffset);
+}
+},["CPView","CPIndexSet","CPArray","CPEvent","CPPoint"]), new objj_method(sel_getUid("moveUp:"), function $_CPBrowserTableView__moveUp_(self, _cmd, sender)
+{ with(self)
+{
+    objj_msgSendSuper({ receiver:self, super_class:objj_getClass("_CPBrowserTableView").super_class }, "moveUp:", sender);
+    objj_msgSend(_browser, "selectRow:inColumn:", objj_msgSend(self, "selectedRow"), objj_msgSend(_browser, "selectedColumn"));
+}
+},["void","id"]), new objj_method(sel_getUid("moveDown:"), function $_CPBrowserTableView__moveDown_(self, _cmd, sender)
+{ with(self)
+{
+    objj_msgSendSuper({ receiver:self, super_class:objj_getClass("_CPBrowserTableView").super_class }, "moveDown:", sender);
+    objj_msgSend(_browser, "selectRow:inColumn:", objj_msgSend(self, "selectedRow"), objj_msgSend(_browser, "selectedColumn"));
+}
+},["void","id"]), new objj_method(sel_getUid("moveLeft:"), function $_CPBrowserTableView__moveLeft_(self, _cmd, sender)
+{ with(self)
+{
+    var previousColumn = objj_msgSend(_browser, "selectedColumn") - 1,
+        selectedRow = objj_msgSend(_browser, "selectedRowInColumn:", previousColumn);
+    objj_msgSend(_browser, "selectRow:inColumn:", selectedRow, previousColumn);
+}
+},["void","id"]), new objj_method(sel_getUid("moveRight:"), function $_CPBrowserTableView__moveRight_(self, _cmd, sender)
+{ with(self)
+{
+    objj_msgSend(_browser, "selectRow:inColumn:", 0, objj_msgSend(_browser, "selectedColumn") + 1);
+}
+},["void","id"])]);
+}
+{var the_class = objj_allocateClassPair(CPObject, "_CPBrowserTableDelegate"),
+meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_browser"), new objj_ivar("_index"), new objj_ivar("_delegate"), new objj_ivar("_item")]);
+objj_registerClassPair(the_class);
+class_addMethods(the_class, [new objj_method(sel_getUid("_browser"), function $_CPBrowserTableDelegate___browser(self, _cmd)
+{ with(self)
+{
+return _browser;
+}
+},["id"]),
+new objj_method(sel_getUid("_setBrowser:"), function $_CPBrowserTableDelegate___setBrowser_(self, _cmd, newValue)
+{ with(self)
+{
+_browser = newValue;
+}
+},["void","id"]),
+new objj_method(sel_getUid("_index"), function $_CPBrowserTableDelegate___index(self, _cmd)
+{ with(self)
+{
+return _index;
+}
+},["id"]),
+new objj_method(sel_getUid("_setIndex:"), function $_CPBrowserTableDelegate___setIndex_(self, _cmd, newValue)
+{ with(self)
+{
+_index = newValue;
+}
+},["void","id"]),
+new objj_method(sel_getUid("_delegate"), function $_CPBrowserTableDelegate___delegate(self, _cmd)
+{ with(self)
+{
+return _delegate;
+}
+},["id"]),
+new objj_method(sel_getUid("_setDelegate:"), function $_CPBrowserTableDelegate___setDelegate_(self, _cmd, newValue)
+{ with(self)
+{
+_delegate = newValue;
+}
+},["void","id"]),
+new objj_method(sel_getUid("_item"), function $_CPBrowserTableDelegate___item(self, _cmd)
+{ with(self)
+{
+return _item;
+}
+},["id"]),
+new objj_method(sel_getUid("_setItem:"), function $_CPBrowserTableDelegate___setItem_(self, _cmd, newValue)
+{ with(self)
+{
+_item = newValue;
+}
+},["void","id"]), new objj_method(sel_getUid("numberOfRowsInTableView:"), function $_CPBrowserTableDelegate__numberOfRowsInTableView_(self, _cmd, aTableView)
+{ with(self)
+{
+    return objj_msgSend(_delegate, "browser:numberOfChildrenOfItem:", _browser, _item);
+}
+},["unsigned","CPTableView"]), new objj_method(sel_getUid("tableView:objectValueForTableColumn:row:"), function $_CPBrowserTableDelegate__tableView_objectValueForTableColumn_row_(self, _cmd, aTableView, column, row)
+{ with(self)
+{
+    if (objj_msgSend(column, "identifier") === "Image")
+        return objj_msgSend(_delegate, "browser:imageValueForItem:", _browser, objj_msgSend(self, "childAtIndex:", row));
+    else if (objj_msgSend(column, "identifier") === "Leaf")
+        return !objj_msgSend(_browser, "isLeafItem:", objj_msgSend(self, "childAtIndex:", row));
+    else
+        return objj_msgSend(_delegate, "browser:objectValueForItem:", _browser, objj_msgSend(self, "childAtIndex:", row));
+}
+},["void","CPTableView","CPTableColumn","unsigned"]), new objj_method(sel_getUid("_tableViewDoubleClicked:"), function $_CPBrowserTableDelegate___tableViewDoubleClicked_(self, _cmd, aTableView)
+{ with(self)
+{
+    objj_msgSend(_browser, "doDoubleClick:", self);
+}
+},["void","CPTableView"]), new objj_method(sel_getUid("_tableViewClicked:"), function $_CPBrowserTableDelegate___tableViewClicked_(self, _cmd, aTableView)
+{ with(self)
+{
+    var selectedIndexes = objj_msgSend(aTableView, "selectedRowIndexes");
+    objj_msgSend(_browser, "_column:clickedRow:", _index, objj_msgSend(selectedIndexes, "count") === 1 ? objj_msgSend(selectedIndexes, "firstIndex") : -1);
+}
+},["void","CPTableView"]), new objj_method(sel_getUid("childAtIndex:"), function $_CPBrowserTableDelegate__childAtIndex_(self, _cmd, index)
+{ with(self)
+{
+    return objj_msgSend(_delegate, "browser:child:ofItem:", _browser, index, _item);
+}
+},["id","unsigned"]), new objj_method(sel_getUid("tableView:acceptDrop:row:dropOperation:"), function $_CPBrowserTableDelegate__tableView_acceptDrop_row_dropOperation_(self, _cmd, aTableView, info, row, operation)
+{ with(self)
+{
+    if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("browser:acceptDrop:atRow:column:dropOperation:")))
+        return objj_msgSend(_delegate, "browser:acceptDrop:atRow:column:dropOperation:", _browser, info, row, _index, operation);
+    else
+        return NO;
+}
+},["BOOL","CPTableView","id","int","CPTableViewDropOperation"]), new objj_method(sel_getUid("tableView:validateDrop:proposedRow:proposedDropOperation:"), function $_CPBrowserTableDelegate__tableView_validateDrop_proposedRow_proposedDropOperation_(self, _cmd, aTableView, info, row, operation)
+{ with(self)
+{
+    if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("browser:validateDrop:proposedRow:column:dropOperation:")))
+        objj_msgSend(_delegate, "browser:validateDrop:proposedRow:column:dropOperation:", _browser, info, row, _index, operation);
+    else
+        return CPDragOperationNone;
+}
+},["CPDragOperation","CPTableView","id","int","CPTableViewDropOperation"]), new objj_method(sel_getUid("tableView:writeRowsWithIndexes:toPasteboard:"), function $_CPBrowserTableDelegate__tableView_writeRowsWithIndexes_toPasteboard_(self, _cmd, aTableView, rowIndexes, pboard)
+{ with(self)
+{
+    if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("browser:writeRowsWithIndexes:inColumn:toPasteboard:")))
+        return objj_msgSend(_delegate, "browser:writeRowsWithIndexes:inColumn:toPasteboard:", _browser, rowIndexes, _index, pboard);
+    else
+        return NO;
+}
+},["BOOL","CPTableView","CPIndexSet","CPPasteboard"]), new objj_method(sel_getUid("respondsToSelector:"), function $_CPBrowserTableDelegate__respondsToSelector_(self, _cmd, aSelector)
+{ with(self)
+{
+    if (aSelector === sel_getUid("browser:writeRowsWithIndexes:inColumn:toPasteboard:"))
+        return objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("browser:writeRowsWithIndexes:inColumn:toPasteboard:"));
+    else
+        return objj_msgSendSuper({ receiver:self, super_class:objj_getClass("_CPBrowserTableDelegate").super_class }, "respondsToSelector:", aSelector);
+}
+},["BOOL","SEL"])]);
+}
+{var the_class = objj_allocateClassPair(CPView, "_CPBrowserLeafView"),
+meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_isLeaf"), new objj_ivar("_branchImage"), new objj_ivar("_highlightedBranchImage")]);
+objj_registerClassPair(the_class);
+class_addMethods(the_class, [new objj_method(sel_getUid("isLeaf"), function $_CPBrowserLeafView__isLeaf(self, _cmd)
+{ with(self)
+{
+return _isLeaf;
+}
+},["id"]),
+new objj_method(sel_getUid("branchImage"), function $_CPBrowserLeafView__branchImage(self, _cmd)
+{ with(self)
+{
+return _branchImage;
+}
+},["id"]),
+new objj_method(sel_getUid("setBranchImage:"), function $_CPBrowserLeafView__setBranchImage_(self, _cmd, newValue)
+{ with(self)
+{
+_branchImage = newValue;
+}
+},["void","id"]),
+new objj_method(sel_getUid("highlightedBranchImage"), function $_CPBrowserLeafView__highlightedBranchImage(self, _cmd)
+{ with(self)
+{
+return _highlightedBranchImage;
+}
+},["id"]),
+new objj_method(sel_getUid("setHighlightedBranchImage:"), function $_CPBrowserLeafView__setHighlightedBranchImage_(self, _cmd, newValue)
+{ with(self)
+{
+_highlightedBranchImage = newValue;
+}
+},["void","id"]), new objj_method(sel_getUid("objectValue"), function $_CPBrowserLeafView__objectValue(self, _cmd)
+{ with(self)
+{
+    return _isLeaf;
+}
+},["BOOL"]), new objj_method(sel_getUid("setObjectValue:"), function $_CPBrowserLeafView__setObjectValue_(self, _cmd, aValue)
+{ with(self)
+{
+    _isLeaf = !!aValue;
+    objj_msgSend(self, "setNeedsLayout");
+}
+},["void","id"]), new objj_method(sel_getUid("rectForEphemeralSubviewNamed:"), function $_CPBrowserLeafView__rectForEphemeralSubviewNamed_(self, _cmd, aName)
+{ with(self)
+{
+    if (aName === "image-view")
+        return CGRectInset(objj_msgSend(self, "bounds"), 1, 1);
+    return objj_msgSendSuper({ receiver:self, super_class:objj_getClass("_CPBrowserLeafView").super_class }, "rectForEphemeralSubviewNamed:", aName);
+}
+},["CGRect","CPString"]), new objj_method(sel_getUid("createEphemeralSubviewNamed:"), function $_CPBrowserLeafView__createEphemeralSubviewNamed_(self, _cmd, aName)
+{ with(self)
+{
+    if (aName === "image-view")
+        return objj_msgSend(objj_msgSend(CPImageView, "alloc"), "initWithFrame:", CGRectMakeZero());
+    return objj_msgSendSuper({ receiver:self, super_class:objj_getClass("_CPBrowserLeafView").super_class }, "createEphemeralSubviewNamed:", aName);
+}
+},["CPView","CPString"]), new objj_method(sel_getUid("layoutSubviews"), function $_CPBrowserLeafView__layoutSubviews(self, _cmd)
+{ with(self)
+{
+    var imageView = objj_msgSend(self, "layoutEphemeralSubviewNamed:positioned:relativeToEphemeralSubviewNamed:", "image-view", CPWindowAbove, nil);
+    var isHighlighted = objj_msgSend(self, "themeState") & CPThemeStateSelected;
+    objj_msgSend(imageView, "setImage:",  _isLeaf ? (isHighlighted ? _highlightedBranchImage : _branchImage) : nil);
+    objj_msgSend(imageView, "setImageScaling:", CPScaleNone);
+}
+},["void"]), new objj_method(sel_getUid("encodeWithCoder:"), function $_CPBrowserLeafView__encodeWithCoder_(self, _cmd, aCoder)
+{ with(self)
+{
+    objj_msgSendSuper({ receiver:self, super_class:objj_getClass("_CPBrowserLeafView").super_class }, "encodeWithCoder:", aCoder);
+    objj_msgSend(aCoder, "encodeBool:forKey:", _isLeaf, "_CPBrowserLeafViewIsLeafKey");
+    objj_msgSend(aCoder, "encodeObject:forKey:", _branchImage, "_CPBrowserLeafViewBranchImageKey");
+    objj_msgSend(aCoder, "encodeObject:forKey:", _highlightedBranchImage, "_CPBrowserLeafViewHighlightedBranchImageKey");
+}
+},["void","CPCoder"]), new objj_method(sel_getUid("initWithCoder:"), function $_CPBrowserLeafView__initWithCoder_(self, _cmd, aCoder)
+{ with(self)
+{
+    if (self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("_CPBrowserLeafView").super_class }, "initWithCoder:", aCoder))
+    {
+        _isLeaf = objj_msgSend(aCoder, "decodeBoolForKey:", "_CPBrowserLeafViewIsLeafKey");
+        _branchImage = objj_msgSend(aCoder, "decodeObjectForKey:", "_CPBrowserLeafViewBranchImageKey");
+        _highlightedBranchImage = objj_msgSend(aCoder, "decodeObjectForKey:", "_CPBrowserLeafViewHighlightedBranchImageKey");
+    }
+    return self;
+}
+},["void","CPCoder"])]);
+}
+
 p;15;CPTabViewItem.jt;4321;@STATIC;1.0;I;21;Foundation/CPObject.jI;15;AppKit/CPView.jt;4256;objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("AppKit/CPView.j", NO);
 CPSelectedTab = 0;
@@ -21399,12 +22185,13 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CGRect"])]);
 }
 
-p;8;AppKit.jt;3814;@STATIC;1.0;i;9;CALayer.ji;9;CPAlert.ji;13;CPAnimation.ji;15;CPApplication.ji;14;CPBezierPath.ji;7;CPBox.ji;10;CPButton.ji;13;CPButtonBar.ji;12;CPCheckBox.ji;7;CPCib.ji;16;CPCibConnector.ji;23;CPCibControlConnector.ji;14;CPCibLoading.ji;22;CPCibOutletConnector.ji;12;CPClipView.ji;22;CPCollectionViewItem.ji;18;CPCollectionView.ji;9;CPColor.ji;14;CPColorPanel.ji;13;CPColorWell.ji;17;CPCompatibility.ji;11;CPControl.ji;10;CPCookie.ji;10;CPCursor.ji;12;CPDocument.ji;22;CPDocumentController.ji;9;CPEvent.ji;14;CPFlashMovie.ji;13;CPFlashView.ji;8;CPFont.ji;15;CPFontManager.ji;12;CPGeometry.ji;9;CPImage.ji;13;CPImageView.ji;8;CPMenu.ji;12;CPMenuItem.ji;13;CPOpenPanel.ji;15;CPOutlineView.ji;9;CPPanel.ji;14;CPPasteboard.ji;15;CPPopUpButton.ji;21;CPProgressIndicator.ji;9;CPRadio.ji;13;CPResponder.ji;15;CPSearchField.ji;14;CPScrollView.ji;12;CPScroller.ji;19;CPSecureTextField.ji;20;CPSegmentedControl.ji;10;CPShadow.ji;10;CPSlider.ji;13;CPSplitView.ji;11;CPTabView.ji;15;CPTableColumn.ji;13;CPTableView.ji;13;CPTextField.ji;11;CPToolbar.ji;15;CPToolbarItem.ji;12;CPTreeNode.ji;8;CPView.ji;17;CPViewAnimation.ji;18;CPViewController.ji;11;CPWebView.ji;10;CPWindow.ji;20;CPWindowController.jt;2619;objj_executeFile("CALayer.j", YES);
+p;8;AppKit.jt;3868;@STATIC;1.0;i;9;CALayer.ji;9;CPAlert.ji;13;CPAnimation.ji;15;CPApplication.ji;14;CPBezierPath.ji;7;CPBox.ji;11;CPBrowser.ji;10;CPButton.ji;13;CPButtonBar.ji;12;CPCheckBox.ji;7;CPCib.ji;16;CPCibConnector.ji;23;CPCibControlConnector.ji;14;CPCibLoading.ji;22;CPCibOutletConnector.ji;12;CPClipView.ji;22;CPCollectionViewItem.ji;18;CPCollectionView.ji;9;CPColor.ji;14;CPColorPanel.ji;13;CPColorWell.ji;17;CPCompatibility.ji;11;CPControl.ji;10;CPCookie.ji;10;CPCursor.ji;12;CPDocument.ji;22;CPDocumentController.ji;9;CPEvent.ji;14;CPFlashMovie.ji;13;CPFlashView.ji;8;CPFont.ji;15;CPFontManager.ji;12;CPGeometry.ji;9;CPImage.ji;13;CPImageView.ji;8;CPMenu.ji;12;CPMenuItem.ji;13;CPOpenPanel.ji;15;CPOutlineView.ji;9;CPPanel.ji;14;CPPasteboard.ji;15;CPPopUpButton.ji;21;CPProgressIndicator.ji;9;CPRadio.ji;13;CPResponder.ji;15;CPSearchField.ji;14;CPScrollView.ji;12;CPScroller.ji;19;CPSecureTextField.ji;20;CPSegmentedControl.ji;10;CPShadow.ji;10;CPSlider.ji;13;CPSplitView.ji;11;CPTabView.ji;15;CPTableColumn.ji;13;CPTableView.ji;13;CPTextField.ji;11;CPToolbar.ji;15;CPToolbarItem.ji;12;CPTreeNode.ji;8;CPView.ji;17;CPViewAnimation.ji;18;CPViewController.ji;11;CPWebView.ji;10;CPWindow.ji;20;CPWindowController.jt;2657;objj_executeFile("CALayer.j", YES);
 objj_executeFile("CPAlert.j", YES);
 objj_executeFile("CPAnimation.j", YES);
 objj_executeFile("CPApplication.j", YES);
 objj_executeFile("CPBezierPath.j", YES);
 objj_executeFile("CPBox.j", YES);
+objj_executeFile("CPBrowser.j", YES);
 objj_executeFile("CPButton.j", YES);
 objj_executeFile("CPButtonBar.j", YES);
 objj_executeFile("CPCheckBox.j", YES);
