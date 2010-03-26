@@ -17318,10 +17318,10 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","id"])]);
 }
 
-p;11;CPBrowser.jt;42548;@STATIC;1.0;I;18;AppKit/CPControl.jI;16;AppKit/CPImage.jI;20;AppKit/CPTableView.jI;21;AppKit/CPScrollView.jt;42433;objj_executeFile("AppKit/CPControl.j", NO);
-objj_executeFile("AppKit/CPImage.j", NO);
-objj_executeFile("AppKit/CPTableView.j", NO);
-objj_executeFile("AppKit/CPScrollView.j", NO);
+p;11;CPBrowser.jt;42495;@STATIC;1.0;i;11;CPControl.ji;9;CPImage.ji;13;CPTableView.ji;14;CPScrollView.jt;42409;objj_executeFile("CPControl.j", YES);
+objj_executeFile("CPImage.j", YES);
+objj_executeFile("CPTableView.j", YES);
+objj_executeFile("CPScrollView.j", YES);
 {var the_class = objj_allocateClassPair(CPControl, "CPBrowser"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_delegate"), new objj_ivar("_pathSeparator"), new objj_ivar("_contentView"), new objj_ivar("_horizontalScrollView"), new objj_ivar("_prototypeView"), new objj_ivar("_tableViews"), new objj_ivar("_tableDelegates"), new objj_ivar("_rootItem"), new objj_ivar("_delegateSupportsImages"), new objj_ivar("_doubleAction"), new objj_ivar("_allowsMultipleSelection"), new objj_ivar("_allowsEmptySelection"), new objj_ivar("_tableViewClass"), new objj_ivar("_rowHeight"), new objj_ivar("_imageWidth"), new objj_ivar("_leafWidth"), new objj_ivar("_minColumnWidth"), new objj_ivar("_defaultColumnWidth"), new objj_ivar("_columnWidths")]);
 objj_registerClassPair(the_class);
