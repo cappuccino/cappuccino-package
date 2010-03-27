@@ -15140,7 +15140,7 @@ CPLog.warn("[CPSlider setValue:] is deprecated, use setDoubleValue: or setObject
 objj_msgSend(_6d,"setObjectValue:",_6f);
 }
 })]);
-p;11;CPBrowser.jt;31543;@STATIC;1.0;i;11;CPControl.ji;9;CPImage.ji;13;CPTableView.ji;14;CPScrollView.jt;31457;
+p;11;CPBrowser.jt;31621;@STATIC;1.0;i;11;CPControl.ji;9;CPImage.ji;13;CPTableView.ji;14;CPScrollView.jt;31535;
 objj_executeFile("CPControl.j",YES);
 objj_executeFile("CPImage.j",YES);
 objj_executeFile("CPTableView.j",YES);
@@ -15190,6 +15190,7 @@ _tableViewClass=objj_msgSend(_CPBrowserTableView,"class");
 _prototypeView=objj_msgSend(objj_msgSend(CPTextField,"alloc"),"initWithFrame:",CGRectMakeZero());
 objj_msgSend(_prototypeView,"setVerticalAlignment:",CPCenterVerticalTextAlignment);
 objj_msgSend(_prototypeView,"setValue:forThemeAttribute:inState:",objj_msgSend(CPColor,"whiteColor"),"text-color",CPThemeStateSelected);
+objj_msgSend(_prototypeView,"setLineBreakMode:",CPLineBreakByTruncatingTail);
 _horizontalScrollView=objj_msgSend(objj_msgSend(CPScrollView,"alloc"),"initWithFrame:",objj_msgSend(_12,"bounds"));
 objj_msgSend(_horizontalScrollView,"setHasVerticalScroller:",NO);
 objj_msgSend(_horizontalScrollView,"setAutohidesScrollers:",YES);

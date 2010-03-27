@@ -17319,7 +17319,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","id"])]);
 }
 
-p;11;CPBrowser.jt;43471;@STATIC;1.0;i;11;CPControl.ji;9;CPImage.ji;13;CPTableView.ji;14;CPScrollView.jt;43385;objj_executeFile("CPControl.j", YES);
+p;11;CPBrowser.jt;43559;@STATIC;1.0;i;11;CPControl.ji;9;CPImage.ji;13;CPTableView.ji;14;CPScrollView.jt;43473;objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPImage.j", YES);
 objj_executeFile("CPTableView.j", YES);
 objj_executeFile("CPScrollView.j", YES);
@@ -17381,6 +17381,7 @@ _defaultColumnWidth = newValue;
         _prototypeView = objj_msgSend(objj_msgSend(CPTextField, "alloc"), "initWithFrame:", CGRectMakeZero());
         objj_msgSend(_prototypeView, "setVerticalAlignment:", CPCenterVerticalTextAlignment);
         objj_msgSend(_prototypeView, "setValue:forThemeAttribute:inState:", objj_msgSend(CPColor, "whiteColor"), "text-color", CPThemeStateSelected);
+        objj_msgSend(_prototypeView, "setLineBreakMode:", CPLineBreakByTruncatingTail);
         _horizontalScrollView = objj_msgSend(objj_msgSend(CPScrollView, "alloc"), "initWithFrame:", objj_msgSend(self, "bounds"));
         objj_msgSend(_horizontalScrollView, "setHasVerticalScroller:", NO);
         objj_msgSend(_horizontalScrollView, "setAutohidesScrollers:", YES);
