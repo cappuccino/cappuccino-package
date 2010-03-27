@@ -4226,7 +4226,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["id","CPCoder"])]);
 }
 
-p;13;CPSplitView.jt;25672;@STATIC;1.0;i;13;CPButtonBar.ji;9;CPImage.ji;8;CPView.jt;25609;objj_executeFile("CPButtonBar.j", YES);
+p;13;CPSplitView.jt;29034;@STATIC;1.0;i;13;CPButtonBar.ji;9;CPImage.ji;8;CPView.jt;28971;objj_executeFile("CPButtonBar.j", YES);
 objj_executeFile("CPImage.j", YES);
 objj_executeFile("CPView.j", YES);
 CPSplitViewDidResizeSubviewsNotification = "CPSplitViewDidResizeSubviewsNotification";
@@ -4434,6 +4434,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
         if (_currentDivider != CPNotFound)
         {
             _currentDivider = CPNotFound;
+            objj_msgSend(self, "_updateResizeCursor:", anEvent);
             objj_msgSend(self, "_postNotificationDidResize");
         }
         return;
@@ -4485,6 +4486,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     {
         var point = objj_msgSend(self, "convertPoint:fromView:", objj_msgSend(anEvent, "locationInWindow"), nil);
         objj_msgSend(self, "setPosition:ofDividerAtIndex:", (point[_originComponent] + _initialOffset), _currentDivider);
+        objj_msgSend(self, "_updateResizeCursor:", anEvent);
     }
     objj_msgSend(CPApp, "setTarget:selector:forNextEventMatchingMask:untilDate:inMode:dequeue:", self, sel_getUid("trackDivider:"), CPLeftMouseDraggedMask | CPLeftMouseUpMask, nil, nil, YES);
 }
@@ -4492,6 +4494,64 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 { with(self)
 {
     objj_msgSend(self, "trackDivider:", anEvent);
+}
+},["void","CPEvent"]), new objj_method(sel_getUid("viewDidMoveToWindow"), function $CPSplitView__viewDidMoveToWindow(self, _cmd)
+{ with(self)
+{
+}
+},["void"]), new objj_method(sel_getUid("mouseEntered:"), function $CPSplitView__mouseEntered_(self, _cmd, anEvent)
+{ with(self)
+{
+    if (_currentDivider == CPNotFound)
+        objj_msgSend(self, "_updateResizeCursor:", anEvent);
+}
+},["void","CPEvent"]), new objj_method(sel_getUid("mouseMoved:"), function $CPSplitView__mouseMoved_(self, _cmd, anEvent)
+{ with(self)
+{
+    if (_currentDivider == CPNotFound)
+        objj_msgSend(self, "_updateResizeCursor:", anEvent);
+}
+},["void","CPEvent"]), new objj_method(sel_getUid("mouseExited:"), function $CPSplitView__mouseExited_(self, _cmd, anEvent)
+{ with(self)
+{
+    if (_currentDivider == CPNotFound)
+        objj_msgSend(objj_msgSend(CPCursor, "arrowCursor"), "set");
+}
+},["void","CPEvent"]), new objj_method(sel_getUid("_updateResizeCursor:"), function $CPSplitView___updateResizeCursor_(self, _cmd, anEvent)
+{ with(self)
+{
+    var point = objj_msgSend(self, "convertPoint:fromView:", objj_msgSend(anEvent, "locationInWindow"), nil);
+    if (objj_msgSend(anEvent, "type") === CPLeftMouseUp && !objj_msgSend(objj_msgSend(self, "window"), "acceptsMouseMovedEvents"))
+    {
+        objj_msgSend(objj_msgSend(CPCursor, "arrowCursor"), "set");
+        return;
+    }
+    for (var i = 0, count = objj_msgSend(_subviews, "count") - 1; i < count; i++)
+    {
+        if (_currentDivider === i || (_currentDivider == CPNotFound && objj_msgSend(self, "cursorAtPoint:hitDividerAtIndex:", point, i)))
+        {
+            var frame = objj_msgSend(_subviews[i], "frame"),
+                startPosition = frame.origin[_originComponent] + frame.size[_sizeComponent],
+                canShrink = objj_msgSend(self, "_realPositionForPosition:ofDividerAtIndex:", startPosition-1, i) < startPosition,
+                canGrow = objj_msgSend(self, "_realPositionForPosition:ofDividerAtIndex:", startPosition+1, i) > startPosition,
+                cursor = objj_msgSend(CPCursor, "arrowCursor");
+            if (_isVertical && canShrink && canGrow)
+                cursor = objj_msgSend(CPCursor, "resizeLeftRightCursor");
+            else if (_isVertical && canShrink)
+                cursor = objj_msgSend(CPCursor, "resizeLeftCursor");
+            else if (_isVertical && canGrow)
+                cursor = objj_msgSend(CPCursor, "resizeRightCursor");
+            else if (canShrink && canGrow)
+                cursor = objj_msgSend(CPCursor, "resizeUpDownCursor");
+            else if (canShrink)
+                cursor = objj_msgSend(CPCursor, "resizeUpCursor");
+            else if (canGrow)
+                cursor = objj_msgSend(CPCursor, "resizeDownCursor");
+            objj_msgSend(cursor, "set");
+            return;
+        }
+    }
+    objj_msgSend(objj_msgSend(CPCursor, "arrowCursor"), "set");
 }
 },["void","CPEvent"]), new objj_method(sel_getUid("maxPossiblePositionOfDividerAtIndex:"), function $CPSplitView__maxPossiblePositionOfDividerAtIndex_(self, _cmd, dividerIndex)
 { with(self)
@@ -4513,10 +4573,9 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     else
         return 0;
 }
-},["float","int"]), new objj_method(sel_getUid("setPosition:ofDividerAtIndex:"), function $CPSplitView__setPosition_ofDividerAtIndex_(self, _cmd, position, dividerIndex)
+},["float","int"]), new objj_method(sel_getUid("_realPositionForPosition:ofDividerAtIndex:"), function $CPSplitView___realPositionForPosition_ofDividerAtIndex_(self, _cmd, position, dividerIndex)
 { with(self)
 {
-    objj_msgSend(self, "_adjustSubviewsWithCalculatedSize");
     if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("splitView:constrainSplitPosition:ofSubviewAt:")))
         position = objj_msgSend(_delegate, "splitView:constrainSplitPosition:ofSubviewAt:", self, position, dividerIndex);
     var proposedMax = objj_msgSend(self, "maxPossiblePositionOfDividerAtIndex:", dividerIndex),
@@ -4527,16 +4586,23 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
         actualMin = objj_msgSend(_delegate, "splitView:constrainMinCoordinate:ofSubviewAt:", self, proposedMin, dividerIndex);
     if(objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("splitView:constrainMaxCoordinate:ofSubviewAt:")))
         actualMax = objj_msgSend(_delegate, "splitView:constrainMaxCoordinate:ofSubviewAt:", self, proposedMax, dividerIndex);
-    var frame = objj_msgSend(self, "frame"),
-        viewA = _subviews[dividerIndex],
-        frameA = objj_msgSend(viewA, "frame"),
-        viewB = _subviews[dividerIndex + 1],
-        frameB = objj_msgSend(viewB, "frame");
-    var realPosition = MAX(MIN(position, actualMax), actualMin);
+    var viewA = _subviews[dividerIndex],
+        realPosition = MAX(MIN(position, actualMax), actualMin);
     if (position < proposedMin + (actualMin - proposedMin) / 2)
         if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("splitView:canCollapseSubview:")))
             if (objj_msgSend(_delegate, "splitView:canCollapseSubview:", self, viewA))
                 realPosition = proposedMin;
+    return realPosition;
+}
+},["int","float","int"]), new objj_method(sel_getUid("setPosition:ofDividerAtIndex:"), function $CPSplitView__setPosition_ofDividerAtIndex_(self, _cmd, position, dividerIndex)
+{ with(self)
+{
+    objj_msgSend(self, "_adjustSubviewsWithCalculatedSize");
+    var realPosition = objj_msgSend(self, "_realPositionForPosition:ofDividerAtIndex:", position, dividerIndex);
+    var viewA = _subviews[dividerIndex],
+        frameA = objj_msgSend(viewA, "frame"),
+        viewB = _subviews[dividerIndex + 1],
+        frameB = objj_msgSend(viewB, "frame");
     frameA.size[_sizeComponent] = realPosition - frameA.origin[_originComponent];
     objj_msgSend(_subviews[dividerIndex], "setFrame:", frameA);
     frameB.size[_sizeComponent] = frameB.origin[_originComponent] + frameB.size[_sizeComponent] - realPosition - objj_msgSend(self, "dividerThickness");
