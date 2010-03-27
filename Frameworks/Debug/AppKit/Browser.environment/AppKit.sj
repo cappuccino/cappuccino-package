@@ -18048,7 +18048,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","id"])]);
 }
 
-p;11;CPBrowser.jt;43559;@STATIC;1.0;i;11;CPControl.ji;9;CPImage.ji;13;CPTableView.ji;14;CPScrollView.jt;43473;objj_executeFile("CPControl.j", YES);
+p;11;CPBrowser.jt;44255;@STATIC;1.0;i;11;CPControl.ji;9;CPImage.ji;13;CPTableView.ji;14;CPScrollView.jt;44169;objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPImage.j", YES);
 objj_executeFile("CPTableView.j", YES);
 objj_executeFile("CPScrollView.j", YES);
@@ -18203,6 +18203,7 @@ _defaultColumnWidth = newValue;
     objj_msgSend(table, "setAllowsMultipleSelection:", _allowsMultipleSelection);
     objj_msgSend(table, "setAllowsEmptySelection:", _allowsEmptySelection);
     objj_msgSend(table, "registerForDraggedTypes:", objj_msgSend(self, "registeredDraggedTypes"));
+    objj_msgSend(self, "setNextResponder:", table);
     objj_msgSend(self, "_addTableColumnsToTableView:forColumnIndex:", table, index);
     var delegate = objj_msgSend(objj_msgSend(_CPBrowserTableDelegate, "alloc"), "init");
     objj_msgSend(delegate, "_setDelegate:", _delegate);
@@ -18480,7 +18481,7 @@ _defaultColumnWidth = newValue;
         objj_msgSend(self, "addColumn");
     objj_msgSend(self, "setLastColumn:", column);
     objj_msgSend(objj_msgSend(self, "tableViewInColumn:", column), "selectRowIndexes:byExtendingSelection:", indexSet, NO);
-    objj_msgSend(objj_msgSend(self, "window"), "makeFirstResponder:", objj_msgSend(self, "tableViewInColumn:", objj_msgSend(self, "lastColumn")));
+    objj_msgSend(self, "setNextResponder:", objj_msgSend(self, "tableViewInColumn:", objj_msgSend(self, "lastColumn")));
     objj_msgSend(self, "scrollColumnToVisible:", column);
     if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("browserSelectionDidChange:")))
         objj_msgSend(_delegate, "browserSelectionDidChange:", self);
@@ -18491,7 +18492,12 @@ _defaultColumnWidth = newValue;
     objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPBrowser").super_class }, "setBackgroundColor:", aColor);
     objj_msgSend(_contentView, "setBackgroundColor:", aColor);
 }
-},["void","CPColor"]), new objj_method(sel_getUid("registerForDraggedTypes:"), function $CPBrowser__registerForDraggedTypes_(self, _cmd, types)
+},["void","CPColor"]), new objj_method(sel_getUid("acceptsFirstResponder"), function $CPBrowser__acceptsFirstResponder(self, _cmd)
+{ with(self)
+{
+    return YES;
+}
+},["BOOL"]), new objj_method(sel_getUid("registerForDraggedTypes:"), function $CPBrowser__registerForDraggedTypes_(self, _cmd, types)
 { with(self)
 {
     objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPBrowser").super_class }, "registerForDraggedTypes:", types);
@@ -18609,7 +18615,18 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:browser:"
         _browser = aBrowser;
     return self;
 }
-},["id","CGRect","CPBrowser"]), new objj_method(sel_getUid("browserView"), function $_CPBrowserTableView__browserView(self, _cmd)
+},["id","CGRect","CPBrowser"]), new objj_method(sel_getUid("acceptsFirstResponder"), function $_CPBrowserTableView__acceptsFirstResponder(self, _cmd)
+{ with(self)
+{
+    return NO;
+}
+},["BOOL"]), new objj_method(sel_getUid("mouseDown:"), function $_CPBrowserTableView__mouseDown_(self, _cmd, anEvent)
+{ with(self)
+{
+    objj_msgSendSuper({ receiver:self, super_class:objj_getClass("_CPBrowserTableView").super_class }, "mouseDown:", anEvent);
+    objj_msgSend(objj_msgSend(self, "window"), "makeFirstResponder:", _browser);
+}
+},["void","CPEvent"]), new objj_method(sel_getUid("browserView"), function $_CPBrowserTableView__browserView(self, _cmd)
 { with(self)
 {
     return _browser;
