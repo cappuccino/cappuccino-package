@@ -2353,7 +2353,7 @@ objj_executeFile("CPURLResponse.j", YES);
 objj_executeFile("CPUserSessionManager.j", YES);
 objj_executeFile("CPValue.j", YES);
 
-p;10;CPString.jt;15684;@STATIC;1.0;i;10;CPObject.ji;13;CPException.ji;18;CPSortDescriptor.ji;9;CPValue.jt;15595;objj_executeFile("CPObject.j", YES);
+p;10;CPString.jt;16133;@STATIC;1.0;i;10;CPObject.ji;13;CPException.ji;18;CPSortDescriptor.ji;9;CPValue.jt;16044;objj_executeFile("CPObject.j", YES);
 objj_executeFile("CPException.j", YES);
 objj_executeFile("CPSortDescriptor.j", YES);
 objj_executeFile("CPValue.j", YES);
@@ -2649,6 +2649,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithString:"), func
 },["CPArray"]), new objj_method(sel_getUid("pathExtension"), function $CPString__pathExtension(self, _cmd)
 { with(self)
 {
+    if (lastIndexOf('.') === CPNotFound)
+        return "";
     return substr(lastIndexOf('.') + 1);
 }
 },["CPString"]), new objj_method(sel_getUid("lastPathComponent"), function $CPString__lastPathComponent(self, _cmd)
@@ -2668,6 +2670,16 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithString:"), func
     if (path === "" && charAt(0) === '/')
         return '/';
     return path;
+}
+},["CPString"]), new objj_method(sel_getUid("stringByDeletingPathExtension"), function $CPString__stringByDeletingPathExtension(self, _cmd)
+{ with(self)
+{
+    var extension = objj_msgSend(self, "pathExtension");
+    if (extension === "")
+        return self;
+    if (lastIndexOf('.') < 1)
+        return self;
+    return substr(0, objj_msgSend(self, "length") - (extension.length + 1));
 }
 },["CPString"]), new objj_method(sel_getUid("stringByStandardizingPath"), function $CPString__stringByStandardizingPath(self, _cmd)
 { with(self)

@@ -2099,7 +2099,7 @@ objj_executeFile("CPURLRequest.j",YES);
 objj_executeFile("CPURLResponse.j",YES);
 objj_executeFile("CPUserSessionManager.j",YES);
 objj_executeFile("CPValue.j",YES);
-p;10;CPString.jt;10266;@STATIC;1.0;i;10;CPObject.ji;13;CPException.ji;18;CPSortDescriptor.ji;9;CPValue.jt;10177;
+p;10;CPString.jt;10578;@STATIC;1.0;i;10;CPObject.ji;13;CPException.ji;18;CPSortDescriptor.ji;9;CPValue.jt;10489;
 objj_executeFile("CPObject.j",YES);
 objj_executeFile("CPException.j",YES);
 objj_executeFile("CPSortDescriptor.j",YES);
@@ -2351,6 +2351,9 @@ return _84;
 }
 }),new objj_method(sel_getUid("pathExtension"),function(_85,_86){
 with(_85){
+if(lastIndexOf(".")===CPNotFound){
+return "";
+}
 return substr(lastIndexOf(".")+1);
 }
 }),new objj_method(sel_getUid("lastPathComponent"),function(_87,_88){
@@ -2370,38 +2373,49 @@ return "/";
 }
 return _8c;
 }
-}),new objj_method(sel_getUid("stringByStandardizingPath"),function(_8e,_8f){
+}),new objj_method(sel_getUid("stringByDeletingPathExtension"),function(_8e,_8f){
 with(_8e){
-return objj_standardize_path(_8e);
+var _90=objj_msgSend(_8e,"pathExtension");
+if(_90===""){
+return _8e;
 }
-}),new objj_method(sel_getUid("copy"),function(_90,_91){
-with(_90){
-return new String(_90);
+if(lastIndexOf(".")<1){
+return _8e;
+}
+return substr(0,objj_msgSend(_8e,"length")-(_90.length+1));
+}
+}),new objj_method(sel_getUid("stringByStandardizingPath"),function(_91,_92){
+with(_91){
+return objj_standardize_path(_91);
+}
+}),new objj_method(sel_getUid("copy"),function(_93,_94){
+with(_93){
+return new String(_93);
 }
 })]);
-class_addMethods(_6,[new objj_method(sel_getUid("alloc"),function(_92,_93){
-with(_92){
+class_addMethods(_6,[new objj_method(sel_getUid("alloc"),function(_95,_96){
+with(_95){
 return new String;
 }
-}),new objj_method(sel_getUid("string"),function(_94,_95){
-with(_94){
-return objj_msgSend(objj_msgSend(_94,"alloc"),"init");
+}),new objj_method(sel_getUid("string"),function(_97,_98){
+with(_97){
+return objj_msgSend(objj_msgSend(_97,"alloc"),"init");
 }
-}),new objj_method(sel_getUid("stringWithHash:"),function(_96,_97,_98){
-with(_96){
-var _99=parseInt(_98,10).toString(16);
-return "000000".substring(0,MAX(6-_99.length,0))+_99;
+}),new objj_method(sel_getUid("stringWithHash:"),function(_99,_9a,_9b){
+with(_99){
+var _9c=parseInt(_9b,10).toString(16);
+return "000000".substring(0,MAX(6-_9c.length,0))+_9c;
 }
-}),new objj_method(sel_getUid("stringWithString:"),function(_9a,_9b,_9c){
-with(_9a){
-if(!_9c){
-objj_msgSend(CPException,"raise:reason:",CPInvalidArgumentException,"stringWithString: the string can't be 'nil'");
-}
-return objj_msgSend(objj_msgSend(_9a,"alloc"),"initWithString:",_9c);
-}
-}),new objj_method(sel_getUid("stringWithFormat:"),function(_9d,_9e,_9f){
+}),new objj_method(sel_getUid("stringWithString:"),function(_9d,_9e,_9f){
 with(_9d){
 if(!_9f){
+objj_msgSend(CPException,"raise:reason:",CPInvalidArgumentException,"stringWithString: the string can't be 'nil'");
+}
+return objj_msgSend(objj_msgSend(_9d,"alloc"),"initWithString:",_9f);
+}
+}),new objj_method(sel_getUid("stringWithFormat:"),function(_a0,_a1,_a2){
+with(_a0){
+if(!_a2){
 objj_msgSend(CPException,"raise:reason:",CPInvalidArgumentException,"initWithFormat: the format can't be 'nil'");
 }
 return ObjectiveJ.sprintf.apply(this,Array.prototype.slice.call(arguments,2));
@@ -2412,14 +2426,14 @@ if(!_5){
 throw new SyntaxError("*** Could not find definition for class \"CPString\"");
 }
 var _6=_5.isa;
-class_addMethods(_5,[new objj_method(sel_getUid("objectFromJSON"),function(_a0,_a1){
-with(_a0){
-return JSON.parse(_a0);
+class_addMethods(_5,[new objj_method(sel_getUid("objectFromJSON"),function(_a3,_a4){
+with(_a3){
+return JSON.parse(_a3);
 }
 })]);
-class_addMethods(_6,[new objj_method(sel_getUid("JSONFromObject:"),function(_a2,_a3,_a4){
-with(_a2){
-return JSON.stringify(_a4);
+class_addMethods(_6,[new objj_method(sel_getUid("JSONFromObject:"),function(_a5,_a6,_a7){
+with(_a5){
+return JSON.stringify(_a7);
 }
 })]);
 var _5=objj_getClass("CPString");
@@ -2427,8 +2441,8 @@ if(!_5){
 throw new SyntaxError("*** Could not find definition for class \"CPString\"");
 }
 var _6=_5.isa;
-class_addMethods(_6,[new objj_method(sel_getUid("UUID"),function(_a5,_a6){
-with(_a5){
+class_addMethods(_6,[new objj_method(sel_getUid("UUID"),function(_a8,_a9){
+with(_a8){
 var g="";
 for(var i=0;i<32;i++){
 g+=FLOOR(RAND()*15).toString(15);
