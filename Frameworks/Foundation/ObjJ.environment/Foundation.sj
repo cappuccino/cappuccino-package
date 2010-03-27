@@ -2723,7 +2723,7 @@ with(_1c){
 return objj_msgSend(objj_msgSend(_1c,"alloc"),"initWithKey:ascending:selector:",_1e,_1f,_20);
 }
 })]);
-p;14;CPDictionary.jt;7642;@STATIC;1.0;i;9;CPArray.ji;10;CPObject.ji;14;CPEnumerator.ji;13;CPException.jt;7558;
+p;14;CPDictionary.jt;7812;@STATIC;1.0;i;9;CPArray.ji;10;CPObject.ji;14;CPEnumerator.ji;13;CPException.jt;7728;
 objj_executeFile("CPArray.j",YES);
 objj_executeFile("CPObject.j",YES);
 objj_executeFile("CPEnumerator.j",YES);
@@ -2891,68 +2891,73 @@ objj_msgSend(_42,"setObject:forKey:",objj_msgSend(_44,"objectForKey:",key),key);
 with(_47){
 return _47.toString();
 }
-})]);
-class_addMethods(_2,[new objj_method(sel_getUid("alloc"),function(_49,_4a){
+}),new objj_method(sel_getUid("containsKey:"),function(_49,_4a,_4b){
 with(_49){
+var _4c=objj_msgSend(_49,"objectForKey:",_4b);
+return ((_4c!==nil)&&(_4c!==undefined));
+}
+})]);
+class_addMethods(_2,[new objj_method(sel_getUid("alloc"),function(_4d,_4e){
+with(_4d){
 return new CFMutableDictionary();
 }
-}),new objj_method(sel_getUid("dictionary"),function(_4b,_4c){
-with(_4b){
-return objj_msgSend(objj_msgSend(_4b,"alloc"),"init");
+}),new objj_method(sel_getUid("dictionary"),function(_4f,_50){
+with(_4f){
+return objj_msgSend(objj_msgSend(_4f,"alloc"),"init");
 }
-}),new objj_method(sel_getUid("dictionaryWithDictionary:"),function(_4d,_4e,_4f){
-with(_4d){
-return objj_msgSend(objj_msgSend(_4d,"alloc"),"initWithDictionary:",_4f);
+}),new objj_method(sel_getUid("dictionaryWithDictionary:"),function(_51,_52,_53){
+with(_51){
+return objj_msgSend(objj_msgSend(_51,"alloc"),"initWithDictionary:",_53);
 }
-}),new objj_method(sel_getUid("dictionaryWithObject:forKey:"),function(_50,_51,_52,_53){
-with(_50){
-return objj_msgSend(objj_msgSend(_50,"alloc"),"initWithObjects:forKeys:",[_52],[_53]);
-}
-}),new objj_method(sel_getUid("dictionaryWithObjects:forKeys:"),function(_54,_55,_56,_57){
+}),new objj_method(sel_getUid("dictionaryWithObject:forKey:"),function(_54,_55,_56,_57){
 with(_54){
-return objj_msgSend(objj_msgSend(_54,"alloc"),"initWithObjects:forKeys:",_56,_57);
+return objj_msgSend(objj_msgSend(_54,"alloc"),"initWithObjects:forKeys:",[_56],[_57]);
 }
-}),new objj_method(sel_getUid("dictionaryWithJSObject:"),function(_58,_59,_5a){
+}),new objj_method(sel_getUid("dictionaryWithObjects:forKeys:"),function(_58,_59,_5a,_5b){
 with(_58){
-return objj_msgSend(_58,"dictionaryWithJSObject:recursively:",_5a,NO);
+return objj_msgSend(objj_msgSend(_58,"alloc"),"initWithObjects:forKeys:",_5a,_5b);
 }
-}),new objj_method(sel_getUid("dictionaryWithJSObject:recursively:"),function(_5b,_5c,_5d,_5e){
-with(_5b){
-var _5f=objj_msgSend(objj_msgSend(_5b,"alloc"),"init");
-for(var key in _5d){
-if(!_5d.hasOwnProperty(key)){
+}),new objj_method(sel_getUid("dictionaryWithJSObject:"),function(_5c,_5d,_5e){
+with(_5c){
+return objj_msgSend(_5c,"dictionaryWithJSObject:recursively:",_5e,NO);
+}
+}),new objj_method(sel_getUid("dictionaryWithJSObject:recursively:"),function(_5f,_60,_61,_62){
+with(_5f){
+var _63=objj_msgSend(objj_msgSend(_5f,"alloc"),"init");
+for(var key in _61){
+if(!_61.hasOwnProperty(key)){
 continue;
 }
-var _60=_5d[key];
-if(_60===null){
-objj_msgSend(_5f,"setObject:forKey:",objj_msgSend(CPNull,"null"),key);
+var _64=_61[key];
+if(_64===null){
+objj_msgSend(_63,"setObject:forKey:",objj_msgSend(CPNull,"null"),key);
 continue;
 }
-if(_5e){
-if(_60.constructor===Object){
-_60=objj_msgSend(CPDictionary,"dictionaryWithJSObject:recursively:",_60,YES);
+if(_62){
+if(_64.constructor===Object){
+_64=objj_msgSend(CPDictionary,"dictionaryWithJSObject:recursively:",_64,YES);
 }else{
-if(objj_msgSend(_60,"isKindOfClass:",CPArray)){
-var _61=[];
-for(var i=0,_62=_60.length;i<_62;i++){
-var _63=_60[i];
-if(_63.constructor===Object){
-_61.push(objj_msgSend(CPDictionary,"dictionaryWithJSObject:recursively:",_63,YES));
+if(objj_msgSend(_64,"isKindOfClass:",CPArray)){
+var _65=[];
+for(var i=0,_66=_64.length;i<_66;i++){
+var _67=_64[i];
+if(_67.constructor===Object){
+_65.push(objj_msgSend(CPDictionary,"dictionaryWithJSObject:recursively:",_67,YES));
 }else{
-_61.push(_63);
+_65.push(_67);
 }
 }
-_60=_61;
+_64=_65;
 }
 }
 }
-objj_msgSend(_5f,"setObject:forKey:",_60,key);
+objj_msgSend(_63,"setObject:forKey:",_64,key);
 }
-return _5f;
+return _63;
 }
-}),new objj_method(sel_getUid("dictionaryWithObjectsAndKeys:"),function(_64,_65,_66){
-with(_64){
-arguments[0]=objj_msgSend(_64,"alloc");
+}),new objj_method(sel_getUid("dictionaryWithObjectsAndKeys:"),function(_68,_69,_6a){
+with(_68){
+arguments[0]=objj_msgSend(_68,"alloc");
 arguments[1]=sel_getUid("initWithObjectsAndKeys:");
 return objj_msgSend.apply(this,arguments);
 }
@@ -2962,13 +2967,13 @@ if(!_1){
 throw new SyntaxError("*** Could not find definition for class \"CPDictionary\"");
 }
 var _2=_1.isa;
-class_addMethods(_1,[new objj_method(sel_getUid("initWithCoder:"),function(_67,_68,_69){
-with(_67){
-return objj_msgSend(_69,"_decodeDictionaryOfObjectsForKey:","CP.objects");
+class_addMethods(_1,[new objj_method(sel_getUid("initWithCoder:"),function(_6b,_6c,_6d){
+with(_6b){
+return objj_msgSend(_6d,"_decodeDictionaryOfObjectsForKey:","CP.objects");
 }
-}),new objj_method(sel_getUid("encodeWithCoder:"),function(_6a,_6b,_6c){
-with(_6a){
-objj_msgSend(_6c,"_encodeDictionaryOfObjects:forKey:",_6a,"CP.objects");
+}),new objj_method(sel_getUid("encodeWithCoder:"),function(_6e,_6f,_70){
+with(_6e){
+objj_msgSend(_70,"_encodeDictionaryOfObjects:forKey:",_6e,"CP.objects");
 }
 })]);
 var _1=objj_allocateClassPair(CPDictionary,"CPMutableDictionary"),_2=_1.isa;
