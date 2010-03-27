@@ -3137,7 +3137,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("initialize"), function
 },["CGRect","CGRect","CPShadowWeight"])]);
 }
 
-p;21;_CPImageAndTextView.jt;12483;@STATIC;1.0;I;21;Foundation/CPString.ji;9;CPColor.ji;8;CPFont.ji;9;CPImage.ji;8;CPView.ji;11;CPControl.jt;12371;objj_executeFile("Foundation/CPString.j", NO);
+p;21;_CPImageAndTextView.jt;10704;@STATIC;1.0;I;21;Foundation/CPString.ji;9;CPColor.ji;8;CPFont.ji;9;CPImage.ji;8;CPView.ji;11;CPControl.jt;10592;objj_executeFile("Foundation/CPString.j", NO);
 objj_executeFile("CPColor.j", YES);
 objj_executeFile("CPFont.j", YES);
 objj_executeFile("CPImage.j", YES);
@@ -3361,52 +3361,6 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:control:"
 },["CPString"]), new objj_method(sel_getUid("layoutSubviews"), function $_CPImageAndTextView__layoutSubviews(self, _cmd)
 { with(self)
 {
-    var size = objj_msgSend(self, "bounds").size,
-        textRect = { origin: { x:0.0, y:0.0 }, size: { width:size.width, height:size.height } };
-    if (hasDOMImageElement)
-    {
-        if (!imageStyle)
-            var imageStyle = _DOMImageElement.style;
-        if (_flags & _CPImageAndTextViewImageChangedFlag)
-            _DOMImageElement.src = objj_msgSend(_image, "filename");
-        var centerX = size.width / 2.0,
-            centerY = size.height / 2.0,
-            imageSize = objj_msgSend(_image, "size"),
-            imageWidth = imageSize.width,
-            imageHeight = imageSize.height;
-        if (_imageScaling === CPScaleToFit)
-        {
-            imageWidth = size.width;
-            imageHeight = size.height;
-        }
-        else if (_imageScaling === CPScaleProportionally)
-        {
-            var scale = MIN(MIN(size.width, imageWidth) / imageWidth, MIN(size.height, imageHeight) / imageHeight);
-            imageWidth *= scale;
-            imageHeight *= scale;
-        }
-        if (_imagePosition === CPImageBelow)
-        {
-            textRect.size.height = size.height - imageHeight - VERTICAL_MARGIN;
-        }
-        else if (_imagePosition === CPImageAbove)
-        {
-            textRect.origin.y += imageHeight + VERTICAL_MARGIN;
-            textRect.size.height = size.height - imageHeight - VERTICAL_MARGIN;
-        }
-        else if (_imagePosition === CPImageLeft)
-        {
-            textRect.origin.x = imageWidth + HORIZONTAL_MARGIN;
-            textRect.size.width -= imageWidth + HORIZONTAL_MARGIN;
-        }
-        else if (_imagePosition === CPImageRight)
-        {
-            textRect.size.width -= imageWidth + HORIZONTAL_MARGIN;
-        }
-        else if (_imagePosition === CPImageOnly)
-        {
-        }
-    }
     _flags = 0;
 }
 },["void"]), new objj_method(sel_getUid("sizeToFit"), function $_CPImageAndTextView__sizeToFit(self, _cmd)

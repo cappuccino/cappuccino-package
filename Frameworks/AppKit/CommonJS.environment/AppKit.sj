@@ -2756,7 +2756,7 @@ return CGRectMake((_2a.origin.x)-_7,(_2a.origin.y)-_9,(_2a.size.width)+_7+_8,(_2
 }
 }
 })]);
-p;21;_CPImageAndTextView.jt;7560;@STATIC;1.0;I;21;Foundation/CPString.ji;9;CPColor.ji;8;CPFont.ji;9;CPImage.ji;8;CPView.ji;11;CPControl.jt;7449;
+p;21;_CPImageAndTextView.jt;6643;@STATIC;1.0;I;21;Foundation/CPString.ji;9;CPColor.ji;8;CPFont.ji;9;CPImage.ji;8;CPView.ji;11;CPControl.jt;6532;
 objj_executeFile("Foundation/CPString.j",NO);
 objj_executeFile("CPColor.j",YES);
 objj_executeFile("CPFont.j",YES);
@@ -2952,74 +2952,34 @@ return _text;
 }
 }),new objj_method(sel_getUid("layoutSubviews"),function(_51,_52){
 with(_51){
-var _53=objj_msgSend(_51,"bounds").size,_54={origin:{x:0,y:0},size:{width:_53.width,height:_53.height}};
-if(hasDOMImageElement){
-if(!_55){
-var _55=_DOMImageElement.style;
-}
-if(_flags&_2){
-_DOMImageElement.src=objj_msgSend(_image,"filename");
-}
-var _56=_53.width/2,_57=_53.height/2,_58=objj_msgSend(_image,"size"),_59=_58.width,_5a=_58.height;
-if(_imageScaling===CPScaleToFit){
-_59=_53.width;
-_5a=_53.height;
-}else{
-if(_imageScaling===CPScaleProportionally){
-var _5b=MIN(MIN(_53.width,_59)/_59,MIN(_53.height,_5a)/_5a);
-_59*=_5b;
-_5a*=_5b;
-}
-}
-if(_imagePosition===CPImageBelow){
-_54.size.height=_53.height-_5a-_d;
-}else{
-if(_imagePosition===CPImageAbove){
-_54.origin.y+=_5a+_d;
-_54.size.height=_53.height-_5a-_d;
-}else{
-if(_imagePosition===CPImageLeft){
-_54.origin.x=_59+_c;
-_54.size.width-=_59+_c;
-}else{
-if(_imagePosition===CPImageRight){
-_54.size.width-=_59+_c;
-}else{
-if(_imagePosition===CPImageOnly){
-}
-}
-}
-}
-}
-}
 _flags=0;
 }
-}),new objj_method(sel_getUid("sizeToFit"),function(_5c,_5d){
-with(_5c){
-var _5e=CGSizeMakeZero();
+}),new objj_method(sel_getUid("sizeToFit"),function(_53,_54){
+with(_53){
+var _55=CGSizeMakeZero();
 if((_imagePosition!==CPNoImage)&&_image){
-var _5f=objj_msgSend(_image,"size");
-_5e.width+=_5f.width;
-_5e.height+=_5f.height;
+var _56=objj_msgSend(_image,"size");
+_55.width+=_56.width;
+_55.height+=_56.height;
 }
 if((_imagePosition!==CPImageOnly)&&objj_msgSend(_text,"length")>0){
 if(!_textSize){
 _textSize=objj_msgSend(_text,"sizeWithFont:",_font?_font:objj_msgSend(CPFont,"systemFontOfSize:",12));
 }
 if(_imagePosition===CPImageLeft||_imagePosition===CPImageRight){
-_5e.width+=_textSize.width+_c;
-_5e.height=MAX(_5e.height,_textSize.height);
+_55.width+=_textSize.width+_c;
+_55.height=MAX(_55.height,_textSize.height);
 }else{
 if(_imagePosition===CPImageAbove||_imagePosition===CPImageBelow){
-_5e.width=MAX(_5e.width,_textSize.width);
-_5e.height+=_textSize.height+_d;
+_55.width=MAX(_55.width,_textSize.width);
+_55.height+=_textSize.height+_d;
 }else{
-_5e.width=MAX(_5e.width,_textSize.width);
-_5e.height=MAX(_5e.height,_textSize.height);
+_55.width=MAX(_55.width,_textSize.width);
+_55.height=MAX(_55.height,_textSize.height);
 }
 }
 }
-objj_msgSend(_5c,"setFrameSize:",_5e);
+objj_msgSend(_53,"setFrameSize:",_55);
 }
 })]);
 p;15;CPTableColumn.jt;10806;@STATIC;1.0;I;25;Foundation/CPDictionary.jI;21;Foundation/CPObject.jI;29;Foundation/CPSortDescriptor.jI;21;Foundation/CPString.ji;19;CPTableHeaderView.jt;10646;
