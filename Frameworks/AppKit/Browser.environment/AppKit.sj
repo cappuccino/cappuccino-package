@@ -21626,7 +21626,7 @@ objj_msgSend(_80,"encodeObject:forKey:",_alternateTitle,_79);
 })]);
 objj_executeFile("CPCheckBox.j",YES);
 objj_executeFile("CPRadio.j",YES);
-p;10;CPWindow.jt;59530;@STATIC;1.0;I;25;Foundation/CPCountedSet.jI;33;Foundation/CPNotificationCenter.jI;26;Foundation/CPUndoManager.ji;12;CGGeometry.ji;13;CPAnimation.ji;13;CPResponder.ji;10;CPScreen.ji;18;CPPlatformWindow.ji;15;_CPWindowView.ji;23;_CPStandardWindowView.ji;23;_CPDocModalWindowView.ji;18;_CPHUDWindowView.ji;25;_CPBorderlessWindowView.ji;31;_CPBorderlessBridgeWindowView.ji;14;CPDragServer.ji;8;CPView.jt;59124;
+p;10;CPWindow.jt;59652;@STATIC;1.0;I;25;Foundation/CPCountedSet.jI;33;Foundation/CPNotificationCenter.jI;26;Foundation/CPUndoManager.ji;12;CGGeometry.ji;13;CPAnimation.ji;13;CPResponder.ji;10;CPScreen.ji;18;CPPlatformWindow.ji;15;_CPWindowView.ji;23;_CPStandardWindowView.ji;23;_CPDocModalWindowView.ji;18;_CPHUDWindowView.ji;25;_CPBorderlessWindowView.ji;31;_CPBorderlessBridgeWindowView.ji;14;CPDragServer.ji;8;CPView.jt;59246;
 objj_executeFile("Foundation/CPCountedSet.j",NO);
 objj_executeFile("Foundation/CPNotificationCenter.j",NO);
 objj_executeFile("Foundation/CPUndoManager.j",NO);
@@ -21914,6 +21914,12 @@ objj_msgSend(_platformWindow,"orderFront:",_4f);
 objj_msgSend(_platformWindow,"order:window:relativeTo:",CPWindowAbove,_4f,nil);
 if(_firstResponder===_4f||!_firstResponder){
 objj_msgSend(_4f,"makeFirstResponder:",objj_msgSend(_4f,"initialFirstResponder"));
+}
+if(!CPApp._keyWindow){
+objj_msgSend(_4f,"makeKeyWindow");
+}
+if(!CPApp._mainWindow){
+objj_msgSend(_4f,"makeMainWindow");
 }
 }
 }),new objj_method(sel_getUid("orderBack:"),function(_52,_53,_54){
