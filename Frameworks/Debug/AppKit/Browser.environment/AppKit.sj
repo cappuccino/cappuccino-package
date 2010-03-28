@@ -10757,7 +10757,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"])]);
 }
 
-p;12;CPClipView.jt;5864;@STATIC;1.0;i;8;CPView.jt;5833;objj_executeFile("CPView.j", YES);
+p;12;CPClipView.jt;5938;@STATIC;1.0;i;8;CPView.jt;5907;objj_executeFile("CPView.j", YES);
 {var the_class = objj_allocateClassPair(CPView, "CPClipView"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_documentView")]);
 objj_registerClassPair(the_class);
@@ -10804,8 +10804,9 @@ class_addMethods(the_class, [new objj_method(sel_getUid("setDocumentView:"), fun
     if ((_bounds.origin.x == aPoint.x && _bounds.origin.y == aPoint.y))
         return;
     objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPClipView").super_class }, "setBoundsOrigin:", aPoint);
-    var superview = objj_msgSend(self, "superview");
-    if(objj_msgSend(superview, "isKindOfClass:", objj_msgSend(CPScrollView, "class")))
+    var superview = objj_msgSend(self, "superview"),
+        scrollViewClass = objj_getClass("CPScrollView");
+    if(objj_msgSend(superview, "isKindOfClass:", scrollViewClass))
         objj_msgSend(superview, "reflectScrolledClipView:", self);
 }
 },["void","CGPoint"]), new objj_method(sel_getUid("scrollToPoint:"), function $CPClipView__scrollToPoint_(self, _cmd, aPoint)
@@ -10836,8 +10837,9 @@ class_addMethods(the_class, [new objj_method(sel_getUid("setDocumentView:"), fun
     objj_msgSend(self, "scrollToPoint:", oldScrollPoint);
     if (!CGPointEqualToPoint(oldScrollPoint, objj_msgSend(self, "bounds").origin))
         return;
-    var superview = objj_msgSend(self, "superview");
-    if (objj_msgSend(superview, "isKindOfClass:", objj_msgSend(CPScrollView, "class")))
+    var superview = objj_msgSend(self, "superview"),
+        scrollViewClass = objj_getClass("CPScrollView");
+    if (objj_msgSend(superview, "isKindOfClass:", scrollViewClass))
         objj_msgSend(superview, "reflectScrolledClipView:", self);
 }
 },["void"]), new objj_method(sel_getUid("autoscroll:"), function $CPClipView__autoscroll_(self, _cmd, anEvent)
