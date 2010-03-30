@@ -8071,23 +8071,33 @@ return objj_msgSend(_6,"init");
 with(_9){
 }
 })]);
-p;15;_CPCornerView.jt;1009;@STATIC;1.0;i;8;CPView.jt;979;
+p;15;_CPCornerView.jt;1245;@STATIC;1.0;i;8;CPView.jt;1214;
 objj_executeFile("CPView.j",YES);
 var _1=objj_allocateClassPair(CPView,"_CPCornerView"),_2=_1.isa;
 objj_registerClassPair(_1);
-class_addMethods(_1,[new objj_method(sel_getUid("initWithFrame:"),function(_3,_4,_5){
+class_addMethods(_1,[new objj_method(sel_getUid("_init"),function(_3,_4){
 with(_3){
-if(_3=objj_msgSendSuper({receiver:_3,super_class:objj_getClass("_CPCornerView").super_class},"initWithFrame:",_5)){
 objj_msgSend(_3,"setBackgroundColor:",objj_msgSend(CPColor,"colorWithPatternImage:",CPAppKitImage("tableview-headerview.png",CGSizeMake(1,23))));
 }
-return _3;
+}),new objj_method(sel_getUid("initWithFrame:"),function(_5,_6,_7){
+with(_5){
+if(_5=objj_msgSendSuper({receiver:_5,super_class:objj_getClass("_CPCornerView").super_class},"initWithFrame:",_7)){
+objj_msgSend(_5,"_init");
 }
-}),new objj_method(sel_getUid("drawRect:"),function(_6,_7,_8){
-with(_6){
-var _9=objj_msgSend(objj_msgSend(CPGraphicsContext,"currentContext"),"graphicsPort");
-CGContextSetStrokeColor(_9,objj_msgSend(CPColor,"colorWithHexString:","dce0e2"));
-var _a=[CGPointMake(_8.origin.x,_8.origin.y),CGPointMake(_8.origin.x+_8.size.width,_8.origin.y),CGPointMake(_8.origin.x,_8.origin.y+0.5),CGPointMake(_8.origin.x,_8.origin.y+_8.size.height)];
-CGContextStrokeLineSegments(_9,_a,2);
+return _5;
+}
+}),new objj_method(sel_getUid("drawRect:"),function(_8,_9,_a){
+with(_8){
+var _b=objj_msgSend(objj_msgSend(CPGraphicsContext,"currentContext"),"graphicsPort");
+CGContextSetStrokeColor(_b,objj_msgSend(CPColor,"colorWithHexString:","dce0e2"));
+var _c=[CGPointMake(_a.origin.x,_a.origin.y+0.5),CGPointMake(_a.origin.x,_a.origin.y+_a.size.height)];
+CGContextStrokeLineSegments(_b,_c,2);
+}
+}),new objj_method(sel_getUid("initWithCoder:"),function(_d,_e,_f){
+with(_d){
+_d=objj_msgSendSuper({receiver:_d,super_class:objj_getClass("_CPCornerView").super_class},"initWithCoder:",_f);
+objj_msgSend(_d,"_init");
+return _d;
 }
 })]);
 p;19;CPGraphicsContext.jt;922;@STATIC;1.0;t;904;

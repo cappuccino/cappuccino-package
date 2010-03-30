@@ -9689,19 +9689,24 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithItemIdentifier:
 },["void","CPCoder"])]);
 }
 
-p;15;_CPCornerView.jt;1433;@STATIC;1.0;i;8;CPView.jt;1402;
+p;15;_CPCornerView.jt;1768;@STATIC;1.0;i;8;CPView.jt;1737;
 
 
 objj_executeFile("CPView.j", YES);
 
 {var the_class = objj_allocateClassPair(CPView, "_CPCornerView"),
 meta_class = the_class.isa;objj_registerClassPair(the_class);
-class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), function $_CPCornerView__initWithFrame_(self, _cmd, aFrame)
+class_addMethods(the_class, [new objj_method(sel_getUid("_init"), function $_CPCornerView___init(self, _cmd)
+{ with(self)
+{
+    objj_msgSend(self, "setBackgroundColor:", objj_msgSend(CPColor, "colorWithPatternImage:", CPAppKitImage("tableview-headerview.png", CGSizeMake(1.0, 23.0))));
+}
+},["void"]), new objj_method(sel_getUid("initWithFrame:"), function $_CPCornerView__initWithFrame_(self, _cmd, aFrame)
 { with(self)
 {
     if (self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("_CPCornerView").super_class }, "initWithFrame:", aFrame))
     {
-        objj_msgSend(self, "setBackgroundColor:", objj_msgSend(CPColor, "colorWithPatternImage:", CPAppKitImage("tableview-headerview.png", CGSizeMake(1.0, 23.0))));
+        objj_msgSend(self, "_init");
     }
 
     return self;
@@ -9714,16 +9719,23 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     CGContextSetStrokeColor(context, objj_msgSend(CPColor, "colorWithHexString:", "dce0e2"));
 
     var points = [
-                    CGPointMake(aRect.origin.x, aRect.origin.y),
-                    CGPointMake(aRect.origin.x + aRect.size.width, aRect.origin.y),
-
                     CGPointMake(aRect.origin.x, aRect.origin.y + 0.5),
                     CGPointMake(aRect.origin.x, aRect.origin.y + aRect.size.height)
                  ];
 
     CGContextStrokeLineSegments(context, points, 2);
 }
-},["void","CGRect"])]);
+},["void","CGRect"]), new objj_method(sel_getUid("initWithCoder:"), function $_CPCornerView__initWithCoder_(self, _cmd, aCoder)
+{ with(self)
+{
+    self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("_CPCornerView").super_class }, "initWithCoder:", aCoder);
+    {
+        objj_msgSend(self, "_init");
+    }
+
+    return self;
+}
+},["id","CPCoder"])]);
 }
 
 p;19;CPGraphicsContext.jt;1564;@STATIC;1.0;t;1545;var CPGraphicsContextCurrent = nil;
