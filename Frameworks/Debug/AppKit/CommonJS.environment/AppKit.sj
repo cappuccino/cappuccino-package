@@ -16260,7 +16260,7 @@ return _maxSize;
 },["void","CPString","id","CPDictionary","id"])]);
 }
 
-p;15;CPApplication.jt;40306;@STATIC;1.0;I;21;Foundation/CPBundle.ji;17;CPCompatibility.ji;9;CPEvent.ji;8;CPMenu.ji;13;CPResponder.ji;22;CPDocumentController.ji;14;CPThemeBlend.ji;14;CPCibLoading.ji;12;CPPlatform.jt;40113;objj_executeFile("Foundation/CPBundle.j", NO);
+p;15;CPApplication.jt;40545;@STATIC;1.0;I;21;Foundation/CPBundle.ji;17;CPCompatibility.ji;9;CPEvent.ji;8;CPMenu.ji;13;CPResponder.ji;22;CPDocumentController.ji;14;CPThemeBlend.ji;14;CPCibLoading.ji;12;CPPlatform.jt;40352;objj_executeFile("Foundation/CPBundle.j", NO);
 objj_executeFile("CPCompatibility.j", YES);
 objj_executeFile("CPEvent.j", YES);
 objj_executeFile("CPMenu.j", YES);
@@ -17000,6 +17000,11 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("actions"), function $_
 { with(self)
 {
     objj_msgSend(self, "performActions");
+}
+},["void","CPCib"]), new objj_method(sel_getUid("cibDidFailToLoad:"), function $_CPAppBootstrapper__cibDidFailToLoad_(self, _cmd, aCib)
+{ with(self)
+{
+    throw new Error("Could not load main cib file (Did you forget to nib2cib it?).");
 }
 },["void","CPCib"]), new objj_method(sel_getUid("reset"), function $_CPAppBootstrapper__reset(self, _cmd)
 { with(self)
@@ -30748,7 +30753,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["BOOL"])]);
 }
 
-p;7;CPCib.jt;7238;@STATIC;1.0;I;21;Foundation/CPObject.jI;28;Foundation/CPURLConnection.jI;25;Foundation/CPURLRequest.ji;20;_CPCibClassSwapper.ji;20;_CPCibCustomObject.ji;22;_CPCibCustomResource.ji;18;_CPCibCustomView.ji;23;_CPCibKeyedUnarchiver.ji;18;_CPCibObjectData.ji;19;_CPCibProxyObject.ji;22;_CPCibWindowTemplate.jt;6928;objj_executeFile("Foundation/CPObject.j", NO);
+p;7;CPCib.jt;7457;@STATIC;1.0;I;21;Foundation/CPObject.jI;28;Foundation/CPURLConnection.jI;25;Foundation/CPURLRequest.ji;20;_CPCibClassSwapper.ji;20;_CPCibCustomObject.ji;22;_CPCibCustomResource.ji;18;_CPCibCustomView.ji;23;_CPCibKeyedUnarchiver.ji;18;_CPCibObjectData.ji;19;_CPCibProxyObject.ji;22;_CPCibWindowTemplate.jt;7147;objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("Foundation/CPURLConnection.j", NO);
 objj_executeFile("Foundation/CPURLRequest.j", NO);
 objj_executeFile("_CPCibClassSwapper.j", YES);
@@ -30860,12 +30865,15 @@ if(!the_class) throw new SyntaxError("*** Could not find definition for class \"
 var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_getUid("connection:didReceiveData:"), function $CPCib__connection_didReceiveData_(self, _cmd, aConnection, data)
 { with(self)
 {
+    if (!data)
+        return objj_msgSend(self, "connection:didFailWithError:", aConnection, nil);
     _data = objj_msgSend(CPData, "dataWithRawString:", data);
 }
 },["void","CPURLConnection","CPString"]), new objj_method(sel_getUid("connection:didFailWithError:"), function $CPCib__connection_didFailWithError_(self, _cmd, aConnection, anError)
 { with(self)
 {
-    alert("cib: connection failed.");
+    if (objj_msgSend(_loadDelegate, "respondsToSelector:", sel_getUid("cibDidFailToLoad:")))
+        objj_msgSend(_loadDelegate, "cibDidFailToLoad:", self);
     _loadDelegate = nil;
 }
 },["void","CPURLConnection","CPError"]), new objj_method(sel_getUid("connectionDidFinishLoading:"), function $CPCib__connectionDidFinishLoading_(self, _cmd, aConnection)
@@ -31331,7 +31339,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 meta_class = the_class.isa;objj_registerClassPair(the_class);
 }
 
-p;14;CPCibLoading.jt;4821;@STATIC;1.0;I;21;Foundation/CPBundle.jI;25;Foundation/CPDictionary.jI;21;Foundation/CPString.jt;4720;objj_executeFile("Foundation/CPBundle.j", NO);
+p;14;CPCibLoading.jt;5034;@STATIC;1.0;I;21;Foundation/CPBundle.jI;25;Foundation/CPDictionary.jI;21;Foundation/CPString.jt;4933;objj_executeFile("Foundation/CPBundle.j", NO);
 objj_executeFile("Foundation/CPDictionary.j", NO);
 objj_executeFile("Foundation/CPString.j", NO);
 var CPCibOwner = "CPCibOwner";
@@ -31407,6 +31415,11 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithLoadDelegate:ex
 {
     objj_msgSend(aCib, "instantiateCibWithExternalNameTable:", _externalNameTable);
     objj_msgSend(_loadDelegate, "cibDidFinishLoading:", aCib);
+}
+},["void","CPCib"]), new objj_method(sel_getUid("cibDidFailToLoad:"), function $_CPCibLoadDelegate__cibDidFailToLoad_(self, _cmd, aCib)
+{ with(self)
+{
+    objj_msgSend(_loadDelegate, "cibDidFailToLoad:", aCib);
 }
 },["void","CPCib"])]);
 }

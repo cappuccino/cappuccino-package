@@ -15043,7 +15043,7 @@ objj_msgSend(_d6,"updateFromItem");
 }
 }
 })]);
-p;15;CPApplication.jt;29468;@STATIC;1.0;I;21;Foundation/CPBundle.ji;17;CPCompatibility.ji;9;CPEvent.ji;8;CPMenu.ji;13;CPResponder.ji;22;CPDocumentController.ji;14;CPThemeBlend.ji;14;CPCibLoading.ji;12;CPPlatform.jt;29275;
+p;15;CPApplication.jt;29641;@STATIC;1.0;I;21;Foundation/CPBundle.ji;17;CPCompatibility.ji;9;CPEvent.ji;8;CPMenu.ji;13;CPResponder.ji;22;CPDocumentController.ji;14;CPThemeBlend.ji;14;CPCibLoading.ji;12;CPPlatform.jt;29448;
 objj_executeFile("Foundation/CPBundle.j",NO);
 objj_executeFile("CPCompatibility.j",YES);
 objj_executeFile("CPEvent.j",YES);
@@ -15719,7 +15719,11 @@ return NO;
 with(self){
 objj_msgSend(self,"performActions");
 }
-}),new objj_method(sel_getUid("reset"),function(self,_106){
+}),new objj_method(sel_getUid("cibDidFailToLoad:"),function(self,_106,aCib){
+with(self){
+throw new Error("Could not load main cib file (Did you forget to nib2cib it?).");
+}
+}),new objj_method(sel_getUid("reset"),function(self,_107){
 with(self){
 _f5=nil;
 }
@@ -27810,7 +27814,7 @@ with(_1e){
 return NO;
 }
 })]);
-p;7;CPCib.jt;5262;@STATIC;1.0;I;21;Foundation/CPObject.jI;28;Foundation/CPURLConnection.jI;25;Foundation/CPURLRequest.ji;20;_CPCibClassSwapper.ji;20;_CPCibCustomObject.ji;22;_CPCibCustomResource.ji;18;_CPCibCustomView.ji;23;_CPCibKeyedUnarchiver.ji;18;_CPCibObjectData.ji;19;_CPCibProxyObject.ji;22;_CPCibWindowTemplate.jt;4952;
+p;7;CPCib.jt;5447;@STATIC;1.0;I;21;Foundation/CPObject.jI;28;Foundation/CPURLConnection.jI;25;Foundation/CPURLRequest.ji;20;_CPCibClassSwapper.ji;20;_CPCibCustomObject.ji;22;_CPCibCustomResource.ji;18;_CPCibCustomView.ji;23;_CPCibKeyedUnarchiver.ji;18;_CPCibObjectData.ji;19;_CPCibProxyObject.ji;22;_CPCibWindowTemplate.jt;5137;
 objj_executeFile("Foundation/CPObject.j",NO);
 objj_executeFile("Foundation/CPURLConnection.j",NO);
 objj_executeFile("Foundation/CPURLRequest.j",NO);
@@ -27913,11 +27917,16 @@ throw new SyntaxError("*** Could not find definition for class \"CPCib\"");
 var _3=_2.isa;
 class_addMethods(_2,[new objj_method(sel_getUid("connection:didReceiveData:"),function(_27,_28,_29,_2a){
 with(_27){
+if(!_2a){
+return objj_msgSend(_27,"connection:didFailWithError:",_29,nil);
+}
 _data=objj_msgSend(CPData,"dataWithRawString:",_2a);
 }
 }),new objj_method(sel_getUid("connection:didFailWithError:"),function(_2b,_2c,_2d,_2e){
 with(_2b){
-alert("cib: connection failed.");
+if(objj_msgSend(_loadDelegate,"respondsToSelector:",sel_getUid("cibDidFailToLoad:"))){
+objj_msgSend(_loadDelegate,"cibDidFailToLoad:",_2b);
+}
 _loadDelegate=nil;
 }
 }),new objj_method(sel_getUid("connectionDidFinishLoading:"),function(_2f,_30,_31){
@@ -28283,7 +28292,7 @@ objj_msgSend(_22,"encodeObject:forKey:",_label,_3);
 })]);
 var _4=objj_allocateClassPair(CPCibConnector,"_CPCibConnector"),_5=_4.isa;
 objj_registerClassPair(_4);
-p;14;CPCibLoading.jt;3400;@STATIC;1.0;I;21;Foundation/CPBundle.jI;25;Foundation/CPDictionary.jI;21;Foundation/CPString.jt;3299;
+p;14;CPCibLoading.jt;3540;@STATIC;1.0;I;21;Foundation/CPBundle.jI;25;Foundation/CPDictionary.jI;21;Foundation/CPString.jt;3439;
 objj_executeFile("Foundation/CPBundle.j",NO);
 objj_executeFile("Foundation/CPDictionary.j",NO);
 objj_executeFile("Foundation/CPString.j",NO);
@@ -28352,6 +28361,10 @@ return _25;
 with(_29){
 objj_msgSend(_2b,"instantiateCibWithExternalNameTable:",_externalNameTable);
 objj_msgSend(_loadDelegate,"cibDidFinishLoading:",_2b);
+}
+}),new objj_method(sel_getUid("cibDidFailToLoad:"),function(_2c,_2d,_2e){
+with(_2c){
+objj_msgSend(_loadDelegate,"cibDidFailToLoad:",_2e);
 }
 })]);
 p;23;_CPCibKeyedUnarchiver.jt;1485;@STATIC;1.0;I;30;Foundation/CPKeyedUnarchiver.jt;1431;

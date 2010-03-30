@@ -5254,7 +5254,7 @@ objj_msgSend(functionOp,"addExecutionFunction:",_f);
 return functionOp;
 }
 })]);
-p;19;CPKeyedUnarchiver.jt;8402;@STATIC;1.0;i;9;CPCoder.ji;8;CPNull.jt;8358;
+p;19;CPKeyedUnarchiver.jt;8509;@STATIC;1.0;i;9;CPCoder.ji;8;CPNull.jt;8465;
 objj_executeFile("CPCoder.j",YES);
 objj_executeFile("CPNull.j",YES);
 CPInvalidUnarchiveOperationException="CPInvalidUnarchiveOperationException";
@@ -5429,6 +5429,10 @@ _f=objj_msgSend(_CPKeyedArchiverValue,"class");
 }
 }),new objj_method(sel_getUid("unarchiveObjectWithData:"),function(_59,_5a,_5b){
 with(_59){
+if(!_5b){
+CPLog.error("Null data passed to -[CPKeyedUnarchiver unarchiveObjectWithData:].");
+return nil;
+}
 var _5c=objj_msgSend(objj_msgSend(_59,"alloc"),"initForReadingWithData:",_5b),_5d=objj_msgSend(_5c,"decodeObjectForKey:","root");
 objj_msgSend(_5c,"finishDecoding");
 return _5d;
