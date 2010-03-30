@@ -30550,7 +30550,7 @@ with(_b){
 return objj_msgSend(objj_msgSend(_b,"alloc"),"initWithFrame:",CGRectMake(0,0,0,10));
 }
 })]);
-p;24;_CPMenuItemMenuBarView.jt;7521;@STATIC;1.0;t;7502;
+p;24;_CPMenuItemMenuBarView.jt;7593;@STATIC;1.0;t;7574;
 var _1=8,_2=3,_3=4;
 var _4=nil,_5=nil,_6=nil,_7=nil,_8=[],_9=[];
 var _a=objj_allocateClassPair(CPView,"_CPMenuItemMenuBarView"),_b=_a.isa;
@@ -30709,8 +30709,8 @@ CGContextMoveToPoint(_2f,CGRectGetMinX(_30),CGRectGetMinY(_30));
 CGContextAddLineToPoint(_2f,CGRectGetMaxX(_30),CGRectGetMinY(_30));
 CGContextAddLineToPoint(_2f,CGRectGetMidX(_30),CGRectGetMaxY(_30));
 CGContextClosePath(_2f);
-CGContextSetShadowWithColor(_2f,CGSizeMake(0,1),1.1,_shadowColor);
-CGContextSetFillColor(_2f,_color);
+CGContextSetShadowWithColor(_2f,CGSizeMake(0,1),1.1,_shadowColor||objj_msgSend(CPColor,"whiteColor"));
+CGContextSetFillColor(_2f,_color||objj_msgSend(CPColor,"blackColor"));
 CGContextFillPath(_2f);
 }
 })]);

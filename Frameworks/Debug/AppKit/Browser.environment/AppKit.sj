@@ -35006,7 +35006,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("view"), function $_CPM
 },["id"])]);
 }
 
-p;24;_CPMenuItemMenuBarView.jt;10593;@STATIC;1.0;t;10573;
+p;24;_CPMenuItemMenuBarView.jt;10671;@STATIC;1.0;t;10651;
 
 var HORIZONTAL_MARGIN = 8.0,
     SUBMENU_INDICATOR_MARGIN = 3.0,
@@ -35237,8 +35237,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("setColor:"), function $
 
     CGContextClosePath(context);
 
-    CGContextSetShadowWithColor(context, CGSizeMake(0.0, 1.0), 1.1, _shadowColor);
-    CGContextSetFillColor(context, _color);
+    CGContextSetShadowWithColor(context, CGSizeMake(0.0, 1.0), 1.1, _shadowColor || objj_msgSend(CPColor, "whiteColor"));
+    CGContextSetFillColor(context, _color || objj_msgSend(CPColor, "blackColor"));
     CGContextFillPath(context);
 }
 },["void","CGRect"])]);
