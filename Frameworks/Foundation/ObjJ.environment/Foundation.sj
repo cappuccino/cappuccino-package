@@ -5942,7 +5942,7 @@ with(_1d){
 return objj_msgSend(objj_msgSend(objj_msgSend(_1d,"class"),"alloc"),"initWithRequest:callback:delegate:startImmediately:",_1f,_20,_21,YES);
 }
 })]);
-p;18;CPKeyValueCoding.jt;6325;@STATIC;1.0;i;9;CPArray.ji;14;CPDictionary.ji;8;CPNull.ji;10;CPObject.ji;21;CPKeyValueObserving.ji;13;CPArray+KVO.jt;6203;
+p;18;CPKeyValueCoding.jt;6578;@STATIC;1.0;i;9;CPArray.ji;14;CPDictionary.ji;8;CPNull.ji;10;CPObject.ji;21;CPKeyValueObserving.ji;13;CPArray+KVO.jt;6456;
 objj_executeFile("CPArray.j",YES);
 objj_executeFile("CPDictionary.j",YES);
 objj_executeFile("CPNull.j",YES);
@@ -6116,6 +6116,16 @@ return objj_msgSend(_41,"objectForKey:",_43);
 }),new objj_method(sel_getUid("setValue:forKey:"),function(_44,_45,_46,_47){
 with(_44){
 objj_msgSend(_44,"setObject:forKey:",_46,_47);
+}
+})]);
+var _3=objj_getClass("CPNull");
+if(!_3){
+throw new SyntaxError("*** Could not find definition for class \"CPNull\"");
+}
+var _4=_3.isa;
+class_addMethods(_3,[new objj_method(sel_getUid("valueForKey:"),function(_48,_49,_4a){
+with(_48){
+return _48;
 }
 })]);
 objj_executeFile("CPKeyValueObserving.j",YES);

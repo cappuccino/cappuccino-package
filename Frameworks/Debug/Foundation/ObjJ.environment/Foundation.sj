@@ -6816,7 +6816,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("sendRequest:callback:d
 },["CPJSONPConnection","CPURLRequest","CPString","id"])]);
 }
 
-p;18;CPKeyValueCoding.jt;9304;@STATIC;1.0;i;9;CPArray.ji;14;CPDictionary.ji;8;CPNull.ji;10;CPObject.ji;21;CPKeyValueObserving.ji;13;CPArray+KVO.jt;9182;objj_executeFile("CPArray.j", YES);
+p;18;CPKeyValueCoding.jt;9651;@STATIC;1.0;i;9;CPArray.ji;14;CPDictionary.ji;8;CPNull.ji;10;CPObject.ji;21;CPKeyValueObserving.ji;13;CPArray+KVO.jt;9529;objj_executeFile("CPArray.j", YES);
 objj_executeFile("CPDictionary.j", YES);
 objj_executeFile("CPNull.j", YES);
 objj_executeFile("CPObject.j", YES);
@@ -7017,6 +7017,16 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
     objj_msgSend(self, "setObject:forKey:", aValue, aKey);
 }
 },["void","id","CPString"])]);
+}
+{
+var the_class = objj_getClass("CPNull")
+if(!the_class) throw new SyntaxError("*** Could not find definition for class \"CPNull\"");
+var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_getUid("valueForKey:"), function $CPNull__valueForKey_(self, _cmd, aKey)
+{ with(self)
+{
+    return self;
+}
+},["id","CPString"])]);
 }
 objj_executeFile("CPKeyValueObserving.j", YES);
 objj_executeFile("CPArray+KVO.j", YES);
