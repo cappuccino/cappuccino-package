@@ -10126,7 +10126,7 @@ objj_executeFile("CPSliderColorPicker.j", YES);
 objj_msgSend(CPColorPanel, "provideColorPickerClass:", CPColorWheelColorPicker);
 objj_msgSend(CPColorPanel, "provideColorPickerClass:", CPSliderColorPicker);
 
-p;13;CPResponder.jt;9160;@STATIC;1.0;I;21;Foundation/CPObject.jt;9115;objj_executeFile("Foundation/CPObject.j", NO);
+p;13;CPResponder.jt;9610;@STATIC;1.0;I;21;Foundation/CPObject.jt;9565;objj_executeFile("Foundation/CPObject.j", NO);
 CPDeleteKeyCode = 8;
 CPTabKeyCode = 9;
 CPReturnKeyCode = 13;
@@ -10210,12 +10210,22 @@ class_addMethods(the_class, [new objj_method(sel_getUid("acceptsFirstResponder")
 {
     objj_msgSend(_nextResponder, "performSelector:withObject:", _cmd, anEvent);
 }
+},["void","CPEvent"]), new objj_method(sel_getUid("rightMouseDown:"), function $CPResponder__rightMouseDown_(self, _cmd, anEvent)
+{ with(self)
+{
+    objj_msgSend(_nextResponder, "performSelector:withObject:", _cmd, anEvent);
+}
 },["void","CPEvent"]), new objj_method(sel_getUid("mouseDragged:"), function $CPResponder__mouseDragged_(self, _cmd, anEvent)
 { with(self)
 {
     objj_msgSend(_nextResponder, "performSelector:withObject:", _cmd, anEvent);
 }
 },["void","CPEvent"]), new objj_method(sel_getUid("mouseUp:"), function $CPResponder__mouseUp_(self, _cmd, anEvent)
+{ with(self)
+{
+    objj_msgSend(_nextResponder, "performSelector:withObject:", _cmd, anEvent);
+}
+},["void","CPEvent"]), new objj_method(sel_getUid("rightMouseUp:"), function $CPResponder__rightMouseUp_(self, _cmd, anEvent)
 { with(self)
 {
     objj_msgSend(_nextResponder, "performSelector:withObject:", _cmd, anEvent);
@@ -12144,7 +12154,7 @@ CPPointMakeZero= function()
     return CPPointMake(0, 0, 0);
 }
 
-p;8;CPView.jt;65541;@STATIC;1.0;I;20;Foundation/CPArray.jI;26;Foundation/CPObjJRuntime.ji;19;CGAffineTransform.ji;12;CGGeometry.ji;9;CPColor.ji;12;CPGeometry.ji;19;CPGraphicsContext.ji;13;CPResponder.ji;9;CPTheme.ji;18;_CPDisplayServer.jt;65316;objj_executeFile("Foundation/CPArray.j", NO);
+p;8;CPView.jt;66568;@STATIC;1.0;I;20;Foundation/CPArray.jI;26;Foundation/CPObjJRuntime.ji;19;CGAffineTransform.ji;12;CGGeometry.ji;9;CPColor.ji;12;CPGeometry.ji;19;CPGraphicsContext.ji;13;CPResponder.ji;9;CPTheme.ji;18;_CPDisplayServer.jt;66343;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("Foundation/CPObjJRuntime.j", NO);
 objj_executeFile("CGAffineTransform.j", YES);
 objj_executeFile("CGGeometry.j", YES);
@@ -12764,7 +12774,23 @@ class_addMethods(the_class, [new objj_method(sel_getUid("setupViewFlags"), funct
     if (objj_msgSend(self, "mouseDownCanMoveWindow"))
         objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPView").super_class }, "mouseDown:", anEvent);
 }
-},["void","CPEvent"]), new objj_method(sel_getUid("setBackgroundColor:"), function $CPView__setBackgroundColor_(self, _cmd, aColor)
+},["void","CPEvent"]), new objj_method(sel_getUid("rightMouseDown:"), function $CPView__rightMouseDown_(self, _cmd, anEvent)
+{ with(self)
+{
+    var menu = objj_msgSend(self, "menuForEvent:", anEvent);
+    if (menu)
+        objj_msgSend(CPMenu, "popUpContextMenu:withEvent:forView:", menu, anEvent, self);
+    else if (objj_msgSend(objj_msgSend(self, "nextResponder"), "isKindOfClass:", CPView))
+        objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPView").super_class }, "rightMouseDown:", anEvent);
+    else
+        objj_msgSend(objj_msgSend(objj_msgSend(anEvent, "window"), "platformWindow"), "_propagateContextMenuDOMEvent:", YES);
+}
+},["void","CPEvent"]), new objj_method(sel_getUid("menuForEvent:"), function $CPView__menuForEvent_(self, _cmd, anEvent)
+{ with(self)
+{
+    return objj_msgSend(self, "menu") || objj_msgSend(objj_msgSend(self, "class"), "defaultMenu");
+}
+},["CPMenu","CPEvent"]), new objj_method(sel_getUid("setBackgroundColor:"), function $CPView__setBackgroundColor_(self, _cmd, aColor)
 { with(self)
 {
     if (_backgroundColor == aColor)
@@ -13085,7 +13111,12 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("initialize"), function
 {
     return objj_msgSend(CPSet, "setWithObjects:", "boundsOrigin", "boundsSize");
 }
-},["CPSet"])]);
+},["CPSet"]), new objj_method(sel_getUid("defaultMenu"), function $CPView__defaultMenu(self, _cmd)
+{ with(self)
+{
+    return nil;
+}
+},["CPMenu"])]);
 }
 {
 var the_class = objj_getClass("CPView")
@@ -23632,7 +23663,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 objj_executeFile("CPCheckBox.j", YES);
 objj_executeFile("CPRadio.j", YES);
 
-p;10;CPWindow.jt;81816;@STATIC;1.0;I;25;Foundation/CPCountedSet.jI;33;Foundation/CPNotificationCenter.jI;26;Foundation/CPUndoManager.ji;12;CGGeometry.ji;13;CPAnimation.ji;13;CPResponder.ji;10;CPScreen.ji;18;CPPlatformWindow.ji;15;_CPWindowView.ji;23;_CPStandardWindowView.ji;23;_CPDocModalWindowView.ji;18;_CPHUDWindowView.ji;25;_CPBorderlessWindowView.ji;31;_CPBorderlessBridgeWindowView.ji;14;CPDragServer.ji;8;CPView.jt;81410;objj_executeFile("Foundation/CPCountedSet.j", NO);
+p;10;CPWindow.jt;82512;@STATIC;1.0;I;25;Foundation/CPCountedSet.jI;33;Foundation/CPNotificationCenter.jI;26;Foundation/CPUndoManager.ji;12;CGGeometry.ji;13;CPAnimation.ji;13;CPResponder.ji;10;CPScreen.ji;18;CPPlatformWindow.ji;15;_CPWindowView.ji;23;_CPStandardWindowView.ji;23;_CPDocModalWindowView.ji;18;_CPHUDWindowView.ji;25;_CPBorderlessWindowView.ji;31;_CPBorderlessBridgeWindowView.ji;14;CPDragServer.ji;8;CPView.jt;82106;objj_executeFile("Foundation/CPCountedSet.j", NO);
 objj_executeFile("Foundation/CPNotificationCenter.j", NO);
 objj_executeFile("Foundation/CPUndoManager.j", NO);
 objj_executeFile("CGGeometry.j", YES);
@@ -24301,32 +24332,43 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPWin
         case CPKeyUp: return objj_msgSend(objj_msgSend(self, "firstResponder"), "keyUp:", anEvent);
         case CPKeyDown: return objj_msgSend(objj_msgSend(self, "firstResponder"), "keyDown:", anEvent);
         case CPScrollWheel: return objj_msgSend(objj_msgSend(_windowView, "hitTest:", point), "scrollWheel:", anEvent);
-        case CPLeftMouseUp: if (!_leftMouseDownView)
-                                        return objj_msgSend(objj_msgSend(_windowView, "hitTest:", point), "mouseUp:", anEvent);
-                                    objj_msgSend(_leftMouseDownView, "mouseUp:", anEvent)
+        case CPLeftMouseUp:
+        case CPRightMouseUp: var hitTestedView = _leftMouseDownView,
+                                        selector = type == CPRightMouseUp ? sel_getUid("rightMouseUp:") : sel_getUid("mouseUp:");
+                                    if (!hitTestedView)
+                                        hitTestedView = objj_msgSend(_windowView, "hitTest:", point);
+                                    objj_msgSend(hitTestedView, "performSelector:withObject:", selector, anEvent);
                                     _leftMouseDownView = nil;
                                     return;
-        case CPLeftMouseDown: _leftMouseDownView = objj_msgSend(_windowView, "hitTest:", point);
+        case CPLeftMouseDown:
+        case CPRightMouseDown: _leftMouseDownView = objj_msgSend(_windowView, "hitTest:", point);
                                     if (_leftMouseDownView != _firstResponder && objj_msgSend(_leftMouseDownView, "acceptsFirstResponder"))
                                         objj_msgSend(self, "makeFirstResponder:", _leftMouseDownView);
                                     objj_msgSend(CPApp, "activateIgnoringOtherApps:", YES);
-                                    var theWindow = objj_msgSend(anEvent, "window");
+                                    var theWindow = objj_msgSend(anEvent, "window"),
+                                        selector = type == CPRightMouseDown ? sel_getUid("rightMouseDown:") : sel_getUid("mouseDown:");
                                     if (objj_msgSend(theWindow, "isKeyWindow") || objj_msgSend(theWindow, "becomesKeyOnlyIfNeeded") && !objj_msgSend(_leftMouseDownView, "needsPanelToBecomeKey"))
-                                        return objj_msgSend(_leftMouseDownView, "mouseDown:", anEvent);
+                                        return objj_msgSend(_leftMouseDownView, "performSelector:withObject:", selector, anEvent);
                                     else
                                     {
                                         objj_msgSend(self, "makeKeyAndOrderFront:", self);
                                         if (objj_msgSend(_leftMouseDownView, "acceptsFirstMouse:", anEvent))
-                                            return objj_msgSend(_leftMouseDownView, "mouseDown:", anEvent)
+                                            return objj_msgSend(_leftMouseDownView, "performSelector:withObject:", selector, anEvent);
                                     }
                                     break;
-        case CPLeftMouseDragged: if (!_leftMouseDownView)
+        case CPLeftMouseDragged:
+        case CPRightMouseDragged: if (!_leftMouseDownView)
                                         return objj_msgSend(objj_msgSend(_windowView, "hitTest:", point), "mouseDragged:", anEvent);
-                                    return objj_msgSend(_leftMouseDownView, "mouseDragged:", anEvent);
-        case CPRightMouseUp: return objj_msgSend(_rightMouseDownView, "mouseUp:", anEvent);
-        case CPRightMouseDown: _rightMouseDownView = objj_msgSend(_windowView, "hitTest:", point);
-                                    return objj_msgSend(_rightMouseDownView, "mouseDown:", anEvent);
-        case CPRightMouseDragged: return objj_msgSend(_rightMouseDownView, "mouseDragged:", anEvent);
+                                    var selector;
+                                    if (type == CPRightMouseDragged)
+                                    {
+                                        selector = sel_getUid("rightMouseDragged:")
+                                        if (!objj_msgSend(_leftMouseDownView, "respondsToSelector:", selector))
+                                            selector = nil;
+                                    }
+                                    if (!selector)
+                                        selector = sel_getUid("mouseDragged:")
+                                    return objj_msgSend(_leftMouseDownView, "performSelector:withObject:", selector, anEvent);
         case CPMouseMoved: if (!_acceptsMouseMovedEvents)
                                         return;
                                     if (!_mouseEnteredStack)
@@ -29303,7 +29345,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("visiblePlatformWindows
 },["void","CPPlatformWindow"])]);
 }
 
-p;22;CPPlatformWindow+DOM.jt;48139;@STATIC;1.0;I;21;Foundation/CPObject.jI;22;Foundation/CPRunLoop.ji;9;CPEvent.ji;17;CPCompatibility.ji;18;CPDOMWindowLayer.ji;12;CPPlatform.ji;18;CPPlatformWindow.ji;26;CPPlatformWindow+DOMKeys.jt;47937;objj_executeFile("Foundation/CPObject.j", NO);
+p;22;CPPlatformWindow+DOM.jt;50000;@STATIC;1.0;I;21;Foundation/CPObject.jI;22;Foundation/CPRunLoop.ji;9;CPEvent.ji;17;CPCompatibility.ji;18;CPDOMWindowLayer.ji;12;CPPlatform.ji;18;CPPlatformWindow.ji;26;CPPlatformWindow+DOMKeys.jt;49798;objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("Foundation/CPRunLoop.j", NO);
 objj_executeFile("CPEvent.j", YES);
 objj_executeFile("CPCompatibility.j", YES);
@@ -29314,7 +29356,8 @@ objj_executeFile("CPPlatformWindow+DOMKeys.j", YES);
 var PlatformWindows = objj_msgSend(CPSet, "set");
 var CPDOMEventGetClickCount,
     CPDOMEventStop,
-    StopDOMEventPropagation;
+    StopDOMEventPropagation,
+    StopContextMenuDOMEventPropagation;
 var _DOMEventGuard;
 var KeyCodesToPrevent = {},
     CharacterKeysToPrevent = {},
@@ -29446,6 +29489,9 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
         mouseEventSelector = sel_getUid("mouseEvent:"),
         mouseEventImplementation = class_getMethodImplementation(theClass, mouseEventSelector),
         mouseEventCallback = function (anEvent) { mouseEventImplementation(self, nil, anEvent); },
+        contextMenuEventSelector = sel_getUid("contextMenuEvent:"),
+        contextMenuEventImplementation = class_getMethodImplementation(theClass, contextMenuEventSelector),
+        contextMenuEventCallback = function (anEvent) { return contextMenuEventImplementation(self, nil, anEvent); },
         scrollEventSelector = sel_getUid("scrollEvent:"),
         scrollEventImplementation = class_getMethodImplementation(theClass, scrollEventSelector),
         scrollEventCallback = function (anEvent) { scrollEventImplementation(self, nil, anEvent); },
@@ -29466,6 +29512,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
         theDocument.addEventListener("mouseup", mouseEventCallback, NO);
         theDocument.addEventListener("mousedown", mouseEventCallback, NO);
         theDocument.addEventListener("mousemove", mouseEventCallback, NO);
+        theDocument.addEventListener("contextmenu", contextMenuEventCallback, NO);
         theDocument.addEventListener("beforecopy", copyEventCallback, NO);
         theDocument.addEventListener("beforecut", copyEventCallback, NO);
         theDocument.addEventListener("beforepaste", pasteEventCallback, NO);
@@ -29486,6 +29533,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
             theDocument.removeEventListener("mouseup", mouseEventCallback, NO);
             theDocument.removeEventListener("mousedown", mouseEventCallback, NO);
             theDocument.removeEventListener("mousemove", mouseEventCallback, NO);
+            theDocument.removeEventListener("contextmenu", contextMenuEventCallback, NO);
             theDocument.removeEventListener("keyup", keyEventCallback, NO);
             theDocument.removeEventListener("keydown", keyEventCallback, NO);
             theDocument.removeEventListener("keypress", keyEventCallback, NO);
@@ -29508,6 +29556,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
         theDocument.attachEvent("onmousedown", mouseEventCallback);
         theDocument.attachEvent("onmousemove", mouseEventCallback);
         theDocument.attachEvent("ondblclick", mouseEventCallback);
+        theDocument.attachEvent("oncontextmenu", contextMenuEventCallback);
         theDocument.attachEvent("onkeyup", keyEventCallback);
         theDocument.attachEvent("onkeydown", keyEventCallback);
         theDocument.attachEvent("onkeypress", keyEventCallback);
@@ -29524,6 +29573,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
             theDocument.detachEvent("onmousedown", mouseEventCallback);
             theDocument.detachEvent("onmousemove", mouseEventCallback);
             theDocument.detachEvent("ondblclick", mouseEventCallback);
+            theDocument.detachEvent("oncontextmenu", contextMenuEventCallback);
             theDocument.detachEvent("onkeyup", keyEventCallback);
             theDocument.detachEvent("onkeydown", keyEventCallback);
             theDocument.detachEvent("onkeypress", keyEventCallback);
@@ -29971,10 +30021,11 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
     {
         if(_mouseIsDown)
         {
-            event = _CPEventFromNativeMouseEvent(aDOMEvent, CPLeftMouseUp, location, modifierFlags, timestamp, windowNumber, nil, -1, CPDOMEventGetClickCount(_lastMouseUp, timestamp, location), 0);
+            event = _CPEventFromNativeMouseEvent(aDOMEvent, _mouseDownIsRightClick ? CPRightMouseUp : CPLeftMouseUp, location, modifierFlags, timestamp, windowNumber, nil, -1, CPDOMEventGetClickCount(_lastMouseUp, timestamp, location), 0);
             _mouseIsDown = NO;
             _lastMouseUp = event;
             _mouseDownWindow = nil;
+            _mouseDownIsRightClick = NO;
         }
         if(_DOMEventMode)
         {
@@ -30002,7 +30053,10 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
             _DOMBodyElement.setAttribute("draggable", "true");
             _DOMBodyElement.style["-khtml-user-drag"] = "element";
         }
-        event = _CPEventFromNativeMouseEvent(aDOMEvent, CPLeftMouseDown, location, modifierFlags, timestamp, windowNumber, nil, -1, CPDOMEventGetClickCount(_lastMouseDown, timestamp, location), 0);
+        var button = aDOMEvent.button;
+        _mouseDownIsRightClick = button == 2 || (button == 0 && modifierFlags & CPControlKeyMask);
+        StopContextMenuDOMEventPropagation = YES;
+        event = _CPEventFromNativeMouseEvent(aDOMEvent, _mouseDownIsRightClick ? CPRightMouseDown : CPLeftMouseDown, location, modifierFlags, timestamp, windowNumber, nil, -1, CPDOMEventGetClickCount(_lastMouseDown, timestamp, location), 0);
         _mouseIsDown = YES;
         _lastMouseDown = event;
     }
@@ -30010,7 +30064,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
     {
         if (_DOMEventMode)
             return;
-        event = _CPEventFromNativeMouseEvent(aDOMEvent, _mouseIsDown ? CPLeftMouseDragged : CPMouseMoved, location, modifierFlags, timestamp, windowNumber, nil, -1, 1, 0);
+        event = _CPEventFromNativeMouseEvent(aDOMEvent, _mouseIsDown ? (_mouseDownIsRightClick ? CPRightMouseDragged : CPLeftMouseDragged) : CPMouseMoved, location, modifierFlags, timestamp, windowNumber, nil, -1, 1, 0);
     }
     var isDragging = objj_msgSend(objj_msgSend(CPDragServer, "sharedDragServer"), "isDragging");
     if (event && (!isDragging || !supportsNativeDragAndDrop))
@@ -30022,6 +30076,13 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
         CPDOMEventStop(aDOMEvent, self);
     _DOMEventGuard.style.display = (CPApp._eventListeners.length === 0) ? "none" : "";
     objj_msgSend(objj_msgSend(CPRunLoop, "currentRunLoop"), "limitDateForMode:", CPDefaultRunLoopMode);
+}
+},["void","DOMEvent"]), new objj_method(sel_getUid("contextMenuEvent:"), function $CPPlatformWindow__contextMenuEvent_(self, _cmd, aDOMEvent)
+{ with(self)
+{
+    if (StopContextMenuDOMEventPropagation)
+        CPDOMEventStop(aDOMEvent, self);
+    return !StopContextMenuDOMEventPropagation;
 }
 },["void","DOMEvent"]), new objj_method(sel_getUid("orderedWindowsAtLevel:"), function $CPPlatformWindow__orderedWindowsAtLevel_(self, _cmd, aLevel)
 { with(self)
@@ -30127,6 +30188,18 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 { with(self)
 {
     return !StopDOMEventPropagation;
+}
+},["BOOL"]), new objj_method(sel_getUid("_propagateContextMenuDOMEvent:"), function $CPPlatformWindow___propagateContextMenuDOMEvent_(self, _cmd, aFlag)
+{ with(self)
+{
+    if (aFlag && CPBrowserIsEngine(CPGeckoBrowserEngine))
+        StopDOMEventPropagation = !aFlag;
+    StopContextMenuDOMEventPropagation = !aFlag;
+}
+},["void","BOOL"]), new objj_method(sel_getUid("_willPropagateContextMenuDOMEvent"), function $CPPlatformWindow___willPropagateContextMenuDOMEvent(self, _cmd)
+{ with(self)
+{
+    return StopContextMenuDOMEventPropagation;
 }
 },["BOOL"]), new objj_method(sel_getUid("hitTest:"), function $CPPlatformWindow__hitTest_(self, _cmd, location)
 { with(self)
