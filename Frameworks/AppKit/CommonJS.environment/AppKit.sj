@@ -343,7 +343,7 @@ with(_1e){
 objj_msgSend(objj_msgSend(objj_msgSend(_1e,"window"),"platformWindow"),"_propagateCurrentDOMEvent:",YES);
 }
 })]);
-p;13;CPTableView.jt;85485;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;85343;
+p;13;CPTableView.jt;85379;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;85237;
 objj_executeFile("Foundation/CPArray.j",NO);
 objj_executeFile("AppKit/CGGradient.j",NO);
 objj_executeFile("CPControl.j",YES);
@@ -446,10 +446,6 @@ _retargetedDropRow=nil;
 _retargetedDropOperation=nil;
 _dragOperationDefaultMask=nil;
 _destinationDragStyle=CPTableViewDraggingDestinationFeedbackStyleRegular;
-_dropOperationFeedbackView=objj_msgSend(objj_msgSend(_CPDropOperationDrawingView,"alloc"),"initWithFrame:",{origin:{x:0,y:0},size:{width:0,height:0}});
-objj_msgSend(_2a,"addSubview:",_dropOperationFeedbackView);
-objj_msgSend(_dropOperationFeedbackView,"setHidden:",YES);
-objj_msgSend(_dropOperationFeedbackView,"setTableView:",_2a);
 _tableDrawView=objj_msgSend(objj_msgSend(_CPTableDrawView,"alloc"),"initWithTableView:",_2a);
 objj_msgSend(_tableDrawView,"setBackgroundColor:",objj_msgSend(CPColor,"clearColor"));
 objj_msgSend(_2a,"addSubview:",_tableDrawView);
@@ -459,6 +455,8 @@ return _2a;
 }
 }),new objj_method(sel_getUid("_init"),function(_2d,_2e){
 with(_2d){
+_dropOperationFeedbackView=objj_msgSend(objj_msgSend(_dropOperationDrawingView,"alloc"),"initWithFrame:",{origin:{x:0,y:0},size:{width:0,height:0}});
+objj_msgSend(_dropOperationFeedbackView,"setTableView:",_2d);
 _lastColumnShouldSnap=NO;
 _backgroundColor=objj_msgSend(CPColor,"whiteColor");
 _sourceListActiveGradient=CGGradientCreateWithColorComponents(CGColorSpaceCreateDeviceRGB(),[89/255,153/255,209/255,1,33/255,94/255,208/255,1],[0,1],2);
@@ -1970,7 +1968,7 @@ return CPDragOperationNone;
 }
 }),new objj_method(sel_getUid("draggingExited:"),function(self,_220,_221){
 with(self){
-objj_msgSend(_dropOperationFeedbackView,"setHidden:",YES);
+objj_msgSend(_dropOperationFeedbackView,"removeFromSuperview");
 }
 }),new objj_method(sel_getUid("draggingEnded:"),function(self,_222,_223){
 with(self){
@@ -1981,7 +1979,7 @@ with(self){
 _retargetedDropOperation=nil;
 _retargetedDropRow=nil;
 _draggedRowIndexes=objj_msgSend(CPIndexSet,"indexSet");
-objj_msgSend(_dropOperationFeedbackView,"setHidden:",YES);
+objj_msgSend(_dropOperationFeedbackView,"removeFromSuperview");
 }
 }),new objj_method(sel_getUid("wantsPeriodicDraggingUpdates"),function(self,_225){
 with(self){
@@ -2071,7 +2069,7 @@ return _23a;
 }
 }),new objj_method(sel_getUid("prepareForDragOperation:"),function(self,_23b,_23c){
 with(self){
-objj_msgSend(_dropOperationFeedbackView,"setHidden:",YES);
+objj_msgSend(_dropOperationFeedbackView,"removeFromSuperview");
 return (_implementedDataSourceMethods&_4);
 }
 }),new objj_method(sel_getUid("performDragOperation:"),function(self,_23d,_23e){
