@@ -3243,7 +3243,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("initialize"), function
 },["CGRect","CGRect","CPShadowWeight"])]);
 }
 
-p;21;_CPImageAndTextView.jt;23356;@STATIC;1.0;I;21;Foundation/CPString.ji;9;CPColor.ji;8;CPFont.ji;9;CPImage.ji;8;CPView.ji;11;CPControl.jt;23244;objj_executeFile("Foundation/CPString.j", NO);
+p;21;_CPImageAndTextView.jt;23404;@STATIC;1.0;I;21;Foundation/CPString.ji;9;CPColor.ji;8;CPFont.ji;9;CPImage.ji;8;CPView.ji;11;CPControl.jt;23292;objj_executeFile("Foundation/CPString.j", NO);
 objj_executeFile("CPColor.j", YES);
 objj_executeFile("CPFont.j", YES);
 objj_executeFile("CPImage.j", YES);
@@ -3665,8 +3665,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:control:"
         }
         _DOMImageElement.width = imageWidth;
         _DOMImageElement.height = imageHeight;
-        imageStyle.width = imageWidth + "px";
-        imageStyle.height = imageHeight + "px";
+        imageStyle.width = MAX(imageWidth, 0) + "px";
+        imageStyle.height = MAX(imageHeight, 0) + "px";
         if (_imagePosition === CPImageBelow)
         {
             imageStyle.left = FLOOR(centerX - imageWidth / 2.0) + "px";
@@ -3727,16 +3727,16 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:control:"
         }
         textStyle.top = ROUND(textRectY) + "px";
         textStyle.left = ROUND(textRectX) + "px";
-        textStyle.width = ROUND(textRectWidth) + "px";
-        textStyle.height = ROUND(textRectHeight) + "px";
+        textStyle.width = MAX(ROUND(textRectWidth), 0) + "px";
+        textStyle.height = MAX(ROUND(textRectHeight), 0) + "px";
         if (shadowStyle)
         {
             if (_flags & _CPImageAndTextViewTextShadowColorChangedFlag)
                 shadowStyle.color = objj_msgSend(_textShadowColor, "cssString");
             shadowStyle.top = ROUND(textRectY + _textShadowOffset.height) + "px";
             shadowStyle.left = ROUND(textRectX + _textShadowOffset.width) + "px";
-            shadowStyle.width = ROUND(textRectWidth) + "px";
-            shadowStyle.height = ROUND(textRectHeight) + "px";
+            shadowStyle.width = MAX(ROUND(textRectWidth), 0) + "px";
+            shadowStyle.height = MAX(ROUND(textRectHeight), 0) + "px";
         }
     }
     _flags = 0;
