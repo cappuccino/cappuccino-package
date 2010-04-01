@@ -30090,7 +30090,7 @@ _CALayerGetTransform= function(fromLayer, toLayer)
     return transform;
 }
 
-p;12;CPPlatform.jt;5717;@STATIC;1.0;I;21;Foundation/CPObject.jt;5672;objj_executeFile("Foundation/CPObject.j", NO);
+p;12;CPPlatform.jt;5716;@STATIC;1.0;I;21;Foundation/CPObject.jt;5671;objj_executeFile("Foundation/CPObject.j", NO);
 {var the_class = objj_allocateClassPair(CPObject, "CPBasePlatform"),
 meta_class = the_class.isa;objj_registerClassPair(the_class);
 class_addMethods(meta_class, [new objj_method(sel_getUid("bootstrap"), function $CPBasePlatform__bootstrap(self, _cmd)
@@ -30151,6 +30151,8 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("initialize"), function
     if (self !== objj_msgSend(CPPlatform, "class"))
         return;
     screenNeedsInitialization = objj_msgSend(CPPlatform, "isBrowser");
+    if (document.documentElement)
+        document.documentElement.style.overflow = "hidden";
 }
 },["void"]), new objj_method(sel_getUid("isBrowser"), function $CPPlatform__isBrowser(self, _cmd)
 { with(self)
@@ -30229,9 +30231,6 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("initialize"), function
     }
 
     bodyElement.style.overflow = "hidden";
-
-    if (document.documentElement)
-        document.documentElement.style.overflow = "hidden";
 
     objj_msgSend(objj_msgSend(CPNotificationCenter, "defaultCenter"), "postNotificationName:object:", CPPlatformDidClearBodyElementNotification, self);
 }

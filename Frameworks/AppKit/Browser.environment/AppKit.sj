@@ -26344,6 +26344,9 @@ if(_1b!==objj_msgSend(CPPlatform,"class")){
 return;
 }
 _18=objj_msgSend(CPPlatform,"isBrowser");
+if(document.documentElement){
+document.documentElement.style.overflow="hidden";
+}
 }
 }),new objj_method(sel_getUid("isBrowser"),function(_1d,_1e){
 with(_1d){
@@ -26410,9 +26413,6 @@ _34.removeChild(_37);
 }
 }
 _34.style.overflow="hidden";
-if(document.documentElement){
-document.documentElement.style.overflow="hidden";
-}
 objj_msgSend(objj_msgSend(CPNotificationCenter,"defaultCenter"),"postNotificationName:object:",CPPlatformDidClearBodyElementNotification,_32);
 }
 })]);
