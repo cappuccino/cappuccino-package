@@ -1017,7 +1017,7 @@ var _18=objj_msgSend(_17,"decodeObjectForKey:","NSClassName"),_19=objj_msgSend(_
 return objj_msgSend(objj_msgSend(_15,"swapperClassForClassName:originalClassName:",_18,_19),"alloc");
 }
 })]);
-p;8;NSFont.jt;975;@STATIC;1.0;I;15;AppKit/CPFont.jt;937;
+p;8;NSFont.jt;1113;@STATIC;1.0;I;15;AppKit/CPFont.jt;1074;
 objj_executeFile("AppKit/CPFont.j",NO);
 var _1=objj_getClass("CPFont");
 if(!_1){
@@ -1026,24 +1026,27 @@ throw new SyntaxError("*** Could not find definition for class \"CPFont\"");
 var _2=_1.isa;
 class_addMethods(_1,[new objj_method(sel_getUid("NS_initWithCoder:"),function(_3,_4,_5){
 with(_3){
-var _6=NO,_7=objj_msgSend(_5,"decodeObjectForKey:","NSName");
+var _6=NO,_7=objj_msgSend(_5,"decodeObjectForKey:","NSName"),_8=objj_msgSend(_5,"decodeDoubleForKey:","NSSize");
+if((_7==="LucidaGrande"||_7==="LucidaGrande-Bold")&&_8===13){
+return objj_msgSend(_3,"_initWithName:size:bold:","Arial",12,YES);
+}
 if(_7.indexOf("-Bold")===_7.length-"-Bold".length){
 _6=YES;
 }
 if(_7==="LucidaGrande"||_7==="LucidaGrande-Bold"){
 _7="Arial";
 }
-return objj_msgSend(_3,"_initWithName:size:bold:",_7,objj_msgSend(_5,"decodeDoubleForKey:","NSSize"),_6);
+return objj_msgSend(_3,"_initWithName:size:bold:",_7,_8,_6);
 }
 })]);
 var _1=objj_allocateClassPair(CPFont,"NSFont"),_2=_1.isa;
 objj_registerClassPair(_1);
-class_addMethods(_1,[new objj_method(sel_getUid("initWithCoder:"),function(_8,_9,_a){
-with(_8){
-return objj_msgSend(_8,"NS_initWithCoder:",_a);
+class_addMethods(_1,[new objj_method(sel_getUid("initWithCoder:"),function(_9,_a,_b){
+with(_9){
+return objj_msgSend(_9,"NS_initWithCoder:",_b);
 }
-}),new objj_method(sel_getUid("classForKeyedArchiver"),function(_b,_c){
-with(_b){
+}),new objj_method(sel_getUid("classForKeyedArchiver"),function(_c,_d){
+with(_c){
 return objj_msgSend(CPFont,"class");
 }
 })]);
