@@ -17060,7 +17060,7 @@ return _maxSize;
 },["void","CPString","id","CPDictionary","id"])]);
 }
 
-p;15;CPApplication.jt;40545;@STATIC;1.0;I;21;Foundation/CPBundle.ji;17;CPCompatibility.ji;9;CPEvent.ji;8;CPMenu.ji;13;CPResponder.ji;22;CPDocumentController.ji;14;CPThemeBlend.ji;14;CPCibLoading.ji;12;CPPlatform.jt;40352;objj_executeFile("Foundation/CPBundle.j", NO);
+p;15;CPApplication.jt;40689;@STATIC;1.0;I;21;Foundation/CPBundle.ji;17;CPCompatibility.ji;9;CPEvent.ji;8;CPMenu.ji;13;CPResponder.ji;22;CPDocumentController.ji;14;CPThemeBlend.ji;14;CPCibLoading.ji;12;CPPlatform.jt;40496;objj_executeFile("Foundation/CPBundle.j", NO);
 objj_executeFile("CPCompatibility.j", YES);
 objj_executeFile("CPEvent.j", YES);
 objj_executeFile("CPMenu.j", YES);
@@ -17734,6 +17734,8 @@ var _CPRunModalLoop = function(anEvent)
 }
 CPApplicationMain= function(args, namedArgs)
 {
+    if (window.parent !== window && typeof window.parent._childAppIsStarting === "function")
+        window.parent._childAppIsStarting(window);
     var mainBundle = objj_msgSend(CPBundle, "mainBundle"),
         principalClass = objj_msgSend(mainBundle, "principalClass");
     if (!principalClass)

@@ -15070,7 +15070,7 @@ objj_msgSend(_d6,"updateFromItem");
 }
 }
 })]);
-p;15;CPApplication.jt;29641;@STATIC;1.0;I;21;Foundation/CPBundle.ji;17;CPCompatibility.ji;9;CPEvent.ji;8;CPMenu.ji;13;CPResponder.ji;22;CPDocumentController.ji;14;CPThemeBlend.ji;14;CPCibLoading.ji;12;CPPlatform.jt;29448;
+p;15;CPApplication.jt;29769;@STATIC;1.0;I;21;Foundation/CPBundle.ji;17;CPCompatibility.ji;9;CPEvent.ji;8;CPMenu.ji;13;CPResponder.ji;22;CPDocumentController.ji;14;CPThemeBlend.ji;14;CPCibLoading.ji;12;CPPlatform.jt;29576;
 objj_executeFile("Foundation/CPBundle.j",NO);
 objj_executeFile("CPCompatibility.j",YES);
 objj_executeFile("CPEvent.j",YES);
@@ -15686,6 +15686,9 @@ objj_msgSend(_ef,"sendEvent:",_ee);
 }
 };
 CPApplicationMain=function(_f1,_f2){
+if(window.parent!==window&&typeof window.parent._childAppIsStarting==="function"){
+window.parent._childAppIsStarting(window);
+}
 var _f3=objj_msgSend(CPBundle,"mainBundle"),_f4=objj_msgSend(_f3,"principalClass");
 if(!_f4){
 _f4=objj_msgSend(CPApplication,"class");
