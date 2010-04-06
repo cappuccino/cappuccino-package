@@ -1,7 +1,7 @@
-@STATIC;1.0;p;15;Configuration.jt;4345;@STATIC;1.0;I;25;Foundation/CPDictionary.jI;21;Foundation/CPString.jI;21;Foundation/CPObject.jt;4244;
-objj_executeFile("Foundation/CPDictionary.j",false);
-objj_executeFile("Foundation/CPString.j",false);
-objj_executeFile("Foundation/CPObject.j",false);
+@STATIC;1.0;p;15;Configuration.jt;4350;@STATIC;1.0;I;25;Foundation/CPDictionary.jI;21;Foundation/CPString.jI;21;Foundation/CPObject.jt;4249;
+objj_executeFile("Foundation/CPDictionary.j",NO);
+objj_executeFile("Foundation/CPString.j",NO);
+objj_executeFile("Foundation/CPObject.j",NO);
 var _1=require("file"),_2=require("system");
 var _3=nil,_4=nil,_5=nil;
 var _6=objj_allocateClassPair(CPObject,"Configuration"),_7=_6.isa;
@@ -58,15 +58,16 @@ objj_msgSend(temporaryDictionary,"setObject:forKey:",_1b,_1c);
 }
 }),new objj_method(sel_getUid("save"),function(_1d,_1e){
 with(_1d){
-if(!objj_msgSend(_1d,"path")){
+var _1f=objj_msgSend(_1d,"path");
+if(!_1f){
 return;
 }
-plist.writePlist(objj_msgSend(_1d,"path"),dictionary);
+CFPropertyList.writePropertyListToFile(dictionary,_1f);
 }
 })]);
-class_addMethods(_7,[new objj_method(sel_getUid("initialize"),function(_1f,_20){
-with(_1f){
-if(_1f!==objj_msgSend(Configuration,"class")){
+class_addMethods(_7,[new objj_method(sel_getUid("initialize"),function(_20,_21){
+with(_20){
+if(_20!==objj_msgSend(Configuration,"class")){
 return;
 }
 _3=objj_msgSend(CPDictionary,"dictionary");
@@ -76,67 +77,67 @@ objj_msgSend(_3,"setObject:forKey:","Your Company","organization.name");
 objj_msgSend(_3,"setObject:forKey:","feedback @nospam@ yourcompany.com","organization.email");
 objj_msgSend(_3,"setObject:forKey:","http://yourcompany.com","organization.url");
 objj_msgSend(_3,"setObject:forKey:","com.yourcompany","organization.identifier");
-var _21=new Date(),_22=["January","February","March","April","May","June","July","August","September","October","November","December"];
-objj_msgSend(_3,"setObject:forKey:",_21.getFullYear(),"project.year");
-objj_msgSend(_3,"setObject:forKey:",_22[_21.getMonth()]+" "+_21.getDate()+", "+_21.getFullYear(),"project.date");
+var _22=new Date(),_23=["January","February","March","April","May","June","July","August","September","October","November","December"];
+objj_msgSend(_3,"setObject:forKey:",_22.getFullYear(),"project.year");
+objj_msgSend(_3,"setObject:forKey:",_23[_22.getMonth()]+" "+_22.getDate()+", "+_22.getFullYear(),"project.date");
 }
-}),new objj_method(sel_getUid("defaultConfiguration"),function(_23,_24){
-with(_23){
+}),new objj_method(sel_getUid("defaultConfiguration"),function(_24,_25){
+with(_24){
 if(!_4){
-_4=objj_msgSend(objj_msgSend(_23,"alloc"),"initWithPath:",nil);
+_4=objj_msgSend(objj_msgSend(_24,"alloc"),"initWithPath:",nil);
 }
 return _4;
 }
-}),new objj_method(sel_getUid("userConfiguration"),function(_25,_26){
-with(_25){
+}),new objj_method(sel_getUid("userConfiguration"),function(_26,_27){
+with(_26){
 if(!_5){
-_5=objj_msgSend(objj_msgSend(_25,"alloc"),"initWithPath:",_1.join(_2.env["HOME"],".cappconfig"));
+_5=objj_msgSend(objj_msgSend(_26,"alloc"),"initWithPath:",_1.join(_2.env["HOME"],".cappconfig"));
 }
 return _5;
 }
 })]);
 config=function(){
-var _27=0,_28=arguments.length,key=NULL,_29=NULL,_2a=NO,_2b=NO;
-for(;_27<_28;++_27){
-var _2c=arguments[_27];
-switch(_2c){
+var _28=0,_29=arguments.length,key=NULL,_2a=NULL,_2b=NO,_2c=NO;
+for(;_28<_29;++_28){
+var _2d=arguments[_28];
+switch(_2d){
 case "--get":
-_2a=YES;
+_2b=YES;
 break;
 case "-l":
 case "--list":
-_2b=YES;
+_2c=YES;
 break;
 default:
 if(key===NULL){
-key=_2c;
+key=_2d;
 }else{
-_29=_2c;
+_2a=_2d;
 }
 }
 }
-var _2d=objj_msgSend(Configuration,"userConfiguration");
+var _2e=objj_msgSend(Configuration,"userConfiguration");
+if(_2c){
+var key=nil,_2f=objj_msgSend(_2e,"storedKeyEnumerator");
+while(key=objj_msgSend(_2f,"nextObject")){
+print(key+"="+objj_msgSend(_2e,"valueForKey:",key));
+}
+}else{
 if(_2b){
-var key=nil,_2e=objj_msgSend(_2d,"storedKeyEnumerator");
-while(key=objj_msgSend(_2e,"nextObject")){
-print(key+"="+objj_msgSend(_2d,"valueForKey:",key));
-}
-}else{
+var _2a=objj_msgSend(_2e,"valueForKey:",key);
 if(_2a){
-var _29=objj_msgSend(_2d,"valueForKey:",key);
-if(_29){
-print(_29);
+print(_2a);
 }
 }else{
-if(key!==NULL&&_29!==NULL){
-objj_msgSend(_2d,"setValue:forKey:",_29,key);
-objj_msgSend(_2d,"save");
+if(key!==NULL&&_2a!==NULL){
+objj_msgSend(_2e,"setValue:forKey:",_2a,key);
+objj_msgSend(_2e,"save");
 }
 }
 }
 };
-p;10;Generate.jt;6567;@STATIC;1.0;i;15;Configuration.jt;6528;
-objj_executeFile("Configuration.j",true);
+p;10;Generate.jt;6591;@STATIC;1.0;i;15;Configuration.jt;6552;
+objj_executeFile("Configuration.j",YES);
 var OS=require("os"),_1=require("system"),_2=require("file"),_3=require("objective-j");
 var _4=require("term").stream;
 var _5=new (require("args").Parser)();
@@ -149,10 +150,10 @@ _5.option("--no-frameworks","noFrameworks").set(true).help("Don't copy any defau
 _5.option("--symlink","symlink").set(true).help("Creates a symlink to each framework instead of copying.");
 _5.option("--build","useCappBuild").set(true).help("Uses frameworks in the $CAPP_BUILD.");
 _5.option("-l").action(function(o){
-o.symlink=o.shouldUseCappBuild=true;
+o.symlink=o.useCappBuild=true;
 }).help("Enables both the --symlink and --build options.");
 _5.option("--force","force").set(true).help("Overwrite update existing frameworks.");
-_5.option("--noconfig","noconfig").set().help("Selects a project template to use.");
+_5.option("--noconfig","noconfig").set(true).help("Selects a project template to use.");
 _5.option("--list-templates","listTemplates").set(true).help("Lists available templates.");
 _5.option("--list-frameworks","listFrameworks").set(true).help("Lists available frameworks.");
 _5.helpful();
@@ -160,7 +161,7 @@ var _6=require("packages").catalog["cappuccino"].directory;
 var _7=_2.join(_6,"lib","capp","Resources","Templates");
 gen=function(){
 var _8=["capp gen"].concat(Array.prototype.slice.call(arguments));
-var _9=_5.parse(_8);
+var _9=_5.parse(_8,null,null,true);
 if(_9.args.length>1){
 _5.printUsage(_9);
 OS.exit(1);
@@ -235,6 +236,7 @@ _19=_2.join(_19,_d.FrameworksPath);
 createFrameworksInFile(_10,_19,_9.symlink,_9.useCappBuild);
 }else{
 _4.print("Directory already exists");
+OS.exit(1);
 }
 }
 };
@@ -348,10 +350,10 @@ _4.print("    + "+_3d);
 });
 });
 };
-p;6;main.jt;2218;@STATIC;1.0;I;23;Foundation/Foundation.ji;15;Configuration.ji;10;Generate.jt;2136;
-objj_executeFile("Foundation/Foundation.j",false);
-objj_executeFile("Configuration.j",true);
-objj_executeFile("Generate.j",true);
+p;6;main.jt;2234;@STATIC;1.0;I;23;Foundation/Foundation.ji;15;Configuration.ji;10;Generate.jt;2152;
+objj_executeFile("Foundation/Foundation.j",NO);
+objj_executeFile("Configuration.j",YES);
+objj_executeFile("Generate.j",YES);
 main=function(_1){
 _1.shift();
 if(_1.length<1){
@@ -363,7 +365,7 @@ var _4=_1[_2];
 switch(_4){
 case "version":
 case "--version":
-return print("capp version 0.7.1");
+return print(require("cappuccino").fullVersionString());
 case "-h":
 case "--help":
 return printUsage();
