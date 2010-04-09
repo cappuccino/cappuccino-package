@@ -14500,7 +14500,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("checkBoxWithTitle:them
 },["CPString"])]);
 }
 
-p;14;CPDragServer.jt;17780;@STATIC;1.0;I;15;AppKit/CPView.jI;16;AppKit/CPEvent.jI;21;AppKit/CPPasteboard.jI;20;AppKit/CPImageView.jt;17668;objj_executeFile("AppKit/CPView.j", NO);
+p;14;CPDragServer.jt;17788;@STATIC;1.0;I;15;AppKit/CPView.jI;16;AppKit/CPEvent.jI;21;AppKit/CPPasteboard.jI;20;AppKit/CPImageView.jt;17676;objj_executeFile("AppKit/CPView.j", NO);
 objj_executeFile("AppKit/CPEvent.j", NO);
 objj_executeFile("AppKit/CPPasteboard.j", NO);
 objj_executeFile("AppKit/CPImageView.j", NO);
@@ -14565,7 +14565,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("draggingPasteboard"), f
 },["CGPoint"])]);
 }
 var CPDraggingSource_draggedImage_movedTo_ = 1 << 0,
-    CPDraggingSource_draggedImage_endAt_operation_ = 1 << 1,
+    CPDraggingSource_draggedImage_endedAt_operation_ = 1 << 1,
     CPDraggingSource_draggedView_movedTo_ = 1 << 2,
     CPDraggingSource_draggedView_endedAt_operation_ = 1 << 3;
 {var the_class = objj_allocateClassPair(CPObject, "CPDragServer"),
@@ -14680,7 +14680,7 @@ return _draggingSource;
     objj_msgSend(_draggedView, "removeFromSuperview");
     if (!objj_msgSend(CPPlatform, "supportsDragAndDrop"))
         objj_msgSend(_draggedWindow, "orderOut:", self);
-    if (_implementedDraggingSourceMethods & CPDraggingSource_draggedImage_endAt_operation_)
+    if (_implementedDraggingSourceMethods & CPDraggingSource_draggedImage_endedAt_operation_)
         objj_msgSend(_draggingSource, "draggedImage:endedAt:operation:", objj_msgSend(_draggedView, "image"), aLocation, anOperation);
     else if (_implementedDraggingSourceMethods & CPDraggingSource_draggedView_endedAt_operation_)
         objj_msgSend(_draggingSource, "draggedView:endedAt:operation:", _draggedView, aLocation, anOperation);
@@ -14727,8 +14727,8 @@ return _draggingSource;
     {
         if (objj_msgSend(_draggingSource, "respondsToSelector:", sel_getUid("draggedImage:movedTo:")))
             _implementedDraggingSourceMethods |= CPDraggingSource_draggedImage_movedTo_;
-        if (objj_msgSend(_draggingSource, "respondsToSelector:", sel_getUid("draggedImage:endAt:operation:")))
-            _implementedDraggingSourceMethods |= CPDraggingSource_draggedImage_endAt_operation_;
+        if (objj_msgSend(_draggingSource, "respondsToSelector:", sel_getUid("draggedImage:endedAt:operation:")))
+            _implementedDraggingSourceMethods |= CPDraggingSource_draggedImage_endedAt_operation_;
     }
     else
     {

@@ -12875,7 +12875,7 @@ with(_d){
 return "check-box";
 }
 })]);
-p;14;CPDragServer.jt;12433;@STATIC;1.0;I;15;AppKit/CPView.jI;16;AppKit/CPEvent.jI;21;AppKit/CPPasteboard.jI;20;AppKit/CPImageView.jt;12321;
+p;14;CPDragServer.jt;12435;@STATIC;1.0;I;15;AppKit/CPView.jI;16;AppKit/CPEvent.jI;21;AppKit/CPPasteboard.jI;20;AppKit/CPImageView.jt;12323;
 objj_executeFile("AppKit/CPView.j",NO);
 objj_executeFile("AppKit/CPEvent.j",NO);
 objj_executeFile("AppKit/CPPasteboard.j",NO);
@@ -13074,7 +13074,7 @@ if(_draggedView===_imageView){
 if(objj_msgSend(_draggingSource,"respondsToSelector:",sel_getUid("draggedImage:movedTo:"))){
 _implementedDraggingSourceMethods|=_19;
 }
-if(objj_msgSend(_draggingSource,"respondsToSelector:",sel_getUid("draggedImage:endAt:operation:"))){
+if(objj_msgSend(_draggingSource,"respondsToSelector:",sel_getUid("draggedImage:endedAt:operation:"))){
 _implementedDraggingSourceMethods|=_1a;
 }
 }else{

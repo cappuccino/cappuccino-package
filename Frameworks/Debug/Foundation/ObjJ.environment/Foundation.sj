@@ -488,7 +488,7 @@ var splitRangeEntry = splitRangeEntryAtIndex= function( aRangeEntry, anIndex)
     return [aRangeEntry, newRangeEntry];
 }
 
-p;9;CPArray.jt;27848;@STATIC;1.0;i;10;CPObject.ji;9;CPRange.ji;14;CPEnumerator.ji;18;CPSortDescriptor.ji;13;CPException.jt;27740;objj_executeFile("CPObject.j", YES);
+p;9;CPArray.jt;29073;@STATIC;1.0;i;10;CPObject.ji;9;CPRange.ji;14;CPEnumerator.ji;18;CPSortDescriptor.ji;13;CPException.jt;28965;objj_executeFile("CPObject.j", YES);
 objj_executeFile("CPRange.j", YES);
 objj_executeFile("CPEnumerator.j", YES);
 objj_executeFile("CPSortDescriptor.j", YES);
@@ -696,8 +696,16 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
 },["unsigned","id","Function"]), new objj_method(sel_getUid("indexOfObject:sortedByFunction:context:"), function $CPArray__indexOfObject_sortedByFunction_context_(self, _cmd, anObject, aFunction, aContext)
 { with(self)
 {
+    var result = objj_msgSend(self, "_indexOfObject:sortedByFunction:context:", anObject, aFunction, aContext);
+    return result >= 0 ? result : CPNotFound;
+}
+},["unsigned","id","Function","id"]), new objj_method(sel_getUid("_indexOfObject:sortedByFunction:context:"), function $CPArray___indexOfObject_sortedByFunction_context_(self, _cmd, anObject, aFunction, aContext)
+{ with(self)
+{
     if (!aFunction || anObject === undefined)
         return CPNotFound;
+    if (length === 0)
+        return -1;
     var mid, c, first = 0, last = length - 1;
     while (first <= last)
     {
@@ -714,7 +722,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
             return mid;
         }
     }
-    return CPNotFound;
+    return -first-1;
 }
 },["unsigned","id","Function","id"]), new objj_method(sel_getUid("indexOfObject:sortedByDescriptors:"), function $CPArray__indexOfObject_sortedByDescriptors_(self, _cmd, anObject, descriptors)
 { with(self)
@@ -814,7 +822,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
 {
     if (self === anArray)
         return YES;
-    if(length != anArray.length)
+    if (anArray === nil || length !== anArray.length)
         return NO;
     var index = 0,
         count = objj_msgSend(self, "count");
@@ -1017,7 +1025,25 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
     for (; index < objectsCount; ++index, currentIndex = objj_msgSend(indexes, "indexGreaterThanIndex:", currentIndex))
         objj_msgSend(self, "insertObject:atIndex:", objects[index], currentIndex);
 }
-},["void","CPArray","CPIndexSet"]), new objj_method(sel_getUid("replaceObjectAtIndex:withObject:"), function $CPArray__replaceObjectAtIndex_withObject_(self, _cmd, anIndex, anObject)
+},["void","CPArray","CPIndexSet"]), new objj_method(sel_getUid("insertObject:inArraySortedByDescriptors:"), function $CPArray__insertObject_inArraySortedByDescriptors_(self, _cmd, anObject, descriptors)
+{ with(self)
+{
+    var index = objj_msgSend(self, "_indexOfObject:sortedByFunction:context:", anObject, function(lhs, rhs)
+    {
+        var i = 0,
+            count = objj_msgSend(descriptors, "count"),
+            result = CPOrderedSame;
+        while (i < count)
+            if((result = objj_msgSend(descriptors[i++], "compareObject:withObject:", lhs, rhs)) != CPOrderedSame)
+                return result;
+        return result;
+    }, nil);
+    if (index < 0)
+        index = -index-1;
+    objj_msgSend(self, "insertObject:atIndex:", anObject, index);
+    return index;
+}
+},["unsigned","id","CPArray"]), new objj_method(sel_getUid("replaceObjectAtIndex:withObject:"), function $CPArray__replaceObjectAtIndex_withObject_(self, _cmd, anIndex, anObject)
 { with(self)
 {
     self[anIndex] = anObject;
