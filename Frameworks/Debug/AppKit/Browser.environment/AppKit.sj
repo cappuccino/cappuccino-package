@@ -20505,7 +20505,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"])]);
 }
 
-p;17;CPAccordionView.jt;15201;@STATIC;1.0;I;20;Foundation/CPArray.jI;21;Foundation/CPObject.jI;32;Foundation/CPKeyValueObserving.jI;23;Foundation/CPIndexSet.jI;21;Foundation/CPString.jI;15;AppKit/CPView.jt;15019;objj_executeFile("Foundation/CPArray.j", NO);
+p;17;CPAccordionView.jt;15213;@STATIC;1.0;I;20;Foundation/CPArray.jI;21;Foundation/CPObject.jI;32;Foundation/CPKeyValueObserving.jI;23;Foundation/CPIndexSet.jI;21;Foundation/CPString.jI;15;AppKit/CPView.jt;15031;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("Foundation/CPKeyValueObserving.j", NO);
 objj_executeFile("Foundation/CPIndexSet.j", NO);
@@ -20600,7 +20600,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 {
     objj_msgSend(self, "insertItem:atIndex:", anItem, _items.length);
 }
-},["void","CPAccordionItem"]), new objj_method(sel_getUid("insertItem:atIndex:"), function $CPAccordionView__insertItem_atIndex_(self, _cmd, anItem, anIndex)
+},["void","CPAccordionViewItem"]), new objj_method(sel_getUid("insertItem:atIndex:"), function $CPAccordionView__insertItem_atIndex_(self, _cmd, anItem, anIndex)
 { with(self)
 {
     objj_msgSend(_expandedItemIndexes, "addIndex:", anIndex);
@@ -20614,12 +20614,12 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     objj_msgSend(self, "_invalidateItemsStartingAtIndex:", anIndex);
     objj_msgSend(self, "setNeedsLayout");
 }
-},["void","CPAccordionItem","CPInteger"]), new objj_method(sel_getUid("removeItem:"), function $CPAccordionView__removeItem_(self, _cmd, anItem)
+},["void","CPAccordionViewItem","CPInteger"]), new objj_method(sel_getUid("removeItem:"), function $CPAccordionView__removeItem_(self, _cmd, anItem)
 { with(self)
 {
     objj_msgSend(self, "removeItemAtIndex:", objj_msgSend(_items, "indexOfObjectIdenticalTo:", anItem));
 }
-},["void","CPAccordionItem"]), new objj_method(sel_getUid("removeItemAtIndex:"), function $CPAccordionView__removeItemAtIndex_(self, _cmd, anIndex)
+},["void","CPAccordionViewItem"]), new objj_method(sel_getUid("removeItemAtIndex:"), function $CPAccordionView__removeItemAtIndex_(self, _cmd, anIndex)
 { with(self)
 {
     objj_msgSend(_expandedItemIndexes, "removeIndex:", anIndex);
