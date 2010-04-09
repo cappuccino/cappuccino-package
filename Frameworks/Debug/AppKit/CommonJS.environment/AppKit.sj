@@ -25294,11 +25294,11 @@ objj_executeFile("_CPBorderlessBridgeWindowView.j", YES);
 objj_executeFile("CPDragServer.j", YES);
 objj_executeFile("CPView.j", YES);
 
-p;15;_CPWindowView.jt;13255;@STATIC;1.0;i;8;CPView.ji;13;CPImageView.jt;13205;objj_executeFile("CPView.j", YES);
+p;15;_CPWindowView.jt;13278;@STATIC;1.0;i;8;CPView.ji;13;CPImageView.jt;13228;objj_executeFile("CPView.j", YES);
 objj_executeFile("CPImageView.j", YES);
 var _CPWindowViewResizeIndicatorImage = nil;
 {var the_class = objj_allocateClassPair(CPView, "_CPWindowView"),
-meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_styleMask"), new objj_ivar("_resizeIndicator"), new objj_ivar("_resizeIndicatorOffset"), new objj_ivar("_toolbarView"), new objj_ivar("_resizeFrame"), new objj_ivar("_mouseDraggedPoint"), new objj_ivar("_cachedScreenFrame")]);
+meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_styleMask"), new objj_ivar("_resizeIndicator"), new objj_ivar("_resizeIndicatorOffset"), new objj_ivar("_toolbarView"), new objj_ivar("_toolbarOffset"), new objj_ivar("_resizeFrame"), new objj_ivar("_mouseDraggedPoint"), new objj_ivar("_cachedScreenFrame")]);
 objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("contentRectForFrameRect:"), function $_CPWindowView__contentRectForFrameRect_(self, _cmd, aFrameRect)
 { with(self)
@@ -25317,8 +25317,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("contentRectForFrameRect
     if (self)
     {
         _styleMask = aStyleMask;
-        _resizeIndicatorOffset = CGSizeMake(0.0, 0.0);
-        _toolbarOffset = CGSizeMake(0.0, 0.0);
+        _resizeIndicatorOffset = CGSizeMakeZero();
+        _toolbarOffset = CGSizeMakeZero();
     }
     return self;
 }
@@ -25470,7 +25470,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("contentRectForFrameRect
 },["BOOL"]), new objj_method(sel_getUid("toolbarOffset"), function $_CPWindowView__toolbarOffset(self, _cmd)
 { with(self)
 {
-    return CGSizeMakeZero();
+    return _toolbarOffset;
 }
 },["CGSize"]), new objj_method(sel_getUid("toolbarLabelColor"), function $_CPWindowView__toolbarLabelColor(self, _cmd)
 { with(self)
@@ -26051,7 +26051,7 @@ p;25;_CPBorderlessWindowView.jt;228;@STATIC;1.0;i;15;_CPWindowView.jt;190;objj_e
 meta_class = the_class.isa;objj_registerClassPair(the_class);
 }
 
-p;31;_CPBorderlessBridgeWindowView.jt;2702;@STATIC;1.0;i;15;_CPWindowView.jt;2663;objj_executeFile("_CPWindowView.j", YES);
+p;31;_CPBorderlessBridgeWindowView.jt;2765;@STATIC;1.0;i;15;_CPWindowView.jt;2726;objj_executeFile("_CPWindowView.j", YES);
 var _CPToolbarViewBackgroundColor = nil;
 {var the_class = objj_allocateClassPair(_CPWindowView, "_CPBorderlessBridgeWindowView"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_toolbarBackgroundView")]);
@@ -26080,8 +26080,9 @@ class_addMethods(the_class, [new objj_method(sel_getUid("setShowsResizeIndicator
         objj_msgSend(_toolbarBackgroundView, "setAutoresizingMask:", CPViewWidthSizable);
         objj_msgSend(self, "addSubview:positioned:relativeTo:", _toolbarBackgroundView, CPWindowBelow, nil);
     }
-    var frame = CGRectMakeZero();
-    frame.origin = CGPointMakeCopy(objj_msgSend(self, "toolbarOffset"));
+    var frame = CGRectMakeZero(),
+        toolbarOffset = objj_msgSend(self, "toolbarOffset");
+    frame.origin = CGPointMake(toolbarOffset.width, toolbarOffset.height);
     frame.size = objj_msgSend(_toolbarView, "frame").size;
     objj_msgSend(_toolbarBackgroundView, "setFrame:", frame);
 }
