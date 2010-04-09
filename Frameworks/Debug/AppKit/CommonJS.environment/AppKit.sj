@@ -20924,7 +20924,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["CGSize","CPFont","float"])]);
 }
 
-p;9;CPEvent.jt;13911;@STATIC;1.0;I;21;Foundation/CPObject.jt;13865;objj_executeFile("Foundation/CPObject.j", NO);
+p;9;CPEvent.jt;14014;@STATIC;1.0;I;21;Foundation/CPObject.jt;13968;objj_executeFile("Foundation/CPObject.j", NO);
 CPLeftMouseDown = 1;
 CPLeftMouseUp = 2;
 CPRightMouseDown = 3;
@@ -21099,7 +21099,9 @@ class_addMethods(the_class, [new objj_method(sel_getUid("_initMouseEventWithType
 },["int"]), new objj_method(sel_getUid("buttonNumber"), function $CPEvent__buttonNumber(self, _cmd)
 { with(self)
 {
-    return _buttonNumber;
+    if (_type === CPRightMouseDown || _type === CPRightMouseUp || _type === CPRightMouseDragged)
+        return 1;
+    return 0;
 }
 },["int"]), new objj_method(sel_getUid("clickCount"), function $CPEvent__clickCount(self, _cmd)
 { with(self)

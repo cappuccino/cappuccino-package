@@ -18319,7 +18319,7 @@ with(_8){
 return objj_msgSend(CPPlatformString,"sizeOfString:withFont:forWidth:",_8,_a,_b);
 }
 })]);
-p;9;CPEvent.jt;8889;@STATIC;1.0;I;21;Foundation/CPObject.jt;8844;
+p;9;CPEvent.jt;8972;@STATIC;1.0;I;21;Foundation/CPObject.jt;8927;
 objj_executeFile("Foundation/CPObject.j",NO);
 CPLeftMouseDown=1;
 CPLeftMouseUp=2;
@@ -18474,7 +18474,10 @@ return _windowNumber;
 }
 }),new objj_method(sel_getUid("buttonNumber"),function(_37,_38){
 with(_37){
-return _buttonNumber;
+if(_type===CPRightMouseDown||_type===CPRightMouseUp||_type===CPRightMouseDragged){
+return 1;
+}
+return 0;
 }
 }),new objj_method(sel_getUid("clickCount"),function(_39,_3a){
 with(_39){
