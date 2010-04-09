@@ -5936,7 +5936,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("savePanel"), function 
 },["id"])]);
 }
 
-p;7;CPBox.jt;8590;@STATIC;1.0;i;8;CPView.jt;8559;objj_executeFile("CPView.j", YES);
+p;7;CPBox.jt;8501;@STATIC;1.0;i;8;CPView.jt;8470;objj_executeFile("CPView.j", YES);
 CPNoBorder = 0;
 CPLineBorder = 1;
 CPBezelBorder = 2;
@@ -6039,7 +6039,6 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
         return;
     objj_msgSend(aView, "setFrame:", CGRectInset(objj_msgSend(self, "bounds"), _contentMargin.width + _borderWidth, _contentMargin.height + _borderWidth));
     objj_msgSend(self, "replaceSubview:with:", _contentView, aView);
-    objj_msgSend(aView, "setAutoresizingMask:", CPViewWidthSizable|CPViewHeightSizable);
     _contentView = aView;
 }
 },["void","CPView"]), new objj_method(sel_getUid("contentViewMargins"), function $CPBox__contentViewMargins(self, _cmd)
@@ -11906,7 +11905,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"])]);
 }
 
-p;10;CPScreen.jt;534;@STATIC;1.0;I;21;Foundation/CPObject.jt;490;
+p;10;CPScreen.jt;456;@STATIC;1.0;I;21;Foundation/CPObject.jt;412;
 
 
 objj_executeFile("Foundation/CPObject.j", NO);
@@ -11919,7 +11918,11 @@ meta_class = the_class.isa;objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("visibleFrame"), function $CPScreen__visibleFrame(self, _cmd)
 { with(self)
 {
-    return { origin: { x:window.screen.availLeft, y:window.screen.availTop }, size: { width:window.screen.availWidth, height:window.screen.availHeight } };
+
+
+
+    return { origin: { x:0.0, y:0.0 }, size: { width:0.0, height:0.0 } };
+
 }
 },["CGRect"])]);
 }
@@ -18791,7 +18794,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("initialize"), function
 },["void"])]);
 }
 
-p;17;CPCompatibility.jt;5403;@STATIC;1.0;i;9;CPEvent.ji;12;CPPlatform.jt;5354;objj_executeFile("CPEvent.j", YES);
+p;17;CPCompatibility.jt;5406;@STATIC;1.0;i;9;CPEvent.ji;12;CPPlatform.jt;5357;objj_executeFile("CPEvent.j", YES);
 objj_executeFile("CPPlatform.j", YES);
 CPUnknownBrowserEngine = 0;
 CPGeckoBrowserEngine = 1;
@@ -18824,7 +18827,7 @@ var USER_AGENT = "",
     PLATFORM_ENGINE = CPUnknownBrowserEngine,
     PLATFORM_FEATURES = 0;
 PLATFORM_FEATURES |= CPInputTypeCanBeChangedFeature;
-if (typeof window != "undfined" && typeof window.navigator != "undefined")
+if (typeof window !== "undefined" && typeof window.navigator !== "undefined")
     USER_AGENT = window.navigator.userAgent;
 if (window.opera)
 {

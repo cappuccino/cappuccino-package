@@ -5206,7 +5206,7 @@ with(_25){
 return objj_msgSend(objj_msgSend(CPSavePanel,"alloc"),"init");
 }
 })]);
-p;7;CPBox.jt;5932;@STATIC;1.0;i;8;CPView.jt;5901;
+p;7;CPBox.jt;5851;@STATIC;1.0;i;8;CPView.jt;5820;
 objj_executeFile("CPView.j",YES);
 CPNoBorder=0;
 CPLineBorder=1;
@@ -5300,7 +5300,6 @@ return;
 }
 objj_msgSend(_25,"setFrame:",CGRectInset(objj_msgSend(_23,"bounds"),_contentMargin.width+_borderWidth,_contentMargin.height+_borderWidth));
 objj_msgSend(_23,"replaceSubview:with:",_contentView,_25);
-objj_msgSend(_25,"setAutoresizingMask:",CPViewWidthSizable|CPViewHeightSizable);
 _contentView=_25;
 }
 }),new objj_method(sel_getUid("contentViewMargins"),function(_26,_27){
@@ -10388,13 +10387,13 @@ objj_msgSend(_e1,"encodeObject:forKey:",_textFieldBackgroundColor,_da);
 objj_msgSend(_e1,"encodeObject:forKey:",_placeholderString,_db);
 }
 })]);
-p;10;CPScreen.jt;421;@STATIC;1.0;I;21;Foundation/CPObject.jt;377;
+p;10;CPScreen.jt;331;@STATIC;1.0;I;21;Foundation/CPObject.jt;287;
 objj_executeFile("Foundation/CPObject.j",NO);
 var _1=objj_allocateClassPair(CPObject,"CPScreen"),_2=_1.isa;
 objj_registerClassPair(_1);
 class_addMethods(_1,[new objj_method(sel_getUid("visibleFrame"),function(_3,_4){
 with(_3){
-return {origin:{x:window.screen.availLeft,y:window.screen.availTop},size:{width:window.screen.availWidth,height:window.screen.availHeight}};
+return {origin:{x:0,y:0},size:{width:0,height:0}};
 }
 })]);
 p;22;CPCollectionViewItem.jt;1188;@STATIC;1.0;i;18;CPViewController.jt;1146;
@@ -16443,7 +16442,7 @@ _4[_59+_56]=[{width:3,height:16},{width:1,height:16},{width:3,height:16}];
 }
 }
 })]);
-p;17;CPCompatibility.jt;3810;@STATIC;1.0;i;9;CPEvent.ji;12;CPPlatform.jt;3761;
+p;17;CPCompatibility.jt;3813;@STATIC;1.0;i;9;CPEvent.ji;12;CPPlatform.jt;3764;
 objj_executeFile("CPEvent.j",YES);
 objj_executeFile("CPPlatform.j",YES);
 CPUnknownBrowserEngine=0;
@@ -16475,7 +16474,7 @@ CPInputTypeCanBeChangedFeature=1<<25;
 CPHTML5DragAndDropSourceYOffBy1=1<<26;
 var _1="",_2=CPUnknownBrowserEngine,_3=0;
 _3|=CPInputTypeCanBeChangedFeature;
-if(typeof window!="undfined"&&typeof window.navigator!="undefined"){
+if(typeof window!=="undefined"&&typeof window.navigator!=="undefined"){
 _1=window.navigator.userAgent;
 }
 if(window.opera){

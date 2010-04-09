@@ -5572,7 +5572,7 @@ with(_25){
 return objj_msgSend(objj_msgSend(CPSavePanel,"alloc"),"init");
 }
 })]);
-p;7;CPBox.jt;5932;@STATIC;1.0;i;8;CPView.jt;5901;
+p;7;CPBox.jt;5851;@STATIC;1.0;i;8;CPView.jt;5820;
 objj_executeFile("CPView.j",YES);
 CPNoBorder=0;
 CPLineBorder=1;
@@ -5666,7 +5666,6 @@ return;
 }
 objj_msgSend(_25,"setFrame:",CGRectInset(objj_msgSend(_23,"bounds"),_contentMargin.width+_borderWidth,_contentMargin.height+_borderWidth));
 objj_msgSend(_23,"replaceSubview:with:",_contentView,_25);
-objj_msgSend(_25,"setAutoresizingMask:",CPViewWidthSizable|CPViewHeightSizable);
 _contentView=_25;
 }
 }),new objj_method(sel_getUid("contentViewMargins"),function(_26,_27){
@@ -17299,7 +17298,7 @@ _4[_59+_56]=[{width:3,height:16},{width:1,height:16},{width:3,height:16}];
 }
 }
 })]);
-p;17;CPCompatibility.jt;3810;@STATIC;1.0;i;9;CPEvent.ji;12;CPPlatform.jt;3761;
+p;17;CPCompatibility.jt;3813;@STATIC;1.0;i;9;CPEvent.ji;12;CPPlatform.jt;3764;
 objj_executeFile("CPEvent.j",YES);
 objj_executeFile("CPPlatform.j",YES);
 CPUnknownBrowserEngine=0;
@@ -17331,7 +17330,7 @@ CPInputTypeCanBeChangedFeature=1<<25;
 CPHTML5DragAndDropSourceYOffBy1=1<<26;
 var _1="",_2=CPUnknownBrowserEngine,_3=0;
 _3|=CPInputTypeCanBeChangedFeature;
-if(typeof window!="undfined"&&typeof window.navigator!="undefined"){
+if(typeof window!=="undefined"&&typeof window.navigator!=="undefined"){
 _1=window.navigator.userAgent;
 }
 if(window.opera){
