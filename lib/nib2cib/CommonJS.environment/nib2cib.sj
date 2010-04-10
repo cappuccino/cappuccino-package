@@ -1089,7 +1089,7 @@ _2|=CPFunctionKeyMask;
 }
 return _2;
 };
-p;8;NSFont.jt;975;@STATIC;1.0;I;15;AppKit/CPFont.jt;937;
+p;8;NSFont.jt;1199;@STATIC;1.0;I;15;AppKit/CPFont.jt;1160;
 objj_executeFile("AppKit/CPFont.j",NO);
 var _1=objj_getClass("CPFont");
 if(!_1){
@@ -1098,24 +1098,28 @@ throw new SyntaxError("*** Could not find definition for class \"CPFont\"");
 var _2=_1.isa;
 class_addMethods(_1,[new objj_method(sel_getUid("NS_initWithCoder:"),function(_3,_4,_5){
 with(_3){
-var _6=NO,_7=objj_msgSend(_5,"decodeObjectForKey:","NSName");
+var _6=NO,_7=objj_msgSend(_5,"decodeObjectForKey:","NSName"),_8=objj_msgSend(_5,"decodeDoubleForKey:","NSSize");
+if((_7==="LucidaGrande"||_7==="LucidaGrande-Bold")&&_8===13){
+CPLog.debug("Converting default IB font: <"+_7+", "+_8+"> to default Aristo font: <Arial, 12>");
+return objj_msgSend(CPFont,"boldSystemFontOfSize:",12);
+}
 if(_7.indexOf("-Bold")===_7.length-"-Bold".length){
 _6=YES;
 }
 if(_7==="LucidaGrande"||_7==="LucidaGrande-Bold"){
 _7="Arial";
 }
-return objj_msgSend(_3,"_initWithName:size:bold:",_7,objj_msgSend(_5,"decodeDoubleForKey:","NSSize"),_6);
+return objj_msgSend(_3,"_initWithName:size:bold:",_7,_8,_6);
 }
 })]);
 var _1=objj_allocateClassPair(CPFont,"NSFont"),_2=_1.isa;
 objj_registerClassPair(_1);
-class_addMethods(_1,[new objj_method(sel_getUid("initWithCoder:"),function(_8,_9,_a){
-with(_8){
-return objj_msgSend(_8,"NS_initWithCoder:",_a);
+class_addMethods(_1,[new objj_method(sel_getUid("initWithCoder:"),function(_9,_a,_b){
+with(_9){
+return objj_msgSend(_9,"NS_initWithCoder:",_b);
 }
-}),new objj_method(sel_getUid("classForKeyedArchiver"),function(_b,_c){
-with(_b){
+}),new objj_method(sel_getUid("classForKeyedArchiver"),function(_c,_d){
+with(_c){
 return objj_msgSend(CPFont,"class");
 }
 })]);
@@ -1680,7 +1684,7 @@ with(_a){
 return objj_msgSend(CPScrollView,"class");
 }
 })]);
-p;15;NSSearchField.jt;1097;@STATIC;1.0;I;22;AppKit/CPSearchField.ji;13;NSTextField.jt;1033;
+p;15;NSSearchField.jt;1035;@STATIC;1.0;I;22;AppKit/CPSearchField.ji;13;NSTextField.jt;972;
 objj_executeFile("AppKit/CPSearchField.j",NO);
 objj_executeFile("NSTextField.j",YES);
 var _1=objj_getClass("CPSearchField");
@@ -1701,7 +1705,6 @@ objj_registerClassPair(_1);
 class_addMethods(_1,[new objj_method(sel_getUid("initWithCoder:"),function(_6,_7,_8){
 with(_6){
 _6=objj_msgSend(_6,"NS_initWithCoder:",_8);
-objj_msgSend(_6,"_initWithFrame:",objj_msgSend(_6,"frame"));
 return _6;
 }
 }),new objj_method(sel_getUid("classForKeyedArchiver"),function(_9,_a){
@@ -2119,10 +2122,11 @@ with(_9){
 return objj_msgSend(CPTabViewItem,"class");
 }
 })]);
-p;13;NSTextField.jt;3569;@STATIC;1.0;I;20;AppKit/CPTextField.ji;11;NSControl.ji;8;NSCell.jt;3497;
+p;13;NSTextField.jt;3806;@STATIC;1.0;I;20;AppKit/CPTextField.ji;11;NSControl.ji;8;NSCell.jI;15;AppKit/CPFont.jt;3714;
 objj_executeFile("AppKit/CPTextField.j",NO);
 objj_executeFile("NSControl.j",YES);
 objj_executeFile("NSCell.j",YES);
+objj_executeFile("AppKit/CPFont.j",NO);
 var _1=objj_getClass("CPTextField");
 if(!_1){
 throw new SyntaxError("*** Could not find definition for class \"CPTextField\"");
@@ -2133,6 +2137,9 @@ with(_3){
 _3=objj_msgSendSuper({receiver:_3,super_class:objj_getClass("CPTextField").super_class},"NS_initWithCoder:",_5);
 if(_3){
 var _6=objj_msgSend(_5,"decodeObjectForKey:","NSCell");
+if(objj_msgSend(objj_msgSend(_6,"font"),"isEqual:",objj_msgSend(CPFont,"boldSystemFontOfSize:",12))){
+objj_msgSend(_3,"setFont:",objj_msgSend(CPFont,"systemFontOfSize:",12));
+}
 objj_msgSend(_3,"sendActionOn:",CPKeyUpMask|CPKeyDownMask);
 objj_msgSend(_3,"setEditable:",objj_msgSend(_6,"isEditable"));
 objj_msgSend(_3,"setSelectable:",objj_msgSend(_6,"isSelectable"));
