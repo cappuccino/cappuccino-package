@@ -343,7 +343,7 @@ with(_1e){
 objj_msgSend(objj_msgSend(objj_msgSend(_1e,"window"),"platformWindow"),"_propagateCurrentDOMEvent:",YES);
 }
 })]);
-p;13;CPTableView.jt;85381;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;85239;
+p;13;CPTableView.jt;85240;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;85098;
 objj_executeFile("Foundation/CPArray.j",NO);
 objj_executeFile("AppKit/CGGradient.j",NO);
 objj_executeFile("CPControl.j",YES);
@@ -449,6 +449,7 @@ _destinationDragStyle=CPTableViewDraggingDestinationFeedbackStyleRegular;
 _tableDrawView=objj_msgSend(objj_msgSend(_CPTableDrawView,"alloc"),"initWithTableView:",_2a);
 objj_msgSend(_tableDrawView,"setBackgroundColor:",objj_msgSend(CPColor,"clearColor"));
 objj_msgSend(_2a,"addSubview:",_tableDrawView);
+objj_msgSend(_2a,"setBackgroundColor:",objj_msgSend(CPColor,"whiteColor"));
 objj_msgSend(_2a,"_init");
 }
 return _2a;
@@ -458,7 +459,6 @@ with(_2d){
 _dropOperationFeedbackView=objj_msgSend(objj_msgSend(_CPDropOperationDrawingView,"alloc"),"initWithFrame:",{origin:{x:0,y:0},size:{width:0,height:0}});
 objj_msgSend(_dropOperationFeedbackView,"setTableView:",_2d);
 _lastColumnShouldSnap=NO;
-_backgroundColor=objj_msgSend(CPColor,"whiteColor");
 _sourceListActiveGradient=CGGradientCreateWithColorComponents(CGColorSpaceCreateDeviceRGB(),[89/255,153/255,209/255,1,33/255,94/255,208/255,1],[0,1],2);
 _sourceListActiveTopLineColor=objj_msgSend(CPColor,"colorWithCalibratedRed:green:blue:alpha:",(61/255),(123/255),(218/255),1);
 _sourceListActiveBottomLineColor=objj_msgSend(CPColor,"colorWithCalibratedRed:green:blue:alpha:",(31/255),(92/255),(207/255),1);
@@ -1657,36 +1657,33 @@ objj_msgSend(self,"highlightSelectionInClipRect:",_1ca);
 }),new objj_method(sel_getUid("drawBackgroundInClipRect:"),function(self,_1cb,_1cc){
 with(self){
 if(!_usesAlternatingRowBackgroundColors){
-var _1cd=objj_msgSend(objj_msgSend(CPGraphicsContext,"currentContext"),"graphicsPort");
-CGContextSetFillColor(_1cd,_backgroundColor);
-CGContextFillRect(_1cd,_1cc);
 return;
 }
-var _1ce=objj_msgSend(self,"alternatingRowBackgroundColors"),_1cf=objj_msgSend(_1ce,"count");
-if(_1cf===0){
+var _1cd=objj_msgSend(self,"alternatingRowBackgroundColors"),_1ce=objj_msgSend(_1cd,"count");
+if(_1ce===0){
 return;
 }
-var _1cd=objj_msgSend(objj_msgSend(CPGraphicsContext,"currentContext"),"graphicsPort");
-if(_1cf===1){
-CGContextSetFillColor(_1cd,_1ce[0]);
-CGContextFillRect(_1cd,_1cc);
+var _1cf=objj_msgSend(objj_msgSend(CPGraphicsContext,"currentContext"),"graphicsPort");
+if(_1ce===1){
+CGContextSetFillColor(_1cf,_1cd[0]);
+CGContextFillRect(_1cf,_1cc);
 return;
 }
-var _1d0=objj_msgSend(self,"rowsInRect:",_1cc),_1d1=_1d0.location,_1d2=CPMaxRange(_1d0)-1,_1d3=MIN(_1d0.length,_1cf),_1d4=0;
+var _1d0=objj_msgSend(self,"rowsInRect:",_1cc),_1d1=_1d0.location,_1d2=CPMaxRange(_1d0)-1,_1d3=MIN(_1d0.length,_1ce),_1d4=0;
 while(_1d3--){
-var row=_1d1-_1d1%_1cf+_1d3,_1d5=nil;
-CGContextBeginPath(_1cd);
-for(;row<=_1d2;row+=_1cf){
+var row=_1d1-_1d1%_1ce+_1d3,_1d5=nil;
+CGContextBeginPath(_1cf);
+for(;row<=_1d2;row+=_1ce){
 if(row>=_1d1){
-CGContextAddRect(_1cd,CGRectIntersection(_1cc,_1d5=objj_msgSend(self,"rectOfRow:",row)));
+CGContextAddRect(_1cf,CGRectIntersection(_1cc,_1d5=objj_msgSend(self,"rectOfRow:",row)));
 }
 }
-if(row-_1cf===_1d2){
+if(row-_1ce===_1d2){
 _1d4=(_1d5.origin.y+_1d5.size.height);
 }
-CGContextClosePath(_1cd);
-CGContextSetFillColor(_1cd,_1ce[_1d3]);
-CGContextFillPath(_1cd);
+CGContextClosePath(_1cf);
+CGContextSetFillColor(_1cf,_1cd[_1d3]);
+CGContextFillPath(_1cf);
 }
 var _1d6=(_1cc.origin.y+_1cc.size.height);
 if(_1d4>=_1d6||_rowHeight<=0){
@@ -1694,8 +1691,8 @@ return;
 }
 var _1d7=_rowHeight+_intercellSpacing.height,_1d5={origin:{x:(_1cc.origin.x),y:(_1cc.origin.y)+_1d4},size:{width:(_1cc.size.width),height:_1d7}};
 for(row=_1d2+1;_1d4<_1d6;++row){
-CGContextSetFillColor(_1cd,_1ce[row%_1cf]);
-CGContextFillRect(_1cd,_1d5);
+CGContextSetFillColor(_1cf,_1cd[row%_1ce]);
+CGContextFillRect(_1cf,_1d5);
 _1d4+=_1d7;
 _1d5.origin.y+=_1d7;
 }
