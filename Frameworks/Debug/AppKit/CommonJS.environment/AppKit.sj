@@ -7147,7 +7147,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("openPanel"), function 
 },["id"])]);
 }
 
-p;12;CPDocument.jt;27853;@STATIC;1.0;I;21;Foundation/CPString.jI;20;Foundation/CPArray.ji;13;CPResponder.ji;13;CPSavePanel.ji;18;CPViewController.ji;20;CPWindowController.jt;27698;objj_executeFile("Foundation/CPString.j", NO);
+p;12;CPDocument.jt;27855;@STATIC;1.0;I;21;Foundation/CPString.jI;20;Foundation/CPArray.ji;13;CPResponder.ji;13;CPSavePanel.ji;18;CPViewController.ji;20;CPWindowController.jt;27700;objj_executeFile("Foundation/CPString.j", NO);
 objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("CPResponder.j", YES);
 objj_executeFile("CPSavePanel.j", YES);
@@ -7388,9 +7388,9 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPDoc
         objj_msgSend(_writeRequest, "setHTTPMethod:", "PUT");
     objj_msgSend(_writeRequest, "setHTTPBody:", objj_msgSend(data, "rawString"));
     objj_msgSend(_writeRequest, "setValue:forHTTPHeaderField:", "close", "Connection");
-    if (aSaveOperation == CPSaveOperation)
+    if (aSaveOperation === CPSaveOperation)
         objj_msgSend(_writeRequest, "setValue:forHTTPHeaderField:", "true", "x-cappuccino-overwrite");
-    if (aSaveOperation != CPSaveToOperation)
+    if (aSaveOperation !== CPSaveToOperation)
         objj_msgSend(self, "updateChangeCount:", CPChangeCleared);
     var connection = objj_msgSend(CPURLConnection, "connectionWithRequest:delegate:", _writeRequest, self);
     connection.session = _CPSaveSessionMake(anAbsoluteURL, aSaveOperation, oldChangeCount, aDelegate, aDidSaveSelector, aContextInfo, connection);
@@ -16287,7 +16287,7 @@ return _maxSize;
 },["void","CPString","id","CPDictionary","id"])]);
 }
 
-p;15;CPApplication.jt;40545;@STATIC;1.0;I;21;Foundation/CPBundle.ji;17;CPCompatibility.ji;9;CPEvent.ji;8;CPMenu.ji;13;CPResponder.ji;22;CPDocumentController.ji;14;CPThemeBlend.ji;14;CPCibLoading.ji;12;CPPlatform.jt;40352;objj_executeFile("Foundation/CPBundle.j", NO);
+p;15;CPApplication.jt;39829;@STATIC;1.0;I;21;Foundation/CPBundle.ji;17;CPCompatibility.ji;9;CPEvent.ji;8;CPMenu.ji;13;CPResponder.ji;22;CPDocumentController.ji;14;CPThemeBlend.ji;14;CPCibLoading.ji;12;CPPlatform.jt;39636;objj_executeFile("Foundation/CPBundle.j", NO);
 objj_executeFile("CPCompatibility.j", YES);
 objj_executeFile("CPEvent.j", YES);
 objj_executeFile("CPMenu.j", YES);
@@ -16366,29 +16366,38 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPApp
 {
     if (_delegate == aDelegate)
         return;
-    var defaultCenter = objj_msgSend(CPNotificationCenter, "defaultCenter");
+    var defaultCenter = objj_msgSend(CPNotificationCenter, "defaultCenter"),
+        delegateNotifications =
+        [
+            CPApplicationWillFinishLaunchingNotification, sel_getUid("applicationWillFinishLaunching:"),
+            CPApplicationDidFinishLaunchingNotification, sel_getUid("applicationDidFinishLaunching:"),
+            CPApplicationWillBecomeActiveNotification, sel_getUid("applicationWillBecomeActive:"),
+            CPApplicationDidBecomeActiveNotification, sel_getUid("applicationDidBecomeActive:"),
+            CPApplicationWillResignActiveNotification, sel_getUid("applicationWillResignActive:"),
+            CPApplicationDidResignActiveNotification, sel_getUid("applicationDidResignActive:"),
+            CPApplicationWillTerminateNotification, sel_getUid("applicationWillTerminate:")
+        ],
+        count = objj_msgSend(delegateNotifications, "count");
     if (_delegate)
     {
-        objj_msgSend(defaultCenter, "removeObserver:name:object:", _delegate, CPApplicationWillFinishLaunchingNotification, self);
-        objj_msgSend(defaultCenter, "removeObserver:name:object:", _delegate, CPApplicationDidFinishLaunchingNotification, self);
-        objj_msgSend(defaultCenter, "removeObserver:name:object:", _delegate, CPApplicationWillBecomeActiveNotification, self);
-        objj_msgSend(defaultCenter, "removeObserver:name:object:", _delegate, CPApplicationDidBecomeActiveNotification, self);
-        objj_msgSend(defaultCenter, "removeObserver:name:object:", _delegate, CPApplicationWillResignActiveNotification, self);
-        objj_msgSend(defaultCenter, "removeObserver:name:object:", _delegate, CPApplicationDidResignActiveNotification, self);
+        var index = 0;
+        for (; index < count; index += 2)
+        {
+            var notificationName = delegateNotifications[index],
+                selector = delegateNotifications[index + 1];
+            if (objj_msgSend(_delegate, "respondsToSelector:", selector))
+                objj_msgSend(defaultCenter, "removeObserver:name:object:", _delegate, notificationName, self);
+        }
     }
     _delegate = aDelegate;
-    if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("applicationWillFinishLaunching:")))
-        objj_msgSend(defaultCenter, "addObserver:selector:name:object:", _delegate, sel_getUid("applicationWillFinishLaunching:"), CPApplicationWillFinishLaunchingNotification, self);
-    if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("applicationDidFinishLaunching:")))
-        objj_msgSend(defaultCenter, "addObserver:selector:name:object:", _delegate, sel_getUid("applicationDidFinishLaunching:"), CPApplicationDidFinishLaunchingNotification, self);
-    if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("applicationWillBecomeActive:")))
-        objj_msgSend(defaultCenter, "addObserver:selector:name:object:", _delegate, sel_getUid("applicationWillBecomeActive:"), CPApplicationWillBecomeActiveNotification, self);
-    if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("applicationDidBecomeActive:")))
-        objj_msgSend(defaultCenter, "addObserver:selector:name:object:", _delegate, sel_getUid("applicationDidBecomeActive:"), CPApplicationDidBecomeActiveNotification, self);
-    if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("applicationWillResignActive:")))
-        objj_msgSend(defaultCenter, "addObserver:selector:name:object:", _delegate, sel_getUid("applicationWillResignActive:"), CPApplicationWillResignActiveNotification, self);
-    if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("applicationDidResignActive:")))
-        objj_msgSend(defaultCenter, "addObserver:selector:name:object:", _delegate, sel_getUid("applicationDidResignActive:"), CPApplicationDidResignActiveNotification, self);
+    var index = 0;
+    for (; index < count; index += 2)
+    {
+        var notificationName = delegateNotifications[index],
+            selector = delegateNotifications[index + 1];
+        if (objj_msgSend(_delegate, "respondsToSelector:", selector))
+            objj_msgSend(defaultCenter, "addObserver:selector:name:object:", _delegate, selector, notificationName, self);
+    }
 }
 },["void","id"]), new objj_method(sel_getUid("delegate"), function $CPApplication__delegate(self, _cmd)
 { with(self)
@@ -16434,6 +16443,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPApp
 },["void"]), new objj_method(sel_getUid("terminate:"), function $CPApplication__terminate_(self, _cmd, aSender)
 { with(self)
 {
+    objj_msgSend(objj_msgSend(CPNotificationCenter, "defaultCenter"), "postNotificationName:object:", CPApplicationWillTerminateNotification, self);
     if (!objj_msgSend(CPPlatform, "isBrowser"))
     {
         objj_msgSend(objj_msgSend(CPDocumentController, "sharedDocumentController"), "closeAllDocumentsWithDelegate:didCloseAllSelector:contextInfo:", self, sel_getUid("_documentController:didCloseAll:context:"), nil);
