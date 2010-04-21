@@ -2026,7 +2026,7 @@ var assumedPositionOfIndex = function(ranges, anIndex)
    return CPNotFound;
 }
 
-p;7;CPSet.jt;11360;@STATIC;1.0;i;10;CPObject.ji;9;CPArray.ji;10;CPNumber.ji;14;CPEnumerator.jt;11278;objj_executeFile("CPObject.j", YES);
+p;7;CPSet.jt;11548;@STATIC;1.0;i;10;CPObject.ji;9;CPArray.ji;10;CPNumber.ji;14;CPEnumerator.jt;11466;objj_executeFile("CPObject.j", YES);
 objj_executeFile("CPArray.j", YES);
 objj_executeFile("CPNumber.j", YES);
 objj_executeFile("CPEnumerator.j", YES);
@@ -2261,7 +2261,12 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPSet
         objj_msgSend(self, "addObject:", items[i]);
     }
 }
-},["void","CPSet"])]);
+},["void","CPSet"]), new objj_method(sel_getUid("description"), function $CPSet__description(self, _cmd)
+{ with(self)
+{
+    return "{(" + objj_msgSend(self, "allObjects").join(", ") + ")}";
+}
+},["CPString"])]);
 class_addMethods(meta_class, [new objj_method(sel_getUid("set"), function $CPSet__set(self, _cmd)
 { with(self)
 {
