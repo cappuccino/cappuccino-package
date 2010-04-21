@@ -486,7 +486,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPEvent"])]);
 }
 
-p;13;CPTableView.jt;126132;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;125989;objj_executeFile("Foundation/CPArray.j", NO);
+p;13;CPTableView.jt;126091;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;125948;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("AppKit/CGGradient.j", NO);
 objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPTableColumn.j", YES);
@@ -2535,7 +2535,7 @@ _disableAutomaticResizing = newValue;
 },["BOOL"]), new objj_method(sel_getUid("keyDown:"), function $CPTableView__keyDown_(self, _cmd, anEvent)
 { with(self)
 {
-    objj_msgSend(self, "interpretKeyEvents:", objj_msgSend(CPArray, "arrayWithObject:", anEvent));
+    objj_msgSend(self, "interpretKeyEvents:", [anEvent]);
 }
 },["void","CPEvent"]), new objj_method(sel_getUid("moveDown:"), function $CPTableView__moveDown_(self, _cmd, sender)
 { with(self)
@@ -18173,7 +18173,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","id"])]);
 }
 
-p;11;CPBrowser.jt;44255;@STATIC;1.0;i;11;CPControl.ji;9;CPImage.ji;13;CPTableView.ji;14;CPScrollView.jt;44169;objj_executeFile("CPControl.j", YES);
+p;11;CPBrowser.jt;46152;@STATIC;1.0;i;11;CPControl.ji;9;CPImage.ji;13;CPTableView.ji;14;CPScrollView.jt;46066;objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPImage.j", YES);
 objj_executeFile("CPTableView.j", YES);
 objj_executeFile("CPScrollView.j", YES);
@@ -18328,7 +18328,6 @@ _defaultColumnWidth = newValue;
     objj_msgSend(table, "setAllowsMultipleSelection:", _allowsMultipleSelection);
     objj_msgSend(table, "setAllowsEmptySelection:", _allowsEmptySelection);
     objj_msgSend(table, "registerForDraggedTypes:", objj_msgSend(self, "registeredDraggedTypes"));
-    objj_msgSend(self, "setNextResponder:", table);
     objj_msgSend(self, "_addTableColumnsToTableView:forColumnIndex:", table, index);
     var delegate = objj_msgSend(objj_msgSend(_CPBrowserTableDelegate, "alloc"), "init");
     objj_msgSend(delegate, "_setDelegate:", _delegate);
@@ -18404,7 +18403,35 @@ _defaultColumnWidth = newValue;
     }
     objj_msgSend(_contentView, "setFrameSize:", CGSizeMake(xOrigin, height));
 }
-},["void"]), new objj_method(sel_getUid("itemAtRow:inColumn:"), function $CPBrowser__itemAtRow_inColumn_(self, _cmd, row, column)
+},["void"]), new objj_method(sel_getUid("rowAtPoint:"), function $CPBrowser__rowAtPoint_(self, _cmd, aPoint)
+{ with(self)
+{
+    var column = objj_msgSend(self, "columnAtPoint:", aPoint);
+    if (column === -1)
+        return -1;
+    var tableView = _tableViews[column];
+    return objj_msgSend(tableView, "rowAtPoint:", objj_msgSend(tableView, "convertPoint:fromView:", aPoint, self));
+}
+},["unsigned","CGPoint"]), new objj_method(sel_getUid("columnAtPoint:"), function $CPBrowser__columnAtPoint_(self, _cmd, aPoint)
+{ with(self)
+{
+    for (var i = 0, count = _tableViews.length; i < count; i++)
+    {
+        var frame = objj_msgSend(objj_msgSend(_tableViews[i], "enclosingScrollView"), "frame");
+        if (CGRectContainsPoint(frame, aPoint))
+            return i;
+    }
+    return -1;
+}
+},["unsigned","CGPoint"]), new objj_method(sel_getUid("rectOfRow:inColumn:"), function $CPBrowser__rectOfRow_inColumn_(self, _cmd, aRow, aColumn)
+{ with(self)
+{
+    var tableView = _tableViews[aColumn],
+        rect = objj_msgSend(tableView, "rectOfRow:", aRow);
+    rect.origin = objj_msgSend(self, "convertPoint:fromView:", rect.origin, tableView);
+    return rect;
+}
+},["CGRect","unsigned","unsigned"]), new objj_method(sel_getUid("itemAtRow:inColumn:"), function $CPBrowser__itemAtRow_inColumn_(self, _cmd, row, column)
 { with(self)
 {
     return objj_msgSend(_tableDelegates[column], "childAtIndex:", row);
@@ -18440,7 +18467,11 @@ _defaultColumnWidth = newValue;
         selectedRow = objj_msgSend(self, "selectedRowInColumn:", selectedColumn);
     return objj_msgSend(self, "itemAtRow:inColumn:", selectedRow, selectedColumn);
 }
-},["id"]), new objj_method(sel_getUid("_column:clickedRow:"), function $CPBrowser___column_clickedRow_(self, _cmd, columnIndex, rowIndex)
+},["id"]), new objj_method(sel_getUid("trackMouse:"), function $CPBrowser__trackMouse_(self, _cmd, anEvent)
+{ with(self)
+{
+}
+},["void","CPEvent"]), new objj_method(sel_getUid("_column:clickedRow:"), function $CPBrowser___column_clickedRow_(self, _cmd, columnIndex, rowIndex)
 { with(self)
 {
     objj_msgSend(self, "setLastColumn:", columnIndex);
@@ -18463,7 +18494,15 @@ _defaultColumnWidth = newValue;
 {
     objj_msgSend(self, "sendAction:to:", _doubleAction, _target);
 }
-},["void","id"]), new objj_method(sel_getUid("columnContentWidthForColumnWidth:"), function $CPBrowser__columnContentWidthForColumnWidth_(self, _cmd, aWidth)
+},["void","id"]), new objj_method(sel_getUid("keyDown:"), function $CPBrowser__keyDown_(self, _cmd, anEvent)
+{ with(self)
+{
+    var column = objj_msgSend(self, "selectedColumn");
+    if (column === -1)
+        return;
+    objj_msgSend(_tableViews[column], "keyDown:", anEvent);
+}
+},["void","CPEvent"]), new objj_method(sel_getUid("columnContentWidthForColumnWidth:"), function $CPBrowser__columnContentWidthForColumnWidth_(self, _cmd, aWidth)
 { with(self)
 {
     return aWidth - (_leafWidth + _delegateSupportsImages ? _imageWidth : 0) - objj_msgSend(CPScroller, "scrollerWidth");
@@ -18606,7 +18645,6 @@ _defaultColumnWidth = newValue;
         objj_msgSend(self, "addColumn");
     objj_msgSend(self, "setLastColumn:", column);
     objj_msgSend(objj_msgSend(self, "tableViewInColumn:", column), "selectRowIndexes:byExtendingSelection:", indexSet, NO);
-    objj_msgSend(self, "setNextResponder:", objj_msgSend(self, "tableViewInColumn:", objj_msgSend(self, "lastColumn")));
     objj_msgSend(self, "scrollColumnToVisible:", column);
     if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("browserSelectionDidChange:")))
         objj_msgSend(_delegate, "browserSelectionDidChange:", self);
@@ -18653,19 +18691,27 @@ _defaultColumnWidth = newValue;
 class_addMethods(meta_class, [new objj_method(sel_getUid("branchImage"), function $CPBrowser__branchImage(self, _cmd)
 { with(self)
 {
-    return objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(objj_msgSend(CPBundle, "bundleForClass:", objj_msgSend(self, "class")), "pathForResource:", "browser-leaf.png"), CGSizeMake(9,9));
+    return objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(objj_msgSend(CPBundle, "bundleForClass:", objj_msgSend(CPBrowser, "class")), "pathForResource:", "browser-leaf.png"), CGSizeMake(9,9));
 }
 },["CPImage"]), new objj_method(sel_getUid("highlightedBranchImage"), function $CPBrowser__highlightedBranchImage(self, _cmd)
 { with(self)
 {
-    return objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(objj_msgSend(CPBundle, "bundleForClass:", objj_msgSend(self, "class")), "pathForResource:", "browser-leaf-highlighted.png"), CGSizeMake(9,9));
+    return objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(objj_msgSend(CPBundle, "bundleForClass:", objj_msgSend(CPBrowser, "class")), "pathForResource:", "browser-leaf-highlighted.png"), CGSizeMake(9,9));
 }
 },["CPImage"])]);
 }
+var _CPBrowserResizeControlBackgroundImage = nil;
 {var the_class = objj_allocateClassPair(CPView, "_CPBrowserResizeControl"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_mouseDownX"), new objj_ivar("_browser"), new objj_ivar("_index"), new objj_ivar("_width")]);
 objj_registerClassPair(the_class);
-class_addMethods(the_class, [new objj_method(sel_getUid("mouseDown:"), function $_CPBrowserResizeControl__mouseDown_(self, _cmd, anEvent)
+class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), function $_CPBrowserResizeControl__initWithFrame_(self, _cmd, aFrame)
+{ with(self)
+{
+    if (self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("_CPBrowserResizeControl").super_class }, "initWithFrame:", aFrame))
+        objj_msgSend(self, "setBackgroundColor:", objj_msgSend(CPColor, "colorWithPatternImage:", objj_msgSend(objj_msgSend(self, "class"), "backgroundImage")));
+    return self;
+}
+},["id","CGRect"]), new objj_method(sel_getUid("mouseDown:"), function $_CPBrowserResizeControl__mouseDown_(self, _cmd, anEvent)
 { with(self)
 {
     _mouseDownX = objj_msgSend(anEvent, "locationInWindow").x;
@@ -18679,9 +18725,23 @@ class_addMethods(the_class, [new objj_method(sel_getUid("mouseDown:"), function 
     var deltaX = objj_msgSend(anEvent, "locationInWindow").x - _mouseDownX;
     objj_msgSend(_browser, "setWidth:ofColumn:", _width + deltaX, _index);
 }
-},["void","CPEvent"])]);
+},["void","CPEvent"]), new objj_method(sel_getUid("mouseUp:"), function $_CPBrowserResizeControl__mouseUp_(self, _cmd, anEvent)
+{ with(self)
+{
 }
-var _CPBrowserResizeControlBackgroundImage = nil;
+},["void","CPEvent"])]);
+class_addMethods(meta_class, [new objj_method(sel_getUid("backgroundImage"), function $_CPBrowserResizeControl__backgroundImage(self, _cmd)
+{ with(self)
+{
+    if (!_CPBrowserResizeControlBackgroundImage)
+    {
+        var path = objj_msgSend(objj_msgSend(CPBundle, "bundleForClass:", objj_msgSend(self, "class")), "pathForResource:", "browser-resize-control.png");
+        _CPBrowserResizeControlBackgroundImage = objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", path, CGSizeMake(15, 14));
+    }
+    return _CPBrowserResizeControlBackgroundImage;
+}
+},["CPImage"])]);
+}
 {var the_class = objj_allocateClassPair(CPScrollView, "_CPBrowserScrollView"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_resizeControl"), new objj_ivar("_browser")]);
 objj_registerClassPair(the_class);
@@ -18702,7 +18762,6 @@ _browser = newValue;
     if (self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("_CPBrowserScrollView").super_class }, "initWithFrame:", aFrame))
     {
         _resizeControl = objj_msgSend(objj_msgSend(_CPBrowserResizeControl, "alloc"), "initWithFrame:", CGRectMakeZero());
-        objj_msgSend(_resizeControl, "setBackgroundColor:", objj_msgSend(CPColor, "colorWithPatternImage:", objj_msgSend(objj_msgSend(self, "class"), "backgroundImage")));
         objj_msgSend(self, "addSubview:", _resizeControl);
     }
     return self;
@@ -18718,17 +18777,6 @@ _browser = newValue;
     objj_msgSend(_resizeControl, "setFrame:", resizeFrame);
 }
 },["void","CPClipView"])]);
-class_addMethods(meta_class, [new objj_method(sel_getUid("backgroundImage"), function $_CPBrowserScrollView__backgroundImage(self, _cmd)
-{ with(self)
-{
-    if (!_CPBrowserResizeControlBackgroundImage)
-    {
-        var path = objj_msgSend(objj_msgSend(CPBundle, "bundleForClass:", objj_msgSend(self, "class")), "pathForResource:", "browser-resize-control.png");
-        _CPBrowserResizeControlBackgroundImage = objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", path, CGSizeMake(15, 14));
-    }
-    return _CPBrowserResizeControlBackgroundImage;
-}
-},["CPImage"])]);
 }
 {var the_class = objj_allocateClassPair(CPTableView, "_CPBrowserTableView"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_browser")]);
