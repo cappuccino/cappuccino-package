@@ -3896,13 +3896,21 @@ objj_msgSend(_53,"encodeObject:forKey:",_string,_4c);
 }
 })]);
 CFURL.prototype.isa=objj_msgSend(CPURL,"class");
-p;8;CPNull.jt;337;@STATIC;1.0;i;10;CPObject.jt;304;
+p;8;CPNull.jt;559;@STATIC;1.0;i;10;CPObject.jt;526;
 objj_executeFile("CPObject.j",YES);
 var _1=nil;
 var _2=objj_allocateClassPair(CPObject,"CPNull"),_3=_2.isa;
 objj_registerClassPair(_2);
-class_addMethods(_3,[new objj_method(sel_getUid("null"),function(_4,_5){
+class_addMethods(_2,[new objj_method(sel_getUid("initWithCoder:"),function(_4,_5,_6){
 with(_4){
+return objj_msgSend(CPNull,"null");
+}
+}),new objj_method(sel_getUid("encodeWithCoder:"),function(_7,_8,_9){
+with(_7){
+}
+})]);
+class_addMethods(_3,[new objj_method(sel_getUid("null"),function(_a,_b){
+with(_a){
 if(!_1){
 _1=objj_msgSend(objj_msgSend(CPNull,"alloc"),"init");
 }

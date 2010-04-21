@@ -4463,10 +4463,20 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 
 CFURL.prototype.isa = objj_msgSend(CPURL, "class");
 
-p;8;CPNull.jt;495;@STATIC;1.0;i;10;CPObject.jt;462;objj_executeFile("CPObject.j", YES);
+p;8;CPNull.jt;847;@STATIC;1.0;i;10;CPObject.jt;814;objj_executeFile("CPObject.j", YES);
 var CPNullSharedNull = nil;
 {var the_class = objj_allocateClassPair(CPObject, "CPNull"),
 meta_class = the_class.isa;objj_registerClassPair(the_class);
+class_addMethods(the_class, [new objj_method(sel_getUid("initWithCoder:"), function $CPNull__initWithCoder_(self, _cmd, aCoder)
+{ with(self)
+{
+    return objj_msgSend(CPNull, "null");
+}
+},["id","CPCoder"]), new objj_method(sel_getUid("encodeWithCoder:"), function $CPNull__encodeWithCoder_(self, _cmd, aCoder)
+{ with(self)
+{
+}
+},["void","CPCoder"])]);
 class_addMethods(meta_class, [new objj_method(sel_getUid("null"), function $CPNull__null(self, _cmd)
 { with(self)
 {
