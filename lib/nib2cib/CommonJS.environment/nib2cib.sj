@@ -1017,7 +1017,7 @@ var _18=objj_msgSend(_17,"decodeObjectForKey:","NSClassName"),_19=objj_msgSend(_
 return objj_msgSend(objj_msgSend(_15,"swapperClassForClassName:originalClassName:",_18,_19),"alloc");
 }
 })]);
-p;8;NSFont.jt;1199;@STATIC;1.0;I;15;AppKit/CPFont.jt;1160;
+p;8;NSFont.jt;1141;@STATIC;1.0;I;15;AppKit/CPFont.jt;1102;
 objj_executeFile("AppKit/CPFont.j",NO);
 var _1=objj_getClass("CPFont");
 if(!_1){
@@ -1028,8 +1028,8 @@ class_addMethods(_1,[new objj_method(sel_getUid("NS_initWithCoder:"),function(_3
 with(_3){
 var _6=NO,_7=objj_msgSend(_5,"decodeObjectForKey:","NSName"),_8=objj_msgSend(_5,"decodeDoubleForKey:","NSSize");
 if((_7==="LucidaGrande"||_7==="LucidaGrande-Bold")&&_8===13){
-CPLog.debug("Converting default IB font: <"+_7+", "+_8+"> to default Aristo font: <Arial, 12>");
-return objj_msgSend(CPFont,"boldSystemFontOfSize:",12);
+CPLog.debug("Removing default IB font: <"+_7+", "+_8+"> for theme default font.");
+return nil;
 }
 if(_7.indexOf("-Bold")===_7.length-"-Bold".length){
 _6=YES;
