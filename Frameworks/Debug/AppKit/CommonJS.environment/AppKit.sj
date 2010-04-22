@@ -22750,7 +22750,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithItemIdentifier:
 },["void","CPCoder"])]);
 }
 
-p;13;CPButtonBar.jt;11553;@STATIC;1.0;I;15;AppKit/CPView.jt;11513;
+p;13;CPButtonBar.jt;11874;@STATIC;1.0;I;15;AppKit/CPView.jt;11834;
 
 
 objj_executeFile("AppKit/CPView.j", NO);
@@ -22800,24 +22800,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     _buttons = objj_msgSend(CPArray, "arrayWithArray:", buttons);
 
     for (var i = 0, count = objj_msgSend(_buttons, "count"); i < count; i++)
-    {
-        var button = _buttons[i];
-
-        var normalColor = objj_msgSend(self, "valueForThemeAttribute:inState:", "button-bezel-color", CPThemeStateNormal),
-            highlightedColor = objj_msgSend(self, "valueForThemeAttribute:inState:", "button-bezel-color", CPThemeStateHighlighted),
-            disabledColor = objj_msgSend(self, "valueForThemeAttribute:inState:", "button-bezel-color", CPThemeStateDisabled);
-
-        objj_msgSend(button, "setValue:forThemeAttribute:inState:", normalColor, "bezel-color", CPThemeStateNormal|CPThemeStateBordered);
-        objj_msgSend(button, "setValue:forThemeAttribute:inState:", highlightedColor, "bezel-color", CPThemeStateHighlighted|CPThemeStateBordered);
-        objj_msgSend(button, "setValue:forThemeAttribute:inState:", disabledColor, "bezel-color", CPThemeStateDisabled|CPThemeStateBordered);
-
-
-        objj_msgSend(button, "setValue:forThemeAttribute:inState:", normalColor, "bezel-color", CPThemeStateNormal|CPThemeStateBordered|CPPopUpButtonStatePullsDown);
-        objj_msgSend(button, "setValue:forThemeAttribute:inState:", highlightedColor, "bezel-color", CPThemeStateHighlighted|CPThemeStateBordered|CPPopUpButtonStatePullsDown);
-        objj_msgSend(button, "setValue:forThemeAttribute:inState:", disabledColor, "bezel-color", CPThemeStateDisabled|CPThemeStateBordered|CPPopUpButtonStatePullsDown);
-
-        objj_msgSend(button, "setBordered:", YES);
-    }
+        objj_msgSend(_buttons[i], "setBordered:", YES);
 
     objj_msgSend(self, "setNeedsLayout");
 }
@@ -22894,6 +22877,11 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 {
     objj_msgSend(self, "setBackgroundColor:", objj_msgSend(self, "currentValueForThemeAttribute:", "bezel-color"));
 
+    var normalColor = objj_msgSend(self, "valueForThemeAttribute:inState:", "button-bezel-color", CPThemeStateNormal),
+        highlightedColor = objj_msgSend(self, "valueForThemeAttribute:inState:", "button-bezel-color", CPThemeStateHighlighted),
+        disabledColor = objj_msgSend(self, "valueForThemeAttribute:inState:", "button-bezel-color", CPThemeStateDisabled),
+        textColor = objj_msgSend(self, "valueForThemeAttribute:inState:", "button-text-color", CPThemeStateNormal);
+
     var buttonsNotHidden = objj_msgSend(CPArray, "arrayWithArray:", _buttons),
         count = objj_msgSend(buttonsNotHidden, "count");
 
@@ -22920,6 +22908,16 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
             currentButtonOffset += width - 1;
         }
 
+        objj_msgSend(button, "setValue:forThemeAttribute:inState:", normalColor, "bezel-color", CPThemeStateNormal|CPThemeStateBordered);
+        objj_msgSend(button, "setValue:forThemeAttribute:inState:", highlightedColor, "bezel-color", CPThemeStateHighlighted|CPThemeStateBordered);
+        objj_msgSend(button, "setValue:forThemeAttribute:inState:", disabledColor, "bezel-color", CPThemeStateDisabled|CPThemeStateBordered);
+        objj_msgSend(button, "setValue:forThemeAttribute:inState:", textColor, "text-color", CPThemeStateBordered);
+
+
+        objj_msgSend(button, "setValue:forThemeAttribute:inState:", normalColor, "bezel-color", CPThemeStateNormal|CPThemeStateBordered|CPPopUpButtonStatePullsDown);
+        objj_msgSend(button, "setValue:forThemeAttribute:inState:", highlightedColor, "bezel-color", CPThemeStateHighlighted|CPThemeStateBordered|CPPopUpButtonStatePullsDown);
+        objj_msgSend(button, "setValue:forThemeAttribute:inState:", disabledColor, "bezel-color", CPThemeStateDisabled|CPThemeStateBordered|CPPopUpButtonStatePullsDown);
+
         objj_msgSend(self, "addSubview:", button);
     }
 
@@ -22938,6 +22936,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("plusButton"), function
     var button = objj_msgSend(objj_msgSend(CPButton, "alloc"), "initWithFrame:", CGRectMake(0, 0, 35, 25)),
         image = objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(objj_msgSend(CPBundle, "bundleForClass:", self), "pathForResource:", "plus_button.png"), CGSizeMake(11, 12));
 
+    objj_msgSend(button, "setBordered:", NO);
     objj_msgSend(button, "setImage:", image);
     objj_msgSend(button, "setImagePosition:", CPImageOnly);
 
@@ -22949,6 +22948,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("plusButton"), function
     var button = objj_msgSend(objj_msgSend(CPButton, "alloc"), "initWithFrame:", CGRectMake(0, 0, 35, 25)),
         image = objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(objj_msgSend(CPBundle, "bundleForClass:", self), "pathForResource:", "minus_button.png"), CGSizeMake(11, 4));
 
+    objj_msgSend(button, "setBordered:", NO);
     objj_msgSend(button, "setImage:", image);
     objj_msgSend(button, "setImagePosition:", CPImageOnly);
 
@@ -22962,7 +22962,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("plusButton"), function
 },["CPString"]), new objj_method(sel_getUid("themeAttributes"), function $CPButtonBar__themeAttributes(self, _cmd)
 { with(self)
 {
-    return objj_msgSend(CPDictionary, "dictionaryWithObjects:forKeys:", [CGInsetMake(0.0, 0.0, 0.0, 0.0), CGSizeMakeZero(), objj_msgSend(CPNull, "null"), objj_msgSend(CPNull, "null"), objj_msgSend(CPNull, "null")], ["resize-control-inset", "resize-control-size", "resize-control-color", "bezel-color", "button-bezel-color"]);
+    return objj_msgSend(CPDictionary, "dictionaryWithObjects:forKeys:", [CGInsetMake(0.0, 0.0, 0.0, 0.0), CGSizeMakeZero(), objj_msgSend(CPNull, "null"), objj_msgSend(CPNull, "null"), objj_msgSend(CPNull, "null"), objj_msgSend(CPNull, "null")], ["resize-control-inset", "resize-control-size", "resize-control-color", "bezel-color", "button-bezel-color", "button-text-color"]);
 }
 },["id"])]);
 }
