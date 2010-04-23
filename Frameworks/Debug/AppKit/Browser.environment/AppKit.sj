@@ -10776,7 +10776,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"])]);
 }
 
-p;12;CPClipView.jt;5938;@STATIC;1.0;i;8;CPView.jt;5907;objj_executeFile("CPView.j", YES);
+p;12;CPClipView.jt;7011;@STATIC;1.0;i;8;CPView.jt;6980;objj_executeFile("CPView.j", YES);
 {var the_class = objj_allocateClassPair(CPView, "CPClipView"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_documentView")]);
 objj_registerClassPair(the_class);
@@ -10865,13 +10865,35 @@ class_addMethods(the_class, [new objj_method(sel_getUid("setDocumentView:"), fun
 { with(self)
 {
     var bounds = objj_msgSend(self, "bounds"),
-        eventLocation = objj_msgSend(self, "convertPoint:fromView:", objj_msgSend(anEvent, "locationInWindow"), nil);
-    if (CPRectContainsPoint(bounds, eventLocation))
+        location = objj_msgSend(self, "convertPoint:fromView:", objj_msgSend(event, "locationInWindow"), nil),
+        superview = objj_msgSend(self, "superview"),
+        deltaX = 0,
+        deltaY = 0;
+    if (CGRectContainsPoint(bounds, location))
         return NO;
-    var newRect = CGRectMakeZero();
-    newRect.origin = eventLocation;
-    newRect.size = CPSizeMake(10, 10);
- return objj_msgSend(_documentView, "scrollRectToVisible:", newRect);
+    if (!objj_msgSend(superview, "isKindOfClass:", objj_msgSend(CPScrollView, "class")) || objj_msgSend(superview, "hasVerticalScroller"))
+    {
+        if (location.y < CGRectGetMinY(bounds))
+            deltaY = CGRectGetMinY(bounds) - location.y;
+        else if (location.y > CGRectGetMaxY(bounds))
+            deltaY = CGRectGetMaxY(bounds) - location.y;
+        if (deltaY < -bounds.size.height)
+            deltaY = -bounds.size.height;
+        if (deltaY > bounds.size.height)
+            deltaY = bounds.size.height;
+    }
+    if (!objj_msgSend(superview, "isKindOfClass:", objj_msgSend(CPScrollView, "class")) || objj_msgSend(superview, "hasHorizontalScroller"))
+    {
+        if (location.x < CGRectGetMinX(bounds))
+            deltaX = CGRectGetMinX(bounds) - location.x;
+        else if (location.x > CGRectGetMaxX(bounds))
+            deltaX = CGRectGetMaxX(bounds) - location.x;
+        if (deltaX < -bounds.size.width)
+            deltaX = -bounds.size.width;
+        if (deltaX > bounds.size.width)
+            deltaX = bounds.size.width;
+    }
+ return objj_msgSend(self, "scrollToPoint:", CGPointMake(bounds.origin.x - deltaX, bounds.origin.y - deltaY));
 }
 },["BOOL","CPEvent"])]);
 }
@@ -18187,7 +18209,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","id"])]);
 }
 
-p;11;CPBrowser.jt;46152;@STATIC;1.0;i;11;CPControl.ji;9;CPImage.ji;13;CPTableView.ji;14;CPScrollView.jt;46066;objj_executeFile("CPControl.j", YES);
+p;11;CPBrowser.jt;46251;@STATIC;1.0;i;11;CPControl.ji;9;CPImage.ji;13;CPTableView.ji;14;CPScrollView.jt;46165;objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPImage.j", YES);
 objj_executeFile("CPTableView.j", YES);
 objj_executeFile("CPScrollView.j", YES);
@@ -18429,10 +18451,11 @@ _defaultColumnWidth = newValue;
 },["unsigned","CGPoint"]), new objj_method(sel_getUid("columnAtPoint:"), function $CPBrowser__columnAtPoint_(self, _cmd, aPoint)
 { with(self)
 {
+    var adjustedPoint = objj_msgSend(_contentView, "convertPoint:fromView:", aPoint, self);
     for (var i = 0, count = _tableViews.length; i < count; i++)
     {
         var frame = objj_msgSend(objj_msgSend(_tableViews[i], "enclosingScrollView"), "frame");
-        if (CGRectContainsPoint(frame, aPoint))
+        if (CGRectContainsPoint(frame, adjustedPoint))
             return i;
     }
     return -1;
