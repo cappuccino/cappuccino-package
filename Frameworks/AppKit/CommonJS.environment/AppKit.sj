@@ -343,7 +343,7 @@ with(_1e){
 objj_msgSend(objj_msgSend(objj_msgSend(_1e,"window"),"platformWindow"),"_propagateCurrentDOMEvent:",YES);
 }
 })]);
-p;13;CPTableView.jt;85201;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;85059;
+p;13;CPTableView.jt;84969;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;84827;
 objj_executeFile("Foundation/CPArray.j",NO);
 objj_executeFile("AppKit/CGGradient.j",NO);
 objj_executeFile("CPControl.j",YES);
@@ -2055,13 +2055,6 @@ objj_msgSend(_dropOperationFeedbackView,"setHidden:",(_23a==CPDragOperationNone)
 objj_msgSend(_dropOperationFeedbackView,"setFrame:",rect);
 objj_msgSend(_dropOperationFeedbackView,"setCurrentRow:",row);
 objj_msgSend(self,"addSubview:",_dropOperationFeedbackView);
-if(row>0&&_237.y-CGRectGetMinY(exposedClipRect)<_rowHeight){
-objj_msgSend(self,"scrollRowToVisible:",row-1);
-}else{
-if(row<_239&&CGRectGetMaxY(exposedClipRect)-_237.y<_rowHeight){
-objj_msgSend(self,"scrollRowToVisible:",row+1);
-}
-}
 return _23a;
 }
 }),new objj_method(sel_getUid("prepareForDragOperation:"),function(self,_23b,_23c){
