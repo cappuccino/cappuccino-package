@@ -10348,7 +10348,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"])]);
 }
 
-p;12;CPClipView.jt;7011;@STATIC;1.0;i;8;CPView.jt;6980;objj_executeFile("CPView.j", YES);
+p;12;CPClipView.jt;7061;@STATIC;1.0;i;8;CPView.jt;7030;objj_executeFile("CPView.j", YES);
 {var the_class = objj_allocateClassPair(CPView, "CPClipView"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_documentView")]);
 objj_registerClassPair(the_class);
@@ -10437,18 +10437,18 @@ class_addMethods(the_class, [new objj_method(sel_getUid("setDocumentView:"), fun
 { with(self)
 {
     var bounds = objj_msgSend(self, "bounds"),
-        location = objj_msgSend(self, "convertPoint:fromView:", objj_msgSend(event, "locationInWindow"), nil),
+        eventLocation = objj_msgSend(self, "convertPoint:fromView:", objj_msgSend(event, "locationInWindow"), nil),
         superview = objj_msgSend(self, "superview"),
         deltaX = 0,
         deltaY = 0;
-    if (CGRectContainsPoint(bounds, location))
+    if (CGRectContainsPoint(bounds, eventLocation))
         return NO;
     if (!objj_msgSend(superview, "isKindOfClass:", objj_msgSend(CPScrollView, "class")) || objj_msgSend(superview, "hasVerticalScroller"))
     {
-        if (location.y < CGRectGetMinY(bounds))
-            deltaY = CGRectGetMinY(bounds) - location.y;
-        else if (location.y > CGRectGetMaxY(bounds))
-            deltaY = CGRectGetMaxY(bounds) - location.y;
+        if (eventLocation.y < CGRectGetMinY(bounds))
+            deltaY = CGRectGetMinY(bounds) - eventLocation.y;
+        else if (eventLocation.y > CGRectGetMaxY(bounds))
+            deltaY = CGRectGetMaxY(bounds) - eventLocation.y;
         if (deltaY < -bounds.size.height)
             deltaY = -bounds.size.height;
         if (deltaY > bounds.size.height)
@@ -10456,10 +10456,10 @@ class_addMethods(the_class, [new objj_method(sel_getUid("setDocumentView:"), fun
     }
     if (!objj_msgSend(superview, "isKindOfClass:", objj_msgSend(CPScrollView, "class")) || objj_msgSend(superview, "hasHorizontalScroller"))
     {
-        if (location.x < CGRectGetMinX(bounds))
-            deltaX = CGRectGetMinX(bounds) - location.x;
-        else if (location.x > CGRectGetMaxX(bounds))
-            deltaX = CGRectGetMaxX(bounds) - location.x;
+        if (eventLocation.x < CGRectGetMinX(bounds))
+            deltaX = CGRectGetMinX(bounds) - eventLocation.x;
+        else if (eventLocation.x > CGRectGetMaxX(bounds))
+            deltaX = CGRectGetMaxX(bounds) - eventLocation.x;
         if (deltaX < -bounds.size.width)
             deltaX = -bounds.size.width;
         if (deltaX > bounds.size.width)
@@ -13765,7 +13765,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("checkBoxWithTitle:them
 },["CPString"])]);
 }
 
-p;14;CPDragServer.jt;17788;@STATIC;1.0;I;15;AppKit/CPView.jI;16;AppKit/CPEvent.jI;21;AppKit/CPPasteboard.jI;20;AppKit/CPImageView.jt;17676;objj_executeFile("AppKit/CPView.j", NO);
+p;14;CPDragServer.jt;21535;@STATIC;1.0;I;15;AppKit/CPView.jI;16;AppKit/CPEvent.jI;21;AppKit/CPPasteboard.jI;20;AppKit/CPImageView.jt;21423;objj_executeFile("AppKit/CPView.j", NO);
 objj_executeFile("AppKit/CPEvent.j", NO);
 objj_executeFile("AppKit/CPPasteboard.j", NO);
 objj_executeFile("AppKit/CPImageView.j", NO);
@@ -13778,7 +13778,7 @@ CPDragOperationMove = 1 << 4,
 CPDragOperationDelete = 1 << 5,
 CPDragOperationEvery = -1;
 var CPDragServerPreviousEvent = nil,
-CPDragServerAutoscrollInterval = nil;
+    CPDragServerPeriodicUpdateInterval = 0.05;
 var CPSharedDragServer = nil;
 var CPDragServerSource = nil;
 var CPDragServerDraggingInfo = nil;
@@ -13834,7 +13834,7 @@ var CPDraggingSource_draggedImage_movedTo_ = 1 << 0,
     CPDraggingSource_draggedView_movedTo_ = 1 << 2,
     CPDraggingSource_draggedView_endedAt_operation_ = 1 << 3;
 {var the_class = objj_allocateClassPair(CPObject, "CPDragServer"),
-meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_isDragging"), new objj_ivar("_draggedWindow"), new objj_ivar("_draggedView"), new objj_ivar("_imageView"), new objj_ivar("_isDraggingImage"), new objj_ivar("_draggingOffset"), new objj_ivar("_draggingPasteboard"), new objj_ivar("_draggingSource"), new objj_ivar("_implementedDraggingSourceMethods"), new objj_ivar("_draggingLocation"), new objj_ivar("_draggingDestination"), new objj_ivar("_startDragLocation"), new objj_ivar("_shouldSlideBack"), new objj_ivar("_dragOperation")]);
+meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_isDragging"), new objj_ivar("_draggedWindow"), new objj_ivar("_draggedView"), new objj_ivar("_imageView"), new objj_ivar("_isDraggingImage"), new objj_ivar("_draggingOffset"), new objj_ivar("_draggingPasteboard"), new objj_ivar("_draggingSource"), new objj_ivar("_implementedDraggingSourceMethods"), new objj_ivar("_draggingLocation"), new objj_ivar("_draggingDestination"), new objj_ivar("_draggingDestinationWantsPeriodicUpdates"), new objj_ivar("_startDragLocation"), new objj_ivar("_shouldSlideBack"), new objj_ivar("_dragOperation"), new objj_ivar("_draggingUpdateTimer")]);
 objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("isDragging"), function $CPDragServer__isDragging(self, _cmd)
 { with(self)
@@ -13921,27 +13921,82 @@ return _draggingSource;
 },["void","CGPoint"]), new objj_method(sel_getUid("draggingUpdatedInPlatformWindow:location:"), function $CPDragServer__draggingUpdatedInPlatformWindow_location_(self, _cmd, aPlatformWindow, aLocation)
 { with(self)
 {
+    objj_msgSend(_draggingUpdateTimer, "invalidate");
+    _draggingUpdateTimer = nil;
     var dragOperation = CPDragOperationCopy;
     var draggingDestination = objj_msgSend(aPlatformWindow, "_dragHitTest:pasteboard:", aLocation, objj_msgSend(CPDragServerDraggingInfo, "draggingPasteboard"));
     if (draggingDestination)
         _draggingLocation = objj_msgSend((objj_msgSend(draggingDestination, "isKindOfClass:", objj_msgSend(CPWindow, "class")) ? draggingDestination : objj_msgSend(draggingDestination, "window")), "convertPlatformWindowToBase:", aLocation);
     if(draggingDestination !== _draggingDestination)
     {
-        if (_draggingDestination && objj_msgSend(_draggingDestination, "respondsToSelector:", sel_getUid("draggingExited:")))
+        if (objj_msgSend(_draggingDestination, "respondsToSelector:", sel_getUid("draggingExited:")))
             objj_msgSend(_draggingDestination, "draggingExited:", CPDragServerDraggingInfo);
         _draggingDestination = draggingDestination;
-        if (_draggingDestination && objj_msgSend(_draggingDestination, "respondsToSelector:", sel_getUid("draggingEntered:")))
+        if (objj_msgSend(_draggingDestination, "respondsToSelector:", sel_getUid("wantsPeriodicDraggingUpdates")))
+            _draggingDestinationWantsPeriodicUpdates = objj_msgSend(_draggingDestination, "wantsPeriodicDraggingUpdates");
+        else
+            _draggingDestinationWantsPeriodicUpdates = YES;
+        if (objj_msgSend(_draggingDestination, "respondsToSelector:", sel_getUid("draggingEntered:")))
             dragOperation = objj_msgSend(_draggingDestination, "draggingEntered:", CPDragServerDraggingInfo);
     }
-    else if (_draggingDestination && objj_msgSend(_draggingDestination, "respondsToSelector:", sel_getUid("draggingUpdated:")))
+    else if (objj_msgSend(_draggingDestination, "respondsToSelector:", sel_getUid("draggingUpdated:")))
         dragOperation = objj_msgSend(_draggingDestination, "draggingUpdated:", CPDragServerDraggingInfo);
     if (!_draggingDestination)
         dragOperation = CPDragOperationNone;
+    else
+    {
+        if (_draggingDestinationWantsPeriodicUpdates)
+            _draggingUpdateTimer = objj_msgSend(CPTimer, "scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:", CPDragServerPeriodicUpdateInterval, self, sel_getUid("_sendPeriodicDraggingUpdate:"), objj_msgSend(CPDictionary, "dictionaryWithJSObject:", {platformWindow:aPlatformWindow, location:aLocation}), NO);
+        var scrollView = objj_msgSend(_draggingDestination, "enclosingScrollView");
+        if (scrollView)
+        {
+            var contentView = objj_msgSend(scrollView, "contentView"),
+                bounds = objj_msgSend(contentView, "bounds"),
+                insetBounds = CGRectInset(bounds, 10, 10)
+                eventLocation = objj_msgSend(contentView, "convertPoint:fromView:", _draggingLocation, nil),
+                deltaX = 0,
+                deltaY = 0;
+            if (!CGRectContainsPoint(insetBounds, eventLocation))
+            {
+                if (objj_msgSend(scrollView, "hasVerticalScroller"))
+                {
+                    if (eventLocation.y < CGRectGetMinY(insetBounds))
+                        deltaY = CGRectGetMinY(insetBounds) - eventLocation.y;
+                    else if (eventLocation.y > CGRectGetMaxY(insetBounds))
+                        deltaY = CGRectGetMaxY(insetBounds) - eventLocation.y;
+                    if (deltaY < -insetBounds.size.height)
+                        deltaY = -insetBounds.size.height;
+                    if (deltaY > insetBounds.size.height)
+                        deltaY = insetBounds.size.height;
+                }
+                if (objj_msgSend(scrollView, "hasHorizontalScroller"))
+                {
+                    if (eventLocation.x < CGRectGetMinX(insetBounds))
+                        deltaX = CGRectGetMinX(insetBounds) - eventLocation.x;
+                    else if (eventLocation.x > CGRectGetMaxX(insetBounds))
+                        deltaX = CGRectGetMaxX(insetBounds) - eventLocation.x;
+                    if (deltaX < -insetBounds.size.width)
+                        deltaX = -insetBounds.size.width;
+                    if (deltaX > insetBounds.size.width)
+                        deltaX = insetBounds.size.width;
+                }
+                objj_msgSend(contentView, "scrollToPoint:", CGPointMake(bounds.origin.x - deltaX, bounds.origin.y - deltaY));
+            }
+        }
+    }
     return dragOperation;
 }
-},["CPDragOperation","CPPlatformWindow","CGPoint"]), new objj_method(sel_getUid("draggingEndedInPlatformWindow:globalLocation:operation:"), function $CPDragServer__draggingEndedInPlatformWindow_globalLocation_operation_(self, _cmd, aPlatformWindow, aLocation, anOperation)
+},["CPDragOperation","CPPlatformWindow","CGPoint"]), new objj_method(sel_getUid("_sendPeriodicDraggingUpdate:"), function $CPDragServer___sendPeriodicDraggingUpdate_(self, _cmd, aTimer)
 { with(self)
 {
+    var userInfo = objj_msgSend(aTimer, "userInfo");
+    _dragOperation = objj_msgSend(self, "draggingUpdatedInPlatformWindow:location:", objj_msgSend(userInfo, "objectForKey:", "platformWindow"), objj_msgSend(userInfo, "objectForKey:", "location"));
+}
+},["void","CPTimer"]), new objj_method(sel_getUid("draggingEndedInPlatformWindow:globalLocation:operation:"), function $CPDragServer__draggingEndedInPlatformWindow_globalLocation_operation_(self, _cmd, aPlatformWindow, aLocation, anOperation)
+{ with(self)
+{
+    objj_msgSend(_draggingUpdateTimer, "invalidate");
+    _draggingUpdateTimer = nil;
     objj_msgSend(_draggedView, "removeFromSuperview");
     if (!objj_msgSend(CPPlatform, "supportsDragAndDrop"))
         objj_msgSend(_draggedWindow, "orderOut:", self);
@@ -14031,9 +14086,22 @@ return _draggingSource;
         objj_msgSend(self, "draggingEndedInPlatformWindow:globalLocation:operation:", platformWindow, platformWindowLocation, _dragOperation);
         return;
     }
-    objj_msgSend(self, "draggingSourceUpdatedWithGlobalLocation:", platformWindowLocation);
-    _dragOperation = objj_msgSend(self, "draggingUpdatedInPlatformWindow:location:", platformWindow, platformWindowLocation);
-    objj_msgSend(CPApp, "setTarget:selector:forNextEventMatchingMask:untilDate:inMode:dequeue:", self, sel_getUid("trackDragging:"), CPMouseMovedMask | CPLeftMouseDraggedMask | CPLeftMouseUpMask, nil, 0, NO);
+    else if (type === CPKeyDown)
+    {
+        var keyCode = objj_msgSend(anEvent, "keyCode");
+        if (keyCode === CPEscapeKeyCode)
+        {
+            _dragOperation = CPDragOperationNone;
+            objj_msgSend(self, "draggingEndedInPlatformWindow:globalLocation:operation:", platformWindow, CGPointMakeZero(), _dragOperation);
+            return;
+        }
+    }
+    else
+    {
+        objj_msgSend(self, "draggingSourceUpdatedWithGlobalLocation:", platformWindowLocation);
+        _dragOperation = objj_msgSend(self, "draggingUpdatedInPlatformWindow:location:", platformWindow, platformWindowLocation);
+    }
+    objj_msgSend(CPApp, "setTarget:selector:forNextEventMatchingMask:untilDate:inMode:dequeue:", self, sel_getUid("trackDragging:"), CPMouseMovedMask | CPLeftMouseDraggedMask | CPLeftMouseUpMask | CPKeyDownMask, nil, 0, NO);
 }
 },["void","CPEvent"])]);
 class_addMethods(meta_class, [new objj_method(sel_getUid("initialize"), function $CPDragServer__initialize(self, _cmd)
