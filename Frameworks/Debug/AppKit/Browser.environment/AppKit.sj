@@ -20148,7 +20148,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithItemIdentifier:
 },["void","CPCoder"])]);
 }
 
-p;14;CPScrollView.jt;27532;@STATIC;1.0;i;8;CPView.ji;12;CPClipView.ji;12;CPScroller.jt;27466;objj_executeFile("CPView.j", YES);
+p;14;CPScrollView.jt;28553;@STATIC;1.0;i;8;CPView.ji;12;CPClipView.ji;12;CPScroller.jt;28487;objj_executeFile("CPView.j", YES);
 objj_executeFile("CPClipView.j", YES);
 objj_executeFile("CPScroller.j", YES);
 {var the_class = objj_allocateClassPair(CPView, "CPScrollView"),
@@ -20555,14 +20555,28 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["float"]), new objj_method(sel_getUid("scrollWheel:"), function $CPScrollView__scrollWheel_(self, _cmd, anEvent)
 { with(self)
 {
-   var documentFrame = objj_msgSend(objj_msgSend(self, "documentView"), "frame"),
-       contentBounds = objj_msgSend(_contentView, "bounds");
-    contentBounds.origin.x = ROUND(contentBounds.origin.x + objj_msgSend(anEvent, "deltaX") * _horizontalLineScroll);
-    contentBounds.origin.y = ROUND(contentBounds.origin.y + objj_msgSend(anEvent, "deltaY") * _verticalLineScroll);
-    objj_msgSend(_contentView, "scrollToPoint:", contentBounds.origin);
-    objj_msgSend(_headerClipView, "scrollToPoint:", CGPointMake(contentBounds.origin.x, 0.0));
+    objj_msgSend(self, "_respondToScrollWheelEventWithDeltaX:deltaY:", objj_msgSend(anEvent, "deltaX") * _horizontalLineScroll, objj_msgSend(anEvent, "deltaY") * _verticalLineScroll);
 }
-},["void","CPEvent"]), new objj_method(sel_getUid("keyDown:"), function $CPScrollView__keyDown_(self, _cmd, anEvent)
+},["void","CPEvent"]), new objj_method(sel_getUid("_respondToScrollWheelEventWithDeltaX:deltaY:"), function $CPScrollView___respondToScrollWheelEventWithDeltaX_deltaY_(self, _cmd, deltaX, deltaY)
+{ with(self)
+{
+    var documentFrame = objj_msgSend(objj_msgSend(self, "documentView"), "frame"),
+        contentBounds = objj_msgSend(_contentView, "bounds"),
+        contentFrame = objj_msgSend(_contentView, "frame"),
+        enclosingScrollView = objj_msgSend(self, "enclosingScrollView"),
+        extraX = 0,
+        extraY = 0;
+    contentBounds.origin.x = ROUND(contentBounds.origin.x + deltaX);
+    contentBounds.origin.y = ROUND(contentBounds.origin.y + deltaY);
+    var constrainedOrigin = objj_msgSend(_contentView, "constrainScrollPoint:", CGPointCreateCopy(contentBounds.origin));
+    extraX = ((contentBounds.origin.x - constrainedOrigin.x) / _horizontalLineScroll) * objj_msgSend(enclosingScrollView, "horizontalLineScroll");
+    extraY = ((contentBounds.origin.y - constrainedOrigin.y) / _verticalLineScroll) * objj_msgSend(enclosingScrollView, "verticalLineScroll");
+    objj_msgSend(_contentView, "scrollToPoint:", constrainedOrigin);
+    objj_msgSend(_headerClipView, "scrollToPoint:", CGPointMake(constrainedOrigin.x, 0.0));
+    if (extraX || extraY)
+        objj_msgSend(enclosingScrollView, "_respondToScrollWheelEventWithDeltaX:deltaY:", extraX, extraY);
+}
+},["void","float","float"]), new objj_method(sel_getUid("keyDown:"), function $CPScrollView__keyDown_(self, _cmd, anEvent)
 { with(self)
 {
     objj_msgSend(self, "interpretKeyEvents:", [anEvent]);
