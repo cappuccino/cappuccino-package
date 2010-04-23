@@ -5901,7 +5901,7 @@ return _4e(_59,_5a,YES,Array.prototype.slice.apply(arguments,[2]));
 window.clearInterval=function(_5c){
 window.clearTimeout(_5c);
 };
-p;19;CPJSONPConnection.jt;3382;@STATIC;1.0;I;21;Foundation/CPObject.jt;3337;
+p;19;CPJSONPConnection.jt;3725;@STATIC;1.0;I;21;Foundation/CPObject.jt;3680;
 objj_executeFile("Foundation/CPObject.j",NO);
 CPJSONPConnectionCallbacks={};
 CPJSONPCallbackReplacementString="${JSONP_CALLBACK}";
@@ -5930,7 +5930,12 @@ return _8;
 with(_e){
 try{
 CPJSONPConnectionCallbacks["callback"+objj_msgSend(_e,"UID")]=function(_10){
+if(objj_msgSend(_delegate,"respondsToSelector:",sel_getUid("connection:didReceiveData:"))){
 objj_msgSend(_delegate,"connection:didReceiveData:",_e,_10);
+}
+if(objj_msgSend(_delegate,"respondsToSelector:",sel_getUid("connectionDidFinishLoading:"))){
+objj_msgSend(_delegate,"connectionDidFinishLoading:",_e);
+}
 objj_msgSend(_e,"removeScriptTag");
 objj_msgSend(objj_msgSend(CPRunLoop,"currentRunLoop"),"limitDateForMode:",CPDefaultRunLoopMode);
 };
@@ -5952,7 +5957,9 @@ _scriptTag.setAttribute("src",_12);
 _11.appendChild(_scriptTag);
 }
 catch(exception){
+if(objj_msgSend(_delegate,"respondsToSelector:",sel_getUid("connection:didFailWithError:"))){
 objj_msgSend(_delegate,"connection:didFailWithError:",_e,exception);
+}
 objj_msgSend(_e,"removeScriptTag");
 }
 }

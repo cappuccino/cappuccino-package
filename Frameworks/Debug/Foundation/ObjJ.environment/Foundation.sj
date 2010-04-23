@@ -6769,7 +6769,7 @@ window.clearInterval = function(aTimeoutID)
     window.clearTimeout(aTimeoutID);
 }
 
-p;19;CPJSONPConnection.jt;4787;@STATIC;1.0;I;21;Foundation/CPObject.jt;4742;objj_executeFile("Foundation/CPObject.j", NO);
+p;19;CPJSONPConnection.jt;5194;@STATIC;1.0;I;21;Foundation/CPObject.jt;5149;objj_executeFile("Foundation/CPObject.j", NO);
 CPJSONPConnectionCallbacks = {};
 CPJSONPCallbackReplacementString = "${JSONP_CALLBACK}";
 {var the_class = objj_allocateClassPair(CPObject, "CPJSONPConnection"),
@@ -6800,7 +6800,10 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithRequest:callbac
     {
         CPJSONPConnectionCallbacks["callback"+objj_msgSend(self, "UID")] = function(data)
         {
-            objj_msgSend(_delegate, "connection:didReceiveData:", self, data);
+            if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("connection:didReceiveData:")))
+                objj_msgSend(_delegate, "connection:didReceiveData:", self, data);
+            if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("connectionDidFinishLoading:")))
+                    objj_msgSend(_delegate, "connectionDidFinishLoading:", self);
             objj_msgSend(self, "removeScriptTag");
             objj_msgSend(objj_msgSend(CPRunLoop, "currentRunLoop"), "limitDateForMode:", CPDefaultRunLoopMode);
         };
@@ -6825,7 +6828,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithRequest:callbac
     }
     catch (exception)
     {
-        objj_msgSend(_delegate, "connection:didFailWithError:",  self,  exception);
+        if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("connection:didFailWithError:")))
+            objj_msgSend(_delegate, "connection:didFailWithError:",  self,  exception);
         objj_msgSend(self, "removeScriptTag");
     }
 }
