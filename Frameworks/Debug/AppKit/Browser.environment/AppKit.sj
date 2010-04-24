@@ -5143,7 +5143,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"])]);
 }
 
-p;18;CPCollectionView.jt;25348;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;Foundation/CPData.jI;23;Foundation/CPIndexSet.jI;28;Foundation/CPKeyedArchiver.jI;30;Foundation/CPKeyedUnarchiver.ji;8;CPView.ji;22;CPCollectionViewItem.jt;25144;objj_executeFile("Foundation/CPArray.j", NO);
+p;18;CPCollectionView.jt;25676;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;Foundation/CPData.jI;23;Foundation/CPIndexSet.jI;28;Foundation/CPKeyedArchiver.jI;30;Foundation/CPKeyedUnarchiver.ji;8;CPView.ji;22;CPCollectionViewItem.jt;25472;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("Foundation/CPData.j", NO);
 objj_executeFile("Foundation/CPIndexSet.j", NO);
 objj_executeFile("Foundation/CPKeyedArchiver.j", NO);
@@ -5358,8 +5358,15 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
             objj_msgSend(view, "setFrameSize:", _itemSize);
         x += itemSize.width + _horizontalMargin;
     }
+    var superview = objj_msgSend(self, "superview"),
+        proposedHeight = y + itemSize.height + _verticalMargin;
+    if (objj_msgSend(superview, "isKindOfClass:", objj_msgSend(CPClipView, "class")))
+    {
+        var superviewSize = objj_msgSend(superview, "bounds").size;
+        proposedHeight = MAX(superviewSize.height, proposedHeight);
+    }
     _tileWidth = width;
-    objj_msgSend(self, "setFrameSize:", CGSizeMake(width, y + itemSize.height + _verticalMargin));
+    objj_msgSend(self, "setFrameSize:", CGSizeMake(width, proposedHeight));
     _tileWidth = -1.0;
 }
 },["void"]), new objj_method(sel_getUid("resizeSubviewsWithOldSize:"), function $CPCollectionView__resizeSubviewsWithOldSize_(self, _cmd, aSize)
@@ -14536,7 +14543,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("checkBoxWithTitle:them
 },["CPString"])]);
 }
 
-p;14;CPDragServer.jt;21535;@STATIC;1.0;I;15;AppKit/CPView.jI;16;AppKit/CPEvent.jI;21;AppKit/CPPasteboard.jI;20;AppKit/CPImageView.jt;21423;objj_executeFile("AppKit/CPView.j", NO);
+p;14;CPDragServer.jt;21627;@STATIC;1.0;I;15;AppKit/CPView.jI;16;AppKit/CPEvent.jI;21;AppKit/CPPasteboard.jI;20;AppKit/CPImageView.jt;21515;objj_executeFile("AppKit/CPView.j", NO);
 objj_executeFile("AppKit/CPEvent.j", NO);
 objj_executeFile("AppKit/CPPasteboard.j", NO);
 objj_executeFile("AppKit/CPImageView.j", NO);
@@ -14718,7 +14725,7 @@ return _draggingSource;
     {
         if (_draggingDestinationWantsPeriodicUpdates)
             _draggingUpdateTimer = objj_msgSend(CPTimer, "scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:", CPDragServerPeriodicUpdateInterval, self, sel_getUid("_sendPeriodicDraggingUpdate:"), objj_msgSend(CPDictionary, "dictionaryWithJSObject:", {platformWindow:aPlatformWindow, location:aLocation}), NO);
-        var scrollView = objj_msgSend(_draggingDestination, "enclosingScrollView");
+        var scrollView = objj_msgSend(_draggingDestination, "isKindOfClass:", objj_msgSend(CPView, "class")) ? objj_msgSend(_draggingDestination, "enclosingScrollView") : nil;
         if (scrollView)
         {
             var contentView = objj_msgSend(scrollView, "contentView"),
