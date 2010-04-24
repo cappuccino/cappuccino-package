@@ -8287,7 +8287,7 @@ with(_27){
 return objj_msgSend(objj_msgSend(CPImage,"alloc"),"initWithContentsOfFile:size:",objj_msgSend(objj_msgSend(CPBundle,"bundleForClass:",CPColorPicker),"pathForResource:","slider_button_h.png"),CGSizeMake(32,32));
 }
 })]);
-p;13;CPColorWell.jt;6079;@STATIC;1.0;I;21;Foundation/CPString.ji;8;CPView.ji;9;CPColor.ji;14;CPColorPanel.jt;5990;
+p;13;CPColorWell.jt;6203;@STATIC;1.0;I;21;Foundation/CPString.ji;8;CPView.ji;9;CPColor.ji;14;CPColorPanel.jt;6114;
 objj_executeFile("Foundation/CPString.j",NO);
 objj_executeFile("CPView.j",YES);
 objj_executeFile("CPColor.j",YES);
@@ -8397,16 +8397,22 @@ objj_msgSend(_2a,"deactivate");
 }
 }),new objj_method(sel_getUid("mouseDown:"),function(_2d,_2e,_2f){
 with(_2d){
+if(!objj_msgSend(_2d,"isEnabled")){
+return;
+}
 objj_msgSend(_2d,"drawBezelWithHighlight:",YES);
 }
 }),new objj_method(sel_getUid("mouseDragged:"),function(_30,_31,_32){
 with(_30){
+if(!objj_msgSend(_30,"isEnabled")){
+return;
+}
 objj_msgSend(_30,"drawBezelWithHighlight:",CGRectContainsPoint(objj_msgSend(_30,"bounds"),objj_msgSend(_30,"convertPoint:fromView:",objj_msgSend(_32,"locationInWindow"),nil)));
 }
 }),new objj_method(sel_getUid("mouseUp:"),function(_33,_34,_35){
 with(_33){
 objj_msgSend(_33,"drawBezelWithHighlight:",NO);
-if(!CGRectContainsPoint(objj_msgSend(_33,"bounds"),objj_msgSend(_33,"convertPoint:fromView:",objj_msgSend(_35,"locationInWindow"),nil))){
+if(!CGRectContainsPoint(objj_msgSend(_33,"bounds"),objj_msgSend(_33,"convertPoint:fromView:",objj_msgSend(_35,"locationInWindow"),nil))||!objj_msgSend(_33,"isEnabled")){
 return;
 }
 objj_msgSend(_33,"activate:",YES);

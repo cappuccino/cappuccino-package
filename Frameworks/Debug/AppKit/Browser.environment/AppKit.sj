@@ -9946,7 +9946,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithPickerMask:colo
 },["CPImage"])]);
 }
 
-p;13;CPColorWell.jt;8427;@STATIC;1.0;I;21;Foundation/CPString.ji;8;CPView.ji;9;CPColor.ji;14;CPColorPanel.jt;8338;objj_executeFile("Foundation/CPString.j", NO);
+p;13;CPColorWell.jt;8579;@STATIC;1.0;I;21;Foundation/CPString.ji;8;CPView.ji;9;CPColor.ji;14;CPColorPanel.jt;8490;objj_executeFile("Foundation/CPString.j", NO);
 objj_executeFile("CPView.j", YES);
 objj_executeFile("CPColor.j", YES);
 objj_executeFile("CPColorPanel.j", YES);
@@ -10067,18 +10067,22 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPNotification"]), new objj_method(sel_getUid("mouseDown:"), function $CPColorWell__mouseDown_(self, _cmd, anEvent)
 { with(self)
 {
+    if (!objj_msgSend(self, "isEnabled"))
+        return;
     objj_msgSend(self, "drawBezelWithHighlight:", YES);
 }
 },["void","CPEvent"]), new objj_method(sel_getUid("mouseDragged:"), function $CPColorWell__mouseDragged_(self, _cmd, anEvent)
 { with(self)
 {
+    if (!objj_msgSend(self, "isEnabled"))
+        return;
     objj_msgSend(self, "drawBezelWithHighlight:", CGRectContainsPoint(objj_msgSend(self, "bounds"), objj_msgSend(self, "convertPoint:fromView:", objj_msgSend(anEvent, "locationInWindow"), nil)));
 }
 },["void","CPEvent"]), new objj_method(sel_getUid("mouseUp:"), function $CPColorWell__mouseUp_(self, _cmd, anEvent)
 { with(self)
 {
     objj_msgSend(self, "drawBezelWithHighlight:", NO);
-    if (!CGRectContainsPoint(objj_msgSend(self, "bounds"), objj_msgSend(self, "convertPoint:fromView:", objj_msgSend(anEvent, "locationInWindow"), nil)))
+    if (!CGRectContainsPoint(objj_msgSend(self, "bounds"), objj_msgSend(self, "convertPoint:fromView:", objj_msgSend(anEvent, "locationInWindow"), nil)) || !objj_msgSend(self, "isEnabled"))
         return;
     objj_msgSend(self, "activate:", YES);
     var colorPanel = objj_msgSend(CPColorPanel, "sharedColorPanel");
