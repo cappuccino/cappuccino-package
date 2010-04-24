@@ -488,7 +488,7 @@ var splitRangeEntry = splitRangeEntryAtIndex= function( aRangeEntry, anIndex)
     return [aRangeEntry, newRangeEntry];
 }
 
-p;9;CPArray.jt;29080;@STATIC;1.0;i;10;CPObject.ji;9;CPRange.ji;14;CPEnumerator.ji;18;CPSortDescriptor.ji;13;CPException.jt;28972;objj_executeFile("CPObject.j", YES);
+p;9;CPArray.jt;29151;@STATIC;1.0;i;10;CPObject.ji;9;CPRange.ji;14;CPEnumerator.ji;18;CPSortDescriptor.ji;13;CPException.jt;29043;objj_executeFile("CPObject.j", YES);
 objj_executeFile("CPRange.j", YES);
 objj_executeFile("CPEnumerator.j", YES);
 objj_executeFile("CPSortDescriptor.j", YES);
@@ -564,7 +564,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
     {
         var index = 0,
             count = objj_msgSend(anArray, "count");
-        for(; index < count; ++index)
+        for (; index < count; ++index)
         {
             if (anArray[index].isa)
                 self[index] = objj_msgSend(anArray[index], "copy");
@@ -579,7 +579,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
 {
     var i = 2,
         argument;
-    for(; i < arguments.length && (argument = arguments[i]) != nil; ++i)
+    for (; i < arguments.length && (argument = arguments[i]) != nil; ++i)
         push(argument);
     return self;
 }
@@ -590,7 +590,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
     if (self)
     {
         var index = 0;
-        for(; index < aCount; ++index)
+        for (; index < aCount; ++index)
             push(objects[index]);
     }
     return self;
@@ -614,15 +614,15 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
         count = length;
     if (anObject.isa)
     {
-        for(; i < count; ++i)
-            if(objj_msgSend(self[i], "isEqual:", anObject))
+        for (; i < count; ++i)
+            if (objj_msgSend(self[i], "isEqual:", anObject))
                 return i;
     }
     else if (self.indexOf)
         return indexOf(anObject);
     else
-        for(; i < count; ++i)
-            if(self[i] == anObject)
+        for (; i < count; ++i)
+            if (self[i] == anObject)
                 return i;
     return CPNotFound;
 }
@@ -635,13 +635,13 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
         count = MIN(CPMaxRange(aRange), length);
     if (anObject.isa)
     {
-        for(; i < count; ++i)
-            if(objj_msgSend(self[i], "isEqual:", anObject))
+        for (; i < count; ++i)
+            if (objj_msgSend(self[i], "isEqual:", anObject))
                 return i;
     }
     else
-        for(; i < count; ++i)
-            if(self[i] == anObject)
+        for (; i < count; ++i)
+            if (self[i] == anObject)
                 return i;
     return CPNotFound;
 }
@@ -656,8 +656,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
     {
         var index = 0,
             count = length;
-        for(; index < count; ++index)
-            if(self[index] === anObject)
+        for (; index < count; ++index)
+            if (self[index] === anObject)
                 return index;
     }
     return CPNotFound;
@@ -677,8 +677,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
     {
         var index = aRange.location,
             count = MIN(CPMaxRange(aRange), length);
-        for(; index < count; ++index)
-            if(self[index] == anObject)
+        for (; index < count; ++index)
+            if (self[index] == anObject)
                 return index;
     }
     return CPNotFound;
@@ -686,7 +686,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
 },["int","id","CPRange"]), new objj_method(sel_getUid("indexOfObject:sortedBySelector:"), function $CPArray__indexOfObject_sortedBySelector_(self, _cmd, anObject, aSelector)
 { with(self)
 {
-    return objj_msgSend(self, "indexOfObject:sortedByFunction:", anObject,  function(lhs, rhs) { objj_msgSend(lhs, aSelector, rhs); });
+    return objj_msgSend(self, "indexOfObject:sortedByFunction:", anObject, function(lhs, rhs) { objj_msgSend(lhs, aSelector, rhs); });
 }
 },["unsigned","id","SEL"]), new objj_method(sel_getUid("indexOfObject:sortedByFunction:"), function $CPArray__indexOfObject_sortedByFunction_(self, _cmd, anObject, aFunction)
 { with(self)
@@ -706,7 +706,10 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
         return CPNotFound;
     if (length === 0)
         return -1;
-    var mid, c, first = 0, last = length - 1;
+    var mid,
+        c,
+        first = 0,
+        last = length - 1;
     while (first <= last)
     {
         mid = FLOOR((first + last) / 2);
@@ -722,7 +725,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
             return mid;
         }
     }
-    return -first-1;
+    return -first - 1;
 }
 },["unsigned","id","Function","id"]), new objj_method(sel_getUid("indexOfObject:sortedByDescriptors:"), function $CPArray__indexOfObject_sortedByDescriptors_(self, _cmd, anObject, descriptors)
 { with(self)
@@ -733,7 +736,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
             count = objj_msgSend(descriptors, "count"),
             result = CPOrderedSame;
         while (i < count)
-            if((result = objj_msgSend(descriptors[i++], "compareObject:withObject:", lhs, rhs)) != CPOrderedSame)
+            if ((result = objj_msgSend(descriptors[i++], "compareObject:withObject:", lhs, rhs)) != CPOrderedSame)
                 return result;
         return result;
     });
@@ -757,7 +760,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
 {
     var index = CPNotFound,
         objects = [];
-    while((index = objj_msgSend(indexes, "indexGreaterThanIndex:", index)) !== CPNotFound)
+    while ((index = objj_msgSend(indexes, "indexGreaterThanIndex:", index)) !== CPNotFound)
         objj_msgSend(objects, "addObject:", objj_msgSend(self, "objectAtIndex:", index));
     return objects;
 }
@@ -778,7 +781,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
         objj_msgSend(CPException, "raise:reason:", CPInvalidArgumentException, "makeObjectsPerformSelector: 'aSelector' can't be nil");
     var index = 0,
         count = length;
-    for(; index < count; ++index)
+    for (; index < count; ++index)
         objj_msgSend(self[index], aSelector);
 }
 },["void","SEL"]), new objj_method(sel_getUid("makeObjectsPerformSelector:withObject:"), function $CPArray__makeObjectsPerformSelector_withObject_(self, _cmd, aSelector, anObject)
@@ -788,7 +791,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
         objj_msgSend(CPException, "raise:reason:", CPInvalidArgumentException, "makeObjectsPerformSelector:withObject 'aSelector' can't be nil");
     var index = 0,
         count = length;
-    for(; index < count; ++index)
+    for (; index < count; ++index)
         objj_msgSend(self[index], aSelector, anObject);
 }
 },["void","SEL","id"]), new objj_method(sel_getUid("makeObjectsPerformSelector:withObjects:"), function $CPArray__makeObjectsPerformSelector_withObjects_(self, _cmd, aSelector, objects)
@@ -799,7 +802,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
     var index = 0,
         count = length,
         argumentsArray = [nil, aSelector].concat(objects || []);
-    for(; index < count; ++index)
+    for (; index < count; ++index)
     {
         argumentsArray[0] = self[index];
         objj_msgSend.apply(this, argumentsArray);
@@ -812,8 +815,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
         return nil;
     var i = 0,
         count = objj_msgSend(self, "count");
-    for(; i < count; ++i)
-        if(objj_msgSend(anArray, "containsObject:", self[i]))
+    for (; i < count; ++i)
+        if (objj_msgSend(anArray, "containsObject:", self[i]))
             return self[i];
     return nil;
 }
@@ -826,7 +829,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
         return NO;
     var index = 0,
         count = objj_msgSend(self, "count");
-    for(; index < count; ++index)
+    for (; index < count; ++index)
     {
         var lhs = self[index],
             rhs = anArray[index];
@@ -840,7 +843,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
 {
     if (self === anObject)
         return YES;
-    if(!objj_msgSend(anObject, "isKindOfClass:", objj_msgSend(CPArray, "class")))
+    if (!objj_msgSend(anObject, "isKindOfClass:", objj_msgSend(CPArray, "class")))
         return NO;
     return objj_msgSend(self, "isEqualToArray:", anObject);
 }
@@ -902,7 +905,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
     var index = 0,
         count = objj_msgSend(self, "count"),
         description = '(';
-    for(; index < count; ++index)
+    for (; index < count; ++index)
     {
         if (index === 0)
             description += '\n';
@@ -921,7 +924,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
     var index = 0,
         count = objj_msgSend(self, "count"),
         array = [];
-    for(; index < count; ++index)
+    for (; index < count; ++index)
         if (self[index].isa && objj_msgSend(self[index], "isKindOfClass:", objj_msgSend(CPString, "class")) && objj_msgSend(filterTypes, "containsObject:", objj_msgSend(self[index], "pathExtension")))
             array.push(self[index]);
     return array;
@@ -931,7 +934,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
 {
     var i = 0,
         count = objj_msgSend(self, "count");
-    for(; i < count; ++i)
+    for (; i < count; ++i)
         objj_msgSend(self[i], "setValue:forKey:", aValue, aKey);
 }
 },["void","id","CPString"]), new objj_method(sel_getUid("valueForKey:"), function $CPArray__valueForKey_(self, _cmd, aKey)
@@ -940,7 +943,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
     var i = 0,
         count = objj_msgSend(self, "count"),
         array = [];
-    for(; i < count; ++i)
+    for (; i < count; ++i)
         array.push(objj_msgSend(self[i], "valueForKey:", aKey));
     return array;
 }
@@ -976,7 +979,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("alloc"), function $CPA
     var i = 2,
         array = objj_msgSend(objj_msgSend(self, "alloc"), "init"),
         argument;
-    for(; i < arguments.length && (argument = arguments[i]) != nil; ++i)
+    for (; i < arguments.length && (argument = arguments[i]) != nil; ++i)
         array.push(argument);
     return array;
 }
@@ -1015,10 +1018,10 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 {
     var indexesCount = objj_msgSend(indexes, "count"),
         objectsCount = objj_msgSend(objects, "count");
-    if(indexesCount !== objectsCount)
+    if (indexesCount !== objectsCount)
         objj_msgSend(CPException, "raise:reason:", CPRangeException, "the counts of the passed-in array (" + objectsCount + ") and index set (" + indexesCount + ") must be identical.");
     var lastIndex = objj_msgSend(indexes, "lastIndex");
-    if(lastIndex >= objj_msgSend(self, "count") + indexesCount)
+    if (lastIndex >= objj_msgSend(self, "count") + indexesCount)
         objj_msgSend(CPException, "raise:reason:", CPRangeException, "the last index (" + lastIndex + ") must be less than the sum of the original count (" + objj_msgSend(self, "count") + ") and the insertion count (" + indexesCount + ").");
     var index = 0,
         currentIndex = objj_msgSend(indexes, "firstIndex");
@@ -1034,12 +1037,12 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
             count = objj_msgSend(descriptors, "count"),
             result = CPOrderedSame;
         while (i < count)
-            if((result = objj_msgSend(descriptors[i++], "compareObject:withObject:", lhs, rhs)) != CPOrderedSame)
+            if ((result = objj_msgSend(descriptors[i++], "compareObject:withObject:", lhs, rhs)) != CPOrderedSame)
                 return result;
         return result;
     }, nil);
     if (index < 0)
-        index = -index-1;
+        index = -index - 1;
     objj_msgSend(self, "insertObject:atIndex:", anObject, index);
     return index;
 }
@@ -1053,7 +1056,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 {
     var i = 0,
         index = objj_msgSend(anIndexSet, "firstIndex");
-    while(index != CPNotFound)
+    while (index != CPNotFound)
     {
         objj_msgSend(self, "replaceObjectAtIndex:withObject:", index, objects[i++]);
         index = objj_msgSend(anIndexSet, "indexGreaterThanIndex:", index);
@@ -1075,7 +1078,8 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPRange","CPArray"]), new objj_method(sel_getUid("setArray:"), function $CPArray__setArray_(self, _cmd, anArray)
 { with(self)
 {
-    if(self == anArray) return;
+    if (self == anArray)
+        return;
     splice.apply(self, [0, length].concat(anArray));
 }
 },["void","CPArray"]), new objj_method(sel_getUid("removeAllObjects"), function $CPArray__removeAllObjects(self, _cmd)
@@ -1162,8 +1166,8 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
         var i = 0,
             count = objj_msgSend(descriptors, "count"),
             result = CPOrderedSame;
-        while(i < count)
-            if((result = objj_msgSend(descriptors[i++], "compareObject:withObject:", lhs, rhs)) != CPOrderedSame)
+        while (i < count)
+            if ((result = objj_msgSend(descriptors[i++], "compareObject:withObject:", lhs, rhs)) != CPOrderedSame)
                 return result;
         return result;
     });
