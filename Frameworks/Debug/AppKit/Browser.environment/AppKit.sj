@@ -12757,7 +12757,7 @@ CPPointMakeZero= function()
     return CPPointMake(0, 0, 0);
 }
 
-p;8;CPView.jt;84732;@STATIC;1.0;I;20;Foundation/CPArray.jI;26;Foundation/CPObjJRuntime.ji;19;CGAffineTransform.ji;12;CGGeometry.ji;9;CPColor.ji;12;CPGeometry.ji;19;CPGraphicsContext.ji;13;CPResponder.ji;9;CPTheme.ji;18;_CPDisplayServer.jt;84507;objj_executeFile("Foundation/CPArray.j", NO);
+p;8;CPView.jt;85210;@STATIC;1.0;I;20;Foundation/CPArray.jI;26;Foundation/CPObjJRuntime.ji;19;CGAffineTransform.ji;12;CGGeometry.ji;9;CPColor.ji;12;CPGeometry.ji;19;CPGraphicsContext.ji;13;CPResponder.ji;9;CPTheme.ji;18;_CPDisplayServer.jt;84985;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("Foundation/CPObjJRuntime.j", NO);
 objj_executeFile("CGAffineTransform.j", YES);
 objj_executeFile("CGGeometry.j", YES);
@@ -12782,7 +12782,8 @@ var DOMElementPrototype = nil,
     BackgroundTrivialColor = 0,
     BackgroundVerticalThreePartImage = 1,
     BackgroundHorizontalThreePartImage = 2,
-    BackgroundNinePartImage = 3;
+    BackgroundNinePartImage = 3,
+    BackgroundTransparentColor = 4;
 var CPViewFlags = { },
     CPViewHasCustomDrawRect = 1 << 0,
     CPViewHasCustomLayoutSubviews = 1 << 1;
@@ -13148,24 +13149,31 @@ class_addMethods(the_class, [new objj_method(sel_getUid("setupViewFlags"), funct
     }
     if (_backgroundType !== BackgroundTrivialColor)
     {
-        var images = objj_msgSend(objj_msgSend(_backgroundColor, "patternImage"), "imageSlices");
-        if (_backgroundType === BackgroundVerticalThreePartImage)
+        if (_backgroundType === BackgroundTransparentColor)
         {
-            _DOMImageParts[1].style.width = MAX(0.0, ROUND(size.width)) + "px"; _DOMImageParts[1].style.height = MAX(0.0, ROUND(size.height - _DOMImageSizes[0].height - _DOMImageSizes[2].height)) + "px";;
+            _DOMImageParts[0].style.width = MAX(0.0, ROUND(size.width)) + "px"; _DOMImageParts[0].style.height = MAX(0.0, ROUND(size.height)) + "px";;
         }
-        else if (_backgroundType === BackgroundHorizontalThreePartImage)
+        else
         {
-            _DOMImageParts[1].style.width = MAX(0.0, ROUND(size.width - _DOMImageSizes[0].width - _DOMImageSizes[2].width)) + "px"; _DOMImageParts[1].style.height = MAX(0.0, ROUND(size.height)) + "px";;
-        }
-        else if (_backgroundType === BackgroundNinePartImage)
-        {
-            var width = size.width - _DOMImageSizes[0].width - _DOMImageSizes[2].width,
-                height = size.height - _DOMImageSizes[0].height - _DOMImageSizes[6].height;
-            _DOMImageParts[1].style.width = MAX(0.0, ROUND(width)) + "px"; _DOMImageParts[1].style.height = MAX(0.0, ROUND(_DOMImageSizes[0].height)) + "px";;
-            _DOMImageParts[3].style.width = MAX(0.0, ROUND(_DOMImageSizes[3].width)) + "px"; _DOMImageParts[3].style.height = MAX(0.0, ROUND(height)) + "px";;
-            _DOMImageParts[4].style.width = MAX(0.0, ROUND(width)) + "px"; _DOMImageParts[4].style.height = MAX(0.0, ROUND(height)) + "px";;
-            _DOMImageParts[5].style.width = MAX(0.0, ROUND(_DOMImageSizes[5].width)) + "px"; _DOMImageParts[5].style.height = MAX(0.0, ROUND(height)) + "px";;
-            _DOMImageParts[7].style.width = MAX(0.0, ROUND(width)) + "px"; _DOMImageParts[7].style.height = MAX(0.0, ROUND(_DOMImageSizes[7].height)) + "px";;
+            var images = objj_msgSend(objj_msgSend(_backgroundColor, "patternImage"), "imageSlices");
+            if (_backgroundType === BackgroundVerticalThreePartImage)
+            {
+                _DOMImageParts[1].style.width = MAX(0.0, ROUND(size.width)) + "px"; _DOMImageParts[1].style.height = MAX(0.0, ROUND(size.height - _DOMImageSizes[0].height - _DOMImageSizes[2].height)) + "px";;
+            }
+            else if (_backgroundType === BackgroundHorizontalThreePartImage)
+            {
+                _DOMImageParts[1].style.width = MAX(0.0, ROUND(size.width - _DOMImageSizes[0].width - _DOMImageSizes[2].width)) + "px"; _DOMImageParts[1].style.height = MAX(0.0, ROUND(size.height)) + "px";;
+            }
+            else if (_backgroundType === BackgroundNinePartImage)
+            {
+                var width = size.width - _DOMImageSizes[0].width - _DOMImageSizes[2].width,
+                    height = size.height - _DOMImageSizes[0].height - _DOMImageSizes[6].height;
+                _DOMImageParts[1].style.width = MAX(0.0, ROUND(width)) + "px"; _DOMImageParts[1].style.height = MAX(0.0, ROUND(_DOMImageSizes[0].height)) + "px";;
+                _DOMImageParts[3].style.width = MAX(0.0, ROUND(_DOMImageSizes[3].width)) + "px"; _DOMImageParts[3].style.height = MAX(0.0, ROUND(height)) + "px";;
+                _DOMImageParts[4].style.width = MAX(0.0, ROUND(width)) + "px"; _DOMImageParts[4].style.height = MAX(0.0, ROUND(height)) + "px";;
+                _DOMImageParts[5].style.width = MAX(0.0, ROUND(_DOMImageSizes[5].width)) + "px"; _DOMImageParts[5].style.height = MAX(0.0, ROUND(height)) + "px";;
+                _DOMImageParts[7].style.width = MAX(0.0, ROUND(width)) + "px"; _DOMImageParts[7].style.height = MAX(0.0, ROUND(_DOMImageSizes[7].height)) + "px";;
+            }
         }
     }
     if (_postsFrameChangedNotifications && !_inhibitFrameAndBoundsChangedNotifications)
@@ -13500,7 +13508,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("setupViewFlags"), funct
     }
     else
     {
-        _backgroundType = BackgroundTrivialColor;
+        _backgroundType = colorNeedsDOMElement ? BackgroundTransparentColor : BackgroundTrivialColor;
         amount = (colorNeedsDOMElement ? 1 : 0) - _DOMImageParts.length;
     }
     if (amount > 0)
@@ -13519,7 +13527,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("setupViewFlags"), funct
         while (amount--)
             _DOMElement.removeChild(_DOMImageParts.pop());
     }
-    if (_backgroundType === BackgroundTrivialColor)
+    if (_backgroundType === BackgroundTrivialColor || _backgroundType === BackgroundTransparentColor)
     {
         var colorCSS = colorExists ? objj_msgSend(_backgroundColor, "cssString") : "";
         if (colorNeedsDOMElement)
