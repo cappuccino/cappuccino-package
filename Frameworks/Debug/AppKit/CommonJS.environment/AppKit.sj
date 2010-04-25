@@ -384,7 +384,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPEvent"])]);
 }
 
-p;13;CPTableView.jt;125801;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;125658;objj_executeFile("Foundation/CPArray.j", NO);
+p;13;CPTableView.jt;125865;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;125722;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("AppKit/CGGradient.j", NO);
 objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPTableColumn.j", YES);
@@ -2088,7 +2088,10 @@ _disableAutomaticResizing = newValue;
 { with(self)
 {
     if (!objj_msgSend(_draggedRowIndexes, "count"))
+    {
+        objj_msgSend(self, "autoscroll:", anEvent);
         objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPTableView").super_class }, "trackMouse:", anEvent);
+    }
     else
         objj_msgSend(CPApp, "sendEvent:", anEvent);
 }
@@ -20937,16 +20940,16 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPToo
 },["void","int"]), new objj_method(sel_getUid("validate"), function $CPToolbarItem__validate(self, _cmd)
 { with(self)
 {
+    var action = objj_msgSend(self, "action"),
+        target = objj_msgSend(self, "target");
     if (_view)
     {
         if (objj_msgSend(target, "respondsToSelector:", sel_getUid("validateToolbarItem:")))
             objj_msgSend(self, "setEnabled:", objj_msgSend(target, "validateToolbarItem:", self));
         return;
     }
-    var action = objj_msgSend(self, "action");
     if (!action)
         return objj_msgSend(self, "setEnabled:", NO);
-    var target = objj_msgSend(self, "target");
     if (target && !objj_msgSend(target, "respondsToSelector:", action))
         return objj_msgSend(self, "setEnabled:", NO);
     target = objj_msgSend(CPApp, "targetForAction:to:from:", action, target, self);

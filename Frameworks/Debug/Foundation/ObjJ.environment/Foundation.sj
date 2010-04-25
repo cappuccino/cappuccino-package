@@ -6773,7 +6773,7 @@ window.clearInterval = function(aTimeoutID)
     window.clearTimeout(aTimeoutID);
 }
 
-p;19;CPJSONPConnection.jt;5194;@STATIC;1.0;I;21;Foundation/CPObject.jt;5149;objj_executeFile("Foundation/CPObject.j", NO);
+p;19;CPJSONPConnection.jt;5193;@STATIC;1.0;I;21;Foundation/CPObject.jt;5148;objj_executeFile("Foundation/CPObject.j", NO);
 CPJSONPConnectionCallbacks = {};
 CPJSONPCallbackReplacementString = "${JSONP_CALLBACK}";
 {var the_class = objj_allocateClassPair(CPObject, "CPJSONPConnection"),
@@ -6860,7 +6860,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("sendRequest:callback:d
 },["CPJSONPConnection","CPURLRequest","CPString","id"]), new objj_method(sel_getUid("connectionWithRequest:callback:delegate:"), function $CPJSONPConnection__connectionWithRequest_callback_delegate_(self, _cmd, aRequest, callbackParameter, aDelegate)
 { with(self)
 {
-    return objj_msgSend(objj_msgSend(objj_msgSend(self, "class"), "alloc"), "initWithRequest:callback:delegate:startImmediately:", aRequest, callbackParameter, aDelegate, YES);;
+    return objj_msgSend(objj_msgSend(objj_msgSend(self, "class"), "alloc"), "initWithRequest:callback:delegate:startImmediately:", aRequest, callbackParameter, aDelegate, YES);
 }
 },["CPJSONPConnection","CPURLRequest","CPString","id"])]);
 }
