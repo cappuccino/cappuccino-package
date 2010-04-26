@@ -15309,7 +15309,7 @@ CPLog.warn("[CPSlider setValue:] is deprecated, use setDoubleValue: or setObject
 objj_msgSend(_6d,"setObjectValue:",_6f);
 }
 })]);
-p;11;CPBrowser.jt;33470;@STATIC;1.0;i;11;CPControl.ji;9;CPImage.ji;13;CPTableView.ji;14;CPScrollView.jt;33384;
+p;11;CPBrowser.jt;33565;@STATIC;1.0;i;11;CPControl.ji;9;CPImage.ji;13;CPTableView.ji;14;CPScrollView.jt;33479;
 objj_executeFile("CPControl.j",YES);
 objj_executeFile("CPImage.j",YES);
 objj_executeFile("CPTableView.j",YES);
@@ -15697,6 +15697,9 @@ objj_msgSend(_tableViews,"makeObjectsPerformSelector:withObject:",sel_getUid("se
 }
 }),new objj_method(sel_getUid("selectedRowIndexesInColumn:"),function(_ba,_bb,_bc){
 with(_ba){
+if(_bc<0||_bc>objj_msgSend(_ba,"lastColumn")+1){
+return objj_msgSend(CPIndexSet,"indexSet");
+}
 return objj_msgSend(objj_msgSend(_ba,"tableViewInColumn:",_bc),"selectedRowIndexes");
 }
 }),new objj_method(sel_getUid("selectRowIndexes:inColumn:"),function(_bd,_be,_bf,_c0){

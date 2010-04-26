@@ -17513,7 +17513,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","id"])]);
 }
 
-p;11;CPBrowser.jt;46251;@STATIC;1.0;i;11;CPControl.ji;9;CPImage.ji;13;CPTableView.ji;14;CPScrollView.jt;46165;objj_executeFile("CPControl.j", YES);
+p;11;CPBrowser.jt;46372;@STATIC;1.0;i;11;CPControl.ji;9;CPImage.ji;13;CPTableView.ji;14;CPScrollView.jt;46286;objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPImage.j", YES);
 objj_executeFile("CPTableView.j", YES);
 objj_executeFile("CPScrollView.j", YES);
@@ -17968,6 +17968,8 @@ _defaultColumnWidth = newValue;
 },["void","BOOL"]), new objj_method(sel_getUid("selectedRowIndexesInColumn:"), function $CPBrowser__selectedRowIndexesInColumn_(self, _cmd, column)
 { with(self)
 {
+    if (column < 0 || column > objj_msgSend(self, "lastColumn") +1)
+        return objj_msgSend(CPIndexSet, "indexSet");
     return objj_msgSend(objj_msgSend(self, "tableViewInColumn:", column), "selectedRowIndexes");
 }
 },["CPIndexSet","unsigned"]), new objj_method(sel_getUid("selectRowIndexes:inColumn:"), function $CPBrowser__selectRowIndexes_inColumn_(self, _cmd, indexSet, column)
