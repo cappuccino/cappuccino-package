@@ -10358,7 +10358,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"])]);
 }
 
-p;12;CPClipView.jt;7061;@STATIC;1.0;i;8;CPView.jt;7030;objj_executeFile("CPView.j", YES);
+p;12;CPClipView.jt;7063;@STATIC;1.0;i;8;CPView.jt;7032;objj_executeFile("CPView.j", YES);
 {var the_class = objj_allocateClassPair(CPView, "CPClipView"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_documentView")]);
 objj_registerClassPair(the_class);
@@ -10447,7 +10447,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("setDocumentView:"), fun
 { with(self)
 {
     var bounds = objj_msgSend(self, "bounds"),
-        eventLocation = objj_msgSend(self, "convertPoint:fromView:", objj_msgSend(event, "locationInWindow"), nil),
+        eventLocation = objj_msgSend(self, "convertPoint:fromView:", objj_msgSend(anEvent, "locationInWindow"), nil),
         superview = objj_msgSend(self, "superview"),
         deltaX = 0,
         deltaY = 0;

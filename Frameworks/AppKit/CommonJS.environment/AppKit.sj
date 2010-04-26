@@ -9029,7 +9029,7 @@ objj_msgSend(_62,"encodeConditionalObject:forKey:",_nextResponder,_5c);
 }
 }
 })]);
-p;12;CPClipView.jt;4953;@STATIC;1.0;i;8;CPView.jt;4922;
+p;12;CPClipView.jt;4951;@STATIC;1.0;i;8;CPView.jt;4920;
 objj_executeFile("CPView.j",YES);
 var _1=objj_allocateClassPair(CPView,"CPClipView"),_2=_1.isa;
 class_addIvars(_1,[new objj_ivar("_documentView")]);
@@ -9110,7 +9110,7 @@ objj_msgSend(_21,"reflectScrolledClipView:",_1e);
 }
 }),new objj_method(sel_getUid("autoscroll:"),function(_23,_24,_25){
 with(_23){
-var _26=objj_msgSend(_23,"bounds"),_27=objj_msgSend(_23,"convertPoint:fromView:",objj_msgSend(event,"locationInWindow"),nil),_28=objj_msgSend(_23,"superview"),_29=0,_2a=0;
+var _26=objj_msgSend(_23,"bounds"),_27=objj_msgSend(_23,"convertPoint:fromView:",objj_msgSend(_25,"locationInWindow"),nil),_28=objj_msgSend(_23,"superview"),_29=0,_2a=0;
 if(CGRectContainsPoint(_26,_27)){
 return NO;
 }
