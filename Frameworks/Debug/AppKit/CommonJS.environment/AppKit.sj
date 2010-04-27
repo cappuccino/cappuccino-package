@@ -384,7 +384,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPEvent"])]);
 }
 
-p;13;CPTableView.jt;125865;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;125722;objj_executeFile("Foundation/CPArray.j", NO);
+p;13;CPTableView.jt;125110;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;124967;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("AppKit/CGGradient.j", NO);
 objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPTableColumn.j", YES);
@@ -484,7 +484,6 @@ _disableAutomaticResizing = newValue;
         _allowsEmptySelection = YES;
         _allowsColumnSelection = NO;
         _disableAutomaticResizing = NO;
-        _tableViewFlags = 0;
         _selectionHighlightStyle = CPTableViewSelectionHighlightStyleRegular;
         objj_msgSend(self, "setUsesAlternatingRowBackgroundColors:", NO);
         objj_msgSend(self, "setAlternatingRowBackgroundColors:", [objj_msgSend(CPColor, "whiteColor"), objj_msgSend(CPColor, "colorWithHexString:", "f5f9fc")]);
@@ -492,23 +491,11 @@ _disableAutomaticResizing = newValue;
         _tableColumnRanges = [];
         _dirtyTableColumnRangeIndex = CPNotFound;
         _numberOfHiddenColumns = 0;
-        _objectValues = { };
-        _dataViewsForTableColumns = { };
-        _dataViews= [];
-        _numberOfRows = 0;
-        _exposedRows = objj_msgSend(CPIndexSet, "indexSet");
-        _exposedColumns = objj_msgSend(CPIndexSet, "indexSet");
-        _cachedDataViews = { };
         _intercellSpacing = { width:0.0, height:0.0 };
         _rowHeight = 23.0;
         objj_msgSend(self, "setGridColor:", objj_msgSend(CPColor, "colorWithHexString:", "dce0e2"));
         objj_msgSend(self, "setGridStyleMask:", CPTableViewGridNone);
-        _headerView = objj_msgSend(objj_msgSend(CPTableHeaderView, "alloc"), "initWithFrame:", CGRectMake(0, 0, objj_msgSend(self, "bounds").size.width, _rowHeight));
-        objj_msgSend(_headerView, "setTableView:", self);
-        _cornerView = objj_msgSend(objj_msgSend(_CPCornerView, "alloc"), "initWithFrame:", CGRectMake(0, 0, objj_msgSend(CPScroller, "scrollerWidth"), CGRectGetHeight(objj_msgSend(_headerView, "frame"))));
         _lastSelectedRow = -1;
-        _selectedColumnIndexes = objj_msgSend(CPIndexSet, "indexSet");
-        _selectedRowIndexes = objj_msgSend(CPIndexSet, "indexSet");
         _currentHighlightedTableColumn = nil;
         _sortDescriptors = objj_msgSend(CPArray, "array");
         _draggedRowIndexes = objj_msgSend(CPIndexSet, "indexSet");
@@ -518,9 +505,6 @@ _disableAutomaticResizing = newValue;
         _retargetedDropOperation = nil;
         _dragOperationDefaultMask = nil;
         _destinationDragStyle = CPTableViewDraggingDestinationFeedbackStyleRegular;
-        _tableDrawView = objj_msgSend(objj_msgSend(_CPTableDrawView, "alloc"), "initWithTableView:", self);
-        objj_msgSend(_tableDrawView, "setBackgroundColor:", objj_msgSend(CPColor, "clearColor"));
-        objj_msgSend(self, "addSubview:", _tableDrawView);
         objj_msgSend(self, "setBackgroundColor:", objj_msgSend(CPColor, "whiteColor"));
         objj_msgSend(self, "_init");
     }
@@ -529,9 +513,32 @@ _disableAutomaticResizing = newValue;
 },["id","CGRect"]), new objj_method(sel_getUid("_init"), function $CPTableView___init(self, _cmd)
 { with(self)
 {
+        _tableViewFlags = 0;
+        _selectedColumnIndexes = objj_msgSend(CPIndexSet, "indexSet");
+        _selectedRowIndexes = objj_msgSend(CPIndexSet, "indexSet");
         _dropOperationFeedbackView = objj_msgSend(objj_msgSend(_CPDropOperationDrawingView, "alloc"), "initWithFrame:", { origin: { x:0.0, y:0.0 }, size: { width:0.0, height:0.0 } });
         objj_msgSend(_dropOperationFeedbackView, "setTableView:", self);
         _lastColumnShouldSnap = NO;
+        if (!_alternatingRowBackgroundColors)
+            _alternatingRowBackgroundColors = [objj_msgSend(CPColor, "whiteColor"), objj_msgSend(CPColor, "colorWithHexString:", "e4e7ff")];
+        _tableColumnRanges = [];
+        _dirtyTableColumnRangeIndex = 0;
+        _numberOfHiddenColumns = 0;
+        _objectValues = { };
+        _dataViewsForTableColumns = { };
+        _dataViews= [];
+        _numberOfRows = 0;
+        _exposedRows = objj_msgSend(CPIndexSet, "indexSet");
+        _exposedColumns = objj_msgSend(CPIndexSet, "indexSet");
+        _cachedDataViews = { };
+        _tableDrawView = objj_msgSend(objj_msgSend(_CPTableDrawView, "alloc"), "initWithTableView:", self);
+        objj_msgSend(_tableDrawView, "setBackgroundColor:", objj_msgSend(CPColor, "clearColor"));
+        objj_msgSend(self, "addSubview:", _tableDrawView);
+        if (!_headerView)
+            _headerView = objj_msgSend(objj_msgSend(CPTableHeaderView, "alloc"), "initWithFrame:", CGRectMake(0, 0, objj_msgSend(self, "bounds").size.width, _rowHeight));
+        objj_msgSend(_headerView, "setTableView:", self);
+        if (!_cornerView)
+            _cornerView = objj_msgSend(objj_msgSend(_CPCornerView, "alloc"), "initWithFrame:", CGRectMake(0, 0, objj_msgSend(CPScroller, "scrollerWidth"), CGRectGetHeight(objj_msgSend(_headerView, "frame"))));
         _sourceListActiveGradient = CGGradientCreateWithColorComponents(CGColorSpaceCreateDeviceRGB(), [89.0/255.0, 153.0/255.0, 209.0/255.0,1.0, 33.0/255.0, 94.0/255.0, 208.0/255.0,1.0], [0,1], 2);
         _sourceListActiveTopLineColor = objj_msgSend(CPColor, "colorWithCalibratedRed:green:blue:alpha:", (61.0/255.0), (123.0/255.0), (218.0/255.0), 1.0);
         _sourceListActiveBottomLineColor = objj_msgSend(CPColor, "colorWithCalibratedRed:green:blue:alpha:", (31.0/255.0), (92.0/255.0), (207.0/255.0), 1.0);
@@ -2554,40 +2561,22 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
         _allowsMultipleSelection = objj_msgSend(aCoder, "decodeBoolForKey:", CPTableViewMultipleSelectionKey);
         _allowsEmptySelection = objj_msgSend(aCoder, "decodeBoolForKey:", CPTableViewEmptySelectionKey);
         _allowsColumnSelection = objj_msgSend(aCoder, "decodeBoolForKey:", CPTableViewColumnSelectionKey);
-        _tableViewFlags = 0;
         _selectionHighlightStyle = CPTableViewSelectionHighlightStyleRegular;
-        _usesAlternatingRowBackgroundColors = objj_msgSend(aCoder, "decodeBoolForKey:", CPTableViewUsesAlternatingBackgroundKey);
-        objj_msgSend(self, "setAlternatingRowBackgroundColors:", [objj_msgSend(CPColor, "whiteColor"), objj_msgSend(CPColor, "colorWithHexString:", "e4e7ff")]);
-        _tableColumns = objj_msgSend(aCoder, "decodeObjectForKey:", CPTableViewTableColumnsKey);
+        _tableColumns = objj_msgSend(aCoder, "decodeObjectForKey:", CPTableViewTableColumnsKey) || [];
         objj_msgSend(_tableColumns, "makeObjectsPerformSelector:withObject:", sel_getUid("setTableView:"), self);
-        _tableColumnRanges = [];
-        _dirtyTableColumnRangeIndex = 0;
-        _numberOfHiddenColumns = 0;
-        _objectValues = { };
-        _dataViewsForTableColumns = { };
-        _dataViews= [];
-        _numberOfRows = 0;
-        _exposedRows = objj_msgSend(CPIndexSet, "indexSet");
-        _exposedColumns = objj_msgSend(CPIndexSet, "indexSet");
-        _cachedDataViews = { };
-        _rowHeight = objj_msgSend(aCoder, "decodeFloatForKey:", CPTableViewRowHeightKey);
-        if (objj_msgSend(aCoder, "containsValueForKey:", CPTableViewIntercellSpacingKey))
-            _intercellSpacing = objj_msgSend(aCoder, "decodeSizeForKey:", CPTableViewIntercellSpacingKey);
+        if (objj_msgSend(aCoder, "containsValueForKey:", CPTableViewRowHeightKey))
+            _rowHeight = objj_msgSend(aCoder, "decodeFloatForKey:", CPTableViewRowHeightKey);
         else
-            _intercellSpacing = { width:0.0, height:0.0 };
+            _rowHeight = 23.0;
+        _intercellSpacing = objj_msgSend(aCoder, "decodeSizeForKey:", CPTableViewIntercellSpacingKey) || { width:0.0, height:0.0 };
         _gridColor = objj_msgSend(aCoder, "decodeObjectForKey:", CPTableViewGridColorKey) || objj_msgSend(CPColor, "grayColor");
         _gridStyleMask = objj_msgSend(aCoder, "decodeIntForKey:", CPTableViewGridStyleMaskKey) || CPTableViewGridNone;
         _alternatingRowBackgroundColors = objj_msgSend(aCoder, "decodeObjectForKey:", CPTableViewAlternatingRowColorsKey);
         _usesAlternatingRowBackgroundColors = objj_msgSend(aCoder, "decodeObjectForKey:", CPTableViewUsesAlternatingBackgroundKey)
         _headerView = objj_msgSend(aCoder, "decodeObjectForKey:", CPTableViewHeaderViewKey);
         _cornerView = objj_msgSend(aCoder, "decodeObjectForKey:", CPTableViewCornerViewKey);
-        _selectedColumnIndexes = objj_msgSend(CPIndexSet, "indexSet");
-        _selectedRowIndexes = objj_msgSend(CPIndexSet, "indexSet");
         _dataSource = objj_msgSend(aCoder, "decodeObjectForKey:", CPTableViewDataSourceKey);
         _delegate = objj_msgSend(aCoder, "decodeObjectForKey:", CPTableViewDelegateKey);
-        _tableDrawView = objj_msgSend(objj_msgSend(_CPTableDrawView, "alloc"), "initWithTableView:", self);
-        objj_msgSend(_tableDrawView, "setBackgroundColor:", objj_msgSend(CPColor, "clearColor"));
-        objj_msgSend(self, "addSubview:", _tableDrawView);
         objj_msgSend(self, "_init");
         objj_msgSend(self, "viewWillMoveToSuperview:", objj_msgSend(self, "superview"));
     }
@@ -19448,7 +19437,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithItemIdentifier:
 },["void","CPCoder"])]);
 }
 
-p;14;CPScrollView.jt;28553;@STATIC;1.0;i;8;CPView.ji;12;CPClipView.ji;12;CPScroller.jt;28487;objj_executeFile("CPView.j", YES);
+p;14;CPScrollView.jt;28644;@STATIC;1.0;i;8;CPView.ji;12;CPClipView.ji;12;CPScroller.jt;28578;objj_executeFile("CPView.j", YES);
 objj_executeFile("CPClipView.j", YES);
 objj_executeFile("CPScroller.j", YES);
 {var the_class = objj_allocateClassPair(CPView, "CPScrollView"),
@@ -19711,8 +19700,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void"]), new objj_method(sel_getUid("_headerView"), function $CPScrollView___headerView(self, _cmd)
 { with(self)
 {
-    var headerClipViewSubviews = objj_msgSend(_headerClipView, "subviews");
-    return objj_msgSend(headerClipViewSubviews, "count") ? headerClipViewSubviews[0] : nil;
+    return objj_msgSend(_headerClipView, "documentView");
 }
 },["CPView"]), new objj_method(sel_getUid("_cornerViewFrame"), function $CPScrollView___cornerViewFrame(self, _cmd)
 { with(self)
@@ -19951,6 +19939,11 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
         _horizontalPageScroll = objj_msgSend(aCoder, "decodeFloatForKey:", CPScrollViewHPageScrollKey);
         _contentView = objj_msgSend(aCoder, "decodeObjectForKey:", CPScrollViewContentViewKey);
         _headerClipView = objj_msgSend(aCoder, "decodeObjectForKey:", CPScrollViewHeaderClipViewKey);
+        if (!_headerClipView)
+        {
+            _headerClipView = objj_msgSend(objj_msgSend(CPClipView, "alloc"), "init");
+            objj_msgSend(self, "addSubview:", _headerClipView);
+        }
         _verticalScroller = objj_msgSend(aCoder, "decodeObjectForKey:", CPScrollViewVScrollerKey);
         _horizontalScroller = objj_msgSend(aCoder, "decodeObjectForKey:", CPScrollViewHScrollerKey);
         _hasVerticalScroller = objj_msgSend(aCoder, "decodeBoolForKey:", CPScrollViewHasVScrollerKey);
