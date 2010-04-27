@@ -7683,7 +7683,7 @@ var _CPSaveSessionMake = function(anAbsoluteURL, aSaveOperation, aChangeCount, a
     return { absoluteURL:anAbsoluteURL, saveOperation:aSaveOperation, changeCount:aChangeCount, delegate:aDelegate, didSaveSelector:aDidSaveSelector, contextInfo:aContextInfo, connection:aConnection };
 }
 
-p;15;CPPopUpButton.jt;18617;@STATIC;1.0;i;10;CPButton.ji;12;CPGeometry.ji;8;CPMenu.ji;12;CPMenuItem.jt;18536;objj_executeFile("CPButton.j", YES);
+p;15;CPPopUpButton.jt;19245;@STATIC;1.0;i;10;CPButton.ji;12;CPGeometry.ji;8;CPMenu.ji;12;CPMenuItem.jt;19164;objj_executeFile("CPButton.j", YES);
 objj_executeFile("CPGeometry.j", YES);
 objj_executeFile("CPMenu.j", YES);
 objj_executeFile("CPMenuItem.j", YES);
@@ -8062,7 +8062,22 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:pullsDown
 {
     objj_msgSend(self, "sendAction:to:", objj_msgSend(self, "action"), objj_msgSend(self, "target"));
 }
-},["void","id"])]);
+},["void","id"]), new objj_method(sel_getUid("takeValueFromKeyPath:ofObjects:"), function $CPPopUpButton__takeValueFromKeyPath_ofObjects_(self, _cmd, aKeyPath, objects)
+{ with(self)
+{
+    var count = objects.length,
+        value = objj_msgSend(objects[0], "valueForKeyPath:", aKeyPath);
+    objj_msgSend(self, "selectItemWithTag:", value);
+    objj_msgSend(self, "setEnabled:", YES);
+    while (count-- > 1)
+    {
+        if (value !== objj_msgSend(objects[count], "valueForKeyPath:", aKeyPath))
+        {
+            objj_msgSend(objj_msgSend(self, "selectedItem"), "setState:", CPOffState);
+        }
+    }
+}
+},["void","CPString","CPArray"])]);
 class_addMethods(meta_class, [new objj_method(sel_getUid("themeClass"), function $CPPopUpButton__themeClass(self, _cmd)
 { with(self)
 {
@@ -11293,7 +11308,7 @@ byteToHex= function(n) {
             hexCharacters.charAt(n % 16);
 }
 
-p;13;CPTextField.jt;32749;@STATIC;1.0;i;11;CPControl.ji;17;CPStringDrawing.ji;17;CPCompatibility.ji;21;_CPImageAndTextView.jt;32643;objj_executeFile("CPControl.j", YES);
+p;13;CPTextField.jt;33413;@STATIC;1.0;i;11;CPControl.ji;17;CPStringDrawing.ji;17;CPCompatibility.ji;21;_CPImageAndTextView.jt;33307;objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPStringDrawing.j", YES);
 objj_executeFile("CPCompatibility.j", YES);
 objj_executeFile("_CPImageAndTextView.j", YES);
@@ -11829,7 +11844,21 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
         objj_msgSend(contentView, "setTextShadowOffset:", objj_msgSend(self, "currentValueForThemeAttribute:", "text-shadow-offset"));
     }
 }
-},["void"])]);
+},["void"]), new objj_method(sel_getUid("takeValueFromKeyPath:ofObjects:"), function $CPTextField__takeValueFromKeyPath_ofObjects_(self, _cmd, aKeyPath, objects)
+{ with(self)
+{
+    var count = objects.length,
+        value = objj_msgSend(objects[0], "valueForKeyPath:", aKeyPath);
+    objj_msgSend(self, "setStringValue:", value);
+    objj_msgSend(self, "setPlaceholderString:", "");
+    while (count-- > 1)
+        if (value !== objj_msgSend(objects[count], "valueForKeyPath:", aKeyPath))
+        {
+            objj_msgSend(self, "setPlaceholderString:", "Multiple Values");
+            objj_msgSend(self, "setStringValue:", "");
+        }
+}
+},["void","CPString","CPArray"])]);
 class_addMethods(meta_class, [new objj_method(sel_getUid("textFieldWithStringValue:placeholder:width:"), function $CPTextField__textFieldWithStringValue_placeholder_width_(self, _cmd, aStringValue, aPlaceholder, aWidth)
 { with(self)
 {
@@ -13739,7 +13768,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"])]);
 }
 
-p;12;CPCheckBox.jt;1495;@STATIC;1.0;i;10;CPButton.jt;1461;objj_executeFile("CPButton.j", YES);
+p;12;CPCheckBox.jt;2481;@STATIC;1.0;i;10;CPButton.jt;2447;objj_executeFile("CPButton.j", YES);
 {var the_class = objj_allocateClassPair(CPButton, "CPCheckBox"),
 meta_class = the_class.isa;objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), function $CPCheckBox__initWithFrame_(self, _cmd, aFrame)
@@ -13756,7 +13785,28 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     }
     return self;
 }
-},["id","CGRect"])]);
+},["id","CGRect"]), new objj_method(sel_getUid("takeStateFromKeyPath:ofObjects:"), function $CPCheckBox__takeStateFromKeyPath_ofObjects_(self, _cmd, aKeyPath, objects)
+{ with(self)
+{
+    var count = objects.length,
+        value = objj_msgSend(objects[0], "valueForKeyPath:", aKeyPath) ? CPOnState : CPOffState;
+    objj_msgSend(self, "setAllowsMixedState:", NO);
+    objj_msgSend(self, "setState:", value);
+    while (count-- > 1)
+    {
+        if (value !== (objj_msgSend(objects[count], "valueForKeyPath:", aKeyPath) ? CPOnState : CPOffState))
+        {
+            objj_msgSend(self, "setAllowsMixedState:", YES);
+            objj_msgSend(self, "setState:", CPMixedState);
+        }
+    }
+}
+},["void","CPString","CPArray"]), new objj_method(sel_getUid("takeValueFromKeyPath:ofObjects:"), function $CPCheckBox__takeValueFromKeyPath_ofObjects_(self, _cmd, aKeyPath, objects)
+{ with(self)
+{
+    objj_msgSend(self, "takeStateFromKeyPath:ofObjects:", aKeyPath, objects);
+}
+},["void","CPString","CPArray"])]);
 class_addMethods(meta_class, [new objj_method(sel_getUid("checkBoxWithTitle:theme:"), function $CPCheckBox__checkBoxWithTitle_theme_(self, _cmd, aTitle, aTheme)
 { with(self)
 {
@@ -17169,7 +17219,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("actions"), function $_
 },["void"])]);
 }
 
-p;10;CPSlider.jt;16358;@STATIC;1.0;i;11;CPControl.jt;16322;objj_executeFile("CPControl.j", YES);
+p;10;CPSlider.jt;16879;@STATIC;1.0;i;11;CPControl.jt;16843;objj_executeFile("CPControl.j", YES);
 CPLinearSlider = 0;
 CPCircularSlider = 1;
 {var the_class = objj_allocateClassPair(CPControl, "CPSlider"),
@@ -17450,7 +17500,17 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     else
         _sendActionOn &= ~CPLeftMouseDraggedMask;
 }
-},["void","BOOL"])]);
+},["void","BOOL"]), new objj_method(sel_getUid("takeValueFromKeyPath:ofObjects:"), function $CPSlider__takeValueFromKeyPath_ofObjects_(self, _cmd, aKeyPath, objects)
+{ with(self)
+{
+    var count = objects.length,
+        value = objj_msgSend(objects[0], "valueForKeyPath:", aKeyPath);
+    objj_msgSend(self, "setObjectValue:", value);
+    while (count-- > 1)
+        if (value !== (objj_msgSend(objects[count], "valueForKeyPath:", aKeyPath)))
+            return objj_msgSend(self, "setFloatValue:", 1.0);
+}
+},["void","CPString","CPArray"])]);
 class_addMethods(meta_class, [new objj_method(sel_getUid("themeClass"), function $CPSlider__themeClass(self, _cmd)
 { with(self)
 {
