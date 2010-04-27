@@ -24747,7 +24747,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 objj_executeFile("CPCheckBox.j", YES);
 objj_executeFile("CPRadio.j", YES);
 
-p;10;CPWindow.jt;84306;@STATIC;1.0;I;25;Foundation/CPCountedSet.jI;33;Foundation/CPNotificationCenter.jI;26;Foundation/CPUndoManager.ji;12;CGGeometry.ji;13;CPAnimation.ji;13;CPResponder.ji;10;CPScreen.ji;18;CPPlatformWindow.ji;15;_CPWindowView.ji;23;_CPStandardWindowView.ji;23;_CPDocModalWindowView.ji;18;_CPHUDWindowView.ji;25;_CPBorderlessWindowView.ji;31;_CPBorderlessBridgeWindowView.ji;14;CPDragServer.ji;8;CPView.jt;83900;objj_executeFile("Foundation/CPCountedSet.j", NO);
+p;10;CPWindow.jt;84903;@STATIC;1.0;I;25;Foundation/CPCountedSet.jI;33;Foundation/CPNotificationCenter.jI;26;Foundation/CPUndoManager.ji;12;CGGeometry.ji;13;CPAnimation.ji;13;CPResponder.ji;10;CPScreen.ji;18;CPPlatformWindow.ji;15;_CPWindowView.ji;23;_CPStandardWindowView.ji;23;_CPDocModalWindowView.ji;18;_CPHUDWindowView.ji;25;_CPBorderlessWindowView.ji;31;_CPBorderlessBridgeWindowView.ji;14;CPDragServer.ji;8;CPView.jt;84497;objj_executeFile("Foundation/CPCountedSet.j", NO);
 objj_executeFile("Foundation/CPNotificationCenter.j", NO);
 objj_executeFile("Foundation/CPUndoManager.j", NO);
 objj_executeFile("CGGeometry.j", YES);
@@ -24828,6 +24828,14 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPWin
             objj_msgSend(self, "setPlatformWindow:", objj_msgSend(CPPlatformWindow, "primaryPlatformWindow"));
         else
         {
+            if ((aStyleMask & CPBorderlessBridgeWindowMask) && aContentRect.size.width === 0 && aContentRect.size.height === 0)
+            {
+                var visibleFrame = objj_msgSend(objj_msgSend(objj_msgSend(CPScreen, "alloc"), "init"), "visibleFrame");
+                _frame.size.height = MIN(768.0, visibleFrame.size.height);
+                _frame.size.width = MIN(1024.0, visibleFrame.size.width);
+                _frame.origin.x = (visibleFrame.size.width - _frame.size.width) / 2;
+                _frame.origin.y = (visibleFrame.size.height - _frame.size.height) / 2;
+            }
             objj_msgSend(self, "setPlatformWindow:", objj_msgSend(objj_msgSend(CPPlatformWindow, "alloc"), "initWithContentRect:", _frame));
             objj_msgSend(self, "platformWindow")._only = self;
         }
