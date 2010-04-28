@@ -23760,7 +23760,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithItemIdentifier:
 },["void","CPCoder"])]);
 }
 
-p;13;CPButtonBar.jt;11874;@STATIC;1.0;I;15;AppKit/CPView.jt;11834;
+p;13;CPButtonBar.jt;13496;@STATIC;1.0;I;15;AppKit/CPView.jt;13456;
 
 
 objj_executeFile("AppKit/CPView.j", NO);
@@ -23900,12 +23900,22 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
             objj_msgSend(buttonsNotHidden, "removeObject:", buttonsNotHidden[count]);
 
     var currentButtonOffset = _resizeControlIsLeftAligned ? CGRectGetMaxX(objj_msgSend(self, "bounds")) + 1 : -1,
-        height = CGRectGetHeight(objj_msgSend(self, "bounds")) - 1;
+        bounds = objj_msgSend(self, "bounds"),
+        height = CGRectGetHeight(bounds) - 1,
+        frameWidth = CGRectGetWidth(bounds),
+        resizeRect = _hasResizeControl ? objj_msgSend(self, "rectForEphemeralSubviewNamed:", "resize-control-view") : CGRectMakeZero(),
+        resizeWidth = CGRectGetWidth(resizeRect),
+        availableWidth = frameWidth - resizeWidth - 1;
 
     for (var i = 0, count = objj_msgSend(buttonsNotHidden, "count"); i < count; i++)
     {
         var button = buttonsNotHidden[i],
             width = CGRectGetWidth(objj_msgSend(button, "frame"));
+
+        if (availableWidth > width)
+            availableWidth -=width;
+        else
+            break;
 
         if (_resizeControlIsLeftAligned)
         {
@@ -23939,12 +23949,18 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
         objj_msgSend(resizeControlView, "setBackgroundColor:", objj_msgSend(self, "currentValueForThemeAttribute:", "resize-control-color"));
     }
 }
-},["void"])]);
+},["void"]), new objj_method(sel_getUid("setFrameSize:"), function $CPButtonBar__setFrameSize_(self, _cmd, aSize)
+{ with(self)
+{
+    objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPButtonBar").super_class }, "setFrameSize:", aSize);
+    objj_msgSend(self, "setNeedsLayout");
+}
+},["void","CGSize"])]);
 class_addMethods(meta_class, [new objj_method(sel_getUid("plusButton"), function $CPButtonBar__plusButton(self, _cmd)
 { with(self)
 {
     var button = objj_msgSend(objj_msgSend(CPButton, "alloc"), "initWithFrame:", CGRectMake(0, 0, 35, 25)),
-        image = objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(objj_msgSend(CPBundle, "bundleForClass:", self), "pathForResource:", "plus_button.png"), CGSizeMake(11, 12));
+        image = objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(objj_msgSend(CPBundle, "bundleForClass:", objj_msgSend(CPButtonBar, "class")), "pathForResource:", "plus_button.png"), CGSizeMake(11, 12));
 
     objj_msgSend(button, "setBordered:", NO);
     objj_msgSend(button, "setImage:", image);
@@ -23956,11 +23972,26 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("plusButton"), function
 { with(self)
 {
     var button = objj_msgSend(objj_msgSend(CPButton, "alloc"), "initWithFrame:", CGRectMake(0, 0, 35, 25)),
-        image = objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(objj_msgSend(CPBundle, "bundleForClass:", self), "pathForResource:", "minus_button.png"), CGSizeMake(11, 4));
+        image = objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(objj_msgSend(CPBundle, "bundleForClass:", objj_msgSend(CPButtonBar, "class")), "pathForResource:", "minus_button.png"), CGSizeMake(11, 4));
 
     objj_msgSend(button, "setBordered:", NO);
     objj_msgSend(button, "setImage:", image);
     objj_msgSend(button, "setImagePosition:", CPImageOnly);
+
+    return button;
+}
+},["id"]), new objj_method(sel_getUid("actionPopupButton"), function $CPButtonBar__actionPopupButton(self, _cmd)
+{ with(self)
+{
+    var button = objj_msgSend(objj_msgSend(CPPopUpButton, "alloc"), "initWithFrame:", CGRectMake(0, 0, 35, 25)),
+        image = objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(objj_msgSend(CPBundle, "bundleForClass:", objj_msgSend(CPButtonBar, "class")), "pathForResource:", "action_button.png"), CGSizeMake(22, 14));
+
+    objj_msgSend(button, "addItemWithTitle:", nil);
+    objj_msgSend(objj_msgSend(button, "lastItem"), "setImage:", image);
+    objj_msgSend(button, "setImagePosition:", CPImageOnly);
+    objj_msgSend(button, "setValue:forThemeAttribute:", CGInsetMake(0, 0, 0, 0), "content-inset");
+
+    objj_msgSend(button, "setPullsDown:", YES);
 
     return button;
 }
