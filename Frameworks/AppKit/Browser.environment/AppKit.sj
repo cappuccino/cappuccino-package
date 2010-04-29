@@ -28616,7 +28616,7 @@ objj_msgSend(_22,"encodeObject:forKey:",_label,_3);
 })]);
 var _4=objj_allocateClassPair(CPCibConnector,"_CPCibConnector"),_5=_4.isa;
 objj_registerClassPair(_4);
-p;14;CPCibLoading.jt;3540;@STATIC;1.0;I;21;Foundation/CPBundle.jI;25;Foundation/CPDictionary.jI;21;Foundation/CPString.jt;3439;
+p;14;CPCibLoading.jt;3586;@STATIC;1.0;I;21;Foundation/CPBundle.jI;25;Foundation/CPDictionary.jI;21;Foundation/CPString.jt;3485;
 objj_executeFile("Foundation/CPBundle.j",NO);
 objj_executeFile("Foundation/CPDictionary.j",NO);
 objj_executeFile("Foundation/CPString.j",NO);
@@ -28637,16 +28637,16 @@ throw new SyntaxError("*** Could not find definition for class \"CPBundle\"");
 var _3=_2.isa;
 class_addMethods(_2,[new objj_method(sel_getUid("loadCibFile:externalNameTable:"),function(_6,_7,_8,_9){
 with(_6){
-objj_msgSend(objj_msgSend(objj_msgSend(CPCib,"alloc"),"initWithContentsOfURL:",_8),"instantiateCibWithExternalNameTable:",_9);
+return objj_msgSend(objj_msgSend(objj_msgSend(CPCib,"alloc"),"initWithContentsOfURL:",_8),"instantiateCibWithExternalNameTable:",_9);
 }
 }),new objj_method(sel_getUid("loadCibFile:externalNameTable:loadDelegate:"),function(_a,_b,_c,_d,_e){
 with(_a){
-objj_msgSend(objj_msgSend(CPCib,"alloc"),"initWithCibNamed:bundle:loadDelegate:",_c,_a,objj_msgSend(objj_msgSend(_CPCibLoadDelegate,"alloc"),"initWithLoadDelegate:externalNameTable:",_e,_d));
+return (objj_msgSend(objj_msgSend(CPCib,"alloc"),"initWithCibNamed:bundle:loadDelegate:",_c,_a,objj_msgSend(objj_msgSend(_CPCibLoadDelegate,"alloc"),"initWithLoadDelegate:externalNameTable:",_e,_d)));
 }
 })]);
 class_addMethods(_3,[new objj_method(sel_getUid("loadCibFile:externalNameTable:"),function(_f,_10,_11,_12){
 with(_f){
-objj_msgSend(objj_msgSend(objj_msgSend(CPCib,"alloc"),"initWithContentsOfURL:",_11),"instantiateCibWithExternalNameTable:",_12);
+return objj_msgSend(objj_msgSend(objj_msgSend(CPCib,"alloc"),"initWithContentsOfURL:",_11),"instantiateCibWithExternalNameTable:",_12);
 }
 }),new objj_method(sel_getUid("loadCibNamed:owner:"),function(_13,_14,_15,_16){
 with(_13){
@@ -28654,11 +28654,11 @@ if(!objj_msgSend(_15,"hasSuffix:",".cib")){
 _15=objj_msgSend(_15,"stringByAppendingString:",".cib");
 }
 var _17=_16?objj_msgSend(CPBundle,"bundleForClass:",objj_msgSend(_16,"class")):objj_msgSend(CPBundle,"mainBundle"),_18=objj_msgSend(_17,"pathForResource:",_15);
-objj_msgSend(_13,"loadCibFile:externalNameTable:",_18,objj_msgSend(CPDictionary,"dictionaryWithObject:forKey:",_16,_1));
+return objj_msgSend(_13,"loadCibFile:externalNameTable:",_18,objj_msgSend(CPDictionary,"dictionaryWithObject:forKey:",_16,_1));
 }
 }),new objj_method(sel_getUid("loadCibFile:externalNameTable:loadDelegate:"),function(_19,_1a,_1b,_1c,_1d){
 with(_19){
-objj_msgSend(objj_msgSend(CPCib,"alloc"),"initWithContentsOfURL:loadDelegate:",_1b,objj_msgSend(objj_msgSend(_CPCibLoadDelegate,"alloc"),"initWithLoadDelegate:externalNameTable:",_1d,_1c));
+return (objj_msgSend(objj_msgSend(CPCib,"alloc"),"initWithContentsOfURL:loadDelegate:",_1b,objj_msgSend(objj_msgSend(_CPCibLoadDelegate,"alloc"),"initWithLoadDelegate:externalNameTable:",_1d,_1c)));
 }
 }),new objj_method(sel_getUid("loadCibNamed:owner:loadDelegate:"),function(_1e,_1f,_20,_21,_22){
 with(_1e){
@@ -28666,7 +28666,7 @@ if(!objj_msgSend(_20,"hasSuffix:",".cib")){
 _20=objj_msgSend(_20,"stringByAppendingString:",".cib");
 }
 var _23=_21?objj_msgSend(CPBundle,"bundleForClass:",objj_msgSend(_21,"class")):objj_msgSend(CPBundle,"mainBundle"),_24=objj_msgSend(_23,"pathForResource:",_20);
-objj_msgSend(_1e,"loadCibFile:externalNameTable:loadDelegate:",_24,objj_msgSend(CPDictionary,"dictionaryWithObject:forKey:",_21,_1),_22);
+return objj_msgSend(_1e,"loadCibFile:externalNameTable:loadDelegate:",_24,objj_msgSend(CPDictionary,"dictionaryWithObject:forKey:",_21,_1),_22);
 }
 })]);
 var _2=objj_allocateClassPair(CPObject,"_CPCibLoadDelegate"),_3=_2.isa;
