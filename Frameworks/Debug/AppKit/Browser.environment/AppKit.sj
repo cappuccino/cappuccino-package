@@ -4587,7 +4587,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["id","CPCoder"])]);
 }
 
-p;13;CPSplitView.jt;29958;@STATIC;1.0;i;13;CPButtonBar.ji;9;CPImage.ji;8;CPView.jt;29895;objj_executeFile("CPButtonBar.j", YES);
+p;13;CPSplitView.jt;29954;@STATIC;1.0;i;13;CPButtonBar.ji;9;CPImage.ji;8;CPView.jt;29891;objj_executeFile("CPButtonBar.j", YES);
 objj_executeFile("CPImage.j", YES);
 objj_executeFile("CPView.j", YES);
 CPSplitViewDidResizeSubviewsNotification = "CPSplitViewDidResizeSubviewsNotification";
@@ -4713,8 +4713,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
         _DOMDividerElements[_drawingDivider].style.position = "absolute";
         _DOMDividerElements[_drawingDivider].style.backgroundRepeat = "repeat";
         _DOMElement.appendChild(_DOMDividerElements[_drawingDivider]);
-        objj_msgSend(self, "_setupDOMDivider");
     }
+    objj_msgSend(self, "_setupDOMDivider");
     if (NULL) var ____p = _CGPointApplyAffineTransform(CGPointMake((aRect.origin.x), (aRect.origin.y)), NULL); else var ____p = { x:(aRect.origin.x), y:(aRect.origin.y) }; _DOMDividerElements[_drawingDivider].style.left = ROUND(____p.x) + "px";_DOMDividerElements[_drawingDivider].style.top = ROUND(____p.y) + "px";;
     _DOMDividerElements[_drawingDivider].style.width = MAX(0.0, ROUND((aRect.size.width))) + "px"; _DOMDividerElements[_drawingDivider].style.height = MAX(0.0, ROUND((aRect.size.height))) + "px";;
 }

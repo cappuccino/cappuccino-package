@@ -4153,8 +4153,8 @@ _DOMDividerElements[_drawingDivider]=document.createElement("div");
 _DOMDividerElements[_drawingDivider].style.position="absolute";
 _DOMDividerElements[_drawingDivider].style.backgroundRepeat="repeat";
 _DOMElement.appendChild(_DOMDividerElements[_drawingDivider]);
-objj_msgSend(_31,"_setupDOMDivider");
 }
+objj_msgSend(_31,"_setupDOMDivider");
 if(NULL){
 var _34=_CGPointApplyAffineTransform(CGPointMake((_33.origin.x),(_33.origin.y)),NULL);
 }else{
