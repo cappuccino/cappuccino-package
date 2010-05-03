@@ -12443,7 +12443,7 @@ return _6f;
 return nil;
 }
 })]);
-p;11;CPWebView.jt;13165;@STATIC;1.0;I;15;AppKit/CPView.jt;13125;
+p;11;CPWebView.jt;13184;@STATIC;1.0;I;15;AppKit/CPView.jt;13144;
 objj_executeFile("AppKit/CPView.j",NO);
 CPWebViewProgressStartedNotification="CPWebViewProgressStartedNotification";
 CPWebViewProgressFinishedNotification="CPWebViewProgressFinishedNotification";
@@ -12534,7 +12534,7 @@ win=objj_msgSend(_11,"DOMWindow");
 }
 catch(e){
 }
-if(win&&win.document){
+if(win&&win.document&&win.document.body){
 var _13=win.document.body.scrollWidth,_14=win.document.body.scrollHeight;
 _iframe.setAttribute("width",_13);
 _iframe.setAttribute("height",_14);
