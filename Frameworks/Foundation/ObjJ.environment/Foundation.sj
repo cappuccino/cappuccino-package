@@ -2465,7 +2465,7 @@ return g;
 }
 })]);
 String.prototype.isa=CPString;
-p;11;CPRunLoop.jt;6456;@STATIC;1.0;i;10;CPObject.ji;9;CPArray.ji;10;CPString.jt;6394;
+p;11;CPRunLoop.jt;6496;@STATIC;1.0;i;10;CPObject.ji;9;CPArray.ji;10;CPString.jt;6434;
 objj_executeFile("CPObject.j",YES);
 objj_executeFile("CPArray.j",YES);
 objj_executeFile("CPString.j",YES);
@@ -2546,7 +2546,7 @@ return objj_msgSend(objj_msgSend(_1e,"alloc"),"initWithSelector:target:argument:
 })]);
 var _26=0;
 var _5=objj_allocateClassPair(CPObject,"CPRunLoop"),_6=_5.isa;
-class_addIvars(_5,[new objj_ivar("_runLoopLock"),new objj_ivar("_timersForModes"),new objj_ivar("_nativeTimersForModes"),new objj_ivar("_nextTimerFireDatesForModes"),new objj_ivar("_didAddTimer"),new objj_ivar("_effectiveDate"),new objj_ivar("_orderedPerforms")]);
+class_addIvars(_5,[new objj_ivar("_runLoopLock"),new objj_ivar("_timersForModes"),new objj_ivar("_nativeTimersForModes"),new objj_ivar("_nextTimerFireDatesForModes"),new objj_ivar("_didAddTimer"),new objj_ivar("_effectiveDate"),new objj_ivar("_orderedPerforms"),new objj_ivar("_runLoopInsuranceTimer")]);
 objj_registerClassPair(_5);
 class_addMethods(_5,[new objj_method(sel_getUid("init"),function(_27,_28){
 with(_27){

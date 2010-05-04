@@ -2781,7 +2781,7 @@ var meta_class = the_class.isa;class_addMethods(meta_class, [new objj_method(sel
 }
 String.prototype.isa = CPString;
 
-p;11;CPRunLoop.jt;10039;@STATIC;1.0;i;10;CPObject.ji;9;CPArray.ji;10;CPString.jt;9977;objj_executeFile("CPObject.j", YES);
+p;11;CPRunLoop.jt;10081;@STATIC;1.0;i;10;CPObject.ji;9;CPArray.ji;10;CPString.jt;10018;objj_executeFile("CPObject.j", YES);
 objj_executeFile("CPArray.j", YES);
 objj_executeFile("CPString.j", YES);
 CPDefaultRunLoopMode = "CPDefaultRunLoopMode";
@@ -2874,7 +2874,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("_poolPerform:"), funct
 }
 var CPRunLoopLastNativeRunLoop = 0;
 {var the_class = objj_allocateClassPair(CPObject, "CPRunLoop"),
-meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_runLoopLock"), new objj_ivar("_timersForModes"), new objj_ivar("_nativeTimersForModes"), new objj_ivar("_nextTimerFireDatesForModes"), new objj_ivar("_didAddTimer"), new objj_ivar("_effectiveDate"), new objj_ivar("_orderedPerforms")]);
+meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_runLoopLock"), new objj_ivar("_timersForModes"), new objj_ivar("_nativeTimersForModes"), new objj_ivar("_nextTimerFireDatesForModes"), new objj_ivar("_didAddTimer"), new objj_ivar("_effectiveDate"), new objj_ivar("_orderedPerforms"), new objj_ivar("_runLoopInsuranceTimer")]);
 objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPRunLoop__init(self, _cmd)
 { with(self)
