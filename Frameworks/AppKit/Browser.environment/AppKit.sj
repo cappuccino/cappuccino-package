@@ -26779,11 +26779,11 @@ _1b.textContent=_18;
 return {width:_1b.clientWidth,height:_1b.clientHeight};
 }
 })]);
-p;18;CPPlatformWindow.jt;5307;@STATIC;1.0;I;21;Foundation/CPObject.ji;22;CPPlatformWindow+DOM.jt;5235;
+p;18;CPPlatformWindow.jt;5339;@STATIC;1.0;I;21;Foundation/CPObject.ji;22;CPPlatformWindow+DOM.jt;5267;
 objj_executeFile("Foundation/CPObject.j",NO);
 var _1=NULL;
 var _2=objj_allocateClassPair(CPObject,"CPPlatformWindow"),_3=_2.isa;
-class_addIvars(_2,[new objj_ivar("_contentRect"),new objj_ivar("_level"),new objj_ivar("_hasShadow"),new objj_ivar("_shadowStyle"),new objj_ivar("_DOMWindow"),new objj_ivar("_DOMBodyElement"),new objj_ivar("_DOMFocusElement"),new objj_ivar("_windowLevels"),new objj_ivar("_windowLayers"),new objj_ivar("_mouseIsDown"),new objj_ivar("_mouseDownIsRightClick"),new objj_ivar("_mouseDownWindow"),new objj_ivar("_lastMouseUp"),new objj_ivar("_lastMouseDown"),new objj_ivar("_charCodes"),new objj_ivar("_keyCode"),new objj_ivar("_lastKey"),new objj_ivar("_capsLockActive"),new objj_ivar("_ignoreNativeCopyOrCutEvent"),new objj_ivar("_ignoreNativePastePreparation"),new objj_ivar("_DOMEventMode"),new objj_ivar("_DOMPasteboardElement"),new objj_ivar("_pasteboardKeyDownEvent"),new objj_ivar("_overriddenEventType")]);
+class_addIvars(_2,[new objj_ivar("_contentRect"),new objj_ivar("_level"),new objj_ivar("_hasShadow"),new objj_ivar("_shadowStyle"),new objj_ivar("_DOMWindow"),new objj_ivar("_DOMBodyElement"),new objj_ivar("_DOMFocusElement"),new objj_ivar("_DOMEventGuard"),new objj_ivar("_windowLevels"),new objj_ivar("_windowLayers"),new objj_ivar("_mouseIsDown"),new objj_ivar("_mouseDownIsRightClick"),new objj_ivar("_mouseDownWindow"),new objj_ivar("_lastMouseUp"),new objj_ivar("_lastMouseDown"),new objj_ivar("_charCodes"),new objj_ivar("_keyCode"),new objj_ivar("_lastKey"),new objj_ivar("_capsLockActive"),new objj_ivar("_ignoreNativeCopyOrCutEvent"),new objj_ivar("_ignoreNativePastePreparation"),new objj_ivar("_DOMEventMode"),new objj_ivar("_DOMPasteboardElement"),new objj_ivar("_pasteboardKeyDownEvent"),new objj_ivar("_overriddenEventType")]);
 objj_registerClassPair(_2);
 class_addMethods(_2,[new objj_method(sel_getUid("initWithContentRect:"),function(_4,_5,_6){
 with(_4){
@@ -26912,7 +26912,7 @@ _1=_41;
 }
 })]);
 objj_executeFile("CPPlatformWindow+DOM.j",YES);
-p;22;CPPlatformWindow+DOM.jt;29890;@STATIC;1.0;I;21;Foundation/CPObject.jI;22;Foundation/CPRunLoop.ji;9;CPEvent.ji;17;CPCompatibility.ji;18;CPDOMWindowLayer.ji;12;CPPlatform.ji;18;CPPlatformWindow.ji;26;CPPlatformWindow+DOMKeys.jt;29688;
+p;22;CPPlatformWindow+DOM.jt;29846;@STATIC;1.0;I;21;Foundation/CPObject.jI;22;Foundation/CPRunLoop.ji;9;CPEvent.ji;17;CPCompatibility.ji;18;CPDOMWindowLayer.ji;12;CPPlatform.ji;18;CPPlatformWindow.ji;26;CPPlatformWindow+DOMKeys.jt;29644;
 objj_executeFile("Foundation/CPObject.j",NO);
 objj_executeFile("Foundation/CPRunLoop.j",NO);
 objj_executeFile("CPEvent.j",YES);
@@ -27028,7 +27028,7 @@ _DOMBodyElement.appendChild(_6);
 with(_1e){
 var _20=_DOMWindow.document;
 _DOMBodyElement=_20.getElementById("cappuccino-body")||_20.body;
-if(objj_msgSend(CPPlatform,"supportsDragAndDrop")){
+if(_a){
 _DOMBodyElement.style["-khtml-user-select"]="none";
 }
 _DOMBodyElement.webkitTouchCallout="none";

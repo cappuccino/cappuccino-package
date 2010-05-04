@@ -25757,7 +25757,7 @@ with(_3d){
 _1=_3f;
 }
 })]);
-p;22;CPPlatformWindow+DOM.jt;29890;@STATIC;1.0;I;21;Foundation/CPObject.jI;22;Foundation/CPRunLoop.ji;9;CPEvent.ji;17;CPCompatibility.ji;18;CPDOMWindowLayer.ji;12;CPPlatform.ji;18;CPPlatformWindow.ji;26;CPPlatformWindow+DOMKeys.jt;29688;
+p;22;CPPlatformWindow+DOM.jt;29846;@STATIC;1.0;I;21;Foundation/CPObject.jI;22;Foundation/CPRunLoop.ji;9;CPEvent.ji;17;CPCompatibility.ji;18;CPDOMWindowLayer.ji;12;CPPlatform.ji;18;CPPlatformWindow.ji;26;CPPlatformWindow+DOMKeys.jt;29644;
 objj_executeFile("Foundation/CPObject.j",NO);
 objj_executeFile("Foundation/CPRunLoop.j",NO);
 objj_executeFile("CPEvent.j",YES);
@@ -25873,7 +25873,7 @@ _DOMBodyElement.appendChild(_6);
 with(_1e){
 var _20=_DOMWindow.document;
 _DOMBodyElement=_20.getElementById("cappuccino-body")||_20.body;
-if(objj_msgSend(CPPlatform,"supportsDragAndDrop")){
+if(_a){
 _DOMBodyElement.style["-khtml-user-select"]="none";
 }
 _DOMBodyElement.webkitTouchCallout="none";
