@@ -29649,7 +29649,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("visiblePlatformWindows
 },["void","CPPlatformWindow"])]);
 }
 
-p;22;CPPlatformWindow+DOM.jt;50000;@STATIC;1.0;I;21;Foundation/CPObject.jI;22;Foundation/CPRunLoop.ji;9;CPEvent.ji;17;CPCompatibility.ji;18;CPDOMWindowLayer.ji;12;CPPlatform.ji;18;CPPlatformWindow.ji;26;CPPlatformWindow+DOMKeys.jt;49798;objj_executeFile("Foundation/CPObject.j", NO);
+p;22;CPPlatformWindow+DOM.jt;50128;@STATIC;1.0;I;21;Foundation/CPObject.jI;22;Foundation/CPRunLoop.ji;9;CPEvent.ji;17;CPCompatibility.ji;18;CPDOMWindowLayer.ji;12;CPPlatform.ji;18;CPPlatformWindow.ji;26;CPPlatformWindow+DOMKeys.jt;49926;objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("Foundation/CPRunLoop.j", NO);
 objj_executeFile("CPEvent.j", YES);
 objj_executeFile("CPCompatibility.j", YES);
@@ -29935,6 +29935,9 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
             DOMDragElement = draggedWindow._DOMElement;
         DOMDragElement.style.left = -(draggedWindowFrame.size.width) + "px";
         DOMDragElement.style.top = -(draggedWindowFrame.size.height) + "px";
+        var parentNode = DOMDragElement.parentNode;
+        if (parentNode)
+            parentNode.removeChild(DOMDragElement);
         _DOMBodyElement.appendChild(DOMDragElement);
         var draggingOffset = objj_msgSend(dragServer, "draggingOffset");
         aDOMEvent.dataTransfer.setDragImage(DOMDragElement, draggingOffset.width, draggingOffset.height);
