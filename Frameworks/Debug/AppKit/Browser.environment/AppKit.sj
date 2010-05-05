@@ -14969,7 +14969,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["id","CGPoint","CPPasteboard"])]);
 }
 
-p;11;CPWebView.jt;18434;@STATIC;1.0;I;15;AppKit/CPView.jt;18394;objj_executeFile("AppKit/CPView.j", NO);
+p;11;CPWebView.jt;18695;@STATIC;1.0;I;15;AppKit/CPView.jt;18655;objj_executeFile("AppKit/CPView.j", NO);
 CPWebViewProgressStartedNotification = "CPWebViewProgressStartedNotification";
 CPWebViewProgressFinishedNotification = "CPWebViewProgressFinishedNotification";
 CPWebViewScrollAppKit = 1;
@@ -15061,7 +15061,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:frameName
         }
         else
         {
-            objj_msgSend(_frameView, "setFrameSize:", objj_msgSend(_scrollView, "contentSize"));
+            var visibleRect = objj_msgSend(_frameView, "visibleRect");
+            objj_msgSend(_frameView, "setFrameSize:", CGSizeMake(CGRectGetMaxX(visibleRect), CGRectGetMaxY(visibleRect)));
             var win = null;
             try { win = objj_msgSend(self, "DOMWindow"); } catch (e) {}
             if (win && win.document && win.document.body)
@@ -15077,6 +15078,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:frameName
                 CPLog.warn("using default size 800*1600");
                 objj_msgSend(_frameView, "setFrameSize:", CGSizeMake(800, 1600));
             }
+            objj_msgSend(_frameView, "scrollRectToVisible:", visibleRect);
         }
     }
 }
@@ -15119,6 +15121,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:frameName
 { with(self)
 {
     objj_msgSend(self, "_setScrollMode:", CPWebViewScrollAppKit);
+    objj_msgSend(_frameView, "setFrameSize:", objj_msgSend(_scrollView, "contentSize"));
     objj_msgSend(self, "_startedLoading");
     _ignoreLoadStart = YES;
     _ignoreLoadEnd = NO;
