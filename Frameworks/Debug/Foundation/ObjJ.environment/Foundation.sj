@@ -7773,7 +7773,7 @@ Number.prototype.isa = CPNumber;
 Boolean.prototype.isa = CPNumber;
 objj_msgSend(CPNumber, "initialize");
 
-p;21;CPKeyValueObserving.jt;24776;@STATIC;1.0;i;9;CPArray.ji;14;CPDictionary.ji;13;CPException.ji;8;CPNull.ji;10;CPObject.ji;7;CPSet.ji;13;CPArray+KVO.jt;24650;objj_executeFile("CPArray.j", YES);
+p;21;CPKeyValueObserving.jt;25772;@STATIC;1.0;i;9;CPArray.ji;14;CPDictionary.ji;13;CPException.ji;8;CPNull.ji;10;CPObject.ji;7;CPSet.ji;13;CPArray+KVO.jt;25646;objj_executeFile("CPArray.j", YES);
 objj_executeFile("CPDictionary.j", YES);
 objj_executeFile("CPException.j", YES);
 objj_executeFile("CPNull.j", YES);
@@ -8114,6 +8114,10 @@ meta_class = the_class.isa;objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("willChangeValueForKey:"), function $_CPKVOModelSubclass__willChangeValueForKey_(self, _cmd, aKey)
 { with(self)
 {
+    var superClass = objj_msgSend(self, "class"),
+        methodSelector = sel_getUid("willChangeValueForKey:"),
+        methodImp = class_getMethodImplementation(superClass, methodSelector);
+    methodImp(self, methodSelector, aKey);
     if (!aKey)
         return;
     var changeOptions = objj_msgSend(CPDictionary, "dictionaryWithObject:forKey:", CPKeyValueChangeSetting, CPKeyValueChangeKindKey);
@@ -8122,6 +8126,10 @@ class_addMethods(the_class, [new objj_method(sel_getUid("willChangeValueForKey:"
 },["void","CPString"]), new objj_method(sel_getUid("didChangeValueForKey:"), function $_CPKVOModelSubclass__didChangeValueForKey_(self, _cmd, aKey)
 { with(self)
 {
+    var superClass = objj_msgSend(self, "class"),
+        methodSelector = sel_getUid("didChangeValueForKey:"),
+        methodImp = class_getMethodImplementation(superClass, methodSelector);
+    methodImp(self, methodSelector, aKey);
     if (!aKey)
         return;
     objj_msgSend(objj_msgSend(_CPKVOProxy, "proxyForObject:", self), "_sendNotificationsForKey:changeOptions:isBefore:", aKey, nil, NO);
@@ -8129,6 +8137,10 @@ class_addMethods(the_class, [new objj_method(sel_getUid("willChangeValueForKey:"
 },["void","CPString"]), new objj_method(sel_getUid("willChange:valuesAtIndexes:forKey:"), function $_CPKVOModelSubclass__willChange_valuesAtIndexes_forKey_(self, _cmd, change, indexes, aKey)
 { with(self)
 {
+    var superClass = objj_msgSend(self, "class"),
+        methodSelector = sel_getUid("willChange:valuesAtIndexes:forKey:"),
+        methodImp = class_getMethodImplementation(superClass, methodSelector);
+    methodImp(self, methodSelector, change, indexes, aKey);
     if (!aKey)
         return;
     var changeOptions = objj_msgSend(CPDictionary, "dictionaryWithObjects:forKeys:", [change, indexes], [CPKeyValueChangeKindKey, CPKeyValueChangeIndexesKey]);
@@ -8137,6 +8149,10 @@ class_addMethods(the_class, [new objj_method(sel_getUid("willChangeValueForKey:"
 },["void","CPKeyValueChange","CPIndexSet","CPString"]), new objj_method(sel_getUid("didChange:valuesAtIndexes:forKey:"), function $_CPKVOModelSubclass__didChange_valuesAtIndexes_forKey_(self, _cmd, change, indexes, aKey)
 { with(self)
 {
+    var superClass = objj_msgSend(self, "class"),
+        methodSelector = sel_getUid("didChange:valuesAtIndexes:forKey:"),
+        methodImp = class_getMethodImplementation(superClass, methodSelector);
+    methodImp(self, methodSelector, change, indexes, aKey);
     if (!aKey)
         return;
     objj_msgSend(objj_msgSend(_CPKVOProxy, "proxyForObject:", self), "_sendNotificationsForKey:changeOptions:isBefore:", aKey, nil, NO);
