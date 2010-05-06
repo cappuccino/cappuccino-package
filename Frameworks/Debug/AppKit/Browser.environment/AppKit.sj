@@ -14969,7 +14969,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["id","CGPoint","CPPasteboard"])]);
 }
 
-p;11;CPWebView.jt;18695;@STATIC;1.0;I;15;AppKit/CPView.jt;18655;objj_executeFile("AppKit/CPView.j", NO);
+p;11;CPWebView.jt;19781;@STATIC;1.0;I;15;AppKit/CPView.jt;19741;objj_executeFile("AppKit/CPView.j", NO);
 CPWebViewProgressStartedNotification = "CPWebViewProgressStartedNotification";
 CPWebViewProgressFinishedNotification = "CPWebViewProgressFinishedNotification";
 CPWebViewScrollAppKit = 1;
@@ -15050,7 +15050,28 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:frameName
     objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPWebView").super_class }, "setFrameSize:", aSize);
     objj_msgSend(self, "_resizeWebFrame");
 }
-},["void","CPSize"]), new objj_method(sel_getUid("_resizeWebFrame"), function $CPWebView___resizeWebFrame(self, _cmd)
+},["void","CPSize"]), new objj_method(sel_getUid("_attachScrollEventIfNecessary"), function $CPWebView___attachScrollEventIfNecessary(self, _cmd)
+{ with(self)
+{
+    if (_scrollMode !== CPWebViewScrollAppKit)
+        return;
+    var win = null;
+    try { win = objj_msgSend(self, "DOMWindow"); } catch (e) {}
+    if (win && win.addEventListener)
+    {
+        var scrollEventHandler = function(anEvent)
+        {
+            var frameBounds = objj_msgSend(self, "bounds"),
+                frameCenter = CGPointMake(CGRectGetMidX(frameBounds), CGRectGetMidY(frameBounds)),
+                windowOrigin = objj_msgSend(self, "convertPoint:toView:", frameCenter, nil),
+                globalOrigin = objj_msgSend(objj_msgSend(self, "window"), "convertBaseToBridge:", windowOrigin);
+            anEvent._overrideLocation = globalOrigin;
+            objj_msgSend(objj_msgSend(objj_msgSend(self, "window"), "platformWindow"), "scrollEvent:", anEvent);
+        };
+        win.addEventListener("DOMMouseScroll", scrollEventHandler, false);
+    }
+}
+},["void"]), new objj_method(sel_getUid("_resizeWebFrame"), function $CPWebView___resizeWebFrame(self, _cmd)
 { with(self)
 {
     if (_scrollMode === CPWebViewScrollAppKit)
@@ -15082,7 +15103,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:frameName
         }
     }
 }
-},["BOOL"]), new objj_method(sel_getUid("setScrollMode:"), function $CPWebView__setScrollMode_(self, _cmd, aScrollMode)
+},["void"]), new objj_method(sel_getUid("setScrollMode:"), function $CPWebView__setScrollMode_(self, _cmd, aScrollMode)
 { with(self)
 {
     if (_scrollMode == aScrollMode)
@@ -15168,6 +15189,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:frameName
 { with(self)
 {
     objj_msgSend(self, "_resizeWebFrame");
+    objj_msgSend(self, "_attachScrollEventIfNecessary");
     objj_msgSend(objj_msgSend(CPNotificationCenter, "defaultCenter"), "postNotificationName:object:", CPWebViewProgressFinishedNotification, self);
     if (objj_msgSend(_frameLoadDelegate, "respondsToSelector:", sel_getUid("webView:didFinishLoadForFrame:")))
         objj_msgSend(_frameLoadDelegate, "webView:didFinishLoadForFrame:", self, nil);
@@ -30824,7 +30846,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("visiblePlatformWindows
 }
 objj_executeFile("CPPlatformWindow+DOM.j", YES);
 
-p;22;CPPlatformWindow+DOM.jt;50109;@STATIC;1.0;I;21;Foundation/CPObject.jI;22;Foundation/CPRunLoop.ji;9;CPEvent.ji;17;CPCompatibility.ji;18;CPDOMWindowLayer.ji;12;CPPlatform.ji;18;CPPlatformWindow.ji;26;CPPlatformWindow+DOMKeys.jt;49907;objj_executeFile("Foundation/CPObject.j", NO);
+p;22;CPPlatformWindow+DOM.jt;50259;@STATIC;1.0;I;21;Foundation/CPObject.jI;22;Foundation/CPRunLoop.ji;9;CPEvent.ji;17;CPCompatibility.ji;18;CPDOMWindowLayer.ji;12;CPPlatform.ji;18;CPPlatformWindow.ji;26;CPPlatformWindow+DOMKeys.jt;50057;objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("Foundation/CPRunLoop.j", NO);
 objj_executeFile("CPEvent.j", YES);
 objj_executeFile("CPCompatibility.j", YES);
@@ -31351,10 +31373,11 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 {
     if(!aDOMEvent)
         aDOMEvent = window.event;
+    var location = nil;
     if (CPFeatureIsCompatible(CPJavaScriptMouseWheelValues_8_15))
     {
-        var x = 0.0,
-            y = 0.0,
+        var x = aDOMEvent._offsetX || 0.0,
+            y = aDOMEvent._offsetY || 0.0,
             element = aDOMEvent.target;
         while (element.nodeType !== 1)
             element = element.parentNode;
@@ -31366,10 +31389,12 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
                 y += element.offsetTop;
             } while (element = element.offsetParent);
         }
-        var location = { x:(x + ((aDOMEvent.clientX - 8) / 15)), y:(y + ((aDOMEvent.clientY - 8) / 15)) };
+        location = { x:(x + ((aDOMEvent.clientX - 8) / 15)), y:(y + ((aDOMEvent.clientY - 8) / 15)) };
     }
+    else if (aDOMEvent._overrideLocation)
+        location = aDOMEvent._overrideLocation;
     else
-        var location = { x:aDOMEvent.clientX, y:aDOMEvent.clientY };
+        location = { x:aDOMEvent.clientX, y:aDOMEvent.clientY };
     var deltaX = 0.0,
         deltaY = 0.0,
         windowNumber = 0,
