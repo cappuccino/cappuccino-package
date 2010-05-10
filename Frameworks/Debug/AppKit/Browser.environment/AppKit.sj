@@ -486,7 +486,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPEvent"])]);
 }
 
-p;13;CPTableView.jt;125110;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;124967;objj_executeFile("Foundation/CPArray.j", NO);
+p;13;CPTableView.jt;125376;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;125233;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("AppKit/CGGradient.j", NO);
 objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPTableColumn.j", YES);
@@ -980,21 +980,20 @@ _disableAutomaticResizing = newValue;
         var dataViewsInTableColumn = _dataViewsForTableColumns[identifier];
         var count = deselectRows.length;
         while (count--)
-        {
-            var rowIndex = deselectRows[count];
-            var view = dataViewsInTableColumn[rowIndex];
-            objj_msgSend(view, "unsetThemeState:", CPThemeStateSelected);
-        }
+            objj_msgSend(self, "_performSelection:forRow:context:", NO, deselectRows[count], dataViewsInTableColumn);
         count = selectRows.length;
         while (count--)
-        {
-            var rowIndex = selectRows[count];
-            var view = dataViewsInTableColumn[rowIndex];
-            objj_msgSend(view, "setThemeState:", CPThemeStateSelected);
-        }
+            objj_msgSend(self, "_performSelection:forRow:context:", YES, selectRows[count], dataViewsInTableColumn);
     }
 }
-},["void","CPIndexSet","CPIndexSet"]), new objj_method(sel_getUid("_updateHighlightWithOldColumns:newColumns:"), function $CPTableView___updateHighlightWithOldColumns_newColumns_(self, _cmd, oldColumns, newColumns)
+},["void","CPIndexSet","CPIndexSet"]), new objj_method(sel_getUid("_performSelection:forRow:context:"), function $CPTableView___performSelection_forRow_context_(self, _cmd, select, rowIndex, context)
+{ with(self)
+{
+    var view = context[rowIndex],
+        selector = select ? "setThemeState:" : "unsetThemeState:";
+    objj_msgSend(view, "performSelector:withObject:", CPSelectorFromString(selector), CPThemeStateSelected);
+}
+},["void","BOOL","CPInteger","id"]), new objj_method(sel_getUid("_updateHighlightWithOldColumns:newColumns:"), function $CPTableView___updateHighlightWithOldColumns_newColumns_(self, _cmd, oldColumns, newColumns)
 { with(self)
 {
     var firstExposedColumn = objj_msgSend(_exposedColumns, "firstIndex"),
@@ -22646,7 +22645,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("shadowWithOffset:blurR
 },["id","CGSize","float","CPColor"])]);
 }
 
-p;15;CPOutlineView.jt;44856;@STATIC;1.0;i;15;CPTableColumn.ji;13;CPTableView.jt;44798;objj_executeFile("CPTableColumn.j", YES);
+p;15;CPOutlineView.jt;44480;@STATIC;1.0;i;15;CPTableColumn.ji;13;CPTableView.jt;44422;objj_executeFile("CPTableColumn.j", YES);
 objj_executeFile("CPTableView.j", YES);
 CPOutlineViewColumnDidMoveNotification = "CPOutlineViewColumnDidMoveNotification";
 CPOutlineViewColumnDidResizeNotification = "CPOutlineViewColumnDidResizeNotification";
@@ -22903,36 +22902,15 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     frame.size.width -= indentationWidth;
     return frame;
 }
-},["CGRect","CPInteger","CPInteger"]), new objj_method(sel_getUid("selectRowIndexes:byExtendingSelection:"), function $CPOutlineView__selectRowIndexes_byExtendingSelection_(self, _cmd, rows, shouldExtendSelection)
+},["CGRect","CPInteger","CPInteger"]), new objj_method(sel_getUid("_performSelection:forRow:context:"), function $CPOutlineView___performSelection_forRow_context_(self, _cmd, select, rowIndex, context)
 { with(self)
 {
-    var previousSelectedRows = [];
-    objj_msgSend(objj_msgSend(self, "selectedRowIndexes"), "getIndexes:maxCount:inIndexRange:", previousSelectedRows, -1, nil);
-    var index = objj_msgSend(previousSelectedRows, "count");
-    while (index--)
-    {
-        var rowIndex = previousSelectedRows[index],
-            item = objj_msgSend(self, "itemAtRow:", rowIndex);
-        if (!objj_msgSend(self, "isExpandable:", item))
-            continue;
-        var control = _disclosureControlsForRows[rowIndex];
-        objj_msgSend(control, "setHighlighted:", NO);
-    }
-    objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPOutlineView").super_class }, "selectRowIndexes:byExtendingSelection:", rows, shouldExtendSelection);
-    var selectedRows = [];
-        objj_msgSend(rows, "getIndexes:maxCount:inIndexRange:", selectedRows, -1, nil);
-        var index = objj_msgSend(selectedRows, "count");
-    while (index--)
-    {
-        var rowIndex = selectedRows[index],
-            item = objj_msgSend(self, "itemAtRow:", rowIndex);
-        if (!objj_msgSend(self, "isExpandable:", item))
-            continue;
-        var control = _disclosureControlsForRows[rowIndex];
-        objj_msgSend(control, "setHighlighted:", YES);
-    }
+    objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPOutlineView").super_class }, "_performSelection:forRow:context:", select, rowIndex, context);
+    var control = _disclosureControlsForRows[rowIndex],
+        selector = select ? "setThemeState:" : "unsetThemeState:";
+    objj_msgSend(control, "performSelector:withObject:", CPSelectorFromString(selector), CPThemeStateSelected);
 }
-},["void","CPIndexSet","BOOL"]), new objj_method(sel_getUid("setDelegate:"), function $CPOutlineView__setDelegate_(self, _cmd, aDelegate)
+},["void","BOOL","CPInteger","id"]), new objj_method(sel_getUid("setDelegate:"), function $CPOutlineView__setDelegate_(self, _cmd, aDelegate)
 { with(self)
 {
     if (_outlineViewDelegate === aDelegate)
@@ -23057,6 +23035,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
         frame.size.height = (dataViewFrame.size.height);
         _disclosureControlsForRows[row] = control;
         objj_msgSend(control, "setState:", objj_msgSend(self, "isItemExpanded:", item) ? CPOnState : CPOffState);
+        var selector = objj_msgSend(self, "isRowSelected:", row) ? "setThemeState:" : "unsetThemeState:";
+        objj_msgSend(control, "performSelector:withObject:", CPSelectorFromString(selector), CPThemeStateSelected);
         objj_msgSend(control, "setFrame:", frame);
         objj_msgSend(self, "addSubview:", control);
     }
@@ -23404,7 +23384,9 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     CGContextAddLineToPoint(context, 4.5, 8.0);
     CGContextAddLineToPoint(context, 0.0, 0.0);
     CGContextClosePath(context);
-    CGContextSetFillColor(context, objj_msgSend(self, "isHighlighted") ? objj_msgSend(CPColor, "whiteColor") : objj_msgSend(CPColor, "grayColor"));
+    var isHighlighted = objj_msgSend(self, "hasThemeState:", CPThemeStateHighlighted);
+    var color = objj_msgSend(self, "hasThemeState:", CPThemeStateSelected) ? (isHighlighted ? objj_msgSend(CPColor, "lightGrayColor") : objj_msgSend(CPColor, "whiteColor")) : (isHighlighted ? objj_msgSend(CPColor, "blackColor") : objj_msgSend(CPColor, "grayColor"));
+    CGContextSetFillColor(context, color);
     CGContextFillPath(context);
 }
 },["void","CGRect"])]);
