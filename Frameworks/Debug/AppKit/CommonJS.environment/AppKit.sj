@@ -384,7 +384,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPEvent"])]);
 }
 
-p;13;CPTableView.jt;125376;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;125233;objj_executeFile("Foundation/CPArray.j", NO);
+p;13;CPTableView.jt;126534;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;126391;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("AppKit/CGGradient.j", NO);
 objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPTableColumn.j", YES);
@@ -2644,7 +2644,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void",null])]);
 }
 {var the_class = objj_allocateClassPair(CPView, "_CPDropOperationDrawingView"),
-meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("dropOperation"), new objj_ivar("tableView"), new objj_ivar("currentRow")]);
+meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("dropOperation"), new objj_ivar("tableView"), new objj_ivar("currentRow"), new objj_ivar("isBlinking")]);
 objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("dropOperation"), function $_CPDropOperationDrawingView__dropOperation(self, _cmd)
 { with(self)
@@ -2681,10 +2681,22 @@ new objj_method(sel_getUid("setCurrentRow:"), function $_CPDropOperationDrawingV
 {
 currentRow = newValue;
 }
+},["void","id"]),
+new objj_method(sel_getUid("isBlinking"), function $_CPDropOperationDrawingView__isBlinking(self, _cmd)
+{ with(self)
+{
+return isBlinking;
+}
+},["id"]),
+new objj_method(sel_getUid("setIsBlinking:"), function $_CPDropOperationDrawingView__setIsBlinking_(self, _cmd, newValue)
+{ with(self)
+{
+isBlinking = newValue;
+}
 },["void","id"]), new objj_method(sel_getUid("drawRect:"), function $_CPDropOperationDrawingView__drawRect_(self, _cmd, aRect)
 { with(self)
 {
-    if(tableView._destinationDragStyle === CPTableViewDraggingDestinationFeedbackStyleNone)
+    if(tableView._destinationDragStyle === CPTableViewDraggingDestinationFeedbackStyleNone || isBlinking)
         return;
     var context = objj_msgSend(objj_msgSend(CPGraphicsContext, "currentContext"), "graphicsPort");
     CGContextSetStrokeColor(context, objj_msgSend(CPColor, "colorWithHexString:", "4886ca"));
@@ -2734,7 +2746,26 @@ currentRow = newValue;
         CGContextStrokePath(context);
     }
 }
-},["void","CGRect"])]);
+},["void","CGRect"]), new objj_method(sel_getUid("blink"), function $_CPDropOperationDrawingView__blink(self, _cmd)
+{ with(self)
+{
+    if (dropOperation !== CPTableViewDropOn)
+        return;
+    isBlinking = YES;
+    var showCallback = function() {
+        objj_msgSend(self, "setHidden:", NO)
+        isBlinking = NO;
+    }
+    var hideCallback = function() {
+        objj_msgSend(self, "setHidden:", YES)
+        isBlinking = YES;
+    }
+    objj_msgSend(self, "setHidden:", YES);
+    objj_msgSend(CPTimer, "scheduledTimerWithTimeInterval:callback:repeats:", 0.1, showCallback, NO);
+    objj_msgSend(CPTimer, "scheduledTimerWithTimeInterval:callback:repeats:", 0.19, hideCallback, NO);
+    objj_msgSend(CPTimer, "scheduledTimerWithTimeInterval:callback:repeats:", 0.27, showCallback, NO);
+}
+},["void"])]);
 }
 
 p;10;CPCursor.jt;10232;@STATIC;1.0;t;10212;var currentCursor = nil,
@@ -21807,7 +21838,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("shadowWithOffset:blurR
 },["id","CGSize","float","CPColor"])]);
 }
 
-p;15;CPOutlineView.jt;44480;@STATIC;1.0;i;15;CPTableColumn.ji;13;CPTableView.jt;44422;objj_executeFile("CPTableColumn.j", YES);
+p;15;CPOutlineView.jt;45753;@STATIC;1.0;i;15;CPTableColumn.ji;13;CPTableView.jt;45695;objj_executeFile("CPTableColumn.j", YES);
 objj_executeFile("CPTableView.j", YES);
 CPOutlineViewColumnDidMoveNotification = "CPOutlineViewColumnDidMoveNotification";
 CPOutlineViewColumnDidResizeNotification = "CPOutlineViewColumnDidResizeNotification";
@@ -21834,7 +21865,7 @@ var CPOutlineViewDelegate_outlineView_dataViewForTableColumn_item_ = 1 << 1,
     CPOutlineViewDelegate_outlineView_isGroupItem_ = 1 << 5;
 CPOutlineViewDropOnItemIndex = -1;
 {var the_class = objj_allocateClassPair(CPTableView, "CPOutlineView"),
-meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_outlineViewDataSource"), new objj_ivar("_outlineViewDelegate"), new objj_ivar("_outlineTableColumn"), new objj_ivar("_indentationPerLevel"), new objj_ivar("_indentationMarkerFollowsDataView"), new objj_ivar("_implementedOutlineViewDataSourceMethods"), new objj_ivar("_implementedOutlineViewDelegateMethods"), new objj_ivar("_rootItemInfo"), new objj_ivar("_itemsForRows"), new objj_ivar("_itemInfosForItems"), new objj_ivar("_disclosureControlPrototype"), new objj_ivar("_disclosureControlsForRows"), new objj_ivar("_disclosureControlData"), new objj_ivar("_disclosureControlQueue"), new objj_ivar("_shouldRetargetItem"), new objj_ivar("_retargetedItem"), new objj_ivar("_shouldRetargetChildIndex"), new objj_ivar("_retargedChildIndex")]);
+meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_outlineViewDataSource"), new objj_ivar("_outlineViewDelegate"), new objj_ivar("_outlineTableColumn"), new objj_ivar("_indentationPerLevel"), new objj_ivar("_indentationMarkerFollowsDataView"), new objj_ivar("_implementedOutlineViewDataSourceMethods"), new objj_ivar("_implementedOutlineViewDelegateMethods"), new objj_ivar("_rootItemInfo"), new objj_ivar("_itemsForRows"), new objj_ivar("_itemInfosForItems"), new objj_ivar("_disclosureControlPrototype"), new objj_ivar("_disclosureControlsForRows"), new objj_ivar("_disclosureControlData"), new objj_ivar("_disclosureControlQueue"), new objj_ivar("_shouldRetargetItem"), new objj_ivar("_retargetedItem"), new objj_ivar("_shouldRetargetChildIndex"), new objj_ivar("_retargedChildIndex"), new objj_ivar("_dragHoverTimer"), new objj_ivar("_dropItem")]);
 objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), function $CPOutlineView__initWithFrame_(self, _cmd, aFrame)
 { with(self)
@@ -21851,6 +21882,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
         _shouldRetargetItem = NO;
         _retargedChildIndex = nil;
         _shouldRetargetChildIndex = NO;
+        _startHoverTime = nil;
         objj_msgSend(self, "setIndentationPerLevel:", 16.0);
         objj_msgSend(self, "setIndentationMarkerFollowsDataView:", YES);
         objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPOutlineView").super_class }, "setDataSource:", objj_msgSend(objj_msgSend(_CPOutlineViewTableViewDataSource, "alloc"), "initWithOutlineView:", self));
@@ -22139,12 +22171,39 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["CGRect","CPInteger","CPInteger"]), new objj_method(sel_getUid("setDropItem:dropChildIndex:"), function $CPOutlineView__setDropItem_dropChildIndex_(self, _cmd, theItem, theIndex)
 { with(self)
 {
+    if (_dropItem !== theItem && theIndex < 0 && objj_msgSend(self, "isExpandable:", theItem) && !objj_msgSend(self, "isItemExpanded:", theItem))
+    {
+        if (_dragHoverTimer)
+            objj_msgSend(_dragHoverTimer, "invalidate");
+        var autoExpandCallBack = function(){
+            if (_dropItem)
+            {
+                objj_msgSend(_dropOperationFeedbackView, "blink");
+                objj_msgSend(CPTimer, "scheduledTimerWithTimeInterval:callback:repeats:", .3, objj_msgSend(self, "expandItem:", _dropItem), NO);
+            }
+        }
+        _dragHoverTimer = objj_msgSend(CPTimer, "scheduledTimerWithTimeInterval:callback:repeats:", .8, autoExpandCallBack, NO);
+    }
+    if (theIndex >= 0)
+    {
+        objj_msgSend(_dragHoverTimer, "invalidate");
+        _dragHoverTimer = nil;
+    }
+    _dropItem = theItem;
     _retargetedItem = theItem;
     _shouldRetargetItem = YES;
     _retargedChildIndex = theIndex;
     _shouldRetargetChildIndex = YES;
 }
-},["void","id","int"]), new objj_method(sel_getUid("_parentItemForUpperRow:andLowerRow:atMouseOffset:"), function $CPOutlineView___parentItemForUpperRow_andLowerRow_atMouseOffset_(self, _cmd, theUpperRowIndex, theLowerRowIndex, theOffset)
+},["void","id","int"]), new objj_method(sel_getUid("_draggingEnded"), function $CPOutlineView___draggingEnded(self, _cmd)
+{ with(self)
+{
+    objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPOutlineView").super_class }, "_draggingEnded");
+    _dropItem = nil;
+    objj_msgSend(_dragHoverTimer, "invalidate");
+    _dragHoverTimer = nil;
+}
+},["void"]), new objj_method(sel_getUid("_parentItemForUpperRow:andLowerRow:atMouseOffset:"), function $CPOutlineView___parentItemForUpperRow_andLowerRow_atMouseOffset_(self, _cmd, theUpperRowIndex, theLowerRowIndex, theOffset)
 { with(self)
 {
     if (_shouldRetargetItem)
