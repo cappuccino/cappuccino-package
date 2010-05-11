@@ -433,7 +433,7 @@ _a4.range.length=_a5-_a3;
 _a4.attributes=objj_msgSend(_a4.attributes,"copy");
 return [_a2,_a4];
 };
-p;9;CPArray.jt;18774;@STATIC;1.0;i;10;CPObject.ji;9;CPRange.ji;14;CPEnumerator.ji;18;CPSortDescriptor.ji;13;CPException.jt;18666;
+p;9;CPArray.jt;18963;@STATIC;1.0;i;10;CPObject.ji;9;CPRange.ji;14;CPEnumerator.ji;18;CPSortDescriptor.ji;13;CPException.jt;18855;
 objj_executeFile("CPObject.j",YES);
 objj_executeFile("CPRange.j",YES);
 objj_executeFile("CPEnumerator.j",YES);
@@ -1052,10 +1052,20 @@ sort(function(lhs,rhs){
 return objj_msgSend(lhs,_125,rhs);
 });
 }
-})]);
-class_addMethods(_2,[new objj_method(sel_getUid("arrayWithCapacity:"),function(self,_126,_127){
+}),new objj_method(sel_getUid("enumerateObjectsUsingBlock:"),function(self,_126,_127){
 with(self){
-return objj_msgSend(objj_msgSend(self,"alloc"),"initWithCapacity:",_127);
+for(var i=0;i<self.length;i++){
+var _128=NO;
+_127(self[i],i,_128);
+if(_128){
+break;
+}
+}
+}
+})]);
+class_addMethods(_2,[new objj_method(sel_getUid("arrayWithCapacity:"),function(self,_129,_12a){
+with(self){
+return objj_msgSend(objj_msgSend(self,"alloc"),"initWithCapacity:",_12a);
 }
 })]);
 var _1=objj_getClass("CPArray");
@@ -1063,13 +1073,13 @@ if(!_1){
 throw new SyntaxError("*** Could not find definition for class \"CPArray\"");
 }
 var _2=_1.isa;
-class_addMethods(_1,[new objj_method(sel_getUid("initWithCoder:"),function(self,_128,_129){
+class_addMethods(_1,[new objj_method(sel_getUid("initWithCoder:"),function(self,_12b,_12c){
 with(self){
-return objj_msgSend(_129,"decodeObjectForKey:","CP.objects");
+return objj_msgSend(_12c,"decodeObjectForKey:","CP.objects");
 }
-}),new objj_method(sel_getUid("encodeWithCoder:"),function(self,_12a,_12b){
+}),new objj_method(sel_getUid("encodeWithCoder:"),function(self,_12d,_12e){
 with(self){
-objj_msgSend(_12b,"_encodeArrayOfObjects:forKey:",self,"CP.objects");
+objj_msgSend(_12e,"_encodeArrayOfObjects:forKey:",self,"CP.objects");
 }
 })]);
 var _1=objj_allocateClassPair(CPArray,"CPMutableArray"),_2=_1.isa;
