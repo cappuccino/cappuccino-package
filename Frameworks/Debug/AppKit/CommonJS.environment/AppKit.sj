@@ -8677,7 +8677,7 @@ CPThemeAttributeDecode= function(aCoder, anAttributeName, aDefaultValue, aTheme,
     return attribute;
 }
 
-p;19;CPTableHeaderView.jt;28576;@STATIC;1.0;i;15;CPTableColumn.ji;13;CPTableView.ji;8;CPView.jt;28506;objj_executeFile("CPTableColumn.j", YES);
+p;19;CPTableHeaderView.jt;28665;@STATIC;1.0;i;15;CPTableColumn.ji;13;CPTableView.ji;8;CPView.jt;28595;objj_executeFile("CPTableColumn.j", YES);
 objj_executeFile("CPTableView.j", YES);
 objj_executeFile("CPView.j", YES);
 {var the_class = objj_allocateClassPair(CPView, "_CPTableColumnHeaderView"),
@@ -8890,6 +8890,7 @@ _tableView = newValue;
             objj_msgSend(self, "stopTrackingTableColumn:at:", columnIndex, currentLocation);
             _isTrackingColumn = NO;
         }
+        objj_msgSend(self, "_updateResizeCursor:", objj_msgSend(CPApp, "currentEvent"));
         _activeColumn = CPNotFound;
         return;
     }
@@ -9067,8 +9068,8 @@ _tableView = newValue;
 },["void","int","CPPoint"]), new objj_method(sel_getUid("continueResizingTableColumn:at:"), function $CPTableHeaderView__continueResizingTableColumn_at_(self, _cmd, aColumnIndex, aPoint)
 { with(self)
 {
-    var tableColumn = objj_msgSend(objj_msgSend(objj_msgSend(self, "tableView"), "tableColumns"), "objectAtIndex:", aColumnIndex);
-    var newWidth = objj_msgSend(tableColumn, "width") + aPoint.x - _previousTrackingLocation.x;
+    var tableColumn = objj_msgSend(objj_msgSend(objj_msgSend(self, "tableView"), "tableColumns"), "objectAtIndex:", aColumnIndex),
+        newWidth = objj_msgSend(tableColumn, "width") + aPoint.x - _previousTrackingLocation.x;
     if (newWidth < objj_msgSend(tableColumn, "minWidth"))
         objj_msgSend(objj_msgSend(CPCursor, "resizeRightCursor"), "set");
     else if (newWidth > objj_msgSend(tableColumn, "maxWidth"))

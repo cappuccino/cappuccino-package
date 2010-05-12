@@ -7592,7 +7592,7 @@ objj_msgSend(_83,"setParentAttribute:",objj_msgSend(_81,"_attributeWithName:forC
 }
 return _83;
 };
-p;19;CPTableHeaderView.jt;19764;@STATIC;1.0;i;15;CPTableColumn.ji;13;CPTableView.ji;8;CPView.jt;19694;
+p;19;CPTableHeaderView.jt;19836;@STATIC;1.0;i;15;CPTableColumn.ji;13;CPTableView.ji;8;CPView.jt;19766;
 objj_executeFile("CPTableColumn.j",YES);
 objj_executeFile("CPTableView.j",YES);
 objj_executeFile("CPView.j",YES);
@@ -7778,6 +7778,7 @@ objj_msgSend(_44,"stopTrackingTableColumn:at:",_49,_48);
 _isTrackingColumn=NO;
 }
 }
+objj_msgSend(_44,"_updateResizeCursor:",objj_msgSend(CPApp,"currentEvent"));
 _activeColumn=CPNotFound;
 return;
 }
@@ -7939,8 +7940,7 @@ objj_msgSend(objj_msgSend(_89,"tableView"),"setDisableAutomaticResizing:",YES);
 }
 }),new objj_method(sel_getUid("continueResizingTableColumn:at:"),function(_8e,_8f,_90,_91){
 with(_8e){
-var _92=objj_msgSend(objj_msgSend(objj_msgSend(_8e,"tableView"),"tableColumns"),"objectAtIndex:",_90);
-var _93=objj_msgSend(_92,"width")+_91.x-_previousTrackingLocation.x;
+var _92=objj_msgSend(objj_msgSend(objj_msgSend(_8e,"tableView"),"tableColumns"),"objectAtIndex:",_90),_93=objj_msgSend(_92,"width")+_91.x-_previousTrackingLocation.x;
 if(_93<objj_msgSend(_92,"minWidth")){
 objj_msgSend(objj_msgSend(CPCursor,"resizeRightCursor"),"set");
 }else{
