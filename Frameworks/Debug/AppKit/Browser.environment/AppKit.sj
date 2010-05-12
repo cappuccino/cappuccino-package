@@ -28072,7 +28072,7 @@ _font = newValue;
 },["void","CPMenu"])]);
 }
 
-p;8;CPMenu.jt;34389;@STATIC;1.0;I;20;Foundation/CPArray.jI;25;Foundation/CPDictionary.jI;33;Foundation/CPNotificationCenter.jI;21;Foundation/CPString.ji;16;_CPMenuManager.ji;15;CPApplication.ji;12;CPClipView.ji;12;CPMenuItem.ji;9;CPPanel.ji;18;_CPMenuBarWindow.ji;15;_CPMenuWindow.jt;34119;objj_executeFile("Foundation/CPArray.j", NO);
+p;8;CPMenu.jt;34721;@STATIC;1.0;I;20;Foundation/CPArray.jI;25;Foundation/CPDictionary.jI;33;Foundation/CPNotificationCenter.jI;21;Foundation/CPString.ji;16;_CPMenuManager.ji;15;CPApplication.ji;12;CPClipView.ji;12;CPMenuItem.ji;9;CPPanel.ji;18;_CPMenuBarWindow.ji;15;_CPMenuWindow.jt;34451;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("Foundation/CPDictionary.j", NO);
 objj_executeFile("Foundation/CPNotificationCenter.j", NO);
 objj_executeFile("Foundation/CPString.j", NO);
@@ -28381,6 +28381,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("menuBarHeight"), functi
         }
         objj_msgSend(menuWindow, "setFrameOrigin:", CGRectIntersection(unconstrainedFrame, constraintRect).origin);
     }
+    if (objj_msgSend(CPPlatform, "isBrowser"))
+        objj_msgSend(menuWindow, "setPlatformWindow:", objj_msgSend(objj_msgSend(aView, "window"), "platformWindow"));
     objj_msgSend(menuWindow, "orderFront:", self);
     objj_msgSend(objj_msgSend(_CPMenuManager, "sharedMenuManager"), "beginTracking:menuContainer:constraintRect:callback:", objj_msgSend(CPApp, "currentEvent"), menuWindow, constraintRect, objj_msgSend(CPMenu, "trackingCallbackWithCallback:", aCallback));
 }
@@ -28706,6 +28708,8 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("initialize"), function
             unconstrainedFrame.origin.y = MAX(CGRectGetMinY(constraintRect), aLocation.y);
         objj_msgSend(menuWindow, "setFrameOrigin:", CGRectIntersection(unconstrainedFrame, constraintRect).origin);
     }
+    if (objj_msgSend(CPPlatform, "isBrowser"))
+        objj_msgSend(menuWindow, "setPlatformWindow:", objj_msgSend(objj_msgSend(aView, "window"), "platformWindow"));
     objj_msgSend(menuWindow, "orderFront:", self);
     objj_msgSend(objj_msgSend(_CPMenuManager, "sharedMenuManager"), "beginTracking:menuContainer:constraintRect:callback:", anEvent, menuWindow, objj_msgSend(CPMenu, "_constraintRectForView:", aView), objj_msgSend(CPMenu, "trackingCallbackWithCallback:", nil));
 }
