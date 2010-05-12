@@ -2465,7 +2465,7 @@ return g;
 }
 })]);
 String.prototype.isa=CPString;
-p;11;CPRunLoop.jt;6496;@STATIC;1.0;i;10;CPObject.ji;9;CPArray.ji;10;CPString.jt;6434;
+p;11;CPRunLoop.jt;6871;@STATIC;1.0;i;10;CPObject.ji;9;CPArray.ji;10;CPString.jt;6809;
 objj_executeFile("CPObject.j",YES);
 objj_executeFile("CPArray.j",YES);
 objj_executeFile("CPString.j",YES);
@@ -2595,6 +2595,13 @@ if(!_3d._lastNativeRunLoopsForModes){
 _3d._lastNativeRunLoopsForModes={};
 }
 _3d._lastNativeRunLoopsForModes[_3e]=_26;
+if(CFBundle.environments().indexOf("Browser")!==-1){
+if(!_runLoopInsuranceTimer){
+_runLoopInsuranceTimer=window.setNativeTimeout(function(){
+objj_msgSend(_3b,"limitDateForMode:",CPDefaultRunLoopMode);
+},0);
+}
+}
 }
 }),new objj_method(sel_getUid("limitDateForMode:"),function(_3f,_40,_41){
 with(_3f){
@@ -2602,6 +2609,12 @@ if(_runLoopLock){
 return;
 }
 _runLoopLock=YES;
+if(CFBundle.environments().indexOf("Browser")!==-1){
+if(_runLoopInsuranceTimer){
+window.clearNativeTimeout(_runLoopInsuranceTimer);
+_runLoopInsuranceTimer=nil;
+}
+}
 var now=_effectiveDate?objj_msgSend(_effectiveDate,"laterDate:",objj_msgSend(CPDate,"date")):objj_msgSend(CPDate,"date"),_42=nil,_43=_nextTimerFireDatesForModes[_41];
 if(_didAddTimer||_43&&_43<=now){
 _didAddTimer=NO;

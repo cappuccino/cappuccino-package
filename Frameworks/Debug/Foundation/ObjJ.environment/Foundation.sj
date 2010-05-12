@@ -2781,7 +2781,7 @@ var meta_class = the_class.isa;class_addMethods(meta_class, [new objj_method(sel
 }
 String.prototype.isa = CPString;
 
-p;11;CPRunLoop.jt;10081;@STATIC;1.0;i;10;CPObject.ji;9;CPArray.ji;10;CPString.jt;10018;objj_executeFile("CPObject.j", YES);
+p;11;CPRunLoop.jt;10605;@STATIC;1.0;i;10;CPObject.ji;9;CPArray.ji;10;CPString.jt;10542;objj_executeFile("CPObject.j", YES);
 objj_executeFile("CPArray.j", YES);
 objj_executeFile("CPString.j", YES);
 CPDefaultRunLoopMode = "CPDefaultRunLoopMode";
@@ -2926,6 +2926,14 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPRun
     if (!aTimer._lastNativeRunLoopsForModes)
         aTimer._lastNativeRunLoopsForModes = {};
     aTimer._lastNativeRunLoopsForModes[aMode] = CPRunLoopLastNativeRunLoop;
+    if (CFBundle.environments().indexOf("Browser") !== -1)
+    {
+        if (!_runLoopInsuranceTimer)
+            _runLoopInsuranceTimer = window.setNativeTimeout(function()
+            {
+                objj_msgSend(self, "limitDateForMode:", CPDefaultRunLoopMode);
+            }, 0);
+    }
 }
 },["void","CPTimer","CPString"]), new objj_method(sel_getUid("limitDateForMode:"), function $CPRunLoop__limitDateForMode_(self, _cmd, aMode)
 { with(self)
@@ -2933,6 +2941,14 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPRun
     if (_runLoopLock)
         return;
     _runLoopLock = YES;
+    if (CFBundle.environments().indexOf("Browser") !== -1)
+    {
+        if (_runLoopInsuranceTimer)
+        {
+            window.clearNativeTimeout(_runLoopInsuranceTimer);
+            _runLoopInsuranceTimer = nil;
+        }
+    }
     var now = _effectiveDate ? objj_msgSend(_effectiveDate, "laterDate:", objj_msgSend(CPDate, "date")) : objj_msgSend(CPDate, "date"),
         nextFireDate = nil,
         nextTimerFireDate = _nextTimerFireDatesForModes[aMode];
