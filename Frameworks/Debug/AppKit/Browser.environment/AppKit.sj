@@ -9067,7 +9067,7 @@ CPThemeAttributeDecode= function(aCoder, anAttributeName, aDefaultValue, aTheme,
     return attribute;
 }
 
-p;19;CPTableHeaderView.jt;28326;@STATIC;1.0;i;15;CPTableColumn.ji;13;CPTableView.ji;8;CPView.jt;28256;objj_executeFile("CPTableColumn.j", YES);
+p;19;CPTableHeaderView.jt;28576;@STATIC;1.0;i;15;CPTableColumn.ji;13;CPTableView.ji;8;CPView.jt;28506;objj_executeFile("CPTableColumn.j", YES);
 objj_executeFile("CPTableView.j", YES);
 objj_executeFile("CPView.j", YES);
 {var the_class = objj_allocateClassPair(CPView, "_CPTableColumnHeaderView"),
@@ -9379,8 +9379,10 @@ _tableView = newValue;
         dragWindow = objj_msgSend(theDragView, "window"),
         frame = objj_msgSend(dragWindow, "frame");
     frame.origin = objj_msgSend(objj_msgSend(self, "window"), "convertGlobalToBase:", frame.origin);
-    frame.origin.x = MAX(0.0, MIN(CPRectGetMinX(frame), CPRectGetMaxX(lastColumnRect) - CPRectGetWidth(activeColumnRect)));
-    frame.origin.y = CPRectGetMinY(objj_msgSend(self, "convertRect:toView:", lastColumnRect, nil));
+    frame.origin = objj_msgSend(self, "convertPoint:fromView:", frame.origin, nil);
+    frame.origin.x = MAX(0.0, MIN(CGRectGetMinX(frame), CGRectGetMaxX(lastColumnRect) - CGRectGetWidth(activeColumnRect)));
+    frame.origin.y = CPRectGetMinY(lastColumnRect);
+    frame.origin = objj_msgSend(self, "convertPoint:toView:", frame.origin, nil);
     frame.origin = objj_msgSend(objj_msgSend(self, "window"), "convertBaseToGlobal:", frame.origin);
     objj_msgSend(dragWindow, "setFrame:", frame);
 }
@@ -9406,17 +9408,18 @@ _tableView = newValue;
     objj_msgSend(self, "_constrainDragView:at:", aView, aPoint);
     var dragWindow = objj_msgSend(aView, "window"),
         dragWindowFrame = objj_msgSend(dragWindow, "frame");
-    var hoverPoint = CPPointCreateCopy(aPoint);
+    var hoverPoint = CGPointCreateCopy(aPoint);
     if (aPoint.x < _previousTrackingLocation.x)
-        hoverPoint = CPPointMake(CPRectGetMinX(dragWindowFrame), CPRectGetMinY(dragWindowFrame));
+        hoverPoint = CGPointMake(CGRectGetMinX(dragWindowFrame), CGRectGetMinY(dragWindowFrame));
     else if (aPoint.x > _previousTrackingLocation.x)
-        hoverPoint = CPPointMake(CPRectGetMaxX(dragWindowFrame), CPRectGetMinY(dragWindowFrame));
+        hoverPoint = CGPointMake(CGRectGetMaxX(dragWindowFrame), CGRectGetMinY(dragWindowFrame));
     hoverPoint = objj_msgSend(objj_msgSend(self, "window"), "convertGlobalToBase:", hoverPoint);
+    hoverPoint = objj_msgSend(self, "convertPoint:fromView:", hoverPoint, nil);
     var hoveredColumn = objj_msgSend(self, "columnAtPoint:", hoverPoint);
     if (hoveredColumn !== -1)
     {
         var columnRect = objj_msgSend(self, "headerRectOfColumn:", hoveredColumn),
-            columnCenterPoint = CPPointMake(CPRectGetMidX(columnRect), CPRectGetMidY(columnRect));
+            columnCenterPoint = objj_msgSend(self, "convertPoint:fromView:", CGPointMake(CGRectGetMidX(columnRect), CGRectGetMidY(columnRect)), self);
         if (hoveredColumn < _activeColumn && hoverPoint.x < columnCenterPoint.x)
             objj_msgSend(self, "_moveColumn:toColumn:", _activeColumn, hoveredColumn);
         else if (hoveredColumn > _activeColumn && hoverPoint.x > columnCenterPoint.x)

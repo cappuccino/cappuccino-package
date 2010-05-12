@@ -7958,7 +7958,7 @@ objj_msgSend(_83,"setParentAttribute:",objj_msgSend(_81,"_attributeWithName:forC
 }
 return _83;
 };
-p;19;CPTableHeaderView.jt;19559;@STATIC;1.0;i;15;CPTableColumn.ji;13;CPTableView.ji;8;CPView.jt;19489;
+p;19;CPTableHeaderView.jt;19764;@STATIC;1.0;i;15;CPTableColumn.ji;13;CPTableView.ji;8;CPView.jt;19694;
 objj_executeFile("CPTableColumn.j",YES);
 objj_executeFile("CPTableView.j",YES);
 objj_executeFile("CPView.j",YES);
@@ -8229,8 +8229,10 @@ var _6c=objj_msgSend(objj_msgSend(_68,"tableView"),"tableColumns"),_6d=objj_msgS
 activeColumnRect=objj_msgSend(_68,"headerRectOfColumn:",_activeColumn);
 dragWindow=objj_msgSend(_6a,"window"),frame=objj_msgSend(dragWindow,"frame");
 frame.origin=objj_msgSend(objj_msgSend(_68,"window"),"convertGlobalToBase:",frame.origin);
-frame.origin.x=MAX(0,MIN(CPRectGetMinX(frame),CPRectGetMaxX(_6d)-CPRectGetWidth(activeColumnRect)));
-frame.origin.y=CPRectGetMinY(objj_msgSend(_68,"convertRect:toView:",_6d,nil));
+frame.origin=objj_msgSend(_68,"convertPoint:fromView:",frame.origin,nil);
+frame.origin.x=MAX(0,MIN(CGRectGetMinX(frame),CGRectGetMaxX(_6d)-CGRectGetWidth(activeColumnRect)));
+frame.origin.y=CPRectGetMinY(_6d);
+frame.origin=objj_msgSend(_68,"convertPoint:toView:",frame.origin,nil);
 frame.origin=objj_msgSend(objj_msgSend(_68,"window"),"convertBaseToGlobal:",frame.origin);
 objj_msgSend(dragWindow,"setFrame:",frame);
 }
@@ -8252,18 +8254,19 @@ objj_msgSend(_72,"setNeedsDisplay:",YES);
 with(_76){
 objj_msgSend(_76,"_constrainDragView:at:",_78,_79);
 var _7a=objj_msgSend(_78,"window"),_7b=objj_msgSend(_7a,"frame");
-var _7c=CPPointCreateCopy(_79);
+var _7c=CGPointCreateCopy(_79);
 if(_79.x<_previousTrackingLocation.x){
-_7c=CPPointMake(CPRectGetMinX(_7b),CPRectGetMinY(_7b));
+_7c=CGPointMake(CGRectGetMinX(_7b),CGRectGetMinY(_7b));
 }else{
 if(_79.x>_previousTrackingLocation.x){
-_7c=CPPointMake(CPRectGetMaxX(_7b),CPRectGetMinY(_7b));
+_7c=CGPointMake(CGRectGetMaxX(_7b),CGRectGetMinY(_7b));
 }
 }
 _7c=objj_msgSend(objj_msgSend(_76,"window"),"convertGlobalToBase:",_7c);
+_7c=objj_msgSend(_76,"convertPoint:fromView:",_7c,nil);
 var _7d=objj_msgSend(_76,"columnAtPoint:",_7c);
 if(_7d!==-1){
-var _7e=objj_msgSend(_76,"headerRectOfColumn:",_7d),_7f=CPPointMake(CPRectGetMidX(_7e),CPRectGetMidY(_7e));
+var _7e=objj_msgSend(_76,"headerRectOfColumn:",_7d),_7f=objj_msgSend(_76,"convertPoint:fromView:",CGPointMake(CGRectGetMidX(_7e),CGRectGetMidY(_7e)),_76);
 if(_7d<_activeColumn&&_7c.x<_7f.x){
 objj_msgSend(_76,"_moveColumn:toColumn:",_activeColumn,_7d);
 }else{
