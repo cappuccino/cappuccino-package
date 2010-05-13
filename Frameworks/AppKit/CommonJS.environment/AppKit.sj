@@ -2830,7 +2830,7 @@ return CGRectMake((_2a.origin.x)-_7,(_2a.origin.y)-_9,(_2a.size.width)+_7+_8,(_2
 }
 }
 })]);
-p;21;_CPImageAndTextView.jt;6643;@STATIC;1.0;I;21;Foundation/CPString.ji;9;CPColor.ji;8;CPFont.ji;9;CPImage.ji;8;CPView.ji;11;CPControl.jt;6532;
+p;21;_CPImageAndTextView.jt;6860;@STATIC;1.0;I;21;Foundation/CPString.ji;9;CPColor.ji;8;CPFont.ji;9;CPImage.ji;8;CPView.ji;11;CPControl.jt;6749;
 objj_executeFile("Foundation/CPString.j",NO);
 objj_executeFile("CPColor.j",YES);
 objj_executeFile("CPFont.j",YES);
@@ -2840,7 +2840,7 @@ objj_executeFile("CPControl.j",YES);
 var _1=1<<0,_2=1<<1,_3=1<<2,_4=1<<3,_5=1<<4,_6=1<<5,_7=1<<6,_8=1<<7,_9=1<<8,_a=1<<9,_b=1<<10;
 var _c=3,_d=5;
 var _e=objj_allocateClassPair(CPView,"_CPImageAndTextView"),_f=_e.isa;
-class_addIvars(_e,[new objj_ivar("_alignment"),new objj_ivar("_verticalAlignment"),new objj_ivar("_lineBreakMode"),new objj_ivar("_textColor"),new objj_ivar("_font"),new objj_ivar("_textShadowColor"),new objj_ivar("_textShadowOffset"),new objj_ivar("_imagePosition"),new objj_ivar("_imageScaling"),new objj_ivar("_image"),new objj_ivar("_text"),new objj_ivar("_textSize"),new objj_ivar("_flags")]);
+class_addIvars(_e,[new objj_ivar("_alignment"),new objj_ivar("_verticalAlignment"),new objj_ivar("_lineBreakMode"),new objj_ivar("_textColor"),new objj_ivar("_font"),new objj_ivar("_textShadowColor"),new objj_ivar("_textShadowOffset"),new objj_ivar("_imagePosition"),new objj_ivar("_imageScaling"),new objj_ivar("_shouldDimImage"),new objj_ivar("_image"),new objj_ivar("_text"),new objj_ivar("_textSize"),new objj_ivar("_flags")]);
 objj_registerClassPair(_e);
 class_addMethods(_e,[new objj_method(sel_getUid("initWithFrame:control:"),function(_10,_11,_12,_13){
 with(_10){
@@ -2934,126 +2934,134 @@ objj_msgSend(_2b,"setNeedsLayout");
 with(_2e){
 return _imageScaling;
 }
-}),new objj_method(sel_getUid("setTextColor:"),function(_30,_31,_32){
+}),new objj_method(sel_getUid("setDimsImage:"),function(_30,_31,_32){
 with(_30){
-if(_textColor===_32){
+var _33=!!_33;
+if(_shouldDimImage!==_33){
+_shouldDimImage=_32;
+objj_msgSend(_30,"setNeedsLayout");
+}
+}
+}),new objj_method(sel_getUid("setTextColor:"),function(_34,_35,_36){
+with(_34){
+if(_textColor===_36){
 return;
 }
-_textColor=_32;
+_textColor=_36;
 }
-}),new objj_method(sel_getUid("textColor"),function(_33,_34){
-with(_33){
+}),new objj_method(sel_getUid("textColor"),function(_37,_38){
+with(_37){
 return _textColor;
 }
-}),new objj_method(sel_getUid("setFont:"),function(_35,_36,_37){
-with(_35){
-if(_font===_37){
+}),new objj_method(sel_getUid("setFont:"),function(_39,_3a,_3b){
+with(_39){
+if(_font===_3b){
 return;
 }
-_font=_37;
+_font=_3b;
 _flags|=_8;
 _textSize=NULL;
-objj_msgSend(_35,"setNeedsLayout");
+objj_msgSend(_39,"setNeedsLayout");
 }
-}),new objj_method(sel_getUid("font"),function(_38,_39){
-with(_38){
+}),new objj_method(sel_getUid("font"),function(_3c,_3d){
+with(_3c){
 return _font;
 }
-}),new objj_method(sel_getUid("setTextShadowColor:"),function(_3a,_3b,_3c){
-with(_3a){
-if(_textShadowColor===_3c){
+}),new objj_method(sel_getUid("setTextShadowColor:"),function(_3e,_3f,_40){
+with(_3e){
+if(_textShadowColor===_40){
 return;
 }
-_textShadowColor=_3c;
+_textShadowColor=_40;
 _flags|=_9;
-objj_msgSend(_3a,"setNeedsLayout");
+objj_msgSend(_3e,"setNeedsLayout");
 }
-}),new objj_method(sel_getUid("textShadowColor"),function(_3d,_3e){
-with(_3d){
+}),new objj_method(sel_getUid("textShadowColor"),function(_41,_42){
+with(_41){
 return _textShadowColor;
 }
-}),new objj_method(sel_getUid("setTextShadowOffset:"),function(_3f,_40,_41){
-with(_3f){
-if((_textShadowOffset.width==_41.width&&_textShadowOffset.height==_41.height)){
+}),new objj_method(sel_getUid("setTextShadowOffset:"),function(_43,_44,_45){
+with(_43){
+if((_textShadowOffset.width==_45.width&&_textShadowOffset.height==_45.height)){
 return;
 }
-_textShadowOffset={width:_41.width,height:_41.height};
-objj_msgSend(_3f,"setNeedsLayout");
+_textShadowOffset={width:_45.width,height:_45.height};
+objj_msgSend(_43,"setNeedsLayout");
 }
-}),new objj_method(sel_getUid("textShadowOffset"),function(_42,_43){
-with(_42){
+}),new objj_method(sel_getUid("textShadowOffset"),function(_46,_47){
+with(_46){
 return _textShadowOffset;
 }
-}),new objj_method(sel_getUid("setImage:"),function(_44,_45,_46){
-with(_44){
-if(_image==_46){
+}),new objj_method(sel_getUid("setImage:"),function(_48,_49,_4a){
+with(_48){
+if(_image==_4a){
 return;
 }
-if(objj_msgSend(_image,"delegate")===_44){
+if(objj_msgSend(_image,"delegate")===_48){
 objj_msgSend(_image,"setDelegate:",nil);
 }
-_image=_46;
+_image=_4a;
 _flags|=_2;
 if(objj_msgSend(_image,"loadStatus")!==CPImageLoadStatusCompleted){
-objj_msgSend(_image,"setDelegate:",_44);
+objj_msgSend(_image,"setDelegate:",_48);
 }
-objj_msgSend(_44,"setNeedsLayout");
+objj_msgSend(_48,"setNeedsLayout");
 }
-}),new objj_method(sel_getUid("imageDidLoad:"),function(_47,_48,_49){
-with(_47){
-if(_49===_image){
+}),new objj_method(sel_getUid("imageDidLoad:"),function(_4b,_4c,_4d){
+with(_4b){
+if(_4d===_image){
 _flags|=_2;
-objj_msgSend(_47,"setNeedsLayout");
+objj_msgSend(_4b,"setNeedsLayout");
 }
 }
-}),new objj_method(sel_getUid("image"),function(_4a,_4b){
-with(_4a){
+}),new objj_method(sel_getUid("image"),function(_4e,_4f){
+with(_4e){
 return _image;
 }
-}),new objj_method(sel_getUid("setText:"),function(_4c,_4d,_4e){
-with(_4c){
-if(_text===_4e){
+}),new objj_method(sel_getUid("setText:"),function(_50,_51,_52){
+with(_50){
+if(_text===_52){
 return;
 }
-_text=_4e;
+_text=_52;
 _flags|=_3;
 _textSize=NULL;
-objj_msgSend(_4c,"setNeedsLayout");
+objj_msgSend(_50,"setNeedsLayout");
 }
-}),new objj_method(sel_getUid("text"),function(_4f,_50){
-with(_4f){
+}),new objj_method(sel_getUid("text"),function(_53,_54){
+with(_53){
 return _text;
 }
-}),new objj_method(sel_getUid("layoutSubviews"),function(_51,_52){
-with(_51){
+}),new objj_method(sel_getUid("layoutSubviews"),function(_55,_56){
+with(_55){
 _flags=0;
 }
-}),new objj_method(sel_getUid("sizeToFit"),function(_53,_54){
-with(_53){
-var _55=CGSizeMakeZero();
+}),new objj_method(sel_getUid("sizeToFit"),function(_57,_58){
+with(_57){
+var _59=CGSizeMakeZero();
 if((_imagePosition!==CPNoImage)&&_image){
-var _56=objj_msgSend(_image,"size");
-_55.width+=_56.width;
-_55.height+=_56.height;
+var _5a=objj_msgSend(_image,"size");
+_59.width+=_5a.width;
+_59.height+=_5a.height;
 }
 if((_imagePosition!==CPImageOnly)&&objj_msgSend(_text,"length")>0){
 if(!_textSize){
 _textSize=objj_msgSend(_text,"sizeWithFont:",_font?_font:objj_msgSend(CPFont,"systemFontOfSize:",12));
 }
 if(_imagePosition===CPImageLeft||_imagePosition===CPImageRight){
-_55.width+=_textSize.width+_c;
-_55.height=MAX(_55.height,_textSize.height);
+_59.width+=_textSize.width+_c;
+_59.height=MAX(_59.height,_textSize.height);
 }else{
 if(_imagePosition===CPImageAbove||_imagePosition===CPImageBelow){
-_55.width=MAX(_55.width,_textSize.width);
-_55.height+=_textSize.height+_d;
+_59.width=MAX(_59.width,_textSize.width);
+_59.height+=_textSize.height+_d;
 }else{
-_55.width=MAX(_55.width,_textSize.width);
-_55.height=MAX(_55.height,_textSize.height);
+_59.width=MAX(_59.width,_textSize.width);
+_59.height=MAX(_59.height,_textSize.height);
 }
 }
 }
-objj_msgSend(_53,"setFrameSize:",_55);
+objj_msgSend(_57,"setFrameSize:",_59);
 }
 })]);
 p;15;CPTableColumn.jt;10995;@STATIC;1.0;I;25;Foundation/CPDictionary.jI;21;Foundation/CPObject.jI;29;Foundation/CPSortDescriptor.jI;21;Foundation/CPString.ji;19;CPTableHeaderView.jt;10835;
@@ -8061,7 +8069,7 @@ objj_msgSendSuper({receiver:_c4,super_class:objj_getClass("CPTableHeaderView").s
 objj_msgSend(_c6,"encodeObject:forKey:",_tableView,_c0);
 }
 })]);
-p;13;CPImageView.jt;6777;@STATIC;1.0;I;33;Foundation/CPNotificationCenter.ji;11;CPControl.ji;9;CPImage.ji;14;CPShadowView.jt;6672;
+p;13;CPImageView.jt;6789;@STATIC;1.0;I;33;Foundation/CPNotificationCenter.ji;11;CPControl.ji;9;CPImage.ji;14;CPShadowView.jt;6684;
 objj_executeFile("Foundation/CPNotificationCenter.j",NO);
 objj_executeFile("CPControl.j",YES);
 objj_executeFile("CPImage.j",YES);
@@ -8227,6 +8235,7 @@ if(objj_msgSend(_44,"count")){
 objj_msgSend(_41,"setImage:",_44[0]);
 objj_msgSend(_41,"sendAction:to:",objj_msgSend(_41,"action"),objj_msgSend(_41,"target"));
 }
+return YES;
 }
 })]);
 var _45="CPImageViewImageKey",_46="CPImageViewImageScalingKey",_47="CPImageViewHasShadowKey",_48="CPImageViewIsEditableKey";
@@ -20811,7 +20820,7 @@ with(_86){
 objj_msgSend(_86,"openDocumentWithContentsOfURL:display:error:",objj_msgSend(_88,"tag"),YES,nil);
 }
 })]);
-p;10;CPButton.jt;15880;@STATIC;1.0;i;21;_CPImageAndTextView.ji;12;CGGeometry.ji;11;CPControl.ji;17;CPStringDrawing.ji;12;CPCheckBox.ji;9;CPRadio.jt;15749;
+p;10;CPButton.jt;15995;@STATIC;1.0;i;21;_CPImageAndTextView.ji;12;CGGeometry.ji;11;CPControl.ji;17;CPStringDrawing.ji;12;CPCheckBox.ji;9;CPRadio.jt;15864;
 objj_executeFile("_CPImageAndTextView.j",YES);
 objj_executeFile("CGGeometry.j",YES);
 objj_executeFile("CPControl.j",YES);
@@ -21157,6 +21166,7 @@ objj_msgSend(_5c,"setTextShadowColor:",objj_msgSend(_59,"currentValueForThemeAtt
 objj_msgSend(_5c,"setTextShadowOffset:",objj_msgSend(_59,"currentValueForThemeAttribute:","text-shadow-offset"));
 objj_msgSend(_5c,"setImagePosition:",objj_msgSend(_59,"currentValueForThemeAttribute:","image-position"));
 objj_msgSend(_5c,"setImageScaling:",objj_msgSend(_59,"currentValueForThemeAttribute:","image-scaling"));
+objj_msgSend(_5c,"setDimsImage:",objj_msgSend(_59,"hasThemeState:",CPThemeStateDisabled)&&_imageDimsWhenDisabled);
 }
 }
 }),new objj_method(sel_getUid("setDefaultButton:"),function(_5d,_5e,_5f){
