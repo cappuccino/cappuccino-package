@@ -29808,7 +29808,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("bootstrap"), function 
 meta_class = the_class.isa;objj_registerClassPair(the_class);
 }
 
-p;18;CPPlatformWindow.jt;5811;@STATIC;1.0;I;21;Foundation/CPObject.jt;5766;objj_executeFile("Foundation/CPObject.j", NO);
+p;18;CPPlatformWindow.jt;5979;@STATIC;1.0;I;21;Foundation/CPObject.jt;5934;objj_executeFile("Foundation/CPObject.j", NO);
 var PrimaryPlatformWindow = NULL;
 {var the_class = objj_allocateClassPair(CPObject, "CPPlatformWindow"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_contentRect"), new objj_ivar("_level"), new objj_ivar("_hasShadow"), new objj_ivar("_shadowStyle")]);
@@ -29926,7 +29926,12 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("visiblePlatformWindows
 {
     return objj_msgSend(CPSet, "set");
 }
-},["CPSet"]), new objj_method(sel_getUid("primaryPlatformWindow"), function $CPPlatformWindow__primaryPlatformWindow(self, _cmd)
+},["CPSet"]), new objj_method(sel_getUid("supportsMultipleInstances"), function $CPPlatformWindow__supportsMultipleInstances(self, _cmd)
+{ with(self)
+{
+    return NO;
+}
+},["BOOL"]), new objj_method(sel_getUid("primaryPlatformWindow"), function $CPPlatformWindow__primaryPlatformWindow(self, _cmd)
 { with(self)
 {
     return PrimaryPlatformWindow;

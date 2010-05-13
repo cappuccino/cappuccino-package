@@ -27061,7 +27061,7 @@ _1b.textContent=_18;
 return {width:_1b.clientWidth,height:_1b.clientHeight};
 }
 })]);
-p;18;CPPlatformWindow.jt;5339;@STATIC;1.0;I;21;Foundation/CPObject.ji;22;CPPlatformWindow+DOM.jt;5267;
+p;18;CPPlatformWindow.jt;5490;@STATIC;1.0;I;21;Foundation/CPObject.ji;22;CPPlatformWindow+DOM.jt;5418;
 objj_executeFile("Foundation/CPObject.j",NO);
 var _1=NULL;
 var _2=objj_allocateClassPair(CPObject,"CPPlatformWindow"),_3=_2.isa;
@@ -27184,13 +27184,17 @@ class_addMethods(_3,[new objj_method(sel_getUid("visiblePlatformWindows"),functi
 with(_3b){
 return objj_msgSend(CPSet,"set");
 }
-}),new objj_method(sel_getUid("primaryPlatformWindow"),function(_3d,_3e){
+}),new objj_method(sel_getUid("supportsMultipleInstances"),function(_3d,_3e){
 with(_3d){
+return !CPBrowserIsEngine(CPInternetExplorerBrowserEngine);
+}
+}),new objj_method(sel_getUid("primaryPlatformWindow"),function(_3f,_40){
+with(_3f){
 return _1;
 }
-}),new objj_method(sel_getUid("setPrimaryPlatformWindow:"),function(_3f,_40,_41){
-with(_3f){
-_1=_41;
+}),new objj_method(sel_getUid("setPrimaryPlatformWindow:"),function(_41,_42,_43){
+with(_41){
+_1=_43;
 }
 })]);
 objj_executeFile("CPPlatformWindow+DOM.j",YES);
