@@ -486,7 +486,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPEvent"])]);
 }
 
-p;13;CPTableView.jt;131299;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;131156;objj_executeFile("Foundation/CPArray.j", NO);
+p;13;CPTableView.jt;131396;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;131253;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("AppKit/CGGradient.j", NO);
 objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPTableColumn.j", YES);
@@ -1313,45 +1313,45 @@ _disableAutomaticResizing = newValue;
         return;
     var mask = _columnAutoResizingStyle;
     if(mask === CPTableViewUniformColumnAutoresizingStyle)
-    {
        objj_msgSend(self, "_resizeAllColumnUniformlyWithOldSize:", aSize);
-    }
-    if(mask === CPTableViewLastColumnOnlyAutoresizingStyle)
-    {
+    else if(mask === CPTableViewLastColumnOnlyAutoresizingStyle)
         objj_msgSend(self, "sizeLastColumnToFit");
-    }
-    if(mask === CPTableViewFirstColumnOnlyAutoresizingStyle)
-    {
-        var superview = objj_msgSend(self, "superview");
-        if (!superview)
-            return;
-        var superviewSize = objj_msgSend(superview, "bounds").size;
-        if (_dirtyTableColumnRangeIndex !== CPNotFound) objj_msgSend(self, "_recalculateTableColumnRanges");;
-        var count = (_tableColumns.length);
-        var visColumns = objj_msgSend(objj_msgSend(CPArray, "alloc"), "init");
-        var totalWidth = 0;
-        for(var i=0; i < count; i++)
-        {
-            if(!objj_msgSend(_tableColumns[i], "isHidden"))
-            {
-                objj_msgSend(visColumns, "addObject:", i);
-                totalWidth += objj_msgSend(_tableColumns[i], "width");
-            }
-        }
-        count = objj_msgSend(visColumns, "count");
-        if (count > 0)
-        {
-            var columnToResize = _tableColumns[visColumns[0]];
-            var newWidth = superviewSize.width - totalWidth;
-            newWidth += objj_msgSend(columnToResize, "width");
-            newWidth = (newWidth < objj_msgSend(columnToResize, "minWidth")) ? objj_msgSend(columnToResize, "minWidth") : newWidth;
-            newWidth = (newWidth > objj_msgSend(columnToResize, "maxWidth")) ? objj_msgSend(columnToResize, "maxWidth") : newWidth;
-            objj_msgSend(columnToResize, "setWidth:", FLOOR(newWidth));
-        }
-        objj_msgSend(self, "setNeedsLayout");
-    }
+    else if(mask === CPTableViewFirstColumnOnlyAutoresizingStyle)
+        objj_msgSend(self, "_autoResizeFirstColumn");
 }
-},["void","CGSize"]), new objj_method(sel_getUid("_resizeAllColumnUniformlyWithOldSize:"), function $CPTableView___resizeAllColumnUniformlyWithOldSize_(self, _cmd, oldSize)
+},["void","CGSize"]), new objj_method(sel_getUid("_autoResizeFirstColumn"), function $CPTableView___autoResizeFirstColumn(self, _cmd)
+{ with(self)
+{
+    var superview = objj_msgSend(self, "superview");
+     if (!superview)
+         return;
+     var superviewSize = objj_msgSend(superview, "bounds").size;
+     if (_dirtyTableColumnRangeIndex !== CPNotFound) objj_msgSend(self, "_recalculateTableColumnRanges");;
+     var count = (_tableColumns.length),
+         visColumns = objj_msgSend(objj_msgSend(CPArray, "alloc"), "init"),
+         totalWidth = 0,
+         i = 0;
+     for(; i < count; i++)
+     {
+         if(!objj_msgSend(_tableColumns[i], "isHidden"))
+         {
+             objj_msgSend(visColumns, "addObject:", i);
+             totalWidth += objj_msgSend(_tableColumns[i], "width");
+         }
+     }
+     count = objj_msgSend(visColumns, "count");
+     if (count > 0)
+     {
+         var columnToResize = _tableColumns[visColumns[0]];
+         var newWidth = superviewSize.width - totalWidth;
+         newWidth += objj_msgSend(columnToResize, "width");
+         newWidth = (newWidth < objj_msgSend(columnToResize, "minWidth")) ? objj_msgSend(columnToResize, "minWidth") : newWidth;
+         newWidth = (newWidth > objj_msgSend(columnToResize, "maxWidth")) ? objj_msgSend(columnToResize, "maxWidth") : newWidth;
+         objj_msgSend(columnToResize, "setWidth:", FLOOR(newWidth));
+     }
+     objj_msgSend(self, "setNeedsLayout");
+}
+},["void"]), new objj_method(sel_getUid("_resizeAllColumnUniformlyWithOldSize:"), function $CPTableView___resizeAllColumnUniformlyWithOldSize_(self, _cmd, oldSize)
 { with(self)
 {
         var superview = objj_msgSend(self, "superview");
@@ -9083,7 +9083,7 @@ CPThemeAttributeDecode= function(aCoder, anAttributeName, aDefaultValue, aTheme,
     return attribute;
 }
 
-p;19;CPTableHeaderView.jt;28665;@STATIC;1.0;i;15;CPTableColumn.ji;13;CPTableView.ji;8;CPView.jt;28595;objj_executeFile("CPTableColumn.j", YES);
+p;19;CPTableHeaderView.jt;28245;@STATIC;1.0;i;15;CPTableColumn.ji;13;CPTableView.ji;8;CPView.jt;28175;objj_executeFile("CPTableColumn.j", YES);
 objj_executeFile("CPTableView.j", YES);
 objj_executeFile("CPView.j", YES);
 {var the_class = objj_allocateClassPair(CPView, "_CPTableColumnHeaderView"),
@@ -9243,7 +9243,7 @@ _tableView = newValue;
 { with(self)
 {
     var headerRect = objj_msgSend(self, "bounds"),
-        columnRect = objj_msgSend(objj_msgSend(self, "tableView"), "rectOfColumn:", aColumnIndex);
+        columnRect = objj_msgSend(_tableView, "rectOfColumn:", aColumnIndex);
     headerRect.origin.x = CPRectGetMinX(columnRect);
     headerRect.size.width = CPRectGetWidth(columnRect);
     return headerRect;
@@ -9292,7 +9292,7 @@ _tableView = newValue;
             objj_msgSend(self, "stopResizingTableColumn:at:", _activeColumn, currentLocation);
         else if (objj_msgSend(self, "_shouldStopTrackingTableColumn:at:", columnIndex, currentLocation))
         {
-            objj_msgSend(objj_msgSend(self, "tableView"), "_didClickTableColumn:modifierFlags:", columnIndex, objj_msgSend(theEvent, "modifierFlags"));
+            objj_msgSend(_tableView, "_didClickTableColumn:modifierFlags:", columnIndex, objj_msgSend(theEvent, "modifierFlags"));
             objj_msgSend(self, "stopTrackingTableColumn:at:", columnIndex, currentLocation);
             _isTrackingColumn = NO;
         }
@@ -9306,7 +9306,7 @@ _tableView = newValue;
             return;
         _mouseDownLocation = currentLocation;
         _activeColumn = columnIndex;
-        objj_msgSend(objj_msgSend(self, "tableView"), "_sendDelegateDidMouseDownInHeader:", columnIndex);
+        objj_msgSend(_tableView, "_sendDelegateDidMouseDownInHeader:", columnIndex);
         if (shouldResize)
             objj_msgSend(self, "startResizingTableColumn:at:", columnIndex, currentLocation);
         else
@@ -9348,7 +9348,7 @@ _tableView = newValue;
     {
         var columnRect = objj_msgSend(self, "headerRectOfColumn:", aColumnIndex),
             offset = CPPointMakeZero(),
-            view = objj_msgSend(objj_msgSend(self, "tableView"), "_dragViewForColumn:event:offset:", aColumnIndex, objj_msgSend(CPApp, "currentEvent"), offset),
+            view = objj_msgSend(_tableView, "_dragViewForColumn:event:offset:", aColumnIndex, objj_msgSend(CPApp, "currentEvent"), offset),
             viewLocation = CPPointMakeZero();
         viewLocation.x = ( CPRectGetMinX(columnRect) + offset.x ) + ( aPoint.x - _mouseDownLocation.x );
         viewLocation.y = CPRectGetMinY(columnRect) + offset.y;
@@ -9372,12 +9372,12 @@ _tableView = newValue;
 },["void","int","CPPoint"]), new objj_method(sel_getUid("_shouldDragTableColumn:at:"), function $CPTableHeaderView___shouldDragTableColumn_at_(self, _cmd, aColumnIndex, aPoint)
 { with(self)
 {
-    return objj_msgSend(objj_msgSend(self, "tableView"), "allowsColumnReordering") && ABS(aPoint.x - _mouseDownLocation.x) >= 10.0;
+    return objj_msgSend(_tableView, "allowsColumnReordering") && ABS(aPoint.x - _mouseDownLocation.x) >= 10.0;
 }
 },["BOOL","int","CPPoint"]), new objj_method(sel_getUid("_headerRectOfLastVisibleColumn"), function $CPTableHeaderView___headerRectOfLastVisibleColumn(self, _cmd)
 { with(self)
 {
-    var tableColumns = objj_msgSend(objj_msgSend(self, "tableView"), "tableColumns"),
+    var tableColumns = objj_msgSend(_tableView, "tableColumns"),
         columnIndex = objj_msgSend(tableColumns, "count");
     while (columnIndex--)
     {
@@ -9390,7 +9390,7 @@ _tableView = newValue;
 },["CPRect"]), new objj_method(sel_getUid("_constrainDragView:at:"), function $CPTableHeaderView___constrainDragView_at_(self, _cmd, theDragView, aPoint)
 { with(self)
 {
-    var tableColumns = objj_msgSend(objj_msgSend(self, "tableView"), "tableColumns"),
+    var tableColumns = objj_msgSend(_tableView, "tableColumns"),
         lastColumnRect = objj_msgSend(self, "_headerRectOfLastVisibleColumn");
         activeColumnRect = objj_msgSend(self, "headerRectOfColumn:", _activeColumn);
         dragWindow = objj_msgSend(theDragView, "window"),
@@ -9406,17 +9406,17 @@ _tableView = newValue;
 },["void","CPView","CPPoint"]), new objj_method(sel_getUid("_moveColumn:toColumn:"), function $CPTableHeaderView___moveColumn_toColumn_(self, _cmd, aFromIndex, aToIndex)
 { with(self)
 {
-    objj_msgSend(objj_msgSend(self, "tableView"), "moveColumn:toColumn:", aFromIndex, aToIndex);
+    objj_msgSend(_tableView, "moveColumn:toColumn:", aFromIndex, aToIndex);
     _activeColumn = aToIndex;
     _pressedColumn = _activeColumn;
-    objj_msgSend(objj_msgSend(self, "tableView"), "_setDraggedColumn:", _activeColumn);
+    objj_msgSend(_tableView, "_setDraggedColumn:", _activeColumn);
 }
 },["void","int","int"]), new objj_method(sel_getUid("draggedView:beganAt:"), function $CPTableHeaderView__draggedView_beganAt_(self, _cmd, aView, aPoint)
 { with(self)
 {
     _isDragging = YES;
-    objj_msgSend(objj_msgSend(objj_msgSend(objj_msgSend(objj_msgSend(self, "tableView"), "tableColumns"), "objectAtIndex:", _activeColumn), "headerView"), "setHidden:", YES);
-    objj_msgSend(objj_msgSend(self, "tableView"), "_setDraggedColumn:", _activeColumn);
+    objj_msgSend(objj_msgSend(objj_msgSend(objj_msgSend(_tableView, "tableColumns"), "objectAtIndex:", _activeColumn), "headerView"), "setHidden:", YES);
+    objj_msgSend(_tableView, "_setDraggedColumn:", _activeColumn);
     objj_msgSend(self, "setNeedsDisplay:", YES);
 }
 },["void","CPView","CPPoint"]), new objj_method(sel_getUid("draggedView:movedTo:"), function $CPTableHeaderView__draggedView_movedTo_(self, _cmd, aView, aPoint)
@@ -9449,8 +9449,8 @@ _tableView = newValue;
 {
     _isDragging = NO;
     _isTrackingColumn = NO;
-    objj_msgSend(objj_msgSend(self, "tableView"), "_setDraggedColumn:", -1);
-    objj_msgSend(objj_msgSend(objj_msgSend(objj_msgSend(objj_msgSend(self, "tableView"), "tableColumns"), "objectAtIndex:", _activeColumn), "headerView"), "setHidden:", NO);
+    objj_msgSend(_tableView, "_setDraggedColumn:", -1);
+    objj_msgSend(objj_msgSend(objj_msgSend(objj_msgSend(_tableView, "tableColumns"), "objectAtIndex:", _activeColumn), "headerView"), "setHidden:", NO);
     objj_msgSend(self, "stopTrackingTableColumn:at:", _activeColumn, aLocation);
     objj_msgSend(self, "setNeedsDisplay:", YES);
 }
@@ -9461,20 +9461,20 @@ _tableView = newValue;
         return YES;
     if (_isTrackingColumn)
         return NO;
-    return objj_msgSend(objj_msgSend(self, "tableView"), "allowsColumnResizing") && CPRectContainsPoint(objj_msgSend(self, "_cursorRectForColumn:", aColumnIndex), aPoint);
+    return objj_msgSend(_tableView, "allowsColumnResizing") && CPRectContainsPoint(objj_msgSend(self, "_cursorRectForColumn:", aColumnIndex), aPoint);
 }
 },["BOOL","int","CPPoint"]), new objj_method(sel_getUid("startResizingTableColumn:at:"), function $CPTableHeaderView__startResizingTableColumn_at_(self, _cmd, aColumnIndex, aPoint)
 { with(self)
 {
     _isResizing = YES;
-    var tableColumn = objj_msgSend(objj_msgSend(objj_msgSend(self, "tableView"), "tableColumns"), "objectAtIndex:", aColumnIndex);
+    var tableColumn = objj_msgSend(objj_msgSend(_tableView, "tableColumns"), "objectAtIndex:", aColumnIndex);
     objj_msgSend(tableColumn, "setDisableResizingPosting:", YES);
-    objj_msgSend(objj_msgSend(self, "tableView"), "setDisableAutomaticResizing:", YES);
+    objj_msgSend(_tableView, "setDisableAutomaticResizing:", YES);
 }
 },["void","int","CPPoint"]), new objj_method(sel_getUid("continueResizingTableColumn:at:"), function $CPTableHeaderView__continueResizingTableColumn_at_(self, _cmd, aColumnIndex, aPoint)
 { with(self)
 {
-    var tableColumn = objj_msgSend(objj_msgSend(objj_msgSend(self, "tableView"), "tableColumns"), "objectAtIndex:", aColumnIndex),
+    var tableColumn = objj_msgSend(objj_msgSend(_tableView, "tableColumns"), "objectAtIndex:", aColumnIndex),
         newWidth = objj_msgSend(tableColumn, "width") + aPoint.x - _previousTrackingLocation.x;
     if (newWidth < objj_msgSend(tableColumn, "minWidth"))
         objj_msgSend(objj_msgSend(CPCursor, "resizeRightCursor"), "set");
@@ -9482,7 +9482,7 @@ _tableView = newValue;
         objj_msgSend(objj_msgSend(CPCursor, "resizeLeftCursor"), "set");
     else
     {
-        objj_msgSend(self, "tableView")._lastColumnShouldSnap = NO;
+        _tableView._lastColumnShouldSnap = NO;
         objj_msgSend(tableColumn, "setWidth:", newWidth);
         objj_msgSend(objj_msgSend(CPCursor, "resizeLeftRightCursor"), "set");
         objj_msgSend(self, "setNeedsLayout");
@@ -9492,10 +9492,10 @@ _tableView = newValue;
 },["void","int","CPPoint"]), new objj_method(sel_getUid("stopResizingTableColumn:at:"), function $CPTableHeaderView__stopResizingTableColumn_at_(self, _cmd, aColumnIndex, aPoint)
 { with(self)
 {
-    var tableColumn = objj_msgSend(objj_msgSend(objj_msgSend(self, "tableView"), "tableColumns"), "objectAtIndex:", aColumnIndex);
+    var tableColumn = objj_msgSend(objj_msgSend(_tableView, "tableColumns"), "objectAtIndex:", aColumnIndex);
     objj_msgSend(tableColumn, "_postDidResizeNotificationWithOldWidth:", _columnOldWidth);
     objj_msgSend(tableColumn, "setDisableResizingPosting:", NO);
-    objj_msgSend(objj_msgSend(self, "tableView"), "setDisableAutomaticResizing:", NO);
+    objj_msgSend(_tableView, "setDisableAutomaticResizing:", NO);
     _isResizing = NO;
 }
 },["void","int","CPPoint"]), new objj_method(sel_getUid("_updateResizeCursor:"), function $CPTableHeaderView___updateResizeCursor_(self, _cmd, theEvent)
