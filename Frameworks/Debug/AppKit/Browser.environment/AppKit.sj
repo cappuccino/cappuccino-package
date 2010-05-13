@@ -15212,7 +15212,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["id","CGPoint","CPPasteboard"])]);
 }
 
-p;11;CPWebView.jt;19781;@STATIC;1.0;I;15;AppKit/CPView.jt;19741;objj_executeFile("AppKit/CPView.j", NO);
+p;11;CPWebView.jt;19930;@STATIC;1.0;I;15;AppKit/CPView.jt;19890;objj_executeFile("AppKit/CPView.j", NO);
 CPWebViewProgressStartedNotification = "CPWebViewProgressStartedNotification";
 CPWebViewProgressFinishedNotification = "CPWebViewProgressFinishedNotification";
 CPWebViewScrollAppKit = 1;
@@ -15252,6 +15252,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:frameName
     _iframe.style.width = "100%";
     _iframe.style.height = "100%";
     _iframe.style.borderWidth = "0px";
+    _iframe.frameBorder = "0";
     objj_msgSend(self, "setDrawsBackground:", YES);
     _loadCallback = function() {
      if (!_ignoreLoadStart)
@@ -15356,7 +15357,10 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:frameName
 },["void","int"]), new objj_method(sel_getUid("_setScrollMode:"), function $CPWebView___setScrollMode_(self, _cmd, aScrollMode)
 { with(self)
 {
-    _scrollMode = aScrollMode;
+    if (CPBrowserIsEngine(CPInternetExplorerBrowserEngine))
+        _scrollMode = CPWebViewScrollNative;
+    else
+        _scrollMode = aScrollMode;
     _ignoreLoadStart = YES;
     _ignoreLoadEnd = YES;
     var parent = _iframe.parentNode;

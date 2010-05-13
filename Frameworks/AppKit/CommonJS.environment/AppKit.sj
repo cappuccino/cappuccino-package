@@ -12671,7 +12671,7 @@ return _6f;
 return nil;
 }
 })]);
-p;11;CPWebView.jt;14086;@STATIC;1.0;I;15;AppKit/CPView.jt;14046;
+p;11;CPWebView.jt;14211;@STATIC;1.0;I;15;AppKit/CPView.jt;14171;
 objj_executeFile("AppKit/CPView.j",NO);
 CPWebViewProgressStartedNotification="CPWebViewProgressStartedNotification";
 CPWebViewProgressFinishedNotification="CPWebViewProgressFinishedNotification";
@@ -12707,6 +12707,7 @@ _iframe.name="iframe_"+Math.floor(Math.random()*10000);
 _iframe.style.width="100%";
 _iframe.style.height="100%";
 _iframe.style.borderWidth="0px";
+_iframe.frameBorder="0";
 objj_msgSend(_b,"setDrawsBackground:",YES);
 _loadCallback=function(){
 if(!_ignoreLoadStart){
@@ -12805,7 +12806,11 @@ objj_msgSend(_1e,"_setScrollMode:",_20);
 }
 }),new objj_method(sel_getUid("_setScrollMode:"),function(_21,_22,_23){
 with(_21){
+if(CPBrowserIsEngine(CPInternetExplorerBrowserEngine)){
+_scrollMode=CPWebViewScrollNative;
+}else{
 _scrollMode=_23;
+}
 _ignoreLoadStart=YES;
 _ignoreLoadEnd=YES;
 var _24=_iframe.parentNode;
