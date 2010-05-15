@@ -488,7 +488,7 @@ var splitRangeEntry = splitRangeEntryAtIndex= function( aRangeEntry, anIndex)
     return [aRangeEntry, newRangeEntry];
 }
 
-p;9;CPArray.jt;28717;@STATIC;1.0;i;10;CPObject.ji;9;CPRange.ji;14;CPEnumerator.ji;18;CPSortDescriptor.ji;13;CPException.jt;28609;objj_executeFile("CPObject.j", YES);
+p;9;CPArray.jt;28702;@STATIC;1.0;i;10;CPObject.ji;9;CPRange.ji;14;CPEnumerator.ji;18;CPSortDescriptor.ji;13;CPException.jt;28594;objj_executeFile("CPObject.j", YES);
 objj_executeFile("CPRange.j", YES);
 objj_executeFile("CPEnumerator.j", YES);
 objj_executeFile("CPSortDescriptor.j", YES);
@@ -722,10 +722,10 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
 },["unsigned","id","Function","id"]), new objj_method(sel_getUid("indexOfObject:sortedByDescriptors:"), function $CPArray__indexOfObject_sortedByDescriptors_(self, _cmd, anObject, descriptors)
 { with(self)
 {
+    var count = objj_msgSend(descriptors, "count");
     return objj_msgSend(self, "indexOfObject:sortedByFunction:", anObject, function(lhs, rhs)
     {
         var i = 0,
-            count = objj_msgSend(descriptors, "count"),
             result = CPOrderedSame;
         while (i < count)
             if ((result = objj_msgSend(descriptors[i++], "compareObject:withObject:", lhs, rhs)) != CPOrderedSame)
@@ -1022,18 +1022,18 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPArray","CPIndexSet"]), new objj_method(sel_getUid("insertObject:inArraySortedByDescriptors:"), function $CPArray__insertObject_inArraySortedByDescriptors_(self, _cmd, anObject, descriptors)
 { with(self)
 {
+    var count = objj_msgSend(descriptors, "count");
     var index = objj_msgSend(self, "_indexOfObject:sortedByFunction:context:", anObject, function(lhs, rhs)
     {
         var i = 0,
-            count = objj_msgSend(descriptors, "count"),
             result = CPOrderedSame;
         while (i < count)
-            if ((result = objj_msgSend(descriptors[i++], "compareObject:withObject:", lhs, rhs)) != CPOrderedSame)
+            if((result = objj_msgSend(descriptors[i++], "compareObject:withObject:", lhs, rhs)) != CPOrderedSame)
                 return result;
         return result;
     }, nil);
     if (index < 0)
-        index = -index - 1;
+        index = -index-1;
     objj_msgSend(self, "insertObject:atIndex:", anObject, index);
     return index;
 }
@@ -1152,10 +1152,10 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","unsigned","unsigned"]), new objj_method(sel_getUid("sortUsingDescriptors:"), function $CPArray__sortUsingDescriptors_(self, _cmd, descriptors)
 { with(self)
 {
+    var count = objj_msgSend(descriptors, "count");
     sort(function(lhs, rhs)
     {
         var i = 0,
-            count = objj_msgSend(descriptors, "count"),
             result = CPOrderedSame;
         while (i < count)
             if ((result = objj_msgSend(descriptors[i++], "compareObject:withObject:", lhs, rhs)) != CPOrderedSame)
@@ -5455,7 +5455,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 }
 Date.prototype.isa = CPDate;
 
-p;14;CPURLRequest.jt;3000;@STATIC;1.0;i;10;CPObject.jt;2966;objj_executeFile("CPObject.j", YES);
+p;14;CPURLRequest.jt;3001;@STATIC;1.0;i;10;CPObject.jt;2967;objj_executeFile("CPObject.j", YES);
 {var the_class = objj_allocateClassPair(CPObject, "CPURLRequest"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_URL"), new objj_ivar("_HTTPBody"), new objj_ivar("_HTTPMethod"), new objj_ivar("_HTTPHeaderFields")]);
 objj_registerClassPair(the_class);
@@ -5469,7 +5469,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithURL:"), functio
         _HTTPBody = "";
         _HTTPMethod = "GET";
         _HTTPHeaderFields = objj_msgSend(CPDictionary, "dictionary");
-        objj_msgSend(self, "setValue:forHTTPHeaderField:", "Thu, 1 Jan 1970 00:00:00 GMT", "If-Modified-Since");
+        objj_msgSend(self, "setValue:forHTTPHeaderField:", "Thu, 01 Jan 1970 00:00:00 GMT", "If-Modified-Since");
         objj_msgSend(self, "setValue:forHTTPHeaderField:", "no-cache", "Cache-Control");
         objj_msgSend(self, "setValue:forHTTPHeaderField:", "XMLHttpRequest", "X-Requested-With");
     }

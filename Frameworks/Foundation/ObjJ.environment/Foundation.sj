@@ -433,7 +433,7 @@ _a4.range.length=_a5-_a3;
 _a4.attributes=objj_msgSend(_a4.attributes,"copy");
 return [_a2,_a4];
 };
-p;9;CPArray.jt;18774;@STATIC;1.0;i;10;CPObject.ji;9;CPRange.ji;14;CPEnumerator.ji;18;CPSortDescriptor.ji;13;CPException.jt;18666;
+p;9;CPArray.jt;18789;@STATIC;1.0;i;10;CPObject.ji;9;CPRange.ji;14;CPEnumerator.ji;18;CPSortDescriptor.ji;13;CPException.jt;18681;
 objj_executeFile("CPObject.j",YES);
 objj_executeFile("CPRange.j",YES);
 objj_executeFile("CPEnumerator.j",YES);
@@ -653,8 +653,9 @@ return -_4d-1;
 }
 }),new objj_method(sel_getUid("indexOfObject:sortedByDescriptors:"),function(_4f,_50,_51,_52){
 with(_4f){
+var _53=objj_msgSend(_52,"count");
 return objj_msgSend(_4f,"indexOfObject:sortedByFunction:",_51,function(lhs,rhs){
-var i=0,_53=objj_msgSend(_52,"count"),_54=CPOrderedSame;
+var i=0,_54=CPOrderedSame;
 while(i<_53){
 if((_54=objj_msgSend(_52[i++],"compareObject:withObject:",lhs,rhs))!=CPOrderedSame){
 return _54;
@@ -921,20 +922,21 @@ objj_msgSend(_d8,"insertObject:atIndex:",_da[_df],_e0);
 }
 }),new objj_method(sel_getUid("insertObject:inArraySortedByDescriptors:"),function(_e1,_e2,_e3,_e4){
 with(_e1){
-var _e5=objj_msgSend(_e1,"_indexOfObject:sortedByFunction:context:",_e3,function(lhs,rhs){
-var i=0,_e6=objj_msgSend(_e4,"count"),_e7=CPOrderedSame;
-while(i<_e6){
+var _e5=objj_msgSend(_e4,"count");
+var _e6=objj_msgSend(_e1,"_indexOfObject:sortedByFunction:context:",_e3,function(lhs,rhs){
+var i=0,_e7=CPOrderedSame;
+while(i<_e5){
 if((_e7=objj_msgSend(_e4[i++],"compareObject:withObject:",lhs,rhs))!=CPOrderedSame){
 return _e7;
 }
 }
 return _e7;
 },nil);
-if(_e5<0){
-_e5=-_e5-1;
+if(_e6<0){
+_e6=-_e6-1;
 }
-objj_msgSend(_e1,"insertObject:atIndex:",_e3,_e5);
-return _e5;
+objj_msgSend(_e1,"insertObject:atIndex:",_e3,_e6);
+return _e6;
 }
 }),new objj_method(sel_getUid("replaceObjectAtIndex:withObject:"),function(_e8,_e9,_ea,_eb){
 with(_e8){
@@ -1030,8 +1032,9 @@ self[_11b]=_11c;
 }
 }),new objj_method(sel_getUid("sortUsingDescriptors:"),function(self,_11d,_11e){
 with(self){
+var _11f=objj_msgSend(_11e,"count");
 sort(function(lhs,rhs){
-var i=0,_11f=objj_msgSend(_11e,"count"),_120=CPOrderedSame;
+var i=0,_120=CPOrderedSame;
 while(i<_11f){
 if((_120=objj_msgSend(_11e[i++],"compareObject:withObject:",lhs,rhs))!=CPOrderedSame){
 return _120;
@@ -4721,7 +4724,7 @@ objj_msgSend(_4e,"encodeInt:forKey:",_4c.getTime(),_48);
 }
 })]);
 Date.prototype.isa=CPDate;
-p;14;CPURLRequest.jt;2068;@STATIC;1.0;i;10;CPObject.jt;2034;
+p;14;CPURLRequest.jt;2069;@STATIC;1.0;i;10;CPObject.jt;2035;
 objj_executeFile("CPObject.j",YES);
 var _1=objj_allocateClassPair(CPObject,"CPURLRequest"),_2=_1.isa;
 class_addIvars(_1,[new objj_ivar("_URL"),new objj_ivar("_HTTPBody"),new objj_ivar("_HTTPMethod"),new objj_ivar("_HTTPHeaderFields")]);
@@ -4734,7 +4737,7 @@ objj_msgSend(_3,"setURL:",_5);
 _HTTPBody="";
 _HTTPMethod="GET";
 _HTTPHeaderFields=objj_msgSend(CPDictionary,"dictionary");
-objj_msgSend(_3,"setValue:forHTTPHeaderField:","Thu, 1 Jan 1970 00:00:00 GMT","If-Modified-Since");
+objj_msgSend(_3,"setValue:forHTTPHeaderField:","Thu, 01 Jan 1970 00:00:00 GMT","If-Modified-Since");
 objj_msgSend(_3,"setValue:forHTTPHeaderField:","no-cache","Cache-Control");
 objj_msgSend(_3,"setValue:forHTTPHeaderField:","XMLHttpRequest","X-Requested-With");
 }
