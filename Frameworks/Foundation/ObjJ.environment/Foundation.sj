@@ -6530,7 +6530,7 @@ CPRangeFromString=function(_14){
 var _15=_14.indexOf(",");
 return {location:parseInt(_14.substr(1,_15-1)),length:parseInt(_14.substring(_15+1,_14.length))};
 };
-p;10;CPNumber.jt;6058;@STATIC;1.0;i;10;CPObject.ji;15;CPObjJRuntime.jt;6004;
+p;10;CPNumber.jt;6048;@STATIC;1.0;i;10;CPObject.ji;15;CPObjJRuntime.jt;5994;
 objj_executeFile("CPObject.j",YES);
 objj_executeFile("CPObjJRuntime.j",YES);
 var _1=new Number(),_2=new CFMutableDictionary();
@@ -6609,14 +6609,14 @@ return String.fromCharCode(_2d);
 }
 }),new objj_method(sel_getUid("decimalValue"),function(_2f,_30){
 with(_2f){
-objj_throw_exception("decimalValue: NOT YET IMPLEMENTED");
+throw new Error("decimalValue: NOT YET IMPLEMENTED");
 }
 }),new objj_method(sel_getUid("descriptionWithLocale:"),function(_31,_32,_33){
 with(_31){
 if(!_33){
 return toString();
 }
-objj_throw_exception("descriptionWithLocale: NOT YET IMPLEMENTED");
+throw new Error("descriptionWithLocale: NOT YET IMPLEMENTED");
 }
 }),new objj_method(sel_getUid("description"),function(_34,_35){
 with(_34){

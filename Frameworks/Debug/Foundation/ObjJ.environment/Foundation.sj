@@ -7515,7 +7515,7 @@ CPRangeFromString= function(aString)
     return { location:parseInt(aString.substr(1, comma - 1)), length:parseInt(aString.substring(comma + 1, aString.length)) };
 }
 
-p;10;CPNumber.jt;9304;@STATIC;1.0;i;10;CPObject.ji;15;CPObjJRuntime.jt;9250;objj_executeFile("CPObject.j", YES);
+p;10;CPNumber.jt;9294;@STATIC;1.0;i;10;CPObject.ji;15;CPObjJRuntime.jt;9240;objj_executeFile("CPObject.j", YES);
 objj_executeFile("CPObjJRuntime.j", YES);
 var __placeholder = new Number(),
     CPNumberUIDs = new CFMutableDictionary();
@@ -7609,13 +7609,13 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithBool:"), functi
 },["char"]), new objj_method(sel_getUid("decimalValue"), function $CPNumber__decimalValue(self, _cmd)
 { with(self)
 {
-    objj_throw_exception("decimalValue: NOT YET IMPLEMENTED");
+    throw new Error("decimalValue: NOT YET IMPLEMENTED");
 }
 },["CPDecimal"]), new objj_method(sel_getUid("descriptionWithLocale:"), function $CPNumber__descriptionWithLocale_(self, _cmd, aDictionary)
 { with(self)
 {
     if (!aDictionary) return toString();
-    objj_throw_exception("descriptionWithLocale: NOT YET IMPLEMENTED");
+    throw new Error("descriptionWithLocale: NOT YET IMPLEMENTED");
 }
 },["CPString","CPDictionary"]), new objj_method(sel_getUid("description"), function $CPNumber__description(self, _cmd)
 { with(self)
