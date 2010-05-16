@@ -7509,6 +7509,9 @@ return _isLocalFileConnection;
 with(_19){
 if(_HTTPRequest.readyState()===CFHTTPRequest.CompleteState){
 var _1b=_HTTPRequest.status(),URL=objj_msgSend(_request,"URL");
+if(_1b===401&&objj_msgSend(_1,"respondsToSelector:",sel_getUid("connectionDidReceiveAuthenticationChallenge:"))){
+objj_msgSend(_1,"connectionDidReceiveAuthenticationChallenge:",_19);
+}else{
 if(objj_msgSend(_delegate,"respondsToSelector:",sel_getUid("connection:didReceiveResponse:"))){
 if(_isLocalFileConnection){
 objj_msgSend(_delegate,"connection:didReceiveResponse:",_19,objj_msgSend(objj_msgSend(CPURLResponse,"alloc"),"initWithURL:",URL));
@@ -7519,9 +7522,6 @@ objj_msgSend(_delegate,"connection:didReceiveResponse:",_19,_1c);
 }
 }
 if(!_isCanceled){
-if(_1b===401&&objj_msgSend(_1,"respondsToSelector:",sel_getUid("connectionDidReceiveAuthenticationChallenge:"))){
-objj_msgSend(_1,"connectionDidReceiveAuthenticationChallenge:",_19);
-}else{
 if(objj_msgSend(_delegate,"respondsToSelector:",sel_getUid("connection:didReceiveData:"))){
 objj_msgSend(_delegate,"connection:didReceiveData:",_19,_HTTPRequest.responseText());
 }
