@@ -6259,7 +6259,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithItemIdentifier:
 },["void","CPCoder"])]);
 }
 
-p;17;CPViewAnimation.jt;7124;@STATIC;1.0;I;20;AppKit/CPAnimation.jt;7080;objj_executeFile("AppKit/CPAnimation.j", NO);
+p;17;CPViewAnimation.jt;7288;@STATIC;1.0;I;20;AppKit/CPAnimation.jt;7244;objj_executeFile("AppKit/CPAnimation.j", NO);
 CPViewAnimationTargetKey = "CPViewAnimationTarget";
 CPViewAnimationStartFrameKey = "CPViewAnimationStartFrame";
 CPViewAnimationEndFrameKey = "CPViewAnimationEndFrame";
@@ -6310,12 +6310,12 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithViewAnimations:
             view = objj_msgSend(self, "_targetView:", dictionary)
             startFrame = objj_msgSend(self, "_startFrame:", dictionary)
             endFrame = objj_msgSend(self, "_endFrame:", dictionary)
-            differenceFrame = CPRectMakeZero();
+            differenceFrame = { origin: { x:0.0, y:0.0 }, size: { width:0.0, height:0.0 } };
         differenceFrame.origin.x = endFrame.origin.x - startFrame.origin.x;
         differenceFrame.origin.y = endFrame.origin.y - startFrame.origin.y;
         differenceFrame.size.width = endFrame.size.width - startFrame.size.width;
         differenceFrame.size.height = endFrame.size.height - startFrame.size.height;
-        var intermediateFrame = CPRectMakeZero();
+        var intermediateFrame = { origin: { x:0.0, y:0.0 }, size: { width:0.0, height:0.0 } };
         intermediateFrame.origin.x = startFrame.origin.x + differenceFrame.origin.x * progress;
         intermediateFrame.origin.y = startFrame.origin.y + differenceFrame.origin.y * progress;
         intermediateFrame.size.width = startFrame.size.width + differenceFrame.size.width * progress;
@@ -6327,7 +6327,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithViewAnimations:
         else if (effect === CPViewAnimationFadeOutEffect)
             objj_msgSend(view, "setAlphaValue:", 1.0 + ( 0.0 - 1.0 ) * progress);
         if (progress === 1.0)
-            objj_msgSend(view, "setHidden:", CPRectIsNull(endFrame) || objj_msgSend(view, "alphaValue") === 0.0);
+            objj_msgSend(view, "setHidden:", (endFrame.size.width <= 0.0 || endFrame.size.height <= 0.0) || objj_msgSend(view, "alphaValue") === 0.0);
     }
 }
 },["void","NSAnimationProgress"]), new objj_method(sel_getUid("stopAnimation"), function $CPViewAnimation__stopAnimation(self, _cmd)
@@ -6345,7 +6345,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithViewAnimations:
             objj_msgSend(view, "setAlphaValue:", 1.0);
         else if (effect === CPViewAnimationFadeOutEffect)
             objj_msgSend(view, "setAlphaValue:", 0.0);
-        objj_msgSend(view, "setHidden:", CPRectIsNull(endFrame) || objj_msgSend(view, "alphaValue") === 0.0);
+        objj_msgSend(view, "setHidden:", (endFrame.size.width <= 0.0 || endFrame.size.height <= 0.0) || objj_msgSend(view, "alphaValue") === 0.0);
     }
     objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPViewAnimation").super_class }, "stopAnimation");
 }
@@ -6365,7 +6365,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithViewAnimations:
         return objj_msgSend(objj_msgSend(self, "_targetView:", dictionary), "frame");
     return startFrame;
 }
-},["CPRect","CPDictionary"]), new objj_method(sel_getUid("_endFrame:"), function $CPViewAnimation___endFrame_(self, _cmd, dictionary)
+},["CGRect","CPDictionary"]), new objj_method(sel_getUid("_endFrame:"), function $CPViewAnimation___endFrame_(self, _cmd, dictionary)
 { with(self)
 {
     var endFrame = objj_msgSend(dictionary, "valueForKey:", CPViewAnimationEndFrameKey);
@@ -6373,7 +6373,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithViewAnimations:
         return objj_msgSend(objj_msgSend(self, "_targetView:", dictionary), "frame");
     return endFrame;
 }
-},["CPRect","CPDictionary"]), new objj_method(sel_getUid("_effect:"), function $CPViewAnimation___effect_(self, _cmd, dictionary)
+},["CGRect","CPDictionary"]), new objj_method(sel_getUid("_effect:"), function $CPViewAnimation___effect_(self, _cmd, dictionary)
 { with(self)
 {
     return objj_msgSend(dictionary, "valueForKey:", CPViewAnimationEffectKey);

@@ -5857,7 +5857,7 @@ return objj_msgSend(_6,"init");
 with(_9){
 }
 })]);
-p;17;CPViewAnimation.jt;4962;@STATIC;1.0;I;20;AppKit/CPAnimation.jt;4918;
+p;17;CPViewAnimation.jt;5063;@STATIC;1.0;I;20;AppKit/CPAnimation.jt;5019;
 objj_executeFile("AppKit/CPAnimation.j",NO);
 CPViewAnimationTargetKey="CPViewAnimationTarget";
 CPViewAnimationStartFrameKey="CPViewAnimationStartFrame";
@@ -5901,12 +5901,12 @@ while(_10--){
 var _11=objj_msgSend(_viewAnimations,"objectAtIndex:",_10),_12=objj_msgSend(_d,"_targetView:",_11);
 startFrame=objj_msgSend(_d,"_startFrame:",_11);
 endFrame=objj_msgSend(_d,"_endFrame:",_11);
-differenceFrame=CPRectMakeZero();
+differenceFrame={origin:{x:0,y:0},size:{width:0,height:0}};
 differenceFrame.origin.x=endFrame.origin.x-startFrame.origin.x;
 differenceFrame.origin.y=endFrame.origin.y-startFrame.origin.y;
 differenceFrame.size.width=endFrame.size.width-startFrame.size.width;
 differenceFrame.size.height=endFrame.size.height-startFrame.size.height;
-var _13=CPRectMakeZero();
+var _13={origin:{x:0,y:0},size:{width:0,height:0}};
 _13.origin.x=startFrame.origin.x+differenceFrame.origin.x*_f;
 _13.origin.y=startFrame.origin.y+differenceFrame.origin.y*_f;
 _13.size.width=startFrame.size.width+differenceFrame.size.width*_f;
@@ -5921,7 +5921,7 @@ objj_msgSend(_12,"setAlphaValue:",1+(0-1)*_f);
 }
 }
 if(_f===1){
-objj_msgSend(_12,"setHidden:",CPRectIsNull(endFrame)||objj_msgSend(_12,"alphaValue")===0);
+objj_msgSend(_12,"setHidden:",(endFrame.size.width<=0||endFrame.size.height<=0)||objj_msgSend(_12,"alphaValue")===0);
 }
 }
 }
@@ -5939,7 +5939,7 @@ if(_1b===CPViewAnimationFadeOutEffect){
 objj_msgSend(_19,"setAlphaValue:",0);
 }
 }
-objj_msgSend(_19,"setHidden:",CPRectIsNull(_1a)||objj_msgSend(_19,"alphaValue")===0);
+objj_msgSend(_19,"setHidden:",(_1a.size.width<=0||_1a.size.height<=0)||objj_msgSend(_19,"alphaValue")===0);
 }
 objj_msgSendSuper({receiver:_15,super_class:objj_getClass("CPViewAnimation").super_class},"stopAnimation");
 }
