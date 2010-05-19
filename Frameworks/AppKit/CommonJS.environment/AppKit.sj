@@ -343,7 +343,7 @@ with(_1e){
 objj_msgSend(objj_msgSend(objj_msgSend(_1e,"window"),"platformWindow"),"_propagateCurrentDOMEvent:",YES);
 }
 })]);
-p;13;CPTableView.jt;90010;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;89868;
+p;13;CPTableView.jt;90058;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;89916;
 objj_executeFile("Foundation/CPArray.j",NO);
 objj_executeFile("AppKit/CGGradient.j",NO);
 objj_executeFile("CPControl.j",YES);
@@ -826,7 +826,7 @@ objj_msgSend(_aa,"_performSelection:forRow:context:",YES,_b1[_b6],_b5);
 }),new objj_method(sel_getUid("_performSelection:forRow:context:"),function(_b7,_b8,_b9,_ba,_bb){
 with(_b7){
 var _bc=_bb[_ba],_bd=_b9?"setThemeState:":"unsetThemeState:";
-objj_msgSend(_bc,"performSelector:withObject:",CPSelectorFromString(_bd),CPThemeStateSelected);
+objj_msgSend(_bc,"performSelector:withObject:",CPSelectorFromString(_bd),CPThemeStateSelectedDataView);
 }
 }),new objj_method(sel_getUid("_updateHighlightWithOldColumns:newColumns:"),function(_be,_bf,_c0,_c1){
 with(_be){
@@ -840,7 +840,7 @@ while(_ca--){
 var _cb=_c4[_ca],_cc=objj_msgSend(_tableColumns[_cb],"UID"),_cd=_dataViewsForTableColumns[_cc];
 for(var i=0;i<_c9;i++){
 var _ce=_c8[i],_cf=_cd[_ce];
-objj_msgSend(_cf,"unsetThemeState:",CPThemeStateSelected);
+objj_msgSend(_cf,"unsetThemeState:",CPThemeStateSelectedDataView);
 }
 if(_headerView){
 var _d0=objj_msgSend(_tableColumns[_cb],"headerView");
@@ -852,7 +852,7 @@ while(_ca--){
 var _cb=_c5[_ca],_cc=objj_msgSend(_tableColumns[_cb],"UID"),_cd=_dataViewsForTableColumns[_cc];
 for(var i=0;i<_c9;i++){
 var _ce=_c8[i],_cf=_cd[_ce];
-objj_msgSend(_cf,"setThemeState:",CPThemeStateSelected);
+objj_msgSend(_cf,"setThemeState:",CPThemeStateSelectedDataView);
 }
 if(_headerView){
 var _d0=objj_msgSend(_tableColumns[_cb],"headerView");
@@ -1439,7 +1439,7 @@ return;
 }
 if(_headerView){
 if(_currentHighlightedTableColumn!=nil){
-objj_msgSend(objj_msgSend(_currentHighlightedTableColumn,"headerView"),"unsetThemeState:",CPThemeStateSelected);
+objj_msgSend(objj_msgSend(_currentHighlightedTableColumn,"headerView"),"unsetThemeState:",CPThemeStateSelectedDataView);
 }
 if(_16e!=nil){
 objj_msgSend(objj_msgSend(_16e,"headerView"),"setThemeState:",CPThemeStateSelected);
@@ -1651,9 +1651,9 @@ var row=_1bd[_1c5],_1c8=objj_msgSend(self,"_newDataViewForRow:tableColumn:",row,
 objj_msgSend(_1c8,"setFrame:",objj_msgSend(self,"frameOfDataViewAtColumn:row:",_1c2,row));
 objj_msgSend(_1c8,"setObjectValue:",objj_msgSend(self,"_objectValueForTableColumn:row:",_1c3,row));
 if(_1c7||objj_msgSend(self,"isRowSelected:",row)){
-objj_msgSend(_1c8,"setThemeState:",CPThemeStateSelected);
+objj_msgSend(_1c8,"setThemeState:",CPThemeStateSelectedDataView);
 }else{
-objj_msgSend(_1c8,"unsetThemeState:",CPThemeStateSelected);
+objj_msgSend(_1c8,"unsetThemeState:",CPThemeStateSelectedDataView);
 }
 if(_implementedDelegateMethods&_18){
 objj_msgSend(_delegate,"tableView:willDisplayView:forTableColumn:row:",self,_1c8,_1c3,row);
@@ -3090,7 +3090,7 @@ _59.height=MAX(_59.height,_textSize.height);
 objj_msgSend(_57,"setFrameSize:",_59);
 }
 })]);
-p;15;CPTableColumn.jt;10995;@STATIC;1.0;I;25;Foundation/CPDictionary.jI;21;Foundation/CPObject.jI;29;Foundation/CPSortDescriptor.jI;21;Foundation/CPString.ji;19;CPTableHeaderView.jt;10835;
+p;15;CPTableColumn.jt;11011;@STATIC;1.0;I;25;Foundation/CPDictionary.jI;21;Foundation/CPObject.jI;29;Foundation/CPSortDescriptor.jI;21;Foundation/CPString.ji;19;CPTableHeaderView.jt;10851;
 objj_executeFile("Foundation/CPDictionary.j",NO);
 objj_executeFile("Foundation/CPObject.j",NO);
 objj_executeFile("Foundation/CPSortDescriptor.j",NO);
@@ -3130,8 +3130,8 @@ objj_msgSend(_a,"setHeaderView:",_d);
 var _e=objj_msgSend(CPTextField,"new");
 objj_msgSend(_e,"setLineBreakMode:",CPLineBreakByTruncatingTail);
 objj_msgSend(_e,"setValue:forThemeAttribute:",objj_msgSend(CPColor,"colorWithHexString:","333333"),"text-color");
-objj_msgSend(_e,"setValue:forThemeAttribute:inState:",objj_msgSend(CPColor,"whiteColor"),"text-color",CPThemeStateSelected);
-objj_msgSend(_e,"setValue:forThemeAttribute:inState:",objj_msgSend(CPFont,"boldSystemFontOfSize:",12),"font",CPThemeStateSelected);
+objj_msgSend(_e,"setValue:forThemeAttribute:inState:",objj_msgSend(CPColor,"whiteColor"),"text-color",CPThemeStateSelectedDataView);
+objj_msgSend(_e,"setValue:forThemeAttribute:inState:",objj_msgSend(CPFont,"boldSystemFontOfSize:",12),"font",CPThemeStateSelectedDataView);
 objj_msgSend(_e,"setValue:forThemeAttribute:",CPCenterVerticalTextAlignment,"vertical-alignment");
 objj_msgSend(_a,"setDataView:",_e);
 }
@@ -7270,7 +7270,7 @@ with(_f){
 objj_msgSend(_11,"encodeObject:forKey:",_filename,_b);
 }
 })]);
-p;9;CPTheme.jt;10900;@STATIC;1.0;I;21;Foundation/CPObject.jI;21;Foundation/CPString.jI;30;Foundation/CPKeyedUnarchiver.jt;10793;
+p;9;CPTheme.jt;10963;@STATIC;1.0;I;21;Foundation/CPObject.jI;21;Foundation/CPString.jI;30;Foundation/CPKeyedUnarchiver.jt;10856;
 objj_executeFile("Foundation/CPObject.j",NO);
 objj_executeFile("Foundation/CPString.j",NO);
 objj_executeFile("Foundation/CPKeyedUnarchiver.j",NO);
@@ -7425,6 +7425,7 @@ CPThemeStateNormal=_35["normal"]=0;
 CPThemeStateDisabled=CPThemeState("disabled");
 CPThemeStateHighlighted=CPThemeState("highlighted");
 CPThemeStateSelected=CPThemeState("selected");
+CPThemeStateSelectedDataView=CPThemeState("selectedDataView");
 CPThemeStateBezeled=CPThemeState("bezeled");
 CPThemeStateBordered=CPThemeState("bordered");
 CPThemeStateEditable=CPThemeState("editable");
