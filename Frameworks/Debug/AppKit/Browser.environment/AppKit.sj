@@ -486,7 +486,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPEvent"])]);
 }
 
-p;13;CPTableView.jt;131396;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;131253;objj_executeFile("Foundation/CPArray.j", NO);
+p;13;CPTableView.jt;132330;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;132187;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("AppKit/CGGradient.j", NO);
 objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPTableColumn.j", YES);
@@ -1143,7 +1143,29 @@ _disableAutomaticResizing = newValue;
         return 0;
     return objj_msgSend(_dataSource, "numberOfRowsInTableView:", self);
 }
-},["int"]), new objj_method(sel_getUid("cornerView"), function $CPTableView__cornerView(self, _cmd)
+},["int"]), new objj_method(sel_getUid("editColumn:row:withEvent:select:"), function $CPTableView__editColumn_row_withEvent_select_(self, _cmd, columnIndex, rowIndex, theEvent, flag)
+{ with(self)
+{
+    if (!objj_msgSend(self, "isRowSelected:", rowIndex))
+        objj_msgSend(objj_msgSend(CPException, "exceptionWithName:reason:userInfo:", "Error", "Attempt to edit row="+rowIndex+" when not selected.", nil), "raise");
+    _editingCellIndex = CGPointMake(columnIndex, rowIndex);
+    objj_msgSend(self, "reloadDataForRowIndexes:columnIndexes:", objj_msgSend(CPIndexSet, "indexSetWithIndex:", rowIndex), objj_msgSend(CPIndexSet, "indexSetWithIndex:", columnIndex));
+}
+},["void","CPInteger","CPInteger","CPEvent","BOOL"]), new objj_method(sel_getUid("editedColumn"), function $CPTableView__editedColumn(self, _cmd)
+{ with(self)
+{
+    if (!_editingCellIndex)
+        return -1;
+    return _editingCellIndex.x;
+}
+},["CPInteger"]), new objj_method(sel_getUid("editedRow"), function $CPTableView__editedRow(self, _cmd)
+{ with(self)
+{
+    if (!_editingCellIndex)
+        return -1;
+    return _editingCellIndex.x;
+}
+},["CPInteger"]), new objj_method(sel_getUid("cornerView"), function $CPTableView__cornerView(self, _cmd)
 { with(self)
 {
     return _cornerView;
@@ -2111,7 +2133,7 @@ _disableAutomaticResizing = newValue;
 },["void","CGRect"]), new objj_method(sel_getUid("highlightSelectionInClipRect:"), function $CPTableView__highlightSelectionInClipRect_(self, _cmd, aRect)
 { with(self)
 {
-    if (_selectionHighlightStyle === CPTableViewDraggingDestinationFeedbackStyleNone)
+    if (_selectionHighlightStyle === CPTableViewSelectionHighlightStyleNone)
         return;
     var context = objj_msgSend(objj_msgSend(CPGraphicsContext, "currentContext"), "graphicsPort"),
         indexes = [],
@@ -2371,8 +2393,7 @@ _disableAutomaticResizing = newValue;
                         shouldEdit = objj_msgSend(_delegate, "tableView:shouldEditTableColumn:row:", self, column, rowIndex);
                     if (shouldEdit)
                     {
-                        _editingCellIndex = CGPointMake(columnIndex, rowIndex);
-                        objj_msgSend(self, "reloadDataForRowIndexes:columnIndexes:", objj_msgSend(CPIndexSet, "indexSetWithIndex:", rowIndex), objj_msgSend(CPIndexSet, "indexSetWithIndex:", columnIndex));
+                        objj_msgSend(self, "editColumn:row:withEvent:select:", columnIndex, rowIndex, nil, YES);
                         return;
                     }
                 }
@@ -22899,7 +22920,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("shadowWithOffset:blurR
 },["id","CGSize","float","CPColor"])]);
 }
 
-p;15;CPOutlineView.jt;45753;@STATIC;1.0;i;15;CPTableColumn.ji;13;CPTableView.jt;45695;objj_executeFile("CPTableColumn.j", YES);
+p;15;CPOutlineView.jt;47314;@STATIC;1.0;i;15;CPTableColumn.ji;13;CPTableView.jt;47256;objj_executeFile("CPTableColumn.j", YES);
 objj_executeFile("CPTableView.j", YES);
 CPOutlineViewColumnDidMoveNotification = "CPOutlineViewColumnDidMoveNotification";
 CPOutlineViewColumnDidResizeNotification = "CPOutlineViewColumnDidResizeNotification";
@@ -23255,6 +23276,9 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     _shouldRetargetItem = YES;
     _retargedChildIndex = theIndex;
     _shouldRetargetChildIndex = YES;
+    var retargetedItemInfo = (_retargetedItem !== nil) ? _itemInfosForItems[objj_msgSend(_retargetedItem, "UID")] : _rootItemInfo,
+        retargetedChildItem = (_retargedChildIndex !== CPOutlineViewDropOnItemIndex) ? retargetedItemInfo.children[_retargedChildIndex] : _retargetedItem;
+    _retargetedDropRow = objj_msgSend(self, "rowForItem:", retargetedChildItem);
 }
 },["void","id","int"]), new objj_method(sel_getUid("_draggingEnded"), function $CPOutlineView___draggingEnded(self, _cmd)
 { with(self)
@@ -23509,7 +23533,14 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithOutlineView:"),
 {
     return objj_msgSend(_outlineView._outlineViewDataSource, "outlineView:objectValueForTableColumn:byItem:", _outlineView, aTableColumn, _outlineView._itemsForRows[aRow]);
 }
-},["id","CPTableView","CPTableColumn","CPInteger"]), new objj_method(sel_getUid("tableView:writeRowsWithIndexes:toPasteboard:"), function $_CPOutlineViewTableViewDataSource__tableView_writeRowsWithIndexes_toPasteboard_(self, _cmd, aTableColumn, theIndexes, thePasteboard)
+},["id","CPTableView","CPTableColumn","CPInteger"]), new objj_method(sel_getUid("tableView:setObjectValue:forTableColumn:row:"), function $_CPOutlineViewTableViewDataSource__tableView_setObjectValue_forTableColumn_row_(self, _cmd, aTableView, aValue, aColumn, aRow)
+{ with(self)
+{
+    if (!(_outlineView._implementedOutlineViewDataSourceMethods & CPOutlineViewDataSource_outlineView_setObjectValue_forTableColumn_byItem_))
+        return;
+    objj_msgSend(_outlineView._outlineViewDataSource, "outlineView:setObjectValue:forTableColumn:byItem:", _outlineView, aValue, aColumn, _outlineView._itemsForRows[aRow]);
+}
+},["void","CPTableView","id","CPTableColumn","CPInteger"]), new objj_method(sel_getUid("tableView:writeRowsWithIndexes:toPasteboard:"), function $_CPOutlineViewTableViewDataSource__tableView_writeRowsWithIndexes_toPasteboard_(self, _cmd, aTableColumn, theIndexes, thePasteboard)
 { with(self)
 {
     if (!(_outlineView._implementedOutlineViewDataSourceMethods & CPOutlineViewDataSource_outlineView_writeItems_toPasteboard_))
@@ -23606,7 +23637,14 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithOutlineView:"),
         return objj_msgSend(_outlineView._outlineViewDelegate, "outlineView:shouldSelectItem:", _outlineView, objj_msgSend(_outlineView, "itemAtRow:", theRow));
     return YES;
 }
-},["BOOL","CPTableView","int"]), new objj_method(sel_getUid("tableView:heightOfRow:"), function $_CPOutlineViewTableViewDelegate__tableView_heightOfRow_(self, _cmd, theTableView, theRow)
+},["BOOL","CPTableView","int"]), new objj_method(sel_getUid("tableView:shouldEditTableColumn:row:"), function $_CPOutlineViewTableViewDelegate__tableView_shouldEditTableColumn_row_(self, _cmd, aTableView, aColumn, aRow)
+{ with(self)
+{
+    if ((_outlineView._implementedOutlineViewDelegateMethods & CPOutlineViewDelegate_outlineView_shouldEditTableColumn_item_))
+        return objj_msgSend(_outlineView._outlineViewDelegate, "outlineView:shouldEditTableColumn:item:", _outlineView, aColumn, objj_msgSend(_outlineView, "itemAtRow:", aRow));
+    return NO;
+}
+},["BOOL","CPTableView","CPTableColumn","int"]), new objj_method(sel_getUid("tableView:heightOfRow:"), function $_CPOutlineViewTableViewDelegate__tableView_heightOfRow_(self, _cmd, theTableView, theRow)
 { with(self)
 {
     if ((_outlineView._implementedOutlineViewDelegateMethods & CPOutlineViewDelegate_outlineView_heightOfRowByItem_))
