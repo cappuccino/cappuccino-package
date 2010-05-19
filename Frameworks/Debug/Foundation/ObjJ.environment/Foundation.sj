@@ -4680,7 +4680,7 @@ var mapURLsAndProperties = function( properties, ignoredURL)
 {
 }
 
-p;15;CPUndoManager.jt;22437;@STATIC;1.0;i;10;CPObject.ji;14;CPInvocation.ji;9;CPProxy.jt;22370;objj_executeFile("CPObject.j", YES);
+p;15;CPUndoManager.jt;22457;@STATIC;1.0;i;10;CPObject.ji;14;CPInvocation.ji;9;CPProxy.jt;22390;objj_executeFile("CPObject.j", YES);
 objj_executeFile("CPInvocation.j", YES);
 objj_executeFile("CPProxy.j", YES);
 var CPUndoManagerNormal = 0,
@@ -4867,7 +4867,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPUnd
 {
     if (_undoStack.length > 0)
         return YES;
-    return objj_msgSend(_currentGrouping, "actions").length > 0;
+    return objj_msgSend(objj_msgSend(_currentGrouping, "invocations"), "count") > 0;
 }
 },["BOOL"]), new objj_method(sel_getUid("undo"), function $CPUndoManager__undo(self, _cmd)
 { with(self)

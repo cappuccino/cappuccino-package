@@ -4042,7 +4042,7 @@ return _35;
 };
 var _3f=function(_40,_41){
 };
-p;15;CPUndoManager.jt;15915;@STATIC;1.0;i;10;CPObject.ji;14;CPInvocation.ji;9;CPProxy.jt;15848;
+p;15;CPUndoManager.jt;15934;@STATIC;1.0;i;10;CPObject.ji;14;CPInvocation.ji;9;CPProxy.jt;15867;
 objj_executeFile("CPObject.j",YES);
 objj_executeFile("CPInvocation.j",YES);
 objj_executeFile("CPProxy.j",YES);
@@ -4215,7 +4215,7 @@ with(_41){
 if(_undoStack.length>0){
 return YES;
 }
-return objj_msgSend(_currentGrouping,"actions").length>0;
+return objj_msgSend(objj_msgSend(_currentGrouping,"invocations"),"count")>0;
 }
 }),new objj_method(sel_getUid("undo"),function(_43,_44){
 with(_43){
