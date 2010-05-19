@@ -343,7 +343,7 @@ with(_1e){
 objj_msgSend(objj_msgSend(objj_msgSend(_1e,"window"),"platformWindow"),"_propagateCurrentDOMEvent:",YES);
 }
 })]);
-p;13;CPTableView.jt;89963;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;89821;
+p;13;CPTableView.jt;90010;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;89868;
 objj_executeFile("Foundation/CPArray.j",NO);
 objj_executeFile("AppKit/CGGradient.j",NO);
 objj_executeFile("CPControl.j",YES);
@@ -1374,6 +1374,7 @@ objj_msgSend(_dataSource,"tableView:sortDescriptorsDidChange:",self,_159);
 with(self){
 objj_msgSend(self,"_sendDelegateDidClickColumn:",_15b);
 if(_allowsColumnSelection){
+objj_msgSend(self,"_noteSelectionIsChanging");
 if(_15c&CPCommandKeyMask){
 if(objj_msgSend(self,"isColumnSelected:",_15b)){
 objj_msgSend(self,"deselectColumn:",_15b);
