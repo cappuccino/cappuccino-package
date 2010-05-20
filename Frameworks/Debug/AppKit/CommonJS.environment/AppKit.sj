@@ -384,7 +384,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPEvent"])]);
 }
 
-p;13;CPTableView.jt;132434;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;132291;objj_executeFile("Foundation/CPArray.j", NO);
+p;13;CPTableView.jt;132749;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;132606;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("AppKit/CGGradient.j", NO);
 objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPTableColumn.j", YES);
@@ -1352,7 +1352,14 @@ _disableAutomaticResizing = newValue;
 },["void"]), new objj_method(sel_getUid("noteNumberOfRowsChanged"), function $CPTableView__noteNumberOfRowsChanged(self, _cmd)
 { with(self)
 {
+    var oldNumberOfRows = _numberOfRows;
     _numberOfRows = objj_msgSend(_dataSource, "numberOfRowsInTableView:", self);
+    var hangingSelections = oldNumberOfRows - _numberOfRows;
+    if (hangingSelections > 0)
+    {
+        objj_msgSend(_selectedRowIndexes, "removeIndexesInRange:", CPMakeRange(_numberOfRows, hangingSelections));
+        objj_msgSend(self, "_noteSelectionDidChange");
+    }
     objj_msgSend(self, "tile");
 }
 },["void"]), new objj_method(sel_getUid("tile"), function $CPTableView__tile(self, _cmd)
