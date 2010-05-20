@@ -22087,7 +22087,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("shadowWithOffset:blurR
 },["id","CGSize","float","CPColor"])]);
 }
 
-p;15;CPOutlineView.jt;50978;@STATIC;1.0;i;15;CPTableColumn.ji;13;CPTableView.jt;50920;objj_executeFile("CPTableColumn.j", YES);
+p;15;CPOutlineView.jt;51358;@STATIC;1.0;i;15;CPTableColumn.ji;13;CPTableView.jt;51300;objj_executeFile("CPTableColumn.j", YES);
 objj_executeFile("CPTableView.j", YES);
 CPOutlineViewColumnDidMoveNotification = "CPOutlineViewColumnDidMoveNotification";
 CPOutlineViewColumnDidResizeNotification = "CPOutlineViewColumnDidResizeNotification";
@@ -22219,9 +22219,9 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
         return;
     if (!itemInfo.isExpanded)
     {
-        objj_msgSend(self, "_noteItemWillExpand");
+        objj_msgSend(self, "_noteItemWillExpand:", anItem);
         itemInfo.isExpanded = YES;
-        objj_msgSend(self, "_noteItemDidExpand");
+        objj_msgSend(self, "_noteItemDidExpand:", anItem);
         objj_msgSend(self, "reloadItem:reloadChildren:", anItem, YES);
     }
     if (shouldExpandChildren)
@@ -22242,9 +22242,9 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
         return;
     if (!itemInfo.isExpanded)
         return;
-    objj_msgSend(self, "_noteItemWillCollapse");
+    objj_msgSend(self, "_noteItemWillCollapse:", anItem);
     itemInfo.isExpanded = NO;
-    objj_msgSend(self, "_noteItemDidCollapse");
+    objj_msgSend(self, "_noteItemDidCollapse:", anItem);
     objj_msgSend(self, "reloadItem:reloadChildren:", anItem, YES);
 }
 },["void","id"]), new objj_method(sel_getUid("reloadItem:"), function $CPOutlineView__reloadItem_(self, _cmd, anItem)
@@ -22599,27 +22599,27 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 {
     objj_msgSend(objj_msgSend(CPNotificationCenter, "defaultCenter"), "postNotificationName:object:userInfo:", CPOutlineViewSelectionDidChangeNotification, self, nil);
 }
-},["void"]), new objj_method(sel_getUid("_noteItemWillExpand"), function $CPOutlineView___noteItemWillExpand(self, _cmd)
+},["void"]), new objj_method(sel_getUid("_noteItemWillExpand:"), function $CPOutlineView___noteItemWillExpand_(self, _cmd, item)
 { with(self)
 {
-    objj_msgSend(objj_msgSend(CPNotificationCenter, "defaultCenter"), "postNotificationName:object:userInfo:", CPOutlineViewItemWillExpandNotification, self, nil);
+    objj_msgSend(objj_msgSend(CPNotificationCenter, "defaultCenter"), "postNotificationName:object:userInfo:", CPOutlineViewItemWillExpandNotification, self, objj_msgSend(CPDictionary, "dictionaryWithObject:forKey:", item, "CPObject"));
 }
-},["void"]), new objj_method(sel_getUid("_noteItemDidExpand"), function $CPOutlineView___noteItemDidExpand(self, _cmd)
+},["void","id"]), new objj_method(sel_getUid("_noteItemDidExpand:"), function $CPOutlineView___noteItemDidExpand_(self, _cmd, item)
 { with(self)
 {
-    objj_msgSend(objj_msgSend(CPNotificationCenter, "defaultCenter"), "postNotificationName:object:userInfo:", CPOutlineViewItemDidExpandNotification, self, nil);
+    objj_msgSend(objj_msgSend(CPNotificationCenter, "defaultCenter"), "postNotificationName:object:userInfo:", CPOutlineViewItemDidExpandNotification, self, objj_msgSend(CPDictionary, "dictionaryWithObject:forKey:", item, "CPObject"));
 }
-},["void"]), new objj_method(sel_getUid("_noteItemWillCollapse"), function $CPOutlineView___noteItemWillCollapse(self, _cmd)
+},["void","id"]), new objj_method(sel_getUid("_noteItemWillCollapse:"), function $CPOutlineView___noteItemWillCollapse_(self, _cmd, item)
 { with(self)
 {
-    objj_msgSend(objj_msgSend(CPNotificationCenter, "defaultCenter"), "postNotificationName:object:userInfo:", CPOutlineViewItemWillCollapseNotification, self, nil);
+    objj_msgSend(objj_msgSend(CPNotificationCenter, "defaultCenter"), "postNotificationName:object:userInfo:", CPOutlineViewItemWillCollapseNotification, self, objj_msgSend(CPDictionary, "dictionaryWithObject:forKey:", item, "CPObject"));
 }
-},["void"]), new objj_method(sel_getUid("_noteItemDidCollapse"), function $CPOutlineView___noteItemDidCollapse(self, _cmd)
+},["void","id"]), new objj_method(sel_getUid("_noteItemDidCollapse:"), function $CPOutlineView___noteItemDidCollapse_(self, _cmd, item)
 { with(self)
 {
-    objj_msgSend(objj_msgSend(CPNotificationCenter, "defaultCenter"), "postNotificationName:object:userInfo:", CPOutlineViewItemDidCollapseNotification, self, nil);
+    objj_msgSend(objj_msgSend(CPNotificationCenter, "defaultCenter"), "postNotificationName:object:userInfo:", CPOutlineViewItemDidCollapseNotification, self, objj_msgSend(CPDictionary, "dictionaryWithObject:forKey:", item, "CPObject"));
 }
-},["void"])]);
+},["void","id"])]);
 }
 var _reloadItem = function( anOutlineView, anItem)
 {
