@@ -681,7 +681,7 @@ with(_15){
 return objj_msgSend(_CPCibObjectData,"class");
 }
 })]);
-p;10;NSAppKit.jt;2994;@STATIC;1.0;i;15;_NSCornerView.ji;10;NSButton.ji;8;NSCell.ji;16;NSClassSwapper.ji;12;NSClipView.ji;9;NSColor.ji;13;NSColorWell.ji;18;NSCollectionView.ji;22;NSCollectionViewItem.ji;11;NSControl.ji;16;NSCustomObject.ji;18;NSCustomResource.ji;14;NSCustomView.ji;9;NSEvent.ji;8;NSFont.ji;16;NSIBObjectData.ji;13;NSImageView.ji;10;NSMatrix.ji;8;NSMenu.ji;12;NSMenuItem.ji;16;NSNibConnector.ji;15;NSPopUpButton.ji;13;NSResponder.ji;14;NSScrollView.ji;12;NSScroller.ji;15;NSSearchField.ji;7;NSSet.ji;19;NSSecureTextField.ji;20;NSSegmentedControl.ji;10;NSSlider.ji;13;NSSplitView.ji;15;NSTableColumn.ji;19;NSTableHeaderView.ji;13;NSTableView.ji;11;NSTabView.ji;15;NSTabViewItem.ji;13;NSTextField.ji;11;NSToolbar.ji;28;NSToolbarFlexibleSpaceItem.ji;15;NSToolbarItem.ji;25;NSToolbarShowColorsItem.ji;24;NSToolbarSeparatorItem.ji;20;NSToolbarSpaceItem.ji;8;NSView.ji;18;NSViewController.ji;18;NSWindowTemplate.ji;9;WebView.jt;2074;
+p;10;NSAppKit.jt;3061;@STATIC;1.0;i;15;_NSCornerView.ji;10;NSButton.ji;8;NSCell.ji;16;NSClassSwapper.ji;12;NSClipView.ji;9;NSColor.ji;13;NSColorWell.ji;18;NSCollectionView.ji;22;NSCollectionViewItem.ji;11;NSControl.ji;16;NSCustomObject.ji;18;NSCustomResource.ji;14;NSCustomView.ji;9;NSEvent.ji;8;NSFont.ji;16;NSIBObjectData.ji;13;NSImageView.ji;10;NSMatrix.ji;8;NSMenu.ji;12;NSMenuItem.ji;16;NSNibConnector.ji;15;NSPopUpButton.ji;13;NSResponder.ji;14;NSScrollView.ji;12;NSScroller.ji;15;NSSearchField.ji;7;NSSet.ji;19;NSSecureTextField.ji;20;NSSegmentedControl.ji;10;NSSlider.ji;13;NSSplitView.ji;15;NSTableColumn.ji;19;NSTableHeaderView.ji;13;NSTableView.ji;11;NSTabView.ji;15;NSTabViewItem.ji;13;NSTextField.ji;11;NSToolbar.ji;28;NSToolbarFlexibleSpaceItem.ji;15;NSToolbarItem.ji;25;NSToolbarShowColorsItem.ji;24;NSToolbarSeparatorItem.ji;20;NSToolbarSpaceItem.ji;8;NSView.ji;18;NSViewController.ji;18;NSWindowTemplate.ji;9;WebView.ji;18;NSSortDescriptor.jt;2118;
 objj_executeFile("_NSCornerView.j",YES);
 objj_executeFile("NSButton.j",YES);
 objj_executeFile("NSCell.j",YES);
@@ -729,6 +729,7 @@ objj_executeFile("NSView.j",YES);
 objj_executeFile("NSViewController.j",YES);
 objj_executeFile("NSWindowTemplate.j",YES);
 objj_executeFile("WebView.j",YES);
+objj_executeFile("NSSortDescriptor.j",YES);
 CP_NSMapClassName=function(_1){
 if(_1.indexOf("NS")===0){
 var _2="CP"+_1.substr(2);
@@ -1613,7 +1614,7 @@ loadFrameworks(_8.frameworks,function(){
 objj_msgSend(_9,"convert");
 });
 };
-p;15;NSTableColumn.jt;1849;@STATIC;1.0;I;22;AppKit/CPTableColumn.jI;26;AppKit/CPTableHeaderView.jt;1772;
+p;15;NSTableColumn.jt;2062;@STATIC;1.0;I;22;AppKit/CPTableColumn.jI;26;AppKit/CPTableHeaderView.jt;1985;
 objj_executeFile("AppKit/CPTableColumn.j",NO);
 objj_executeFile("AppKit/CPTableHeaderView.j",NO);
 var _1=objj_getClass("CPTableColumn");
@@ -1635,7 +1636,9 @@ objj_msgSend(_3,"setHeaderView:",_headerView);
 _width=objj_msgSend(_5,"decodeFloatForKey:","NSWidth");
 _minWidth=objj_msgSend(_5,"decodeFloatForKey:","NSMinWidth");
 _maxWidth=objj_msgSend(_5,"decodeFloatForKey:","NSMaxWidth");
-_resizingMask=objj_msgSend(_5,"decodeBoolForKey:","NSIsResizable");
+_resizingMask=objj_msgSend(_5,"decodeBoolForKey:","NSIsResizeable")?CPTableColumnUserResizingMask:CPTableColumnAutoresizingMask;
+_isHidden=objj_msgSend(_5,"decodeBoolForKey:","NSHidden");
+_sortDescriptorPrototype=objj_msgSend(_5,"decodeObjectForKey:","NSSortDescriptorPrototype");
 }
 return _3;
 }
@@ -1828,6 +1831,34 @@ return objj_msgSend(_7,"NS_initWithCoder:",_9);
 }),new objj_method(sel_getUid("classForKeyedArchiver"),function(_a,_b){
 with(_a){
 return objj_msgSend(CPScrollView,"class");
+}
+})]);
+p;18;NSSortDescriptor.jt;1079;@STATIC;1.0;I;29;Foundation/CPSortDescriptor.jt;1026;
+objj_executeFile("Foundation/CPSortDescriptor.j",NO);
+var _1=objj_getClass("CPSortDescriptor");
+if(!_1){
+throw new SyntaxError("*** Could not find definition for class \"CPSortDescriptor\"");
+}
+var _2=_1.isa;
+class_addMethods(_1,[new objj_method(sel_getUid("NS_initWithCoder:"),function(_3,_4,_5){
+with(_3){
+if(_3=objj_msgSendSuper({receiver:_3,super_class:objj_getClass("CPSortDescriptor").super_class},"init")){
+_key=objj_msgSend(_5,"decodeObjectForKey:","NSKey");
+_selector=CPSelectorFromString(objj_msgSend(_5,"decodeObjectForKey:","NSSelector"));
+_ascending=objj_msgSend(_5,"decodeBoolForKey:","NSAscending");
+}
+return _3;
+}
+})]);
+var _1=objj_allocateClassPair(CPSortDescriptor,"NSSortDescriptor"),_2=_1.isa;
+objj_registerClassPair(_1);
+class_addMethods(_1,[new objj_method(sel_getUid("initWithCoder:"),function(_6,_7,_8){
+with(_6){
+return objj_msgSend(_6,"NS_initWithCoder:",_8);
+}
+}),new objj_method(sel_getUid("classForKeyedArchiver"),function(_9,_a){
+with(_9){
+return objj_msgSend(CPSortDescriptor,"class");
 }
 })]);
 p;18;NSCustomResource.jt;1634;@STATIC;1.0;I;29;AppKit/_CPCibCustomResource.jt;1581;

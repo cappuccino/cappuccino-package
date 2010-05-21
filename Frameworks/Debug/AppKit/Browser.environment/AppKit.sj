@@ -3920,7 +3920,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:control:"
 },["void"])]);
 }
 
-p;15;CPTableColumn.jt;15755;@STATIC;1.0;I;25;Foundation/CPDictionary.jI;21;Foundation/CPObject.jI;29;Foundation/CPSortDescriptor.jI;21;Foundation/CPString.ji;19;CPTableHeaderView.jt;15595;objj_executeFile("Foundation/CPDictionary.j", NO);
+p;15;CPTableColumn.jt;16271;@STATIC;1.0;I;25;Foundation/CPDictionary.jI;21;Foundation/CPObject.jI;29;Foundation/CPSortDescriptor.jI;21;Foundation/CPString.ji;19;CPTableHeaderView.jt;16111;objj_executeFile("Foundation/CPDictionary.j", NO);
 objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("Foundation/CPSortDescriptor.j", NO);
 objj_executeFile("Foundation/CPString.j", NO);
@@ -4187,7 +4187,9 @@ var CPTableColumnIdentifierKey = "CPTableColumnIdentifierKey",
     CPTableColumnWidthKey = "CPTableColumnWidthKey",
     CPTableColumnMinWidthKey = "CPTableColumnMinWidthKey",
     CPTableColumnMaxWidthKey = "CPTableColumnMaxWidthKey",
-    CPTableColumnResizingMaskKey = "CPTableColumnResizingMaskKey";
+    CPTableColumnResizingMaskKey = "CPTableColumnResizingMaskKey",
+    CPTableColumnIsHiddenkey = "CPTableColumnIsHiddenKey",
+    CPSortDescriptorPrototypeKey = "CPSortDescriptorPrototypeKey";
 {
 var the_class = objj_getClass("CPTableColumn")
 if(!the_class) throw new SyntaxError("*** Could not find definition for class \"CPTableColumn\"");
@@ -4206,6 +4208,8 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
         objj_msgSend(self, "setDataView:", objj_msgSend(aCoder, "decodeObjectForKey:", CPTableColumnDataViewKey));
         objj_msgSend(self, "setHeaderView:", objj_msgSend(aCoder, "decodeObjectForKey:", CPTableColumnHeaderViewKey));
         _resizingMask = objj_msgSend(aCoder, "decodeBoolForKey:", CPTableColumnResizingMaskKey);
+        _isHidden = objj_msgSend(aCoder, "decodeBoolForKey:", CPTableColumnIsHiddenkey);
+        _sortDescriptorPrototype = objj_msgSend(aCoder, "decodeObjectForKey:", CPSortDescriptorPrototypeKey);
     }
     return self;
 }
@@ -4219,6 +4223,8 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
     objj_msgSend(aCoder, "encodeObject:forKey:", _headerView, CPTableColumnHeaderViewKey);
     objj_msgSend(aCoder, "encodeObject:forKey:", _dataView, CPTableColumnDataViewKey);
     objj_msgSend(aCoder, "encodeObject:forKey:", _resizingMask, CPTableColumnResizingMaskKey);
+    objj_msgSend(aCoder, "encodeBool:forKey:", _isHidden, CPTableColumnIsHiddenkey);
+    objj_msgSend(aCoder, "encodeObject:forKey:", _sortDescriptorPrototype, CPSortDescriptorPrototypeKey);
 }
 },["void","CPCoder"])]);
 }

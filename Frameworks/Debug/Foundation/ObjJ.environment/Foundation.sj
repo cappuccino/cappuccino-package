@@ -3039,7 +3039,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("initialize"), function
 },["CPRunLoop"])]);
 }
 
-p;18;CPSortDescriptor.jt;3013;@STATIC;1.0;i;10;CPObject.ji;15;CPObjJRuntime.jt;2959;objj_executeFile("CPObject.j", YES);
+p;18;CPSortDescriptor.jt;4443;@STATIC;1.0;i;10;CPObject.ji;15;CPObjJRuntime.jt;4389;objj_executeFile("CPObject.j", YES);
 objj_executeFile("CPObjJRuntime.j", YES);
 CPOrderedAscending = -1;
 CPOrderedSame = 0;
@@ -3101,6 +3101,32 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("sortDescriptorWithKey:
     return objj_msgSend(objj_msgSend(self, "alloc"), "initWithKey:ascending:selector:", aKey, isAscending, aSelector);
 }
 },["id","CPString","BOOL","SEL"])]);
+}
+var CPSortDescriptorKeyKey = "CPSortDescriptorKeyKey",
+    CPSortDescriptorAscendingKey = "CPSortDescriptorAscendingKey",
+    CPSortDescriptorSelectorKey = "CPSortDescriptorSelectorKey";
+{
+var the_class = objj_getClass("CPSortDescriptor")
+if(!the_class) throw new SyntaxError("*** Could not find definition for class \"CPSortDescriptor\"");
+var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_getUid("initWithCoder:"), function $CPSortDescriptor__initWithCoder_(self, _cmd, aCoder)
+{ with(self)
+{
+    if (self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPSortDescriptor").super_class }, "init"))
+    {
+        _key = objj_msgSend(aCoder, "decodeObjectForKey:", CPSortDescriptorKeyKey);
+        _ascending = objj_msgSend(aCoder, "decodeBoolForKey:", CPSortDescriptorAscendingKey);
+        _selector = CPSelectorFromString(objj_msgSend(aCoder, "decodeObjectForKey:", CPSortDescriptorSelectorKey));
+    }
+    return self;
+}
+},["id","CPCoder"]), new objj_method(sel_getUid("encodeWithCoder:"), function $CPSortDescriptor__encodeWithCoder_(self, _cmd, aCoder)
+{ with(self)
+{
+    objj_msgSend(aCoder, "encodeObject:forKey:", _key, CPSortDescriptorKeyKey);
+    objj_msgSend(aCoder, "encodeBool:forKey:", _ascending, CPSortDescriptorAscendingKey);
+    objj_msgSend(aCoder, "encodeObject:forKey:", CPStringFromSelector(_selector), CPSortDescriptorSelectorKey);
+}
+},["void","CPCoder"])]);
 }
 
 p;14;CPDictionary.jt;11751;@STATIC;1.0;i;9;CPArray.ji;10;CPObject.ji;14;CPEnumerator.ji;13;CPException.jt;11666;objj_executeFile("CPArray.j", YES);

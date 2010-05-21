@@ -2700,7 +2700,7 @@ with(_4e){
 return CPMainRunLoop;
 }
 })]);
-p;18;CPSortDescriptor.jt;2027;@STATIC;1.0;i;10;CPObject.ji;15;CPObjJRuntime.jt;1973;
+p;18;CPSortDescriptor.jt;2966;@STATIC;1.0;i;10;CPObject.ji;15;CPObjJRuntime.jt;2912;
 objj_executeFile("CPObject.j",YES);
 objj_executeFile("CPObjJRuntime.j",YES);
 CPOrderedAscending=-1;
@@ -2751,6 +2751,28 @@ return objj_msgSend(objj_msgSend(_18,"alloc"),"initWithKey:ascending:",_1a,_1b);
 }),new objj_method(sel_getUid("sortDescriptorWithKey:ascending:selector:"),function(_1c,_1d,_1e,_1f,_20){
 with(_1c){
 return objj_msgSend(objj_msgSend(_1c,"alloc"),"initWithKey:ascending:selector:",_1e,_1f,_20);
+}
+})]);
+var _21="CPSortDescriptorKeyKey",_22="CPSortDescriptorAscendingKey",_23="CPSortDescriptorSelectorKey";
+var _1=objj_getClass("CPSortDescriptor");
+if(!_1){
+throw new SyntaxError("*** Could not find definition for class \"CPSortDescriptor\"");
+}
+var _2=_1.isa;
+class_addMethods(_1,[new objj_method(sel_getUid("initWithCoder:"),function(_24,_25,_26){
+with(_24){
+if(_24=objj_msgSendSuper({receiver:_24,super_class:objj_getClass("CPSortDescriptor").super_class},"init")){
+_key=objj_msgSend(_26,"decodeObjectForKey:",_21);
+_ascending=objj_msgSend(_26,"decodeBoolForKey:",_22);
+_selector=CPSelectorFromString(objj_msgSend(_26,"decodeObjectForKey:",_23));
+}
+return _24;
+}
+}),new objj_method(sel_getUid("encodeWithCoder:"),function(_27,_28,_29){
+with(_27){
+objj_msgSend(_29,"encodeObject:forKey:",_key,_21);
+objj_msgSend(_29,"encodeBool:forKey:",_ascending,_22);
+objj_msgSend(_29,"encodeObject:forKey:",CPStringFromSelector(_selector),_23);
 }
 })]);
 p;14;CPDictionary.jt;7812;@STATIC;1.0;i;9;CPArray.ji;10;CPObject.ji;14;CPEnumerator.ji;13;CPException.jt;7728;

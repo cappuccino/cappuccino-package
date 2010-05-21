@@ -3466,7 +3466,7 @@ _70.height=MAX(_70.height,_textSize.height);
 objj_msgSend(_6e,"setFrameSize:",_70);
 }
 })]);
-p;15;CPTableColumn.jt;11011;@STATIC;1.0;I;25;Foundation/CPDictionary.jI;21;Foundation/CPObject.jI;29;Foundation/CPSortDescriptor.jI;21;Foundation/CPString.ji;19;CPTableHeaderView.jt;10851;
+p;15;CPTableColumn.jt;11325;@STATIC;1.0;I;25;Foundation/CPDictionary.jI;21;Foundation/CPObject.jI;29;Foundation/CPSortDescriptor.jI;21;Foundation/CPString.ji;19;CPTableHeaderView.jt;11165;
 objj_executeFile("Foundation/CPDictionary.j",NO);
 objj_executeFile("Foundation/CPObject.j",NO);
 objj_executeFile("Foundation/CPSortDescriptor.j",NO);
@@ -3705,37 +3705,41 @@ with(_63){
 objj_msgSend(objj_msgSend(CPNotificationCenter,"defaultCenter"),"postNotificationName:object:userInfo:",CPTableViewColumnDidResizeNotification,objj_msgSend(_63,"tableView"),objj_msgSend(CPDictionary,"dictionaryWithObjects:forKeys:",[_63,_65],["CPTableColumn","CPOldWidth"]));
 }
 })]);
-var _66="CPTableColumnIdentifierKey",_67="CPTableColumnHeaderViewKey",_68="CPTableColumnDataViewKey",_69="CPTableColumnWidthKey",_6a="CPTableColumnMinWidthKey",_6b="CPTableColumnMaxWidthKey",_6c="CPTableColumnResizingMaskKey";
+var _66="CPTableColumnIdentifierKey",_67="CPTableColumnHeaderViewKey",_68="CPTableColumnDataViewKey",_69="CPTableColumnWidthKey",_6a="CPTableColumnMinWidthKey",_6b="CPTableColumnMaxWidthKey",_6c="CPTableColumnResizingMaskKey",_6d="CPTableColumnIsHiddenKey",_6e="CPSortDescriptorPrototypeKey";
 var _1=objj_getClass("CPTableColumn");
 if(!_1){
 throw new SyntaxError("*** Could not find definition for class \"CPTableColumn\"");
 }
 var _2=_1.isa;
-class_addMethods(_1,[new objj_method(sel_getUid("initWithCoder:"),function(_6d,_6e,_6f){
-with(_6d){
-_6d=objj_msgSendSuper({receiver:_6d,super_class:objj_getClass("CPTableColumn").super_class},"init");
-if(_6d){
+class_addMethods(_1,[new objj_method(sel_getUid("initWithCoder:"),function(_6f,_70,_71){
+with(_6f){
+_6f=objj_msgSendSuper({receiver:_6f,super_class:objj_getClass("CPTableColumn").super_class},"init");
+if(_6f){
 _dataViewData={};
-_width=objj_msgSend(_6f,"decodeFloatForKey:",_69);
-_minWidth=objj_msgSend(_6f,"decodeFloatForKey:",_6a);
-_maxWidth=objj_msgSend(_6f,"decodeFloatForKey:",_6b);
-objj_msgSend(_6d,"setIdentifier:",objj_msgSend(_6f,"decodeObjectForKey:",_66));
-objj_msgSend(_6d,"setHeaderView:",objj_msgSend(_6f,"decodeObjectForKey:",_67));
-objj_msgSend(_6d,"setDataView:",objj_msgSend(_6f,"decodeObjectForKey:",_68));
-objj_msgSend(_6d,"setHeaderView:",objj_msgSend(_6f,"decodeObjectForKey:",_67));
-_resizingMask=objj_msgSend(_6f,"decodeBoolForKey:",_6c);
+_width=objj_msgSend(_71,"decodeFloatForKey:",_69);
+_minWidth=objj_msgSend(_71,"decodeFloatForKey:",_6a);
+_maxWidth=objj_msgSend(_71,"decodeFloatForKey:",_6b);
+objj_msgSend(_6f,"setIdentifier:",objj_msgSend(_71,"decodeObjectForKey:",_66));
+objj_msgSend(_6f,"setHeaderView:",objj_msgSend(_71,"decodeObjectForKey:",_67));
+objj_msgSend(_6f,"setDataView:",objj_msgSend(_71,"decodeObjectForKey:",_68));
+objj_msgSend(_6f,"setHeaderView:",objj_msgSend(_71,"decodeObjectForKey:",_67));
+_resizingMask=objj_msgSend(_71,"decodeBoolForKey:",_6c);
+_isHidden=objj_msgSend(_71,"decodeBoolForKey:",_6d);
+_sortDescriptorPrototype=objj_msgSend(_71,"decodeObjectForKey:",_6e);
 }
-return _6d;
+return _6f;
 }
-}),new objj_method(sel_getUid("encodeWithCoder:"),function(_70,_71,_72){
-with(_70){
-objj_msgSend(_72,"encodeObject:forKey:",_identifier,_66);
-objj_msgSend(_72,"encodeObject:forKey:",_width,_69);
-objj_msgSend(_72,"encodeObject:forKey:",_minWidth,_6a);
-objj_msgSend(_72,"encodeObject:forKey:",_maxWidth,_6b);
-objj_msgSend(_72,"encodeObject:forKey:",_headerView,_67);
-objj_msgSend(_72,"encodeObject:forKey:",_dataView,_68);
-objj_msgSend(_72,"encodeObject:forKey:",_resizingMask,_6c);
+}),new objj_method(sel_getUid("encodeWithCoder:"),function(_72,_73,_74){
+with(_72){
+objj_msgSend(_74,"encodeObject:forKey:",_identifier,_66);
+objj_msgSend(_74,"encodeObject:forKey:",_width,_69);
+objj_msgSend(_74,"encodeObject:forKey:",_minWidth,_6a);
+objj_msgSend(_74,"encodeObject:forKey:",_maxWidth,_6b);
+objj_msgSend(_74,"encodeObject:forKey:",_headerView,_67);
+objj_msgSend(_74,"encodeObject:forKey:",_dataView,_68);
+objj_msgSend(_74,"encodeObject:forKey:",_resizingMask,_6c);
+objj_msgSend(_74,"encodeBool:forKey:",_isHidden,_6d);
+objj_msgSend(_74,"encodeObject:forKey:",_sortDescriptorPrototype,_6e);
 }
 })]);
 var _1=objj_getClass("CPTableColumn");
@@ -3743,24 +3747,24 @@ if(!_1){
 throw new SyntaxError("*** Could not find definition for class \"CPTableColumn\"");
 }
 var _2=_1.isa;
-class_addMethods(_1,[new objj_method(sel_getUid("setHeaderCell:"),function(_73,_74,_75){
-with(_73){
+class_addMethods(_1,[new objj_method(sel_getUid("setHeaderCell:"),function(_75,_76,_77){
+with(_75){
 objj_msgSend(CPException,"raise:reason:",CPUnsupportedMethodException,"setHeaderCell: is not supported. -setHeaderCell:aView instead.");
 }
-}),new objj_method(sel_getUid("headerCell"),function(_76,_77){
-with(_76){
+}),new objj_method(sel_getUid("headerCell"),function(_78,_79){
+with(_78){
 objj_msgSend(CPException,"raise:reason:",CPUnsupportedMethodException,"headCell is not supported. -headerView instead.");
 }
-}),new objj_method(sel_getUid("setDataCell:"),function(_78,_79,_7a){
-with(_78){
+}),new objj_method(sel_getUid("setDataCell:"),function(_7a,_7b,_7c){
+with(_7a){
 objj_msgSend(CPException,"raise:reason:",CPUnsupportedMethodException,"setDataCell: is not supported. Use -setHeaderCell:aView instead.");
 }
-}),new objj_method(sel_getUid("dataCell"),function(_7b,_7c){
-with(_7b){
+}),new objj_method(sel_getUid("dataCell"),function(_7d,_7e){
+with(_7d){
 objj_msgSend(CPException,"raise:reason:",CPUnsupportedMethodException,"dataCell is not supported. Use -dataCell instead.");
 }
-}),new objj_method(sel_getUid("dataCellForRow:"),function(_7d,_7e,row){
-with(_7d){
+}),new objj_method(sel_getUid("dataCellForRow:"),function(_7f,_80,row){
+with(_7f){
 objj_msgSend(CPException,"raise:reason:",CPUnsupportedMethodException,"dataCellForRow: is not supported. Use -dataViewForRow:row instead.");
 }
 })]);
