@@ -24742,7 +24742,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","id"])]);
 }
 
-p;10;CPButton.jt;22016;@STATIC;1.0;i;21;_CPImageAndTextView.ji;12;CGGeometry.ji;11;CPControl.ji;17;CPStringDrawing.ji;12;CPCheckBox.ji;9;CPRadio.jt;21885;objj_executeFile("_CPImageAndTextView.j", YES);
+p;10;CPButton.jt;22392;@STATIC;1.0;i;21;_CPImageAndTextView.ji;12;CGGeometry.ji;11;CPControl.ji;17;CPStringDrawing.ji;12;CPCheckBox.ji;9;CPRadio.jt;22261;objj_executeFile("_CPImageAndTextView.j", YES);
 objj_executeFile("CGGeometry.j", YES);
 objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPStringDrawing.j", YES);
@@ -24984,7 +24984,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     if (_imageDimsWhenDisabled === imageShouldDimWhenDisabled)
         return;
     _imageDimsWhenDisabled = imageShouldDimWhenDisabled;
-    if (_imageDimsWhenDisabled)
+    if (objj_msgSend(self, "hasThemeState:", CPThemeStateDisabled))
     {
         objj_msgSend(self, "setNeedsDisplay:", YES);
         objj_msgSend(self, "setNeedsLayout");
@@ -25158,7 +25158,8 @@ var CPButtonImageKey = "CPButtonImageKey",
     CPButtonAlternateImageKey = "CPButtonAlternateImageKey",
     CPButtonTitleKey = "CPButtonTitleKey",
     CPButtonAlternateTitleKey = "CPButtonAlternateTitleKey",
-    CPButtonIsBorderedKey = "CPButtonIsBorderedKey";
+    CPButtonIsBorderedKey = "CPButtonIsBorderedKey",
+    CPButtonImageDimsWhenDisabledKey = "CPButtonImageDimsWhenDisabledKey";
 {
 var the_class = objj_getClass("CPButton")
 if(!the_class) throw new SyntaxError("*** Could not find definition for class \"CPButton\"");
@@ -25173,6 +25174,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
         objj_msgSend(self, "setAlternateImage:", objj_msgSend(aCoder, "decodeObjectForKey:", CPButtonAlternateImageKey));
         objj_msgSend(self, "setTitle:", objj_msgSend(aCoder, "decodeObjectForKey:", CPButtonTitleKey));
         objj_msgSend(self, "setAlternateTitle:", objj_msgSend(aCoder, "decodeObjectForKey:", CPButtonAlternateTitleKey));
+        objj_msgSend(self, "setImageDimsWhenDisabled:", objj_msgSend(aCoder, "decodeObjectForKey:", CPButtonImageDimsWhenDisabledKey));
         objj_msgSend(self, "setNeedsLayout");
         objj_msgSend(self, "setNeedsDisplay:", YES);
     }
@@ -25186,6 +25188,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
     objj_msgSend(aCoder, "encodeObject:forKey:", _alternateImage, CPButtonAlternateImageKey);
     objj_msgSend(aCoder, "encodeObject:forKey:", _title, CPButtonTitleKey);
     objj_msgSend(aCoder, "encodeObject:forKey:", _alternateTitle, CPButtonAlternateTitleKey);
+    objj_msgSend(aCoder, "encodeObject:forKey:", objj_msgSend(self, "imageDimsWhenDisabled"), CPButtonImageDimsWhenDisabledKey);
 }
 },["void","CPCoder"])]);
 }
