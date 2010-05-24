@@ -3129,7 +3129,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"])]);
 }
 
-p;14;CPDictionary.jt;11751;@STATIC;1.0;i;9;CPArray.ji;10;CPObject.ji;14;CPEnumerator.ji;13;CPException.jt;11666;objj_executeFile("CPArray.j", YES);
+p;14;CPDictionary.jt;11792;@STATIC;1.0;i;9;CPArray.ji;10;CPObject.ji;14;CPEnumerator.ji;13;CPException.jt;11707;objj_executeFile("CPArray.j", YES);
 objj_executeFile("CPObject.j", YES);
 objj_executeFile("CPEnumerator.j", YES);
 objj_executeFile("CPException.j", YES);
@@ -3215,7 +3215,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithDictionary:"), 
 },["int"]), new objj_method(sel_getUid("allKeys"), function $CPDictionary__allKeys(self, _cmd)
 { with(self)
 {
-    return _keys;
+    return objj_msgSend(_keys, "copy");
 }
 },["CPArray"]), new objj_method(sel_getUid("allValues"), function $CPDictionary__allValues(self, _cmd)
 { with(self)
@@ -3288,7 +3288,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithDictionary:"), 
 {
     var index = keysForRemoval.length;
     while (index--)
-        self.removeValueForKey(keysForRemoval[index]);
+        objj_msgSend(self, "removeObjectForKey:", keysForRemoval[index]);
 }
 },["void","CPArray"]), new objj_method(sel_getUid("setObject:forKey:"), function $CPDictionary__setObject_forKey_(self, _cmd, anObject, aKey)
 { with(self)
@@ -7815,7 +7815,7 @@ Number.prototype.isa = CPNumber;
 Boolean.prototype.isa = CPNumber;
 objj_msgSend(CPNumber, "initialize");
 
-p;21;CPKeyValueObserving.jt;25772;@STATIC;1.0;i;9;CPArray.ji;14;CPDictionary.ji;13;CPException.ji;8;CPNull.ji;10;CPObject.ji;7;CPSet.ji;13;CPArray+KVO.jt;25646;objj_executeFile("CPArray.j", YES);
+p;21;CPKeyValueObserving.jt;28048;@STATIC;1.0;i;9;CPArray.ji;14;CPDictionary.ji;13;CPException.ji;8;CPNull.ji;10;CPObject.ji;7;CPSet.ji;13;CPArray+KVO.jt;27922;objj_executeFile("CPArray.j", YES);
 objj_executeFile("CPDictionary.j", YES);
 objj_executeFile("CPException.j", YES);
 objj_executeFile("CPNull.j", YES);
@@ -7966,6 +7966,16 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithTarget:"), func
     {
         var method = methodList[i];
         class_addMethod(kvoClass, method_getName(method), method_getImplementation(method), "");
+    }
+    if (objj_msgSend(_targetObject, "isKindOfClass:", objj_msgSend(CPDictionary, "class")))
+    {
+        var methodList = _CPKVOModelDictionarySubclass.method_list,
+            count = methodList.length;
+        for (var i=0; i<count; i++)
+        {
+            var method = methodList[i];
+            class_addMethod(kvoClass, method_getName(method), method_getImplementation(method), "");
+        }
     }
     _targetObject.isa = kvoClass;
 }
@@ -8225,6 +8235,44 @@ class_addMethods(the_class, [new objj_method(sel_getUid("willChangeValueForKey:"
     return objj_msgSend(self, "class").name;
 }
 },["CPString"])]);
+}
+{var the_class = objj_allocateClassPair(Nil, "_CPKVOModelDictionarySubclass"),
+meta_class = the_class.isa;objj_registerClassPair(the_class);
+class_addMethods(the_class, [new objj_method(sel_getUid("removeAllObjects"), function $_CPKVOModelDictionarySubclass__removeAllObjects(self, _cmd)
+{ with(self)
+{
+    var keys = objj_msgSend(self, "allKeys"),
+        count = objj_msgSend(keys, "count");
+    for (var i = 0; i < count; i++)
+        objj_msgSend(self, "willChangeValueForKey:", keys[i]);
+    var superClass = objj_msgSend(self, "class"),
+        methodSelector = sel_getUid("removeAllObjects"),
+        methodImp = class_getMethodImplementation(superClass, methodSelector);
+    methodImp(self, methodSelector);
+    for (var i = 0; i < count; i++)
+        objj_msgSend(self, "didChangeValueForKey:", keys[i]);
+}
+},["void"]), new objj_method(sel_getUid("removeObjectForKey:"), function $_CPKVOModelDictionarySubclass__removeObjectForKey_(self, _cmd, aKey)
+{ with(self)
+{
+    objj_msgSend(self, "willChangeValueForKey:", aKey);
+    var superClass = objj_msgSend(self, "class"),
+        methodSelector = sel_getUid("removeObjectForKey:"),
+        methodImp = class_getMethodImplementation(superClass, methodSelector);
+    methodImp(self, methodSelector, aKey);
+    objj_msgSend(self, "didChangeValueForKey:", aKey);
+}
+},["void","id"]), new objj_method(sel_getUid("setObject:forKey:"), function $_CPKVOModelDictionarySubclass__setObject_forKey_(self, _cmd, anObject, aKey)
+{ with(self)
+{
+    objj_msgSend(self, "willChangeValueForKey:", aKey);
+    var superClass = objj_msgSend(self, "class"),
+        methodSelector = sel_getUid("setObject:forKey:"),
+        methodImp = class_getMethodImplementation(superClass, methodSelector);
+    methodImp(self, methodSelector, anObject, aKey);
+    objj_msgSend(self, "didChangeValueForKey:", aKey);
+}
+},["void","id","id"])]);
 }
 {var the_class = objj_allocateClassPair(CPObject, "_CPKVOForwardingObserver"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_object"), new objj_ivar("_observer"), new objj_ivar("_context"), new objj_ivar("_firstPart"), new objj_ivar("_secondPart"), new objj_ivar("_value")]);
