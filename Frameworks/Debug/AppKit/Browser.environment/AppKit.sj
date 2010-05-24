@@ -2989,7 +2989,7 @@ isBlinking = newValue;
 },["void"])]);
 }
 
-p;10;CPCursor.jt;10572;@STATIC;1.0;t;10552;var currentCursor = nil,
+p;10;CPCursor.jt;10793;@STATIC;1.0;t;10773;var currentCursor = nil,
     cursorStack = [],
     cursors = {},
     cursorURLFormat = nil;
@@ -3190,7 +3190,9 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("currentCursor"), funct
 {
     if (CPBrowserIsEngine(CPWebKitBrowserEngine))
         return objj_msgSend(CPCursor, "cursorWithCSSString:", "-webkit-grab");
-    else if (CPBrowserIsEngine(CPGeckoBrowserEngine) || CPBrowserIsEngine(CPOperaBrowserEngine))
+    else if (CPBrowserIsEngine(CPGeckoBrowserEngine))
+        return objj_msgSend(CPCursor, "cursorWithCSSString:", "-moz-grab");
+    else if (CPBrowserIsEngine(CPOperaBrowserEngine))
         return objj_msgSend(CPCursor, "cursorWithCSSString:", "move");
     return objj_msgSend(CPCursor, "cursorWithImageNamed:", CPStringFromSelector(_cmd));
 }
@@ -3199,6 +3201,8 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("currentCursor"), funct
 {
     if (CPBrowserIsEngine(CPWebKitBrowserEngine))
         return objj_msgSend(CPCursor, "cursorWithCSSString:", "-webkit-grabbing");
+    else if (CPBrowserIsEngine(CPGeckoBrowserEngine))
+        return objj_msgSend(CPCursor, "cursorWithCSSString:", "-moz-grabbing");
     return objj_msgSend(CPCursor, "cursorWithImageNamed:", CPStringFromSelector(_cmd));
 }
 },["CPCursor"]), new objj_method(sel_getUid("disappearingItemCursor"), function $CPCursor__disappearingItemCursor(self, _cmd)

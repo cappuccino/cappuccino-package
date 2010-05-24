@@ -2571,7 +2571,7 @@ objj_msgSend(CPTimer,"scheduledTimerWithTimeInterval:callback:repeats:",0.19,_2b
 objj_msgSend(CPTimer,"scheduledTimerWithTimeInterval:callback:repeats:",0.27,_2b4,NO);
 }
 })]);
-p;10;CPCursor.jt;7390;@STATIC;1.0;t;7371;
+p;10;CPCursor.jt;7593;@STATIC;1.0;t;7574;
 var _1=nil,_2=[],_3={},_4=nil;
 var _5=objj_allocateClassPair(CPObject,"CPCursor"),_6=_5.isa;
 class_addIvars(_5,[new objj_ivar("_cssString"),new objj_ivar("_isSetOnMouseEntered"),new objj_ivar("_isSetOnMouseExited")]);
@@ -2743,8 +2743,12 @@ with(_51){
 if(CPBrowserIsEngine(CPWebKitBrowserEngine)){
 return objj_msgSend(CPCursor,"cursorWithCSSString:","-webkit-grab");
 }else{
-if(CPBrowserIsEngine(CPGeckoBrowserEngine)||CPBrowserIsEngine(CPOperaBrowserEngine)){
+if(CPBrowserIsEngine(CPGeckoBrowserEngine)){
+return objj_msgSend(CPCursor,"cursorWithCSSString:","-moz-grab");
+}else{
+if(CPBrowserIsEngine(CPOperaBrowserEngine)){
 return objj_msgSend(CPCursor,"cursorWithCSSString:","move");
+}
 }
 }
 return objj_msgSend(CPCursor,"cursorWithImageNamed:",CPStringFromSelector(_52));
@@ -2753,6 +2757,10 @@ return objj_msgSend(CPCursor,"cursorWithImageNamed:",CPStringFromSelector(_52));
 with(_53){
 if(CPBrowserIsEngine(CPWebKitBrowserEngine)){
 return objj_msgSend(CPCursor,"cursorWithCSSString:","-webkit-grabbing");
+}else{
+if(CPBrowserIsEngine(CPGeckoBrowserEngine)){
+return objj_msgSend(CPCursor,"cursorWithCSSString:","-moz-grabbing");
+}
 }
 return objj_msgSend(CPCursor,"cursorWithImageNamed:",CPStringFromSelector(_54));
 }
