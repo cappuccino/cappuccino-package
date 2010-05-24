@@ -19777,7 +19777,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithItemIdentifier:
 },["void","CPCoder"])]);
 }
 
-p;14;CPScrollView.jt;28644;@STATIC;1.0;i;8;CPView.ji;12;CPClipView.ji;12;CPScroller.jt;28578;objj_executeFile("CPView.j", YES);
+p;14;CPScrollView.jt;28645;@STATIC;1.0;i;8;CPView.ji;12;CPClipView.ji;12;CPScroller.jt;28579;objj_executeFile("CPView.j", YES);
 objj_executeFile("CPClipView.j", YES);
 objj_executeFile("CPScroller.j", YES);
 {var the_class = objj_allocateClassPair(CPView, "CPScrollView"),
@@ -20067,8 +20067,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["CGRect"]), new objj_method(sel_getUid("_verticalScrollerDidScroll:"), function $CPScrollView___verticalScrollerDidScroll_(self, _cmd, aScroller)
 { with(self)
 {
-   var value = objj_msgSend(aScroller, "floatValue"),
-        documentFrame = objj_msgSend(objj_msgSend(_contentView, "documentView"), "frame");
+    var value = objj_msgSend(aScroller, "floatValue"),
+        documentFrame = objj_msgSend(objj_msgSend(_contentView, "documentView"), "frame"),
         contentBounds = objj_msgSend(_contentView, "bounds");
     switch (objj_msgSend(_verticalScroller, "hitPart"))
     {
