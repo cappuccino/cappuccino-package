@@ -6891,7 +6891,7 @@ return {fileType:_d6,delegate:_d7,didReadSelector:_d8,contextInfo:_d9};
 var _71=function(_da,_db,_dc,_dd,_de,_df,_e0){
 return {absoluteURL:_da,saveOperation:_db,changeCount:_dc,delegate:_dd,didSaveSelector:_de,contextInfo:_df,connection:_e0};
 };
-p;15;CPPopUpButton.jt;13417;@STATIC;1.0;i;10;CPButton.ji;12;CPGeometry.ji;8;CPMenu.ji;12;CPMenuItem.jt;13336;
+p;15;CPPopUpButton.jt;13429;@STATIC;1.0;i;10;CPButton.ji;12;CPGeometry.ji;8;CPMenu.ji;12;CPMenuItem.jt;13348;
 objj_executeFile("CPButton.j",YES);
 objj_executeFile("CPGeometry.j",YES);
 objj_executeFile("CPMenu.j",YES);
@@ -7074,8 +7074,9 @@ return objj_msgSend(objj_msgSend(_menu,"itemAtIndex:",_52),"title");
 with(_53){
 var _55=[],_56=objj_msgSend(_53,"itemArray"),_57=0,_58=objj_msgSend(_56,"count");
 for(;_57<_58;++_57){
-_56.push(objj_msgSend(_56[_57],"title"));
+_55.push(objj_msgSend(_56[_57],"title"));
 }
+return _55;
 }
 }),new objj_method(sel_getUid("itemWithTitle:"),function(_59,_5a,_5b){
 with(_59){
@@ -14074,7 +14075,7 @@ objj_msgSend(_5,"performSelector:target:argument:order:modes:",sel_getUid("run")
 }
 })]);
 objj_msgSend(_CPDisplayServer,"run");
-p;11;CPToolbar.jt;24284;@STATIC;1.0;I;21;Foundation/CPObject.ji;15;CPPopUpButton.ji;15;CPToolbarItem.jt;24198;
+p;11;CPToolbar.jt;24277;@STATIC;1.0;I;21;Foundation/CPObject.ji;15;CPPopUpButton.ji;15;CPToolbarItem.jt;24191;
 objj_executeFile("Foundation/CPObject.j",NO);
 objj_executeFile("CPPopUpButton.j",YES);
 objj_executeFile("CPToolbarItem.j",YES);
@@ -14195,7 +14196,7 @@ return objj_msgSend(_toolbarView,"visibleItems");
 with(_2e){
 return _itemsSortedByVisibilityPriority;
 }
-}),new objj_method(sel_getUid("validateVisibleToolbarItems"),function(_30,_31){
+}),new objj_method(sel_getUid("validateVisibleItems"),function(_30,_31){
 with(_30){
 var _32=objj_msgSend(_30,"visibleItems"),_33=objj_msgSend(_32,"count");
 while(_33--){

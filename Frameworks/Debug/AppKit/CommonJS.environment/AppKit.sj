@@ -7846,7 +7846,7 @@ var _CPSaveSessionMake = function(anAbsoluteURL, aSaveOperation, aChangeCount, a
     return { absoluteURL:anAbsoluteURL, saveOperation:aSaveOperation, changeCount:aChangeCount, delegate:aDelegate, didSaveSelector:aDidSaveSelector, contextInfo:aContextInfo, connection:aConnection };
 }
 
-p;15;CPPopUpButton.jt;19245;@STATIC;1.0;i;10;CPButton.ji;12;CPGeometry.ji;8;CPMenu.ji;12;CPMenuItem.jt;19164;objj_executeFile("CPButton.j", YES);
+p;15;CPPopUpButton.jt;19265;@STATIC;1.0;i;10;CPButton.ji;12;CPGeometry.ji;8;CPMenu.ji;12;CPMenuItem.jt;19184;objj_executeFile("CPButton.j", YES);
 objj_executeFile("CPGeometry.j", YES);
 objj_executeFile("CPMenu.j", YES);
 objj_executeFile("CPMenuItem.j", YES);
@@ -8051,7 +8051,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:pullsDown
         index = 0,
         count = objj_msgSend(items, "count");
     for (; index < count; ++index)
-        items.push(objj_msgSend(items[index], "title"));
+        titles.push(objj_msgSend(items[index], "title"));
+    return titles;
 }
 },["CPArray"]), new objj_method(sel_getUid("itemWithTitle:"), function $CPPopUpButton__itemWithTitle_(self, _cmd, aTitle)
 { with(self)
@@ -16053,7 +16054,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("run"), function $_CPDi
 }
 objj_msgSend(_CPDisplayServer, "run");
 
-p;11;CPToolbar.jt;35686;@STATIC;1.0;I;21;Foundation/CPObject.ji;15;CPPopUpButton.ji;15;CPToolbarItem.jt;35600;objj_executeFile("Foundation/CPObject.j", NO);
+p;11;CPToolbar.jt;35672;@STATIC;1.0;I;21;Foundation/CPObject.ji;15;CPPopUpButton.ji;15;CPToolbarItem.jt;35586;objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("CPPopUpButton.j", YES);
 objj_executeFile("CPToolbarItem.j", YES);
 CPToolbarDisplayModeDefault = 0;
@@ -16189,7 +16190,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPToo
 {
     return _itemsSortedByVisibilityPriority;
 }
-},["CPArray"]), new objj_method(sel_getUid("validateVisibleToolbarItems"), function $CPToolbar__validateVisibleToolbarItems(self, _cmd)
+},["CPArray"]), new objj_method(sel_getUid("validateVisibleItems"), function $CPToolbar__validateVisibleItems(self, _cmd)
 { with(self)
 {
     var toolbarItems = objj_msgSend(self, "visibleItems"),
