@@ -4292,7 +4292,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("mainQueue"), function 
 },["CPOperationQueue"])]);
 }
 
-p;7;CPURL.jt;7939;@STATIC;1.0;I;21;Foundation/CPObject.jt;7894;
+p;7;CPURL.jt;8096;@STATIC;1.0;I;21;Foundation/CPObject.jt;8051;
 
 
 objj_executeFile("Foundation/CPObject.j", NO);
@@ -4372,7 +4372,12 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPURL
 {
     return objj_msgSend(self, "absoluteURL").path();
 }
-},["CPString"]), new objj_method(sel_getUid("relativePath"), function $CPURL__relativePath(self, _cmd)
+},["CPString"]), new objj_method(sel_getUid("pathComponents"), function $CPURL__pathComponents(self, _cmd)
+{ with(self)
+{
+    return self.pathComponents();
+}
+},["CPArray"]), new objj_method(sel_getUid("relativePath"), function $CPURL__relativePath(self, _cmd)
 { with(self)
 {
     return self.path();
