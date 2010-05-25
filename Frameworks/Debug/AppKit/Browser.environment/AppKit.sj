@@ -486,7 +486,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPEvent"])]);
 }
 
-p;13;CPTableView.jt;134125;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;133982;objj_executeFile("Foundation/CPArray.j", NO);
+p;13;CPTableView.jt;134266;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;134123;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("AppKit/CGGradient.j", NO);
 objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPTableColumn.j", YES);
@@ -591,7 +591,8 @@ _disableAutomaticResizing = newValue;
         _disableAutomaticResizing = NO;
         _selectionHighlightStyle = CPTableViewSelectionHighlightStyleRegular;
         objj_msgSend(self, "setUsesAlternatingRowBackgroundColors:", NO);
-        objj_msgSend(self, "setAlternatingRowBackgroundColors:", [objj_msgSend(CPColor, "whiteColor"), objj_msgSend(CPColor, "colorWithHexString:", "f5f9fc")]);
+        objj_msgSend(self, "setAlternatingRowBackgroundColors:", 
+            [objj_msgSend(CPColor, "whiteColor"), objj_msgSend(CPColor, "colorWithRed:green:blue:alpha:", 245.0 / 255.0, 249.0 / 255.0, 252.0 / 255.0, 1.0)]);
         _tableColumns = [];
         _tableColumnRanges = [];
         _dirtyTableColumnRangeIndex = CPNotFound;
@@ -2806,8 +2807,9 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
         _intercellSpacing = objj_msgSend(aCoder, "decodeSizeForKey:", CPTableViewIntercellSpacingKey) || { width:0.0, height:0.0 };
         _gridColor = objj_msgSend(aCoder, "decodeObjectForKey:", CPTableViewGridColorKey) || objj_msgSend(CPColor, "grayColor");
         _gridStyleMask = objj_msgSend(aCoder, "decodeIntForKey:", CPTableViewGridStyleMaskKey) || CPTableViewGridNone;
-        _alternatingRowBackgroundColors = objj_msgSend(aCoder, "decodeObjectForKey:", CPTableViewAlternatingRowColorsKey);
         _usesAlternatingRowBackgroundColors = objj_msgSend(aCoder, "decodeObjectForKey:", CPTableViewUsesAlternatingBackgroundKey)
+        _alternatingRowBackgroundColors =
+            [objj_msgSend(CPColor, "whiteColor"), objj_msgSend(CPColor, "colorWithRed:green:blue:alpha:", 245.0 / 255.0, 249.0 / 255.0, 252.0 / 255.0, 1.0)];
         _headerView = objj_msgSend(aCoder, "decodeObjectForKey:", CPTableViewHeaderViewKey);
         _cornerView = objj_msgSend(aCoder, "decodeObjectForKey:", CPTableViewCornerViewKey);
         _dataSource = objj_msgSend(aCoder, "decodeObjectForKey:", CPTableViewDataSourceKey);
@@ -3924,7 +3926,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:control:"
 },["void"])]);
 }
 
-p;15;CPTableColumn.jt;16271;@STATIC;1.0;I;25;Foundation/CPDictionary.jI;21;Foundation/CPObject.jI;29;Foundation/CPSortDescriptor.jI;21;Foundation/CPString.ji;19;CPTableHeaderView.jt;16111;objj_executeFile("Foundation/CPDictionary.j", NO);
+p;15;CPTableColumn.jt;16497;@STATIC;1.0;I;25;Foundation/CPDictionary.jI;21;Foundation/CPObject.jI;29;Foundation/CPSortDescriptor.jI;21;Foundation/CPString.ji;19;CPTableHeaderView.jt;16337;objj_executeFile("Foundation/CPDictionary.j", NO);
 objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("Foundation/CPSortDescriptor.j", NO);
 objj_executeFile("Foundation/CPString.j", NO);
@@ -3967,11 +3969,12 @@ _disableResizingPosting = newValue;
         var header = objj_msgSend(objj_msgSend(_CPTableColumnHeaderView, "alloc"), "initWithFrame:", CGRectMakeZero());
         objj_msgSend(self, "setHeaderView:", header);
         var textDataView = objj_msgSend(CPTextField, "new");
-        objj_msgSend(textDataView, "setLineBreakMode:", CPLineBreakByTruncatingTail);
-        objj_msgSend(textDataView, "setValue:forThemeAttribute:", objj_msgSend(CPColor, "colorWithHexString:", "333333"), "text-color");
+        objj_msgSend(textDataView, "setValue:forThemeAttribute:", objj_msgSend(CPColor, "colorWithRed:green:blue:alpha:", 51.0 / 255.0, 51.0 / 255.0, 51.0 / 255.0, 1.0), "text-color");
         objj_msgSend(textDataView, "setValue:forThemeAttribute:inState:", objj_msgSend(CPColor, "whiteColor"), "text-color", CPThemeStateSelectedDataView);
-        objj_msgSend(textDataView, "setValue:forThemeAttribute:inState:", objj_msgSend(CPFont, "boldSystemFontOfSize:", 12), "font", CPThemeStateSelectedDataView);
+        objj_msgSend(textDataView, "setLineBreakMode:", CPLineBreakByTruncatingTail);
+        objj_msgSend(textDataView, "setValue:forThemeAttribute:inState:", objj_msgSend(CPFont, "boldSystemFontOfSize:", 12.0), "font", CPThemeStateSelectedDataView);
         objj_msgSend(textDataView, "setValue:forThemeAttribute:", CPCenterVerticalTextAlignment, "vertical-alignment");
+        objj_msgSend(textDataView, "setValue:forThemeAttribute:", CGInsetMake(0.0, 0.0, 0.0, 5.0), "content-inset");
         objj_msgSend(self, "setDataView:", textDataView);
     }
     return self;
@@ -4194,6 +4197,7 @@ var CPTableColumnIdentifierKey = "CPTableColumnIdentifierKey",
     CPTableColumnResizingMaskKey = "CPTableColumnResizingMaskKey",
     CPTableColumnIsHiddenkey = "CPTableColumnIsHiddenKey",
     CPSortDescriptorPrototypeKey = "CPSortDescriptorPrototypeKey";
+    CPTableColumnIsHiddenkey = "CPTableColumnIsHiddenKey";
 {
 var the_class = objj_getClass("CPTableColumn")
 if(!the_class) throw new SyntaxError("*** Could not find definition for class \"CPTableColumn\"");
@@ -4263,7 +4267,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["id","int"])]);
 }
 
-p;15;CPSearchField.jt;26199;@STATIC;1.0;i;13;CPTextField.jt;26161;objj_executeFile("CPTextField.j", YES);
+p;15;CPSearchField.jt;26130;@STATIC;1.0;i;13;CPTextField.jt;26092;objj_executeFile("CPTextField.j", YES);
 CPSearchFieldRecentsTitleMenuItemTag = 1000;
 CPSearchFieldRecentsMenuItemTag = 1001;
 CPSearchFieldClearRecentsMenuItemTag = 1002;
@@ -4631,7 +4635,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","id"]), new objj_method(sel_getUid("_sendPartialString"), function $CPSearchField___sendPartialString(self, _cmd)
 { with(self)
 {
-    objj_msgSend(objj_msgSend(self, "target"), "performSelector:withObject:", objj_msgSend(self, "action"), self);
+    objj_msgSend(self, "_sendAction:", self);
 }
 },["void"]), new objj_method(sel_getUid("_searchFieldCancel:"), function $CPSearchField___searchFieldCancel_(self, _cmd, sender)
 { with(self)
@@ -9142,7 +9146,7 @@ CPThemeAttributeDecode= function(aCoder, anAttributeName, aDefaultValue, aTheme,
     return attribute;
 }
 
-p;19;CPTableHeaderView.jt;28245;@STATIC;1.0;i;15;CPTableColumn.ji;13;CPTableView.ji;8;CPView.jt;28175;objj_executeFile("CPTableColumn.j", YES);
+p;19;CPTableHeaderView.jt;28302;@STATIC;1.0;i;15;CPTableColumn.ji;13;CPTableView.ji;8;CPView.jt;28232;objj_executeFile("CPTableColumn.j", YES);
 objj_executeFile("CPTableView.j", YES);
 objj_executeFile("CPView.j", YES);
 {var the_class = objj_allocateClassPair(CPView, "_CPTableColumnHeaderView"),
@@ -9161,10 +9165,11 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CGRect"]), new objj_method(sel_getUid("_init"), function $_CPTableColumnHeaderView___init(self, _cmd)
 { with(self)
 {
-    _textField = objj_msgSend(objj_msgSend(_CPImageAndTextView, "alloc"), "initWithFrame:", CGRectMake(5, 1, CGRectGetWidth(objj_msgSend(self, "bounds")) - 10, CGRectGetHeight(objj_msgSend(self, "bounds")) - 1));
+    _textField = objj_msgSend(objj_msgSend(_CPImageAndTextView, "alloc"), "initWithFrame:", 
+        CGRectMake(5.0, 0.0, CGRectGetWidth(objj_msgSend(self, "bounds")) - 10.0, CGRectGetHeight(objj_msgSend(self, "bounds"))));
     objj_msgSend(_textField, "setAutoresizingMask:", CPViewWidthSizable|CPViewHeightSizable);
     objj_msgSend(_textField, "setLineBreakMode:", CPLineBreakByTruncatingTail);
-    objj_msgSend(_textField, "setTextColor:",  objj_msgSend(CPColor, "colorWithHexString:",  "333333"));
+    objj_msgSend(_textField, "setTextColor:", objj_msgSend(CPColor, "colorWithRed:green:blue:alpha:", 51.0 / 255.0, 51.0 / 255.0, 51.0 / 255.0, 1.0));
     objj_msgSend(_textField, "setFont:", objj_msgSend(CPFont, "boldSystemFontOfSize:", 12.0));
     objj_msgSend(_textField, "setAlignment:", CPLeftTextAlignment);
     objj_msgSend(_textField, "setVerticalAlignment:", CPCenterVerticalTextAlignment);
@@ -9177,13 +9182,13 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 {
     var themeState = objj_msgSend(self, "themeState");
     if(themeState & CPThemeStateSelected && themeState & CPThemeStateHighlighted)
-        objj_msgSend(self, "setBackgroundColor:", objj_msgSend(CPColor, "colorWithPatternImage:", CPAppKitImage("tableview-headerview-highlighted-pressed.png", CGSizeMake(1.0, 22.0))));
+        objj_msgSend(self, "setBackgroundColor:", objj_msgSend(CPColor, "colorWithPatternImage:", CPAppKitImage("tableview-headerview-highlighted-pressed.png", CGSizeMake(1.0, 23.0))));
     else if (themeState & CPThemeStateSelected)
-        objj_msgSend(self, "setBackgroundColor:", objj_msgSend(CPColor, "colorWithPatternImage:", CPAppKitImage("tableview-headerview-highlighted.png", CGSizeMake(1.0, 22.0))));
+        objj_msgSend(self, "setBackgroundColor:", objj_msgSend(CPColor, "colorWithPatternImage:", CPAppKitImage("tableview-headerview-highlighted.png", CGSizeMake(1.0, 23.0))));
     else if (themeState & CPThemeStateHighlighted)
-        objj_msgSend(self, "setBackgroundColor:", objj_msgSend(CPColor, "colorWithPatternImage:", CPAppKitImage("tableview-headerview-pressed.png", CGSizeMake(1.0, 22.0))));
+        objj_msgSend(self, "setBackgroundColor:", objj_msgSend(CPColor, "colorWithPatternImage:", CPAppKitImage("tableview-headerview-pressed.png", CGSizeMake(1.0, 23.0))));
     else
-        objj_msgSend(self, "setBackgroundColor:", objj_msgSend(CPColor, "colorWithPatternImage:", CPAppKitImage("tableview-headerview.png", CGSizeMake(1.0, 22.0))));
+        objj_msgSend(self, "setBackgroundColor:", objj_msgSend(CPColor, "colorWithPatternImage:", CPAppKitImage("tableview-headerview.png", CGSizeMake(1.0, 23.0))));
 }
 },["void"]), new objj_method(sel_getUid("setStringValue:"), function $_CPTableColumnHeaderView__setStringValue_(self, _cmd, string)
 { with(self)
@@ -9283,7 +9288,7 @@ _tableView = newValue;
     _isDragging = NO;
     _isTrackingColumn = NO;
     _columnOldWidth = 0.0;
-    objj_msgSend(self, "setBackgroundColor:", objj_msgSend(CPColor, "colorWithPatternImage:", CPAppKitImage("tableview-headerview.png", CGSizeMake(1.0, 22.0))));
+    objj_msgSend(self, "setBackgroundColor:", objj_msgSend(CPColor, "colorWithPatternImage:", CPAppKitImage("tableview-headerview.png", CGSizeMake(1.0, 23.0))));
 }
 },["void"]), new objj_method(sel_getUid("initWithFrame:"), function $CPTableHeaderView__initWithFrame_(self, _cmd, aFrame)
 { with(self)
@@ -9998,7 +10003,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithItemIdentifier:
 },["void","CPCoder"])]);
 }
 
-p;15;_CPCornerView.jt;1768;@STATIC;1.0;i;8;CPView.jt;1737;
+p;15;_CPCornerView.jt;1191;@STATIC;1.0;i;8;CPView.jt;1160;
 
 
 objj_executeFile("CPView.j", YES);
@@ -10020,21 +10025,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("_init"), function $_CPC
 
     return self;
 }
-},["id","CGRect"]), new objj_method(sel_getUid("drawRect:"), function $_CPCornerView__drawRect_(self, _cmd, aRect)
-{ with(self)
-{
-    var context = objj_msgSend(objj_msgSend(CPGraphicsContext, "currentContext"), "graphicsPort");
-
-    CGContextSetStrokeColor(context, objj_msgSend(CPColor, "colorWithHexString:", "dce0e2"));
-
-    var points = [
-                    CGPointMake(aRect.origin.x, aRect.origin.y + 0.5),
-                    CGPointMake(aRect.origin.x, aRect.origin.y + aRect.size.height)
-                 ];
-
-    CGContextStrokeLineSegments(context, points, 2);
-}
-},["void","CGRect"]), new objj_method(sel_getUid("initWithCoder:"), function $_CPCornerView__initWithCoder_(self, _cmd, aCoder)
+},["id","CGRect"]), new objj_method(sel_getUid("initWithCoder:"), function $_CPCornerView__initWithCoder_(self, _cmd, aCoder)
 { with(self)
 {
     self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("_CPCornerView").super_class }, "initWithCoder:", aCoder);

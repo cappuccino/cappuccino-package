@@ -6118,7 +6118,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("functionOperationWithF
 },["id","JSObject"])]);
 }
 
-p;19;CPKeyedUnarchiver.jt;14333;@STATIC;1.0;i;9;CPCoder.ji;8;CPNull.jt;14288;objj_executeFile("CPCoder.j", YES);
+p;19;CPKeyedUnarchiver.jt;14368;@STATIC;1.0;i;9;CPCoder.ji;8;CPNull.jt;14323;objj_executeFile("CPCoder.j", YES);
 objj_executeFile("CPNull.j", YES);
 CPInvalidUnarchiveOperationException = "CPInvalidUnarchiveOperationException";
 var _CPKeyedUnarchiverCannotDecodeObjectOfClassNameOriginalClassesSelector = 1 << 0,
@@ -6256,8 +6256,10 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initForReadingWithData:
 },["id","CPString"]), new objj_method(sel_getUid("decodeBytesForKey:"), function $CPKeyedUnarchiver__decodeBytesForKey_(self, _cmd, aKey)
 { with(self)
 {
-    var data = objj_msgSend(self, "decodeObjectForKey:", aKey),
-        objectClass = data.isa;
+    var data = objj_msgSend(self, "decodeObjectForKey:", aKey);
+    if (!data)
+        return nil;
+    var objectClass = data.isa;
     if (objectClass === CPDataClass)
         return data.bytes;
     return nil;

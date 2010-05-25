@@ -5319,7 +5319,7 @@ objj_msgSend(functionOp,"addExecutionFunction:",_f);
 return functionOp;
 }
 })]);
-p;19;CPKeyedUnarchiver.jt;8509;@STATIC;1.0;i;9;CPCoder.ji;8;CPNull.jt;8465;
+p;19;CPKeyedUnarchiver.jt;8538;@STATIC;1.0;i;9;CPCoder.ji;8;CPNull.jt;8494;
 objj_executeFile("CPCoder.j",YES);
 objj_executeFile("CPNull.j",YES);
 CPInvalidUnarchiveOperationException="CPInvalidUnarchiveOperationException";
@@ -5424,7 +5424,11 @@ return nil;
 }
 }),new objj_method(sel_getUid("decodeBytesForKey:"),function(_42,_43,_44){
 with(_42){
-var _45=objj_msgSend(_42,"decodeObjectForKey:",_44),_46=_45.isa;
+var _45=objj_msgSend(_42,"decodeObjectForKey:",_44);
+if(!_45){
+return nil;
+}
+var _46=_45.isa;
 if(_46===_e){
 return _45.bytes;
 }
