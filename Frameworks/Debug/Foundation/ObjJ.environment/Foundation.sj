@@ -3694,7 +3694,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("addObject:"), function 
 },["unsigned","id"])]);
 }
 
-p;10;CPObject.jt;9888;@STATIC;1.0;t;9869;{var the_class = objj_allocateClassPair(Nil, "CPObject"),
+p;10;CPObject.jt;10233;@STATIC;1.0;t;10213;{var the_class = objj_allocateClassPair(Nil, "CPObject"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("isa")]);
 objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPObject__init(self, _cmd)
@@ -3740,6 +3740,16 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPObj
 { with(self)
 {
     return !!class_getInstanceMethod(isa, aSelector);
+}
+},["BOOL","SEL"]), new objj_method(sel_getUid("implementsSelector:"), function $CPObject__implementsSelector_(self, _cmd, aSelector)
+{ with(self)
+{
+    var methods = class_copyMethodList(isa),
+        count = methods.length;
+    while (count--)
+        if (method_getName(methods[count]) === aSelector)
+            return YES;
+    return NO;
 }
 },["BOOL","SEL"]), new objj_method(sel_getUid("methodForSelector:"), function $CPObject__methodForSelector_(self, _cmd, aSelector)
 { with(self)
