@@ -493,7 +493,7 @@ var splitRangeEntry = splitRangeEntryAtIndex= function( aRangeEntry, anIndex)
     return [aRangeEntry, newRangeEntry];
 }
 
-p;9;CPArray.jt;28706;@STATIC;1.0;i;14;CPEnumerator.ji;13;CPException.ji;10;CPObject.ji;9;CPRange.ji;18;CPSortDescriptor.jt;28598;objj_executeFile("CPEnumerator.j", YES);
+p;9;CPArray.jt;29483;@STATIC;1.0;i;14;CPEnumerator.ji;13;CPException.ji;10;CPObject.ji;9;CPRange.ji;18;CPSortDescriptor.jt;29375;objj_executeFile("CPEnumerator.j", YES);
 objj_executeFile("CPException.j", YES);
 objj_executeFile("CPObject.j", YES);
 objj_executeFile("CPRange.j", YES);
@@ -737,6 +737,24 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
                 return result;
         return result;
     });
+}
+},["unsigned","id","CPArray"]), new objj_method(sel_getUid("insertObject:inArraySortedByDescriptors:"), function $CPArray__insertObject_inArraySortedByDescriptors_(self, _cmd, anObject, descriptors)
+{ with(self)
+{
+    var index = objj_msgSend(self, "_insertObject:sortedByFunction:context:", anObject, function(lhs, rhs)
+    {
+        var i = 0,
+            count = objj_msgSend(descriptors, "count"),
+            result = CPOrderedSame;
+        while (i < count)
+            if((result = objj_msgSend(descriptors[i++], "compareObject:withObject:", lhs, rhs)) != CPOrderedSame)
+                return result;
+        return result;
+    }, nil);
+    if (index < 0)
+        index = -result-1;
+    objj_msgSend(self, "insertObject:atIndex:", anObject, index);
+    return index;
 }
 },["unsigned","id","CPArray"]), new objj_method(sel_getUid("lastObject"), function $CPArray__lastObject(self, _cmd)
 { with(self)
@@ -2357,7 +2375,7 @@ meta_class = the_class.isa;objj_registerClassPair(the_class);
 }
 
 p;7;CPLog.jt;17;@STATIC;1.0;t;1;
-p;12;Foundation.jt;2212;@STATIC;1.0;i;9;CPArray.ji;10;CPBundle.ji;9;CPCoder.ji;8;CPData.ji;8;CPDate.ji;14;CPDictionary.ji;14;CPEnumerator.ji;13;CPException.ji;12;CPIndexSet.ji;14;CPInvocation.ji;19;CPJSONPConnection.ji;17;CPKeyedArchiver.ji;19;CPKeyedUnarchiver.ji;18;CPKeyValueCoding.ji;21;CPKeyValueObserving.ji;16;CPNotification.ji;22;CPNotificationCenter.ji;8;CPNull.ji;10;CPNumber.ji;10;CPObject.ji;15;CPObjJRuntime.ji;13;CPOperation.ji;18;CPOperationQueue.ji;29;CPPropertyListSerialization.ji;9;CPRange.ji;11;CPRunLoop.ji;7;CPSet.ji;18;CPSortDescriptor.ji;10;CPString.ji;9;CPTimer.ji;15;CPUndoManager.ji;7;CPURL.ji;17;CPURLConnection.ji;14;CPURLRequest.ji;15;CPURLResponse.ji;22;CPUserSessionManager.ji;9;CPValue.jt;1509;objj_executeFile("CPArray.j", YES);
+p;12;Foundation.jt;2284;@STATIC;1.0;i;9;CPArray.ji;10;CPBundle.ji;9;CPCoder.ji;8;CPData.ji;8;CPDate.ji;14;CPDictionary.ji;14;CPEnumerator.ji;13;CPException.ji;12;CPIndexSet.ji;14;CPInvocation.ji;19;CPJSONPConnection.ji;17;CPKeyedArchiver.ji;19;CPKeyedUnarchiver.ji;18;CPKeyValueCoding.ji;21;CPKeyValueObserving.ji;16;CPNotification.ji;22;CPNotificationCenter.ji;8;CPNull.ji;10;CPNumber.ji;10;CPObject.ji;15;CPObjJRuntime.ji;13;CPOperation.ji;18;CPOperationQueue.ji;29;CPPropertyListSerialization.ji;9;CPRange.ji;11;CPRunLoop.ji;7;CPSet.ji;18;CPSortDescriptor.ji;10;CPString.ji;9;CPTimer.ji;15;CPUndoManager.ji;7;CPURL.ji;17;CPURLConnection.ji;14;CPURLRequest.ji;15;CPURLResponse.ji;22;CPUserSessionManager.ji;9;CPValue.ji;20;CPValueTransformer.jt;1556;objj_executeFile("CPArray.j", YES);
 objj_executeFile("CPBundle.j", YES);
 objj_executeFile("CPCoder.j", YES);
 objj_executeFile("CPData.j", YES);
@@ -2394,6 +2412,7 @@ objj_executeFile("CPURLRequest.j", YES);
 objj_executeFile("CPURLResponse.j", YES);
 objj_executeFile("CPUserSessionManager.j", YES);
 objj_executeFile("CPValue.j", YES);
+objj_executeFile("CPValueTransformer.j", YES);
 
 p;10;CPString.jt;16174;@STATIC;1.0;i;13;CPException.ji;10;CPObject.ji;18;CPSortDescriptor.ji;9;CPValue.jt;16085;objj_executeFile("CPException.j", YES);
 objj_executeFile("CPObject.j", YES);
@@ -5611,7 +5630,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("defaultManager"), func
 },["id"])]);
 }
 
-p;13;CPArray+KVO.jt;17675;@STATIC;1.0;i;9;CPArray.ji;8;CPNull.jt;17630;objj_executeFile("CPArray.j", YES);
+p;13;CPArray+KVO.jt;17918;@STATIC;1.0;i;9;CPArray.ji;8;CPNull.jt;17873;objj_executeFile("CPArray.j", YES);
 objj_executeFile("CPNull.j", YES);
 {
 var the_class = objj_getClass("CPObject")
@@ -5773,7 +5792,12 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithKey:forProxyObj
     objj_msgSend(target, "insertObject:atIndex:", anObject, anIndex);
     objj_msgSend(self, "_setRepresentedObject:", target);
 }
-},["void","id","unsigned"]), new objj_method(sel_getUid("removeLastObject"), function $_CPKVCArray__removeLastObject(self, _cmd)
+},["void","id","unsigned"]), new objj_method(sel_getUid("removeObject:"), function $_CPKVCArray__removeObject_(self, _cmd, anObject)
+{ with(self)
+{
+    objj_msgSend(self, "removeObject:inRange:", anObject, CPMakeRange(0, objj_msgSend(self, "count")));
+}
+},["void","id"]), new objj_method(sel_getUid("removeLastObject"), function $_CPKVCArray__removeLastObject(self, _cmd)
 { with(self)
 {
     if (_remove)
@@ -6899,6 +6923,158 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("sendRequest:callback:d
 }
 },["CPJSONPConnection","CPURLRequest","CPString","id"])]);
 }
+
+p;20;CPValueTransformer.jt;6927;@STATIC;1.0;i;10;CPObject.ji;14;CPDictionary.jt;6874;objj_executeFile("CPObject.j", YES);
+objj_executeFile("CPDictionary.j", YES);
+var transformerMap = objj_msgSend(CPDictionary, "dictionary");
+{var the_class = objj_allocateClassPair(CPObject, "CPValueTransformer"),
+meta_class = the_class.isa;objj_registerClassPair(the_class);
+class_addMethods(the_class, [new objj_method(sel_getUid("reverseTransformedValue:"), function $CPValueTransformer__reverseTransformedValue_(self, _cmd, aValue)
+{ with(self)
+{
+    if (objj_msgSend(objj_msgSend(self, "class"), "allowsReverseTransformation"))
+    {
+        objj_msgSend(CPException, "raise:reason:", CPInvalidArgumentException, (self+" is not reversible."));
+    }
+    return objj_msgSend(self, "transformedValue:", aValue);
+}
+},["id","id"]), new objj_method(sel_getUid("transformedValue:"), function $CPValueTransformer__transformedValue_(self, _cmd, aValue)
+{ with(self)
+{
+    return nil;
+}
+},["id","id"])]);
+class_addMethods(meta_class, [new objj_method(sel_getUid("initialize"), function $CPValueTransformer__initialize(self, _cmd)
+{ with(self)
+{
+    if (self !== objj_msgSend(CPValueTransformer, "class"))
+        return;
+    objj_msgSend(CPValueTransformer, "setValueTransformer:forName:", objj_msgSend(objj_msgSend(CPNegateBooleanTransformer, "alloc"), "init"), CPNegateBooleanTransformerName);
+    objj_msgSend(CPValueTransformer, "setValueTransformer:forName:", objj_msgSend(objj_msgSend(CPIsNilTransformer, "alloc"), "init"), CPIsNilTransformerName);
+    objj_msgSend(CPValueTransformer, "setValueTransformer:forName:", objj_msgSend(objj_msgSend(CPIsNotNilTransformer, "alloc"), "init"), CPIsNotNilTransformerName);
+    objj_msgSend(CPValueTransformer, "setValueTransformer:forName:", objj_msgSend(objj_msgSend(CPUnarchiveFromDataTransformer, "alloc"), "init"), CPUnarchiveFromDataTransformerName);
+}
+},["void"]), new objj_method(sel_getUid("setValueTransformer:forName:"), function $CPValueTransformer__setValueTransformer_forName_(self, _cmd, transformer, aName)
+{ with(self)
+{
+    objj_msgSend(transformerMap, "setObject:forKey:", transformer, aName);
+}
+},["void","CPValueTransformer","CPString"]), new objj_method(sel_getUid("valueTransformerForName:"), function $CPValueTransformer__valueTransformerForName_(self, _cmd, aName)
+{ with(self)
+{
+    return objj_msgSend(transformerMap, "objectForKey:", aName);
+}
+},["CPValueTransformer","CPString"]), new objj_method(sel_getUid("valueTransformerNames"), function $CPValueTransformer__valueTransformerNames(self, _cmd)
+{ with(self)
+{
+    return objj_msgSend(transformerMap, "allKeys");
+}
+},["CPArray"]), new objj_method(sel_getUid("allowsReverseTransformation"), function $CPValueTransformer__allowsReverseTransformation(self, _cmd)
+{ with(self)
+{
+  return NO;
+}
+},["BOOL"]), new objj_method(sel_getUid("transformedValueClass"), function $CPValueTransformer__transformedValueClass(self, _cmd)
+{ with(self)
+{
+    return objj_msgSend(CPObject, "class");
+}
+},["Class"])]);
+}
+{var the_class = objj_allocateClassPair(CPValueTransformer, "CPNegateBooleanTransformer"),
+meta_class = the_class.isa;objj_registerClassPair(the_class);
+class_addMethods(the_class, [new objj_method(sel_getUid("reverseTransformedValue:"), function $CPNegateBooleanTransformer__reverseTransformedValue_(self, _cmd, aValue)
+{ with(self)
+{
+    return !objj_msgSend(aValue, "boolValue");
+}
+},["id","id"]), new objj_method(sel_getUid("transformedValue:"), function $CPNegateBooleanTransformer__transformedValue_(self, _cmd, aValue)
+{ with(self)
+{
+    return !objj_msgSend(aValue, "boolValue");
+}
+},["id","id"])]);
+class_addMethods(meta_class, [new objj_method(sel_getUid("allowsReverseTransformation"), function $CPNegateBooleanTransformer__allowsReverseTransformation(self, _cmd)
+{ with(self)
+{
+    return YES;
+}
+},["BOOL"]), new objj_method(sel_getUid("transformedValueClass"), function $CPNegateBooleanTransformer__transformedValueClass(self, _cmd)
+{ with(self)
+{
+    return objj_msgSend(CPNumber, "class");
+}
+},["Class"])]);
+}
+{var the_class = objj_allocateClassPair(CPValueTransformer, "CPIsNilTransformer"),
+meta_class = the_class.isa;objj_registerClassPair(the_class);
+class_addMethods(the_class, [new objj_method(sel_getUid("transformedValue:"), function $CPIsNilTransformer__transformedValue_(self, _cmd, aValue)
+{ with(self)
+{
+    return aValue === nil || aValue === undefined;
+}
+},["id","id"])]);
+class_addMethods(meta_class, [new objj_method(sel_getUid("allowsReverseTransformation"), function $CPIsNilTransformer__allowsReverseTransformation(self, _cmd)
+{ with(self)
+{
+    return NO;
+}
+},["BOOL"]), new objj_method(sel_getUid("transformedValueClass"), function $CPIsNilTransformer__transformedValueClass(self, _cmd)
+{ with(self)
+{
+    return objj_msgSend(CPNumber, "class");
+}
+},["Class"])]);
+}
+{var the_class = objj_allocateClassPair(CPValueTransformer, "CPIsNotNilTransformer"),
+meta_class = the_class.isa;objj_registerClassPair(the_class);
+class_addMethods(the_class, [new objj_method(sel_getUid("transformedValue:"), function $CPIsNotNilTransformer__transformedValue_(self, _cmd, aValue)
+{ with(self)
+{
+    return aValue !== nil && aValue !== undefined;
+}
+},["id","id"])]);
+class_addMethods(meta_class, [new objj_method(sel_getUid("allowsReverseTransformation"), function $CPIsNotNilTransformer__allowsReverseTransformation(self, _cmd)
+{ with(self)
+{
+    return NO;
+}
+},["BOOL"]), new objj_method(sel_getUid("transformedValueClass"), function $CPIsNotNilTransformer__transformedValueClass(self, _cmd)
+{ with(self)
+{
+    return objj_msgSend(CPNumber, "class");
+}
+},["Class"])]);
+}
+{var the_class = objj_allocateClassPair(CPValueTransformer, "CPUnarchiveFromDataTransformer"),
+meta_class = the_class.isa;objj_registerClassPair(the_class);
+class_addMethods(the_class, [new objj_method(sel_getUid("reverseTransformedValue:"), function $CPUnarchiveFromDataTransformer__reverseTransformedValue_(self, _cmd, aValue)
+{ with(self)
+{
+    return objj_msgSend(CPKeyedArchiver, "archivedDataWithRootObject:", aValue);
+}
+},["id","id"]), new objj_method(sel_getUid("transformedValue:"), function $CPUnarchiveFromDataTransformer__transformedValue_(self, _cmd, aValue)
+{ with(self)
+{
+    return objj_msgSend(CPKeyedUnarchiver, "unarchiveObjectWithData:", aValue);
+}
+},["id","id"])]);
+class_addMethods(meta_class, [new objj_method(sel_getUid("allowsReverseTransformation"), function $CPUnarchiveFromDataTransformer__allowsReverseTransformation(self, _cmd)
+{ with(self)
+{
+    return YES;
+}
+},["BOOL"]), new objj_method(sel_getUid("transformedValueClass"), function $CPUnarchiveFromDataTransformer__transformedValueClass(self, _cmd)
+{ with(self)
+{
+    return objj_msgSend(CPData, "class");
+}
+},["Class"])]);
+}
+CPNegateBooleanTransformerName = "CPNegateBooleanTransformerName";
+CPIsNilTransformerName = "CPIsNilTransformerName";
+CPIsNotNilTransformerName = "CPIsNotNilTransformerName";
+CPUnarchiveFromDataTransformerName = "CPUnarchiveFromDataTransformerName";
 
 p;18;CPKeyValueCoding.jt;9846;@STATIC;1.0;i;9;CPArray.ji;14;CPDictionary.ji;8;CPNull.ji;10;CPObject.ji;21;CPKeyValueObserving.ji;13;CPArray+KVO.jt;9724;objj_executeFile("CPArray.j", YES);
 objj_executeFile("CPDictionary.j", YES);
