@@ -11129,9 +11129,9 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("currentContext"), func
 },["CPGraphicsContext","CGContext","BOOL"])]);
 }
 
-p;21;CPSliderColorPicker.jt;11627;@STATIC;1.0;i;15;CPColorPicker.jt;11587;objj_executeFile("CPColorPicker.j", YES);
+p;21;CPSliderColorPicker.jt;17507;@STATIC;1.0;i;15;CPColorPicker.jt;17467;objj_executeFile("CPColorPicker.j", YES);
 {var the_class = objj_allocateClassPair(CPColorPicker, "CPSliderColorPicker"),
-meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_contentView"), new objj_ivar("_redSlider"), new objj_ivar("_greenSlider"), new objj_ivar("_blueSlider"), new objj_ivar("_hueSlider"), new objj_ivar("_saturationSlider"), new objj_ivar("_brightnessSlider"), new objj_ivar("_rgbLabel"), new objj_ivar("_hsbLabel"), new objj_ivar("_redLabel"), new objj_ivar("_greenLabel"), new objj_ivar("_blueLabel"), new objj_ivar("_hueLabel"), new objj_ivar("_saturationLabel"), new objj_ivar("_brightnessLabel"), new objj_ivar("_hexLabel")]);
+meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_contentView"), new objj_ivar("_redSlider"), new objj_ivar("_greenSlider"), new objj_ivar("_blueSlider"), new objj_ivar("_hueSlider"), new objj_ivar("_saturationSlider"), new objj_ivar("_brightnessSlider"), new objj_ivar("_rgbLabel"), new objj_ivar("_hsbLabel"), new objj_ivar("_redLabel"), new objj_ivar("_greenLabel"), new objj_ivar("_blueLabel"), new objj_ivar("_hueLabel"), new objj_ivar("_saturationLabel"), new objj_ivar("_brightnessLabel"), new objj_ivar("_hexLabel"), new objj_ivar("_redValue"), new objj_ivar("_greenValue"), new objj_ivar("_blueValue"), new objj_ivar("_hueValue"), new objj_ivar("_saturationValue"), new objj_ivar("_brightnessValue"), new objj_ivar("_hexValue")]);
 objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("initWithPickerMask:colorPanel:"), function $CPSliderColorPicker__initWithPickerMask_colorPanel_(self, _cmd, mask, owningColorPanel)
 { with(self)
@@ -11156,6 +11156,52 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithPickerMask:colo
     objj_msgSend(_redSlider, "setTarget:",  self);
     objj_msgSend(_redSlider, "setAction:",  sel_getUid("sliderChanged:"));
     objj_msgSend(_redSlider, "setAutoresizingMask:",  CPViewWidthSizable);
+    var updateFunction = function(aDOMEvent)
+    {
+        if(isNaN(this.value))
+            return;
+        switch(this)
+        {
+            case _redValue: objj_msgSend(_redSlider, "setFloatValue:", MAX(MIN(ROUND(this.value), 255) / 255.0, 0));
+                                   break;
+            case _greenValue: objj_msgSend(_greenSlider, "setFloatValue:", MAX(MIN(ROUND(this.value), 255) / 255.0, 0));
+                                   break;
+            case _blueValue: objj_msgSend(_blueSlider, "setFloatValue:", MAX(MIN(ROUND(this.value), 255) / 255.0, 0));
+                                   break;
+            case _hueValue: objj_msgSend(_hueSlider, "setFloatValue:", MAX(MIN(ROUND(this.value), 360), 0));
+                                   break;
+            case _saturationValue: objj_msgSend(_saturationSlider, "setFloatValue:", MAX(MIN(ROUND(this.value), 100), 0));
+                                   break;
+            case _brightnessValue: objj_msgSend(_brightnessSlider, "setFloatValue:", MAX(MIN(ROUND(this.value), 100), 0));
+                                   break;
+        }
+        this.blur();
+    };
+    var keypressFunction = function(aDOMEvent)
+    {
+        aDOMEvent = aDOMEvent || window.event;
+        if (aDOMEvent.keyCode == 13)
+        {
+            updateFunction(aDOMEvent);
+            if(aDOMEvent.preventDefault)
+                aDOMEvent.preventDefault();
+            else if(aDOMEvent.stopPropagation)
+                aDOMEvent.stopPropagation();
+        }
+    }
+    var redValue = objj_msgSend(objj_msgSend(CPView, "alloc"), "initWithFrame:",  CPRectMake(aFrame.size.width - 45, 35, 45, 20));
+    objj_msgSend(redValue, "setAutoresizingMask:",  CPViewMinXMargin);
+    _redValue = document.createElement("input");
+    _redValue.style.width = "40px";
+    _redValue.style.backgroundColor = "transparent";
+    _redValue.style.border = "1px solid black";
+    _redValue.style.color = "black";
+    _redValue.style.position = "absolute";
+    _redValue.style.top = "0px";
+    _redValue.style.left = "0px";
+    _redValue.onchange = updateFunction;
+    redValue._DOMElement.appendChild(_redValue);
+    objj_msgSend(_contentView, "addSubview:",  redValue);
     _greenLabel = objj_msgSend(objj_msgSend(CPTextField, "alloc"), "initWithFrame:",  CPRectMake(0, 58, 15, 20));
     objj_msgSend(_greenLabel, "setStringValue:",  "G");
     objj_msgSend(_greenLabel, "setTextColor:", objj_msgSend(CPColor, "blackColor"));
@@ -11165,6 +11211,12 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithPickerMask:colo
     objj_msgSend(_greenSlider, "setTarget:",  self);
     objj_msgSend(_greenSlider, "setAction:",  sel_getUid("sliderChanged:"));
     objj_msgSend(_greenSlider, "setAutoresizingMask:",  CPViewWidthSizable);
+    var greenValue = objj_msgSend(objj_msgSend(CPView, "alloc"), "initWithFrame:",  CPRectMake(aFrame.size.width - 45, 58, 45, 20));
+    objj_msgSend(greenValue, "setAutoresizingMask:",  CPViewMinXMargin);
+    _greenValue = _redValue.cloneNode(false);
+    _greenValue.onchange = updateFunction;
+    greenValue._DOMElement.appendChild(_greenValue);
+    objj_msgSend(_contentView, "addSubview:",  greenValue);
     _blueLabel = objj_msgSend(objj_msgSend(CPTextField, "alloc"), "initWithFrame:",  CPRectMake(0, 81, 15, 20));
     objj_msgSend(_blueLabel, "setStringValue:",  "B");
     objj_msgSend(_blueLabel, "setTextColor:", objj_msgSend(CPColor, "blackColor"));
@@ -11174,6 +11226,12 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithPickerMask:colo
     objj_msgSend(_blueSlider, "setTarget:",  self);
     objj_msgSend(_blueSlider, "setAction:",  sel_getUid("sliderChanged:"));
     objj_msgSend(_blueSlider, "setAutoresizingMask:",  CPViewWidthSizable);
+    var blueValue = objj_msgSend(objj_msgSend(CPView, "alloc"), "initWithFrame:",  CPRectMake(aFrame.size.width - 45, 81, 45, 20));
+    objj_msgSend(blueValue, "setAutoresizingMask:",  CPViewMinXMargin);
+    _blueValue = _redValue.cloneNode(false);
+    _blueValue.onchange = updateFunction;
+    blueValue._DOMElement.appendChild(_blueValue);
+    objj_msgSend(_contentView, "addSubview:",  blueValue);
     _hsbLabel = objj_msgSend(objj_msgSend(CPTextField, "alloc"), "initWithFrame:",  CPRectMake(0, 120, 190, 20));
     objj_msgSend(_hsbLabel, "setStringValue:",  "Hue, Saturation, Brightness");
     objj_msgSend(_hsbLabel, "setTextColor:", objj_msgSend(CPColor, "blackColor"));
@@ -11186,6 +11244,12 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithPickerMask:colo
     objj_msgSend(_hueSlider, "setTarget:",  self);
     objj_msgSend(_hueSlider, "setAction:",  sel_getUid("sliderChanged:"));
     objj_msgSend(_hueSlider, "setAutoresizingMask:",  CPViewWidthSizable);
+    var hueValue = objj_msgSend(objj_msgSend(CPView, "alloc"), "initWithFrame:",  CPRectMake(aFrame.size.width - 45, 145, 45, 20));
+    objj_msgSend(hueValue, "setAutoresizingMask:",  CPViewMinXMargin);
+    _hueValue = _redValue.cloneNode(false);
+    _hueValue.onchange = updateFunction;
+    hueValue._DOMElement.appendChild(_hueValue);
+    objj_msgSend(_contentView, "addSubview:",  hueValue);
     _saturationLabel = objj_msgSend(objj_msgSend(CPTextField, "alloc"), "initWithFrame:",  CPRectMake(0, 168, 15, 20));
     objj_msgSend(_saturationLabel, "setStringValue:",  "S");
     objj_msgSend(_saturationLabel, "setTextColor:", objj_msgSend(CPColor, "blackColor"));
@@ -11195,6 +11259,12 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithPickerMask:colo
     objj_msgSend(_saturationSlider, "setTarget:",  self);
     objj_msgSend(_saturationSlider, "setAction:",  sel_getUid("sliderChanged:"));
     objj_msgSend(_saturationSlider, "setAutoresizingMask:",  CPViewWidthSizable);
+    var saturationValue = objj_msgSend(objj_msgSend(CPView, "alloc"), "initWithFrame:",  CPRectMake(aFrame.size.width - 45, 168, 45, 20));
+    objj_msgSend(saturationValue, "setAutoresizingMask:",  CPViewMinXMargin);
+    _saturationValue = _redValue.cloneNode(false);
+    _saturationValue.onchange = updateFunction;
+    saturationValue._DOMElement.appendChild(_saturationValue);
+    objj_msgSend(_contentView, "addSubview:",  saturationValue);
     _brightnessLabel = objj_msgSend(objj_msgSend(CPTextField, "alloc"), "initWithFrame:",  CPRectMake(0, 191, 15, 20));
     objj_msgSend(_brightnessLabel, "setStringValue:",  "B");
     objj_msgSend(_brightnessLabel, "setTextColor:", objj_msgSend(CPColor, "blackColor"));
@@ -11204,9 +11274,38 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithPickerMask:colo
     objj_msgSend(_brightnessSlider, "setTarget:",  self);
     objj_msgSend(_brightnessSlider, "setAction:",  sel_getUid("sliderChanged:"));
     objj_msgSend(_brightnessSlider, "setAutoresizingMask:",  CPViewWidthSizable);
+    var brightnessValue = objj_msgSend(objj_msgSend(CPView, "alloc"), "initWithFrame:",  CPRectMake(aFrame.size.width - 45, 191, 45, 20));
+    objj_msgSend(brightnessValue, "setAutoresizingMask:",  CPViewMinXMargin);
+    _brightnessValue = _redValue.cloneNode(false);
+    _brightnessValue.onchange = updateFunction;
+    brightnessValue._DOMElement.appendChild(_brightnessValue);
+    objj_msgSend(_contentView, "addSubview:",  brightnessValue);
     _hexLabel = objj_msgSend(objj_msgSend(CPTextField, "alloc"), "initWithFrame:",  CPRectMake(0, 230, 30, 20));
     objj_msgSend(_hexLabel, "setStringValue:",  "Hex");
     objj_msgSend(_hexLabel, "setTextColor:", objj_msgSend(CPColor, "blackColor"));
+    _hexValue = _redValue.cloneNode(false);
+    _hexValue.style.top = "228px";
+    _hexValue.style.width = "80px";
+    _hexValue.style.left = "35px";
+    _hexValue.onkeypress = function(aDOMEvent)
+    {
+        aDOMEvent = aDOMEvent || window.event;
+        if (aDOMEvent.keyCode == 13)
+        {
+            var newColor = objj_msgSend(CPColor, "colorWithHexString:",  this.value);
+            if(newColor)
+            {
+                objj_msgSend(self, "setColor:",  newColor);
+                objj_msgSend(objj_msgSend(self, "colorPanel"), "setColor:",  newColor);
+            }
+            if(aDOMEvent.preventDefault)
+                aDOMEvent.preventDefault();
+            else if(aDOMEvent.stopPropagation)
+                aDOMEvent.stopPropagation();
+            this.blur();
+        }
+    };
+    _contentView._DOMElement.appendChild(_hexValue);
     objj_msgSend(_contentView, "addSubview:",  _rgbLabel);
     objj_msgSend(_contentView, "addSubview:",  _redLabel);
     objj_msgSend(_contentView, "addSubview:",  _greenLabel);
@@ -11282,6 +11381,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithPickerMask:colo
 },["void","CPColor"]), new objj_method(sel_getUid("updateHex:"), function $CPSliderColorPicker__updateHex_(self, _cmd, aColor)
 { with(self)
 {
+    _hexValue.value = objj_msgSend(aColor, "hexString");
 }
 },["void","CPColor"]), new objj_method(sel_getUid("updateRGBSliders:"), function $CPSliderColorPicker__updateRGBSliders_(self, _cmd, aColor)
 { with(self)
@@ -11294,6 +11394,12 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithPickerMask:colo
 },["void","CPColor"]), new objj_method(sel_getUid("updateLabels"), function $CPSliderColorPicker__updateLabels(self, _cmd)
 { with(self)
 {
+    _hueValue.value = ROUND(objj_msgSend(_hueSlider, "floatValue"));
+    _saturationValue.value = ROUND(objj_msgSend(_saturationSlider, "floatValue"));
+    _brightnessValue.value = ROUND(objj_msgSend(_brightnessSlider, "floatValue"));
+    _redValue.value = ROUND(objj_msgSend(_redSlider, "floatValue") * 255);
+    _greenValue.value = ROUND(objj_msgSend(_greenSlider, "floatValue") * 255);
+    _blueValue.value = ROUND(objj_msgSend(_blueSlider, "floatValue") * 255);
 }
 },["void"]), new objj_method(sel_getUid("provideNewButtonImage"), function $CPSliderColorPicker__provideNewButtonImage(self, _cmd)
 { with(self)
