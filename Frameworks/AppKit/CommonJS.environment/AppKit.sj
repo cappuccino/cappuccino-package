@@ -4928,7 +4928,7 @@ objj_msgSend(_be,"encodeFloat:forKey:",_verticalMargin,_b6);
 objj_msgSend(_be,"encodeObject:forKey:",_backgroundColors,_b8);
 }
 })]);
-p;11;CPControl.jt;18760;@STATIC;1.0;i;8;CPFont.ji;10;CPShadow.ji;8;CPView.ji;19;CPKeyValueBinding.jt;18677;
+p;11;CPControl.jt;18806;@STATIC;1.0;i;8;CPFont.ji;10;CPShadow.ji;8;CPView.ji;19;CPKeyValueBinding.jt;18723;
 objj_executeFile("CPFont.j",YES);
 objj_executeFile("CPShadow.j",YES);
 objj_executeFile("CPView.j",YES);
@@ -5087,6 +5087,9 @@ return 0;
 }
 }),new objj_method(sel_getUid("performClick:"),function(_35,_36,_37){
 with(_35){
+if(!objj_msgSend(_35,"isEnabled")){
+return;
+}
 objj_msgSend(_35,"highlight:",YES);
 objj_msgSend(_35,"setState:",objj_msgSend(_35,"nextState"));
 objj_msgSend(_35,"sendAction:to:",objj_msgSend(_35,"action"),objj_msgSend(_35,"target"));
