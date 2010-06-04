@@ -17968,7 +17968,7 @@ CPLog.warn("[CPSlider setValue:] is deprecated, use setDoubleValue: or setObject
 objj_msgSend(_73,"setObjectValue:",_75);
 }
 })]);
-p;11;CPBrowser.jt;33565;@STATIC;1.0;i;11;CPControl.ji;9;CPImage.ji;13;CPTableView.ji;14;CPScrollView.jt;33479;
+p;11;CPBrowser.jt;33581;@STATIC;1.0;i;11;CPControl.ji;9;CPImage.ji;13;CPTableView.ji;14;CPScrollView.jt;33495;
 objj_executeFile("CPControl.j",YES);
 objj_executeFile("CPImage.j",YES);
 objj_executeFile("CPTableView.j",YES);
@@ -18017,7 +18017,7 @@ _allowsEmptySelection=YES;
 _tableViewClass=objj_msgSend(_CPBrowserTableView,"class");
 _prototypeView=objj_msgSend(objj_msgSend(CPTextField,"alloc"),"initWithFrame:",CGRectMakeZero());
 objj_msgSend(_prototypeView,"setVerticalAlignment:",CPCenterVerticalTextAlignment);
-objj_msgSend(_prototypeView,"setValue:forThemeAttribute:inState:",objj_msgSend(CPColor,"whiteColor"),"text-color",CPThemeStateSelected);
+objj_msgSend(_prototypeView,"setValue:forThemeAttribute:inState:",objj_msgSend(CPColor,"whiteColor"),"text-color",CPThemeStateSelectedDataView);
 objj_msgSend(_prototypeView,"setLineBreakMode:",CPLineBreakByTruncatingTail);
 _horizontalScrollView=objj_msgSend(objj_msgSend(CPScrollView,"alloc"),"initWithFrame:",objj_msgSend(_12,"bounds"));
 objj_msgSend(_horizontalScrollView,"setHasVerticalScroller:",NO);
@@ -18702,7 +18702,7 @@ return objj_msgSendSuper({receiver:self,super_class:objj_getClass("_CPBrowserLea
 }),new objj_method(sel_getUid("layoutSubviews"),function(self,_14e){
 with(self){
 var _14f=objj_msgSend(self,"layoutEphemeralSubviewNamed:positioned:relativeToEphemeralSubviewNamed:","image-view",CPWindowAbove,nil);
-var _150=objj_msgSend(self,"themeState")&CPThemeStateSelected;
+var _150=objj_msgSend(self,"themeState")&CPThemeStateSelectedDataView;
 objj_msgSend(_14f,"setImage:",_isLeaf?(_150?_highlightedBranchImage:_branchImage):nil);
 objj_msgSend(_14f,"setImageScaling:",CPScaleNone);
 }

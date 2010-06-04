@@ -19476,7 +19476,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","id"])]);
 }
 
-p;11;CPBrowser.jt;46372;@STATIC;1.0;i;11;CPControl.ji;9;CPImage.ji;13;CPTableView.ji;14;CPScrollView.jt;46286;objj_executeFile("CPControl.j", YES);
+p;11;CPBrowser.jt;46388;@STATIC;1.0;i;11;CPControl.ji;9;CPImage.ji;13;CPTableView.ji;14;CPScrollView.jt;46302;objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPImage.j", YES);
 objj_executeFile("CPTableView.j", YES);
 objj_executeFile("CPScrollView.j", YES);
@@ -19537,7 +19537,7 @@ _defaultColumnWidth = newValue;
         _tableViewClass = objj_msgSend(_CPBrowserTableView, "class");
         _prototypeView = objj_msgSend(objj_msgSend(CPTextField, "alloc"), "initWithFrame:", CGRectMakeZero());
         objj_msgSend(_prototypeView, "setVerticalAlignment:", CPCenterVerticalTextAlignment);
-        objj_msgSend(_prototypeView, "setValue:forThemeAttribute:inState:", objj_msgSend(CPColor, "whiteColor"), "text-color", CPThemeStateSelected);
+        objj_msgSend(_prototypeView, "setValue:forThemeAttribute:inState:", objj_msgSend(CPColor, "whiteColor"), "text-color", CPThemeStateSelectedDataView);
         objj_msgSend(_prototypeView, "setLineBreakMode:", CPLineBreakByTruncatingTail);
         _horizontalScrollView = objj_msgSend(objj_msgSend(CPScrollView, "alloc"), "initWithFrame:", objj_msgSend(self, "bounds"));
         objj_msgSend(_horizontalScrollView, "setHasVerticalScroller:", NO);
@@ -20335,7 +20335,7 @@ _highlightedBranchImage = newValue;
 { with(self)
 {
     var imageView = objj_msgSend(self, "layoutEphemeralSubviewNamed:positioned:relativeToEphemeralSubviewNamed:", "image-view", CPWindowAbove, nil);
-    var isHighlighted = objj_msgSend(self, "themeState") & CPThemeStateSelected;
+    var isHighlighted = objj_msgSend(self, "themeState") & CPThemeStateSelectedDataView;
     objj_msgSend(imageView, "setImage:",  _isLeaf ? (isHighlighted ? _highlightedBranchImage : _branchImage) : nil);
     objj_msgSend(imageView, "setImageScaling:", CPScaleNone);
 }
