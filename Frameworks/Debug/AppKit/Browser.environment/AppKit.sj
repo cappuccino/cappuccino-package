@@ -12546,7 +12546,206 @@ objj_executeFile("CPSliderColorPicker.j", YES);
 objj_msgSend(CPColorPanel, "provideColorPickerClass:", CPColorWheelColorPicker);
 objj_msgSend(CPColorPanel, "provideColorPickerClass:", CPSliderColorPicker);
 
-p;13;CPResponder.jt;9734;@STATIC;1.0;I;21;Foundation/CPObject.jt;9689;objj_executeFile("Foundation/CPObject.j", NO);
+p;14;CPKeyBinding.jt;11100;@STATIC;1.0;I;21;Foundation/CPObject.jt;11054;objj_executeFile("Foundation/CPObject.j", NO);
+CPStandardKeyBindings = {
+    "@.": "cancelOperation:",
+    "^a": "moveToBeginningOfParagraph:",
+    "^$a": "moveToBeginningOfParagraphAndModifySelection:",
+    "^b": "moveBackward:",
+    "^$b": "moveBackwardAndModifySelection:",
+    "^~$b": "moveWordBackwardAndModifySelection:",
+    "^d": "deleteForward:",
+    "^e": "moveToEndOfParagraph:",
+    "^$e": "moveToEndOfParagraphAndModifySelection:",
+    "^f": "moveForward:",
+    "^$f": "moveForwardAndModifySelection:",
+    "^~f": "moveWordForward:",
+    "^~$f": "moveWordForwardAndModifySelection:",
+    "^h": "deleteBackward:",
+    "^k": "deleteToEndOfParagraph:",
+    "^l": "centerSelectionInVisibleArea:",
+    "^n": "moveDown:",
+    "^$n": "moveDownAndModifySelection:",
+    "^o": ["insertNewlineIgnoringFieldEditor:", "moveBackward:"],
+    "^p": "moveUp:",
+    "^$p": "moveUpAndModifySelection:",
+    "^t": "transpose:",
+    "^v": "pageDown:",
+    "^v": "pageDownAndModifySelection:",
+    "^y": "yank:"
+};
+CPStandardKeyBindings[CPNewlineCharacter] = "insertNewline:";
+CPStandardKeyBindings[CPCarriageReturnCharacter] = "insertNewline:";
+CPStandardKeyBindings[CPEnterCharacter] = "insertNewline:";
+CPStandardKeyBindings["~" + CPNewlineCharacter] = "insertNewlineIgnoringFieldEditor:";
+CPStandardKeyBindings["~" + CPCarriageReturnCharacter] = "insertNewlineIgnoringFieldEditor:";
+CPStandardKeyBindings["~" + CPEnterCharacter] = "insertNewlineIgnoringFieldEditor:";
+CPStandardKeyBindings["^" + CPNewlineCharacter] = "insertLineBreak:";
+CPStandardKeyBindings["^" + CPCarriageReturnCharacter] = "insertLineBreak:";
+CPStandardKeyBindings["^" + CPEnterCharacter] = "insertLineBreak:";
+CPStandardKeyBindings[CPBackspaceCharacter] = "deleteBackward:";
+CPStandardKeyBindings["~" + CPBackspaceCharacter] = "deleteWordBackward:";
+CPStandardKeyBindings[CPDeleteCharacter] = "deleteBackward:";
+CPStandardKeyBindings["@" + CPDeleteCharacter] = "deleteToBeginningOfLine:";
+CPStandardKeyBindings["~" + CPDeleteCharacter] = "deleteWordBackward:";
+CPStandardKeyBindings["^" + CPDeleteCharacter] = "deleteBackwardByDecomposingPreviousCharacter:";
+CPStandardKeyBindings["^~" + CPDeleteCharacter] = "deleteWordBackward:";
+CPStandardKeyBindings[CPDeleteFunctionKey] = "deleteForward:";
+CPStandardKeyBindings["~" + CPDeleteFunctionKey] = "deleteWordForward:";
+CPStandardKeyBindings[CPTabCharacter] = "insertTab:";
+CPStandardKeyBindings["~" + CPTabCharacter] = "insertTabIgnoringFieldEditor:";
+CPStandardKeyBindings["^" + CPTabCharacter] = "selectNextKeyView:";
+CPStandardKeyBindings[CPBackTabCharacter] = "insertBacktab:";
+CPStandardKeyBindings["^" + CPBackTabCharacter] = "selectPreviousKeyView:";
+CPStandardKeyBindings[CPEscapeFunctionKey] = "cancelOperation:";
+CPStandardKeyBindings["~" + CPEscapeFunctionKey] = "complete:";
+CPStandardKeyBindings[CPF5FunctionKey] = "complete:";
+CPStandardKeyBindings[CPLeftArrowFunctionKey] = "moveLeft:";
+CPStandardKeyBindings["~" + CPLeftArrowFunctionKey] = "moveWordLeft:";
+CPStandardKeyBindings["^" + CPLeftArrowFunctionKey] = "moveToLeftEndOfLine:";
+CPStandardKeyBindings["@" + CPLeftArrowFunctionKey] = "moveToLeftEndOfLine:";
+CPStandardKeyBindings["$" + CPLeftArrowFunctionKey] = "moveLeftAndModifySelection:";
+CPStandardKeyBindings["$~" + CPLeftArrowFunctionKey] = "moveWordLeftAndModifySelection:";
+CPStandardKeyBindings["$^" + CPLeftArrowFunctionKey] = "moveToLeftEndOfLineAndModifySelection:";
+CPStandardKeyBindings["$@" + CPLeftArrowFunctionKey] = "moveToLeftEndOfLineAndModifySelection:";
+CPStandardKeyBindings["@^" + CPLeftArrowFunctionKey] = "makeBaseWritingDirectionRightToLeft:";
+CPStandardKeyBindings["@^~" + CPLeftArrowFunctionKey] = "makeTextWritingDirectionRightToLeft:";
+CPStandardKeyBindings[CPRightArrowFunctionKey] = "moveRight:";
+CPStandardKeyBindings["~" + CPRightArrowFunctionKey] = "moveWordRight:";
+CPStandardKeyBindings["^" + CPRightArrowFunctionKey] = "moveToRightEndOfLine:";
+CPStandardKeyBindings["@" + CPRightArrowFunctionKey] = "moveToRightEndOfLine:";
+CPStandardKeyBindings["$" + CPRightArrowFunctionKey] = "moveRightAndModifySelection:";
+CPStandardKeyBindings["$~" + CPRightArrowFunctionKey] = "moveWordRightAndModifySelection:";
+CPStandardKeyBindings["$^" + CPRightArrowFunctionKey] = "moveToRightEndOfLineAndModifySelection:";
+CPStandardKeyBindings["$@" + CPRightArrowFunctionKey] = "moveToRightEndOfLineAndModifySelection:";
+CPStandardKeyBindings["@^" + CPRightArrowFunctionKey] = "makeBaseWritingDirectionLeftToRight:";
+CPStandardKeyBindings["@^~" + CPRightArrowFunctionKey] = "makeTextWritingDirectionLeftToRight:";
+CPStandardKeyBindings[CPUpArrowFunctionKey] = "moveUp:";
+CPStandardKeyBindings["~" + CPUpArrowFunctionKey] = ["moveBackward:", "moveToBeginningOfParagraph:"];
+CPStandardKeyBindings["^" + CPUpArrowFunctionKey] = "scrollPageUp:";
+CPStandardKeyBindings["@" + CPUpArrowFunctionKey] = "moveToBeginningOfDocument:";
+CPStandardKeyBindings["$" + CPUpArrowFunctionKey] = "moveUpAndModifySelection:";
+CPStandardKeyBindings["$~" + CPUpArrowFunctionKey] = "moveParagraphBackwardAndModifySelection:";
+CPStandardKeyBindings["$@" + CPUpArrowFunctionKey] = "moveToBeginningOfDocumentAndModifySelection:";
+CPStandardKeyBindings[CPDownArrowFunctionKey] = "moveDown:";
+CPStandardKeyBindings["~" + CPDownArrowFunctionKey] = ["moveForward:", "moveToEndOfParagraph:"];
+CPStandardKeyBindings["^" + CPDownArrowFunctionKey] = "scrollPageDown:";
+CPStandardKeyBindings["@" + CPDownArrowFunctionKey] = "moveToEndOfDocument:";
+CPStandardKeyBindings["$" + CPDownArrowFunctionKey] = "moveDownAndModifySelection:";
+CPStandardKeyBindings["$~" + CPDownArrowFunctionKey] = "moveParagraphForwardAndModifySelection:";
+CPStandardKeyBindings["$@" + CPDownArrowFunctionKey] = "moveToEndOfDocumentAndModifySelection:";
+CPStandardKeyBindings["@^" + CPDownArrowFunctionKey] = "makeBaseWritingDirectionNatural:";
+CPStandardKeyBindings["@^~" + CPDownArrowFunctionKey] = "makeTextWritingDirectionNatural:";
+CPStandardKeyBindings[CPHomeFunctionKey] = "scrollToBeginningOfDocument:";
+CPStandardKeyBindings["$" + CPHomeFunctionKey] = "moveToBeginningOfDocumentAndModifySelection:";
+CPStandardKeyBindings[CPEndFunctionKey] = "scrollToEndOfDocument:";
+CPStandardKeyBindings["$" + CPEndFunctionKey] = "moveToEndOfDocumentAndModifySelection:";
+CPStandardKeyBindings[CPPageUpFunctionKey] = "scrollPageUp:";
+CPStandardKeyBindings["~" + CPPageUpFunctionKey] = "pageUp:";
+CPStandardKeyBindings["$" + CPPageUpFunctionKey] = "pageUpAndModifySelection:";
+CPStandardKeyBindings[CPPageDownFunctionKey] = "scrollPageDown:";
+CPStandardKeyBindings["~" + CPPageDownFunctionKey] = "pageDown:";
+CPStandardKeyBindings["$" + CPPageDownFunctionKey] = "pageDownAndModifySelection:";
+var CPKeyBindingCache = {};
+{var the_class = objj_allocateClassPair(CPObject, "CPKeyBinding"),
+meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_key"), new objj_ivar("_modifierFlags"), new objj_ivar("_selectors"), new objj_ivar("_cacheName")]);
+objj_registerClassPair(the_class);
+class_addMethods(the_class, [new objj_method(sel_getUid("initWithKey:modifierFlags:selectors:"), function $CPKeyBinding__initWithKey_modifierFlags_selectors_(self, _cmd, aKey, aFlag, selectors)
+{ with(self)
+{
+    self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPKeyBinding").super_class }, "init");
+    if (self)
+    {
+        _key = aKey;
+        _modifierFlags = aFlag;
+        _selectors = selectors;
+        var cacheName = [];
+        if (_modifierFlags & CPCommandKeyMask)
+            cacheName.push("@");
+        if (_modifierFlags & CPControlKeyMask)
+            cacheName.push("^");
+        if (_modifierFlags & CPAlternateKeyMask)
+            cacheName.push("~");
+        if (_modifierFlags & CPShiftKeyMask)
+            cacheName.push("$");
+        cacheName.push(_key);
+        _cacheName = cacheName.join("");
+    }
+    return self;
+}
+},["id","CPString","unsigned","CPArray"]), new objj_method(sel_getUid("key"), function $CPKeyBinding__key(self, _cmd)
+{ with(self)
+{
+    return _key;
+}
+},["CPString"]), new objj_method(sel_getUid("modifierFlags"), function $CPKeyBinding__modifierFlags(self, _cmd)
+{ with(self)
+{
+    return _modifierFlags;
+}
+},["unsigned"]), new objj_method(sel_getUid("selectors"), function $CPKeyBinding__selectors(self, _cmd)
+{ with(self)
+{
+    return _selectors;
+}
+},["CPArray"]), new objj_method(sel_getUid("_cacheName"), function $CPKeyBinding___cacheName(self, _cmd)
+{ with(self)
+{
+    return _cacheName;
+}
+},["CPString"]), new objj_method(sel_getUid("isEqual:"), function $CPKeyBinding__isEqual_(self, _cmd, rhs)
+{ with(self)
+{
+    return _key === objj_msgSend(rhs, "key") && _modifierFlags === objj_msgSend(rhs, "modifierFlags");
+}
+},["BOOL","CPKeyBinding"])]);
+class_addMethods(meta_class, [new objj_method(sel_getUid("initialize"), function $CPKeyBinding__initialize(self, _cmd)
+{ with(self)
+{
+    if (objj_msgSend(self, "class") !== CPKeyBinding)
+        return;
+    objj_msgSend(self, "createKeyBindingsFromJSObject:", CPStandardKeyBindings);
+}
+},["void"]), new objj_method(sel_getUid("createKeyBindingsFromJSObject:"), function $CPKeyBinding__createKeyBindingsFromJSObject_(self, _cmd, anObject)
+{ with(self)
+{
+    var binding;
+    for (binding in anObject)
+    {
+        var components = binding.split(""),
+            modifierFlags = (objj_msgSend(components, "containsObject:", "$") ? CPShiftKeyMask : 0) |
+                            (objj_msgSend(components, "containsObject:", "^") ? CPControlKeyMask : 0) |
+                            (objj_msgSend(components, "containsObject:", "~") ? CPAlternateKeyMask : 0) |
+                            (objj_msgSend(components, "containsObject:", "@") ? CPCommandKeyMask : 0);
+        var selectors = anObject[binding];
+        if (!objj_msgSend(selectors, "isKindOfClass:", CPArray))
+            selectors = [selectors];
+        var keyBinding = objj_msgSend(objj_msgSend(self, "alloc"), "initWithKey:modifierFlags:selectors:", objj_msgSend(components, "lastObject"), modifierFlags, selectors);
+        objj_msgSend(self, "cacheKeyBinding:", keyBinding);
+    }
+}
+},["void","JSObject"]), new objj_method(sel_getUid("cacheKeyBinding:"), function $CPKeyBinding__cacheKeyBinding_(self, _cmd, aBinding)
+{ with(self)
+{
+    if (!aBinding)
+        return;
+    CPKeyBindingCache[objj_msgSend(aBinding, "_cacheName")] = aBinding;
+}
+},["void","CPKeyBinding"]), new objj_method(sel_getUid("keyBindingForKey:modifierFlags:"), function $CPKeyBinding__keyBindingForKey_modifierFlags_(self, _cmd, aKey, aFlag)
+{ with(self)
+{
+    var tempBinding = objj_msgSend(objj_msgSend(self, "alloc"), "initWithKey:modifierFlags:selectors:", aKey, aFlag, nil);
+    return CPKeyBindingCache[objj_msgSend(tempBinding, "_cacheName")];
+}
+},["CPKeyBinding","CPString","unsigned"]), new objj_method(sel_getUid("selectorsForKey:modifierFlags:"), function $CPKeyBinding__selectorsForKey_modifierFlags_(self, _cmd, aKey, aFlag)
+{ with(self)
+{
+    return objj_msgSend(objj_msgSend(self, "keyBindingForKey:modifierFlags:", aKey, aFlag), "selectors");
+}
+},["CPArray","CPString","unsigned"])]);
+}
+
+p;13;CPResponder.jt;8679;@STATIC;1.0;I;21;Foundation/CPObject.jt;8634;objj_executeFile("Foundation/CPObject.j", NO);
 CPDeleteKeyCode = 8;
 CPTabKeyCode = 9;
 CPReturnKeyCode = 13;
@@ -12594,35 +12793,22 @@ class_addMethods(the_class, [new objj_method(sel_getUid("acceptsFirstResponder")
         count = objj_msgSend(events, "count");
     for (; index < count; ++index)
     {
-        var event = events[index];
-        switch(objj_msgSend(objj_msgSend(event, "characters"), "characterAtIndex:", 0))
+        var event = events[index],
+            modifierFlags = objj_msgSend(event, "modifierFlags"),
+            character = objj_msgSend(event, "charactersIgnoringModifiers"),
+            selectorNames = objj_msgSend(CPKeyBinding, "selectorsForKey:modifierFlags:", character, modifierFlags);
+        if (selectorNames)
         {
-            case CPPageUpFunctionKey: objj_msgSend(self, "doCommandBySelector:", sel_getUid("pageUp:"));
-                                            break;
-            case CPPageDownFunctionKey: objj_msgSend(self, "doCommandBySelector:", sel_getUid("pageDown:"));
-                                            break;
-            case CPLeftArrowFunctionKey: objj_msgSend(self, "doCommandBySelector:", sel_getUid("moveLeft:"));
-                                            break;
-            case CPRightArrowFunctionKey: objj_msgSend(self, "doCommandBySelector:", sel_getUid("moveRight:"));
-                                            break;
-            case CPUpArrowFunctionKey: objj_msgSend(self, "doCommandBySelector:", sel_getUid("moveUp:"));
-                                            break;
-            case CPDownArrowFunctionKey: objj_msgSend(self, "doCommandBySelector:", sel_getUid("moveDown:"));
-                                            break;
-            case CPDeleteCharacter: objj_msgSend(self, "doCommandBySelector:", sel_getUid("deleteBackward:"));
-                                            break;
-            case CPCarriageReturnCharacter:
-            case CPNewlineCharacter: objj_msgSend(self, "doCommandBySelector:", sel_getUid("insertLineBreak:"));
-                                            break;
-            case CPEscapeFunctionKey: objj_msgSend(self, "doCommandBySelector:", sel_getUid("cancel:"));
-                                            break;
-            case CPTabCharacter: if (!(objj_msgSend(event, "modifierFlags") & CPShiftKeyMask))
-                                                objj_msgSend(self, "doCommandBySelector:", sel_getUid("insertTab:"));
-                                            else
-                                                objj_msgSend(self, "doCommandBySelector:", sel_getUid("insertBackTab:"));
-                                            break;
-            default: objj_msgSend(self, "insertText:", objj_msgSend(event, "characters"));
+            for (var s = 0, scount = selectorNames.length; s < scount; s++)
+            {
+                var selector = selectorNames[s];
+                if (!selector)
+                    continue;
+                objj_msgSend(self, "doCommandBySelector:", CPSelectorFromString(selector));
+            }
         }
+        else if (!(modifierFlags & (CPCommandKeyMask | CPControlKeyMask)) && objj_msgSend(self, "respondsToSelector:", sel_getUid("insertText:")))
+            objj_msgSend(self, "insertText:", objj_msgSend(event, "characters"));
     }
 }
 },["void","CPArray"]), new objj_method(sel_getUid("mouseDown:"), function $CPResponder__mouseDown_(self, _cmd, anEvent)
@@ -12676,6 +12862,11 @@ class_addMethods(the_class, [new objj_method(sel_getUid("acceptsFirstResponder")
     objj_msgSend(_nextResponder, "performSelector:withObject:", _cmd, anEvent);
 }
 },["void","CPEvent"]), new objj_method(sel_getUid("keyUp:"), function $CPResponder__keyUp_(self, _cmd, anEvent)
+{ with(self)
+{
+    objj_msgSend(_nextResponder, "performSelector:withObject:", _cmd, anEvent);
+}
+},["void","CPEvent"]), new objj_method(sel_getUid("flagsChanged:"), function $CPResponder__flagsChanged_(self, _cmd, anEvent)
 { with(self)
 {
     objj_msgSend(_nextResponder, "performSelector:withObject:", _cmd, anEvent);
@@ -25755,7 +25946,7 @@ var colorForDisclosureTriangle = function(isSelected, isHighlighted) {
             : objj_msgSend(CPColor, "colorWithCalibratedWhite:alpha:", 0.5,  1.0));
 }
 
-p;8;AppKit.jt;3915;@STATIC;1.0;i;9;CALayer.ji;9;CPAlert.ji;13;CPAnimation.ji;15;CPApplication.ji;14;CPBezierPath.ji;7;CPBox.ji;11;CPBrowser.ji;10;CPButton.ji;13;CPButtonBar.ji;12;CPCheckBox.ji;7;CPCib.ji;16;CPCibConnector.ji;23;CPCibControlConnector.ji;14;CPCibLoading.ji;22;CPCibOutletConnector.ji;12;CPClipView.ji;22;CPCollectionViewItem.ji;18;CPCollectionView.ji;9;CPColor.ji;14;CPColorPanel.ji;13;CPColorWell.ji;17;CPCompatibility.ji;11;CPControl.ji;10;CPCookie.ji;10;CPCursor.ji;12;CPDocument.ji;22;CPDocumentController.ji;9;CPEvent.ji;14;CPFlashMovie.ji;13;CPFlashView.ji;8;CPFont.ji;15;CPFontManager.ji;12;CPGeometry.ji;9;CPImage.ji;13;CPImageView.ji;8;CPMenu.ji;12;CPMenuItem.ji;13;CPOpenPanel.ji;15;CPOutlineView.ji;9;CPPanel.ji;14;CPPasteboard.ji;15;CPPopUpButton.ji;21;CPProgressIndicator.ji;9;CPRadio.ji;13;CPResponder.ji;15;CPSearchField.ji;14;CPScrollView.ji;12;CPScroller.ji;19;CPSecureTextField.ji;20;CPSegmentedControl.ji;10;CPShadow.ji;10;CPSlider.ji;13;CPSplitView.ji;11;CPTabView.ji;15;CPTableColumn.ji;13;CPTableView.ji;8;CPText.ji;13;CPTextField.ji;11;CPToolbar.ji;15;CPToolbarItem.ji;12;CPTreeNode.ji;8;CPView.ji;17;CPViewAnimation.ji;18;CPViewController.ji;11;CPWebView.ji;10;CPWindow.ji;20;CPWindowController.jt;2692;objj_executeFile("CALayer.j", YES);
+p;8;AppKit.jt;3975;@STATIC;1.0;i;9;CALayer.ji;9;CPAlert.ji;13;CPAnimation.ji;15;CPApplication.ji;14;CPBezierPath.ji;7;CPBox.ji;11;CPBrowser.ji;10;CPButton.ji;13;CPButtonBar.ji;12;CPCheckBox.ji;7;CPCib.ji;16;CPCibConnector.ji;23;CPCibControlConnector.ji;14;CPCibLoading.ji;22;CPCibOutletConnector.ji;12;CPClipView.ji;22;CPCollectionViewItem.ji;18;CPCollectionView.ji;9;CPColor.ji;14;CPColorPanel.ji;13;CPColorWell.ji;17;CPCompatibility.ji;11;CPControl.ji;10;CPCookie.ji;10;CPCursor.ji;12;CPDocument.ji;22;CPDocumentController.ji;9;CPEvent.ji;14;CPFlashMovie.ji;13;CPFlashView.ji;8;CPFont.ji;15;CPFontManager.ji;12;CPGeometry.ji;9;CPImage.ji;13;CPImageView.ji;14;CPKeyBinding.ji;8;CPMenu.ji;12;CPMenuItem.ji;13;CPOpenPanel.ji;15;CPOutlineView.ji;9;CPPanel.ji;14;CPPasteboard.ji;15;CPPopUpButton.ji;21;CPProgressIndicator.ji;9;CPRadio.ji;13;CPResponder.ji;15;CPSearchField.ji;14;CPScrollView.ji;12;CPScroller.ji;19;CPSecureTextField.ji;20;CPSegmentedControl.ji;10;CPShadow.ji;10;CPSlider.ji;13;CPSplitView.ji;11;CPTabView.ji;15;CPTableColumn.ji;13;CPTableView.ji;8;CPText.ji;13;CPTextField.ji;11;CPToolbar.ji;15;CPToolbarItem.ji;12;CPTreeNode.ji;8;CPView.ji;17;CPViewAnimation.ji;18;CPViewController.ji;11;CPWebView.ji;10;CPWindow.ji;20;CPWindowController.jt;2733;objj_executeFile("CALayer.j", YES);
 objj_executeFile("CPAlert.j", YES);
 objj_executeFile("CPAnimation.j", YES);
 objj_executeFile("CPApplication.j", YES);
@@ -25790,6 +25981,7 @@ objj_executeFile("CPFontManager.j", YES);
 objj_executeFile("CPGeometry.j", YES);
 objj_executeFile("CPImage.j", YES);
 objj_executeFile("CPImageView.j", YES);
+objj_executeFile("CPKeyBinding.j", YES);
 objj_executeFile("CPMenu.j", YES);
 objj_executeFile("CPMenuItem.j", YES);
 objj_executeFile("CPOpenPanel.j", YES);
@@ -27211,7 +27403,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 objj_executeFile("CPCheckBox.j", YES);
 objj_executeFile("CPRadio.j", YES);
 
-p;10;CPWindow.jt;85832;@STATIC;1.0;I;25;Foundation/CPCountedSet.jI;33;Foundation/CPNotificationCenter.jI;26;Foundation/CPUndoManager.ji;12;CGGeometry.ji;13;CPAnimation.ji;13;CPResponder.ji;10;CPScreen.ji;18;CPPlatformWindow.ji;15;_CPWindowView.ji;23;_CPStandardWindowView.ji;23;_CPDocModalWindowView.ji;18;_CPHUDWindowView.ji;25;_CPBorderlessWindowView.ji;31;_CPBorderlessBridgeWindowView.ji;14;CPDragServer.ji;8;CPView.jt;85426;objj_executeFile("Foundation/CPCountedSet.j", NO);
+p;10;CPWindow.jt;85946;@STATIC;1.0;I;25;Foundation/CPCountedSet.jI;33;Foundation/CPNotificationCenter.jI;26;Foundation/CPUndoManager.ji;12;CGGeometry.ji;13;CPAnimation.ji;13;CPResponder.ji;10;CPScreen.ji;18;CPPlatformWindow.ji;15;_CPWindowView.ji;23;_CPStandardWindowView.ji;23;_CPDocModalWindowView.ji;18;_CPHUDWindowView.ji;25;_CPBorderlessWindowView.ji;31;_CPBorderlessBridgeWindowView.ji;14;CPDragServer.ji;8;CPView.jt;85540;objj_executeFile("Foundation/CPCountedSet.j", NO);
 objj_executeFile("Foundation/CPNotificationCenter.j", NO);
 objj_executeFile("Foundation/CPUndoManager.j", NO);
 objj_executeFile("CGGeometry.j", YES);
@@ -27915,6 +28107,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPWin
         point = objj_msgSend(anEvent, "locationInWindow");
     switch (type)
     {
+        case CPFlagsChanged: return objj_msgSend(objj_msgSend(self, "firstResponder"), "flagsChanged:", anEvent);
         case CPKeyUp: return objj_msgSend(objj_msgSend(self, "firstResponder"), "keyUp:", anEvent);
         case CPKeyDown: objj_msgSend(objj_msgSend(self, "firstResponder"), "keyDown:", anEvent);
                                     if (!objj_msgSend(self, "disableKeyEquivalentForDefaultButton"))
@@ -33258,7 +33451,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("visiblePlatformWindows
 }
 objj_executeFile("CPPlatformWindow+DOM.j", YES);
 
-p;22;CPPlatformWindow+DOM.jt;51255;@STATIC;1.0;I;21;Foundation/CPObject.jI;22;Foundation/CPRunLoop.ji;9;CPEvent.ji;8;CPText.ji;17;CPCompatibility.ji;18;CPDOMWindowLayer.ji;12;CPPlatform.ji;18;CPPlatformWindow.ji;26;CPPlatformWindow+DOMKeys.jt;51041;objj_executeFile("Foundation/CPObject.j", NO);
+p;22;CPPlatformWindow+DOM.jt;52424;@STATIC;1.0;I;21;Foundation/CPObject.jI;22;Foundation/CPRunLoop.ji;9;CPEvent.ji;8;CPText.ji;17;CPCompatibility.ji;18;CPDOMWindowLayer.ji;12;CPPlatform.ji;18;CPPlatformWindow.ji;26;CPPlatformWindow+DOMKeys.jt;52210;objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("Foundation/CPRunLoop.j", NO);
 objj_executeFile("CPEvent.j", YES);
 objj_executeFile("CPText.j", YES);
@@ -33291,6 +33484,13 @@ KeyCodesToFunctionUnicodeMap[CPKeyCodes.LEFT] = CPLeftArrowFunctionKey;
 KeyCodesToFunctionUnicodeMap[CPKeyCodes.UP] = CPUpArrowFunctionKey;
 KeyCodesToFunctionUnicodeMap[CPKeyCodes.RIGHT] = CPRightArrowFunctionKey;
 KeyCodesToFunctionUnicodeMap[CPKeyCodes.DOWN] = CPDownArrowFunctionKey;
+var ModifierKeyCodes = [
+    CPKeyCodes.META,
+    CPKeyCodes.MAC_FF_META,
+    CPKeyCodes.CTRL,
+    CPKeyCodes.ALT,
+    CPKeyCodes.SHIFT
+];
 var supportsNativeDragAndDrop = objj_msgSend(CPPlatform, "supportsDragAndDrop");
 {
 var the_class = objj_getClass("CPPlatformWindow")
@@ -33613,8 +33813,8 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 { with(self)
 {
     var event,
-        timestamp = aDOMEvent.timeStamp ? aDOMEvent.timeStamp : new Date(),
-        sourceElement = (aDOMEvent.target || aDOMEvent.srcElement),
+        timestamp = aDOMEvent.timeStamp || new Date(),
+        sourceElement = aDOMEvent.target || aDOMEvent.srcElement,
         windowNumber = objj_msgSend(objj_msgSend(CPApp, "keyWindow"), "windowNumber"),
         modifierFlags = (aDOMEvent.shiftKey ? CPShiftKeyMask : 0) |
                         (aDOMEvent.ctrlKey ? CPControlKeyMask : 0) |
@@ -33629,15 +33829,24 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
     switch (aDOMEvent.type)
     {
         case "keydown":
-                            if (aDOMEvent.keyCode.keyCode in MozKeyCodeToKeyCodeMap)
+                            if (aDOMEvent.keyCode in MozKeyCodeToKeyCodeMap)
                                 _keyCode = MozKeyCodeToKeyCodeMap[aDOMEvent.keyCode];
                             else
                                 _keyCode = aDOMEvent.keyCode;
-                            var characters = KeyCodesToFunctionUnicodeMap[_keyCode] || String.fromCharCode(_keyCode).toLowerCase();
+                            var characters;
+                            if (aDOMEvent.which === 0 || aDOMEvent.charCode === 0)
+                                characters = KeyCodesToFunctionUnicodeMap[_keyCode];
+                            if (!characters)
+                                characters = String.fromCharCode(_keyCode).toLowerCase();
                             overrideCharacters = (modifierFlags & CPShiftKeyMask || _capsLockActive) ? characters.toUpperCase() : characters;
                             if (_keyCode === CPKeyCodes.CAPS_LOCK)
                                 _capsLockActive = YES;
-                            if (modifierFlags & (CPControlKeyMask | CPCommandKeyMask))
+                            if (objj_msgSend(ModifierKeyCodes, "containsObject:", _keyCode))
+                            {
+                                event = objj_msgSend(CPEvent, "keyEventWithType:location:modifierFlags:timestamp:windowNumber:context:characters:charactersIgnoringModifiers:isARepeat:keyCode:", CPFlagsChanged, location, modifierFlags, timestamp, windowNumber, nil, nil, nil, NO, _keyCode);
+                                break;
+                            }
+                            else if (modifierFlags & (CPControlKeyMask | CPCommandKeyMask))
                             {
                                 var eligibleForCopyPaste = objj_msgSend(self, "_validateCopyCutOrPasteEvent:flags:", aDOMEvent, modifierFlags);
                                 if (characters === "v" && eligibleForCopyPaste)
@@ -33672,11 +33881,15 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
                                 isARepeat = (_charCodes[keyCode] != nil);
                             _lastKey = keyCode;
                             _charCodes[keyCode] = charCode;
-                            var characters = overrideCharacters || KeyCodesToFunctionUnicodeMap[charCode] || String.fromCharCode(charCode),
-                                charactersIgnoringModifiers = characters.toLowerCase();
+                            var characters = overrideCharacters;
+                            if (!characters && (aDOMEvent.which === 0 || aDOMEvent.charCode === 0))
+                                characters = KeyCodesToFunctionUnicodeMap[charCode];
+                            if (!characters)
+                                characters = String.fromCharCode(charCode);
+                            charactersIgnoringModifiers = characters.toLowerCase();
                             if (!overrideCharacters && (modifierFlags & CPCommandKeyMask) && ((modifierFlags & CPShiftKeyMask) || _capsLockActive))
                                 characters = characters.toUpperCase();
-                            event = objj_msgSend(CPEvent, "keyEventWithType:location:modifierFlags:timestamp:windowNumber:context:characters:charactersIgnoringModifiers:isARepeat:keyCode:", CPKeyDown, location, modifierFlags, timestamp, windowNumber, nil, characters, charactersIgnoringModifiers, isARepeat, keyCode);
+                            event = objj_msgSend(CPEvent, "keyEventWithType:location:modifierFlags:timestamp:windowNumber:context:characters:charactersIgnoringModifiers:isARepeat:keyCode:", CPKeyDown, location, modifierFlags, timestamp, windowNumber, nil, characters, charactersIgnoringModifiers, isARepeat, charCode);
                             if (isNativePasteEvent)
                             {
                                 _pasteboardKeyDownEvent = event;
@@ -33692,6 +33905,8 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
                             _ignoreNativePastePreparation = NO;
                             if (keyCode === CPKeyCodes.CAPS_LOCK)
                                 _capsLockActive = NO;
+                            if (objj_msgSend(ModifierKeyCodes, "containsObject:", keyCode))
+                                break;
                             var characters = KeyCodesToFunctionUnicodeMap[charCode] || String.fromCharCode(charCode),
                                 charactersIgnoringModifiers = characters.toLowerCase();
                             if (!(modifierFlags & CPShiftKeyMask) && (modifierFlags & CPCommandKeyMask) && !_capsLockActive)
