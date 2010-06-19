@@ -20598,7 +20598,7 @@ objj_msgSend(_accordionView,"_invalidateItemsStartingAtIndex:",objj_msgSend(_75,
 }
 }
 })]);
-p;9;CPAlert.jt;8383;@STATIC;1.0;I;21;Foundation/CPObject.jI;21;Foundation/CPString.jI;22;AppKit/CPApplication.jI;17;AppKit/CPButton.jI;16;AppKit/CPColor.jI;15;AppKit/CPFont.jI;16;AppKit/CPImage.jI;20;AppKit/CPImageView.jI;16;AppKit/CPPanel.jI;20;AppKit/CPTextField.jt;8130;
+p;9;CPAlert.jt;8447;@STATIC;1.0;I;21;Foundation/CPObject.jI;21;Foundation/CPString.jI;22;AppKit/CPApplication.jI;17;AppKit/CPButton.jI;16;AppKit/CPColor.jI;15;AppKit/CPFont.jI;16;AppKit/CPImage.jI;20;AppKit/CPImageView.jI;16;AppKit/CPPanel.jI;20;AppKit/CPTextField.jt;8194;
 objj_executeFile("Foundation/CPObject.j",NO);
 objj_executeFile("Foundation/CPString.j",NO);
 objj_executeFile("AppKit/CPApplication.j",NO);
@@ -20715,10 +20715,12 @@ objj_msgSend(_2c,"setTheme:",(_windowStyle===CPHUDBackgroundWindowMask)?objj_msg
 objj_msgSend(_2c,"setAutoresizingMask:",CPViewMinXMargin|CPViewMinYMargin);
 objj_msgSend(objj_msgSend(_alertPanel,"contentView"),"addSubview:",_2c);
 if(_buttonCount==0){
-objj_msgSend(_alertPanel,"setDefaultButton:",_2c);
+objj_msgSend(_2c,"setKeyEquivalent:",CPCarriageReturnCharacter);
 }else{
 if(objj_msgSend(_2a,"lowercaseString")==="cancel"){
 objj_msgSend(_2c,"setKeyEquivalent:",CPEscapeFunctionKey);
+}else{
+objj_msgSend(_2c,"setKeyEquivalent:",nil);
 }
 }
 _buttonCount++;
