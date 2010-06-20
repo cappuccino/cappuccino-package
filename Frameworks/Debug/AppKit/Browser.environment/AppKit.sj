@@ -23391,7 +23391,7 @@ _index = newValue;
 },["void","CPString","id","CPDictionary","id"])]);
 }
 
-p;9;CPAlert.jt;10966;@STATIC;1.0;I;21;Foundation/CPObject.jI;21;Foundation/CPString.jI;22;AppKit/CPApplication.jI;17;AppKit/CPButton.jI;16;AppKit/CPColor.jI;15;AppKit/CPFont.jI;16;AppKit/CPImage.jI;20;AppKit/CPImageView.jI;16;AppKit/CPPanel.jI;20;AppKit/CPTextField.jt;10712;objj_executeFile("Foundation/CPObject.j", NO);
+p;9;CPAlert.jt;11509;@STATIC;1.0;I;21;Foundation/CPObject.jI;21;Foundation/CPString.jI;22;AppKit/CPApplication.jI;17;AppKit/CPButton.jI;16;AppKit/CPColor.jI;15;AppKit/CPFont.jI;16;AppKit/CPImage.jI;20;AppKit/CPImageView.jI;16;AppKit/CPPanel.jI;20;AppKit/CPTextField.jt;11255;objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("Foundation/CPString.j", NO);
 objj_executeFile("AppKit/CPApplication.j", NO);
 objj_executeFile("AppKit/CPButton.j", NO);
@@ -23433,10 +23433,10 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPAle
     for(var i=0; i < count; i++)
     {
         var button = _buttons[i];
-        objj_msgSend(button, "setFrameSize:", CGSizeMake(objj_msgSend(button, "frame").size.width, (styleMask == CPHUDBackgroundWindowMask) ? 20.0 : 24.0));
         objj_msgSend(button, "setTheme:", (_windowStyle === CPHUDBackgroundWindowMask) ? objj_msgSend(CPTheme, "themeNamed:", "Aristo-HUD") : objj_msgSend(CPTheme, "defaultTheme"));
         objj_msgSend(objj_msgSend(_alertPanel, "contentView"), "addSubview:", button);
     }
+    objj_msgSend(self, "_layoutButtons");
     if (!_messageLabel)
     {
         _messageLabel = objj_msgSend(objj_msgSend(CPTextField, "alloc"), "initWithFrame:", CGRectMakeZero());
@@ -23518,7 +23518,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPAle
 { with(self)
 {
     var bounds = objj_msgSend(objj_msgSend(_alertPanel, "contentView"), "bounds"),
-        button = objj_msgSend(objj_msgSend(CPButton, "alloc"), "initWithFrame:", CGRectMake(CGRectGetWidth(bounds) - ((_buttonCount + 1) * 90.0), CGRectGetHeight(bounds) - 34.0, 80.0, (_windowStyle == CPHUDBackgroundWindowMask) ? 20.0 : 24.0));
+        button = objj_msgSend(objj_msgSend(CPButton, "alloc"), "initWithFrame:", CGRectMakeZero());
     objj_msgSend(button, "setTitle:", title);
     objj_msgSend(button, "setTarget:", self);
     objj_msgSend(button, "setTag:", _buttonCount);
@@ -23534,8 +23534,27 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPAle
         objj_msgSend(button, "setKeyEquivalent:", nil);
     _buttonCount++;
     objj_msgSend(_buttons, "addObject:", button);
+    objj_msgSend(self, "_layoutButtons");
 }
-},["void","CPString"]), new objj_method(sel_getUid("_layoutMessage"), function $CPAlert___layoutMessage(self, _cmd)
+},["void","CPString"]), new objj_method(sel_getUid("_layoutButtons"), function $CPAlert___layoutButtons(self, _cmd)
+{ with(self)
+{
+    var bounds = objj_msgSend(objj_msgSend(_alertPanel, "contentView"), "bounds"),
+        count = objj_msgSend(_buttons, "count"),
+        offsetX = CGRectGetWidth(bounds),
+        offsetY = CGRectGetHeight(bounds) - 34.0;
+    for(var i=0; i < count; i++)
+    {
+        var button = _buttons[i];
+        objj_msgSend(button, "sizeToFit");
+        var buttonBounds = objj_msgSend(button, "bounds"),
+            width = MAX(80.0, CGRectGetWidth(buttonBounds)),
+            height = CGRectGetHeight(buttonBounds);
+        offsetX -= (width + 10);
+        objj_msgSend(button, "setFrame:", CGRectMake(offsetX, offsetY, width, height));
+    }
+}
+},["void"]), new objj_method(sel_getUid("_layoutMessage"), function $CPAlert___layoutMessage(self, _cmd)
 { with(self)
 {
     var bounds = objj_msgSend(objj_msgSend(_alertPanel, "contentView"), "bounds"),
