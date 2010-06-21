@@ -1,4 +1,4 @@
-@STATIC;1.0;p;9;CPImage.jt;14035;@STATIC;1.0;I;21;Foundation/CPBundle.jI;33;Foundation/CPNotificationCenter.jI;21;Foundation/CPObject.jI;22;Foundation/CPRunLoop.jI;21;Foundation/CPString.ji;12;CPGeometry.jt;13855;objj_executeFile("Foundation/CPBundle.j", NO);
+@STATIC;1.0;p;9;CPImage.jt;14070;@STATIC;1.0;I;21;Foundation/CPBundle.jI;33;Foundation/CPNotificationCenter.jI;21;Foundation/CPObject.jI;22;Foundation/CPRunLoop.jI;21;Foundation/CPString.ji;12;CPGeometry.jt;13890;objj_executeFile("Foundation/CPBundle.j", NO);
 objj_executeFile("Foundation/CPNotificationCenter.j", NO);
 objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("Foundation/CPRunLoop.j", NO);
@@ -85,13 +85,14 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPIma
 { with(self)
 {
     if (_name === aName)
-        return;
-    if (imagesForNames[aName] === self)
-        imagesForNames[aName] = nil;
+        return YES;
+    if (imagesForNames[aName])
+        return NO;
     _name = aName;
     imagesForNames[aName] = self;
+    return YES;
 }
-},["void","CPString"]), new objj_method(sel_getUid("name"), function $CPImage__name(self, _cmd)
+},["BOOL","CPString"]), new objj_method(sel_getUid("name"), function $CPImage__name(self, _cmd)
 { with(self)
 {
     return _name;
@@ -204,6 +205,8 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("imageNamed:"), functio
     if (image)
         return image;
     var imageOrSize = AppKitImageForNames[aName];
+    if (!imageOrSize)
+        return nil;
     if (!imageOrSize.isa)
     {
         imageOrSize = CPAppKitImage("CPImage/" + aName + ".png", imageOrSize);

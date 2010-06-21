@@ -1,4 +1,4 @@
-@STATIC;1.0;p;9;CPImage.jt;9889;@STATIC;1.0;I;21;Foundation/CPBundle.jI;33;Foundation/CPNotificationCenter.jI;21;Foundation/CPObject.jI;22;Foundation/CPRunLoop.jI;21;Foundation/CPString.ji;12;CPGeometry.jt;9710;
+@STATIC;1.0;p;9;CPImage.jt;9921;@STATIC;1.0;I;21;Foundation/CPBundle.jI;33;Foundation/CPNotificationCenter.jI;21;Foundation/CPObject.jI;22;Foundation/CPRunLoop.jI;21;Foundation/CPString.ji;12;CPGeometry.jt;9742;
 objj_executeFile("Foundation/CPBundle.j",NO);
 objj_executeFile("Foundation/CPNotificationCenter.j",NO);
 objj_executeFile("Foundation/CPObject.j",NO);
@@ -78,13 +78,14 @@ return _size;
 }),new objj_method(sel_getUid("setName:"),function(_1e,_1f,_20){
 with(_1e){
 if(_name===_20){
-return;
+return YES;
 }
-if(_1[_20]===_1e){
-_1[_20]=nil;
+if(_1[_20]){
+return NO;
 }
 _name=_20;
 _1[_20]=_1e;
+return YES;
 }
 }),new objj_method(sel_getUid("name"),function(_21,_22){
 with(_21){
@@ -195,6 +196,9 @@ if(_3c){
 return _3c;
 }
 var _3d=_2[_3b];
+if(!_3d){
+return nil;
+}
 if(!_3d.isa){
 _3d=CPAppKitImage("CPImage/"+_3b+".png",_3d);
 objj_msgSend(_3d,"setName:",_3b);
