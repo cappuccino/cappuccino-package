@@ -12008,13 +12008,14 @@ objj_executeFile("CPSliderColorPicker.j", YES);
 objj_msgSend(CPColorPanel, "provideColorPickerClass:", CPColorWheelColorPicker);
 objj_msgSend(CPColorPanel, "provideColorPickerClass:", CPSliderColorPicker);
 
-p;14;CPKeyBinding.jt;11100;@STATIC;1.0;I;21;Foundation/CPObject.jt;11054;objj_executeFile("Foundation/CPObject.j", NO);
+p;14;CPKeyBinding.jt;11133;@STATIC;1.0;I;21;Foundation/CPObject.jt;11087;objj_executeFile("Foundation/CPObject.j", NO);
 CPStandardKeyBindings = {
     "@.": "cancelOperation:",
     "^a": "moveToBeginningOfParagraph:",
     "^$a": "moveToBeginningOfParagraphAndModifySelection:",
     "^b": "moveBackward:",
     "^$b": "moveBackwardAndModifySelection:",
+    "^~b": "moveWordBackward:",
     "^~$b": "moveWordBackwardAndModifySelection:",
     "^d": "deleteForward:",
     "^e": "moveToEndOfParagraph:",
@@ -12033,7 +12034,7 @@ CPStandardKeyBindings = {
     "^$p": "moveUpAndModifySelection:",
     "^t": "transpose:",
     "^v": "pageDown:",
-    "^v": "pageDownAndModifySelection:",
+    "^$v": "pageDownAndModifySelection:",
     "^y": "yank:"
 };
 CPStandardKeyBindings[CPNewlineCharacter] = "insertNewline:";
