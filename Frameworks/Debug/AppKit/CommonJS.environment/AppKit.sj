@@ -387,7 +387,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPEvent"])]);
 }
 
-p;13;CPTableView.jt;136725;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;136582;objj_executeFile("Foundation/CPArray.j", NO);
+p;13;CPTableView.jt;136765;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;136622;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("AppKit/CGGradient.j", NO);
 objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPTableColumn.j", YES);
@@ -2432,12 +2432,13 @@ _disableAutomaticResizing = newValue;
 },["CPTableViewDropOperation","CGPoint"]), new objj_method(sel_getUid("_proposedRowAtPoint:"), function $CPTableView___proposedRowAtPoint_(self, _cmd, dragPoint)
 { with(self)
 {
- var row = FLOOR(dragPoint.y / ( _rowHeight + _intercellSpacing.height ));
- var lowerRow = row + 1,
+ var row = FLOOR(dragPoint.y / ( _rowHeight + _intercellSpacing.height )),
+        lowerRow = row + 1,
   rect = objj_msgSend(self, "rectOfRow:", row),
-  lowerRect = objj_msgSend(self, "rectOfRow:", lowerRow);
- if (ABS(CPRectGetMinY(lowerRect) - dragPoint.y) < ABS(dragPoint.y - CPRectGetMinY(rect)))
-  row = lowerRow;
+        bottomPoint = CGRectGetMaxY(rect),
+        bottomThirty = bottomPoint - ((bottomPoint - CGRectGetMinY(rect)) * 0.3);
+    if (dragPoint.y > MAX(bottomThirty, bottomPoint - 6))
+     row = lowerRow;
     if (row >= objj_msgSend(self, "numberOfRows"))
         row = objj_msgSend(self, "numberOfRows");
  return row;
