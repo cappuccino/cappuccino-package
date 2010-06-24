@@ -1398,7 +1398,7 @@ with(_c){
 return objj_msgSend(CPView,"class");
 }
 })]);
-p;10;NSButton.jt;7009;@STATIC;1.0;I;17;AppKit/CPButton.jI;19;AppKit/CPCheckBox.jI;16;AppKit/CPRadio.ji;8;NSCell.ji;11;NSControl.jt;6895;
+p;10;NSButton.jt;6984;@STATIC;1.0;I;17;AppKit/CPButton.jI;19;AppKit/CPCheckBox.jI;16;AppKit/CPRadio.ji;8;NSCell.ji;11;NSControl.jt;6870;
 objj_executeFile("AppKit/CPButton.j",NO);
 objj_executeFile("AppKit/CPCheckBox.j",NO);
 objj_executeFile("AppKit/CPRadio.j",NO);
@@ -1454,7 +1454,7 @@ default:
 CPLog.error("Unknown bezel style: "+_bezelStyle);
 _bezelStyle=CPHUDBezelStyle;
 }
-if(objj_msgSend(_7,"isBordered")&&_frame.size.height===32){
+if(objj_msgSend(_7,"isBordered")){
 CPLog.info("Adjusting CPButton height from "+_frame.size.height+" / "+_bounds.size.height+" to "+24);
 _frame.size.height=24;
 _frame.origin.y+=4;
