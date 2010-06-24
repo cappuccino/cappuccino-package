@@ -1325,7 +1325,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"])]);
 }
 
-p;10;CPBundle.jt;5252;@STATIC;1.0;i;14;CPDictionary.ji;10;CPObject.jt;5199;objj_executeFile("CPDictionary.j", YES);
+p;10;CPBundle.jt;5609;@STATIC;1.0;i;14;CPDictionary.ji;10;CPObject.jt;5556;objj_executeFile("CPDictionary.j", YES);
 objj_executeFile("CPObject.j", YES);
 var CPBundlesForURLStrings = { };
 {var the_class = objj_allocateClassPair(CPObject, "CPBundle"),
@@ -1382,7 +1382,17 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithURL:"), functio
     var className = objj_msgSend(self, "objectForInfoDictionaryKey:", "CPPrincipalClass");
     return className ? CPClassFromString(className) : Nil;
 }
-},["Class"]), new objj_method(sel_getUid("pathForResource:"), function $CPBundle__pathForResource_(self, _cmd, aFilename)
+},["Class"]), new objj_method(sel_getUid("bundleIdentifier"), function $CPBundle__bundleIdentifier(self, _cmd)
+{ with(self)
+{
+    return objj_msgSend(self, "objectForInfoDictionaryKey:", "CPBundleIdentifier");
+}
+},["CPString"]), new objj_method(sel_getUid("isLoaded"), function $CPBundle__isLoaded(self, _cmd)
+{ with(self)
+{
+    return _bundle.isLoaded();
+}
+},["BOOL"]), new objj_method(sel_getUid("pathForResource:"), function $CPBundle__pathForResource_(self, _cmd, aFilename)
 { with(self)
 {
     return _bundle.pathForResource(aFilename);

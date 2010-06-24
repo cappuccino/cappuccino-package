@@ -1182,7 +1182,7 @@ objj_msgSend(_2b,"encodeObject:forKey:",_returnValue,_25);
 objj_msgSend(_2b,"encodeObject:forKey:",_arguments,_24);
 }
 })]);
-p;10;CPBundle.jt;3560;@STATIC;1.0;i;14;CPDictionary.ji;10;CPObject.jt;3507;
+p;10;CPBundle.jt;3820;@STATIC;1.0;i;14;CPDictionary.ji;10;CPObject.jt;3767;
 objj_executeFile("CPDictionary.j",YES);
 objj_executeFile("CPObject.j",YES);
 var _1={};
@@ -1231,64 +1231,72 @@ with(_17){
 var _19=objj_msgSend(_17,"objectForInfoDictionaryKey:","CPPrincipalClass");
 return _19?CPClassFromString(_19):Nil;
 }
-}),new objj_method(sel_getUid("pathForResource:"),function(_1a,_1b,_1c){
+}),new objj_method(sel_getUid("bundleIdentifier"),function(_1a,_1b){
 with(_1a){
-return _bundle.pathForResource(_1c);
+return objj_msgSend(_1a,"objectForInfoDictionaryKey:","CPBundleIdentifier");
 }
-}),new objj_method(sel_getUid("infoDictionary"),function(_1d,_1e){
-with(_1d){
+}),new objj_method(sel_getUid("isLoaded"),function(_1c,_1d){
+with(_1c){
+return _bundle.isLoaded();
+}
+}),new objj_method(sel_getUid("pathForResource:"),function(_1e,_1f,_20){
+with(_1e){
+return _bundle.pathForResource(_20);
+}
+}),new objj_method(sel_getUid("infoDictionary"),function(_21,_22){
+with(_21){
 return _bundle.infoDictionary();
 }
-}),new objj_method(sel_getUid("objectForInfoDictionaryKey:"),function(_1f,_20,_21){
-with(_1f){
-return _bundle.valueForInfoDictionaryKey(_21);
+}),new objj_method(sel_getUid("objectForInfoDictionaryKey:"),function(_23,_24,_25){
+with(_23){
+return _bundle.valueForInfoDictionaryKey(_25);
 }
-}),new objj_method(sel_getUid("loadWithDelegate:"),function(_22,_23,_24){
-with(_22){
-_delegate=_24;
+}),new objj_method(sel_getUid("loadWithDelegate:"),function(_26,_27,_28){
+with(_26){
+_delegate=_28;
 _bundle.addEventListener("load",function(){
-objj_msgSend(_delegate,"bundleDidFinishLoading:",_22);
+objj_msgSend(_delegate,"bundleDidFinishLoading:",_26);
 });
 _bundle.addEventListener("error",function(){
-CPLog.error("Could not find bundle: "+_22);
+CPLog.error("Could not find bundle: "+_26);
 });
 _bundle.load(YES);
 }
-}),new objj_method(sel_getUid("staticResourceURLs"),function(_25,_26){
-with(_25){
-var _27=[],_28=_bundle.staticResources(),_29=0,_2a=objj_msgSend(_28,"count");
-for(;_29<_2a;++_29){
-objj_msgSend(_27,"addObject:",_28[_29].URL());
+}),new objj_method(sel_getUid("staticResourceURLs"),function(_29,_2a){
+with(_29){
+var _2b=[],_2c=_bundle.staticResources(),_2d=0,_2e=objj_msgSend(_2c,"count");
+for(;_2d<_2e;++_2d){
+objj_msgSend(_2b,"addObject:",_2c[_2d].URL());
 }
-return _27;
+return _2b;
 }
-}),new objj_method(sel_getUid("environments"),function(_2b,_2c){
-with(_2b){
+}),new objj_method(sel_getUid("environments"),function(_2f,_30){
+with(_2f){
 return _bundle.environments();
 }
-}),new objj_method(sel_getUid("mostEligibleEnvironment"),function(_2d,_2e){
-with(_2d){
+}),new objj_method(sel_getUid("mostEligibleEnvironment"),function(_31,_32){
+with(_31){
 return _bundle.mostEligibleEnvironment();
 }
-}),new objj_method(sel_getUid("description"),function(_2f,_30){
-with(_2f){
-return objj_msgSendSuper({receiver:_2f,super_class:objj_getClass("CPBundle").super_class},"description")+"("+objj_msgSend(_2f,"bundlePath")+")";
+}),new objj_method(sel_getUid("description"),function(_33,_34){
+with(_33){
+return objj_msgSendSuper({receiver:_33,super_class:objj_getClass("CPBundle").super_class},"description")+"("+objj_msgSend(_33,"bundlePath")+")";
 }
 })]);
-class_addMethods(_3,[new objj_method(sel_getUid("bundleWithURL:"),function(_31,_32,_33){
-with(_31){
-return objj_msgSend(objj_msgSend(_31,"alloc"),"initWithURL:",_33);
+class_addMethods(_3,[new objj_method(sel_getUid("bundleWithURL:"),function(_35,_36,_37){
+with(_35){
+return objj_msgSend(objj_msgSend(_35,"alloc"),"initWithURL:",_37);
 }
-}),new objj_method(sel_getUid("bundleWithPath:"),function(_34,_35,_36){
-with(_34){
-return objj_msgSend(_34,"bundleWithURL:",_36);
+}),new objj_method(sel_getUid("bundleWithPath:"),function(_38,_39,_3a){
+with(_38){
+return objj_msgSend(_38,"bundleWithURL:",_3a);
 }
-}),new objj_method(sel_getUid("bundleForClass:"),function(_37,_38,_39){
-with(_37){
-return objj_msgSend(_37,"bundleWithURL:",CFBundle.bundleForClass(_39).bundleURL());
+}),new objj_method(sel_getUid("bundleForClass:"),function(_3b,_3c,_3d){
+with(_3b){
+return objj_msgSend(_3b,"bundleWithURL:",CFBundle.bundleForClass(_3d).bundleURL());
 }
-}),new objj_method(sel_getUid("mainBundle"),function(_3a,_3b){
-with(_3a){
+}),new objj_method(sel_getUid("mainBundle"),function(_3e,_3f){
+with(_3e){
 return objj_msgSend(CPBundle,"bundleWithPath:",CFBundle.mainBundle().bundleURL());
 }
 })]);
