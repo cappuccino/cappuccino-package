@@ -13902,7 +13902,7 @@ byteToHex= function(n) {
             hexCharacters.charAt(n % 16);
 }
 
-p;13;CPTextField.jt;42278;@STATIC;1.0;i;11;CPControl.ji;17;CPStringDrawing.ji;17;CPCompatibility.ji;21;_CPImageAndTextView.jt;42172;objj_executeFile("CPControl.j", YES);
+p;13;CPTextField.jt;42290;@STATIC;1.0;i;11;CPControl.ji;17;CPStringDrawing.ji;17;CPCompatibility.ji;21;_CPImageAndTextView.jt;42184;objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPStringDrawing.j", YES);
 objj_executeFile("CPCompatibility.j", YES);
 objj_executeFile("_CPImageAndTextView.j", YES);
@@ -14380,11 +14380,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("_inputElement"), functi
     {
         if (objj_msgSend(objj_msgSend(self, "window"), "firstResponder") === self)
             window.setTimeout(function() { element.select(); }, 0);
-        else
-        {
-            objj_msgSend(objj_msgSend(self, "window"), "makeFirstResponder:", self);
+        else if (objj_msgSend(self, "window") !== nil && objj_msgSend(objj_msgSend(self, "window"), "makeFirstResponder:", self))
             window.setTimeout(function() {objj_msgSend(self, "selectText:", sender);}, 0);
-        }
     }
 }
 },["void","id"]), new objj_method(sel_getUid("copy:"), function $CPTextField__copy_(self, _cmd, sender)
