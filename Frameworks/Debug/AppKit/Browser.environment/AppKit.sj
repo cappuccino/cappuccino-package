@@ -489,7 +489,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPEvent"])]);
 }
 
-p;13;CPTableView.jt;136765;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;136622;objj_executeFile("Foundation/CPArray.j", NO);
+p;13;CPTableView.jt;137179;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;137036;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("AppKit/CGGradient.j", NO);
 objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPTableColumn.j", YES);
@@ -2744,6 +2744,11 @@ _disableAutomaticResizing = newValue;
     if(i >= 0)
         objj_msgSend(self, "scrollRowToVisible:", i);
 }
+},["void","id"]), new objj_method(sel_getUid("moveDownAndModifySelection:"), function $CPTableView__moveDownAndModifySelection_(self, _cmd, sender)
+{ with(self)
+{
+    objj_msgSend(self, "moveDown:", sender);
+}
 },["void","id"]), new objj_method(sel_getUid("moveUp:"), function $CPTableView__moveUp_(self, _cmd, sender)
 { with(self)
 {
@@ -2778,6 +2783,11 @@ _disableAutomaticResizing = newValue;
      objj_msgSend(self, "selectRowIndexes:byExtendingSelection:", objj_msgSend(CPIndexSet, "indexSetWithIndex:", i), extend);
      if(i >= 0)
         objj_msgSend(self, "scrollRowToVisible:", i);
+}
+},["void","id"]), new objj_method(sel_getUid("moveUpAndModifySelection:"), function $CPTableView__moveUpAndModifySelection_(self, _cmd, sender)
+{ with(self)
+{
+    objj_msgSend(self, "moveUp:", sender);
 }
 },["void","id"]), new objj_method(sel_getUid("deleteBackward:"), function $CPTableView__deleteBackward_(self, _cmd, sender)
 { with(self)
@@ -5413,7 +5423,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"])]);
 }
 
-p;18;CPCollectionView.jt;27800;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;Foundation/CPData.jI;23;Foundation/CPIndexSet.jI;28;Foundation/CPKeyedArchiver.jI;30;Foundation/CPKeyedUnarchiver.ji;8;CPView.ji;22;CPCollectionViewItem.jt;27596;objj_executeFile("Foundation/CPArray.j", NO);
+p;18;CPCollectionView.jt;28992;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;Foundation/CPData.jI;23;Foundation/CPIndexSet.jI;28;Foundation/CPKeyedArchiver.jI;30;Foundation/CPKeyedUnarchiver.ji;8;CPView.ji;22;CPCollectionViewItem.jt;28788;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("Foundation/CPData.j", NO);
 objj_executeFile("Foundation/CPIndexSet.j", NO);
 objj_executeFile("Foundation/CPKeyedArchiver.j", NO);
@@ -5553,6 +5563,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     var index = CPNotFound;
     while ((index = objj_msgSend(_selectionIndexes, "indexGreaterThanIndex:", index)) != CPNotFound)
         objj_msgSend(_items[index], "setSelected:", YES);
+    objj_msgSend(objj_msgSend(CPKeyValueBinding, "getBinding:forObject:", "selectionIndexes", self), "reverseSetValueFor:", "selectionIndexes");
     if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("collectionViewDidChangeSelection:")))
         objj_msgSend(_delegate, "collectionViewDidChangeSelection:", self);
 }
@@ -5837,10 +5848,11 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 {
 var the_class = objj_getClass("CPCollectionView")
 if(!the_class) throw new SyntaxError("*** Could not find definition for class \"CPCollectionView\"");
-var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_getUid("_selectionForEvent:withNewIndex:direction:"), function $CPCollectionView___selectionForEvent_withNewIndex_direction_(self, _cmd, anEvent, anIndex, aDirection)
+var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_getUid("_modifySelectionWithNewIndex:direction:expand:"), function $CPCollectionView___modifySelectionWithNewIndex_direction_expand_(self, _cmd, anIndex, aDirection, shouldExpand)
 { with(self)
 {
-    if (_allowsMultipleSelection && objj_msgSend(anEvent, "modifierFlags") & CPShiftKeyMask)
+    anIndex = MIN(MAX(anIndex, 0), objj_msgSend(objj_msgSend(self, "items"), "count")-1);
+    if (_allowsMultipleSelection && shouldExpand)
     {
         var indexes = objj_msgSend(_selectionIndexes, "copy"),
             bottomAnchor = objj_msgSend(indexes, "firstIndex"),
@@ -5852,9 +5864,10 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
     }
     else
         indexes = objj_msgSend(CPIndexSet, "indexSetWithIndex:", anIndex);
-    return indexes;
+    objj_msgSend(self, "setSelectionIndexes:", indexes);
+    objj_msgSend(self, "_scrollToSelection");
 }
-},["CPIndexSet","CPEvent","int","int"]), new objj_method(sel_getUid("_scrollToSelection"), function $CPCollectionView___scrollToSelection(self, _cmd)
+},["void","int","int","BOOL"]), new objj_method(sel_getUid("_scrollToSelection"), function $CPCollectionView___scrollToSelection(self, _cmd)
 { with(self)
 {
     var frame = objj_msgSend(self, "frameForItemsAtIndexes:", objj_msgSend(self, "selectionIndexes"));
@@ -5867,23 +5880,35 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
     var index = objj_msgSend(objj_msgSend(self, "selectionIndexes"), "firstIndex");
     if (index === CPNotFound)
         index = objj_msgSend(objj_msgSend(self, "items"), "count");
-    index = MAX(index - 1, 0);
-    objj_msgSend(self, "setSelectionIndexes:", objj_msgSend(self, "_selectionForEvent:withNewIndex:direction:", objj_msgSend(CPApp, "currentEvent"), index, -1));
-    objj_msgSend(self, "_scrollToSelection");
+    objj_msgSend(self, "_modifySelectionWithNewIndex:direction:expand:", index - 1, -1, NO);
+}
+},["void","id"]), new objj_method(sel_getUid("moveLeftAndModifySelection:"), function $CPCollectionView__moveLeftAndModifySelection_(self, _cmd, sender)
+{ with(self)
+{
+    var index = objj_msgSend(objj_msgSend(self, "selectionIndexes"), "firstIndex");
+    if (index === CPNotFound)
+        index = objj_msgSend(objj_msgSend(self, "items"), "count");
+    objj_msgSend(self, "_modifySelectionWithNewIndex:direction:expand:", index - 1, -1, YES);
 }
 },["void","id"]), new objj_method(sel_getUid("moveRight:"), function $CPCollectionView__moveRight_(self, _cmd, sender)
 { with(self)
 {
-    var index = MIN(objj_msgSend(objj_msgSend(self, "selectionIndexes"), "lastIndex") + 1, objj_msgSend(objj_msgSend(self, "items"), "count")-1);
-    objj_msgSend(self, "setSelectionIndexes:", objj_msgSend(self, "_selectionForEvent:withNewIndex:direction:", objj_msgSend(CPApp, "currentEvent"), index, 1));
-    objj_msgSend(self, "_scrollToSelection");
+    objj_msgSend(self, "_modifySelectionWithNewIndex:direction:expand:", objj_msgSend(objj_msgSend(self, "selectionIndexes"), "lastIndex") + 1, 1, NO);
+}
+},["void","id"]), new objj_method(sel_getUid("moveRightAndModifySelection:"), function $CPCollectionView__moveRightAndModifySelection_(self, _cmd, sender)
+{ with(self)
+{
+    objj_msgSend(self, "_modifySelectionWithNewIndex:direction:expand:", objj_msgSend(objj_msgSend(self, "selectionIndexes"), "lastIndex") + 1, 1, YES);
 }
 },["void","id"]), new objj_method(sel_getUid("moveDown:"), function $CPCollectionView__moveDown_(self, _cmd, sender)
 { with(self)
 {
-    var index = MIN(objj_msgSend(objj_msgSend(self, "selectionIndexes"), "lastIndex") + objj_msgSend(self, "numberOfColumns"), objj_msgSend(objj_msgSend(self, "items"), "count")-1);
-    objj_msgSend(self, "setSelectionIndexes:", objj_msgSend(self, "_selectionForEvent:withNewIndex:direction:", objj_msgSend(CPApp, "currentEvent"), index, 1));
-    objj_msgSend(self, "_scrollToSelection");
+    objj_msgSend(self, "_modifySelectionWithNewIndex:direction:expand:", objj_msgSend(objj_msgSend(self, "selectionIndexes"), "lastIndex") + objj_msgSend(self, "numberOfColumns"), 1, NO);
+}
+},["void","id"]), new objj_method(sel_getUid("moveDownAndModifySelection:"), function $CPCollectionView__moveDownAndModifySelection_(self, _cmd, sender)
+{ with(self)
+{
+    objj_msgSend(self, "_modifySelectionWithNewIndex:direction:expand:", objj_msgSend(objj_msgSend(self, "selectionIndexes"), "lastIndex") + objj_msgSend(self, "numberOfColumns"), 1, YES);
 }
 },["void","id"]), new objj_method(sel_getUid("moveUp:"), function $CPCollectionView__moveUp_(self, _cmd, sender)
 { with(self)
@@ -5891,9 +5916,15 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
     var index = objj_msgSend(objj_msgSend(self, "selectionIndexes"), "firstIndex");
     if (index == CPNotFound)
         index = objj_msgSend(objj_msgSend(self, "items"), "count");
-    index = MAX(0, index - objj_msgSend(self, "numberOfColumns"));
-    objj_msgSend(self, "setSelectionIndexes:", objj_msgSend(self, "_selectionForEvent:withNewIndex:direction:", objj_msgSend(CPApp, "currentEvent"), index, -1));
-    objj_msgSend(self, "_scrollToSelection");
+    objj_msgSend(self, "_modifySelectionWithNewIndex:direction:expand:", index - objj_msgSend(self, "numberOfColumns"), -1, NO);
+}
+},["void","id"]), new objj_method(sel_getUid("moveUpAndModifySelection:"), function $CPCollectionView__moveUpAndModifySelection_(self, _cmd, sender)
+{ with(self)
+{
+    var index = objj_msgSend(objj_msgSend(self, "selectionIndexes"), "firstIndex");
+    if (index == CPNotFound)
+        index = objj_msgSend(objj_msgSend(self, "items"), "count");
+    objj_msgSend(self, "_modifySelectionWithNewIndex:direction:expand:", index - objj_msgSend(self, "numberOfColumns"), -1, YES);
 }
 },["void","id"]), new objj_method(sel_getUid("deleteBackward:"), function $CPCollectionView__deleteBackward_(self, _cmd, sender)
 { with(self)
