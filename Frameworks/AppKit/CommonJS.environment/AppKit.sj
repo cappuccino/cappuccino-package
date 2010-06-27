@@ -25227,7 +25227,7 @@ objj_msgSend(_titleField,"setFrame:",CGRectMake(20,3,CGRectGetWidth(objj_msgSend
 objj_msgSend(_e,"addSubview:",_titleField);
 if(_styleMask&CPClosableWindowMask){
 var _13=objj_msgSend(_CPHUDWindowViewCloseImage,"size");
-_closeButton=objj_msgSend(objj_msgSend(CPButton,"alloc"),"initWithFrame:",CGRectMake(4,4,_13.width,_13.height));
+_closeButton=objj_msgSend(objj_msgSend(CPButton,"alloc"),"initWithFrame:",CGRectMake(8,5,_13.width,_13.height));
 objj_msgSend(_closeButton,"setBordered:",NO);
 objj_msgSend(_closeButton,"setImage:",_CPHUDWindowViewCloseImage);
 objj_msgSend(_closeButton,"setAlternateImage:",_CPHUDWindowViewCloseActiveImage);

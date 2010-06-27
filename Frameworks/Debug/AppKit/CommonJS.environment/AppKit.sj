@@ -28855,7 +28855,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("contentRectForFrameRect
         if (_styleMask & CPClosableWindowMask)
         {
             var closeSize = objj_msgSend(_CPHUDWindowViewCloseImage, "size");
-            _closeButton = objj_msgSend(objj_msgSend(CPButton, "alloc"), "initWithFrame:", CGRectMake(4.0, 4.0, closeSize.width, closeSize.height));
+            _closeButton = objj_msgSend(objj_msgSend(CPButton, "alloc"), "initWithFrame:", CGRectMake(8.0, 5.0, closeSize.width, closeSize.height));
             objj_msgSend(_closeButton, "setBordered:", NO);
             objj_msgSend(_closeButton, "setImage:", _CPHUDWindowViewCloseImage);
             objj_msgSend(_closeButton, "setAlternateImage:", _CPHUDWindowViewCloseActiveImage);
