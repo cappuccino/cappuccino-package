@@ -32,7 +32,7 @@ _CPReportLenientDeprecation(_10,_11,sel_getUid("propertyListFromData:format:"));
 return objj_msgSend(_10,"propertyListFromData:format:",_12,_13);
 }
 })]);
-p;20;CPAttributedString.jt;12881;@STATIC;1.0;i;14;CPDictionary.ji;10;CPObject.ji;9;CPRange.ji;10;CPString.jt;12799;
+p;20;CPAttributedString.jt;12419;@STATIC;1.0;i;14;CPDictionary.ji;10;CPObject.ji;9;CPRange.ji;10;CPString.jt;12337;
 objj_executeFile("CPDictionary.j",YES);
 objj_executeFile("CPObject.j",YES);
 objj_executeFile("CPRange.j",YES);
@@ -256,7 +256,6 @@ return _4a;
 }
 }),new objj_method(sel_getUid("replaceCharactersInRange:withString:"),function(_51,_52,_53,_54){
 with(_51){
-objj_msgSend(_51,"beginEditing");
 if(!_54){
 _54="";
 }
@@ -274,7 +273,6 @@ _57=_55+1;
 while(_57<_rangeEntries.length){
 _rangeEntries[_57++].range.location+=_59;
 }
-objj_msgSend(_51,"endEditing");
 }
 }),new objj_method(sel_getUid("deleteCharactersInRange:"),function(_5a,_5b,_5c){
 with(_5a){
@@ -282,7 +280,6 @@ objj_msgSend(_5a,"replaceCharactersInRange:withString:",_5c,nil);
 }
 }),new objj_method(sel_getUid("setAttributes:range:"),function(_5d,_5e,_5f,_60){
 with(_5d){
-objj_msgSend(_5d,"beginEditing");
 var _61=objj_msgSend(_5d,"_indexOfRangeEntryForIndex:splitOnMaxIndex:",_60.location,YES),_62=objj_msgSend(_5d,"_indexOfRangeEntryForIndex:splitOnMaxIndex:",CPMaxRange(_60),YES),_63=_61;
 if(_62==CPNotFound){
 _62=_rangeEntries.length;
@@ -291,11 +288,9 @@ while(_63<_62){
 _rangeEntries[_63++].attributes=objj_msgSend(_5f,"copy");
 }
 objj_msgSend(_5d,"_coalesceRangeEntriesFromIndex:toIndex:",_61,_62);
-objj_msgSend(_5d,"endEditing");
 }
 }),new objj_method(sel_getUid("addAttributes:range:"),function(_64,_65,_66,_67){
 with(_64){
-objj_msgSend(_64,"beginEditing");
 var _68=objj_msgSend(_64,"_indexOfRangeEntryForIndex:splitOnMaxIndex:",_67.location,YES),_69=objj_msgSend(_64,"_indexOfRangeEntryForIndex:splitOnMaxIndex:",CPMaxRange(_67),YES),_6a=_68;
 if(_69==CPNotFound){
 _69=_rangeEntries.length;
@@ -308,7 +303,6 @@ objj_msgSend(_rangeEntries[_6a].attributes,"setObject:forKey:",objj_msgSend(_66,
 _6a++;
 }
 objj_msgSend(_64,"_coalesceRangeEntriesFromIndex:toIndex:",_68,_69);
-objj_msgSend(_64,"endEditing");
 }
 }),new objj_method(sel_getUid("addAttribute:value:range:"),function(_6d,_6e,_6f,_70,_71){
 with(_6d){
@@ -316,7 +310,6 @@ objj_msgSend(_6d,"addAttributes:range:",objj_msgSend(CPDictionary,"dictionaryWit
 }
 }),new objj_method(sel_getUid("removeAttribute:range:"),function(_72,_73,_74,_75){
 with(_72){
-objj_msgSend(_72,"beginEditing");
 var _76=objj_msgSend(_72,"_indexOfRangeEntryForIndex:splitOnMaxIndex:",_75.location,YES),_77=objj_msgSend(_72,"_indexOfRangeEntryForIndex:splitOnMaxIndex:",CPMaxRange(_75),YES),_78=_76;
 if(_77==CPNotFound){
 _77=_rangeEntries.length;
@@ -325,7 +318,6 @@ while(_78<_77){
 objj_msgSend(_rangeEntries[_78++].attributes,"removeObjectForKey:",_74);
 }
 objj_msgSend(_72,"_coalesceRangeEntriesFromIndex:toIndex:",_76,_77);
-objj_msgSend(_72,"endEditing");
 }
 }),new objj_method(sel_getUid("appendAttributedString:"),function(_79,_7a,_7b){
 with(_79){
@@ -333,7 +325,6 @@ objj_msgSend(_79,"insertAttributedString:atIndex:",_7b,_string.length);
 }
 }),new objj_method(sel_getUid("insertAttributedString:atIndex:"),function(_7c,_7d,_7e,_7f){
 with(_7c){
-objj_msgSend(_7c,"beginEditing");
 if(_7f<0||_7f>objj_msgSend(_7c,"length")){
 objj_msgSend(CPException,"raise:reason:",CPRangeException,"tried to insert attributed string at an invalid index: "+_7f);
 }
@@ -352,25 +343,20 @@ var _86=_4f(_81[_85++]);
 _86.range.location+=_7f;
 _rangeEntries.splice(_80-1+_85,0,_86);
 }
-objj_msgSend(_7c,"endEditing");
 }
 }),new objj_method(sel_getUid("replaceCharactersInRange:withAttributedString:"),function(_87,_88,_89,_8a){
 with(_87){
-objj_msgSend(_87,"beginEditing");
 objj_msgSend(_87,"deleteCharactersInRange:",_89);
 objj_msgSend(_87,"insertAttributedString:atIndex:",_8a,_89.location);
-objj_msgSend(_87,"endEditing");
 }
 }),new objj_method(sel_getUid("setAttributedString:"),function(_8b,_8c,_8d){
 with(_8b){
-objj_msgSend(_8b,"beginEditing");
 _string=_8d._string;
 _rangeEntries=[];
 var i=0,_8e=_8d._rangeEntries.length;
 for(;i<_8e;i++){
 _rangeEntries.push(_4f(_8d._rangeEntries[i]));
 }
-objj_msgSend(_8b,"endEditing");
 }
 }),new objj_method(sel_getUid("_indexOfRangeEntryForIndex:splitOnMaxIndex:"),function(_8f,_90,_91,_92){
 with(_8f){

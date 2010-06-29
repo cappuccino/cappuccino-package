@@ -36,7 +36,7 @@ var meta_class = the_class.isa;class_addMethods(meta_class, [new objj_method(sel
 },["id","CPData","CPPropertyListFormat","id"])]);
 }
 
-p;20;CPAttributedString.jt;21450;@STATIC;1.0;i;14;CPDictionary.ji;10;CPObject.ji;9;CPRange.ji;10;CPString.jt;21368;objj_executeFile("CPDictionary.j", YES);
+p;20;CPAttributedString.jt;20904;@STATIC;1.0;i;14;CPDictionary.ji;10;CPObject.ji;9;CPRange.ji;10;CPString.jt;20822;objj_executeFile("CPDictionary.j", YES);
 objj_executeFile("CPObject.j", YES);
 objj_executeFile("CPRange.j", YES);
 objj_executeFile("CPString.j", YES);
@@ -288,7 +288,6 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithString:"), func
 },["CPAttributedString","CPRange"]), new objj_method(sel_getUid("replaceCharactersInRange:withString:"), function $CPAttributedString__replaceCharactersInRange_withString_(self, _cmd, aRange, aString)
 { with(self)
 {
-    objj_msgSend(self, "beginEditing");
     if (!aString)
         aString = "";
     var startingIndex = objj_msgSend(self, "_indexOfEntryWithIndex:", aRange.location),
@@ -309,7 +308,6 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithString:"), func
     endingIndex = startingIndex + 1;
     while(endingIndex < _rangeEntries.length)
         _rangeEntries[endingIndex++].range.location+=additionalLength;
-    objj_msgSend(self, "endEditing");
 }
 },["void","CPRange","CPString"]), new objj_method(sel_getUid("deleteCharactersInRange:"), function $CPAttributedString__deleteCharactersInRange_(self, _cmd, aRange)
 { with(self)
@@ -319,7 +317,6 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithString:"), func
 },["void","CPRange"]), new objj_method(sel_getUid("setAttributes:range:"), function $CPAttributedString__setAttributes_range_(self, _cmd, aDictionary, aRange)
 { with(self)
 {
-    objj_msgSend(self, "beginEditing");
     var startingEntryIndex = objj_msgSend(self, "_indexOfRangeEntryForIndex:splitOnMaxIndex:", aRange.location, YES),
         endingEntryIndex = objj_msgSend(self, "_indexOfRangeEntryForIndex:splitOnMaxIndex:", CPMaxRange(aRange), YES),
         current = startingEntryIndex;
@@ -328,12 +325,10 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithString:"), func
     while (current < endingEntryIndex)
         _rangeEntries[current++].attributes = objj_msgSend(aDictionary, "copy");
     objj_msgSend(self, "_coalesceRangeEntriesFromIndex:toIndex:", startingEntryIndex, endingEntryIndex);
-    objj_msgSend(self, "endEditing");
 }
 },["void","CPDictionary","CPRange"]), new objj_method(sel_getUid("addAttributes:range:"), function $CPAttributedString__addAttributes_range_(self, _cmd, aDictionary, aRange)
 { with(self)
 {
-    objj_msgSend(self, "beginEditing");
     var startingEntryIndex = objj_msgSend(self, "_indexOfRangeEntryForIndex:splitOnMaxIndex:", aRange.location, YES),
         endingEntryIndex = objj_msgSend(self, "_indexOfRangeEntryForIndex:splitOnMaxIndex:", CPMaxRange(aRange), YES),
         current = startingEntryIndex;
@@ -348,7 +343,6 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithString:"), func
         current++;
     }
     objj_msgSend(self, "_coalesceRangeEntriesFromIndex:toIndex:", startingEntryIndex, endingEntryIndex);
-    objj_msgSend(self, "endEditing");
 }
 },["void","CPDictionary","CPRange"]), new objj_method(sel_getUid("addAttribute:value:range:"), function $CPAttributedString__addAttribute_value_range_(self, _cmd, anAttribute, aValue, aRange)
 { with(self)
@@ -358,7 +352,6 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithString:"), func
 },["void","CPString","id","CPRange"]), new objj_method(sel_getUid("removeAttribute:range:"), function $CPAttributedString__removeAttribute_range_(self, _cmd, anAttribute, aRange)
 { with(self)
 {
-    objj_msgSend(self, "beginEditing");
     var startingEntryIndex = objj_msgSend(self, "_indexOfRangeEntryForIndex:splitOnMaxIndex:", aRange.location, YES),
         endingEntryIndex = objj_msgSend(self, "_indexOfRangeEntryForIndex:splitOnMaxIndex:", CPMaxRange(aRange), YES),
         current = startingEntryIndex;
@@ -367,7 +360,6 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithString:"), func
     while (current < endingEntryIndex)
         objj_msgSend(_rangeEntries[current++].attributes, "removeObjectForKey:", anAttribute);
     objj_msgSend(self, "_coalesceRangeEntriesFromIndex:toIndex:", startingEntryIndex, endingEntryIndex);
-    objj_msgSend(self, "endEditing");
 }
 },["void","CPString","CPRange"]), new objj_method(sel_getUid("appendAttributedString:"), function $CPAttributedString__appendAttributedString_(self, _cmd, aString)
 { with(self)
@@ -377,7 +369,6 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithString:"), func
 },["void","CPAttributedString"]), new objj_method(sel_getUid("insertAttributedString:atIndex:"), function $CPAttributedString__insertAttributedString_atIndex_(self, _cmd, aString, anIndex)
 { with(self)
 {
-    objj_msgSend(self, "beginEditing");
     if (anIndex < 0 || anIndex > objj_msgSend(self, "length"))
         objj_msgSend(CPException, "raise:reason:", CPRangeException, "tried to insert attributed string at an invalid index: "+anIndex);
     var entryIndexOfNextEntry = objj_msgSend(self, "_indexOfRangeEntryForIndex:splitOnMaxIndex:", anIndex, YES),
@@ -397,27 +388,22 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithString:"), func
         entryCopy.range.location += anIndex;
         _rangeEntries.splice(entryIndexOfNextEntry - 1 + index, 0, entryCopy);
     }
-    objj_msgSend(self, "endEditing");
 }
 },["void","CPAttributedString","unsigned"]), new objj_method(sel_getUid("replaceCharactersInRange:withAttributedString:"), function $CPAttributedString__replaceCharactersInRange_withAttributedString_(self, _cmd, aRange, aString)
 { with(self)
 {
-    objj_msgSend(self, "beginEditing");
     objj_msgSend(self, "deleteCharactersInRange:", aRange);
     objj_msgSend(self, "insertAttributedString:atIndex:", aString, aRange.location);
-    objj_msgSend(self, "endEditing");
 }
 },["void","CPRange","CPAttributedString"]), new objj_method(sel_getUid("setAttributedString:"), function $CPAttributedString__setAttributedString_(self, _cmd, aString)
 { with(self)
 {
-    objj_msgSend(self, "beginEditing");
     _string = aString._string;
     _rangeEntries = [];
     var i = 0,
         count = aString._rangeEntries.length;
     for (; i < count; i++)
         _rangeEntries.push(copyRangeEntry(aString._rangeEntries[i]));
-    objj_msgSend(self, "endEditing");
 }
 },["void","CPAttributedString"]), new objj_method(sel_getUid("_indexOfRangeEntryForIndex:splitOnMaxIndex:"), function $CPAttributedString___indexOfRangeEntryForIndex_splitOnMaxIndex_(self, _cmd, characterIndex, split)
 { with(self)
