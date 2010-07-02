@@ -489,7 +489,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPEvent"])]);
 }
 
-p;13;CPTableView.jt;137179;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;137036;objj_executeFile("Foundation/CPArray.j", NO);
+p;13;CPTableView.jt;138379;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;138236;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("AppKit/CGGradient.j", NO);
 objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPTableColumn.j", YES);
@@ -1015,7 +1015,18 @@ _disableAutomaticResizing = newValue;
         objj_msgSend(_headerView, "setNeedsDisplay:", YES);
     objj_msgSend(self, "_noteSelectionDidChange");
 }
-},["void","CPIndexSet","BOOL"]), new objj_method(sel_getUid("selectRowIndexes:byExtendingSelection:"), function $CPTableView__selectRowIndexes_byExtendingSelection_(self, _cmd, rows, shouldExtendSelection)
+},["void","CPIndexSet","BOOL"]), new objj_method(sel_getUid("_setSelectedRowIndexes:"), function $CPTableView___setSelectedRowIndexes_(self, _cmd, rows)
+{ with(self)
+{
+    var previousSelectedIndexes = objj_msgSend(_selectedRowIndexes, "copy");
+    _lastSelectedRow = (objj_msgSend(rows, "count") > 0) ? objj_msgSend(rows, "lastIndex") : -1;
+    _selectedRowIndexes = objj_msgSend(rows, "copy");
+    objj_msgSend(self, "_updateHighlightWithOldRows:newRows:", previousSelectedIndexes, _selectedRowIndexes);
+    objj_msgSend(_tableDrawView, "display");
+    objj_msgSend(objj_msgSend(CPKeyValueBinding, "getBinding:forObject:", "selectionIndexes", self), "reverseSetValueFor:", "selectedRowIndexes");
+    objj_msgSend(self, "_noteSelectionDidChange");
+}
+},["void","CPIndexSet"]), new objj_method(sel_getUid("selectRowIndexes:byExtendingSelection:"), function $CPTableView__selectRowIndexes_byExtendingSelection_(self, _cmd, rows, shouldExtendSelection)
 { with(self)
 {
     if (objj_msgSend(rows, "isEqualToIndexSet:", _selectedRowIndexes) ||
@@ -1028,15 +1039,15 @@ _disableAutomaticResizing = newValue;
         if (_headerView)
             objj_msgSend(_headerView, "setNeedsDisplay:", YES);
     }
-    var previousSelectedIndexes = objj_msgSend(_selectedRowIndexes, "copy");
+    var newSelectedIndexes;
     if (shouldExtendSelection)
-        objj_msgSend(_selectedRowIndexes, "addIndexes:", rows);
+    {
+        newSelectedIndexes = objj_msgSend(_selectedRowIndexes, "copy");
+        objj_msgSend(newSelectedIndexes, "addIndexes:", rows);
+    }
     else
-        _selectedRowIndexes = objj_msgSend(rows, "copy");
-    _lastSelectedRow = (objj_msgSend(rows, "count") > 0) ? objj_msgSend(rows, "lastIndex") : -1;
-    objj_msgSend(self, "_updateHighlightWithOldRows:newRows:", previousSelectedIndexes, _selectedRowIndexes);
-    objj_msgSend(_tableDrawView, "display");
-    objj_msgSend(self, "_noteSelectionDidChange");
+        newSelectedIndexes = objj_msgSend(rows, "copy");
+    objj_msgSend(self, "_setSelectedRowIndexes:", newSelectedIndexes);
 }
 },["void","CPIndexSet","BOOL"]), new objj_method(sel_getUid("_updateHighlightWithOldRows:newRows:"), function $CPTableView___updateHighlightWithOldRows_newRows_(self, _cmd, oldRows, newRows)
 { with(self)
@@ -2811,13 +2822,20 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("_defaultTableHeaderSor
 {
 var the_class = objj_getClass("CPTableView")
 if(!the_class) throw new SyntaxError("*** Could not find definition for class \"CPTableView\"");
-var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_getUid("_establishBindingsIfUnbound:"), function $CPTableView___establishBindingsIfUnbound_(self, _cmd, destination)
+var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_getUid("_replacementKeyPathForBinding:"), function $CPTableView___replacementKeyPathForBinding_(self, _cmd, aBinding)
+{ with(self)
+{
+    if (aBinding === "selectionIndexes")
+        return "selectedRowIndexes";
+    return objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPTableView").super_class }, "_replacementKeyPathForBinding:", aBinding);
+}
+},["CPString","CPString"]), new objj_method(sel_getUid("_establishBindingsIfUnbound:"), function $CPTableView___establishBindingsIfUnbound_(self, _cmd, destination)
 { with(self)
 {
     if (objj_msgSend(objj_msgSend(self, "infoForBinding:", "content"), "objectForKey:", CPObservedObjectKey) !== destination)
-    {
         objj_msgSend(self, "bind:toObject:withKeyPath:options:", "content", destination, "arrangedObjects", nil);
-    }
+    if (objj_msgSend(objj_msgSend(self, "infoForBinding:", "selectionIndexes"), "objectForKey:", CPObservedObjectKey) !== destination)
+        objj_msgSend(self, "bind:toObject:withKeyPath:options:", "selectionIndexes", destination, "selectionIndexes", nil);
 }
 },["void","id"]), new objj_method(sel_getUid("setContent:"), function $CPTableView__setContent_(self, _cmd, content)
 { with(self)
@@ -10828,7 +10846,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"])]);
 }
 
-p;19;CPKeyValueBinding.jt;18381;@STATIC;1.0;I;21;Foundation/CPObject.jI;20;Foundation/CPArray.jI;25;Foundation/CPDictionary.jI;31;Foundation/CPValueTransformer.jt;18244;objj_executeFile("Foundation/CPObject.j", NO);
+p;19;CPKeyValueBinding.jt;18377;@STATIC;1.0;I;21;Foundation/CPObject.jI;20;Foundation/CPArray.jI;25;Foundation/CPDictionary.jI;31;Foundation/CPValueTransformer.jt;18240;objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("Foundation/CPDictionary.j", NO);
 objj_executeFile("Foundation/CPValueTransformer.j", NO);
@@ -11019,7 +11037,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
     if (!anObject || !aKeyPath)
         return CPLog.error("Invalid object or path on "+self+" for "+aBinding);
     objj_msgSend(self, "unbind:", aBinding);
-    objj_msgSend(objj_msgSend(CPKeyValueBinding, "alloc"), "initWithBinding:name:to:keyPath:options:from:", objj_msgSend(anObject, "_replacementKeyPathForBinding:", aBinding), aBinding, anObject, aKeyPath, options, self);
+    objj_msgSend(objj_msgSend(CPKeyValueBinding, "alloc"), "initWithBinding:name:to:keyPath:options:from:", objj_msgSend(self, "_replacementKeyPathForBinding:", aBinding), aBinding, anObject, aKeyPath, options, self);
 }
 },["void","CPString","id","CPString","CPDictionary"]), new objj_method(sel_getUid("infoForBinding:"), function $CPObject__infoForBinding_(self, _cmd, aBinding)
 { with(self)
@@ -11723,7 +11741,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"])]);
 }
 
-p;19;CPArrayController.jt;20537;@STATIC;1.0;I;27;AppKit/CPObjectController.jI;26;AppKit/CPKeyValueBinding.jt;20454;objj_executeFile("AppKit/CPObjectController.j", NO);
+p;19;CPArrayController.jt;20553;@STATIC;1.0;I;27;AppKit/CPObjectController.jI;26;AppKit/CPKeyValueBinding.jt;20470;objj_executeFile("AppKit/CPObjectController.j", NO);
 objj_executeFile("AppKit/CPKeyValueBinding.j", NO);
 {var the_class = objj_allocateClassPair(CPObjectController, "CPArrayController"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_avoidsEmptySelection"), new objj_ivar("_clearsFilterPredicateOnInsertion"), new objj_ivar("_filterRestrictsInsertion"), new objj_ivar("_preservesSelection"), new objj_ivar("_selectsInsertedObjects"), new objj_ivar("_alwaysUsesMultipleValuesMarker"), new objj_ivar("_selectionIndexes"), new objj_ivar("_sortDescriptors"), new objj_ivar("_filterPredicate"), new objj_ivar("_arrangedObjects")]);
@@ -11923,7 +11941,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
 { with(self)
 {
     var objects = objj_msgSend(objj_msgSend(self, "arrangedObjects"), "objectsAtIndexes:", objj_msgSend(self, "selectionIndexes"));
-    return objects || objj_msgSend(_CPObservableArray, "array");
+    return objj_msgSend(_CPObservableArray, "arrayWithArray:", (objects || []));
 }
 },["CPArray"]), new objj_method(sel_getUid("setSelectedObjects:"), function $CPArrayController__setSelectedObjects_(self, _cmd, objects)
 { with(self)
