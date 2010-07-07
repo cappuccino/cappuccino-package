@@ -16636,7 +16636,7 @@ objj_msgSend(_5,"performSelector:target:argument:order:modes:",sel_getUid("run")
 }
 })]);
 objj_msgSend(_CPDisplayServer,"run");
-p;11;CPToolbar.jt;24277;@STATIC;1.0;I;21;Foundation/CPObject.ji;15;CPPopUpButton.ji;15;CPToolbarItem.jt;24191;
+p;11;CPToolbar.jt;24452;@STATIC;1.0;I;21;Foundation/CPObject.ji;15;CPPopUpButton.ji;15;CPToolbarItem.jt;24366;
 objj_executeFile("Foundation/CPObject.j",NO);
 objj_executeFile("CPPopUpButton.j",YES);
 objj_executeFile("CPToolbarItem.j",YES);
@@ -16896,6 +16896,7 @@ _additionalItemsButton=objj_msgSend(objj_msgSend(CPPopUpButton,"alloc"),"initWit
 objj_msgSend(_additionalItemsButton,"setBordered:",NO);
 objj_msgSend(_additionalItemsButton,"setImagePosition:",CPImageOnly);
 objj_msgSend(objj_msgSend(_additionalItemsButton,"menu"),"setShowsStateColumn:",NO);
+objj_msgSend(objj_msgSend(_additionalItemsButton,"menu"),"setAutoenablesItems:",NO);
 objj_msgSend(_additionalItemsButton,"setAlternateImage:",_61);
 }
 return _6c;
@@ -17016,11 +17017,11 @@ objj_msgSend(_additionalItemsButton,"addItem:",objj_msgSend(CPMenuItem,"separato
 continue;
 }
 _93=YES;
-objj_msgSend(_additionalItemsButton,"addItemWithTitle:",objj_msgSend(_87,"label"));
-var _94=objj_msgSend(_additionalItemsButton,"itemArray")[_8d+1];
+var _94=objj_msgSend(objj_msgSend(CPMenuItem,"alloc"),"initWithTitle:action:keyEquivalent:",objj_msgSend(_87,"label"),objj_msgSend(_87,"action"),nil);
 objj_msgSend(_94,"setImage:",objj_msgSend(_87,"image"));
 objj_msgSend(_94,"setTarget:",objj_msgSend(_87,"target"));
-objj_msgSend(_94,"setAction:",objj_msgSend(_87,"action"));
+objj_msgSend(_94,"setEnabled:",objj_msgSend(_87,"isEnabled"));
+objj_msgSend(_additionalItemsButton,"addItem:",_94);
 }
 }else{
 objj_msgSend(_additionalItemsButton,"removeFromSuperview");
@@ -17185,6 +17186,7 @@ objj_msgSend(_labelField,"setAlphaValue:",1);
 objj_msgSend(_imageView,"setAlphaValue:",0.5);
 objj_msgSend(_labelField,"setAlphaValue:",0.5);
 }
+objj_msgSend(_toolbar,"tile");
 }
 }),new objj_method(sel_getUid("FIXME_labelColor"),function(_c9,_ca){
 with(_c9){

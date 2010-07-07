@@ -18848,7 +18848,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("run"), function $_CPDi
 }
 objj_msgSend(_CPDisplayServer, "run");
 
-p;11;CPToolbar.jt;35672;@STATIC;1.0;I;21;Foundation/CPObject.ji;15;CPPopUpButton.ji;15;CPToolbarItem.jt;35586;objj_executeFile("Foundation/CPObject.j", NO);
+p;11;CPToolbar.jt;35870;@STATIC;1.0;I;21;Foundation/CPObject.ji;15;CPPopUpButton.ji;15;CPToolbarItem.jt;35784;objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("CPPopUpButton.j", YES);
 objj_executeFile("CPToolbarItem.j", YES);
 CPToolbarDisplayModeDefault = 0;
@@ -19154,6 +19154,7 @@ return _visibleItems;
         objj_msgSend(_additionalItemsButton, "setBordered:", NO);
         objj_msgSend(_additionalItemsButton, "setImagePosition:", CPImageOnly);
         objj_msgSend(objj_msgSend(_additionalItemsButton, "menu"), "setShowsStateColumn:", NO);
+        objj_msgSend(objj_msgSend(_additionalItemsButton, "menu"), "setAutoenablesItems:", NO);
         objj_msgSend(_additionalItemsButton, "setAlternateImage:", _CPToolbarViewExtraItemsAlternateImage);
     }
     return self;
@@ -19311,11 +19312,11 @@ return _visibleItems;
                 continue;
             }
             hasNonSeparatorItem = YES;
-            objj_msgSend(_additionalItemsButton, "addItemWithTitle:", objj_msgSend(item, "label"));
-            var menuItem = objj_msgSend(_additionalItemsButton, "itemArray")[index + 1];
+            var menuItem = objj_msgSend(objj_msgSend(CPMenuItem, "alloc"), "initWithTitle:action:keyEquivalent:", objj_msgSend(item, "label"), objj_msgSend(item, "action"), nil);
             objj_msgSend(menuItem, "setImage:", objj_msgSend(item, "image"));
             objj_msgSend(menuItem, "setTarget:", objj_msgSend(item, "target"));
-            objj_msgSend(menuItem, "setAction:", objj_msgSend(item, "action"));
+            objj_msgSend(menuItem, "setEnabled:", objj_msgSend(item, "isEnabled"));
+            objj_msgSend(_additionalItemsButton, "addItem:", menuItem);
         }
     }
     else
@@ -19516,6 +19517,7 @@ return _maxSize;
         objj_msgSend(_imageView, "setAlphaValue:", 0.5);
         objj_msgSend(_labelField, "setAlphaValue:", 0.5);
     }
+    objj_msgSend(_toolbar, "tile");
 }
 },["void","BOOL"]), new objj_method(sel_getUid("FIXME_labelColor"), function $_CPToolbarItemView__FIXME_labelColor(self, _cmd)
 { with(self)

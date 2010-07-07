@@ -1085,6 +1085,43 @@ var _1=objj_allocateClassPair(CPArray,"CPMutableArray"),_2=_1.isa;
 objj_registerClassPair(_1);
 Array.prototype.isa=CPArray;
 objj_msgSend(CPArray,"initialize");
+p;13;CPFormatter.jt;1592;@STATIC;1.0;I;21;Foundation/CPObject.jt;1547;
+objj_executeFile("Foundation/CPObject.j",NO);
+var _1=objj_allocateClassPair(CPObject,"CPFormatter"),_2=_1.isa;
+objj_registerClassPair(_1);
+class_addMethods(_1,[new objj_method(sel_getUid("stringForObjectValue:"),function(_3,_4,_5){
+with(_3){
+_CPRaiseInvalidAbstractInvocation(_3,sel_getUid("stringForObjectValue:"));
+return nil;
+}
+}),new objj_method(sel_getUid("editingStringForObjectValue:"),function(_6,_7,_8){
+with(_6){
+_CPRaiseInvalidAbstractInvocation(_6,sel_getUid("editingStringForObjectValue:"));
+return nil;
+}
+}),new objj_method(sel_getUid("getObjectValue:forString:errorDescription:"),function(_9,_a,_b,_c,_d){
+with(_9){
+_CPRaiseInvalidAbstractInvocation(_9,sel_getUid("getObjectValue:forString:errorDescription:"));
+return NO;
+}
+}),new objj_method(sel_getUid("isPartialStringValid:newEditingString:errorDescription:"),function(_e,_f,_10,_11,_12){
+with(_e){
+_CPRaiseInvalidAbstractInvocation(_e,sel_getUid("isPartialStringValid:newEditingString:errorDescription:"));
+return NO;
+}
+}),new objj_method(sel_getUid("isPartialStringValue:proposedSelectedRange:originalString:originalSelectedRange:errorDescription:"),function(_13,_14,_15,_16,_17,_18,_19){
+with(_13){
+_CPRaiseInvalidAbstractInvocation(_13,sel_getUid("isPartialStringValue:proposedSelectedRange:originalString:originalSelectedRange:errorDescription:"));
+return nil;
+}
+}),new objj_method(sel_getUid("initWithCoder:"),function(_1a,_1b,_1c){
+with(_1a){
+return objj_msgSend(_1a,"init");
+}
+}),new objj_method(sel_getUid("encodeWithCoder:"),function(_1d,_1e,_1f){
+with(_1d){
+}
+})]);
 p;14;CPInvocation.jt;2659;@STATIC;1.0;i;13;CPException.ji;10;CPObject.jt;2607;
 objj_executeFile("CPException.j",YES);
 objj_executeFile("CPObject.j",YES);
