@@ -347,7 +347,7 @@ with(_1e){
 objj_msgSend(objj_msgSend(objj_msgSend(_1e,"window"),"platformWindow"),"_propagateCurrentDOMEvent:",YES);
 }
 })]);
-p;13;CPTableView.jt;94184;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;94042;
+p;13;CPTableView.jt;94205;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;94063;
 objj_executeFile("Foundation/CPArray.j",NO);
 objj_executeFile("AppKit/CGGradient.j",NO);
 objj_executeFile("CPControl.j",YES);
@@ -931,7 +931,7 @@ return _lastSelectedRow;
 }
 }),new objj_method(sel_getUid("selectedRowIndexes"),function(_ea,_eb){
 with(_ea){
-return _selectedRowIndexes;
+return objj_msgSend(_selectedRowIndexes,"copy");
 }
 }),new objj_method(sel_getUid("deselectColumn:"),function(_ec,_ed,_ee){
 with(_ec){
