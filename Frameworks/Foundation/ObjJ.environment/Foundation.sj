@@ -1085,7 +1085,7 @@ var _1=objj_allocateClassPair(CPArray,"CPMutableArray"),_2=_1.isa;
 objj_registerClassPair(_1);
 Array.prototype.isa=CPArray;
 objj_msgSend(CPArray,"initialize");
-p;13;CPFormatter.jt;1592;@STATIC;1.0;I;21;Foundation/CPObject.jt;1547;
+p;13;CPFormatter.jt;1550;@STATIC;1.0;I;21;Foundation/CPObject.jt;1505;
 objj_executeFile("Foundation/CPObject.j",NO);
 var _1=objj_allocateClassPair(CPObject,"CPFormatter"),_2=_1.isa;
 objj_registerClassPair(_1);
@@ -1096,8 +1096,7 @@ return nil;
 }
 }),new objj_method(sel_getUid("editingStringForObjectValue:"),function(_6,_7,_8){
 with(_6){
-_CPRaiseInvalidAbstractInvocation(_6,sel_getUid("editingStringForObjectValue:"));
-return nil;
+return objj_msgSend(_6,"stringForObjectValue:",_8);
 }
 }),new objj_method(sel_getUid("getObjectValue:forString:errorDescription:"),function(_9,_a,_b,_c,_d){
 with(_9){

@@ -1211,7 +1211,7 @@ meta_class = the_class.isa;objj_registerClassPair(the_class);
 Array.prototype.isa = CPArray;
 objj_msgSend(CPArray, "initialize");
 
-p;13;CPFormatter.jt;2489;@STATIC;1.0;I;21;Foundation/CPObject.jt;2444;objj_executeFile("Foundation/CPObject.j", NO);
+p;13;CPFormatter.jt;2450;@STATIC;1.0;I;21;Foundation/CPObject.jt;2405;objj_executeFile("Foundation/CPObject.j", NO);
 {var the_class = objj_allocateClassPair(CPObject, "CPFormatter"),
 meta_class = the_class.isa;objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("stringForObjectValue:"), function $CPFormatter__stringForObjectValue_(self, _cmd, anObject)
@@ -1223,8 +1223,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("stringForObjectValue:")
 },["CPString","id"]), new objj_method(sel_getUid("editingStringForObjectValue:"), function $CPFormatter__editingStringForObjectValue_(self, _cmd, anObject)
 { with(self)
 {
-    _CPRaiseInvalidAbstractInvocation(self, sel_getUid("editingStringForObjectValue:"));
-    return nil;
+    return objj_msgSend(self, "stringForObjectValue:", anObject);
 }
 },["CPString","id"]), new objj_method(sel_getUid("getObjectValue:forString:errorDescription:"), function $CPFormatter__getObjectValue_forString_errorDescription_(self, _cmd, anObject, aString, anError)
 { with(self)
