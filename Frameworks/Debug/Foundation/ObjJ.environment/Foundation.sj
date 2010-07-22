@@ -2455,7 +2455,7 @@ objj_executeFile("CPUserSessionManager.j", YES);
 objj_executeFile("CPValue.j", YES);
 objj_executeFile("CPValueTransformer.j", YES);
 
-p;10;CPString.jt;16174;@STATIC;1.0;i;13;CPException.ji;10;CPObject.ji;18;CPSortDescriptor.ji;9;CPValue.jt;16085;objj_executeFile("CPException.j", YES);
+p;10;CPString.jt;16524;@STATIC;1.0;i;13;CPException.ji;10;CPObject.ji;18;CPSortDescriptor.ji;9;CPValue.jt;16435;objj_executeFile("CPException.j", YES);
 objj_executeFile("CPObject.j", YES);
 objj_executeFile("CPSortDescriptor.j", YES);
 objj_executeFile("CPValue.j", YES);
@@ -2654,7 +2654,16 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithString:"), func
 {
     return aString && aString != "" && length >= aString.length && lastIndexOf(aString) == (length - aString.length);
 }
-},["BOOL","CPString"]), new objj_method(sel_getUid("isEqualToString:"), function $CPString__isEqualToString_(self, _cmd, aString)
+},["BOOL","CPString"]), new objj_method(sel_getUid("isEqual:"), function $CPString__isEqual_(self, _cmd, anObject)
+{ with(self)
+{
+    if (self === anObject)
+        return YES;
+    if (!anObject || !objj_msgSend(anObject, "isKindOfClass:", objj_msgSend(CPString, "class")))
+        return NO;
+    return objj_msgSend(self, "isEqualToString:", anObject);
+}
+},["BOOL","id"]), new objj_method(sel_getUid("isEqualToString:"), function $CPString__isEqualToString_(self, _cmd, aString)
 { with(self)
 {
     return self == aString;
@@ -5377,7 +5386,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("nextObject"), function 
 },["CPArray"])]);
 }
 
-p;8;CPDate.jt;7394;@STATIC;1.0;i;10;CPObject.ji;10;CPString.jt;7345;objj_executeFile("CPObject.j", YES);
+p;8;CPDate.jt;7440;@STATIC;1.0;i;10;CPObject.ji;10;CPString.jt;7391;objj_executeFile("CPObject.j", YES);
 objj_executeFile("CPString.j", YES);
 var CPDateReferenceDate = new Date(Date.UTC(2001, 1, 1, 0, 0, 0, 0));
 {var the_class = objj_allocateClassPair(CPObject, "CPDate"),
@@ -5444,12 +5453,18 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithTimeIntervalSin
 },["CPTimeInterval"]), new objj_method(sel_getUid("isEqual:"), function $CPDate__isEqual_(self, _cmd, aDate)
 { with(self)
 {
+    if (self === aDate)
+        return YES;
+    if (!aDate || !objj_msgSend(aDate, "isKindOfClass:", objj_msgSend(CPDate, "class")))
+        return NO;
     return objj_msgSend(self, "isEqualToDate:", aDate);
 }
-},["BOOL","CPDate"]), new objj_method(sel_getUid("isEqualToDate:"), function $CPDate__isEqualToDate_(self, _cmd, anotherDate)
+},["BOOL","CPDate"]), new objj_method(sel_getUid("isEqualToDate:"), function $CPDate__isEqualToDate_(self, _cmd, aDate)
 { with(self)
 {
-    return self === anotherDate || (anotherDate !== nil && anotherDate.isa && objj_msgSend(anotherDate, "isKindOfClass:", CPDate) && !(self < anotherDate || self > anotherDate));
+    if (!aDate)
+        return NO;
+    return !(self < aDate || self > aDate);
 }
 },["BOOL","CPDate"]), new objj_method(sel_getUid("compare:"), function $CPDate__compare_(self, _cmd, anotherDate)
 { with(self)
