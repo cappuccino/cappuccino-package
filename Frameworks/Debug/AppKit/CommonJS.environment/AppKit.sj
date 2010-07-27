@@ -11257,7 +11257,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"])]);
 }
 
-p;19;CPArrayController.jt;20553;@STATIC;1.0;I;27;AppKit/CPObjectController.jI;26;AppKit/CPKeyValueBinding.jt;20470;objj_executeFile("AppKit/CPObjectController.j", NO);
+p;19;CPArrayController.jt;20531;@STATIC;1.0;I;27;AppKit/CPObjectController.jI;26;AppKit/CPKeyValueBinding.jt;20448;objj_executeFile("AppKit/CPObjectController.j", NO);
 objj_executeFile("AppKit/CPKeyValueBinding.j", NO);
 {var the_class = objj_allocateClassPair(CPObjectController, "CPArrayController"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_avoidsEmptySelection"), new objj_ivar("_clearsFilterPredicateOnInsertion"), new objj_ivar("_filterRestrictsInsertion"), new objj_ivar("_preservesSelection"), new objj_ivar("_selectsInsertedObjects"), new objj_ivar("_alwaysUsesMultipleValuesMarker"), new objj_ivar("_selectionIndexes"), new objj_ivar("_sortDescriptors"), new objj_ivar("_filterPredicate"), new objj_ivar("_arrangedObjects")]);
@@ -11313,7 +11313,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
     if(!objj_msgSend(value, "isKindOfClass:", objj_msgSend(CPArray, "class")))
         value = [value];
     var oldSelection = nil,
-        oldSelectionIndexes = objj_msgSend(objj_msgSend(self, "selectionIndexes"), "copy");
+        oldSelectionIndexes = objj_msgSend(self, "selectionIndexes");
     if (objj_msgSend(self, "preservesSelection"))
         oldSelection = objj_msgSend(self, "selectedObjects");
     _selectionIndexes = objj_msgSend(CPIndexSet, "indexSet");
@@ -25156,7 +25156,7 @@ var colorForDisclosureTriangle = function(isSelected, isHighlighted) {
             : objj_msgSend(CPColor, "colorWithCalibratedWhite:alpha:", 0.5,  1.0));
 }
 
-p;8;AppKit.jt;3975;@STATIC;1.0;i;9;CALayer.ji;9;CPAlert.ji;13;CPAnimation.ji;15;CPApplication.ji;14;CPBezierPath.ji;7;CPBox.ji;11;CPBrowser.ji;10;CPButton.ji;13;CPButtonBar.ji;12;CPCheckBox.ji;7;CPCib.ji;16;CPCibConnector.ji;23;CPCibControlConnector.ji;14;CPCibLoading.ji;22;CPCibOutletConnector.ji;12;CPClipView.ji;22;CPCollectionViewItem.ji;18;CPCollectionView.ji;9;CPColor.ji;14;CPColorPanel.ji;13;CPColorWell.ji;17;CPCompatibility.ji;11;CPControl.ji;10;CPCookie.ji;10;CPCursor.ji;12;CPDocument.ji;22;CPDocumentController.ji;9;CPEvent.ji;14;CPFlashMovie.ji;13;CPFlashView.ji;8;CPFont.ji;15;CPFontManager.ji;12;CPGeometry.ji;9;CPImage.ji;13;CPImageView.ji;14;CPKeyBinding.ji;8;CPMenu.ji;12;CPMenuItem.ji;13;CPOpenPanel.ji;15;CPOutlineView.ji;9;CPPanel.ji;14;CPPasteboard.ji;15;CPPopUpButton.ji;21;CPProgressIndicator.ji;9;CPRadio.ji;13;CPResponder.ji;15;CPSearchField.ji;14;CPScrollView.ji;12;CPScroller.ji;19;CPSecureTextField.ji;20;CPSegmentedControl.ji;10;CPShadow.ji;10;CPSlider.ji;13;CPSplitView.ji;11;CPTabView.ji;15;CPTableColumn.ji;13;CPTableView.ji;8;CPText.ji;13;CPTextField.ji;11;CPToolbar.ji;15;CPToolbarItem.ji;12;CPTreeNode.ji;8;CPView.ji;17;CPViewAnimation.ji;18;CPViewController.ji;11;CPWebView.ji;10;CPWindow.ji;20;CPWindowController.jt;2733;objj_executeFile("CALayer.j", YES);
+p;8;AppKit.jt;4045;@STATIC;1.0;i;9;CALayer.ji;9;CPAlert.ji;13;CPAnimation.ji;15;CPApplication.ji;14;CPBezierPath.ji;7;CPBox.ji;11;CPBrowser.ji;10;CPButton.ji;13;CPButtonBar.ji;12;CPCheckBox.ji;7;CPCib.ji;16;CPCibConnector.ji;23;CPCibControlConnector.ji;14;CPCibLoading.ji;22;CPCibOutletConnector.ji;12;CPClipView.ji;22;CPCollectionViewItem.ji;18;CPCollectionView.ji;9;CPColor.ji;14;CPColorPanel.ji;13;CPColorWell.ji;17;CPCompatibility.ji;11;CPControl.ji;10;CPCookie.ji;10;CPCursor.ji;12;CPDocument.ji;22;CPDocumentController.ji;9;CPEvent.ji;14;CPFlashMovie.ji;13;CPFlashView.ji;8;CPFont.ji;15;CPFontManager.ji;12;CPGeometry.ji;9;CPImage.ji;13;CPImageView.ji;14;CPKeyBinding.ji;8;CPMenu.ji;12;CPMenuItem.ji;13;CPOpenPanel.ji;15;CPOutlineView.ji;9;CPPanel.ji;14;CPPasteboard.ji;15;CPPopUpButton.ji;21;CPProgressIndicator.ji;9;CPRadio.ji;13;CPResponder.ji;15;CPSearchField.ji;14;CPScrollView.ji;12;CPScroller.ji;19;CPSecureTextField.ji;20;CPSegmentedControl.ji;10;CPShadow.ji;10;CPSlider.ji;13;CPSplitView.ji;11;CPTabView.ji;15;CPTableColumn.ji;13;CPTableView.ji;8;CPText.ji;13;CPTextField.ji;11;CPToolbar.ji;15;CPToolbarItem.ji;12;CPTreeNode.ji;8;CPView.ji;17;CPViewAnimation.ji;18;CPViewController.ji;11;CPWebView.ji;10;CPWindow.ji;20;CPWindowController.ji;19;CPArrayController.jt;2779;objj_executeFile("CALayer.j", YES);
 objj_executeFile("CPAlert.j", YES);
 objj_executeFile("CPAnimation.j", YES);
 objj_executeFile("CPApplication.j", YES);
@@ -25224,6 +25224,7 @@ objj_executeFile("CPViewController.j", YES);
 objj_executeFile("CPWebView.j", YES);
 objj_executeFile("CPWindow.j", YES);
 objj_executeFile("CPWindowController.j", YES);
+objj_executeFile("CPArrayController.j", YES);
 
 p;20;CPWindowController.jt;13133;@STATIC;1.0;I;21;Foundation/CPObject.jI;21;Foundation/CPString.ji;13;CPResponder.ji;10;CPWindow.ji;12;CPDocument.jt;13011;objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("Foundation/CPString.j", NO);

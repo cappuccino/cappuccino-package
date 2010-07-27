@@ -7137,7 +7137,7 @@ CPIsNilTransformerName = "CPIsNilTransformerName";
 CPIsNotNilTransformerName = "CPIsNotNilTransformerName";
 CPUnarchiveFromDataTransformerName = "CPUnarchiveFromDataTransformerName";
 
-p;18;CPKeyValueCoding.jt;9846;@STATIC;1.0;i;9;CPArray.ji;14;CPDictionary.ji;8;CPNull.ji;10;CPObject.ji;21;CPKeyValueObserving.ji;13;CPArray+KVO.jt;9724;objj_executeFile("CPArray.j", YES);
+p;18;CPKeyValueCoding.jt;10876;@STATIC;1.0;i;9;CPArray.ji;14;CPDictionary.ji;8;CPNull.ji;10;CPObject.ji;21;CPKeyValueObserving.ji;13;CPArray+KVO.jt;10753;objj_executeFile("CPArray.j", YES);
 objj_executeFile("CPDictionary.j", YES);
 objj_executeFile("CPNull.j", YES);
 objj_executeFile("CPObject.j", YES);
@@ -7146,6 +7146,8 @@ var CPObjectAccessorsForClass = nil,
 CPUndefinedKeyException = "CPUndefinedKeyException";
 CPTargetObjectUserInfoKey = "CPTargetObjectUserInfoKey";
 CPUnknownUserInfoKey = "CPUnknownUserInfoKey";
+var CPObjectAccessorsForClassKey = "$CPObjectAccessorsForClassKey",
+    CPObjectModifiersForClassKey = "$CPObjectModifiersForClassKey";
 {
 var the_class = objj_getClass("CPObject")
 if(!the_class) throw new SyntaxError("*** Could not find definition for class \"CPObject\"");
@@ -7171,7 +7173,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 { with(self)
 {
     var theClass = objj_msgSend(self, "class"),
-        selector = objj_msgSend(theClass, "_accessorForKey:", aKey);
+        selector = _accessorForKey(theClass, aKey);
     if (selector)
         return objj_msgSend(self, selector);
     if (objj_msgSend(theClass, "accessInstanceVariablesDirectly"))
@@ -7261,22 +7263,16 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("accessInstanceVariable
 },["BOOL"]), new objj_method(sel_getUid("_accessorForKey:"), function $CPObject___accessorForKey_(self, _cmd, aKey)
 { with(self)
 {
-    if (!CPObjectAccessorsForClass)
-        CPObjectAccessorsForClass = objj_msgSend(CPDictionary, "dictionary");
-    var UID = objj_msgSend(isa, "UID"),
-        selector = nil,
-        accessors = objj_msgSend(CPObjectAccessorsForClass, "objectForKey:", UID);
+    var selector = nil,
+        accessors = isa[CPObjectAccessorsForClassKey];
     if (accessors)
     {
-        selector = objj_msgSend(accessors, "objectForKey:", aKey);
+        selector = accessors[aKey];
         if (selector)
             return selector === objj_msgSend(CPNull, "null") ? nil : selector;
     }
     else
-    {
-        accessors = objj_msgSend(CPDictionary, "dictionary");
-        objj_msgSend(CPObjectAccessorsForClass, "setObject:forKey:", accessors, UID);
-    }
+        accessors = isa[CPObjectAccessorsForClassKey] = {};
     var capitalizedKey = aKey.charAt(0).toUpperCase() + aKey.substr(1);
     if (objj_msgSend(self, "instancesRespondToSelector:", selector = CPSelectorFromString("get" + capitalizedKey)) ||
         objj_msgSend(self, "instancesRespondToSelector:", selector = CPSelectorFromString(aKey)) ||
@@ -7285,10 +7281,10 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("accessInstanceVariable
         objj_msgSend(self, "instancesRespondToSelector:", selector = CPSelectorFromString("_" + aKey)) ||
         objj_msgSend(self, "instancesRespondToSelector:", selector = CPSelectorFromString("_is" + capitalizedKey)))
     {
-        objj_msgSend(accessors, "setObject:forKey:", selector, aKey);
+        accessors[aKey] = selector;
         return selector;
     }
-    objj_msgSend(accessors, "setObject:forKey:", objj_msgSend(CPNull, "null"), aKey);
+    accessors[aKey] = objj_msgSend(CPNull, "null");
     return nil;
 }
 },["SEL","CPString"]), new objj_method(sel_getUid("_modifierForKey:"), function $CPObject___modifierForKey_(self, _cmd, aKey)
@@ -7323,6 +7319,33 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("accessInstanceVariable
     return nil;
 }
 },["SEL","CPString"])]);
+}
+var Null = objj_msgSend(CPNull, "null");
+var _accessorForKey = function(theClass, aKey)
+{
+    var selector = nil,
+        accessors = theClass.isa[CPObjectAccessorsForClassKey];
+    if (accessors)
+    {
+        selector = accessors[aKey];
+        if (selector)
+            return selector === Null ? nil : selector;
+    }
+    else
+        accessors = theClass.isa[CPObjectAccessorsForClassKey] = {};
+    var capitalizedKey = aKey.charAt(0).toUpperCase() + aKey.substr(1);
+    if (objj_msgSend(theClass, "instancesRespondToSelector:", selector = CPSelectorFromString("get" + capitalizedKey)) ||
+        objj_msgSend(theClass, "instancesRespondToSelector:", selector = CPSelectorFromString(aKey)) ||
+        objj_msgSend(theClass, "instancesRespondToSelector:", selector = CPSelectorFromString("is" + capitalizedKey)) ||
+        objj_msgSend(theClass, "instancesRespondToSelector:", selector = CPSelectorFromString("_get" + capitalizedKey)) ||
+        objj_msgSend(theClass, "instancesRespondToSelector:", selector = CPSelectorFromString("_" + aKey)) ||
+        objj_msgSend(theClass, "instancesRespondToSelector:", selector = CPSelectorFromString("_is" + capitalizedKey)))
+    {
+        accessors[aKey] = selector;
+        return selector;
+    }
+    accessors[aKey] = Null;
+    return nil;
 }
 {
 var the_class = objj_getClass("CPDictionary")
@@ -8056,7 +8079,7 @@ Number.prototype.isa = CPNumber;
 Boolean.prototype.isa = CPNumber;
 objj_msgSend(CPNumber, "initialize");
 
-p;21;CPKeyValueObserving.jt;28204;@STATIC;1.0;i;9;CPArray.ji;14;CPDictionary.ji;13;CPException.ji;8;CPNull.ji;10;CPObject.ji;7;CPSet.ji;13;CPArray+KVO.jt;28078;objj_executeFile("CPArray.j", YES);
+p;21;CPKeyValueObserving.jt;28365;@STATIC;1.0;i;9;CPArray.ji;14;CPDictionary.ji;13;CPException.ji;8;CPNull.ji;10;CPObject.ji;7;CPSet.ji;13;CPArray+KVO.jt;28239;objj_executeFile("CPArray.j", YES);
 objj_executeFile("CPDictionary.j", YES);
 objj_executeFile("CPException.j", YES);
 objj_executeFile("CPNull.j", YES);
@@ -8182,7 +8205,6 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithTarget:"), func
     self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("_CPKVOProxy").super_class }, "init");
     _targetObject = aTarget;
     _nativeClass = objj_msgSend(aTarget, "class");
-    _replacedKeys = objj_msgSend(CPSet, "set");
     _observersForKey = {};
     _changesForKey = {};
     _observersForKeyLength = 0;
@@ -8197,10 +8219,13 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithTarget:"), func
     if (existingKVOClass)
     {
         _targetObject.isa = existingKVOClass;
+        _replacedKeys = existingKVOClass._replacedKeys;
         return;
     }
     var kvoClass = objj_allocateClassPair(currentClass, kvoClassName);
     objj_registerClassPair(kvoClass);
+    _replacedKeys = objj_msgSend(CPSet, "set");
+    kvoClass._replacedKeys = _replacedKeys;
     var methodList = _CPKVOModelSubclass.method_list,
         count = methodList.length,
         i = 0;
@@ -8247,6 +8272,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithTarget:"), func
         {
             var theMethod = class_getInstanceMethod(_nativeClass, theSelector);
             class_addMethod(_targetObject.isa, theSelector, theReplacementMethod(aKey, theMethod), "");
+            objj_msgSend(_replacedKeys, "addObject:", aKey);
         }
     }
     var affectingKeys = objj_msgSend(objj_msgSend(_nativeClass, "keyPathsForValuesAffectingValueForKey:", aKey), "allObjects"),
