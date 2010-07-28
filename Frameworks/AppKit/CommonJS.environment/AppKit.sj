@@ -3206,7 +3206,7 @@ _58.height=MAX(_58.height,_textSize.height);
 objj_msgSend(_56,"setFrameSize:",_58);
 }
 })]);
-p;15;CPTableColumn.jt;12703;@STATIC;1.0;I;25;Foundation/CPDictionary.jI;21;Foundation/CPObject.jI;29;Foundation/CPSortDescriptor.jI;21;Foundation/CPString.ji;19;CPTableHeaderView.jt;12543;
+p;15;CPTableColumn.jt;12762;@STATIC;1.0;I;25;Foundation/CPDictionary.jI;21;Foundation/CPObject.jI;29;Foundation/CPSortDescriptor.jI;21;Foundation/CPString.ji;19;CPTableHeaderView.jt;12602;
 objj_executeFile("Foundation/CPDictionary.j",NO);
 objj_executeFile("Foundation/CPObject.j",NO);
 objj_executeFile("Foundation/CPSortDescriptor.j",NO);
@@ -3387,6 +3387,7 @@ _dataViewData[_47]=objj_msgSend(CPKeyedArchiver,"archivedDataWithRootObject:",_4
 }
 var _48=objj_msgSend(CPKeyedUnarchiver,"unarchiveObjectWithData:",_dataViewData[_47]);
 _48.identifier=_47;
+objj_msgSend(_48,"setAutoresizingMask:",CPViewNotSizable);
 return _48;
 }
 }),new objj_method(sel_getUid("setIdentifier:"),function(_49,_4a,_4b){
