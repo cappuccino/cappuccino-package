@@ -1784,7 +1784,7 @@ with(_9){
 return objj_msgSend(CPViewController,"class");
 }
 })]);
-p;13;NSTextField.jt;3806;@STATIC;1.0;I;20;AppKit/CPTextField.ji;11;NSControl.ji;8;NSCell.jI;15;AppKit/CPFont.jt;3714;
+p;13;NSTextField.jt;3837;@STATIC;1.0;I;20;AppKit/CPTextField.ji;11;NSControl.ji;8;NSCell.jI;15;AppKit/CPFont.jt;3745;
 objj_executeFile("AppKit/CPTextField.j",NO);
 objj_executeFile("NSControl.j",YES);
 objj_executeFile("NSCell.j",YES);
@@ -1799,7 +1799,7 @@ with(_3){
 _3=objj_msgSendSuper({receiver:_3,super_class:objj_getClass("CPTextField").super_class},"NS_initWithCoder:",_5);
 if(_3){
 var _6=objj_msgSend(_5,"decodeObjectForKey:","NSCell");
-if(objj_msgSend(objj_msgSend(_6,"font"),"isEqual:",objj_msgSend(CPFont,"boldSystemFontOfSize:",12))){
+if(objj_msgSend(_6,"isEditable")&&objj_msgSend(objj_msgSend(_6,"font"),"isEqual:",objj_msgSend(CPFont,"boldSystemFontOfSize:",12))){
 objj_msgSend(_3,"setFont:",objj_msgSend(CPFont,"systemFontOfSize:",12));
 }
 objj_msgSend(_3,"sendActionOn:",CPKeyUpMask|CPKeyDownMask);
