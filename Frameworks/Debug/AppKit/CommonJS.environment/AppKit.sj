@@ -4032,7 +4032,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["id","int"])]);
 }
 
-p;15;CPSearchField.jt;31416;@STATIC;1.0;i;13;CPTextField.jt;31378;objj_executeFile("CPTextField.j", YES);
+p;15;CPSearchField.jt;30363;@STATIC;1.0;i;13;CPTextField.jt;30325;objj_executeFile("CPTextField.j", YES);
 CPSearchFieldRecentsTitleMenuItemTag = 1000;
 CPSearchFieldRecentsMenuItemTag = 1001;
 CPSearchFieldClearRecentsMenuItemTag = 1002;
@@ -4080,8 +4080,6 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     objj_msgSend(self, "setSearchButton:", searchButton);
     objj_msgSend(self, "resetSearchButton");
     _canResignFirstResponder = YES;
-    if (_maximumRecents < 254 && !_searchMenuTemplate)
-        objj_msgSend(self, "setSearchMenuTemplate:", objj_msgSend(self, "_defaultSearchMenuTemplate"));
 }
 },["void","CGRect"]), new objj_method(sel_getUid("setSearchButton:"), function $CPSearchField__setSearchButton_(self, _cmd, button)
 { with(self)
@@ -4336,12 +4334,12 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     else
         objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPSearchField").super_class }, "mouseDown:", anEvent);
 }
-},["void","CPEvent"]), new objj_method(sel_getUid("_defaultSearchMenuTemplate"), function $CPSearchField___defaultSearchMenuTemplate(self, _cmd)
+},["void","CPEvent"]), new objj_method(sel_getUid("defaultSearchMenuTemplate"), function $CPSearchField__defaultSearchMenuTemplate(self, _cmd)
 { with(self)
 {
     var template = objj_msgSend(objj_msgSend(CPMenu, "alloc"), "init"),
         item;
-    item = objj_msgSend(objj_msgSend(CPMenuItem, "alloc"), "initWithTitle:action:keyEquivalent:", "Recent searches", nil, "");
+    item = objj_msgSend(objj_msgSend(CPMenuItem, "alloc"), "initWithTitle:action:keyEquivalent:", "Recent Searches", nil, "");
     objj_msgSend(item, "setTag:", CPSearchFieldRecentsTitleMenuItemTag);
     objj_msgSend(item, "setEnabled:", NO);
     objj_msgSend(template, "addItem:", item);
@@ -4349,11 +4347,11 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     objj_msgSend(item, "setTag:", CPSearchFieldRecentsMenuItemTag);
     objj_msgSend(item, "setTarget:", self);
     objj_msgSend(template, "addItem:", item);
-    item = objj_msgSend(objj_msgSend(CPMenuItem, "alloc"), "initWithTitle:action:keyEquivalent:", "Clear recent searches", sel_getUid("_searchFieldClearRecents:"), "");
+    item = objj_msgSend(objj_msgSend(CPMenuItem, "alloc"), "initWithTitle:action:keyEquivalent:", "Clear Recent Searches", sel_getUid("_searchFieldClearRecents:"), "");
     objj_msgSend(item, "setTag:", CPSearchFieldClearRecentsMenuItemTag);
     objj_msgSend(item, "setTarget:", self);
     objj_msgSend(template, "addItem:", item);
-    item = objj_msgSend(objj_msgSend(CPMenuItem, "alloc"), "initWithTitle:action:keyEquivalent:", "No recent searches", nil, "");
+    item = objj_msgSend(objj_msgSend(CPMenuItem, "alloc"), "initWithTitle:action:keyEquivalent:", "No Recent Searches", nil, "");
     objj_msgSend(item, "setTag:", CPSearchFieldNoRecentsMenuItemTag);
     objj_msgSend(item, "setEnabled:", NO);
     objj_msgSend(template, "addItem:", item);
@@ -4369,11 +4367,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
         numberOfItems = objj_msgSend(_searchMenuTemplate, "numberOfItems");
     for (var i = 0; i < numberOfItems; i++)
     {
-        var item = objj_msgSend(_searchMenuTemplate, "itemAtIndex:", i),
-            tag = objj_msgSend(item, "tag"),
-            itemAction = objj_msgSend(item, "action"),
-            itemTarget = objj_msgSend(item, "target");
-        switch (tag)
+        var item = objj_msgSend(objj_msgSend(_searchMenuTemplate, "itemAtIndex:", i), "copy");
+        switch (objj_msgSend(item, "tag"))
         {
             case CPSearchFieldRecentsTitleMenuItemTag:
                 if (countOfRecents === 0)
@@ -4383,24 +4378,11 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
                 break;
             case CPSearchFieldRecentsMenuItemTag:
             {
-                var recentItemTemplate = objj_msgSend(_searchMenuTemplate, "itemWithTag:", CPSearchFieldRecentsMenuItemTag),
-                    recentItemAction, recentItemTarget, recentItemKeyEquivalent;
-                if (recentItemTemplate)
-                {
-                    recentItemAction = objj_msgSend(recentItemTemplate, "action");
-                    recentItemTarget = objj_msgSend(recentItemTemplate, "target");
-                    recentItemKeyEquivalent = objj_msgSend(recentItemTemplate, "keyEquivalent");
-                }
-                else
-                {
-                    recentItemAction = sel_getUid("_searchFieldSearch:");
-                    recentItemTarget = self;
-                    recentItemKeyEquivalent = "";
-                }
+                var itemAction = sel_getUid("_searchFieldSearch:");
                 for (var recentIndex = 0; recentIndex < countOfRecents; ++recentIndex)
                 {
-                    var recentItem = objj_msgSend(objj_msgSend(CPMenuItem, "alloc"), "initWithTitle:action:keyEquivalent:", RECENT_SEARCH_PREFIX + objj_msgSend(_recentSearches, "objectAtIndex:", recentIndex), recentItemAction, recentItemKeyEquivalent);
-                    objj_msgSend(recentItem, "setTarget:", recentItemTarget);
+                    var recentItem = objj_msgSend(objj_msgSend(CPMenuItem, "alloc"), "initWithTitle:action:keyEquivalent:", RECENT_SEARCH_PREFIX + objj_msgSend(_recentSearches, "objectAtIndex:", recentIndex), itemAction, objj_msgSend(item, "keyEquivalent"));
+                    objj_msgSend(item, "setTarget:", self);
                     objj_msgSend(menu, "addItem:", recentItem);
                 }
                 continue;
@@ -4410,10 +4392,14 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
                     continue;
                 if (objj_msgSend(menu, "numberOfItems") > 0)
                     objj_msgSend(self, "_addSeparatorToMenu:", menu);
+                objj_msgSend(item, "setAction:", sel_getUid("_searchFieldClearRecents:"));
+                objj_msgSend(item, "setTarget:", self);
                 break;
             case CPSearchFieldNoRecentsMenuItemTag:
                 if (countOfRecents !== 0)
                     continue;
+                if (objj_msgSend(menu, "numberOfItems") > 0)
+                    objj_msgSend(self, "_addSeparatorToMenu:", menu);
                 break;
             case CPSearchFieldSeparatorMenuItemTag:
                 item = objj_msgSend(CPMenuItem, "separatorItem");
@@ -4421,12 +4407,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
                 objj_msgSend(menu, "addItem:", item);
                 continue;
         }
-        var templateItem = objj_msgSend(objj_msgSend(CPMenuItem, "alloc"), "initWithTitle:action:keyEquivalent:", objj_msgSend(item, "title"), itemAction, objj_msgSend(item, "keyEquivalent"));
-        objj_msgSend(templateItem, "setTarget:", itemTarget);
-        objj_msgSend(templateItem, "setEnabled:", (objj_msgSend(item, "isEnabled") && itemAction != nil));
-        objj_msgSend(templateItem, "setTag:", tag);
-        objj_msgSend(templateItem, "setImage:", objj_msgSend(item, "image"));
-        objj_msgSend(menu, "addItem:", templateItem);
+        objj_msgSend(item, "setEnabled:", (objj_msgSend(item, "isEnabled") && objj_msgSend(item, "action") != nil && objj_msgSend(item, "target") != nil));
+        objj_msgSend(menu, "addItem:", item);
     }
     objj_msgSend(menu, "setDelegate:", self);
     _searchMenu = menu;
@@ -6920,7 +6902,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"])]);
 }
 
-p;20;CPSegmentedControl.jt;31171;@STATIC;1.0;I;20;Foundation/CPArray.ji;11;CPControl.jt;31110;objj_executeFile("Foundation/CPArray.j", NO);
+p;20;CPSegmentedControl.jt;34164;@STATIC;1.0;I;20;Foundation/CPArray.ji;11;CPControl.jt;34103;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("CPControl.j", YES);
 CPSegmentSwitchTrackingSelectOne = 0;
 CPSegmentSwitchTrackingSelectAny = 1;
@@ -6944,7 +6926,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["id","CGRect"]), new objj_method(sel_getUid("selectedTag"), function $CPSegmentedControl__selectedTag(self, _cmd)
 { with(self)
 {
-    return _segments[_selectedSegment].tag;
+    return objj_msgSend(_segments[_selectedSegment], "tag");
 }
 },["int"]), new objj_method(sel_getUid("setSegmentCount:"), function $CPSegmentedControl__setSegmentCount_(self, _cmd, aCount)
 { with(self)
@@ -7011,7 +6993,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
         var index = 0,
             selected = NO;
         for (; index < _segments.length; ++index)
-            if (_segments[index].selected)
+            if (objj_msgSend(_segments[index], "selected"))
                 if (selected)
                     objj_msgSend(self, "setSelected:forSegment:", NO, index);
                 else
@@ -7021,7 +7003,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     {
         var index = 0;
         for (; index < _segments.length; ++index)
-            if (_segments[index].selected)
+            if (objj_msgSend(_segments[index], "selected"))
                 objj_msgSend(self, "setSelected:forSegment:", NO, index);
     }
 }
@@ -7033,55 +7015,53 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["CPSegmentSwitchTracking"]), new objj_method(sel_getUid("setWidth:forSegment:"), function $CPSegmentedControl__setWidth_forSegment_(self, _cmd, aWidth, aSegment)
 { with(self)
 {
-    _segments[aSegment].width = aWidth;
+    objj_msgSend(_segments[aSegment], "setWidth:", aWidth);
     objj_msgSend(self, "tileWithChangedSegment:", aSegment);
 }
 },["void","float","unsigned"]), new objj_method(sel_getUid("widthForSegment:"), function $CPSegmentedControl__widthForSegment_(self, _cmd, aSegment)
 { with(self)
 {
-    return _segments[aSegment].width;
+    return objj_msgSend(_segments[aSegment], "width");
 }
 },["float","unsigned"]), new objj_method(sel_getUid("setImage:forSegment:"), function $CPSegmentedControl__setImage_forSegment_(self, _cmd, anImage, aSegment)
 { with(self)
 {
-    var segment = _segments[aSegment];
-    segment.image = anImage;
+    objj_msgSend(_segments[aSegment], "setImage:", anImage);
     objj_msgSend(self, "tileWithChangedSegment:", aSegment);
 }
 },["void","CPImage","unsigned"]), new objj_method(sel_getUid("imageForSegment:"), function $CPSegmentedControl__imageForSegment_(self, _cmd, aSegment)
 { with(self)
 {
-    return _segments[aSegment].image;
+    return objj_msgSend(_segments[aSegment], "image");
 }
 },["CPImage","unsigned"]), new objj_method(sel_getUid("setLabel:forSegment:"), function $CPSegmentedControl__setLabel_forSegment_(self, _cmd, aLabel, aSegment)
 { with(self)
 {
-    var segment = _segments[aSegment];
-    _segments[aSegment].label = aLabel;
+    objj_msgSend(_segments[aSegment], "setLabel:", aLabel);
     objj_msgSend(self, "tileWithChangedSegment:", aSegment);
 }
 },["void","CPString","unsigned"]), new objj_method(sel_getUid("labelForSegment:"), function $CPSegmentedControl__labelForSegment_(self, _cmd, aSegment)
 { with(self)
 {
-    return _segments[aSegment].label;
+    return objj_msgSend(_segments[aSegment], "label");
 }
 },["CPString","unsigned"]), new objj_method(sel_getUid("setMenu:forSegment:"), function $CPSegmentedControl__setMenu_forSegment_(self, _cmd, aMenu, aSegment)
 { with(self)
 {
-    _segments[aSegment].menu = aMenu;
+    objj_msgSend(_segments[aSegment], "setMenu:", aMenu);
 }
 },["void","CPMenu","unsigned"]), new objj_method(sel_getUid("menuForSegment:"), function $CPSegmentedControl__menuForSegment_(self, _cmd, aSegment)
 { with(self)
 {
-    return _segments[aSegment].menu;
+    return objj_msgSend(_segments[aSegment], "menu");
 }
 },["CPMenu","unsigned"]), new objj_method(sel_getUid("setSelected:forSegment:"), function $CPSegmentedControl__setSelected_forSegment_(self, _cmd, isSelected, aSegment)
 { with(self)
 {
     var segment = _segments[aSegment];
-    if (segment.selected == isSelected)
+    if (objj_msgSend(segment, "selected") == isSelected)
         return;
-    segment.selected = isSelected;
+    objj_msgSend(segment, "setSelected:", isSelected);
     _themeStates[aSegment] = isSelected ? CPThemeStateSelected : CPThemeStateNormal;
     if (isSelected)
     {
@@ -7089,7 +7069,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
         _selectedSegment = aSegment;
         if (_trackingMode == CPSegmentSwitchTrackingSelectOne && oldSelectedSegment != aSegment && oldSelectedSegment != -1)
         {
-            _segments[oldSelectedSegment].selected = NO;
+            objj_msgSend(_segments[oldSelectedSegment], "setSelected:", NO);
             _themeStates[oldSelectedSegment] = CPThemeStateNormal;
             objj_msgSend(self, "drawSegmentBezel:highlight:", oldSelectedSegment, NO);
         }
@@ -7102,11 +7082,12 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","BOOL","unsigned"]), new objj_method(sel_getUid("isSelectedForSegment:"), function $CPSegmentedControl__isSelectedForSegment_(self, _cmd, aSegment)
 { with(self)
 {
-    return _segments[aSegment].selected;
+    return objj_msgSend(_segments[aSegment], "selected");
 }
 },["BOOL","unsigned"]), new objj_method(sel_getUid("setEnabled:forSegment:"), function $CPSegmentedControl__setEnabled_forSegment_(self, _cmd, isEnabled, aSegment)
 { with(self)
 {
+    objj_msgSend(_segments[aSegment], "setEnabled:", isEnabled);
     if (isEnabled)
         _themeStates[aSegment] &= ~CPThemeStateDisabled;
     else
@@ -7117,17 +7098,17 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","BOOL","unsigned"]), new objj_method(sel_getUid("isEnabledForSegment:"), function $CPSegmentedControl__isEnabledForSegment_(self, _cmd, aSegment)
 { with(self)
 {
-    return !(_themeStates[aSegment] & CPThemeStateDisabled)
+    return objj_msgSend(_segments[aSegment], "enabled");
 }
 },["BOOL","unsigned"]), new objj_method(sel_getUid("setTag:forSegment:"), function $CPSegmentedControl__setTag_forSegment_(self, _cmd, aTag, aSegment)
 { with(self)
 {
-    _segments[aSegment].tag = aTag;
+    objj_msgSend(_segments[aSegment], "setTag:", aTag);
 }
 },["void","int","unsigned"]), new objj_method(sel_getUid("tagForSegment:"), function $CPSegmentedControl__tagForSegment_(self, _cmd, aSegment)
 { with(self)
 {
-    return _segments[aSegment].tag;
+    return objj_msgSend(_segments[aSegment], "tag");
 }
 },["int","unsigned"]), new objj_method(sel_getUid("drawSegmentBezel:highlight:"), function $CPSegmentedControl__drawSegmentBezel_highlight_(self, _cmd, aSegment, shouldHighlight)
 { with(self)
@@ -7177,7 +7158,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     else if (aName.indexOf("segment-bezel") === 0)
     {
         var segment = parseInt(aName.substring("segment-bezel-".length), 10),
-            frame = CGRectCreateCopy(_segments[segment].frame);
+            frame = CGRectCreateCopy(objj_msgSend(_segments[segment], "frame"));
         if (segment === 0)
         {
             frame.origin.x += contentInset.left;
@@ -7233,8 +7214,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
         objj_msgSend(bezelView, "setBackgroundColor:", bezelColor);
         var segment = _segments[i];
         var contentView = objj_msgSend(self, "layoutEphemeralSubviewNamed:positioned:relativeToEphemeralSubviewNamed:", "segment-content-"+i, CPWindowAbove, "segment-bezel-"+i);
-        objj_msgSend(contentView, "setText:", segment.label);
-        objj_msgSend(contentView, "setImage:", segment.image);
+        objj_msgSend(contentView, "setText:", objj_msgSend(segment, "label"));
+        objj_msgSend(contentView, "setImage:", objj_msgSend(segment, "image"));
         objj_msgSend(contentView, "setFont:", objj_msgSend(self, "valueForThemeAttribute:inState:", "font", themeState));
         objj_msgSend(contentView, "setTextColor:", objj_msgSend(self, "valueForThemeAttribute:inState:", "text-color", themeState));
         objj_msgSend(contentView, "setAlignment:", objj_msgSend(self, "valueForThemeAttribute:inState:", "alignment", themeState));
@@ -7243,9 +7224,9 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
         objj_msgSend(contentView, "setTextShadowColor:", objj_msgSend(self, "valueForThemeAttribute:inState:", "text-shadow-color", themeState));
         objj_msgSend(contentView, "setTextShadowOffset:", objj_msgSend(self, "valueForThemeAttribute:inState:", "text-shadow-offset", themeState));
         objj_msgSend(contentView, "setImageScaling:", objj_msgSend(self, "valueForThemeAttribute:inState:", "image-scaling", themeState));
-        if (segment.image && segment.label)
+        if (objj_msgSend(segment, "image") && objj_msgSend(segment, "label"))
             objj_msgSend(contentView, "setImagePosition:", objj_msgSend(self, "valueForThemeAttribute:inState:", "image-position", themeState));
-        else if (segment.image)
+        else if (objj_msgSend(segment, "image"))
             objj_msgSend(contentView, "setImagePosition:", CPImageOnly);
         if (i == count - 1)
             continue;
@@ -7267,32 +7248,36 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     if (aSegment >= _segments.length)
         return;
     var segment = _segments[aSegment],
-        segmentWidth = segment.width,
+        segmentWidth = objj_msgSend(segment, "width"),
         themeState = _themeStates[aSegment] | (_themeState & CPThemeStateDisabled),
         contentInset = objj_msgSend(self, "valueForThemeAttribute:inState:", "content-inset", themeState),
         font = objj_msgSend(self, "valueForThemeAttribute:inState:", "font", themeState);
     if (!segmentWidth)
     {
-        if (segment.image && segment.label)
-            segmentWidth = objj_msgSend(segment.label, "sizeWithFont:", font).width + objj_msgSend(segment.image, "size").width + contentInset.left + contentInset.right;
+        if (objj_msgSend(segment, "image") && objj_msgSend(segment, "label"))
+            segmentWidth = objj_msgSend(objj_msgSend(segment, "label"), "sizeWithFont:", font).width + objj_msgSend(objj_msgSend(segment, "image"), "size").width + contentInset.left + contentInset.right;
         else if (segment.image)
-            segmentWidth = objj_msgSend(segment.image, "size").width + contentInset.left + contentInset.right;
+            segmentWidth = objj_msgSend(objj_msgSend(segment, "image"), "size").width + contentInset.left + contentInset.right;
         else if (segment.label)
-            segmentWidth = objj_msgSend(segment.label, "sizeWithFont:", font).width + contentInset.left + contentInset.right;
+            segmentWidth = objj_msgSend(objj_msgSend(segment, "label"), "sizeWithFont:", font).width + contentInset.left + contentInset.right;
         else
             segmentWidth = 0.0;
     }
-    var delta = segmentWidth - CGRectGetWidth(segment.frame);
+    var delta = segmentWidth - CGRectGetWidth(objj_msgSend(segment, "frame"));
     if (!delta)
+    {
+        objj_msgSend(self, "setNeedsLayout");
+        objj_msgSend(self, "setNeedsDisplay:", YES);
         return;
+    }
     var frame = objj_msgSend(self, "frame");
     objj_msgSend(self, "setFrameSize:", CGSizeMake(CGRectGetWidth(frame) + delta, CGRectGetHeight(frame)));
-    segment.width = segmentWidth;
-    segment.frame = objj_msgSend(self, "frameForSegment:", aSegment);;
+    objj_msgSend(segment, "setWidth:", segmentWidth);
+    objj_msgSend(segment, "setFrame:", objj_msgSend(self, "frameForSegment:", aSegment));
     var index = aSegment + 1;
     for (; index < _segments.length; ++index)
     {
-        _segments[index].frame.origin.x += delta;
+        objj_msgSend(_segments[index], "frame").origin.x += delta;
         objj_msgSend(self, "drawSegmentBezel:highlight:", index, NO);
         objj_msgSend(self, "drawSegment:highlight:", index, NO);
     }
@@ -7330,11 +7315,11 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     var location = objj_msgSend(self, "convertPoint:fromView:", aPoint, nil),
         count = _segments.length;
     while (count--)
-        if (CGRectContainsPoint(_segments[count].frame, aPoint))
+        if (CGRectContainsPoint(objj_msgSend(_segments[count], "frame"), aPoint))
             return count;
     if (_segments.length)
     {
-        var adjustedLastFrame = CGRectCreateCopy(_segments[_segments.length - 1].frame);
+        var adjustedLastFrame = CGRectCreateCopy(objj_msgSend(_segments[_segments.length - 1], "frame"));
         adjustedLastFrame.size.width = CGRectGetWidth(objj_msgSend(self, "bounds")) - adjustedLastFrame.origin.x;
         if (CGRectContainsPoint(adjustedLastFrame, aPoint))
             return _segments.length - 1;
@@ -7453,13 +7438,13 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
             _trackingMode = CPSegmentSwitchTrackingSelectOne;
         for (var i = 0; i < _segments.length; i++)
         {
-            _themeStates[i] = _segments[i].selected ? CPThemeStateSelected : CPThemeStateNormal;
+            _themeStates[i] = objj_msgSend(_segments[i], "selected") ? CPThemeStateSelected : CPThemeStateNormal;
             objj_msgSend(self, "tileWithChangedSegment:", i);
         }
         var difference = MAX(originalWidth - objj_msgSend(self, "frame").size.width, 0.0),
             remainingWidth = FLOOR(difference / _segments.length);
         for (var i=0; i < _segments.length; i++)
-            objj_msgSend(self, "setWidth:forSegment:", _segments[i].width + remainingWidth, i);
+            objj_msgSend(self, "setWidth:forSegment:", objj_msgSend(_segments[i], "width") + remainingWidth, i);
         objj_msgSend(self, "tileWithChangedSegment:", 0);
     }
     return self;
@@ -7478,7 +7463,102 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 {var the_class = objj_allocateClassPair(CPObject, "_CPSegmentItem"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("image"), new objj_ivar("label"), new objj_ivar("menu"), new objj_ivar("selected"), new objj_ivar("enabled"), new objj_ivar("tag"), new objj_ivar("width"), new objj_ivar("frame")]);
 objj_registerClassPair(the_class);
-class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $_CPSegmentItem__init(self, _cmd)
+class_addMethods(the_class, [new objj_method(sel_getUid("image"), function $_CPSegmentItem__image(self, _cmd)
+{ with(self)
+{
+return image;
+}
+},["id"]),
+new objj_method(sel_getUid("setImage:"), function $_CPSegmentItem__setImage_(self, _cmd, newValue)
+{ with(self)
+{
+image = newValue;
+}
+},["void","id"]),
+new objj_method(sel_getUid("label"), function $_CPSegmentItem__label(self, _cmd)
+{ with(self)
+{
+return label;
+}
+},["id"]),
+new objj_method(sel_getUid("setLabel:"), function $_CPSegmentItem__setLabel_(self, _cmd, newValue)
+{ with(self)
+{
+label = newValue;
+}
+},["void","id"]),
+new objj_method(sel_getUid("menu"), function $_CPSegmentItem__menu(self, _cmd)
+{ with(self)
+{
+return menu;
+}
+},["id"]),
+new objj_method(sel_getUid("setMenu:"), function $_CPSegmentItem__setMenu_(self, _cmd, newValue)
+{ with(self)
+{
+menu = newValue;
+}
+},["void","id"]),
+new objj_method(sel_getUid("selected"), function $_CPSegmentItem__selected(self, _cmd)
+{ with(self)
+{
+return selected;
+}
+},["id"]),
+new objj_method(sel_getUid("setSelected:"), function $_CPSegmentItem__setSelected_(self, _cmd, newValue)
+{ with(self)
+{
+selected = newValue;
+}
+},["void","id"]),
+new objj_method(sel_getUid("enabled"), function $_CPSegmentItem__enabled(self, _cmd)
+{ with(self)
+{
+return enabled;
+}
+},["id"]),
+new objj_method(sel_getUid("setEnabled:"), function $_CPSegmentItem__setEnabled_(self, _cmd, newValue)
+{ with(self)
+{
+enabled = newValue;
+}
+},["void","id"]),
+new objj_method(sel_getUid("tag"), function $_CPSegmentItem__tag(self, _cmd)
+{ with(self)
+{
+return tag;
+}
+},["id"]),
+new objj_method(sel_getUid("setTag:"), function $_CPSegmentItem__setTag_(self, _cmd, newValue)
+{ with(self)
+{
+tag = newValue;
+}
+},["void","id"]),
+new objj_method(sel_getUid("width"), function $_CPSegmentItem__width(self, _cmd)
+{ with(self)
+{
+return width;
+}
+},["id"]),
+new objj_method(sel_getUid("setWidth:"), function $_CPSegmentItem__setWidth_(self, _cmd, newValue)
+{ with(self)
+{
+width = newValue;
+}
+},["void","id"]),
+new objj_method(sel_getUid("frame"), function $_CPSegmentItem__frame(self, _cmd)
+{ with(self)
+{
+return frame;
+}
+},["id"]),
+new objj_method(sel_getUid("setFrame:"), function $_CPSegmentItem__setFrame_(self, _cmd, newValue)
+{ with(self)
+{
+frame = newValue;
+}
+},["void","id"]), new objj_method(sel_getUid("init"), function $_CPSegmentItem__init(self, _cmd)
 { with(self)
 {
     if (self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("_CPSegmentItem").super_class }, "init"))
@@ -7487,8 +7567,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $_CPSe
         label = "";
         menu = nil;
         selected = NO;
-        enabled = NO;
-        tag = 0;
+        enabled = YES;
+        tag = -1;
         width = 0;
         frame = CGRectMakeZero();
     }
@@ -8752,7 +8832,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithController:"), 
 },["void","id","CPString"])]);
 }
 
-p;15;CPPopUpButton.jt;19265;@STATIC;1.0;i;10;CPButton.ji;12;CPGeometry.ji;8;CPMenu.ji;12;CPMenuItem.jt;19184;objj_executeFile("CPButton.j", YES);
+p;15;CPPopUpButton.jt;19331;@STATIC;1.0;i;10;CPButton.ji;12;CPGeometry.ji;8;CPMenu.ji;12;CPMenuItem.jt;19250;objj_executeFile("CPButton.j", YES);
 objj_executeFile("CPGeometry.j", YES);
 objj_executeFile("CPMenu.j", YES);
 objj_executeFile("CPMenuItem.j", YES);
@@ -9117,6 +9197,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:pullsDown
             standardLeftMargin = objj_msgSend(_CPMenuWindow, "_standardLeftMargin") + objj_msgSend(_CPMenuItemStandardView, "_standardLeftMargin"),
             location = CGPointMake(CGRectGetMinX(contentRect) - standardLeftMargin, 0.0);
         minimumWidth += standardLeftMargin;
+        objj_msgSend(menu, "_highlightItemAtIndex:", CPNotFound);
     }
     objj_msgSend(menu, "setMinimumWidth:", minimumWidth);
     objj_msgSend(menu, "_popUpMenuPositioningItem:atLocation:topY:bottomY:inView:callback:", positionedItem, location, CGRectGetMinY(bounds), CGRectGetMaxY(bounds), self, function(aMenu)
@@ -26689,7 +26770,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 objj_executeFile("CPCheckBox.j", YES);
 objj_executeFile("CPRadio.j", YES);
 
-p;10;CPWindow.jt;84051;@STATIC;1.0;I;25;Foundation/CPCountedSet.jI;33;Foundation/CPNotificationCenter.jI;26;Foundation/CPUndoManager.ji;12;CGGeometry.ji;13;CPAnimation.ji;13;CPResponder.ji;10;CPScreen.ji;18;CPPlatformWindow.ji;15;_CPWindowView.ji;23;_CPStandardWindowView.ji;23;_CPDocModalWindowView.ji;18;_CPHUDWindowView.ji;25;_CPBorderlessWindowView.ji;31;_CPBorderlessBridgeWindowView.ji;14;CPDragServer.ji;8;CPView.jt;83645;objj_executeFile("Foundation/CPCountedSet.j", NO);
+p;10;CPWindow.jt;84098;@STATIC;1.0;I;25;Foundation/CPCountedSet.jI;33;Foundation/CPNotificationCenter.jI;26;Foundation/CPUndoManager.ji;12;CGGeometry.ji;13;CPAnimation.ji;13;CPResponder.ji;10;CPScreen.ji;18;CPPlatformWindow.ji;15;_CPWindowView.ji;23;_CPStandardWindowView.ji;23;_CPDocModalWindowView.ji;18;_CPHUDWindowView.ji;25;_CPBorderlessWindowView.ji;31;_CPBorderlessBridgeWindowView.ji;14;CPDragServer.ji;8;CPView.jt;83692;objj_executeFile("Foundation/CPCountedSet.j", NO);
 objj_executeFile("Foundation/CPNotificationCenter.j", NO);
 objj_executeFile("Foundation/CPUndoManager.j", NO);
 objj_executeFile("CGGeometry.j", YES);
@@ -27357,6 +27438,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPWin
 },["BOOL"]), new objj_method(sel_getUid("center"), function $CPWindow__center(self, _cmd)
 { with(self)
 {
+    if (_isFullPlatformWindow)
+        return;
     var size = objj_msgSend(self, "frame").size,
         containerSize = objj_msgSend(CPPlatform, "isBrowser") ? objj_msgSend(_platformWindow, "contentBounds").size : objj_msgSend(objj_msgSend(self, "screen"), "visibleFrame").size;
     objj_msgSend(self, "setFrameOrigin:", CGPointMake((containerSize.width - size.width) / 2.0, (containerSize.height - size.height) / 2.0));
@@ -36504,7 +36587,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("setColor:"), function $
 },["void","CGRect"])]);
 }
 
-p;12;CPMenuItem.jt;21988;@STATIC;1.0;I;20;Foundation/CPCoder.jI;21;Foundation/CPObject.jI;21;Foundation/CPString.ji;9;CPImage.ji;8;CPMenu.ji;8;CPView.ji;17;_CPMenuItemView.jt;21832;objj_executeFile("Foundation/CPCoder.j", NO);
+p;12;CPMenuItem.jt;23487;@STATIC;1.0;I;20;Foundation/CPCoder.jI;21;Foundation/CPObject.jI;21;Foundation/CPString.ji;9;CPImage.ji;8;CPMenu.ji;8;CPView.ji;17;_CPMenuItemView.jt;23331;objj_executeFile("Foundation/CPCoder.j", NO);
 objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("Foundation/CPString.j", NO);
 objj_executeFile("CPImage.j", YES);
@@ -36901,7 +36984,39 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPMen
 {
     return objj_msgSend(objj_msgSend(self, "menu"), "highlightedItem") == self;
 }
-},["BOOL"]), new objj_method(sel_getUid("_menuItemView"), function $CPMenuItem___menuItemView(self, _cmd)
+},["BOOL"]), new objj_method(sel_getUid("copy"), function $CPMenuItem__copy(self, _cmd)
+{ with(self)
+{
+    var item = objj_msgSend(objj_msgSend(CPMenuItem, "alloc"), "init");
+    item._isSeparator = _isSeparator;
+    objj_msgSend(item, "setTitle:", _title);
+    objj_msgSend(item, "setFont:", _font);
+    objj_msgSend(item, "setTarget:", _target);
+    objj_msgSend(item, "setAction:", _action);
+    objj_msgSend(item, "setEnabled:", _isEnabled);
+    objj_msgSend(item, "setHidden:", _isHidden)
+    objj_msgSend(item, "setTag:", _tag);
+    objj_msgSend(item, "setState:", _state);
+    objj_msgSend(item, "setImage:", _image);
+    objj_msgSend(item, "setAlternateImage:", _alternateImage);
+    objj_msgSend(item, "setOnStateImage:", _onStateImage);
+    objj_msgSend(item, "setOffStateImage:", _offStateImage);
+    objj_msgSend(item, "setMixedStateImage:", _mixedStateImage);
+    objj_msgSend(item, "setKeyEquivalent:", _keyEquivalent);
+    objj_msgSend(item, "setKeyEquivalentModifierMask:", _keyEquivalentModifierMask);
+    objj_msgSend(item, "setMnemonicLocation:", _mnemonicLocation);
+    objj_msgSend(item, "setAlternate:", _isAlternate);
+    objj_msgSend(item, "setIndentationLevel:", _indentationLevel);
+    objj_msgSend(item, "setToolTip:", _toolTip);
+    objj_msgSend(item, "setRepresentedObject:", _representedObject);
+    return item;
+}
+},["id"]), new objj_method(sel_getUid("mutableCopy"), function $CPMenuItem__mutableCopy(self, _cmd)
+{ with(self)
+{
+    return objj_msgSend(self, "copy");
+}
+},["id"]), new objj_method(sel_getUid("_menuItemView"), function $CPMenuItem___menuItemView(self, _cmd)
 { with(self)
 {
     if (!_menuItemView)
@@ -37281,7 +37396,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("setColor:"), function $
 },["void","CGRect"])]);
 }
 
-p;25;_CPMenuItemStandardView.jt;13288;@STATIC;1.0;t;13268;
+p;25;_CPMenuItemStandardView.jt;13391;@STATIC;1.0;t;13371;
 
 var LEFT_MARGIN = 3.0,
     RIGHT_MARGIN = 14.0 + 3.0,
@@ -37514,10 +37629,13 @@ return _minSize;
         objj_msgSend(_keyEquivalentView, "setTextShadowColor:", objj_msgSend(self, "textShadowColor"));
     }
 
-    if (shouldHighlight)
-        objj_msgSend(_stateView, "setImage:", _CPMenuItemDefaultStateHighlightedImages[objj_msgSend(_menuItem, "state")] || nil);
-    else
-        objj_msgSend(_stateView, "setImage:", _CPMenuItemDefaultStateImages[objj_msgSend(_menuItem, "state")] || nil);
+    if (objj_msgSend(objj_msgSend(_menuItem, "menu"), "showsStateColumn"))
+    {
+        if (shouldHighlight)
+            objj_msgSend(_stateView, "setImage:", _CPMenuItemDefaultStateHighlightedImages[objj_msgSend(_menuItem, "state")] || nil);
+        else
+            objj_msgSend(_stateView, "setImage:", _CPMenuItemDefaultStateImages[objj_msgSend(_menuItem, "state")] || nil);
+    }
 }
 },["void","BOOL"])]);
 class_addMethods(meta_class, [new objj_method(sel_getUid("initialize"), function $_CPMenuItemStandardView__initialize(self, _cmd)
