@@ -4414,24 +4414,28 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["id","int"])]);
 }
 
-p;15;CPSearchField.jt;26130;@STATIC;1.0;i;13;CPTextField.jt;26092;objj_executeFile("CPTextField.j", YES);
+p;15;CPSearchField.jt;31536;@STATIC;1.0;i;13;CPTextField.jt;31498;objj_executeFile("CPTextField.j", YES);
 CPSearchFieldRecentsTitleMenuItemTag = 1000;
 CPSearchFieldRecentsMenuItemTag = 1001;
 CPSearchFieldClearRecentsMenuItemTag = 1002;
 CPSearchFieldNoRecentsMenuItemTag = 1003;
+CPSearchFieldSeparatorMenuItemTag = 1004;
 var CPSearchFieldSearchImage = nil,
     CPSearchFieldFindImage = nil,
     CPSearchFieldCancelImage = nil,
     CPSearchFieldCancelPressedImage = nil;
+var SEARCH_BUTTON_DEFAULT_WIDTH = 25.0,
+    CANCEL_BUTTON_DEFAULT_WIDTH = 22.0,
+    BUTTON_DEFAULT_HEIGHT = 22.0;
+var RECENT_SEARCH_PREFIX = "   ";
 {var the_class = objj_allocateClassPair(CPTextField, "CPSearchField"),
-meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_searchButton"), new objj_ivar("_cancelButton"), new objj_ivar("_searchMenuTemplate"), new objj_ivar("_searchMenu"), new objj_ivar("_recentsAutosaveName"), new objj_ivar("_recentSearches"), new objj_ivar("_maximumRecents"), new objj_ivar("_sendsWholeSearchString"), new objj_ivar("_sendsSearchStringImmediately"), new objj_ivar("_partialStringTimer")]);
+meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_searchButton"), new objj_ivar("_cancelButton"), new objj_ivar("_searchMenuTemplate"), new objj_ivar("_searchMenu"), new objj_ivar("_recentsAutosaveName"), new objj_ivar("_recentSearches"), new objj_ivar("_maximumRecents"), new objj_ivar("_sendsWholeSearchString"), new objj_ivar("_sendsSearchStringImmediately"), new objj_ivar("_canResignFirstResponder"), new objj_ivar("_partialStringTimer")]);
 objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), function $CPSearchField__initWithFrame_(self, _cmd, frame)
 { with(self)
 {
     if (self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPSearchField").super_class }, "initWithFrame:", frame))
     {
-        _recentSearches = objj_msgSend(CPArray, "array");
         _maximumRecents = 10;
         _sendsWholeSearchString = NO;
         _sendsSearchStringImmediately = NO;
@@ -4445,24 +4449,35 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["id","CGRect"]), new objj_method(sel_getUid("_initWithFrame:"), function $CPSearchField___initWithFrame_(self, _cmd, frame)
 { with(self)
 {
+    _recentSearches = objj_msgSend(CPArray, "array");
     objj_msgSend(self, "setBezeled:", YES);
     objj_msgSend(self, "setBezelStyle:", CPTextFieldRoundedBezel);
     objj_msgSend(self, "setBordered:", YES);
     objj_msgSend(self, "setEditable:", YES);
     objj_msgSend(self, "setDelegate:", self);
-    _cancelButton = objj_msgSend(objj_msgSend(CPButton, "alloc"), "initWithFrame:", CGRectMake(frame.size.width - 27,(frame.size.height-22)/2,22,22));
+    objj_msgSend(self, "setContinuous:", YES);
+    var bounds = objj_msgSend(self, "bounds"),
+        cancelButton = objj_msgSend(objj_msgSend(CPButton, "alloc"), "initWithFrame:", objj_msgSend(self, "cancelButtonRectForBounds:", bounds)),
+        searchButton = objj_msgSend(objj_msgSend(CPButton, "alloc"), "initWithFrame:", objj_msgSend(self, "searchButtonRectForBounds:", bounds));
+    objj_msgSend(self, "setCancelButton:", cancelButton);
     objj_msgSend(self, "resetCancelButton");
-    objj_msgSend(_cancelButton, "setHidden:", YES);
-    objj_msgSend(_cancelButton, "setAutoresizingMask:", CPViewMinXMargin);
-    objj_msgSend(self, "addSubview:", _cancelButton);
-    _searchButton = objj_msgSend(objj_msgSend(CPButton, "alloc"), "initWithFrame:", CGRectMake(5,(frame.size.height-25)/2,25,25));
+    objj_msgSend(self, "setSearchButton:", searchButton);
     objj_msgSend(self, "resetSearchButton");
-    objj_msgSend(self, "addSubview:", _searchButton);
+    _canResignFirstResponder = YES;
+    if (_maximumRecents < 254 && !_searchMenuTemplate)
+        objj_msgSend(self, "setSearchMenuTemplate:", objj_msgSend(self, "_defaultSearchMenuTemplate"));
 }
 },["void","CGRect"]), new objj_method(sel_getUid("setSearchButton:"), function $CPSearchField__setSearchButton_(self, _cmd, button)
 { with(self)
 {
-    _searchButton = button;
+    if (button != _searchButton)
+    {
+        objj_msgSend(_searchButton, "removeFromSuperview");
+        _searchButton = button;
+        objj_msgSend(_searchButton, "setFrame:", objj_msgSend(self, "searchButtonRectForBounds:", objj_msgSend(self, "bounds")));
+        objj_msgSend(_searchButton, "setAutoresizingMask:", CPViewMaxXMargin);
+        objj_msgSend(self, "addSubview:", _searchButton);
+    }
 }
 },["void","CPButton"]), new objj_method(sel_getUid("searchButton"), function $CPSearchField__searchButton(self, _cmd)
 { with(self)
@@ -4472,33 +4487,27 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["CPButton"]), new objj_method(sel_getUid("resetSearchButton"), function $CPSearchField__resetSearchButton(self, _cmd)
 { with(self)
 {
-    var searchButtonImage,
-        action,
-        target,
-        button = objj_msgSend(self, "searchButton");
-    if (_searchMenuTemplate === nil)
-    {
-        searchButtonImage = CPSearchFieldSearchImage;
-        action = sel_getUid("_sendAction:");
-        target = self;
-    }
-    else
-    {
-        searchButtonImage = CPSearchFieldFindImage;
-        action = sel_getUid("_showMenu:");
-        target = self;
-    }
+    var button = objj_msgSend(self, "searchButton"),
+        searchButtonImage = (_searchMenuTemplate === nil) ? CPSearchFieldSearchImage : CPSearchFieldFindImage;
     objj_msgSend(button, "setBordered:", NO);
     objj_msgSend(button, "setImageScaling:", CPScaleToFit);
     objj_msgSend(button, "setImage:", searchButtonImage);
     objj_msgSend(button, "setAutoresizingMask:", CPViewMaxXMargin);
-    objj_msgSend(button, "setTarget:", target);
-    objj_msgSend(button, "setAction:", action);
 }
 },["void"]), new objj_method(sel_getUid("setCancelButton:"), function $CPSearchField__setCancelButton_(self, _cmd, button)
 { with(self)
 {
-    _cancelButton = button;
+    if (button != _cancelButton)
+    {
+        objj_msgSend(_cancelButton, "removeFromSuperview");
+        _cancelButton = button;
+        objj_msgSend(_cancelButton, "setFrame:", objj_msgSend(self, "cancelButtonRectForBounds:", objj_msgSend(self, "bounds")));
+        objj_msgSend(_cancelButton, "setAutoresizingMask:", CPViewMinXMargin);
+        objj_msgSend(_cancelButton, "setTarget:", self);
+        objj_msgSend(_cancelButton, "setAction:", sel_getUid("_searchFieldCancel:"));
+        objj_msgSend(self, "_updateCancelButtonVisibility");
+        objj_msgSend(self, "addSubview:", _cancelButton);
+    }
 }
 },["void","CPButton"]), new objj_method(sel_getUid("cancelButton"), function $CPSearchField__cancelButton(self, _cmd)
 { with(self)
@@ -4520,38 +4529,40 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void"]), new objj_method(sel_getUid("searchTextRectForBounds:"), function $CPSearchField__searchTextRectForBounds_(self, _cmd, rect)
 { with(self)
 {
-    var leftOffset = 0, width = rect.size.width;
+    var leftOffset = 0,
+        width = (rect.size.width),
+        bounds = objj_msgSend(self, "bounds");
     if (_searchButton)
     {
-        var searchRect = objj_msgSend(_searchButton, "frame");
-        leftOffset = searchRect.origin.x + searchRect.size.width;
+        var searchBounds = objj_msgSend(self, "searchButtonRectForBounds:", bounds);
+        leftOffset = (searchBounds.origin.x + searchBounds.size.width) + 2;
     }
     if (_cancelButton)
     {
-        var cancelRect = objj_msgSend(_cancelButton, "frame");
-        width = cancelRect.origin.x - leftOffset;
+        var cancelRect = objj_msgSend(self, "cancelButtonRectForBounds:", bounds);
+        width = (cancelRect.origin.x) - leftOffset;
     }
-    return CPMakeRect(leftOffset,rect.origin.y,width,rect.size.height);
+    return { origin: { x:leftOffset, y:(rect.origin.y) }, size: { width:width, height:(rect.size.height) } };
 }
-},["CPRect","CPRect"]), new objj_method(sel_getUid("searchButtonRectForBounds:"), function $CPSearchField__searchButtonRectForBounds_(self, _cmd, rect)
+},["CGRect","CGRect"]), new objj_method(sel_getUid("searchButtonRectForBounds:"), function $CPSearchField__searchButtonRectForBounds_(self, _cmd, rect)
 { with(self)
 {
-    return objj_msgSend(_searchButton, "frame");
+    return { origin: { x:5, y:((rect.size.height) - BUTTON_DEFAULT_HEIGHT) / 2 }, size: { width:SEARCH_BUTTON_DEFAULT_WIDTH, height:BUTTON_DEFAULT_HEIGHT } };
 }
-},["CPRect","CPRect"]), new objj_method(sel_getUid("cancelButtonRectForBounds:"), function $CPSearchField__cancelButtonRectForBounds_(self, _cmd, rect)
+},["CGRect","CGRect"]), new objj_method(sel_getUid("cancelButtonRectForBounds:"), function $CPSearchField__cancelButtonRectForBounds_(self, _cmd, rect)
 { with(self)
 {
-    return objj_msgSend(_cancelButton, "frame");
+    return { origin: { x:(rect.size.width) - CANCEL_BUTTON_DEFAULT_WIDTH - 5, y:((rect.size.height) - CANCEL_BUTTON_DEFAULT_WIDTH) / 2 }, size: { width:BUTTON_DEFAULT_HEIGHT, height:BUTTON_DEFAULT_HEIGHT } };
 }
-},["CPRect","CPRect"]), new objj_method(sel_getUid("searchMenuTemplate"), function $CPSearchField__searchMenuTemplate(self, _cmd)
+},["CGRect","CGRect"]), new objj_method(sel_getUid("searchMenuTemplate"), function $CPSearchField__searchMenuTemplate(self, _cmd)
 { with(self)
 {
     return _searchMenuTemplate;
 }
-},["CPMenu"]), new objj_method(sel_getUid("setSearchMenuTemplate:"), function $CPSearchField__setSearchMenuTemplate_(self, _cmd, menu)
+},["CPMenu"]), new objj_method(sel_getUid("setSearchMenuTemplate:"), function $CPSearchField__setSearchMenuTemplate_(self, _cmd, aMenu)
 { with(self)
 {
-    _searchMenuTemplate = menu;
+    _searchMenuTemplate = aMenu;
     objj_msgSend(self, "resetSearchButton");
     objj_msgSend(self, "_loadRecentSearchList");
     objj_msgSend(self, "_updateSearchMenu");
@@ -4623,7 +4634,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     var superbounds = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPSearchField").super_class }, "contentRectForBounds:", bounds);
     return objj_msgSend(self, "searchTextRectForBounds:", superbounds);
 }
-},["CPRect","CPRect"]), new objj_method(sel_getUid("menu"), function $CPSearchField__menu(self, _cmd)
+},["CGRect","CGRect"]), new objj_method(sel_getUid("menu"), function $CPSearchField__menu(self, _cmd)
 { with(self)
 {
     return _searchMenu;
@@ -4677,31 +4688,44 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     objj_msgSend(self, "setRecentSearches:", searches);
     objj_msgSend(self, "_updateSearchMenu");
 }
-},["void","CPString"]), new objj_method(sel_getUid("trackMouse:"), function $CPSearchField__trackMouse_(self, _cmd, event)
+},["void","CPString"]), new objj_method(sel_getUid("hitTest:"), function $CPSearchField__hitTest_(self, _cmd, aPoint)
 { with(self)
 {
-    var rect,
-        point,
-        location = objj_msgSend(event, "locationInWindow");
-    point = objj_msgSend(self, "convertPoint:fromView:", location, nil);
-    rect = objj_msgSend(self, "searchButtonRectForBounds:", objj_msgSend(self, "frame"));
-    if (CPRectContainsPoint(rect,point))
-    {
-        return objj_msgSend(objj_msgSend(self, "searchButton"), "trackMouse:", event);
-    }
-    rect = objj_msgSend(self, "cancelButtonRectForBounds:", objj_msgSend(self, "frame"));
-    if (CPRectContainsPoint(rect,point))
-    {
-        return objj_msgSend(objj_msgSend(self, "cancelButton"), "trackMouse:", event);
-    }
-    return objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPSearchField").super_class }, "trackMouse:", event);
+    if ((aPoint.x >= (objj_msgSend(self, "frame").origin.x) && aPoint.y >= (objj_msgSend(self, "frame").origin.y) && aPoint.x < (objj_msgSend(self, "frame").origin.x + objj_msgSend(self, "frame").size.width) && aPoint.y < (objj_msgSend(self, "frame").origin.y + objj_msgSend(self, "frame").size.height)))
+        return self;
+    else
+        return nil;
 }
-},["BOOL","CPEvent"]), new objj_method(sel_getUid("_defaultSearchMenuTemplate"), function $CPSearchField___defaultSearchMenuTemplate(self, _cmd)
+},["CPView","CGPoint"]), new objj_method(sel_getUid("resignFirstResponder"), function $CPSearchField__resignFirstResponder(self, _cmd)
 { with(self)
 {
-    var template, item;
-    template = objj_msgSend(objj_msgSend(CPMenu, "alloc"), "init");
-    item = objj_msgSend(objj_msgSend(CPMenuItem, "alloc"), "initWithTitle:action:keyEquivalent:", "Recent searches", NULL, "");
+    if (_canResignFirstResponder)
+        return objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPSearchField").super_class }, "resignFirstResponder");
+    return _canResignFirstResponder;
+}
+},["BOOL"]), new objj_method(sel_getUid("mouseDown:"), function $CPSearchField__mouseDown_(self, _cmd, anEvent)
+{ with(self)
+{
+    var location = objj_msgSend(anEvent, "locationInWindow"),
+        point = objj_msgSend(self, "convertPoint:fromView:", location, nil);
+    if ((point.x >= (objj_msgSend(self, "searchButtonRectForBounds:", objj_msgSend(self, "bounds")).origin.x) && point.y >= (objj_msgSend(self, "searchButtonRectForBounds:", objj_msgSend(self, "bounds")).origin.y) && point.x < (objj_msgSend(self, "searchButtonRectForBounds:", objj_msgSend(self, "bounds")).origin.x + objj_msgSend(self, "searchButtonRectForBounds:", objj_msgSend(self, "bounds")).size.width) && point.y < (objj_msgSend(self, "searchButtonRectForBounds:", objj_msgSend(self, "bounds")).origin.y + objj_msgSend(self, "searchButtonRectForBounds:", objj_msgSend(self, "bounds")).size.height)))
+    {
+        if (_searchMenuTemplate == nil)
+            objj_msgSend(self, "_sendAction:", self);
+        else
+           objj_msgSend(self, "_showMenu");
+    }
+    else if ((point.x >= (objj_msgSend(self, "cancelButtonRectForBounds:", objj_msgSend(self, "bounds")).origin.x) && point.y >= (objj_msgSend(self, "cancelButtonRectForBounds:", objj_msgSend(self, "bounds")).origin.y) && point.x < (objj_msgSend(self, "cancelButtonRectForBounds:", objj_msgSend(self, "bounds")).origin.x + objj_msgSend(self, "cancelButtonRectForBounds:", objj_msgSend(self, "bounds")).size.width) && point.y < (objj_msgSend(self, "cancelButtonRectForBounds:", objj_msgSend(self, "bounds")).origin.y + objj_msgSend(self, "cancelButtonRectForBounds:", objj_msgSend(self, "bounds")).size.height)))
+        objj_msgSend(_cancelButton, "mouseDown:", anEvent);
+    else
+        objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPSearchField").super_class }, "mouseDown:", anEvent);
+}
+},["void","CPEvent"]), new objj_method(sel_getUid("_defaultSearchMenuTemplate"), function $CPSearchField___defaultSearchMenuTemplate(self, _cmd)
+{ with(self)
+{
+    var template = objj_msgSend(objj_msgSend(CPMenu, "alloc"), "init"),
+        item;
+    item = objj_msgSend(objj_msgSend(CPMenuItem, "alloc"), "initWithTitle:action:keyEquivalent:", "Recent searches", nil, "");
     objj_msgSend(item, "setTag:", CPSearchFieldRecentsTitleMenuItemTag);
     objj_msgSend(item, "setEnabled:", NO);
     objj_msgSend(template, "addItem:", item);
@@ -4713,7 +4737,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     objj_msgSend(item, "setTag:", CPSearchFieldClearRecentsMenuItemTag);
     objj_msgSend(item, "setTarget:", self);
     objj_msgSend(template, "addItem:", item);
-    item = objj_msgSend(objj_msgSend(CPMenuItem, "alloc"), "initWithTitle:action:keyEquivalent:", "No recent searches", NULL, "");
+    item = objj_msgSend(objj_msgSend(CPMenuItem, "alloc"), "initWithTitle:action:keyEquivalent:", "No recent searches", nil, "");
     objj_msgSend(item, "setTag:", CPSearchFieldNoRecentsMenuItemTag);
     objj_msgSend(item, "setEnabled:", NO);
     objj_msgSend(template, "addItem:", item);
@@ -4724,52 +4748,92 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 {
     if (_searchMenuTemplate === nil)
         return;
-    var i, menu = objj_msgSend(objj_msgSend(CPMenu, "alloc"), "init"),
+    var menu = objj_msgSend(objj_msgSend(CPMenu, "alloc"), "init"),
         countOfRecents = objj_msgSend(_recentSearches, "count"),
         numberOfItems = objj_msgSend(_searchMenuTemplate, "numberOfItems");
-    for (i = 0; i < numberOfItems; i++)
+    for (var i = 0; i < numberOfItems; i++)
     {
         var item = objj_msgSend(_searchMenuTemplate, "itemAtIndex:", i),
-            tag = objj_msgSend(item, "tag");
-        if (!(tag === CPSearchFieldRecentsTitleMenuItemTag && countOfRecents === 0) &&
-            !(tag === CPSearchFieldClearRecentsMenuItemTag && countOfRecents === 0) &&
-            !(tag === CPSearchFieldNoRecentsMenuItemTag && countOfRecents != 0) &&
-            !(tag === CPSearchFieldRecentsMenuItemTag))
+            tag = objj_msgSend(item, "tag"),
+            itemAction = objj_msgSend(item, "action"),
+            itemTarget = objj_msgSend(item, "target");
+        switch (tag)
         {
-            var itemAction, itemTarget;
-            switch (tag)
+            case CPSearchFieldRecentsTitleMenuItemTag:
+                if (countOfRecents === 0)
+                    continue;
+                if (objj_msgSend(menu, "numberOfItems") > 0)
+                    objj_msgSend(self, "_addSeparatorToMenu:", menu);
+                break;
+            case CPSearchFieldRecentsMenuItemTag:
             {
-                case CPSearchFieldRecentsTitleMenuItemTag : itemAction = NULL; itemTarget = NULL; break;
-                case CPSearchFieldClearRecentsMenuItemTag : itemAction = sel_getUid("_searchFieldClearRecents:"); itemTarget = self; break;
-                case CPSearchFieldNoRecentsMenuItemTag : itemAction = NULL; itemTarget = NULL; break;
-                default: itemAction = objj_msgSend(item, "action"); itemTarget = objj_msgSend(item, "target"); break;
+                var recentItemTemplate = objj_msgSend(_searchMenuTemplate, "itemWithTag:", CPSearchFieldRecentsMenuItemTag),
+                    recentItemAction, recentItemTarget, recentItemKeyEquivalent;
+                if (recentItemTemplate)
+                {
+                    recentItemAction = objj_msgSend(recentItemTemplate, "action");
+                    recentItemTarget = objj_msgSend(recentItemTemplate, "target");
+                    recentItemKeyEquivalent = objj_msgSend(recentItemTemplate, "keyEquivalent");
+                }
+                else
+                {
+                    recentItemAction = sel_getUid("_searchFieldSearch:");
+                    recentItemTarget = self;
+                    recentItemKeyEquivalent = "";
+                }
+                for (var recentIndex = 0; recentIndex < countOfRecents; ++recentIndex)
+                {
+                    var recentItem = objj_msgSend(objj_msgSend(CPMenuItem, "alloc"), "initWithTitle:action:keyEquivalent:", RECENT_SEARCH_PREFIX + objj_msgSend(_recentSearches, "objectAtIndex:", recentIndex), recentItemAction, recentItemKeyEquivalent);
+                    objj_msgSend(recentItem, "setTarget:", recentItemTarget);
+                    objj_msgSend(menu, "addItem:", recentItem);
+                }
+                continue;
             }
-            if (tag === CPSearchFieldClearRecentsMenuItemTag || tag === CPSearchFieldRecentsTitleMenuItemTag)
-            {
-                var separator = objj_msgSend(CPMenuItem, "separatorItem");
-                objj_msgSend(separator, "setEnabled:", NO);
-                objj_msgSend(menu, "addItem:", separator);
-            }
-            var templateItem = objj_msgSend(objj_msgSend(CPMenuItem, "alloc"), "initWithTitle:action:keyEquivalent:", objj_msgSend(item, "title"), itemAction, objj_msgSend(item, "keyEquivalent"));
-            objj_msgSend(templateItem, "setTarget:", itemTarget);
-            objj_msgSend(templateItem, "setEnabled:", (objj_msgSend(item, "isEnabled") && itemAction != NULL));
-            objj_msgSend(templateItem, "setTag:", tag);
-            objj_msgSend(menu, "addItem:", templateItem);
+            case CPSearchFieldClearRecentsMenuItemTag:
+                if (countOfRecents === 0)
+                    continue;
+                if (objj_msgSend(menu, "numberOfItems") > 0)
+                    objj_msgSend(self, "_addSeparatorToMenu:", menu);
+                break;
+            case CPSearchFieldNoRecentsMenuItemTag:
+                if (countOfRecents !== 0)
+                    continue;
+                break;
+            case CPSearchFieldSeparatorMenuItemTag:
+                item = objj_msgSend(CPMenuItem, "separatorItem");
+                objj_msgSend(item, "setEnabled:", NO);
+                objj_msgSend(menu, "addItem:", item);
+                continue;
         }
-        else if (tag === CPSearchFieldRecentsMenuItemTag)
-        {
-            var j;
-            for (j = 0; j < countOfRecents; j++)
-            {
-                var rencentItem = objj_msgSend(objj_msgSend(CPMenuItem, "alloc"), "initWithTitle:action:keyEquivalent:", objj_msgSend(_recentSearches, "objectAtIndex:", j), sel_getUid("_searchFieldSearch:"), objj_msgSend(item, "keyEquivalent"));
-                objj_msgSend(rencentItem, "setTarget:", self);
-                objj_msgSend(menu, "addItem:", rencentItem);
-            }
-        }
+        var templateItem = objj_msgSend(objj_msgSend(CPMenuItem, "alloc"), "initWithTitle:action:keyEquivalent:", objj_msgSend(item, "title"), itemAction, objj_msgSend(item, "keyEquivalent"));
+        objj_msgSend(templateItem, "setTarget:", itemTarget);
+        objj_msgSend(templateItem, "setEnabled:", (objj_msgSend(item, "isEnabled") && itemAction != nil));
+        objj_msgSend(templateItem, "setTag:", tag);
+        objj_msgSend(templateItem, "setImage:", objj_msgSend(item, "image"));
+        objj_msgSend(menu, "addItem:", templateItem);
     }
+    objj_msgSend(menu, "setDelegate:", self);
     _searchMenu = menu;
 }
-},["void"]), new objj_method(sel_getUid("_showMenu:"), function $CPSearchField___showMenu_(self, _cmd, sender)
+},["void"]), new objj_method(sel_getUid("_addSeparatorToMenu:"), function $CPSearchField___addSeparatorToMenu_(self, _cmd, aMenu)
+{ with(self)
+{
+    var separator = objj_msgSend(CPMenuItem, "separatorItem");
+    objj_msgSend(separator, "setEnabled:", NO);
+    objj_msgSend(aMenu, "addItem:", separator);
+}
+},["void","CPMenu"]), new objj_method(sel_getUid("menuWillOpen:"), function $CPSearchField__menuWillOpen_(self, _cmd, menu)
+{ with(self)
+{
+    _canResignFirstResponder = NO;
+}
+},["void","CPMenu"]), new objj_method(sel_getUid("menuDidClose:"), function $CPSearchField__menuDidClose_(self, _cmd, menu)
+{ with(self)
+{
+    _canResignFirstResponder = YES;
+    objj_msgSend(self, "becomeFirstResponder");
+}
+},["void","CPMenu"]), new objj_method(sel_getUid("_showMenu"), function $CPSearchField___showMenu(self, _cmd)
 { with(self)
 {
     if (_searchMenu === nil || objj_msgSend(_searchMenu, "numberOfItems") === 0 || !objj_msgSend(self, "isEnabled"))
@@ -4777,12 +4841,14 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     var aFrame = objj_msgSend(objj_msgSend(self, "superview"), "convertRect:toView:", objj_msgSend(self, "frame"), nil),
         location = CPMakePoint(aFrame.origin.x + 10, aFrame.origin.y + aFrame.size.height - 4);
     var anEvent = objj_msgSend(CPEvent, "mouseEventWithType:location:modifierFlags:timestamp:windowNumber:context:eventNumber:clickCount:pressure:", CPRightMouseDown, location, 0, objj_msgSend(objj_msgSend(CPApp, "currentEvent"), "timestamp"), objj_msgSend(objj_msgSend(self, "window"), "windowNumber"), nil, 1, 1, 0);
-    objj_msgSend(CPMenu, "popUpContextMenu:withEvent:forView:", _searchMenu, anEvent, sender);
+    objj_msgSend(self, "selectAll:", nil);
+    objj_msgSend(CPMenu, "popUpContextMenu:withEvent:forView:", _searchMenu, anEvent, self);
 }
-},["void","id"]), new objj_method(sel_getUid("_sendPartialString"), function $CPSearchField___sendPartialString(self, _cmd)
+},["void"]), new objj_method(sel_getUid("_sendPartialString"), function $CPSearchField___sendPartialString(self, _cmd)
 { with(self)
 {
-    objj_msgSend(self, "_sendAction:", self);
+    objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPSearchField").super_class }, "sendAction:to:", objj_msgSend(self, "action"), objj_msgSend(self, "target"));
+    objj_msgSend(_partialStringTimer, "invalidate");
 }
 },["void"]), new objj_method(sel_getUid("_searchFieldCancel:"), function $CPSearchField___searchFieldCancel_(self, _cmd, sender)
 { with(self)
@@ -4794,11 +4860,12 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","id"]), new objj_method(sel_getUid("_searchFieldSearch:"), function $CPSearchField___searchFieldSearch_(self, _cmd, sender)
 { with(self)
 {
-    var searchString = objj_msgSend(sender, "title");
+    var searchString = objj_msgSend(objj_msgSend(sender, "title"), "substringFromIndex:", objj_msgSend(RECENT_SEARCH_PREFIX, "length"));
     if (objj_msgSend(sender, "tag") != CPSearchFieldRecentsMenuItemTag)
         objj_msgSend(self, "_addStringToRecentSearches:", searchString);
     objj_msgSend(self, "setObjectValue:", searchString);
     objj_msgSend(self, "_sendPartialString");
+    objj_msgSend(self, "selectAll:", nil);
     objj_msgSend(self, "_updateCancelButtonVisibility");
 }
 },["void","id"]), new objj_method(sel_getUid("_searchFieldClearRecents:"), function $CPSearchField___searchFieldClearRecents_(self, _cmd, sender)
@@ -4806,6 +4873,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 {
     objj_msgSend(self, "setRecentSearches:", objj_msgSend(CPArray, "array"));
     objj_msgSend(self, "_updateSearchMenu");
+    objj_msgSend(self, "setStringValue:", "");
+    objj_msgSend(self, "_updateCancelButtonVisibility");
  }
 },["void","id"]), new objj_method(sel_getUid("_registerForAutosaveNotification"), function $CPSearchField___registerForAutosaveNotification(self, _cmd)
 { with(self)
@@ -4858,10 +4927,10 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("initialize"), function
     if (self != objj_msgSend(CPSearchField, "class"))
         return;
     var bundle = objj_msgSend(CPBundle, "bundleForClass:", self);
-    CPSearchFieldSearchImage = objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(bundle, "pathForResource:", "CPSearchField/CPSearchFieldSearch.png"), CGSizeMake(25, 22));
-    CPSearchFieldFindImage = objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(bundle, "pathForResource:", "CPSearchField/CPSearchFieldFind.png"), CGSizeMake(25, 22));
-    CPSearchFieldCancelImage = objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(bundle, "pathForResource:", "CPSearchField/CPSearchFieldCancel.png"), CGSizeMake(22, 22));
-    CPSearchFieldCancelPressedImage = objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(bundle, "pathForResource:", "CPSearchField/CPSearchFieldCancelPressed.png"), CGSizeMake(22, 22));
+    CPSearchFieldSearchImage = objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(bundle, "pathForResource:", "CPSearchField/CPSearchFieldSearch.png"), { width:SEARCH_BUTTON_DEFAULT_WIDTH, height:BUTTON_DEFAULT_HEIGHT });
+    CPSearchFieldFindImage = objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(bundle, "pathForResource:", "CPSearchField/CPSearchFieldFind.png"), { width:SEARCH_BUTTON_DEFAULT_WIDTH, height:BUTTON_DEFAULT_HEIGHT });
+    CPSearchFieldCancelImage = objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(bundle, "pathForResource:", "CPSearchField/CPSearchFieldCancel.png"), { width:CANCEL_BUTTON_DEFAULT_WIDTH, height:BUTTON_DEFAULT_HEIGHT });
+    CPSearchFieldCancelPressedImage = objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(bundle, "pathForResource:", "CPSearchField/CPSearchFieldCancelPressed.png"), { width:CANCEL_BUTTON_DEFAULT_WIDTH, height:BUTTON_DEFAULT_HEIGHT });
 }
 },["void"]), new objj_method(sel_getUid("_keyboardDelayForPartialSearchString:"), function $CPSearchField___keyboardDelayForPartialSearchString_(self, _cmd, string)
 { with(self)
@@ -4909,7 +4978,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
         var template = objj_msgSend(coder, "decodeObjectForKey:", CPSearchMenuTemplateKey);
         if (template)
             objj_msgSend(self, "setSearchMenuTemplate:", template);
-        objj_msgSend(self, "setDelegate:", self);
+        objj_msgSend(self, "_init");
     }
     return self;
 }
