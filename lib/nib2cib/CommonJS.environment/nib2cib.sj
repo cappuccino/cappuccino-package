@@ -1682,7 +1682,7 @@ loadFrameworks(_8.frameworks,function(){
 objj_msgSend(_9,"convert");
 });
 };
-p;15;NSTableColumn.jt;2554;@STATIC;1.0;I;22;AppKit/CPTableColumn.jI;26;AppKit/CPTableHeaderView.jt;2477;
+p;15;NSTableColumn.jt;2619;@STATIC;1.0;I;22;AppKit/CPTableColumn.jI;26;AppKit/CPTableHeaderView.jt;2542;
 objj_executeFile("AppKit/CPTableColumn.j",NO);
 objj_executeFile("AppKit/CPTableHeaderView.j",NO);
 var _1=objj_getClass("CPTableColumn");
@@ -1710,6 +1710,7 @@ _minWidth=objj_msgSend(_5,"decodeFloatForKey:","NSMinWidth");
 _maxWidth=objj_msgSend(_5,"decodeFloatForKey:","NSMaxWidth");
 _resizingMask=objj_msgSend(_5,"decodeBoolForKey:","NSIsResizeable")?CPTableColumnUserResizingMask:CPTableColumnAutoresizingMask;
 _isHidden=objj_msgSend(_5,"decodeBoolForKey:","NSHidden");
+_isEditable=objj_msgSend(_5,"decodeBoolForKey:","NSIsEditable");
 _sortDescriptorPrototype=objj_msgSend(_5,"decodeObjectForKey:","NSSortDescriptorPrototype");
 }
 return _3;

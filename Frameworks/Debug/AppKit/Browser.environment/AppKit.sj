@@ -4031,7 +4031,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:control:"
 },["void"])]);
 }
 
-p;15;CPTableColumn.jt;18410;@STATIC;1.0;I;25;Foundation/CPDictionary.jI;21;Foundation/CPObject.jI;29;Foundation/CPSortDescriptor.jI;21;Foundation/CPString.ji;19;CPTableHeaderView.jt;18250;objj_executeFile("Foundation/CPDictionary.j", NO);
+p;15;CPTableColumn.jt;18596;@STATIC;1.0;I;25;Foundation/CPDictionary.jI;21;Foundation/CPObject.jI;29;Foundation/CPSortDescriptor.jI;21;Foundation/CPString.ji;19;CPTableHeaderView.jt;18436;objj_executeFile("Foundation/CPDictionary.j", NO);
 objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("Foundation/CPSortDescriptor.j", NO);
 objj_executeFile("Foundation/CPString.j", NO);
@@ -4340,9 +4340,9 @@ var CPTableColumnIdentifierKey = "CPTableColumnIdentifierKey",
     CPTableColumnMinWidthKey = "CPTableColumnMinWidthKey",
     CPTableColumnMaxWidthKey = "CPTableColumnMaxWidthKey",
     CPTableColumnResizingMaskKey = "CPTableColumnResizingMaskKey",
-    CPTableColumnIsHiddenkey = "CPTableColumnIsHiddenKey",
-    CPSortDescriptorPrototypeKey = "CPSortDescriptorPrototypeKey";
-    CPTableColumnIsHiddenkey = "CPTableColumnIsHiddenKey";
+    CPTableColumnIsHiddenKey = "CPTableColumnIsHiddenKey",
+    CPSortDescriptorPrototypeKey = "CPSortDescriptorPrototypeKey",
+    CPTableColumnIsEditableKey = "CPTableColumnIsEditableKey";
 {
 var the_class = objj_getClass("CPTableColumn")
 if(!the_class) throw new SyntaxError("*** Could not find definition for class \"CPTableColumn\"");
@@ -4361,7 +4361,8 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
         objj_msgSend(self, "setDataView:", objj_msgSend(aCoder, "decodeObjectForKey:", CPTableColumnDataViewKey));
         objj_msgSend(self, "setHeaderView:", objj_msgSend(aCoder, "decodeObjectForKey:", CPTableColumnHeaderViewKey));
         _resizingMask = objj_msgSend(aCoder, "decodeBoolForKey:", CPTableColumnResizingMaskKey);
-        _isHidden = objj_msgSend(aCoder, "decodeBoolForKey:", CPTableColumnIsHiddenkey);
+        _isHidden = objj_msgSend(aCoder, "decodeBoolForKey:", CPTableColumnIsHiddenKey);
+        _isEditable = objj_msgSend(aCoder, "decodeBoolForKey:", CPTableColumnIsEditableKey);
         _sortDescriptorPrototype = objj_msgSend(aCoder, "decodeObjectForKey:", CPSortDescriptorPrototypeKey);
     }
     return self;
@@ -4376,7 +4377,8 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
     objj_msgSend(aCoder, "encodeObject:forKey:", _headerView, CPTableColumnHeaderViewKey);
     objj_msgSend(aCoder, "encodeObject:forKey:", _dataView, CPTableColumnDataViewKey);
     objj_msgSend(aCoder, "encodeObject:forKey:", _resizingMask, CPTableColumnResizingMaskKey);
-    objj_msgSend(aCoder, "encodeBool:forKey:", _isHidden, CPTableColumnIsHiddenkey);
+    objj_msgSend(aCoder, "encodeBool:forKey:", _isHidden, CPTableColumnIsHiddenKey);
+    objj_msgSend(aCoder, "encodeBool:forKey:", _isEditable, CPTableColumnIsEditableKey);
     objj_msgSend(aCoder, "encodeObject:forKey:", _sortDescriptorPrototype, CPSortDescriptorPrototypeKey);
 }
 },["void","CPCoder"])]);
@@ -8477,7 +8479,7 @@ var _CPSaveSessionMake = function(anAbsoluteURL, aSaveOperation, aChangeCount, a
     return { absoluteURL:anAbsoluteURL, saveOperation:aSaveOperation, changeCount:aChangeCount, delegate:aDelegate, didSaveSelector:aDidSaveSelector, contextInfo:aContextInfo, connection:aConnection };
 }
 
-p;20;CPObjectController.jt;25893;@STATIC;1.0;I;25;Foundation/CPDictionary.ji;14;CPController.jt;25824;
+p;20;CPObjectController.jt;25972;@STATIC;1.0;I;25;Foundation/CPDictionary.ji;14;CPController.jt;25903;
 
 
 objj_executeFile("Foundation/CPDictionary.j", NO);
@@ -8904,7 +8906,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("description"), function
             objj_msgSend(self, "didChangeValueForKey:", keyPath);
     }
 
-    objj_msgSend(self, "removeObjectAtIndex:", anIndex);
+    objj_msgSendSuper({ receiver:self, super_class:objj_getClass("_CPObservableArray").super_class }, "removeObjectAtIndex:", anIndex);
 }
 },["void","unsigned"]), new objj_method(sel_getUid("addObject:"), function $_CPObservableArray__addObject_(self, _cmd, anObject)
 { with(self)
