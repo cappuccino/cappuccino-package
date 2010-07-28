@@ -479,11 +479,14 @@ var splitRangeEntry = splitRangeEntryAtIndex= function( aRangeEntry, anIndex)
     return [aRangeEntry, newRangeEntry];
 }
 
-p;9;CPArray.jt;29484;@STATIC;1.0;i;14;CPEnumerator.ji;13;CPException.ji;10;CPObject.ji;9;CPRange.ji;18;CPSortDescriptor.jt;29376;objj_executeFile("CPEnumerator.j", YES);
+p;9;CPArray.jt;31554;@STATIC;1.0;i;14;CPEnumerator.ji;13;CPException.ji;10;CPObject.ji;9;CPRange.ji;18;CPSortDescriptor.jt;31446;objj_executeFile("CPEnumerator.j", YES);
 objj_executeFile("CPException.j", YES);
 objj_executeFile("CPObject.j", YES);
 objj_executeFile("CPRange.j", YES);
 objj_executeFile("CPSortDescriptor.j", YES);
+CPEnumerationNormal = 0;
+CPEnumerationConcurrent = 1 << 0;
+CPEnumerationReverse = 1 << 1;
 {var the_class = objj_allocateClassPair(CPEnumerator, "_CPArrayEnumerator"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_array"), new objj_ivar("_index")]);
 objj_registerClassPair(the_class);
@@ -666,7 +669,48 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
     }
     return CPNotFound;
 }
-},["int","id","CPRange"]), new objj_method(sel_getUid("indexOfObject:sortedBySelector:"), function $CPArray__indexOfObject_sortedBySelector_(self, _cmd, anObject, aSelector)
+},["int","id","CPRange"]), new objj_method(sel_getUid("indexOfObjectPassingTest:"), function $CPArray__indexOfObjectPassingTest_(self, _cmd, predicate)
+{ with(self)
+{
+    return objj_msgSend(self, "indexOfObjectWithOptions:passingTest:context:", CPEnumerationNormal, predicate, nil);
+}
+},["unsigned","Function"]), new objj_method(sel_getUid("indexOfObjectPassingTest:context:"), function $CPArray__indexOfObjectPassingTest_context_(self, _cmd, predicate, aContext)
+{ with(self)
+{
+    return objj_msgSend(self, "indexOfObjectWithOptions:passingTest:context:", CPEnumerationNormal, predicate, aContext);
+}
+},["unsigned","Function","id"]), new objj_method(sel_getUid("indexOfObjectWithOptions:passingTest:"), function $CPArray__indexOfObjectWithOptions_passingTest_(self, _cmd, opts, predicate)
+{ with(self)
+{
+    return objj_msgSend(self, "indexOfObjectWithOptions:passingTest:context:", opts, predicate, nil);
+}
+},["unsigned","CPEnumerationOptions","Function"]), new objj_method(sel_getUid("indexOfObjectWithOptions:passingTest:context:"), function $CPArray__indexOfObjectWithOptions_passingTest_context_(self, _cmd, opts, predicate, aContext)
+{ with(self)
+{
+    var start, stop, increment;
+    if (opts & CPEnumerationReverse)
+    {
+        start = objj_msgSend(self, "count") - 1;
+        stop = -1;
+        increment = -1;
+    }
+    else
+    {
+        start = 0;
+        stop = objj_msgSend(self, "count");
+        increment = 1;
+    }
+    for (var i = start; i != stop; i += increment)
+    {
+        var result = predicate(objj_msgSend(self, "objectAtIndex:", i), i, aContext);
+        if (typeof result === 'boolean' && result)
+            return i;
+        else if (typeof result === 'object' && result == nil)
+            return CPNotFound;
+    }
+    return CPNotFound;
+}
+},["unsigned","CPEnumerationOptions","Function","id"]), new objj_method(sel_getUid("indexOfObject:sortedBySelector:"), function $CPArray__indexOfObject_sortedBySelector_(self, _cmd, anObject, aSelector)
 { with(self)
 {
     return objj_msgSend(self, "indexOfObject:sortedByFunction:", anObject, function(lhs, rhs) { objj_msgSend(lhs, aSelector, rhs); });
@@ -727,6 +771,11 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
 },["unsigned","id","CPArray"]), new objj_method(sel_getUid("insertObject:inArraySortedByDescriptors:"), function $CPArray__insertObject_inArraySortedByDescriptors_(self, _cmd, anObject, descriptors)
 { with(self)
 {
+    if (!descriptors || !objj_msgSend(descriptors, "count"))
+    {
+        objj_msgSend(self, "addObject:", anObject);
+        return objj_msgSend(self, "count") - 1;
+    }
     var index = objj_msgSend(self, "_insertObject:sortedByFunction:context:", anObject, function(lhs, rhs)
     {
         var i = 0,
