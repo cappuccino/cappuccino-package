@@ -1784,7 +1784,7 @@ with(_9){
 return objj_msgSend(CPViewController,"class");
 }
 })]);
-p;13;NSTextField.jt;3837;@STATIC;1.0;I;20;AppKit/CPTextField.ji;11;NSControl.ji;8;NSCell.jI;15;AppKit/CPFont.jt;3745;
+p;13;NSTextField.jt;4021;@STATIC;1.0;I;20;AppKit/CPTextField.ji;11;NSControl.ji;8;NSCell.jI;15;AppKit/CPFont.jt;3929;
 objj_executeFile("AppKit/CPTextField.j",NO);
 objj_executeFile("NSControl.j",YES);
 objj_executeFile("NSCell.j",YES);
@@ -1813,8 +1813,12 @@ objj_msgSend(_3,"setTextFieldBackgroundColor:",objj_msgSend(_6,"backgroundColor"
 objj_msgSend(_3,"setPlaceholderString:",objj_msgSend(_6,"placeholderString"));
 objj_msgSend(_3,"setTextColor:",objj_msgSend(_6,"textColor"));
 var _7=objj_msgSend(_3,"frame");
+objj_msgSend(_3,"setFrameOrigin:",CGPointMake(_7.origin.x,_7.origin.y));
+objj_msgSend(_3,"setFrameSize:",CGSizeMake(_7.size.width,_7.size.height));
+if(objj_msgSend(_3,"isBezeled")){
 objj_msgSend(_3,"setFrameOrigin:",CGPointMake(_7.origin.x-4,_7.origin.y-4));
 objj_msgSend(_3,"setFrameSize:",CGSizeMake(_7.size.width+8,_7.size.height+8));
+}
 CPLog.debug(objj_msgSend(_3,"stringValue")+" => isBordered="+objj_msgSend(_3,"isBordered")+", isBezeled="+objj_msgSend(_3,"isBezeled")+", bezelStyle="+objj_msgSend(_3,"bezelStyle")+"("+objj_msgSend(_6,"stringValue")+", "+objj_msgSend(_6,"placeholderString")+")");
 }
 return _3;
@@ -2434,7 +2438,7 @@ with(_9){
 return objj_msgSend(_CPCibCustomObject,"class");
 }
 })]);
-p;12;NSMenuItem.jt;2043;@STATIC;1.0;I;19;AppKit/CPMenuItem.ji;9;NSEvent.ji;8;NSMenu.jt;1975;
+p;12;NSMenuItem.jt;2093;@STATIC;1.0;I;19;AppKit/CPMenuItem.ji;9;NSEvent.ji;8;NSMenu.jt;2025;
 objj_executeFile("AppKit/CPMenuItem.j",NO);
 objj_executeFile("NSEvent.j",YES);
 objj_executeFile("NSMenu.j",YES);
@@ -2453,6 +2457,7 @@ _target=objj_msgSend(_5,"decodeObjectForKey:","NSTarget");
 _action=objj_msgSend(_5,"decodeObjectForKey:","NSAction");
 _isEnabled=!objj_msgSend(_5,"decodeBoolForKey:","NSIsDisabled");
 _isHidden=objj_msgSend(_5,"decodeBoolForKey:","NSIsHidden");
+_tag=objj_msgSend(_5,"decodeIntForKey:","NSTag");
 _state=objj_msgSend(_5,"decodeIntForKey:","NSState");
 _submenu=objj_msgSend(_5,"decodeObjectForKey:","NSSubmenu");
 _menu=objj_msgSend(_5,"decodeObjectForKey:","NSMenu");

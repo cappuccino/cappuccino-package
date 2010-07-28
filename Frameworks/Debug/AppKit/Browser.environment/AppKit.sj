@@ -489,7 +489,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPEvent"])]);
 }
 
-p;13;CPTableView.jt;139638;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;139495;objj_executeFile("Foundation/CPArray.j", NO);
+p;13;CPTableView.jt;139787;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;139644;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("AppKit/CGGradient.j", NO);
 objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPTableColumn.j", YES);
@@ -1710,7 +1710,11 @@ _disableAutomaticResizing = newValue;
 { with(self)
 {
     if (aTableColumn)
-        objj_msgSend(objj_msgSend(aTableColumn, "headerView"), "_setIndicatorImage:", anImage);
+    {
+        var headerView = objj_msgSend(aTableColumn, "headerView");
+        if (objj_msgSend(headerView, "respondsToSelector:", sel_getUid("_setIndicatorImage:")))
+            objj_msgSend(headerView, "_setIndicatorImage:", anImage);
+    }
 }
 },["void","CPImage","CPTableColumn"]), new objj_method(sel_getUid("_tableHeaderSortImage"), function $CPTableView___tableHeaderSortImage(self, _cmd)
 { with(self)
@@ -33611,7 +33615,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("visiblePlatformWindows
 }
 objj_executeFile("CPPlatformWindow+DOM.j", YES);
 
-p;22;CPPlatformWindow+DOM.jt;52861;@STATIC;1.0;I;21;Foundation/CPObject.jI;22;Foundation/CPRunLoop.ji;9;CPEvent.ji;8;CPText.ji;17;CPCompatibility.ji;18;CPDOMWindowLayer.ji;12;CPPlatform.ji;18;CPPlatformWindow.ji;26;CPPlatformWindow+DOMKeys.jt;52647;objj_executeFile("Foundation/CPObject.j", NO);
+p;22;CPPlatformWindow+DOM.jt;53418;@STATIC;1.0;I;21;Foundation/CPObject.jI;22;Foundation/CPRunLoop.ji;9;CPEvent.ji;8;CPText.ji;17;CPCompatibility.ji;18;CPDOMWindowLayer.ji;12;CPPlatform.ji;18;CPPlatformWindow.ji;26;CPPlatformWindow+DOMKeys.jt;53204;objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("Foundation/CPRunLoop.j", NO);
 objj_executeFile("CPEvent.j", YES);
 objj_executeFile("CPText.j", YES);
@@ -33627,12 +33631,25 @@ var CPDOMEventGetClickCount,
     StopContextMenuDOMEventPropagation;
 var KeyCodesToPrevent = {},
     CharacterKeysToPrevent = {},
+    KeyCodesToAllow = {},
     MozKeyCodeToKeyCodeMap = {
         61: 187,
         59: 186
     },
     KeyCodesToUnicodeMap = {};
 KeyCodesToPrevent[CPKeyCodes.A] = YES;
+KeyCodesToAllow[CPKeyCodes.F1] = YES;
+KeyCodesToAllow[CPKeyCodes.F2] = YES;
+KeyCodesToAllow[CPKeyCodes.F3] = YES;
+KeyCodesToAllow[CPKeyCodes.F4] = YES;
+KeyCodesToAllow[CPKeyCodes.F5] = YES;
+KeyCodesToAllow[CPKeyCodes.F6] = YES;
+KeyCodesToAllow[CPKeyCodes.F7] = YES;
+KeyCodesToAllow[CPKeyCodes.F8] = YES;
+KeyCodesToAllow[CPKeyCodes.F9] = YES;
+KeyCodesToAllow[CPKeyCodes.F10] = YES;
+KeyCodesToAllow[CPKeyCodes.F11] = YES;
+KeyCodesToAllow[CPKeyCodes.F12] = YES;
 KeyCodesToUnicodeMap[CPKeyCodes.BACKSPACE] = CPDeleteCharacter;
 KeyCodesToUnicodeMap[CPKeyCodes.DELETE] = CPDeleteFunctionKey;
 KeyCodesToUnicodeMap[CPKeyCodes.TAB] = CPTabCharacter;
@@ -33991,9 +34008,14 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
                         (aDOMEvent.ctrlKey ? CPControlKeyMask : 0) |
                         (aDOMEvent.altKey ? CPAlternateKeyMask : 0) |
                         (aDOMEvent.metaKey ? CPCommandKeyMask : 0);
-    StopDOMEventPropagation = !!(!(modifierFlags & (CPControlKeyMask | CPCommandKeyMask)) ||
-                              CharacterKeysToPrevent[String.fromCharCode(aDOMEvent.keyCode || aDOMEvent.charCode).toLowerCase()] ||
-                              KeyCodesToPrevent[aDOMEvent.keyCode]);
+    StopDOMEventPropagation = YES;
+    if(! (CharacterKeysToPrevent[String.fromCharCode(aDOMEvent.keyCode || aDOMEvent.charCode).toLowerCase()] || KeyCodesToPrevent[aDOMEvent.keyCode]))
+    {
+        if((modifierFlags & (CPControlKeyMask | CPCommandKeyMask)) || KeyCodesToAllow[aDOMEvent.keyCode])
+        {
+            StopDOMEventPropagation = NO;
+        }
+    }
     var isNativePasteEvent = NO,
         isNativeCopyOrCutEvent = NO,
         overrideCharacters = nil;
