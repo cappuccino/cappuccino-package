@@ -1574,7 +1574,7 @@ MIN = Math.min;
 MAX = Math.max;
 ABS = Math.abs;
 
-p;12;CPIndexSet.jt;20788;@STATIC;1.0;i;10;CPObject.ji;9;CPRange.jt;20740;objj_executeFile("CPObject.j", YES);
+p;12;CPIndexSet.jt;21077;@STATIC;1.0;i;10;CPObject.ji;9;CPRange.jt;21029;objj_executeFile("CPObject.j", YES);
 objj_executeFile("CPRange.j", YES);
 {var the_class = objj_allocateClassPair(CPObject, "CPIndexSet"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_count"), new objj_ivar("_ranges")]);
@@ -1634,7 +1634,14 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPInd
             return NO;
     return YES;
 }
-},["BOOL","CPIndexSet"]), new objj_method(sel_getUid("containsIndex:"), function $CPIndexSet__containsIndex_(self, _cmd, anIndex)
+},["BOOL","CPIndexSet"]), new objj_method(sel_getUid("isEqual:"), function $CPIndexSet__isEqual_(self, _cmd, anObject)
+{ with(self)
+{
+    return self === anObject ||
+            objj_msgSend(anObject, "isKindOfClass:", objj_msgSend(self, "class")) &&
+            objj_msgSend(self, "isEqualToIndexSet:", anObject);
+}
+},["BOOL","id"]), new objj_method(sel_getUid("containsIndex:"), function $CPIndexSet__containsIndex_(self, _cmd, anIndex)
 { with(self)
 {
     return positionOfIndex(_ranges, anIndex) !== CPNotFound;
@@ -1985,9 +1992,9 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
     {
         var range = _ranges[i],
             maximum = CPMaxRange(range);
-        if (anIndex > maximum)
+        if (anIndex >= maximum)
             break;
-        if (anIndex > range.location && anIndex < maximum)
+        if (anIndex > range.location)
         {
             shifted = CPMakeRange(anIndex + aDelta, maximum - anIndex);
             range.length = anIndex - range.location;
