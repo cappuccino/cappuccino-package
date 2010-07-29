@@ -10689,7 +10689,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"])]);
 }
 
-p;13;CPImageView.jt;14482;@STATIC;1.0;I;33;Foundation/CPNotificationCenter.ji;11;CPControl.ji;9;CPImage.ji;14;CPShadowView.jt;14376;objj_executeFile("Foundation/CPNotificationCenter.j", NO);
+p;13;CPImageView.jt;14990;@STATIC;1.0;I;33;Foundation/CPNotificationCenter.ji;11;CPControl.ji;9;CPImage.ji;14;CPShadowView.jt;14884;objj_executeFile("Foundation/CPNotificationCenter.j", NO);
 objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPImage.j", YES);
 objj_executeFile("CPShadowView.j", YES);
@@ -10705,7 +10705,8 @@ CPImageAlignBottom = 5;
 CPImageAlignBottomLeft = 6;
 CPImageAlignBottomRight = 7;
 CPImageAlignRight = 8;
-var CPImageViewShadowBackgroundColor = nil;
+var CPImageViewShadowBackgroundColor = nil,
+    CPImageViewEmptyPlaceholderImage = nil;
 var LEFT_SHADOW_INSET = 3.0,
     RIGHT_SHADOW_INSET = 3.0,
     TOP_SHADOW_INSET = 3.0,
@@ -10756,7 +10757,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     if (oldImage)
         objj_msgSend(defaultCenter, "removeObserver:name:object:", self, CPImageDidLoadNotification, oldImage);
     var newImage = objj_msgSend(self, "objectValue");
-    _DOMImageElement.src = newImage ? objj_msgSend(newImage, "filename") : "";
+    _DOMImageElement.src = newImage ? objj_msgSend(newImage, "filename") : objj_msgSend(CPImageViewEmptyPlaceholderImage, "filename");
     var size = objj_msgSend(newImage, "size");
     if (size && size.width === -1 && size.height === -1)
     {
@@ -10987,6 +10988,13 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     return YES;
 }
 },["BOOL","CPDraggingInfo"])]);
+class_addMethods(meta_class, [new objj_method(sel_getUid("initialize"), function $CPImageView__initialize(self, _cmd)
+{ with(self)
+{
+    var bundle = objj_msgSend(CPBundle, "bundleForClass:", objj_msgSend(CPView, "class"));
+    CPImageViewEmptyPlaceholderImage = objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:", objj_msgSend(bundle, "pathForResource:", "empty.png"));
+}
+},["void"])]);
 }
 var CPImageViewImageKey = "CPImageViewImageKey",
     CPImageViewImageScalingKey = "CPImageViewImageScalingKey",
