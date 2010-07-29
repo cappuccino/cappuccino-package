@@ -479,7 +479,7 @@ var splitRangeEntry = splitRangeEntryAtIndex= function( aRangeEntry, anIndex)
     return [aRangeEntry, newRangeEntry];
 }
 
-p;9;CPArray.jt;31554;@STATIC;1.0;i;14;CPEnumerator.ji;13;CPException.ji;10;CPObject.ji;9;CPRange.ji;18;CPSortDescriptor.jt;31446;objj_executeFile("CPEnumerator.j", YES);
+p;9;CPArray.jt;31566;@STATIC;1.0;i;14;CPEnumerator.ji;13;CPException.ji;10;CPObject.ji;9;CPRange.ji;18;CPSortDescriptor.jt;31458;objj_executeFile("CPEnumerator.j", YES);
 objj_executeFile("CPException.j", YES);
 objj_executeFile("CPObject.j", YES);
 objj_executeFile("CPRange.j", YES);
@@ -672,7 +672,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
 },["int","id","CPRange"]), new objj_method(sel_getUid("indexOfObjectPassingTest:"), function $CPArray__indexOfObjectPassingTest_(self, _cmd, predicate)
 { with(self)
 {
-    return objj_msgSend(self, "indexOfObjectWithOptions:passingTest:context:", CPEnumerationNormal, predicate, nil);
+    return objj_msgSend(self, "indexOfObjectWithOptions:passingTest:context:", CPEnumerationNormal, predicate, undefined);
 }
 },["unsigned","Function"]), new objj_method(sel_getUid("indexOfObjectPassingTest:context:"), function $CPArray__indexOfObjectPassingTest_context_(self, _cmd, predicate, aContext)
 { with(self)
@@ -682,7 +682,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
 },["unsigned","Function","id"]), new objj_method(sel_getUid("indexOfObjectWithOptions:passingTest:"), function $CPArray__indexOfObjectWithOptions_passingTest_(self, _cmd, opts, predicate)
 { with(self)
 {
-    return objj_msgSend(self, "indexOfObjectWithOptions:passingTest:context:", opts, predicate, nil);
+    return objj_msgSend(self, "indexOfObjectWithOptions:passingTest:context:", opts, predicate, undefined);
 }
 },["unsigned","CPEnumerationOptions","Function"]), new objj_method(sel_getUid("indexOfObjectWithOptions:passingTest:context:"), function $CPArray__indexOfObjectWithOptions_passingTest_context_(self, _cmd, opts, predicate, aContext)
 { with(self)

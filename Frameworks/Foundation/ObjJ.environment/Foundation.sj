@@ -422,7 +422,7 @@ _a4.range.length=_a5-_a3;
 _a4.attributes=objj_msgSend(_a4.attributes,"copy");
 return [_a2,_a4];
 };
-p;9;CPArray.jt;20635;@STATIC;1.0;i;14;CPEnumerator.ji;13;CPException.ji;10;CPObject.ji;9;CPRange.ji;18;CPSortDescriptor.jt;20527;
+p;9;CPArray.jt;20647;@STATIC;1.0;i;14;CPEnumerator.ji;13;CPException.ji;10;CPObject.ji;9;CPRange.ji;18;CPSortDescriptor.jt;20539;
 objj_executeFile("CPEnumerator.j",YES);
 objj_executeFile("CPException.j",YES);
 objj_executeFile("CPObject.j",YES);
@@ -603,7 +603,7 @@ return CPNotFound;
 }
 }),new objj_method(sel_getUid("indexOfObjectPassingTest:"),function(_3a,_3b,_3c){
 with(_3a){
-return objj_msgSend(_3a,"indexOfObjectWithOptions:passingTest:context:",CPEnumerationNormal,_3c,nil);
+return objj_msgSend(_3a,"indexOfObjectWithOptions:passingTest:context:",CPEnumerationNormal,_3c,undefined);
 }
 }),new objj_method(sel_getUid("indexOfObjectPassingTest:context:"),function(_3d,_3e,_3f,_40){
 with(_3d){
@@ -611,7 +611,7 @@ return objj_msgSend(_3d,"indexOfObjectWithOptions:passingTest:context:",CPEnumer
 }
 }),new objj_method(sel_getUid("indexOfObjectWithOptions:passingTest:"),function(_41,_42,_43,_44){
 with(_41){
-return objj_msgSend(_41,"indexOfObjectWithOptions:passingTest:context:",_43,_44,nil);
+return objj_msgSend(_41,"indexOfObjectWithOptions:passingTest:context:",_43,_44,undefined);
 }
 }),new objj_method(sel_getUid("indexOfObjectWithOptions:passingTest:context:"),function(_45,_46,_47,_48,_49){
 with(_45){
