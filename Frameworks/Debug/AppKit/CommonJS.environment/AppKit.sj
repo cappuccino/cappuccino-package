@@ -4033,7 +4033,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["id","int"])]);
 }
 
-p;15;CPSearchField.jt;30363;@STATIC;1.0;i;13;CPTextField.jt;30325;objj_executeFile("CPTextField.j", YES);
+p;15;CPSearchField.jt;30249;@STATIC;1.0;i;13;CPTextField.jt;30211;objj_executeFile("CPTextField.j", YES);
 CPSearchFieldRecentsTitleMenuItemTag = 1000;
 CPSearchFieldRecentsMenuItemTag = 1001;
 CPSearchFieldClearRecentsMenuItemTag = 1002;
@@ -4059,11 +4059,11 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
         _sendsWholeSearchString = NO;
         _sendsSearchStringImmediately = NO;
         _recentsAutosaveName = nil;
-        objj_msgSend(self, "_initWithFrame:", frame);
+        objj_msgSend(self, "_init");
     }
     return self;
 }
-},["id","CGRect"]), new objj_method(sel_getUid("_initWithFrame:"), function $CPSearchField___initWithFrame_(self, _cmd, frame)
+},["id","CGRect"]), new objj_method(sel_getUid("_init"), function $CPSearchField___init(self, _cmd)
 { with(self)
 {
     _recentSearches = objj_msgSend(CPArray, "array");
@@ -4082,7 +4082,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     objj_msgSend(self, "resetSearchButton");
     _canResignFirstResponder = YES;
 }
-},["void","CGRect"]), new objj_method(sel_getUid("setSearchButton:"), function $CPSearchField__setSearchButton_(self, _cmd, button)
+},["void"]), new objj_method(sel_getUid("setSearchButton:"), function $CPSearchField__setSearchButton_(self, _cmd, button)
 { with(self)
 {
     if (button != _searchButton)
@@ -4316,7 +4316,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 {
     if (_canResignFirstResponder)
         return objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPSearchField").super_class }, "resignFirstResponder");
-    return _canResignFirstResponder;
+    return NO;
 }
 },["BOOL"]), new objj_method(sel_getUid("mouseDown:"), function $CPSearchField__mouseDown_(self, _cmd, anEvent)
 { with(self)
@@ -4569,7 +4569,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 {
     if (self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPSearchField").super_class }, "initWithCoder:", coder))
     {
-        objj_msgSend(self, "_initWithFrame:", objj_msgSend(self, "frame"));
+        objj_msgSend(self, "_init");
         _recentsAutosaveName = objj_msgSend(coder, "decodeObjectForKey:", CPRecentsAutosaveNameKey);
         _sendsWholeSearchString = objj_msgSend(coder, "decodeBoolForKey:", CPSendsWholeSearchStringKey);
         _sendsSearchStringImmediately = objj_msgSend(coder, "decodeBoolForKey:", CPSendsSearchStringImmediatelyKey);
