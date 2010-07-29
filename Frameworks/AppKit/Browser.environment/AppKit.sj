@@ -3894,7 +3894,7 @@ with(_99){
 objj_msgSend(CPException,"raise:reason:",CPUnsupportedMethodException,"dataCellForRow: is not supported. Use -dataViewForRow:row instead.");
 }
 })]);
-p;15;CPSearchField.jt;21914;@STATIC;1.0;i;13;CPTextField.jt;21876;
+p;15;CPSearchField.jt;21897;@STATIC;1.0;i;13;CPTextField.jt;21859;
 objj_executeFile("CPTextField.j",YES);
 CPSearchFieldRecentsTitleMenuItemTag=1000;
 CPSearchFieldRecentsMenuItemTag=1001;
@@ -4134,10 +4134,7 @@ return nil;
 }
 }),new objj_method(sel_getUid("resignFirstResponder"),function(_6b,_6c){
 with(_6b){
-if(_canResignFirstResponder){
-return objj_msgSendSuper({receiver:_6b,super_class:objj_getClass("CPSearchField").super_class},"resignFirstResponder");
-}
-return NO;
+return _canResignFirstResponder&&objj_msgSendSuper({receiver:_6b,super_class:objj_getClass("CPSearchField").super_class},"resignFirstResponder");
 }
 }),new objj_method(sel_getUid("mouseDown:"),function(_6d,_6e,_6f){
 with(_6d){
