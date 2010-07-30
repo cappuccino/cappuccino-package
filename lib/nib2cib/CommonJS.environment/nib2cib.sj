@@ -68,7 +68,7 @@ with(_1a){
 return objj_msgSend(CPColor,"class");
 }
 })]);
-p;13;NSTableView.jt;2329;@STATIC;1.0;I;20;AppKit/CPTableView.jt;2285;
+p;13;NSTableView.jt;2197;@STATIC;1.0;I;20;AppKit/CPTableView.jt;2153;
 objj_executeFile("AppKit/CPTableView.j",NO);
 var _1=objj_getClass("CPTableView");
 if(!_1){
@@ -84,17 +84,14 @@ _rowHeight=objj_msgSend(_5,"decodeFloatForKey:","NSRowHeight");
 if(_rowHeight==17){
 _rowHeight=23;
 }
-if(objj_msgSend(_gridColor,"isEqual:",objj_msgSend(CPColor,"colorWithRed:green:blue:alpha:",127/255,127/255,127/255,1))){
-_gridColor=objj_msgSend(CPColor,"colorWithRed:green:blue:alpha:",229/255,229/255,229/255,1);
-}
 _headerView=objj_msgSend(_5,"decodeObjectForKey:","NSHeaderView");
 _cornerView=objj_msgSend(_5,"decodeObjectForKey:","NSCornerView");
 _tableColumns=objj_msgSend(_5,"decodeObjectForKey:","NSTableColumns");
 objj_msgSend(_tableColumns,"makeObjectsPerformSelector:withObject:",sel_getUid("setTableView:"),_3);
-_intercellSpacing=CGSizeMake(0,0);
-_gridColor=objj_msgSend(_5,"decodeObjectForKey:","NSGridColor");
-if(objj_msgSend(_gridColor,"isEqual:",objj_msgSend(CPColor,"colorWithRed:green:blue:alpha:",127/255,127/255,127/255,1))){
-_gridColor=objj_msgSend(CPColor,"colorWithRed:green:blue:alpha:",229/255,229/255,229/255,1);
+_intercellSpacing=CGSizeMake(objj_msgSend(_5,"decodeFloatForKey:","NSIntercellSpacingWidth"),objj_msgSend(_5,"decodeFloatForKey:","NSIntercellSpacingHeight"));
+var _7=objj_msgSend(_5,"decodeObjectForKey:","NSGridColor");
+if(!objj_msgSend(_7,"isEqual:",objj_msgSend(CPColor,"colorWithRed:green:blue:alpha:",127/255,127/255,127/255,1))){
+objj_msgSend(_3,"setValue:forThemeAttribute:",_7,"grid-color");
 }
 _gridStyleMask=objj_msgSend(_5,"decodeIntForKey:","NSGridStyleMask");
 _usesAlternatingRowBackgroundColors=(_6&8388608)?YES:NO;
@@ -110,12 +107,12 @@ return _3;
 })]);
 var _1=objj_allocateClassPair(CPTableView,"NSTableView"),_2=_1.isa;
 objj_registerClassPair(_1);
-class_addMethods(_1,[new objj_method(sel_getUid("initWithCoder:"),function(_7,_8,_9){
-with(_7){
-return objj_msgSend(_7,"NS_initWithCoder:",_9);
+class_addMethods(_1,[new objj_method(sel_getUid("initWithCoder:"),function(_8,_9,_a){
+with(_8){
+return objj_msgSend(_8,"NS_initWithCoder:",_a);
 }
-}),new objj_method(sel_getUid("classForKeyedArchiver"),function(_a,_b){
-with(_a){
+}),new objj_method(sel_getUid("classForKeyedArchiver"),function(_b,_c){
+with(_b){
 return objj_msgSend(CPTableView,"class");
 }
 })]);

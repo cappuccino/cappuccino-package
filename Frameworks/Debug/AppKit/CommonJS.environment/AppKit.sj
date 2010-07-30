@@ -387,7 +387,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPEvent"])]);
 }
 
-p;13;CPTableView.jt;139787;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;139644;objj_executeFile("Foundation/CPArray.j", NO);
+p;13;CPTableView.jt;140114;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;139971;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("AppKit/CGGradient.j", NO);
 objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPTableColumn.j", YES);
@@ -500,7 +500,7 @@ _disableAutomaticResizing = newValue;
         _tableColumnRanges = [];
         _dirtyTableColumnRangeIndex = CPNotFound;
         _numberOfHiddenColumns = 0;
-        _intercellSpacing = { width:0.0, height:0.0 };
+        _intercellSpacing = { width:3.0, height:2.0 };
         _rowHeight = 23.0;
         objj_msgSend(self, "setGridColor:", objj_msgSend(CPColor, "colorWithHexString:", "dce0e2"));
         objj_msgSend(self, "setGridStyleMask:", CPTableViewGridNone);
@@ -680,6 +680,8 @@ _disableAutomaticResizing = newValue;
     if ((_intercellSpacing.width == aSize.width && _intercellSpacing.height == aSize.height))
         return;
     _intercellSpacing = { width:aSize.width, height:aSize.height };
+    _dirtyTableColumnRangeIndex = 0;
+    objj_msgSend(self, "_recalculateTableColumnRanges");
     objj_msgSend(self, "setNeedsLayout");
 }
 },["void","CGSize"]), new objj_method(sel_getUid("setThemeState:"), function $CPTableView__setThemeState_(self, _cmd, astae)
@@ -1182,7 +1184,7 @@ _disableAutomaticResizing = newValue;
         }
         else
         {
-            var width = objj_msgSend(_tableColumns[index], "width");
+            var width = objj_msgSend(_tableColumns[index], "width") + _intercellSpacing.width;
             _tableColumnRanges[index] = CPMakeRange(x, width);
             x += width;
         }
@@ -1204,9 +1206,8 @@ _disableAutomaticResizing = newValue;
 },["CGRect","CPInteger"]), new objj_method(sel_getUid("rectOfRow:"), function $CPTableView__rectOfRow_(self, _cmd, aRowIndex)
 { with(self)
 {
-    if (NO)
-        return NULL;
-    return { origin: { x:0.0, y:(aRowIndex * (_rowHeight + _intercellSpacing.height)) }, size: { width:(objj_msgSend(self, "bounds").size.width), height:_rowHeight } };
+    var height = _rowHeight + _intercellSpacing.height;
+    return { origin: { x:0.0, y:aRowIndex * height }, size: { width:(objj_msgSend(self, "bounds").size.width), height:height } };
 }
 },["CGRect","CPInteger"]), new objj_method(sel_getUid("rowsInRect:"), function $CPTableView__rowsInRect_(self, _cmd, aRect)
 { with(self)
@@ -1275,8 +1276,8 @@ _disableAutomaticResizing = newValue;
 },["CPInteger","CGPoint"]), new objj_method(sel_getUid("rowAtPoint:"), function $CPTableView__rowAtPoint_(self, _cmd, aPoint)
 { with(self)
 {
-    var y = aPoint.y;
-    var row = FLOOR(y / (_rowHeight + _intercellSpacing.height));
+    var y = aPoint.y,
+        row = FLOOR(y / (_rowHeight + _intercellSpacing.height));
     if (row >= _numberOfRows)
         return -1;
     return row;
@@ -1286,8 +1287,10 @@ _disableAutomaticResizing = newValue;
 {
     if (_dirtyTableColumnRangeIndex !== CPNotFound) objj_msgSend(self, "_recalculateTableColumnRanges");;
     var tableColumnRange = _tableColumnRanges[aColumn],
-        rectOfRow = objj_msgSend(self, "rectOfRow:", aRow);
-    return { origin: { x:tableColumnRange.location, y:(rectOfRow.origin.y) }, size: { width:tableColumnRange.length, height:(rectOfRow.size.height) } };
+        rectOfRow = objj_msgSend(self, "rectOfRow:", aRow),
+        leftInset = FLOOR(_intercellSpacing.width / 2.0),
+        topInset = FLOOR(_intercellSpacing.height / 2.0);
+    return { origin: { x:tableColumnRange.location + leftInset, y:(rectOfRow.origin.y) + topInset }, size: { width:tableColumnRange.length - _intercellSpacing.width, height:(rectOfRow.size.height) - _intercellSpacing.height } };
 }
 },["CGRect","CPInteger","CPInteger"]), new objj_method(sel_getUid("resizeWithOldSuperviewSize:"), function $CPTableView__resizeWithOldSuperviewSize_(self, _cmd, aSize)
 { with(self)
@@ -1600,8 +1603,8 @@ _disableAutomaticResizing = newValue;
     objj_msgSend(newSortDescriptors, "insertObject:atIndex:", newMainSortDescriptor, 0);
     var image = objj_msgSend(newMainSortDescriptor, "ascending") ? objj_msgSend(self, "_tableHeaderSortImage") : objj_msgSend(self, "_tableHeaderReverseSortImage");
     objj_msgSend(self, "setIndicatorImage:inTableColumn:", nil, _currentHighlightedTableColumn);
- objj_msgSend(self, "setIndicatorImage:inTableColumn:", image, tableColumn);
- objj_msgSend(self, "setHighlightedTableColumn:", tableColumn);
+    objj_msgSend(self, "setIndicatorImage:inTableColumn:", image, tableColumn);
+    objj_msgSend(self, "setHighlightedTableColumn:", tableColumn);
     objj_msgSend(self, "setSortDescriptors:", newSortDescriptors);
 }
 },["void","int"]), new objj_method(sel_getUid("setIndicatorImage:inTableColumn:"), function $CPTableView__setIndicatorImage_inTableColumn_(self, _cmd, anImage, aTableColumn)
@@ -1760,7 +1763,7 @@ _disableAutomaticResizing = newValue;
     if (objj_msgSend(newSortDescriptors, "isEqual:", oldSortDescriptors))
         return;
     _sortDescriptors = newSortDescriptors;
-   objj_msgSend(self, "_sendDataSourceSortDescriptorsDidChange:", oldSortDescriptors);
+    objj_msgSend(self, "_sendDataSourceSortDescriptorsDidChange:", oldSortDescriptors);
 }
 },["void","CPArray"]), new objj_method(sel_getUid("sortDescriptors"), function $CPTableView__sortDescriptors(self, _cmd)
 { with(self)
@@ -2463,7 +2466,7 @@ _disableAutomaticResizing = newValue;
     var row = objj_msgSend(self, "_proposedRowAtPoint:", theDragPoint),
         rowRect = objj_msgSend(self, "rectOfRow:", row);
     if (objj_msgSend(self, "intercellSpacing").height < 5.0)
-  rowRect = CPRectInset(rowRect, 0.0, 5.0 - objj_msgSend(self, "intercellSpacing").height);
+        rowRect = CPRectInset(rowRect, 0.0, 5.0 - objj_msgSend(self, "intercellSpacing").height);
     if (CGRectContainsPoint(rowRect, theDragPoint) && row < _numberOfRows)
         return CPTableViewDropOn;
     return CPTableViewDropAbove;
@@ -2471,16 +2474,16 @@ _disableAutomaticResizing = newValue;
 },["CPTableViewDropOperation","CGPoint"]), new objj_method(sel_getUid("_proposedRowAtPoint:"), function $CPTableView___proposedRowAtPoint_(self, _cmd, dragPoint)
 { with(self)
 {
- var row = FLOOR(dragPoint.y / ( _rowHeight + _intercellSpacing.height )),
+    var row = FLOOR(dragPoint.y / ( _rowHeight + _intercellSpacing.height )),
         lowerRow = row + 1,
-  rect = objj_msgSend(self, "rectOfRow:", row),
+        rect = objj_msgSend(self, "rectOfRow:", row),
         bottomPoint = CGRectGetMaxY(rect),
         bottomThirty = bottomPoint - ((bottomPoint - CGRectGetMinY(rect)) * 0.3);
     if (dragPoint.y > MAX(bottomThirty, bottomPoint - 6))
-     row = lowerRow;
+        row = lowerRow;
     if (row >= objj_msgSend(self, "numberOfRows"))
         row = objj_msgSend(self, "numberOfRows");
- return row;
+    return row;
 }
 },["CPInteger","CGPoint"]), new objj_method(sel_getUid("_validateDrop:proposedRow:proposedDropOperation:"), function $CPTableView___validateDrop_proposedRow_proposedDropOperation_(self, _cmd, info, row, dropOperation)
 { with(self)
@@ -2501,7 +2504,7 @@ _disableAutomaticResizing = newValue;
 {
     if (theLowerRowIndex > objj_msgSend(self, "numberOfRows"))
         theLowerRowIndex = objj_msgSend(self, "numberOfRows");
- return objj_msgSend(self, "rectOfRow:", theLowerRowIndex);
+    return objj_msgSend(self, "rectOfRow:", theLowerRowIndex);
 }
 },["CPRect","int","int","CPPoint"]), new objj_method(sel_getUid("draggingUpdated:"), function $CPTableView__draggingUpdated_(self, _cmd, sender)
 { with(self)
@@ -2808,7 +2811,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
             _rowHeight = objj_msgSend(aCoder, "decodeFloatForKey:", CPTableViewRowHeightKey);
         else
             _rowHeight = 23.0;
-        _intercellSpacing = objj_msgSend(aCoder, "decodeSizeForKey:", CPTableViewIntercellSpacingKey) || { width:0.0, height:0.0 };
+        _intercellSpacing = objj_msgSend(aCoder, "decodeSizeForKey:", CPTableViewIntercellSpacingKey) || { width:3.0, height:2.0 };
         objj_msgSend(self, "setGridColor:", objj_msgSend(aCoder, "decodeObjectForKey:", CPTableViewGridColorKey) || objj_msgSend(CPColor, "grayColor"));
         _gridStyleMask = objj_msgSend(aCoder, "decodeIntForKey:", CPTableViewGridStyleMaskKey) || CPTableViewGridNone;
         _usesAlternatingRowBackgroundColors = objj_msgSend(aCoder, "decodeObjectForKey:", CPTableViewUsesAlternatingBackgroundKey);
