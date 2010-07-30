@@ -4582,7 +4582,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["id","CPCoder"])]);
 }
 
-p;13;CPSplitView.jt;29035;@STATIC;1.0;i;13;CPButtonBar.ji;9;CPImage.ji;8;CPView.jt;28972;objj_executeFile("CPButtonBar.j", YES);
+p;13;CPSplitView.jt;29847;@STATIC;1.0;i;13;CPButtonBar.ji;9;CPImage.ji;8;CPView.jt;29784;objj_executeFile("CPButtonBar.j", YES);
 objj_executeFile("CPImage.j", YES);
 objj_executeFile("CPView.j", YES);
 CPSplitViewDidResizeSubviewsNotification = "CPSplitViewDidResizeSubviewsNotification";
@@ -4590,7 +4590,7 @@ CPSplitViewWillResizeSubviewsNotification = "CPSplitViewWillResizeSubviewsNotifi
 var CPSplitViewHorizontalImage = nil,
     CPSplitViewVerticalImage = nil;
 {var the_class = objj_allocateClassPair(CPView, "CPSplitView"),
-meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_delegate"), new objj_ivar("_isVertical"), new objj_ivar("_isPaneSplitter"), new objj_ivar("_currentDivider"), new objj_ivar("_initialOffset"), new objj_ivar("_originComponent"), new objj_ivar("_sizeComponent"), new objj_ivar("_DOMDividerElements"), new objj_ivar("_dividerImagePath"), new objj_ivar("_drawingDivider"), new objj_ivar("_needsResizeSubviews"), new objj_ivar("_buttonBars")]);
+meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_delegate"), new objj_ivar("_isVertical"), new objj_ivar("_isPaneSplitter"), new objj_ivar("_currentDivider"), new objj_ivar("_initialOffset"), new objj_ivar("_preCollapsePosition"), new objj_ivar("_originComponent"), new objj_ivar("_sizeComponent"), new objj_ivar("_DOMDividerElements"), new objj_ivar("_dividerImagePath"), new objj_ivar("_drawingDivider"), new objj_ivar("_needsResizeSubviews"), new objj_ivar("_buttonBars")]);
 objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), function $CPSplitView__initWithFrame_(self, _cmd, aFrame)
 { with(self)
@@ -4815,14 +4815,14 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
                     if (objj_msgSend(_delegate, "splitView:canCollapseSubview:", self, _subviews[i]) && objj_msgSend(_delegate, "splitView:shouldCollapseSubview:forDoubleClickOnDividerAtIndex:", self, _subviews[i], i))
                     {
                         if (objj_msgSend(self, "isSubviewCollapsed:", _subviews[i]))
-                            objj_msgSend(self, "setPosition:ofDividerAtIndex:", (minPosition + (maxPosition - minPosition) / 2), i);
+                            objj_msgSend(self, "setPosition:ofDividerAtIndex:", _preCollapsePosition ? _preCollapsePosition : (minPosition + (maxPosition - minPosition) / 2), i);
                         else
                             objj_msgSend(self, "setPosition:ofDividerAtIndex:", minPosition, i);
                     }
                     else if (objj_msgSend(_delegate, "splitView:canCollapseSubview:", self, _subviews[i+1]) && objj_msgSend(_delegate, "splitView:shouldCollapseSubview:forDoubleClickOnDividerAtIndex:", self, _subviews[i+1], i))
                     {
                         if (objj_msgSend(self, "isSubviewCollapsed:", _subviews[i+1]))
-                            objj_msgSend(self, "setPosition:ofDividerAtIndex:", (minPosition + (maxPosition - minPosition) / 2), i);
+                            objj_msgSend(self, "setPosition:ofDividerAtIndex:", _preCollapsePosition ? _preCollapsePosition : (minPosition + (maxPosition - minPosition) / 2), i);
                         else
                             objj_msgSend(self, "setPosition:ofDividerAtIndex:", maxPosition, i);
                     }
@@ -4887,10 +4887,17 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
         if (_currentDivider === i || (_currentDivider == CPNotFound && objj_msgSend(self, "cursorAtPoint:hitDividerAtIndex:", point, i)))
         {
             var frame = objj_msgSend(_subviews[i], "frame"),
-                startPosition = frame.origin[_originComponent] + frame.size[_sizeComponent],
+                size = frame.size[_sizeComponent],
+                startPosition = frame.origin[_originComponent] + size,
                 canShrink = objj_msgSend(self, "_realPositionForPosition:ofDividerAtIndex:", startPosition-1, i) < startPosition,
                 canGrow = objj_msgSend(self, "_realPositionForPosition:ofDividerAtIndex:", startPosition+1, i) > startPosition,
                 cursor = objj_msgSend(CPCursor, "arrowCursor");
+            if (size === 0)
+                canGrow = YES;
+            else if (!canShrink &&
+                objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("splitView:canCollapseSubview:")) &&
+                objj_msgSend(_delegate, "splitView:canCollapseSubview:", self, _subviews[i]))
+                canShrink = YES;
             if (_isVertical && canShrink && canGrow)
                 cursor = objj_msgSend(CPCursor, "resizeLeftRightCursor");
             else if (_isVertical && canShrink)
@@ -4959,9 +4966,16 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
         frameA = objj_msgSend(viewA, "frame"),
         viewB = _subviews[dividerIndex + 1],
         frameB = objj_msgSend(viewB, "frame");
+    _preCollapsePosition = 0;
+    var preSize = frameA.size[_sizeComponent];
     frameA.size[_sizeComponent] = realPosition - frameA.origin[_originComponent];
+    if (preSize !== 0 && frameA.size[_sizeComponent] === 0)
+        _preCollapsePosition = preSize;
     objj_msgSend(_subviews[dividerIndex], "setFrame:", frameA);
+    preSize = frameB.size[_sizeComponent];
     frameB.size[_sizeComponent] = frameB.origin[_originComponent] + frameB.size[_sizeComponent] - realPosition - objj_msgSend(self, "dividerThickness");
+    if (preSize !== 0 && frameB.size[_sizeComponent] === 0)
+        _preCollapsePosition = preSize;
     frameB.origin[_originComponent] = realPosition + objj_msgSend(self, "dividerThickness");
     objj_msgSend(_subviews[dividerIndex + 1], "setFrame:", frameB);
     objj_msgSend(self, "setNeedsDisplay:", YES);
