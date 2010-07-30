@@ -13206,7 +13206,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("bezierPath"), function
 },["void","CGPoint","CGPoint"])]);
 }
 
-p;9;CPColor.jt;18290;@STATIC;1.0;I;21;Foundation/CPObject.ji;9;CGColor.ji;17;CPCompatibility.ji;9;CPImage.jt;18196;objj_executeFile("Foundation/CPObject.j", NO);
+p;9;CPColor.jt;18305;@STATIC;1.0;I;21;Foundation/CPObject.ji;9;CGColor.ji;17;CPCompatibility.ji;9;CPImage.jt;18211;objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("CGColor.j", YES);
 objj_executeFile("CPCompatibility.j", YES);
 objj_executeFile("CPImage.j", YES);
@@ -13239,7 +13239,7 @@ objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("_initWithCSSString:"), function $CPColor___initWithCSSString_(self, _cmd, aString)
 { with(self)
 {
-    if(aString.indexOf("rgb") == CPNotFound)
+    if (aString.indexOf("rgb") == CPNotFound)
         return nil;
     self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPColor").super_class }, "init");
     var startingIndex = aString.indexOf("(");
@@ -13330,8 +13330,10 @@ class_addMethods(the_class, [new objj_method(sel_getUid("_initWithCSSString:"), 
     var brightness = max / 255.0,
         saturation = (max != 0) ? delta / max : 0;
     var hue;
-    if(saturation == 0)
+    if (saturation == 0)
+    {
         hue = 0;
+    }
     else
     {
         var rr = (max - red) / delta;
@@ -13406,14 +13408,14 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("colorWithRed:green:blu
 },["CPColor","float","float","float"]), new objj_method(sel_getUid("colorWithHue:saturation:brightness:alpha:"), function $CPColor__colorWithHue_saturation_brightness_alpha_(self, _cmd, hue, saturation, brightness, alpha)
 { with(self)
 {
-    if(saturation === 0.0)
+    if (saturation === 0.0)
         return objj_msgSend(CPColor, "colorWithCalibratedWhite:alpha:", brightness / 100.0, alpha);
     var f = hue % 60,
         p = (brightness * (100 - saturation)) / 10000,
         q = (brightness * (6000 - saturation * f)) / 600000,
         t = (brightness * (6000 - saturation * (60 -f))) / 600000,
         b = brightness / 100.0;
-    switch(FLOOR(hue / 60))
+    switch (FLOOR(hue / 60))
     {
         case 0: return objj_msgSend(CPColor, "colorWithCalibratedRed:green:blue:alpha:",  b,  t,  p,  alpha);
         case 1: return objj_msgSend(CPColor, "colorWithCalibratedRed:green:blue:alpha:",  q,  b,  p,  alpha);
@@ -13618,31 +13620,33 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"])]);
 }
 var hexCharacters = "0123456789ABCDEF";
-var hexToRGB, rgbToHex, byteToHex;
-hexToRGB= function(hex)
+var hexToRGB = function(hex)
 {
-    if ( hex.length == 3 )
+    if (hex.length == 3)
         hex = hex.charAt(0) + hex.charAt(0) + hex.charAt(1) + hex.charAt(1) + hex.charAt(2) + hex.charAt(2);
-    if(hex.length != 6)
+    if (hex.length != 6)
         return null;
     hex = hex.toUpperCase();
-    for(var i=0; i<hex.length; i++)
-        if(hexCharacters.indexOf(hex.charAt(i)) == -1)
+    for (var i = 0; i < hex.length; i++)
+        if (hexCharacters.indexOf(hex.charAt(i)) == -1)
             return null;
     var red = (hexCharacters.indexOf(hex.charAt(0)) * 16 + hexCharacters.indexOf(hex.charAt(1))) / 255.0;
     var green = (hexCharacters.indexOf(hex.charAt(2)) * 16 + hexCharacters.indexOf(hex.charAt(3))) / 255.0;
     var blue = (hexCharacters.indexOf(hex.charAt(4)) * 16 + hexCharacters.indexOf(hex.charAt(5))) / 255.0;
     return [red, green, blue, 1.0];
-}
-rgbToHex= function(r,g,b) {
+};
+var rgbToHex = function(r,g,b)
+{
     return byteToHex(r) + byteToHex(g) + byteToHex(b);
-}
-byteToHex= function(n) {
-    if (!n || isNaN(n)) return "00";
-    n = ROUND(MIN(255,MAX(0,256*n)));
+};
+var byteToHex = function(n)
+{
+    if (!n || isNaN(n))
+        return "00";
+    n = ROUND(MIN(255, MAX(0, 256 * n)));
     return hexCharacters.charAt((n - n % 16) / 16) +
-            hexCharacters.charAt(n % 16);
-}
+           hexCharacters.charAt(n % 16);
+};
 
 p;13;CPTextField.jt;35044;@STATIC;1.0;i;11;CPControl.ji;17;CPStringDrawing.ji;17;CPCompatibility.ji;21;_CPImageAndTextView.jt;34938;objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPStringDrawing.j", YES);
@@ -34480,7 +34484,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("establishConnection"), 
 meta_class = the_class.isa;objj_registerClassPair(the_class);
 }
 
-p;23;CPCibControlConnector.jt;2021;@STATIC;1.0;i;16;CPCibConnector.jt;1981;objj_executeFile("CPCibConnector.j", YES);
+p;23;CPCibControlConnector.jt;2033;@STATIC;1.0;i;16;CPCibConnector.jt;1993;objj_executeFile("CPCibConnector.j", YES);
 {var the_class = objj_allocateClassPair(CPCibConnector, "CPCibControlConnector"),
 meta_class = the_class.isa;objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("establishConnection"), function $CPCibControlConnector__establishConnection(self, _cmd)
@@ -34492,7 +34496,9 @@ class_addMethods(the_class, [new objj_method(sel_getUid("establishConnection"), 
         selectorName += ':';
     var selector = CPSelectorFromString(selectorName);
     if (!selector)
+    {
         objj_msgSend(CPException, "raise:reason:", CPInvalidArgumentException, "-[" + objj_msgSend(self, "className") + ' ' + _cmd + "] selector " + selectorName + " does not exist.");
+    }
     if (_destination && !objj_msgSend(_destination, "respondsToSelector:", selector))
     {
         CPLog.warn("Could not connect the action " + selector + " to target of class " + objj_msgSend(_destination, "className"));
