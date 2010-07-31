@@ -14583,7 +14583,7 @@ CPPointMakeZero= function()
     return CPPointMake(0, 0, 0);
 }
 
-p;8;CPView.jt;66850;@STATIC;1.0;I;20;Foundation/CPArray.jI;26;Foundation/CPObjJRuntime.ji;19;CGAffineTransform.ji;12;CGGeometry.ji;9;CPColor.ji;12;CPGeometry.ji;19;CPGraphicsContext.ji;13;CPResponder.ji;9;CPTheme.ji;18;_CPDisplayServer.jt;66625;objj_executeFile("Foundation/CPArray.j", NO);
+p;8;CPView.jt;67815;@STATIC;1.0;I;20;Foundation/CPArray.jI;26;Foundation/CPObjJRuntime.ji;19;CGAffineTransform.ji;12;CGGeometry.ji;9;CPColor.ji;12;CPGeometry.ji;19;CPGraphicsContext.ji;13;CPResponder.ji;9;CPTheme.ji;18;_CPDisplayServer.jt;67590;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("Foundation/CPObjJRuntime.j", NO);
 objj_executeFile("CGAffineTransform.j", YES);
 objj_executeFile("CGGeometry.j", YES);
@@ -15131,9 +15131,30 @@ class_addMethods(the_class, [new objj_method(sel_getUid("setupViewFlags"), funct
             }
             while (view = objj_msgSend(view, "superview"));
         }
+        objj_msgSend(self, "_notifyViewDidHide");
+    }
+    else
+    {
+        objj_msgSend(self, "_notifyViewDidUnhide");
     }
 }
-},["void","BOOL"]), new objj_method(sel_getUid("isHidden"), function $CPView__isHidden(self, _cmd)
+},["void","BOOL"]), new objj_method(sel_getUid("_notifyViewDidHide"), function $CPView___notifyViewDidHide(self, _cmd)
+{ with(self)
+{
+    objj_msgSend(self, "viewDidHide");
+    var count = objj_msgSend(_subviews, "count");
+    while (count--)
+        objj_msgSend(_subviews[count], "_notifyViewDidHide");
+}
+},["void"]), new objj_method(sel_getUid("_notifyViewDidUnhide"), function $CPView___notifyViewDidUnhide(self, _cmd)
+{ with(self)
+{
+    objj_msgSend(self, "viewDidUnhide");
+    var count = objj_msgSend(_subviews, "count");
+    while (count--)
+        objj_msgSend(_subviews[count], "_notifyViewDidUnhide");
+}
+},["void"]), new objj_method(sel_getUid("isHidden"), function $CPView__isHidden(self, _cmd)
 { with(self)
 {
     return _isHidden;
@@ -15170,7 +15191,15 @@ class_addMethods(the_class, [new objj_method(sel_getUid("setupViewFlags"), funct
         view = objj_msgSend(view, "superview");
     return view !== nil;
 }
-},["BOOL"]), new objj_method(sel_getUid("acceptsFirstMouse:"), function $CPView__acceptsFirstMouse_(self, _cmd, anEvent)
+},["BOOL"]), new objj_method(sel_getUid("viewDidHide"), function $CPView__viewDidHide(self, _cmd)
+{ with(self)
+{
+}
+},["void"]), new objj_method(sel_getUid("viewDidUnhide"), function $CPView__viewDidUnhide(self, _cmd)
+{ with(self)
+{
+}
+},["void"]), new objj_method(sel_getUid("acceptsFirstMouse:"), function $CPView__acceptsFirstMouse_(self, _cmd, anEvent)
 { with(self)
 {
     return YES;
