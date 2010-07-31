@@ -17648,7 +17648,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","float","float"])]);
 }
 
-p;11;CPTabView.jt;27154;@STATIC;1.0;i;13;CPImageView.ji;15;CPTabViewItem.ji;8;CPView.jt;27084;objj_executeFile("CPImageView.j", YES);
+p;11;CPTabView.jt;27368;@STATIC;1.0;i;13;CPImageView.ji;15;CPTabViewItem.ji;8;CPView.jt;27298;objj_executeFile("CPImageView.j", YES);
 objj_executeFile("CPTabViewItem.j", YES);
 objj_executeFile("CPView.j", YES);
 CPTopTabsBezelBorder = 0;
@@ -17733,7 +17733,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPTabViewItem"]), new objj_method(sel_getUid("insertTabViewItem:atIndex:"), function $CPTabView__insertTabViewItem_atIndex_(self, _cmd, aTabViewItem, anIndex)
 { with(self)
 {
-    if (!_labelsView && _tabViewType == CPTopTabsBezelBorder)
+    if (!_labelsView)
         objj_msgSend(self, "_createBezelBorder");
     objj_msgSend(_tabViewItems, "insertObject:atIndex:", aTabViewItem, anIndex);
     objj_msgSend(_labelsView, "tabView:didAddTabViewItem:", self, aTabViewItem);
@@ -17826,18 +17826,25 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     {
         _selectedTabViewItem._tabState = CPBackgroundTab;
         objj_msgSend(_labelsView, "tabView:didChangeStateOfTabViewItem:", self, _selectedTabViewItem);
-        objj_msgSend(_contentView, "removeFromSuperview");
-        objj_msgSend(_auxiliaryView, "removeFromSuperview");
     }
     _selectedTabViewItem = aTabViewItem;
     _selectedTabViewItem._tabState = CPSelectedTab;
+    var _previousContentView = _contentView;
     _contentView = objj_msgSend(_selectedTabViewItem, "view");
-    objj_msgSend(_contentView, "setAutoresizingMask:", CPViewWidthSizable | CPViewHeightSizable);
+    if (_previousContentView !== _contentView)
+    {
+        objj_msgSend(_previousContentView, "removeFromSuperview");
+        objj_msgSend(_contentView, "setAutoresizingMask:", CPViewWidthSizable | CPViewHeightSizable);
+        objj_msgSend(self, "addSubview:", _contentView);
+    }
+    var _previousAuxiliaryView = _auxiliaryView;
     _auxiliaryView = objj_msgSend(_selectedTabViewItem, "auxiliaryView");
-    objj_msgSend(_auxiliaryView, "setAutoresizingMask:", CPViewWidthSizable);
-    objj_msgSend(self, "addSubview:", _contentView);
-    if (_auxiliaryView)
+    if (_previousAuxiliaryView !== _auxiliaryView)
+    {
+        objj_msgSend(_previousAuxiliaryView, "removeFromSuperview");
+        objj_msgSend(_auxiliaryView, "setAutoresizingMask:", CPViewWidthSizable);
         objj_msgSend(self, "addSubview:", _auxiliaryView);
+    }
     objj_msgSend(_labelsView, "tabView:didChangeStateOfTabViewItem:", self, _selectedTabViewItem);
     objj_msgSend(self, "layoutSubviews");
     if (_delegateSelectors & CPTabViewDidSelectTabViewItemSelector)
@@ -17861,11 +17868,11 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     _tabViewType = aTabViewType;
     if (_tabViewType == CPNoTabsBezelBorder || _tabViewType == CPNoTabsLineBorder || _tabViewType == CPNoTabsNoBorder)
         objj_msgSend(_labelsView, "removeFromSuperview");
-    else if (!objj_msgSend(_labelsView, "superview"))
+    else if (_labelsView && !objj_msgSend(_labelsView, "superview"))
         objj_msgSend(self, "addSubview:", _labelsView);
     if (_tabViewType == CPNoTabsLineBorder || _tabViewType == CPNoTabsNoBorder)
         objj_msgSend(_backgroundView, "removeFromSuperview");
-    else if (!objj_msgSend(_backgroundView, "superview"))
+    else if (_backgroundView && !objj_msgSend(_backgroundView, "superview"))
         objj_msgSend(self, "addSubview:", _backgroundView);
     objj_msgSend(self, "layoutSubviews");
 }
