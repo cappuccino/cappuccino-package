@@ -347,7 +347,7 @@ with(_1e){
 objj_msgSend(objj_msgSend(objj_msgSend(_1e,"window"),"platformWindow"),"_propagateCurrentDOMEvent:",YES);
 }
 })]);
-p;13;CPTableView.jt;95280;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;95138;
+p;13;CPTableView.jt;94871;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;94729;
 objj_executeFile("Foundation/CPArray.j",NO);
 objj_executeFile("AppKit/CGGradient.j",NO);
 objj_executeFile("CPControl.j",YES);
@@ -481,9 +481,6 @@ if(!_cornerView){
 _cornerView=objj_msgSend(objj_msgSend(_CPCornerView,"alloc"),"initWithFrame:",CGRectMake(0,0,objj_msgSend(CPScroller,"scrollerWidth"),CGRectGetHeight(objj_msgSend(_headerView,"frame"))));
 }
 _draggedColumnIndex=-1;
-_sourceListActiveGradient=CGGradientCreateWithColorComponents(CGColorSpaceCreateDeviceRGB(),[89/255,153/255,209/255,1,33/255,94/255,208/255,1],[0,1],2);
-_sourceListActiveTopLineColor=objj_msgSend(CPColor,"colorWithCalibratedRed:green:blue:alpha:",(61/255),(123/255),(218/255),1);
-_sourceListActiveBottomLineColor=objj_msgSend(CPColor,"colorWithCalibratedRed:green:blue:alpha:",(31/255),(92/255),(207/255),1);
 _differedColumnDataToRemove=[];
 }
 }),new objj_method(sel_getUid("setDataSource:"),function(_31,_32,_33){
