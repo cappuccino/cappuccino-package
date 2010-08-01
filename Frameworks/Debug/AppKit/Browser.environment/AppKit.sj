@@ -489,7 +489,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPEvent"])]);
 }
 
-p;13;CPTableView.jt;140114;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;139971;objj_executeFile("Foundation/CPArray.j", NO);
+p;13;CPTableView.jt;139911;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;139768;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("AppKit/CGGradient.j", NO);
 objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPTableColumn.j", YES);
@@ -1401,89 +1401,91 @@ _disableAutomaticResizing = newValue;
     if (_disableAutomaticResizing)
         return;
     var mask = _columnAutoResizingStyle;
-    if(mask === CPTableViewUniformColumnAutoresizingStyle)
+    if (mask === CPTableViewUniformColumnAutoresizingStyle)
        objj_msgSend(self, "_resizeAllColumnUniformlyWithOldSize:", aSize);
-    else if(mask === CPTableViewLastColumnOnlyAutoresizingStyle)
+    else if (mask === CPTableViewLastColumnOnlyAutoresizingStyle)
         objj_msgSend(self, "sizeLastColumnToFit");
-    else if(mask === CPTableViewFirstColumnOnlyAutoresizingStyle)
+    else if (mask === CPTableViewFirstColumnOnlyAutoresizingStyle)
         objj_msgSend(self, "_autoResizeFirstColumn");
 }
 },["void","CGSize"]), new objj_method(sel_getUid("_autoResizeFirstColumn"), function $CPTableView___autoResizeFirstColumn(self, _cmd)
 { with(self)
 {
     var superview = objj_msgSend(self, "superview");
-     if (!superview)
-         return;
-     var superviewSize = objj_msgSend(superview, "bounds").size;
-     if (_dirtyTableColumnRangeIndex !== CPNotFound) objj_msgSend(self, "_recalculateTableColumnRanges");;
-     var count = (_tableColumns.length),
-         visColumns = objj_msgSend(objj_msgSend(CPArray, "alloc"), "init"),
-         totalWidth = 0,
-         i = 0;
-     for(; i < count; i++)
-     {
-         if(!objj_msgSend(_tableColumns[i], "isHidden"))
-         {
+    if (!superview)
+        return;
+    var superviewSize = objj_msgSend(superview, "bounds").size;
+    if (_dirtyTableColumnRangeIndex !== CPNotFound) objj_msgSend(self, "_recalculateTableColumnRanges");;
+    var count = (_tableColumns.length),
+        visColumns = objj_msgSend(objj_msgSend(CPArray, "alloc"), "init"),
+        totalWidth = 0,
+        i = 0;
+    for(; i < count; i++)
+    {
+        if(!objj_msgSend(_tableColumns[i], "isHidden"))
+        {
              objj_msgSend(visColumns, "addObject:", i);
-             totalWidth += objj_msgSend(_tableColumns[i], "width");
-         }
-     }
-     count = objj_msgSend(visColumns, "count");
-     if (count > 0)
-     {
-         var columnToResize = _tableColumns[visColumns[0]];
-         var newWidth = superviewSize.width - totalWidth;
-         newWidth += objj_msgSend(columnToResize, "width");
-         newWidth = (newWidth < objj_msgSend(columnToResize, "minWidth")) ? objj_msgSend(columnToResize, "minWidth") : newWidth;
-         newWidth = (newWidth > objj_msgSend(columnToResize, "maxWidth")) ? objj_msgSend(columnToResize, "maxWidth") : newWidth;
-         objj_msgSend(columnToResize, "setWidth:", FLOOR(newWidth));
-     }
-     objj_msgSend(self, "setNeedsLayout");
+             totalWidth += objj_msgSend(_tableColumns[i], "width") + _intercellSpacing.width;
+        }
+    }
+    count = objj_msgSend(visColumns, "count");
+    if (count > 0)
+    {
+        var columnToResize = _tableColumns[visColumns[0]],
+            newWidth = superviewSize.width - totalWidth;
+        newWidth += objj_msgSend(columnToResize, "width");
+        newWidth = MAX(objj_msgSend(columnToResize, "minWidth"), newWidth);
+        newWidth = MIN(objj_msgSend(columnToResize, "maxWidth"), newWidth);
+        objj_msgSend(columnToResize, "setWidth:", FLOOR(newWidth));
+    }
+    objj_msgSend(self, "setNeedsLayout");
 }
 },["void"]), new objj_method(sel_getUid("_resizeAllColumnUniformlyWithOldSize:"), function $CPTableView___resizeAllColumnUniformlyWithOldSize_(self, _cmd, oldSize)
 { with(self)
 {
-        var superview = objj_msgSend(self, "superview");
-        if (!superview)
+    var superview = objj_msgSend(self, "superview");
+    if (!superview)
+        return;
+    var superviewSize = objj_msgSend(superview, "bounds").size;
+    if (_dirtyTableColumnRangeIndex !== CPNotFound)
+        objj_msgSend(self, "_recalculateTableColumnRanges");
+    var count = _tableColumns.length,
+        visColumns = objj_msgSend(objj_msgSend(CPArray, "alloc"), "init"),
+        buffer = 0.0;
+    for (var i=0; i < count; i++)
+    {
+        var tableColumn = _tableColumns[i];
+        if(!objj_msgSend(tableColumn, "isHidden") && (objj_msgSend(tableColumn, "resizingMask") & CPTableColumnAutoresizingMask))
+            objj_msgSend(visColumns, "addObject:", i);
+    }
+    count = objj_msgSend(visColumns, "count");
+    if (count > 0)
+    {
+        var maxXofColumns = CGRectGetMaxX(objj_msgSend(self, "rectOfColumn:", visColumns[count - 1]));
+        if (!_lastColumnShouldSnap && (maxXofColumns >= superviewSize.width && maxXofColumns <= oldSize.width || maxXofColumns <= superviewSize.width && maxXofColumns >= oldSize.width))
+        {
+            _lastColumnShouldSnap = YES;
+            objj_msgSend(self, "_resizeAllColumnUniformlyWithOldSize:", CGSizeMake(maxXofColumns, 0));
+        }
+        if (!_lastColumnShouldSnap)
             return;
-        var superviewSize = objj_msgSend(superview, "bounds").size;
-        if (_dirtyTableColumnRangeIndex !== CPNotFound) objj_msgSend(self, "_recalculateTableColumnRanges");
-        var count = _tableColumns.length,
-            visColumns = objj_msgSend(objj_msgSend(CPArray, "alloc"), "init"),
-            buffer = 0.0;
-        for(var i=0; i < count; i++)
+        for (var i = 0; i < count; i++)
         {
-            var tableColumn = _tableColumns[i];
-            if(!objj_msgSend(tableColumn, "isHidden") && (objj_msgSend(tableColumn, "resizingMask") & CPTableColumnAutoresizingMask))
-                objj_msgSend(visColumns, "addObject:", i);
+            var column = visColumns[i],
+                columnToResize = _tableColumns[column],
+                currentBuffer = buffer / (count - i),
+                realNewWidth = (objj_msgSend(columnToResize, "width") / oldSize.width * objj_msgSend(superview, "bounds").size.width) + currentBuffer,
+                newWidth = realNewWidth;
+            newWidth = MAX(objj_msgSend(columnToResize, "minWidth"), newWidth);
+            newWidth = MIN(objj_msgSend(columnToResize, "maxWidth"), newWidth);
+            buffer -= currentBuffer;
+            buffer += realNewWidth - newWidth;
+            objj_msgSend(columnToResize, "setWidth:", newWidth);
         }
-        count = objj_msgSend(visColumns, "count");
-        if (count > 0)
-        {
-            var maxXofColumns = CGRectGetMaxX(objj_msgSend(self, "rectOfColumn:", visColumns[count - 1]));
-            if (!_lastColumnShouldSnap && (maxXofColumns >= superviewSize.width && maxXofColumns <= oldSize.width || maxXofColumns <= superviewSize.width && maxXofColumns >= oldSize.width))
-            {
-                _lastColumnShouldSnap = YES;
-                objj_msgSend(self, "_resizeAllColumnUniformlyWithOldSize:", CGSizeMake(maxXofColumns, 0));
-            }
-            if(!_lastColumnShouldSnap)
-                return;
-            for (var i = 0; i < count; i++)
-            {
-                var column = visColumns[i];
-                    columnToResize = _tableColumns[column],
-                    currentBuffer = buffer / (count - i),
-                    realNewWidth = (objj_msgSend(columnToResize, "width") / oldSize.width * objj_msgSend(superview, "bounds").size.width) + currentBuffer ,
-                    newWidth = MAX(objj_msgSend(columnToResize, "minWidth"), realNewWidth);
-                    newWidth = MIN(objj_msgSend(columnToResize, "maxWidth"), realNewWidth);
-                buffer -= currentBuffer;
-                buffer += realNewWidth - newWidth;
-                objj_msgSend(columnToResize, "setWidth:", newWidth);
-            }
-            if(buffer !== 0)
-                _lastColumnShouldSnap = NO;
-        }
-        objj_msgSend(self, "setNeedsLayout");
+        if (buffer !== 0)
+            _lastColumnShouldSnap = NO;
+    }
+    objj_msgSend(self, "setNeedsLayout");
 }
 },["void","CGSize"]), new objj_method(sel_getUid("setColumnAutoresizingStyle:"), function $CPTableView__setColumnAutoresizingStyle_(self, _cmd, style)
 { with(self)
@@ -1507,8 +1509,8 @@ _disableAutomaticResizing = newValue;
     while (count-- && objj_msgSend(_tableColumns[count], "isHidden")) ;
     if (count >= 0)
     {
-        var columnToResize = _tableColumns[count];
-        var newSize = MAX(0.0, superviewSize.width - CGRectGetMinX(objj_msgSend(self, "rectOfColumn:", count)));
+        var columnToResize = _tableColumns[count],
+            newSize = MAX(0.0, superviewSize.width - CGRectGetMinX(objj_msgSend(self, "rectOfColumn:", count)) - _intercellSpacing.width);
         if (newSize > 0)
         {
             newSize = MAX(objj_msgSend(columnToResize, "minWidth"), newSize);
