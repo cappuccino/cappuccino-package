@@ -489,7 +489,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPEvent"])]);
 }
 
-p;13;CPTableView.jt;139398;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;139255;objj_executeFile("Foundation/CPArray.j", NO);
+p;13;CPTableView.jt;139393;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;139250;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("AppKit/CGGradient.j", NO);
 objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPTableColumn.j", YES);
@@ -1444,9 +1444,8 @@ _disableAutomaticResizing = newValue;
     if (!superview)
         return;
     var superviewSize = objj_msgSend(superview, "bounds").size;
-    if (_dirtyTableColumnRangeIndex !== CPNotFound)
-        objj_msgSend(self, "_recalculateTableColumnRanges");
-    var count = _tableColumns.length,
+    if (_dirtyTableColumnRangeIndex !== CPNotFound) objj_msgSend(self, "_recalculateTableColumnRanges");;
+    var count = (_tableColumns.length),
         visColumns = objj_msgSend(objj_msgSend(CPArray, "alloc"), "init"),
         buffer = 0.0;
     for (var i=0; i < count; i++)
@@ -1520,9 +1519,9 @@ _disableAutomaticResizing = newValue;
 },["void"]), new objj_method(sel_getUid("noteNumberOfRowsChanged"), function $CPTableView__noteNumberOfRowsChanged(self, _cmd)
 { with(self)
 {
+    var oldNumberOfRows = _numberOfRows;
     _numberOfRows = nil;
     _numberOfRows = objj_msgSend(self, "numberOfRows");
-    var oldNumberOfRows = _numberOfRows;
     var hangingSelections = oldNumberOfRows - _numberOfRows;
     if (hangingSelections > 0)
     {
