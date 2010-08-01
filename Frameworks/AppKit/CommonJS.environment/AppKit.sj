@@ -16462,7 +16462,7 @@ objj_msgSend(_d6,"updateFromItem");
 }
 }
 })]);
-p;15;CPApplication.jt;29000;@STATIC;1.0;I;21;Foundation/CPBundle.ji;17;CPCompatibility.ji;9;CPEvent.ji;8;CPMenu.ji;13;CPResponder.ji;22;CPDocumentController.ji;14;CPThemeBlend.ji;14;CPCibLoading.ji;12;CPPlatform.jt;28807;
+p;15;CPApplication.jt;29075;@STATIC;1.0;I;21;Foundation/CPBundle.ji;17;CPCompatibility.ji;9;CPEvent.ji;8;CPMenu.ji;13;CPResponder.ji;22;CPDocumentController.ji;14;CPThemeBlend.ji;14;CPCibLoading.ji;12;CPPlatform.jt;28882;
 objj_executeFile("Foundation/CPBundle.j",NO);
 objj_executeFile("CPCompatibility.j",YES);
 objj_executeFile("CPEvent.j",YES);
@@ -16900,6 +16900,7 @@ objj_msgSend(CPException,"raise:reason:",CPInternalInconsistencyException,"Curre
 return;
 }
 objj_msgSend(_bb,"orderFront:",_b8);
+objj_msgSend(_ba,"setPlatformWindow:",objj_msgSend(_bb,"platformWindow"));
 objj_msgSend(_bb,"_attachSheet:modalDelegate:didEndSelector:contextInfo:",_ba,_bc,_bd,_be);
 }
 }),new objj_method(sel_getUid("endSheet:returnCode:"),function(_c0,_c1,_c2,_c3){

@@ -18958,7 +18958,7 @@ return _maxSize;
 },["void","CPString","id","CPDictionary","id"])]);
 }
 
-p;15;CPApplication.jt;40219;@STATIC;1.0;I;21;Foundation/CPBundle.ji;17;CPCompatibility.ji;9;CPEvent.ji;8;CPMenu.ji;13;CPResponder.ji;22;CPDocumentController.ji;14;CPThemeBlend.ji;14;CPCibLoading.ji;12;CPPlatform.jt;40026;objj_executeFile("Foundation/CPBundle.j", NO);
+p;15;CPApplication.jt;40308;@STATIC;1.0;I;21;Foundation/CPBundle.ji;17;CPCompatibility.ji;9;CPEvent.ji;8;CPMenu.ji;13;CPResponder.ji;22;CPDocumentController.ji;14;CPThemeBlend.ji;14;CPCibLoading.ji;12;CPPlatform.jt;40115;objj_executeFile("Foundation/CPBundle.j", NO);
 objj_executeFile("CPCompatibility.j", YES);
 objj_executeFile("CPEvent.j", YES);
 objj_executeFile("CPMenu.j", YES);
@@ -19453,6 +19453,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPApp
         return;
     }
     objj_msgSend(aWindow, "orderFront:", self);
+    objj_msgSend(aSheet, "setPlatformWindow:", objj_msgSend(aWindow, "platformWindow"));
     objj_msgSend(aWindow, "_attachSheet:modalDelegate:didEndSelector:contextInfo:", aSheet, aModalDelegate, aDidEndSelector, aContextInfo);
 }
 },["void","CPWindow","CPWindow","id","SEL","id"]), new objj_method(sel_getUid("endSheet:returnCode:"), function $CPApplication__endSheet_returnCode_(self, _cmd, sheet, returnCode)
