@@ -23946,7 +23946,7 @@ with(_86){
 objj_msgSend(_86,"openDocumentWithContentsOfURL:display:error:",objj_msgSend(_88,"tag"),YES,nil);
 }
 })]);
-p;10;CPButton.jt;18408;@STATIC;1.0;i;21;_CPImageAndTextView.ji;12;CGGeometry.ji;11;CPControl.ji;17;CPStringDrawing.ji;12;CPCheckBox.ji;9;CPRadio.jt;18277;
+p;10;CPButton.jt;18493;@STATIC;1.0;i;21;_CPImageAndTextView.ji;12;CGGeometry.ji;11;CPControl.ji;17;CPStringDrawing.ji;12;CPCheckBox.ji;9;CPRadio.jt;18362;
 objj_executeFile("_CPImageAndTextView.j",YES);
 objj_executeFile("CGGeometry.j",YES);
 objj_executeFile("CPControl.j",YES);
@@ -24321,9 +24321,11 @@ return objj_msgSend(_63,"hasThemeState:",CPThemeStateBordered);
 with(_65){
 if(_67===CPNewlineCharacter||_67===CPCarriageReturnCharacter){
 objj_msgSend(objj_msgSend(_65,"window"),"setDefaultButton:",_65);
+objj_msgSend(_65,"setDefaultButton:",YES);
 }else{
 if(objj_msgSend(objj_msgSend(_65,"window"),"defaultButton")===_65){
 objj_msgSend(objj_msgSend(_65,"window"),"setDefaultButton:",nil);
+objj_msgSend(_65,"setDefaultButton:",NO);
 }
 }
 _keyEquivalent=_67||"";
@@ -24435,7 +24437,7 @@ objj_msgSend(_93,"encodeInt:forKey:",_keyEquivalentModifierMask,_8d);
 })]);
 objj_executeFile("CPCheckBox.j",YES);
 objj_executeFile("CPRadio.j",YES);
-p;10;CPWindow.jt;61238;@STATIC;1.0;I;25;Foundation/CPCountedSet.jI;33;Foundation/CPNotificationCenter.jI;26;Foundation/CPUndoManager.ji;12;CGGeometry.ji;13;CPAnimation.ji;13;CPResponder.ji;10;CPScreen.ji;18;CPPlatformWindow.ji;15;_CPWindowView.ji;23;_CPStandardWindowView.ji;23;_CPDocModalWindowView.ji;18;_CPHUDWindowView.ji;25;_CPBorderlessWindowView.ji;31;_CPBorderlessBridgeWindowView.ji;14;CPDragServer.ji;8;CPView.jt;60832;
+p;10;CPWindow.jt;61341;@STATIC;1.0;I;25;Foundation/CPCountedSet.jI;33;Foundation/CPNotificationCenter.jI;26;Foundation/CPUndoManager.ji;12;CGGeometry.ji;13;CPAnimation.ji;13;CPResponder.ji;10;CPScreen.ji;18;CPPlatformWindow.ji;15;_CPWindowView.ji;23;_CPStandardWindowView.ji;23;_CPDocModalWindowView.ji;18;_CPHUDWindowView.ji;25;_CPBorderlessWindowView.ji;31;_CPBorderlessBridgeWindowView.ji;14;CPDragServer.ji;8;CPView.jt;60935;
 objj_executeFile("Foundation/CPCountedSet.j",NO);
 objj_executeFile("Foundation/CPNotificationCenter.j",NO);
 objj_executeFile("Foundation/CPUndoManager.j",NO);
@@ -25717,9 +25719,11 @@ with(self){
 if(_defaultButton===_19a){
 return;
 }
-objj_msgSend(_defaultButton,"setDefaultButton:",NO);
+if(objj_msgSend(_defaultButton,"keyEquivalent")===CPCarriageReturnCharacter){
+objj_msgSend(_defaultButton,"setKeyEquivalent:",nil);
+}
 _defaultButton=_19a;
-objj_msgSend(_defaultButton,"setDefaultButton:",YES);
+objj_msgSend(_defaultButton,"setKeyEquivalent:",CPCarriageReturnCharacter);
 }
 }),new objj_method(sel_getUid("defaultButton"),function(self,_19b){
 with(self){

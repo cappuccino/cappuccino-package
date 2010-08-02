@@ -26328,7 +26328,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","id"])]);
 }
 
-p;10;CPButton.jt;25361;@STATIC;1.0;i;21;_CPImageAndTextView.ji;12;CGGeometry.ji;11;CPControl.ji;17;CPStringDrawing.ji;12;CPCheckBox.ji;9;CPRadio.jt;25230;objj_executeFile("_CPImageAndTextView.j", YES);
+p;10;CPButton.jt;25492;@STATIC;1.0;i;21;_CPImageAndTextView.ji;12;CGGeometry.ji;11;CPControl.ji;17;CPStringDrawing.ji;12;CPCheckBox.ji;9;CPRadio.jt;25361;objj_executeFile("_CPImageAndTextView.j", YES);
 objj_executeFile("CGGeometry.j", YES);
 objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPStringDrawing.j", YES);
@@ -26706,9 +26706,15 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 { with(self)
 {
     if (aString === CPNewlineCharacter || aString === CPCarriageReturnCharacter)
+    {
         objj_msgSend(objj_msgSend(self, "window"), "setDefaultButton:", self);
+        objj_msgSend(self, "setDefaultButton:", YES);
+    }
     else if (objj_msgSend(objj_msgSend(self, "window"), "defaultButton") === self)
+    {
         objj_msgSend(objj_msgSend(self, "window"), "setDefaultButton:", nil);
+        objj_msgSend(self, "setDefaultButton:", NO);
+    }
     _keyEquivalent = aString || "";
 }
 },["void","CPString"]), new objj_method(sel_getUid("viewWillMoveToWindow:"), function $CPButton__viewWillMoveToWindow_(self, _cmd, aWindow)
@@ -26833,7 +26839,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 objj_executeFile("CPCheckBox.j", YES);
 objj_executeFile("CPRadio.j", YES);
 
-p;10;CPWindow.jt;84219;@STATIC;1.0;I;25;Foundation/CPCountedSet.jI;33;Foundation/CPNotificationCenter.jI;26;Foundation/CPUndoManager.ji;12;CGGeometry.ji;13;CPAnimation.ji;13;CPResponder.ji;10;CPScreen.ji;18;CPPlatformWindow.ji;15;_CPWindowView.ji;23;_CPStandardWindowView.ji;23;_CPDocModalWindowView.ji;18;_CPHUDWindowView.ji;25;_CPBorderlessWindowView.ji;31;_CPBorderlessBridgeWindowView.ji;14;CPDragServer.ji;8;CPView.jt;83813;objj_executeFile("Foundation/CPCountedSet.j", NO);
+p;10;CPWindow.jt;84331;@STATIC;1.0;I;25;Foundation/CPCountedSet.jI;33;Foundation/CPNotificationCenter.jI;26;Foundation/CPUndoManager.ji;12;CGGeometry.ji;13;CPAnimation.ji;13;CPResponder.ji;10;CPScreen.ji;18;CPPlatformWindow.ji;15;_CPWindowView.ji;23;_CPStandardWindowView.ji;23;_CPDocModalWindowView.ji;18;_CPHUDWindowView.ji;25;_CPBorderlessWindowView.ji;31;_CPBorderlessBridgeWindowView.ji;14;CPDragServer.ji;8;CPView.jt;83925;objj_executeFile("Foundation/CPCountedSet.j", NO);
 objj_executeFile("Foundation/CPNotificationCenter.j", NO);
 objj_executeFile("Foundation/CPUndoManager.j", NO);
 objj_executeFile("CGGeometry.j", YES);
@@ -28213,9 +28219,10 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPWin
 {
     if (_defaultButton === aButton)
         return;
-    objj_msgSend(_defaultButton, "setDefaultButton:", NO);
+    if (objj_msgSend(_defaultButton, "keyEquivalent") === CPCarriageReturnCharacter)
+        objj_msgSend(_defaultButton, "setKeyEquivalent:", nil);
     _defaultButton = aButton;
-    objj_msgSend(_defaultButton, "setDefaultButton:", YES);
+    objj_msgSend(_defaultButton, "setKeyEquivalent:", CPCarriageReturnCharacter);
 }
 },["void","CPButton"]), new objj_method(sel_getUid("defaultButton"), function $CPWindow__defaultButton(self, _cmd)
 { with(self)
