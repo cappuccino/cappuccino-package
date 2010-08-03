@@ -489,7 +489,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPEvent"])]);
 }
 
-p;13;CPTableView.jt;139393;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;139250;objj_executeFile("Foundation/CPArray.j", NO);
+p;13;CPTableView.jt;139289;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;139146;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("AppKit/CGGradient.j", NO);
 objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPTableColumn.j", YES);
@@ -1411,24 +1411,24 @@ _disableAutomaticResizing = newValue;
     var superview = objj_msgSend(self, "superview");
     if (!superview)
         return;
-    var superviewSize = objj_msgSend(superview, "bounds").size;
     if (_dirtyTableColumnRangeIndex !== CPNotFound) objj_msgSend(self, "_recalculateTableColumnRanges");;
     var count = (_tableColumns.length),
-        visColumns = objj_msgSend(objj_msgSend(CPArray, "alloc"), "init"),
+        columnToResize = nil,
         totalWidth = 0,
         i = 0;
-    for(; i < count; i++)
+    for (; i < count; i++)
     {
-        if(!objj_msgSend(_tableColumns[i], "isHidden"))
+        var column = _tableColumns[i];
+        if (!objj_msgSend(column, "isHidden"))
         {
-             objj_msgSend(visColumns, "addObject:", i);
-             totalWidth += objj_msgSend(_tableColumns[i], "width") + _intercellSpacing.width;
+            if (!columnToResize)
+                columnToResize = column;
+            totalWidth += objj_msgSend(column, "width") + _intercellSpacing.width;
         }
     }
-    count = objj_msgSend(visColumns, "count");
-    if (count > 0)
+    if (columnToResize)
     {
-        var columnToResize = _tableColumns[visColumns[0]],
+        var superviewSize = objj_msgSend(superview, "bounds").size,
             newWidth = superviewSize.width - totalWidth;
         newWidth += objj_msgSend(columnToResize, "width");
         newWidth = MAX(objj_msgSend(columnToResize, "minWidth"), newWidth);

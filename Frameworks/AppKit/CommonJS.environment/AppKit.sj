@@ -347,7 +347,7 @@ with(_1e){
 objj_msgSend(objj_msgSend(objj_msgSend(_1e,"window"),"platformWindow"),"_propagateCurrentDOMEvent:",YES);
 }
 })]);
-p;13;CPTableView.jt;94873;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;94731;
+p;13;CPTableView.jt;94750;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;94608;
 objj_executeFile("Foundation/CPArray.j",NO);
 objj_executeFile("AppKit/CGGradient.j",NO);
 objj_executeFile("CPControl.j",YES);
@@ -1181,24 +1181,25 @@ var _13b=objj_msgSend(self,"superview");
 if(!_13b){
 return;
 }
-var _13c=objj_msgSend(_13b,"bounds").size;
 if(_dirtyTableColumnRangeIndex!==CPNotFound){
 objj_msgSend(self,"_recalculateTableColumnRanges");
 }
-var _13d=(_tableColumns.length),_13e=objj_msgSend(objj_msgSend(CPArray,"alloc"),"init"),_13f=0,i=0;
-for(;i<_13d;i++){
-if(!objj_msgSend(_tableColumns[i],"isHidden")){
-objj_msgSend(_13e,"addObject:",i);
-_13f+=objj_msgSend(_tableColumns[i],"width")+_intercellSpacing.width;
+var _13c=(_tableColumns.length),_13d=nil,_13e=0,i=0;
+for(;i<_13c;i++){
+var _13f=_tableColumns[i];
+if(!objj_msgSend(_13f,"isHidden")){
+if(!_13d){
+_13d=_13f;
+}
+_13e+=objj_msgSend(_13f,"width")+_intercellSpacing.width;
 }
 }
-_13d=objj_msgSend(_13e,"count");
-if(_13d>0){
-var _140=_tableColumns[_13e[0]],_141=_13c.width-_13f;
-_141+=objj_msgSend(_140,"width");
-_141=MAX(objj_msgSend(_140,"minWidth"),_141);
-_141=MIN(objj_msgSend(_140,"maxWidth"),_141);
-objj_msgSend(_140,"setWidth:",FLOOR(_141));
+if(_13d){
+var _140=objj_msgSend(_13b,"bounds").size,_141=_140.width-_13e;
+_141+=objj_msgSend(_13d,"width");
+_141=MAX(objj_msgSend(_13d,"minWidth"),_141);
+_141=MIN(objj_msgSend(_13d,"maxWidth"),_141);
+objj_msgSend(_13d,"setWidth:",FLOOR(_141));
 }
 objj_msgSend(self,"setNeedsLayout");
 }
