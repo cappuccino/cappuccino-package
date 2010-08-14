@@ -3705,7 +3705,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:control:"
 },["void"])]);
 }
 
-p;15;CPTableColumn.jt;18669;@STATIC;1.0;I;25;Foundation/CPDictionary.jI;21;Foundation/CPObject.jI;29;Foundation/CPSortDescriptor.jI;21;Foundation/CPString.ji;19;CPTableHeaderView.jt;18509;objj_executeFile("Foundation/CPDictionary.j", NO);
+p;15;CPTableColumn.jt;18835;@STATIC;1.0;I;25;Foundation/CPDictionary.jI;21;Foundation/CPObject.jI;29;Foundation/CPSortDescriptor.jI;21;Foundation/CPString.ji;19;CPTableHeaderView.jt;18675;objj_executeFile("Foundation/CPDictionary.j", NO);
 objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("Foundation/CPSortDescriptor.j", NO);
 objj_executeFile("Foundation/CPString.j", NO);
@@ -3981,7 +3981,8 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
     {
         var bindingName = keys[i],
             bindingPath = objj_msgSend(aDataView, "_replacementKeyPathForBinding:", bindingName),
-            bindingInfo = objj_msgSend(bindingsDictionary, "objectForKey:", bindingName)._info,
+            binding = objj_msgSend(bindingsDictionary, "objectForKey:", bindingName),
+            bindingInfo = binding._info,
             destination = objj_msgSend(bindingInfo, "objectForKey:", CPObservedObjectKey),
             keyPath = objj_msgSend(bindingInfo, "objectForKey:", CPObservedKeyPathKey),
             dotIndex = keyPath.lastIndexOf("."),
@@ -3998,6 +3999,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
             else
                 value = objj_msgSend(objj_msgSend(firstValue, "valueForKeyPath:", secondPart), "objectAtIndex:", aRow);
         }
+        value = objj_msgSend(binding, "transformValue:withOptions:", value, objj_msgSend(bindingInfo, "objectForKey:", CPOptionsKey));
         objj_msgSend(aDataView, "setValue:forKey:", value, bindingPath);
     }
 }

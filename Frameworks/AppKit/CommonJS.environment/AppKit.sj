@@ -3238,7 +3238,7 @@ _58.height=MAX(_58.height,_textSize.height);
 objj_msgSend(_56,"setFrameSize:",_58);
 }
 })]);
-p;15;CPTableColumn.jt;12762;@STATIC;1.0;I;25;Foundation/CPDictionary.jI;21;Foundation/CPObject.jI;29;Foundation/CPSortDescriptor.jI;21;Foundation/CPString.ji;19;CPTableHeaderView.jt;12602;
+p;15;CPTableColumn.jt;12874;@STATIC;1.0;I;25;Foundation/CPDictionary.jI;21;Foundation/CPObject.jI;29;Foundation/CPSortDescriptor.jI;21;Foundation/CPString.ji;19;CPTableHeaderView.jt;12714;
 objj_executeFile("Foundation/CPDictionary.j",NO);
 objj_executeFile("Foundation/CPObject.j",NO);
 objj_executeFile("Foundation/CPSortDescriptor.j",NO);
@@ -3489,62 +3489,63 @@ objj_msgSend(objj_msgSend(_65,"tableView"),"_establishBindingsIfUnbound:",_68);
 with(_6b){
 var _6f=objj_msgSend(CPKeyValueBinding,"allBindingsForObject:",_6b),_70=objj_msgSend(_6f,"allKeys");
 for(var i=0,_71=objj_msgSend(_70,"count");i<_71;i++){
-var _72=_70[i],_73=objj_msgSend(_6d,"_replacementKeyPathForBinding:",_72),_74=objj_msgSend(_6f,"objectForKey:",_72)._info,_75=objj_msgSend(_74,"objectForKey:",CPObservedObjectKey),_76=objj_msgSend(_74,"objectForKey:",CPObservedKeyPathKey),_77=_76.lastIndexOf("."),_78;
-if(_77===CPNotFound){
-_78=objj_msgSend(objj_msgSend(_75,"valueForKeyPath:",_76),"objectAtIndex:",_6e);
+var _72=_70[i],_73=objj_msgSend(_6d,"_replacementKeyPathForBinding:",_72),_74=objj_msgSend(_6f,"objectForKey:",_72),_75=_74._info,_76=objj_msgSend(_75,"objectForKey:",CPObservedObjectKey),_77=objj_msgSend(_75,"objectForKey:",CPObservedKeyPathKey),_78=_77.lastIndexOf("."),_79;
+if(_78===CPNotFound){
+_79=objj_msgSend(objj_msgSend(_76,"valueForKeyPath:",_77),"objectAtIndex:",_6e);
 }else{
-var _79=_76.substring(0,_77),_7a=_76.substring(_77+1),_7b=objj_msgSend(_75,"valueForKeyPath:",_79);
-if(objj_msgSend(_7b,"isKindOfClass:",CPArray)){
-_78=objj_msgSend(objj_msgSend(_7b,"objectAtIndex:",_6e),"valueForKeyPath:",_7a);
+var _7a=_77.substring(0,_78),_7b=_77.substring(_78+1),_7c=objj_msgSend(_76,"valueForKeyPath:",_7a);
+if(objj_msgSend(_7c,"isKindOfClass:",CPArray)){
+_79=objj_msgSend(objj_msgSend(_7c,"objectAtIndex:",_6e),"valueForKeyPath:",_7b);
 }else{
-_78=objj_msgSend(objj_msgSend(_7b,"valueForKeyPath:",_7a),"objectAtIndex:",_6e);
+_79=objj_msgSend(objj_msgSend(_7c,"valueForKeyPath:",_7b),"objectAtIndex:",_6e);
 }
 }
-objj_msgSend(_6d,"setValue:forKey:",_78,_73);
+_79=objj_msgSend(_74,"transformValue:withOptions:",_79,objj_msgSend(_75,"objectForKey:",CPOptionsKey));
+objj_msgSend(_6d,"setValue:forKey:",_79,_73);
 }
 }
-}),new objj_method(sel_getUid("setValue:"),function(_7c,_7d,_7e){
-with(_7c){
-objj_msgSend(objj_msgSend(_7c,"tableView"),"reloadData");
+}),new objj_method(sel_getUid("setValue:"),function(_7d,_7e,_7f){
+with(_7d){
+objj_msgSend(objj_msgSend(_7d,"tableView"),"reloadData");
 }
 })]);
-var _7f="CPTableColumnIdentifierKey",_80="CPTableColumnHeaderViewKey",_81="CPTableColumnDataViewKey",_82="CPTableColumnWidthKey",_83="CPTableColumnMinWidthKey",_84="CPTableColumnMaxWidthKey",_85="CPTableColumnResizingMaskKey",_86="CPTableColumnIsHiddenKey",_87="CPSortDescriptorPrototypeKey",_88="CPTableColumnIsEditableKey";
+var _80="CPTableColumnIdentifierKey",_81="CPTableColumnHeaderViewKey",_82="CPTableColumnDataViewKey",_83="CPTableColumnWidthKey",_84="CPTableColumnMinWidthKey",_85="CPTableColumnMaxWidthKey",_86="CPTableColumnResizingMaskKey",_87="CPTableColumnIsHiddenKey",_88="CPSortDescriptorPrototypeKey",_89="CPTableColumnIsEditableKey";
 var _1=objj_getClass("CPTableColumn");
 if(!_1){
 throw new SyntaxError("*** Could not find definition for class \"CPTableColumn\"");
 }
 var _2=_1.isa;
-class_addMethods(_1,[new objj_method(sel_getUid("initWithCoder:"),function(_89,_8a,_8b){
-with(_89){
-_89=objj_msgSendSuper({receiver:_89,super_class:objj_getClass("CPTableColumn").super_class},"init");
-if(_89){
+class_addMethods(_1,[new objj_method(sel_getUid("initWithCoder:"),function(_8a,_8b,_8c){
+with(_8a){
+_8a=objj_msgSendSuper({receiver:_8a,super_class:objj_getClass("CPTableColumn").super_class},"init");
+if(_8a){
 _dataViewData={};
-_width=objj_msgSend(_8b,"decodeFloatForKey:",_82);
-_minWidth=objj_msgSend(_8b,"decodeFloatForKey:",_83);
-_maxWidth=objj_msgSend(_8b,"decodeFloatForKey:",_84);
-objj_msgSend(_89,"setIdentifier:",objj_msgSend(_8b,"decodeObjectForKey:",_7f));
-objj_msgSend(_89,"setHeaderView:",objj_msgSend(_8b,"decodeObjectForKey:",_80));
-objj_msgSend(_89,"setDataView:",objj_msgSend(_8b,"decodeObjectForKey:",_81));
-objj_msgSend(_89,"setHeaderView:",objj_msgSend(_8b,"decodeObjectForKey:",_80));
-_resizingMask=objj_msgSend(_8b,"decodeBoolForKey:",_85);
-_isHidden=objj_msgSend(_8b,"decodeBoolForKey:",_86);
-_isEditable=objj_msgSend(_8b,"decodeBoolForKey:",_88);
-_sortDescriptorPrototype=objj_msgSend(_8b,"decodeObjectForKey:",_87);
+_width=objj_msgSend(_8c,"decodeFloatForKey:",_83);
+_minWidth=objj_msgSend(_8c,"decodeFloatForKey:",_84);
+_maxWidth=objj_msgSend(_8c,"decodeFloatForKey:",_85);
+objj_msgSend(_8a,"setIdentifier:",objj_msgSend(_8c,"decodeObjectForKey:",_80));
+objj_msgSend(_8a,"setHeaderView:",objj_msgSend(_8c,"decodeObjectForKey:",_81));
+objj_msgSend(_8a,"setDataView:",objj_msgSend(_8c,"decodeObjectForKey:",_82));
+objj_msgSend(_8a,"setHeaderView:",objj_msgSend(_8c,"decodeObjectForKey:",_81));
+_resizingMask=objj_msgSend(_8c,"decodeBoolForKey:",_86);
+_isHidden=objj_msgSend(_8c,"decodeBoolForKey:",_87);
+_isEditable=objj_msgSend(_8c,"decodeBoolForKey:",_89);
+_sortDescriptorPrototype=objj_msgSend(_8c,"decodeObjectForKey:",_88);
 }
-return _89;
+return _8a;
 }
-}),new objj_method(sel_getUid("encodeWithCoder:"),function(_8c,_8d,_8e){
-with(_8c){
-objj_msgSend(_8e,"encodeObject:forKey:",_identifier,_7f);
-objj_msgSend(_8e,"encodeObject:forKey:",_width,_82);
-objj_msgSend(_8e,"encodeObject:forKey:",_minWidth,_83);
-objj_msgSend(_8e,"encodeObject:forKey:",_maxWidth,_84);
-objj_msgSend(_8e,"encodeObject:forKey:",_headerView,_80);
-objj_msgSend(_8e,"encodeObject:forKey:",_dataView,_81);
-objj_msgSend(_8e,"encodeObject:forKey:",_resizingMask,_85);
-objj_msgSend(_8e,"encodeBool:forKey:",_isHidden,_86);
-objj_msgSend(_8e,"encodeBool:forKey:",_isEditable,_88);
-objj_msgSend(_8e,"encodeObject:forKey:",_sortDescriptorPrototype,_87);
+}),new objj_method(sel_getUid("encodeWithCoder:"),function(_8d,_8e,_8f){
+with(_8d){
+objj_msgSend(_8f,"encodeObject:forKey:",_identifier,_80);
+objj_msgSend(_8f,"encodeObject:forKey:",_width,_83);
+objj_msgSend(_8f,"encodeObject:forKey:",_minWidth,_84);
+objj_msgSend(_8f,"encodeObject:forKey:",_maxWidth,_85);
+objj_msgSend(_8f,"encodeObject:forKey:",_headerView,_81);
+objj_msgSend(_8f,"encodeObject:forKey:",_dataView,_82);
+objj_msgSend(_8f,"encodeObject:forKey:",_resizingMask,_86);
+objj_msgSend(_8f,"encodeBool:forKey:",_isHidden,_87);
+objj_msgSend(_8f,"encodeBool:forKey:",_isEditable,_89);
+objj_msgSend(_8f,"encodeObject:forKey:",_sortDescriptorPrototype,_88);
 }
 })]);
 var _1=objj_getClass("CPTableColumn");
@@ -3552,24 +3553,24 @@ if(!_1){
 throw new SyntaxError("*** Could not find definition for class \"CPTableColumn\"");
 }
 var _2=_1.isa;
-class_addMethods(_1,[new objj_method(sel_getUid("setHeaderCell:"),function(_8f,_90,_91){
-with(_8f){
+class_addMethods(_1,[new objj_method(sel_getUid("setHeaderCell:"),function(_90,_91,_92){
+with(_90){
 objj_msgSend(CPException,"raise:reason:",CPUnsupportedMethodException,"setHeaderCell: is not supported. -setHeaderCell:aView instead.");
 }
-}),new objj_method(sel_getUid("headerCell"),function(_92,_93){
-with(_92){
+}),new objj_method(sel_getUid("headerCell"),function(_93,_94){
+with(_93){
 objj_msgSend(CPException,"raise:reason:",CPUnsupportedMethodException,"headCell is not supported. -headerView instead.");
 }
-}),new objj_method(sel_getUid("setDataCell:"),function(_94,_95,_96){
-with(_94){
+}),new objj_method(sel_getUid("setDataCell:"),function(_95,_96,_97){
+with(_95){
 objj_msgSend(CPException,"raise:reason:",CPUnsupportedMethodException,"setDataCell: is not supported. Use -setHeaderCell:aView instead.");
 }
-}),new objj_method(sel_getUid("dataCell"),function(_97,_98){
-with(_97){
+}),new objj_method(sel_getUid("dataCell"),function(_98,_99){
+with(_98){
 objj_msgSend(CPException,"raise:reason:",CPUnsupportedMethodException,"dataCell is not supported. Use -dataCell instead.");
 }
-}),new objj_method(sel_getUid("dataCellForRow:"),function(_99,_9a,row){
-with(_99){
+}),new objj_method(sel_getUid("dataCellForRow:"),function(_9a,_9b,row){
+with(_9a){
 objj_msgSend(CPException,"raise:reason:",CPUnsupportedMethodException,"dataCellForRow: is not supported. Use -dataViewForRow:row instead.");
 }
 })]);
