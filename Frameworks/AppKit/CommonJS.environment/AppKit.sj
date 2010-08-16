@@ -347,7 +347,7 @@ with(_1e){
 objj_msgSend(objj_msgSend(objj_msgSend(_1e,"window"),"platformWindow"),"_propagateCurrentDOMEvent:",YES);
 }
 })]);
-p;13;CPTableView.jt;95763;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;95621;
+p;13;CPTableView.jt;95855;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;95713;
 objj_executeFile("Foundation/CPArray.j",NO);
 objj_executeFile("AppKit/CGGradient.j",NO);
 objj_executeFile("CPControl.j",YES);
@@ -1822,6 +1822,9 @@ var _202=objj_msgSend(self,"visibleRect");
 objj_msgSend(self,"drawBackgroundInClipRect:",_202);
 objj_msgSend(self,"drawGridInClipRect:",_202);
 objj_msgSend(self,"highlightSelectionInClipRect:",_202);
+if(_implementsCustomDrawRow){
+objj_msgSend(self,"_drawRows:clipRect:",_exposedRows,_202);
+}
 }
 }),new objj_method(sel_getUid("drawBackgroundInClipRect:"),function(self,_203,_204){
 with(self){
@@ -23588,6 +23591,7 @@ return objj_msgSend(_63,"hasThemeState:",CPThemeStateBordered);
 }
 }),new objj_method(sel_getUid("setKeyEquivalent:"),function(_65,_66,_67){
 with(_65){
+_keyEquivalent=_67||"";
 if(_67===CPNewlineCharacter||_67===CPCarriageReturnCharacter){
 objj_msgSend(objj_msgSend(_65,"window"),"setDefaultButton:",_65);
 objj_msgSend(_65,"setDefaultButton:",YES);
@@ -23597,7 +23601,6 @@ objj_msgSend(objj_msgSend(_65,"window"),"setDefaultButton:",nil);
 objj_msgSend(_65,"setDefaultButton:",NO);
 }
 }
-_keyEquivalent=_67||"";
 }
 }),new objj_method(sel_getUid("viewWillMoveToWindow:"),function(_68,_69,_6a){
 with(_68){
@@ -23706,7 +23709,7 @@ objj_msgSend(_93,"encodeInt:forKey:",_keyEquivalentModifierMask,_8d);
 })]);
 objj_executeFile("CPCheckBox.j",YES);
 objj_executeFile("CPRadio.j",YES);
-p;10;CPWindow.jt;59787;@STATIC;1.0;I;25;Foundation/CPCountedSet.jI;33;Foundation/CPNotificationCenter.jI;26;Foundation/CPUndoManager.ji;12;CGGeometry.ji;13;CPAnimation.ji;13;CPResponder.ji;10;CPScreen.ji;18;CPPlatformWindow.ji;15;_CPWindowView.ji;23;_CPStandardWindowView.ji;23;_CPDocModalWindowView.ji;18;_CPHUDWindowView.ji;25;_CPBorderlessWindowView.ji;31;_CPBorderlessBridgeWindowView.ji;14;CPDragServer.ji;8;CPView.jt;59381;
+p;10;CPWindow.jt;59867;@STATIC;1.0;I;25;Foundation/CPCountedSet.jI;33;Foundation/CPNotificationCenter.jI;26;Foundation/CPUndoManager.ji;12;CGGeometry.ji;13;CPAnimation.ji;13;CPResponder.ji;10;CPScreen.ji;18;CPPlatformWindow.ji;15;_CPWindowView.ji;23;_CPStandardWindowView.ji;23;_CPDocModalWindowView.ji;18;_CPHUDWindowView.ji;25;_CPBorderlessWindowView.ji;31;_CPBorderlessBridgeWindowView.ji;14;CPDragServer.ji;8;CPView.jt;59461;
 objj_executeFile("Foundation/CPCountedSet.j",NO);
 objj_executeFile("Foundation/CPNotificationCenter.j",NO);
 objj_executeFile("Foundation/CPUndoManager.j",NO);
@@ -24955,7 +24958,9 @@ if(objj_msgSend(_defaultButton,"keyEquivalent")===CPCarriageReturnCharacter){
 objj_msgSend(_defaultButton,"setKeyEquivalent:",nil);
 }
 _defaultButton=_199;
+if(objj_msgSend(_defaultButton,"keyEquivalent")!==CPCarriageReturnCharacter){
 objj_msgSend(_defaultButton,"setKeyEquivalent:",CPCarriageReturnCharacter);
+}
 }
 }),new objj_method(sel_getUid("defaultButton"),function(self,_19a){
 with(self){
