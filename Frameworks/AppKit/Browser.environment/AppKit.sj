@@ -13439,7 +13439,7 @@ return CPRectMake(0,0,0,0);
 CPPointMakeZero=function(){
 return CPPointMake(0,0,0);
 };
-p;8;CPView.jt;61367;@STATIC;1.0;I;20;Foundation/CPArray.jI;26;Foundation/CPObjJRuntime.ji;19;CGAffineTransform.ji;12;CGGeometry.ji;9;CPColor.ji;12;CPGeometry.ji;19;CPGraphicsContext.ji;13;CPResponder.ji;9;CPTheme.ji;18;_CPDisplayServer.jt;61142;
+p;8;CPView.jt;61361;@STATIC;1.0;I;20;Foundation/CPArray.jI;26;Foundation/CPObjJRuntime.ji;19;CGAffineTransform.ji;12;CGGeometry.ji;9;CPColor.ji;12;CPGeometry.ji;19;CPGraphicsContext.ji;13;CPResponder.ji;9;CPTheme.ji;18;_CPDisplayServer.jt;61136;
 objj_executeFile("Foundation/CPArray.j",NO);
 objj_executeFile("Foundation/CPObjJRuntime.j",NO);
 objj_executeFile("CGAffineTransform.j",YES);
@@ -13648,7 +13648,7 @@ _DOMElement.appendChild(_43._DOMElement);
 }
 }),new objj_method(sel_getUid("_setWindow:"),function(_44,_45,_46){
 with(_44){
-if(_window===_46||!_46){
+if(_window===_46){
 return;
 }
 objj_msgSend(objj_msgSend(_44,"window"),"_dirtyKeyViewLoop");
