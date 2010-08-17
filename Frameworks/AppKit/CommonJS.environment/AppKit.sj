@@ -347,7 +347,7 @@ with(_1e){
 objj_msgSend(objj_msgSend(objj_msgSend(_1e,"window"),"platformWindow"),"_propagateCurrentDOMEvent:",YES);
 }
 })]);
-p;13;CPTableView.jt;95855;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;95713;
+p;13;CPTableView.jt;95901;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;95759;
 objj_executeFile("Foundation/CPArray.j",NO);
 objj_executeFile("AppKit/CGGradient.j",NO);
 objj_executeFile("CPControl.j",YES);
@@ -2320,6 +2320,9 @@ var _290=_28e[_28f];
 if(!objj_msgSend(_delegate,"tableView:shouldSelectRow:",self,_290)){
 objj_msgSend(_28c,"removeIndex:",_290);
 }
+}
+if(objj_msgSend(_28c,"count")===0){
+return;
 }
 }
 if(!_allowsEmptySelection&&objj_msgSend(_28c,"count")===0){

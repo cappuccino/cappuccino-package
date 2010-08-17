@@ -387,7 +387,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPEvent"])]);
 }
 
-p;13;CPTableView.jt;141214;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;141071;objj_executeFile("Foundation/CPArray.j", NO);
+p;13;CPTableView.jt;141289;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;141146;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("AppKit/CGGradient.j", NO);
 objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPTableColumn.j", YES);
@@ -2616,6 +2616,8 @@ _disableAutomaticResizing = newValue;
             if (!objj_msgSend(_delegate, "tableView:shouldSelectRow:", self, index))
                 objj_msgSend(newSelection, "removeIndex:", index);
         }
+        if (objj_msgSend(newSelection, "count") === 0)
+            return;
     }
     if (!_allowsEmptySelection && objj_msgSend(newSelection, "count") === 0)
         return;
