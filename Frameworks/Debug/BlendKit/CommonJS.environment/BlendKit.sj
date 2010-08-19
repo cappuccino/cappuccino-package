@@ -1,4 +1,4 @@
-@STATIC;1.0;p;19;BKThemeDescriptor.jt;6899;@STATIC;1.0;I;21;Foundation/CPObject.jt;6854;objj_executeFile("Foundation/CPObject.j", NO);
+@STATIC;1.0;p;19;BKThemeDescriptor.jt;11580;@STATIC;1.0;I;21;Foundation/CPObject.jt;11534;objj_executeFile("Foundation/CPObject.j", NO);
 var ItemSizes = { },
     ThemedObjects = { },
     BackgroundColors = { },
@@ -120,11 +120,85 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("allThemeDescriptorClas
 {
     return objj_msgSend(objj_msgSend(self, "themeName"), "compare:", objj_msgSend(aThemeDescriptor, "themeName"));
 }
-},["int","BKThemeDescriptor"])]);
+},["int","BKThemeDescriptor"]), new objj_method(sel_getUid("registerThemeValues:forView:"), function $BKThemeDescriptor__registerThemeValues_forView_(self, _cmd, themeValues, aView)
+{ with(self)
+{
+    for (var i = 0; i < themeValues.length; ++i)
+    {
+        var attributeValueState = themeValues[i],
+            attribute = attributeValueState[0],
+            value = attributeValueState[1],
+            state = attributeValueState[2];
+        if (state)
+            objj_msgSend(aView, "setValue:forThemeAttribute:inState:", value, attribute, state);
+        else
+            objj_msgSend(aView, "setValue:forThemeAttribute:", value, attribute);
+    }
+}
+},["void","CPArray","CPView"]), new objj_method(sel_getUid("registerThemeValues:forView:inherit:"), function $BKThemeDescriptor__registerThemeValues_forView_inherit_(self, _cmd, themeValues, aView, inheritedValues)
+{ with(self)
+{
+    if (inheritedValues)
+    {
+        var themeName = objj_msgSend(self, "themeName"),
+            index = themeName.indexOf("-");
+        if (index < 0)
+        {
+            objj_msgSend(self, "registerThemeValues:forView:", inheritedValues, aView);
+        }
+        else
+        {
+            var themePath = themeName.substr(index + 1) + "/";
+            for (var i = 0; i < inheritedValues.length; ++i)
+            {
+                var attributeValueState = inheritedValues[i],
+                    attribute = attributeValueState[0],
+                    value = attributeValueState[1],
+                    state = attributeValueState[2],
+                    pattern = nil;
+                if (typeof(value) === "object" &&
+                    value.hasOwnProperty("isa") &&
+                    objj_msgSend(value, "isKindOfClass:", CPColor) &&
+                    (pattern = objj_msgSend(value, "patternImage")))
+                {
+                    if (objj_msgSend(pattern, "isThreePartImage") || objj_msgSend(pattern, "isNinePartImage"))
+                    {
+                        var slices = objj_msgSend(pattern, "imageSlices"),
+                            newSlices = [];
+                        for (var sliceIndex = 0; sliceIndex < slices.length; ++sliceIndex)
+                        {
+                            var slice = slices[sliceIndex],
+                                filename = themePath + objj_msgSend(objj_msgSend(slice, "filename"), "lastPathComponent"),
+                                size = objj_msgSend(slice, "size");
+                            newSlices.push([filename, size.width, size.height]);
+                        }
+                        if (objj_msgSend(pattern, "isThreePartImage"))
+                            value = PatternColor(newSlices, objj_msgSend(pattern, "isVertical"));
+                        else
+                            value = PatternColor(newSlices);
+                    }
+                    else
+                    {
+                        var filename = themePath + objj_msgSend(objj_msgSend(pattern, "filename"), "lastPathComponent"),
+                            size = objj_msgSend(pattern, "size");
+                        value = PatternColor(filename, size.width, size.height);
+                    }
+                }
+                if (state)
+                    objj_msgSend(aView, "setValue:forThemeAttribute:inState:", value, attribute, state);
+                else
+                    objj_msgSend(aView, "setValue:forThemeAttribute:", value, attribute);
+            }
+        }
+    }
+    if (themeValues)
+        objj_msgSend(self, "registerThemeValues:forView:", themeValues, aView);
+}
+},["void","CPArray",null,"CPArray"])]);
 }
 BKLabelFromIdentifier= function(anIdentifier)
 {
-    var string = anIdentifier.substr("themed".length);
+    var string = anIdentifier.substr("themed".length),
         index = 0,
         count = string.length,
         label = "",
@@ -155,6 +229,33 @@ BKLabelFromIdentifier= function(anIdentifier)
         }
     }
     return label;
+}
+PatternIsVertical = YES,
+PatternIsHorizontal = NO;
+PatternColor= function()
+{
+    if (arguments.length < 3)
+    {
+        var slices = arguments[0],
+            imageSlices = [];
+        for (var i = 0; i < slices.length; ++i)
+        {
+            var slice = slices[i];
+            imageSlices.push(slice ? objj_msgSend(_CPCibCustomResource, "imageResourceWithName:size:", slice[0], CGSizeMake(slice[1], slice[2])) : nil);
+        }
+        if (arguments.length == 2)
+            return objj_msgSend(CPColor, "colorWithPatternImage:", objj_msgSend(objj_msgSend(CPThreePartImage, "alloc"), "initWithImageSlices:isVertical:", imageSlices, arguments[1]));
+        else
+            return objj_msgSend(CPColor, "colorWithPatternImage:", objj_msgSend(objj_msgSend(CPNinePartImage, "alloc"), "initWithImageSlices:", imageSlices));
+    }
+    else if (arguments.length == 3)
+    {
+        return objj_msgSend(CPColor, "colorWithPatternImage:", objj_msgSend(_CPCibCustomResource, "imageResourceWithName:size:", arguments[0], CGSizeMake(arguments[1], arguments[2])));
+    }
+    else
+    {
+        return nil;
+    }
 }
 
 p;10;BlendKit.jt;311;@STATIC;1.0;i;22;BKShowcaseController.ji;19;BKThemeDescriptor.ji;17;BKThemeTemplate.ji;24;BKThemedObjectTemplate.jt;191;objj_executeFile("BKShowcaseController.j", YES);

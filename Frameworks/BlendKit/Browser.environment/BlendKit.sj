@@ -1,4 +1,4 @@
-@STATIC;1.0;p;19;BKThemeDescriptor.jt;4279;@STATIC;1.0;I;21;Foundation/CPObject.jt;4234;
+@STATIC;1.0;p;19;BKThemeDescriptor.jt;6675;@STATIC;1.0;I;21;Foundation/CPObject.jt;6630;
 objj_executeFile("Foundation/CPObject.j",NO);
 var _1={},_2={},_3={},_4=nil,_5=nil,_6=nil;
 var _7=objj_allocateClassPair(CPObject,"BKThemeDescriptor"),_8=_7.isa;
@@ -106,31 +106,101 @@ _2[_31]=_25;
 with(_32){
 return objj_msgSend(objj_msgSend(_32,"themeName"),"compare:",objj_msgSend(_34,"themeName"));
 }
+}),new objj_method(sel_getUid("registerThemeValues:forView:"),function(_35,_36,_37,_38){
+with(_35){
+for(var i=0;i<_37.length;++i){
+var _39=_37[i],_3a=_39[0],_3b=_39[1],_3c=_39[2];
+if(_3c){
+objj_msgSend(_38,"setValue:forThemeAttribute:inState:",_3b,_3a,_3c);
+}else{
+objj_msgSend(_38,"setValue:forThemeAttribute:",_3b,_3a);
+}
+}
+}
+}),new objj_method(sel_getUid("registerThemeValues:forView:inherit:"),function(_3d,_3e,_3f,_40,_41){
+with(_3d){
+if(_41){
+var _42=objj_msgSend(_3d,"themeName"),_43=_42.indexOf("-");
+if(_43<0){
+objj_msgSend(_3d,"registerThemeValues:forView:",_41,_40);
+}else{
+var _44=_42.substr(_43+1)+"/";
+for(var i=0;i<_41.length;++i){
+var _45=_41[i],_46=_45[0],_47=_45[1],_48=_45[2],_49=nil;
+if(typeof (_47)==="object"&&_47.hasOwnProperty("isa")&&objj_msgSend(_47,"isKindOfClass:",CPColor)&&(_49=objj_msgSend(_47,"patternImage"))){
+if(objj_msgSend(_49,"isThreePartImage")||objj_msgSend(_49,"isNinePartImage")){
+var _4a=objj_msgSend(_49,"imageSlices"),_4b=[];
+for(var _4c=0;_4c<_4a.length;++_4c){
+var _4d=_4a[_4c],_4e=_44+objj_msgSend(objj_msgSend(_4d,"filename"),"lastPathComponent"),_4f=objj_msgSend(_4d,"size");
+_4b.push([_4e,_4f.width,_4f.height]);
+}
+if(objj_msgSend(_49,"isThreePartImage")){
+_47=PatternColor(_4b,objj_msgSend(_49,"isVertical"));
+}else{
+_47=PatternColor(_4b);
+}
+}else{
+var _4e=_44+objj_msgSend(objj_msgSend(_49,"filename"),"lastPathComponent"),_4f=objj_msgSend(_49,"size");
+_47=PatternColor(_4e,_4f.width,_4f.height);
+}
+}
+if(_48){
+objj_msgSend(_40,"setValue:forThemeAttribute:inState:",_47,_46,_48);
+}else{
+objj_msgSend(_40,"setValue:forThemeAttribute:",_47,_46);
+}
+}
+}
+}
+if(_3f){
+objj_msgSend(_3d,"registerThemeValues:forView:",_3f,_40);
+}
+}
 })]);
-BKLabelFromIdentifier=function(_35){
-var _36=_35.substr("themed".length);
-index=0,count=_36.length,label="",lastCapital=null,isLeadingCapital=YES;
-for(;index<count;++index){
-var _37=_36.charAt(index),_38=/^[A-Z]/.test(_37);
-if(_38){
-if(!isLeadingCapital){
-if(lastCapital===null){
-label+=" "+_37.toLowerCase();
+BKLabelFromIdentifier=function(_50){
+var _51=_50.substr("themed".length),_52=0,_53=_51.length,_54="",_55=null,_56=YES;
+for(;_52<_53;++_52){
+var _57=_51.charAt(_52),_58=/^[A-Z]/.test(_57);
+if(_58){
+if(!_56){
+if(_55===null){
+_54+=" "+_57.toLowerCase();
 }else{
-label+=_37;
+_54+=_57;
 }
 }
-lastCapital=_37;
+_55=_57;
 }else{
-if(isLeadingCapital&&lastCapital!==null){
-label+=lastCapital;
+if(_56&&_55!==null){
+_54+=_55;
 }
-label+=_37;
-lastCapital=null;
-isLeadingCapital=NO;
+_54+=_57;
+_55=null;
+_56=NO;
 }
 }
-return label;
+return _54;
+};
+PatternIsVertical=YES,PatternIsHorizontal=NO;
+PatternColor=function(){
+if(arguments.length<3){
+var _59=arguments[0],_5a=[];
+for(var i=0;i<_59.length;++i){
+var _5b=_59[i];
+_5a.push(_5b?objj_msgSend(_CPCibCustomResource,"imageResourceWithName:size:",_5b[0],CGSizeMake(_5b[1],_5b[2])):nil);
+}
+if(arguments.length==2){
+return objj_msgSend(CPColor,"colorWithPatternImage:",objj_msgSend(objj_msgSend(CPThreePartImage,"alloc"),"initWithImageSlices:isVertical:",_5a,arguments[1]));
+}else{
+return objj_msgSend(CPColor,"colorWithPatternImage:",objj_msgSend(objj_msgSend(CPNinePartImage,"alloc"),"initWithImageSlices:",_5a));
+}
+}else{
+if(arguments.length==3){
+return objj_msgSend(CPColor,"colorWithPatternImage:",objj_msgSend(_CPCibCustomResource,"imageResourceWithName:size:",arguments[0],CGSizeMake(arguments[1],arguments[2])));
+}else{
+return nil;
+}
+}
 };
 p;10;BlendKit.jt;307;@STATIC;1.0;i;22;BKShowcaseController.ji;19;BKThemeDescriptor.ji;17;BKThemeTemplate.ji;24;BKThemedObjectTemplate.jt;187;
 objj_executeFile("BKShowcaseController.j",YES);
