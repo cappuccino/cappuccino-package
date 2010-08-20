@@ -1,4 +1,4 @@
-@STATIC;1.0;p;19;BKThemeDescriptor.jt;11580;@STATIC;1.0;I;21;Foundation/CPObject.jt;11534;objj_executeFile("Foundation/CPObject.j", NO);
+@STATIC;1.0;p;19;BKThemeDescriptor.jt;11674;@STATIC;1.0;I;21;Foundation/CPObject.jt;11628;objj_executeFile("Foundation/CPObject.j", NO);
 var ItemSizes = { },
     ThemedObjects = { },
     BackgroundColors = { },
@@ -250,12 +250,16 @@ PatternColor= function()
     }
     else if (arguments.length == 3)
     {
-        return objj_msgSend(CPColor, "colorWithPatternImage:", objj_msgSend(_CPCibCustomResource, "imageResourceWithName:size:", arguments[0], CGSizeMake(arguments[1], arguments[2])));
+        return objj_msgSend(CPColor, "colorWithPatternImage:", PatternImage(arguments[0], arguments[1], arguments[2]));
     }
     else
     {
         return nil;
     }
+}
+PatternImage= function(name, width, height)
+{
+    return objj_msgSend(_CPCibCustomResource, "imageResourceWithName:size:", name, CGSizeMake(width, height));
 }
 
 p;10;BlendKit.jt;311;@STATIC;1.0;i;22;BKShowcaseController.ji;19;BKThemeDescriptor.ji;17;BKThemeTemplate.ji;24;BKThemedObjectTemplate.jt;191;objj_executeFile("BKShowcaseController.j", YES);

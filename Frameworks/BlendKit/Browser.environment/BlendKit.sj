@@ -1,4 +1,4 @@
-@STATIC;1.0;p;19;BKThemeDescriptor.jt;6675;@STATIC;1.0;I;21;Foundation/CPObject.jt;6630;
+@STATIC;1.0;p;19;BKThemeDescriptor.jt;6748;@STATIC;1.0;I;21;Foundation/CPObject.jt;6703;
 objj_executeFile("Foundation/CPObject.j",NO);
 var _1={},_2={},_3={},_4=nil,_5=nil,_6=nil;
 var _7=objj_allocateClassPair(CPObject,"BKThemeDescriptor"),_8=_7.isa;
@@ -196,11 +196,14 @@ return objj_msgSend(CPColor,"colorWithPatternImage:",objj_msgSend(objj_msgSend(C
 }
 }else{
 if(arguments.length==3){
-return objj_msgSend(CPColor,"colorWithPatternImage:",objj_msgSend(_CPCibCustomResource,"imageResourceWithName:size:",arguments[0],CGSizeMake(arguments[1],arguments[2])));
+return objj_msgSend(CPColor,"colorWithPatternImage:",PatternImage(arguments[0],arguments[1],arguments[2]));
 }else{
 return nil;
 }
 }
+};
+PatternImage=function(_5c,_5d,_5e){
+return objj_msgSend(_CPCibCustomResource,"imageResourceWithName:size:",_5c,CGSizeMake(_5d,_5e));
 };
 p;10;BlendKit.jt;307;@STATIC;1.0;i;22;BKShowcaseController.ji;19;BKThemeDescriptor.ji;17;BKThemeTemplate.ji;24;BKThemedObjectTemplate.jt;187;
 objj_executeFile("BKShowcaseController.j",YES);
