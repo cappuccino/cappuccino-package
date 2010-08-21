@@ -23136,7 +23136,7 @@ _index = newValue;
 },["void","CPString","id","CPDictionary","id"])]);
 }
 
-p;9;CPAlert.jt;14073;@STATIC;1.0;I;21;Foundation/CPObject.jI;21;Foundation/CPString.jI;22;AppKit/CPApplication.jI;17;AppKit/CPButton.jI;16;AppKit/CPColor.jI;15;AppKit/CPFont.jI;16;AppKit/CPImage.jI;20;AppKit/CPImageView.jI;16;AppKit/CPPanel.jI;20;AppKit/CPTextField.jt;13819;objj_executeFile("Foundation/CPObject.j", NO);
+p;9;CPAlert.jt;14144;@STATIC;1.0;I;21;Foundation/CPObject.jI;21;Foundation/CPString.jI;22;AppKit/CPApplication.jI;17;AppKit/CPButton.jI;16;AppKit/CPColor.jI;15;AppKit/CPFont.jI;16;AppKit/CPImage.jI;20;AppKit/CPImageView.jI;16;AppKit/CPPanel.jI;20;AppKit/CPTextField.jt;13890;objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("Foundation/CPString.j", NO);
 objj_executeFile("AppKit/CPApplication.j", NO);
 objj_executeFile("AppKit/CPButton.j", NO);
@@ -23311,6 +23311,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPAle
         sizeWithFontCorrection = 6.0;
     objj_msgSend(_messageLabel, "setFrame:", CGRectMake(inset.left, inset.top, textWidth, messageSize.height + sizeWithFontCorrection));
     objj_msgSend(_informativeLabel, "setFrame:", CGRectMake(inset.left, CGRectGetMaxY(objj_msgSend(_messageLabel, "frame")) + informativeOffset, textWidth, informativeSize.height + sizeWithFontCorrection));
+    objj_msgSend(_informativeLabel, "setHidden:", !informationString);
     var aRepresentativeButton = _buttons[0],
         buttonY = MAX(CGRectGetMaxY(objj_msgSend(_alertImageView, "frame")), CGRectGetMaxY(informationString ? objj_msgSend(_informativeLabel, "frame") : objj_msgSend(_messageLabel, "frame"))) + buttonOffset;
     objj_msgSend(aRepresentativeButton, "setTheme:", objj_msgSend(self, "theme"));
