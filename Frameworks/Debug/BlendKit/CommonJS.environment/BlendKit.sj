@@ -267,21 +267,21 @@ objj_executeFile("BKThemeDescriptor.j", YES);
 objj_executeFile("BKThemeTemplate.j", YES);
 objj_executeFile("BKThemedObjectTemplate.j", YES);
 
-p;22;BKShowcaseController.jt;20979;@STATIC;1.0;I;16;AppKit/CPTheme.jI;15;AppKit/CPView.jt;20918;objj_executeFile("AppKit/CPTheme.j", NO);
+p;22;BKShowcaseController.jt;21017;@STATIC;1.0;I;16;AppKit/CPTheme.jI;15;AppKit/CPView.jt;20956;objj_executeFile("AppKit/CPTheme.j", NO);
 objj_executeFile("AppKit/CPView.j", NO);
 var LEFT_PANEL_WIDTH = 176.0;
 var BKLearnMoreToolbarItemIdentifier = "BKLearnMoreToolbarItemIdentifier",
     BKStateToolbarItemIdentifier = "BKStateToolbarItemIdentifier",
     BKBackgroundColorToolbarItemIdentifier = "BKBackgroundColorToolbarItemIdentifier";
 {var the_class = objj_allocateClassPair(CPObject, "BKShowcaseController"),
-meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_themeDescriptorClasses"), new objj_ivar("_themesCollectionView"), new objj_ivar("_themedObjectsCollectionView")]);
+meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_themeDescriptorClasses"), new objj_ivar("_themesCollectionView"), new objj_ivar("_themedObjectsCollectionView"), new objj_ivar("theWindow")]);
 objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("applicationDidFinishLaunching:"), function $BKShowcaseController__applicationDidFinishLaunching_(self, _cmd, aNotification)
 { with(self)
 {
     _themeDescriptorClasses = objj_msgSend(BKThemeDescriptor, "allThemeDescriptorClasses");
-    var theWindow = objj_msgSend(objj_msgSend(CPWindow, "alloc"), "initWithContentRect:styleMask:", CGRectMakeZero(), CPBorderlessBridgeWindowMask),
-        toolbar = objj_msgSend(objj_msgSend(CPToolbar, "alloc"), "initWithIdentifier:", "Toolbar");
+    theWindow = objj_msgSend(objj_msgSend(CPWindow, "alloc"), "initWithContentRect:styleMask:", CGRectMakeZero(), CPBorderlessBridgeWindowMask);
+    var toolbar = objj_msgSend(objj_msgSend(CPToolbar, "alloc"), "initWithIdentifier:", "Toolbar");
     objj_msgSend(toolbar, "setDelegate:", self);
     objj_msgSend(theWindow, "setToolbar:", toolbar);
     var contentView = objj_msgSend(theWindow, "contentView"),
@@ -331,7 +331,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("applicationDidFinishLau
     objj_msgSend(scrollView, "setDocumentView:", _themedObjectsCollectionView);
     objj_msgSend(splitView, "addSubview:", scrollView);
     objj_msgSend(_themesCollectionView, "setSelectionIndexes:", objj_msgSend(CPIndexSet, "indexSetWithIndex:", 0));
-    objj_msgSend(theWindow, "setFullBridge:", YES);
+    objj_msgSend(theWindow, "setFullPlatformWindow:", YES);
     objj_msgSend(theWindow, "makeKeyAndOrderFront:", self);
 }
 },["void","CPNotification"]), new objj_method(sel_getUid("collectionViewDidChangeSelection:"), function $BKShowcaseController__collectionViewDidChangeSelection_(self, _cmd, aCollectionView)
@@ -409,7 +409,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("applicationDidFinishLau
         if (!title)
             title = objj_msgSend(objj_msgSend(CPBundle, "mainBundle"), "objectForInfoDictionaryKey:", "CPBundleName") || "Home Page";
         var button = objj_msgSend(CPButton, "buttonWithTitle:", title);
-        objj_msgSend(button, "setDefaultButton:", YES);
+        objj_msgSend(theWindow, "setDefaultButton:", button);
         objj_msgSend(toolbarItem, "setView:", button);
         objj_msgSend(toolbarItem, "setLabel:", "Learn More");
         objj_msgSend(toolbarItem, "setTarget:", nil);

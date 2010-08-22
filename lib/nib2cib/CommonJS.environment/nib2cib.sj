@@ -1414,7 +1414,7 @@ with(_f){
 return objj_msgSend(CPView,"class");
 }
 })]);
-p;10;NSButton.jt;6984;@STATIC;1.0;I;17;AppKit/CPButton.jI;19;AppKit/CPCheckBox.jI;16;AppKit/CPRadio.ji;8;NSCell.ji;11;NSControl.jt;6870;
+p;10;NSButton.jt;6974;@STATIC;1.0;I;17;AppKit/CPButton.jI;19;AppKit/CPCheckBox.jI;16;AppKit/CPRadio.ji;8;NSCell.ji;11;NSControl.jt;6860;
 objj_executeFile("AppKit/CPButton.j",NO);
 objj_executeFile("AppKit/CPCheckBox.j",NO);
 objj_executeFile("AppKit/CPRadio.j",NO);
@@ -1550,9 +1550,10 @@ _17._radioGroup=objj_msgSend(CPRadioGroup,"new");
 }
 }
 }
+var _17=objj_msgSend(_17,"NS_initWithCoder:",_19);
 objj_msgSend(_17,"setKeyEquivalent:",objj_msgSend(_1a,"keyEquivalent"));
-objj_msgSend(_17,"setKeyEquivalentModifierMask:",objj_msgSend(_1a,"keyEquivalentModifierMask"));
-return objj_msgSend(_17,"NS_initWithCoder:",_19);
+_keyEquivalentModifierMask=objj_msgSend(_1a,"keyEquivalentModifierMask");
+return _17;
 }
 }),new objj_method(sel_getUid("classForKeyedArchiver"),function(_1c,_1d){
 with(_1c){

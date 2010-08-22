@@ -27663,7 +27663,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","id"])]);
 }
 
-p;10;CPButton.jt;25492;@STATIC;1.0;i;21;_CPImageAndTextView.ji;12;CGGeometry.ji;11;CPControl.ji;17;CPStringDrawing.ji;12;CPCheckBox.ji;9;CPRadio.jt;25361;objj_executeFile("_CPImageAndTextView.j", YES);
+p;10;CPButton.jt;24893;@STATIC;1.0;i;21;_CPImageAndTextView.ji;12;CGGeometry.ji;11;CPControl.ji;17;CPStringDrawing.ji;12;CPCheckBox.ji;9;CPRadio.jt;24762;objj_executeFile("_CPImageAndTextView.j", YES);
 objj_executeFile("CGGeometry.j", YES);
 objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPStringDrawing.j", YES);
@@ -28016,15 +28016,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
         objj_msgSend(contentView, "setDimsImage:", objj_msgSend(self, "hasThemeState:", CPThemeStateDisabled) && _imageDimsWhenDisabled);
     }
 }
-},["void"]), new objj_method(sel_getUid("setDefaultButton:"), function $CPButton__setDefaultButton_(self, _cmd, shouldBeDefaultButton)
-{ with(self)
-{
-    if (shouldBeDefaultButton)
-        objj_msgSend(self, "setThemeState:", CPThemeStateDefault);
-    else
-        objj_msgSend(self, "unsetThemeState:", CPThemeStateDefault);
-}
-},["void","BOOL"]), new objj_method(sel_getUid("setBordered:"), function $CPButton__setBordered_(self, _cmd, shouldBeBordered)
+},["void"]), new objj_method(sel_getUid("setBordered:"), function $CPButton__setBordered_(self, _cmd, shouldBeBordered)
 { with(self)
 {
     if (shouldBeBordered)
@@ -28042,21 +28034,18 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 {
     _keyEquivalent = aString || "";
     if (aString === CPNewlineCharacter || aString === CPCarriageReturnCharacter)
-    {
-        objj_msgSend(objj_msgSend(self, "window"), "setDefaultButton:", self);
-        objj_msgSend(self, "setDefaultButton:", YES);
-    }
-    else if (objj_msgSend(objj_msgSend(self, "window"), "defaultButton") === self)
-    {
-        objj_msgSend(objj_msgSend(self, "window"), "setDefaultButton:", nil);
-        objj_msgSend(self, "setDefaultButton:", NO);
-    }
+        objj_msgSend(self, "setThemeState:", CPThemeStateDefault);
+    else
+        objj_msgSend(self, "unsetThemeState:", CPThemeStateDefault);
 }
 },["void","CPString"]), new objj_method(sel_getUid("viewWillMoveToWindow:"), function $CPButton__viewWillMoveToWindow_(self, _cmd, aWindow)
 { with(self)
 {
-    if (objj_msgSend(objj_msgSend(self, "window"), "defaultButton") === self)
-        objj_msgSend(objj_msgSend(self, "window"), "setDefaultButton:", nil);
+    var selfWindow = objj_msgSend(self, "window");
+    if (selfWindow === aWindow || aWindow === nil)
+        return;
+    if (objj_msgSend(selfWindow, "defaultButton") === self)
+        objj_msgSend(selfWindow, "setDefaultButton:", nil);
     if (objj_msgSend(self, "keyEquivalent") === CPNewlineCharacter || objj_msgSend(self, "keyEquivalent") === CPCarriageReturnCharacter)
         objj_msgSend(aWindow, "setDefaultButton:", self);
 }
@@ -28143,14 +28132,14 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
     if (self)
     {
         _controlSize = CPRegularControlSize;
-        objj_msgSend(self, "setImage:", objj_msgSend(aCoder, "decodeObjectForKey:", CPButtonImageKey));
-        objj_msgSend(self, "setAlternateImage:", objj_msgSend(aCoder, "decodeObjectForKey:", CPButtonAlternateImageKey));
-        objj_msgSend(self, "setTitle:", objj_msgSend(aCoder, "decodeObjectForKey:", CPButtonTitleKey));
-        objj_msgSend(self, "setAlternateTitle:", objj_msgSend(aCoder, "decodeObjectForKey:", CPButtonAlternateTitleKey));
+        _image = objj_msgSend(aCoder, "decodeObjectForKey:", CPButtonImageKey);
+        _alternateImage = objj_msgSend(aCoder, "decodeObjectForKey:", CPButtonAlternateImageKey);
+        _title = objj_msgSend(aCoder, "decodeObjectForKey:", CPButtonTitleKey);
+        _alternateTitle = objj_msgSend(aCoder, "decodeObjectForKey:", CPButtonAlternateTitleKey);
         objj_msgSend(self, "setImageDimsWhenDisabled:", objj_msgSend(aCoder, "decodeObjectForKey:", CPButtonImageDimsWhenDisabledKey));
         if (objj_msgSend(aCoder, "containsValueForKey:", CPButtonKeyEquivalentKey))
             objj_msgSend(self, "setKeyEquivalent:", CFData.decodeBase64ToUtf16String(objj_msgSend(aCoder, "decodeObjectForKey:", CPButtonKeyEquivalentKey)));
-        objj_msgSend(self, "setKeyEquivalentModifierMask:", objj_msgSend(aCoder, "decodeObjectForKey:", CPButtonKeyEquivalentMaskKey));
+        _keyEquivalentModifierMask = objj_msgSend(aCoder, "decodeObjectForKey:", CPButtonKeyEquivalentMaskKey);
         objj_msgSend(self, "setNeedsLayout");
         objj_msgSend(self, "setNeedsDisplay:", YES);
     }
