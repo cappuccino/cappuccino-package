@@ -21128,7 +21128,7 @@ objj_msgSend(_accordionView,"_invalidateItemsStartingAtIndex:",objj_msgSend(_75,
 }
 }
 })]);
-p;9;CPAlert.jt;10311;@STATIC;1.0;I;21;Foundation/CPObject.jI;21;Foundation/CPString.jI;22;AppKit/CPApplication.jI;17;AppKit/CPButton.jI;16;AppKit/CPColor.jI;15;AppKit/CPFont.jI;16;AppKit/CPImage.jI;20;AppKit/CPImageView.jI;16;AppKit/CPPanel.jI;20;AppKit/CPTextField.jt;10057;
+p;9;CPAlert.jt;10305;@STATIC;1.0;I;21;Foundation/CPObject.jI;21;Foundation/CPString.jI;22;AppKit/CPApplication.jI;17;AppKit/CPButton.jI;16;AppKit/CPColor.jI;15;AppKit/CPFont.jI;16;AppKit/CPImage.jI;20;AppKit/CPImageView.jI;16;AppKit/CPPanel.jI;20;AppKit/CPTextField.jt;10051;
 objj_executeFile("Foundation/CPObject.j",NO);
 objj_executeFile("Foundation/CPString.j",NO);
 objj_executeFile("AppKit/CPApplication.j",NO);
@@ -21240,7 +21240,7 @@ objj_msgSend(_2c,"setKeyEquivalent:",nil);
 }
 objj_msgSend(_buttons,"addObject:",_2c);
 }
-}),new objj_method(sel_getUid("layoutSubviews"),function(_2e,_2f){
+}),new objj_method(sel_getUid("layoutPanel"),function(_2e,_2f){
 with(_2e){
 if(!_alertPanel){
 objj_msgSend(_2e,"_createPanel");
@@ -21300,7 +21300,7 @@ _36-=10;
 }
 }),new objj_method(sel_getUid("runModal"),function(_49,_4a){
 with(_49){
-objj_msgSend(_49,"layoutSubviews");
+objj_msgSend(_49,"layoutPanel");
 objj_msgSend(CPApp,"runModalForWindow:",_alertPanel);
 }
 }),new objj_method(sel_getUid("_notifyDelegate:"),function(_4b,_4c,_4d){

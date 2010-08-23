@@ -1,6 +1,7 @@
-@STATIC;1.0;p;19;BKThemeDescriptor.jt;11674;@STATIC;1.0;I;21;Foundation/CPObject.jt;11628;objj_executeFile("Foundation/CPObject.j", NO);
+@STATIC;1.0;p;19;BKThemeDescriptor.jt;12812;@STATIC;1.0;I;21;Foundation/CPObject.jt;12766;objj_executeFile("Foundation/CPObject.j", NO);
 var ItemSizes = { },
     ThemedObjects = { },
+    ThemedShowcaseObjects = { },
     BackgroundColors = { },
     LightCheckersColor = nil,
     DarkCheckersColor = nil,
@@ -77,15 +78,33 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("allThemeDescriptorClas
         objj_msgSend(self, "calculateThemedObjectTemplates");
     return ThemedObjects[className];
 }
+},["CPArray"]), new objj_method(sel_getUid("themedShowcaseObjectTemplates"), function $BKThemeDescriptor__themedShowcaseObjectTemplates(self, _cmd)
+{ with(self)
+{
+    var className = objj_msgSend(self, "className");
+    if (!ThemedShowcaseObjects[className])
+        objj_msgSend(self, "calculateThemedObjectTemplates");
+    return ThemedShowcaseObjects[className];
+}
 },["CPArray"]), new objj_method(sel_getUid("calculateThemedObjectTemplates"), function $BKThemeDescriptor__calculateThemedObjectTemplates(self, _cmd)
 { with(self)
 {
     var templates = [],
+        showcaseTemplates = [],
         itemSize = CGSizeMake(0.0, 0.0),
         methods = class_copyMethodList(objj_msgSend(self, "class").isa),
         index = 0,
-        count = objj_msgSend(methods, "count");
-    for (; index < count; ++index)
+        count = objj_msgSend(methods, "count"),
+        excludes = [];
+    if (objj_msgSend(self, "respondsToSelector:", sel_getUid("themeShowcaseExcludes")))
+        excludes = objj_msgSend(self, "themeShowcaseExcludes");
+    for (; index < excludes.length; ++index)
+    {
+        var name = excludes[index];
+        if (name && name.indexOf("themed") !== 0)
+            excludes[index] = "themed" + name.charAt(0).toUpperCase() + name.substr(1);
+    }
+    for (index = 0; index < count; ++index)
     {
         var method = methods[index],
             selector = method_getName(method);
@@ -95,25 +114,31 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("allThemeDescriptorClas
             object = impl(self, selector);
         if (!object)
             continue;
-        var template = objj_msgSend(objj_msgSend(BKThemedObjectTemplate, "alloc"), "init");
+        var template = objj_msgSend(objj_msgSend(BKThemedObjectTemplate, "alloc"), "init"),
+            excluded = objj_msgSend(excludes, "containsObject:", selector);
         objj_msgSend(template, "setValue:forKey:", object, "themedObject");
         objj_msgSend(template, "setValue:forKey:", BKLabelFromIdentifier(selector), "label");
         objj_msgSend(templates, "addObject:", template);
-        if (objj_msgSend(object, "isKindOfClass:", objj_msgSend(CPView, "class")))
+        if (!excluded)
         {
-            var size = objj_msgSend(object, "frame").size,
-                labelWidth = objj_msgSend(objj_msgSend(template, "valueForKey:", "label"), "sizeWithFont:", objj_msgSend(CPFont, "boldSystemFontOfSize:", 12.0)).width + 20.0;
-            if (size.width > itemSize.width)
-                itemSize.width = size.width;
-            if (labelWidth > itemSize.width)
-                itemSize.width = labelWidth;
-            if (size.height > itemSize.height)
-                itemSize.height = size.height;
+            if (objj_msgSend(object, "isKindOfClass:", objj_msgSend(CPView, "class")))
+            {
+                var size = objj_msgSend(object, "frame").size,
+                    labelWidth = objj_msgSend(objj_msgSend(template, "valueForKey:", "label"), "sizeWithFont:", objj_msgSend(CPFont, "boldSystemFontOfSize:", 12.0)).width + 20.0;
+                if (size.width > itemSize.width)
+                    itemSize.width = size.width;
+                if (labelWidth > itemSize.width)
+                    itemSize.width = labelWidth;
+                if (size.height > itemSize.height)
+                    itemSize.height = size.height;
+            }
+            objj_msgSend(showcaseTemplates, "addObject:", template);
         }
     }
     var className = objj_msgSend(self, "className");
     ItemSizes[className] = itemSize;
     ThemedObjects[className] = templates;
+    ThemedShowcaseObjects[className] = showcaseTemplates;
 }
 },["void"]), new objj_method(sel_getUid("compare:"), function $BKThemeDescriptor__compare_(self, _cmd, aThemeDescriptor)
 { with(self)
@@ -267,7 +292,7 @@ objj_executeFile("BKThemeDescriptor.j", YES);
 objj_executeFile("BKThemeTemplate.j", YES);
 objj_executeFile("BKThemedObjectTemplate.j", YES);
 
-p;22;BKShowcaseController.jt;21017;@STATIC;1.0;I;16;AppKit/CPTheme.jI;15;AppKit/CPView.jt;20956;objj_executeFile("AppKit/CPTheme.j", NO);
+p;22;BKShowcaseController.jt;21065;@STATIC;1.0;I;16;AppKit/CPTheme.jI;15;AppKit/CPView.jt;21004;objj_executeFile("AppKit/CPTheme.j", NO);
 objj_executeFile("AppKit/CPView.j", NO);
 var LEFT_PANEL_WIDTH = 176.0;
 var BKLearnMoreToolbarItemIdentifier = "BKLearnMoreToolbarItemIdentifier",
@@ -343,7 +368,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("applicationDidFinishLau
     itemSize.height = MAX(100.0, itemSize.height + 30.0);
     objj_msgSend(_themedObjectsCollectionView, "setMinItemSize:", itemSize);
     objj_msgSend(_themedObjectsCollectionView, "setMaxItemSize:", itemSize);
-    objj_msgSend(_themedObjectsCollectionView, "setContent:", objj_msgSend(themeDescriptorClass, "themedObjectTemplates"));
+    objj_msgSend(_themedObjectsCollectionView, "setContent:", objj_msgSend(themeDescriptorClass, "themedShowcaseObjectTemplates"));
     objj_msgSend(BKShowcaseCell, "setBackgroundColor:", objj_msgSend(themeDescriptorClass, "showcaseBackgroundColor"));
 }
 },["void","CPCollectionView"]), new objj_method(sel_getUid("hasLearnMoreURL"), function $BKShowcaseController__hasLearnMoreURL(self, _cmd)
@@ -433,11 +458,11 @@ class_addMethods(the_class, [new objj_method(sel_getUid("applicationDidFinishLau
 },["BKThemeDescriptor"]), new objj_method(sel_getUid("changeState:"), function $BKShowcaseController__changeState_(self, _cmd, aSender)
 { with(self)
 {
-    var themedObjectTemplates = objj_msgSend(objj_msgSend(self, "selectedThemeDescriptor"), "themedObjectTemplates"),
-        count = objj_msgSend(themedObjectTemplates, "count");
+    var themedShowcaseObjectTemplates = objj_msgSend(objj_msgSend(self, "selectedThemeDescriptor"), "themedShowcaseObjectTemplates"),
+        count = objj_msgSend(themedShowcaseObjectTemplates, "count");
     while (count--)
     {
-        var themedObject = objj_msgSend(themedObjectTemplates[count], "valueForKey:", "themedObject");
+        var themedObject = objj_msgSend(themedShowcaseObjectTemplates[count], "valueForKey:", "themedObject");
         if (objj_msgSend(themedObject, "respondsToSelector:", sel_getUid("setEnabled:")))
             objj_msgSend(themedObject, "setEnabled:", objj_msgSend(aSender, "title") === "Enabled" ? YES : NO);
     }
@@ -486,7 +511,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("setRepresentedObject:")
         objj_msgSend(_label, "setAutoresizingMask:", CPViewWidthSizable | CPViewHeightSizable);
         objj_msgSend(self, "addSubview:", _label);
     }
-    objj_msgSend(_label, "setStringValue:", objj_msgSend(aThemeDescriptor, "themeName") + " (" + objj_msgSend(objj_msgSend(aThemeDescriptor, "themedObjectTemplates"), "count") + ")");
+    objj_msgSend(_label, "setStringValue:", objj_msgSend(aThemeDescriptor, "themeName") + " (" + objj_msgSend(objj_msgSend(aThemeDescriptor, "themedShowcaseObjectTemplates"), "count") + ")");
 }
 },["void","id"]), new objj_method(sel_getUid("setSelected:"), function $BKThemeDescriptorCell__setSelected_(self, _cmd, isSelected)
 { with(self)

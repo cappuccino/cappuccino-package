@@ -23136,7 +23136,7 @@ _index = newValue;
 },["void","CPString","id","CPDictionary","id"])]);
 }
 
-p;9;CPAlert.jt;14144;@STATIC;1.0;I;21;Foundation/CPObject.jI;21;Foundation/CPString.jI;22;AppKit/CPApplication.jI;17;AppKit/CPButton.jI;16;AppKit/CPColor.jI;15;AppKit/CPFont.jI;16;AppKit/CPImage.jI;20;AppKit/CPImageView.jI;16;AppKit/CPPanel.jI;20;AppKit/CPTextField.jt;13890;objj_executeFile("Foundation/CPObject.j", NO);
+p;9;CPAlert.jt;14135;@STATIC;1.0;I;21;Foundation/CPObject.jI;21;Foundation/CPString.jI;22;AppKit/CPApplication.jI;17;AppKit/CPButton.jI;16;AppKit/CPColor.jI;15;AppKit/CPFont.jI;16;AppKit/CPImage.jI;20;AppKit/CPImageView.jI;16;AppKit/CPPanel.jI;20;AppKit/CPTextField.jt;13881;objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("Foundation/CPString.j", NO);
 objj_executeFile("AppKit/CPApplication.j", NO);
 objj_executeFile("AppKit/CPButton.j", NO);
@@ -23262,7 +23262,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPAle
         objj_msgSend(button, "setKeyEquivalent:", nil);
     objj_msgSend(_buttons, "addObject:", button);
 }
-},["void","CPString"]), new objj_method(sel_getUid("layoutSubviews"), function $CPAlert__layoutSubviews(self, _cmd)
+},["void","CPString"]), new objj_method(sel_getUid("layoutPanel"), function $CPAlert__layoutPanel(self, _cmd)
 { with(self)
 {
     if (!_alertPanel)
@@ -23339,7 +23339,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPAle
 },["void"]), new objj_method(sel_getUid("runModal"), function $CPAlert__runModal(self, _cmd)
 { with(self)
 {
-    objj_msgSend(self, "layoutSubviews");
+    objj_msgSend(self, "layoutPanel");
     objj_msgSend(CPApp, "runModalForWindow:", _alertPanel);
 }
 },["void"]), new objj_method(sel_getUid("_notifyDelegate:"), function $CPAlert___notifyDelegate_(self, _cmd, button)
