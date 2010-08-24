@@ -489,7 +489,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPEvent"])]);
 }
 
-p;13;CPTableView.jt;141289;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;141146;objj_executeFile("Foundation/CPArray.j", NO);
+p;13;CPTableView.jt;141354;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;141211;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("AppKit/CGGradient.j", NO);
 objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPTableColumn.j", YES);
@@ -1013,7 +1013,9 @@ _disableAutomaticResizing = newValue;
 },["void","CPIndexSet","BOOL"]), new objj_method(sel_getUid("_setSelectedRowIndexes:"), function $CPTableView___setSelectedRowIndexes_(self, _cmd, rows)
 { with(self)
 {
-    var previousSelectedIndexes = objj_msgSend(_selectedRowIndexes, "copy");
+    if (objj_msgSend(_selectedRowIndexes, "isEqualToIndexSet:", rows))
+        return;
+    var previousSelectedIndexes = _selectedRowIndexes;
     _lastSelectedRow = (objj_msgSend(rows, "count") > 0) ? objj_msgSend(rows, "lastIndex") : -1;
     _selectedRowIndexes = objj_msgSend(rows, "copy");
     objj_msgSend(self, "_updateHighlightWithOldRows:newRows:", previousSelectedIndexes, _selectedRowIndexes);
@@ -12130,7 +12132,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"])]);
 }
 
-p;19;CPArrayController.jt;23035;@STATIC;1.0;I;27;AppKit/CPObjectController.jI;26;AppKit/CPKeyValueBinding.jt;22952;objj_executeFile("AppKit/CPObjectController.j", NO);
+p;19;CPArrayController.jt;23774;@STATIC;1.0;I;27;AppKit/CPObjectController.jI;26;AppKit/CPKeyValueBinding.jt;23691;objj_executeFile("AppKit/CPObjectController.j", NO);
 objj_executeFile("AppKit/CPKeyValueBinding.j", NO);
 {var the_class = objj_allocateClassPair(CPObjectController, "CPArrayController"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_avoidsEmptySelection"), new objj_ivar("_clearsFilterPredicateOnInsertion"), new objj_ivar("_filterRestrictsInsertion"), new objj_ivar("_preservesSelection"), new objj_ivar("_selectsInsertedObjects"), new objj_ivar("_alwaysUsesMultipleValuesMarker"), new objj_ivar("_selectionIndexes"), new objj_ivar("_sortDescriptors"), new objj_ivar("_filterPredicate"), new objj_ivar("_arrangedObjects")]);
@@ -12185,24 +12187,30 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
 {
     if(!objj_msgSend(value, "isKindOfClass:", objj_msgSend(CPArray, "class")))
         value = [value];
-    var oldSelection = nil,
-        oldSelectionIndexes = objj_msgSend(self, "selectionIndexes");
+    var oldSelectedObjects = nil,
+        oldSelectionIndexes = nil;
     if (objj_msgSend(self, "preservesSelection"))
-        oldSelection = objj_msgSend(self, "selectedObjects");
-    _selectionIndexes = objj_msgSend(CPIndexSet, "indexSet");
-    objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPArrayController").super_class }, "setContent:", value);
-    if(_clearsFilterPredicateOnInsertion)
-        objj_msgSend(self, "setFilterPredicate:", nil);
-    objj_msgSend(self, "rearrangeObjects");
-    if (oldSelection)
-        objj_msgSend(self, "setSelectedObjects:", oldSelection);
+        oldSelectedObjects = objj_msgSend(self, "selectedObjects");
     else
-        objj_msgSend(self, "setSelectionIndexes:", oldSelectionIndexes);
+        oldSelectionIndexes = objj_msgSend(self, "selectionIndexes");
+    if (_clearsFilterPredicateOnInsertion)
+        objj_msgSend(self, "willChangeValueForKey:", "filterPredicate");
+    _contentObject = value;
+    if(_clearsFilterPredicateOnInsertion)
+        objj_msgSend(self, "__setFilterPredicate:", nil);
+    else
+        objj_msgSend(self, "_rearrangeObjects");
+    if (objj_msgSend(self, "preservesSelection"))
+        objj_msgSend(self, "__setSelectedObjects:", oldSelectedObjects);
+    else
+        objj_msgSend(self, "__setSelectionIndexes:", oldSelectionIndexes);
+    if (_clearsFilterPredicateOnInsertion)
+        objj_msgSend(self, "didChangeValueForKey:", "filterPredicate");
 }
 },["void","id"]), new objj_method(sel_getUid("_setContentArray:"), function $CPArrayController___setContentArray_(self, _cmd, anArray)
 { with(self)
 {
-   objj_msgSend(self, "setContent:", anArray);
+    objj_msgSend(self, "setContent:", anArray);
 }
 },["void","id"]), new objj_method(sel_getUid("_setContentSet:"), function $CPArrayController___setContentSet_(self, _cmd, aSet)
 { with(self)
@@ -12239,18 +12247,26 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
 },["CPArray","CPArray"]), new objj_method(sel_getUid("rearrangeObjects"), function $CPArrayController__rearrangeObjects(self, _cmd)
 { with(self)
 {
-    var oldSelection = nil,
-        oldSelectionIndexes = objj_msgSend(objj_msgSend(self, "selectionIndexes"), "copy");
-    if (objj_msgSend(self, "preservesSelection"))
-        oldSelection = objj_msgSend(self, "selectedObjects");
-    _selectionIndexes = objj_msgSend(CPIndexSet, "indexSet");
-    objj_msgSend(self, "_setArrangedObjects:", objj_msgSend(self, "arrangeObjects:", objj_msgSend(self, "contentArray")));
-    if (oldSelection)
-        objj_msgSend(self, "setSelectedObjects:", oldSelection);
-    else
-        objj_msgSend(self, "setSelectionIndexes:", oldSelectionIndexes);
+    objj_msgSend(self, "willChangeValueForKey:", "arrangedObjects");
+    objj_msgSend(self, "_rearrangeObjects");
+    objj_msgSend(self, "didChangeValueForKey:", "arrangedObjects");
 }
-},["void"]), new objj_method(sel_getUid("_setArrangedObjects:"), function $CPArrayController___setArrangedObjects_(self, _cmd, value)
+},["void"]), new objj_method(sel_getUid("_rearrangeObjects"), function $CPArrayController___rearrangeObjects(self, _cmd)
+{ with(self)
+{
+    var oldSelectedObjects = nil,
+        oldSelectionIndexes = nil;
+    if (objj_msgSend(self, "preservesSelection"))
+        oldSelectedObjects = objj_msgSend(self, "selectedObjects");
+    else
+        oldSelectionIndexes = objj_msgSend(self, "selectionIndexes");
+    objj_msgSend(self, "__setArrangedObjects:", objj_msgSend(self, "arrangeObjects:", objj_msgSend(self, "contentArray")));
+    if (objj_msgSend(self, "preservesSelection"))
+        objj_msgSend(self, "__setSelectedObjects:", oldSelectedObjects);
+    else
+        objj_msgSend(self, "__setSelectionIndexes:", oldSelectionIndexes);
+}
+},["void"]), new objj_method(sel_getUid("__setArrangedObjects:"), function $CPArrayController____setArrangedObjects_(self, _cmd, value)
 { with(self)
 {
     if (_arrangedObjects === value)
@@ -12273,7 +12289,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
     if (_sortDescriptors === value)
         return;
     _sortDescriptors = objj_msgSend(value, "copy");
-    objj_msgSend(self, "rearrangeObjects");
+    objj_msgSend(self, "_rearrangeObjects");
 }
 },["void","CPArray"]), new objj_method(sel_getUid("filterPredicate"), function $CPArrayController__filterPredicate(self, _cmd)
 { with(self)
@@ -12283,10 +12299,15 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
 },["CPPredicate"]), new objj_method(sel_getUid("setFilterPredicate:"), function $CPArrayController__setFilterPredicate_(self, _cmd, value)
 { with(self)
 {
+    objj_msgSend(self, "__setFilterPredicate:", value);
+}
+},["void","CPPredicate"]), new objj_method(sel_getUid("__setFilterPredicate:"), function $CPArrayController____setFilterPredicate_(self, _cmd, value)
+{ with(self)
+{
     if (_filterPredicate === value)
         return;
     _filterPredicate = value;
-    objj_msgSend(self, "rearrangeObjects");
+    objj_msgSend(self, "_rearrangeObjects");
 }
 },["void","CPPredicate"]), new objj_method(sel_getUid("alwaysUsesMultipleValuesMarker"), function $CPArrayController__alwaysUsesMultipleValuesMarker(self, _cmd)
 { with(self)
@@ -12311,6 +12332,13 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
 },["CPIndexSet"]), new objj_method(sel_getUid("setSelectionIndexes:"), function $CPArrayController__setSelectionIndexes_(self, _cmd, indexes)
 { with(self)
 {
+    objj_msgSend(self, "__setSelectionIndexes:", indexes);
+}
+},["BOOL","CPIndexSet"]), new objj_method(sel_getUid("__setSelectionIndexes:"), function $CPArrayController____setSelectionIndexes_(self, _cmd, indexes)
+{ with(self)
+{
+    if (!indexes)
+        indexes = objj_msgSend(CPIndexSet, "indexSet");
     if (objj_msgSend(_selectionIndexes, "isEqualToIndexSet:", indexes))
         return NO;
     if (!objj_msgSend(indexes, "count"))
@@ -12325,11 +12353,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
         if(!objj_msgSend(indexes, "count") && _avoidsEmptySelection && objectsCount)
             indexes = objj_msgSend(CPIndexSet, "indexSetWithIndex:", objectsCount-1);
     }
-    objj_msgSend(self, "willChangeValueForKey:", "selectionIndexes");
-    objj_msgSend(self, "_selectionWillChange");
     _selectionIndexes = objj_msgSend(indexes, "copy");
-    objj_msgSend(self, "_selectionDidChange");
-    objj_msgSend(self, "didChangeValueForKey:", "selectionIndexes");
     objj_msgSend(objj_msgSend(CPKeyValueBinding, "getBinding:forObject:", "selectionIndexes", self), "reverseSetValueFor:", "selectionIndexes");
     return YES;
 }
@@ -12342,6 +12366,15 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
 },["CPArray"]), new objj_method(sel_getUid("setSelectedObjects:"), function $CPArrayController__setSelectedObjects_(self, _cmd, objects)
 { with(self)
 {
+    objj_msgSend(self, "willChangeValueForKey:", "selectionIndexes");
+    objj_msgSend(self, "_selectionWillChange");
+    objj_msgSend(self, "__setSelectedObjects:", objects);
+    objj_msgSend(self, "didChangeValueForKey:", "selectionIndexes");
+    objj_msgSend(self, "_selectionDidChange");
+}
+},["BOOL","CPArray"]), new objj_method(sel_getUid("__setSelectedObjects:"), function $CPArrayController____setSelectedObjects_(self, _cmd, objects)
+{ with(self)
+{
     var set = objj_msgSend(CPIndexSet, "indexSet"),
         count = objj_msgSend(objects, "count"),
         arrangedObjects = objj_msgSend(self, "arrangedObjects");
@@ -12351,7 +12384,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
         if (index !== CPNotFound)
             objj_msgSend(set, "addIndex:", index);
     }
-    objj_msgSend(self, "setSelectionIndexes:", set);
+    objj_msgSend(self, "__setSelectionIndexes:", set);
     return YES;
 }
 },["BOOL","CPArray"]), new objj_method(sel_getUid("canSelectPrevious"), function $CPArrayController__canSelectPrevious(self, _cmd)
@@ -12383,49 +12416,47 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
 {
     if (!objj_msgSend(self, "canAdd"))
         return;
+    if (_clearsFilterPredicateOnInsertion)
+        objj_msgSend(self, "willChangeValueForKey:", "filterPredicate");
     objj_msgSend(self, "willChangeValueForKey:", "content");
     objj_msgSend(_contentObject, "addObject:", object);
-    objj_msgSend(self, "didChangeValueForKey:", "content");
     if (_clearsFilterPredicateOnInsertion)
-        objj_msgSend(self, "setFilterPredicate:", nil);
+        objj_msgSend(self, "__setFilterPredicate:", nil);
     if (_filterPredicate === nil || objj_msgSend(_filterPredicate, "evaluateWithObject:", object))
     {
         var pos = objj_msgSend(_arrangedObjects, "insertObject:inArraySortedByDescriptors:", object, _sortDescriptors);
         if (_selectsInsertedObjects)
-        {
-            objj_msgSend(self, "setSelectionIndex:", pos);
-        }
+            objj_msgSend(self, "__setSelectionIndex:", pos);
         else
-        {
-            objj_msgSend(self, "willChangeValueForKey:", "selectionIndexes");
             objj_msgSend(_selectionIndexes, "shiftIndexesStartingAtIndex:by:", pos, 1);
-            objj_msgSend(self, "didChangeValueForKey:", "selectionIndexes");
-        }
     }
     else
-        objj_msgSend(self, "rearrangeObjects");
+        objj_msgSend(self, "_rearrangeObjects");
+    objj_msgSend(self, "didChangeValueForKey:", "content");
+    if (_clearsFilterPredicateOnInsertion)
+        objj_msgSend(self, "didChangeValueForKey:", "filterPredicate");
 }
 },["void","id"]), new objj_method(sel_getUid("insertObject:atArrangedObjectIndex:"), function $CPArrayController__insertObject_atArrangedObjectIndex_(self, _cmd, anObject, anIndex)
 { with(self)
 {
     if (!objj_msgSend(self, "canAdd"))
         return;
+    if (_clearsFilterPredicateOnInsertion)
+        objj_msgSend(self, "willChangeValueForKey:", "filterPredicate");
     objj_msgSend(self, "willChangeValueForKey:", "content");
     objj_msgSend(_contentObject, "insertObject:atIndex:", anObject, anIndex);
-    objj_msgSend(self, "didChangeValueForKey:", "content");
     if (_clearsFilterPredicateOnInsertion)
-        objj_msgSend(self, "setFilterPredicate:", nil);
+        objj_msgSend(self, "__setFilterPredicate:", nil);
     objj_msgSend(objj_msgSend(self, "arrangedObjects"), "insertObject:atIndex:", anObject, anIndex);
     if (objj_msgSend(self, "selectsInsertedObjects"))
-        objj_msgSend(self, "setSelectionIndex:", anIndex);
+        objj_msgSend(self, "__setSelectionIndex:", anIndex);
     else
-    {
-        objj_msgSend(self, "willChangeValueForKey:", "selectionIndexes")
         objj_msgSend(objj_msgSend(self, "selectionIndexes"), "shiftIndexesStartingAtIndex:by:", anIndex, 1);
-        objj_msgSend(self, "didChangeValueForKey:", "selectionIndexes");
-    }
     if (objj_msgSend(self, "avoidsEmptySelection") && objj_msgSend(objj_msgSend(self, "selectionIndexes"), "count") <= 0 && objj_msgSend(_contentObject, "count") > 0)
-        objj_msgSend(self, "setSelectionIndexes:", objj_msgSend(CPIndexSet, "indexSetWithIndex:", 0));
+        objj_msgSend(self, "__setSelectionIndexes:", objj_msgSend(CPIndexSet, "indexSetWithIndex:", 0));
+    objj_msgSend(self, "didChangeValueForKey:", "content");
+    if (_clearsFilterPredicateOnInsertion)
+        objj_msgSend(self, "didChangeValueForKey:", "filterPredicate");
 }
 },["void","id","int"]), new objj_method(sel_getUid("removeObject:"), function $CPArrayController__removeObject_(self, _cmd, object)
 { with(self)
@@ -12434,15 +12465,13 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
         return;
    objj_msgSend(self, "willChangeValueForKey:", "content");
    objj_msgSend(_contentObject, "removeObject:", object);
-   objj_msgSend(self, "didChangeValueForKey:", "content");
    if (_filterPredicate === nil || objj_msgSend(_filterPredicate, "evaluateWithObject:", object))
    {
-        objj_msgSend(self, "willChangeValueForKey:", "selectionIndexes");
         var pos = objj_msgSend(_arrangedObjects, "indexOfObject:", object);
         objj_msgSend(_arrangedObjects, "removeObjectAtIndex:", pos);
         objj_msgSend(_selectionIndexes, "shiftIndexesStartingAtIndex:by:", pos, -1);
-        objj_msgSend(self, "didChangeValueForKey:", "selectionIndexes");
    }
+   objj_msgSend(self, "didChangeValueForKey:", "content");
 }
 },["void","id"]), new objj_method(sel_getUid("add:"), function $CPArrayController__add_(self, _cmd, sender)
 { with(self)
@@ -12492,7 +12521,6 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
 {
     objj_msgSend(self, "willChangeValueForKey:", "content");
     objj_msgSend(_contentObject, "removeObjectsInArray:", objects);
-    objj_msgSend(self, "didChangeValueForKey:", "content");
     var arrangedObjects = objj_msgSend(self, "arrangedObjects"),
         position = objj_msgSend(arrangedObjects, "indexOfObject:", objj_msgSend(objects, "objectAtIndex:", 0));
     objj_msgSend(arrangedObjects, "removeObjectsInArray:", objects);
@@ -12506,9 +12534,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
         else if (position >= objectsCount)
             selectionIndexes = objj_msgSend(CPIndexSet, "indexSetWithIndex:", objectsCount - 1);
      }
-     objj_msgSend(self, "willChangeValueForKey:", "selectionIndexes");
      _selectionIndexes = selectionIndexes;
-     objj_msgSend(self, "didChangeValueForKey:", "selectionIndexes");
+     objj_msgSend(self, "didChangeValueForKey:", "content");
 }
 },["void","CPArray"]), new objj_method(sel_getUid("canInsert"), function $CPArrayController__canInsert(self, _cmd)
 { with(self)
@@ -12532,22 +12559,27 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("initialize"), function
 },["CPSet"]), new objj_method(sel_getUid("keyPathsForValuesAffectingArrangedObjects"), function $CPArrayController__keyPathsForValuesAffectingArrangedObjects(self, _cmd)
 { with(self)
 {
-    return objj_msgSend(CPSet, "setWithObjects:", "content", "contentArray", "contentSet", "filterPredicate", "sortDescriptors");
+    return objj_msgSend(CPSet, "setWithObjects:", "content", "filterPredicate", "sortDescriptors");
 }
 },["CPSet"]), new objj_method(sel_getUid("keyPathsForValuesAffectingSelection"), function $CPArrayController__keyPathsForValuesAffectingSelection(self, _cmd)
 { with(self)
 {
-    return objj_msgSend(CPSet, "setWithObjects:", "content", "contentArray", "contentSet", "selectionIndexes");
+    return objj_msgSend(CPSet, "setWithObjects:", "selectionIndexes");
 }
 },["CPSet"]), new objj_method(sel_getUid("keyPathsForValuesAffectingSelectionIndex"), function $CPArrayController__keyPathsForValuesAffectingSelectionIndex(self, _cmd)
 { with(self)
 {
-    return objj_msgSend(CPSet, "setWithObjects:", "content", "contentArray", "contentSet", "selectionIndexes", "selection");
+    return objj_msgSend(CPSet, "setWithObjects:", "selectionIndexes");
+}
+},["CPSet"]), new objj_method(sel_getUid("keyPathsForValuesAffectingSelectionIndexes"), function $CPArrayController__keyPathsForValuesAffectingSelectionIndexes(self, _cmd)
+{ with(self)
+{
+    return objj_msgSend(CPSet, "setWithObjects:", "arrangedObjects");
 }
 },["CPSet"]), new objj_method(sel_getUid("keyPathsForValuesAffectingSelectedObjects"), function $CPArrayController__keyPathsForValuesAffectingSelectedObjects(self, _cmd)
 { with(self)
 {
-    return objj_msgSend(CPSet, "setWithObjects:", "content", "contentArray", "contentSet", "selectionIndexes", "selection");
+    return objj_msgSend(CPSet, "setWithObjects:", "selectionIndexes");
 }
 },["CPSet"]), new objj_method(sel_getUid("keyPathsForValuesAffectingCanRemove"), function $CPArrayController__keyPathsForValuesAffectingCanRemove(self, _cmd)
 { with(self)
@@ -12564,16 +12596,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("initialize"), function
 {
     return objj_msgSend(CPSet, "setWithObjects:", "selectionIndexes");
 }
-},["CPSet"]), new objj_method(sel_getUid("automaticallyNotifiesObserversForKey:"), function $CPArrayController__automaticallyNotifiesObserversForKey_(self, _cmd, aKey)
-{ with(self)
-{
-    if (!objj_msgSendSuper({ receiver:self, super_class:objj_getMetaClass("CPArrayController").super_class }, "automaticallyNotifiesObserversForKey:", aKey))
-        return NO;
-    if (aKey === "selectionIndexes")
-        return NO;
-    return YES;
-}
-},["BOOL","CPString"])]);
+},["CPSet"])]);
 }
 {
 var the_class = objj_getClass("CPArrayController")
