@@ -7321,7 +7321,7 @@ return {fileType:_d6,delegate:_d7,didReadSelector:_d8,contextInfo:_d9};
 var _71=function(_da,_db,_dc,_dd,_de,_df,_e0){
 return {absoluteURL:_da,saveOperation:_db,changeCount:_dc,delegate:_dd,didSaveSelector:_de,contextInfo:_df,connection:_e0};
 };
-p;20;CPObjectController.jt;17798;@STATIC;1.0;I;25;Foundation/CPDictionary.ji;14;CPController.jt;17729;
+p;20;CPObjectController.jt;17986;@STATIC;1.0;I;25;Foundation/CPDictionary.ji;14;CPController.jt;17917;
 objj_executeFile("Foundation/CPDictionary.j",NO);
 objj_executeFile("CPController.j",YES);
 var _1=objj_allocateClassPair(CPController,"CPObjectController"),_2=_1.isa;
@@ -7329,7 +7329,7 @@ class_addIvars(_1,[new objj_ivar("_contentObject"),new objj_ivar("_selection"),n
 objj_registerClassPair(_1);
 class_addMethods(_1,[new objj_method(sel_getUid("initWithContent:"),function(_3,_4,_5){
 with(_3){
-_3=objj_msgSendSuper({receiver:_3,super_class:objj_getClass("CPObjectController").super_class},"init");
+_3=objj_msgSend(_3,"init");
 if(_3){
 objj_msgSend(_3,"setContent:",_5);
 objj_msgSend(_3,"setEditable:",YES);
@@ -7637,38 +7637,42 @@ objj_msgSend(_9e,"didChangeValueForKey:",_a3);
 }
 objj_msgSendSuper({receiver:_9e,super_class:objj_getClass("_CPObservableArray").super_class},"removeObjectAtIndex:",_a0);
 }
-}),new objj_method(sel_getUid("addObject:"),function(_a5,_a6,_a7){
+}),new objj_method(sel_getUid("objectsAtIndexes:"),function(_a5,_a6,_a7){
 with(_a5){
-objj_msgSend(_a5,"insertObject:atIndex:",_a7,objj_msgSend(_a5,"count"));
+return objj_msgSend(_CPObservableArray,"arrayWithArray:",objj_msgSendSuper({receiver:_a5,super_class:objj_getClass("_CPObservableArray").super_class},"objectsAtIndexes:",_a7));
 }
-}),new objj_method(sel_getUid("removeLastObject"),function(_a8,_a9){
+}),new objj_method(sel_getUid("addObject:"),function(_a8,_a9,_aa){
 with(_a8){
-objj_msgSend(_a8,"removeObjectAtIndex:",objj_msgSend(_a8,"count"));
+objj_msgSend(_a8,"insertObject:atIndex:",_aa,objj_msgSend(_a8,"count"));
 }
-}),new objj_method(sel_getUid("replaceObjectAtIndex:withObject:"),function(_aa,_ab,_ac,_ad){
-with(_aa){
-var _ae=objj_msgSend(_aa,"objectAtIndex:",_ac);
-for(var i=0,_af=objj_msgSend(_observationProxies,"count");i<_af;i++){
-var _b0=objj_msgSend(_observationProxies,"objectAtIndex:",i),_b1=objj_msgSend(_b0,"keyPath"),_b2=_b1.indexOf(".")===0;
-if(_b2){
-objj_msgSend(_aa,"willChangeValueForKey:",_b1);
+}),new objj_method(sel_getUid("removeLastObject"),function(_ab,_ac){
+with(_ab){
+objj_msgSend(_ab,"removeObjectAtIndex:",objj_msgSend(_ab,"count"));
 }
-objj_msgSend(_ae,"removeObserver:forKeyPath:",_b0,_b1);
-objj_msgSend(_ad,"addObserver:forKeyPath:options:context:",_b0,_b1,objj_msgSend(_b0,"options"),objj_msgSend(_b0,"context"));
-if(_b2){
-objj_msgSend(_aa,"didChangeValueForKey:",_b1);
+}),new objj_method(sel_getUid("replaceObjectAtIndex:withObject:"),function(_ad,_ae,_af,_b0){
+with(_ad){
+var _b1=objj_msgSend(_ad,"objectAtIndex:",_af);
+for(var i=0,_b2=objj_msgSend(_observationProxies,"count");i<_b2;i++){
+var _b3=objj_msgSend(_observationProxies,"objectAtIndex:",i),_b4=objj_msgSend(_b3,"keyPath"),_b5=_b4.indexOf(".")===0;
+if(_b5){
+objj_msgSend(_ad,"willChangeValueForKey:",_b4);
+}
+objj_msgSend(_b1,"removeObserver:forKeyPath:",_b3,_b4);
+objj_msgSend(_b0,"addObserver:forKeyPath:options:context:",_b3,_b4,objj_msgSend(_b3,"options"),objj_msgSend(_b3,"context"));
+if(_b5){
+objj_msgSend(_ad,"didChangeValueForKey:",_b4);
 }
 }
-objj_msgSend(_aa,"replaceObjectAtIndex:withObject:",_ac,_ad);
+objj_msgSend(_ad,"replaceObjectAtIndex:withObject:",_af,_b0);
 }
 })]);
-class_addMethods(_2,[new objj_method(sel_getUid("alloc"),function(_b3,_b4){
-with(_b3){
+class_addMethods(_2,[new objj_method(sel_getUid("alloc"),function(_b6,_b7){
+with(_b6){
 var a=[];
-a.isa=_b3;
-var _b5=class_copyIvarList(_b3),_b6=_b5.length;
-while(_b6--){
-a[ivar_getName(_b5[_b6])]=nil;
+a.isa=_b6;
+var _b8=class_copyIvarList(_b6),_b9=_b8.length;
+while(_b9--){
+a[ivar_getName(_b8[_b9])]=nil;
 }
 return a;
 }
@@ -7676,93 +7680,93 @@ return a;
 var _1=objj_allocateClassPair(CPObject,"CPControllerSelectionProxy"),_2=_1.isa;
 class_addIvars(_1,[new objj_ivar("_controller"),new objj_ivar("_keys"),new objj_ivar("_cachedValues"),new objj_ivar("_observationProxies")]);
 objj_registerClassPair(_1);
-class_addMethods(_1,[new objj_method(sel_getUid("initWithController:"),function(_b7,_b8,_b9){
-with(_b7){
-if(_b7=objj_msgSendSuper({receiver:_b7,super_class:objj_getClass("CPControllerSelectionProxy").super_class},"init")){
+class_addMethods(_1,[new objj_method(sel_getUid("initWithController:"),function(_ba,_bb,_bc){
+with(_ba){
+if(_ba=objj_msgSendSuper({receiver:_ba,super_class:objj_getClass("CPControllerSelectionProxy").super_class},"init")){
 _cachedValues=objj_msgSend(CPDictionary,"dictionary");
 _observationProxies=objj_msgSend(CPArray,"array");
-_controller=_b9;
+_controller=_bc;
 }
-return _b7;
+return _ba;
 }
-}),new objj_method(sel_getUid("valueForKey:"),function(_ba,_bb,_bc){
-with(_ba){
-var _bd=objj_msgSend(_cachedValues,"objectForKey:",_bc);
-if(_bd!==undefined&&_bd!==nil){
-return _bd;
+}),new objj_method(sel_getUid("valueForKey:"),function(_bd,_be,_bf){
+with(_bd){
+var _c0=objj_msgSend(_cachedValues,"objectForKey:",_bf);
+if(_c0!==undefined&&_c0!==nil){
+return _c0;
 }
-var _be=objj_msgSend(objj_msgSend(_controller,"selectedObjects"),"valueForKeyPath:",_bc),_bf=objj_msgSend(_be,"count");
-if(!_bf){
-_bd=CPNoSelectionMarker;
+var _c1=objj_msgSend(objj_msgSend(_controller,"selectedObjects"),"valueForKeyPath:",_bf),_c2=objj_msgSend(_c1,"count");
+if(!_c2){
+_c0=CPNoSelectionMarker;
 }else{
-if(_bf===1){
-_bd=objj_msgSend(_be,"objectAtIndex:",0);
+if(_c2===1){
+_c0=objj_msgSend(_c1,"objectAtIndex:",0);
 }else{
 if(objj_msgSend(_controller,"alwaysUsesMultipleValuesMarker")){
-_bd=CPMultipleValuesMarker;
+_c0=CPMultipleValuesMarker;
 }else{
-_bd=objj_msgSend(_be,"objectAtIndex:",0);
-for(var i=0,_bf=objj_msgSend(_be,"count");i<_bf&&_bd!=CPMultipleValuesMarker;i++){
-if(!objj_msgSend(_bd,"isEqual:",objj_msgSend(_be,"objectAtIndex:",i))){
-_bd=CPMultipleValuesMarker;
+_c0=objj_msgSend(_c1,"objectAtIndex:",0);
+for(var i=0,_c2=objj_msgSend(_c1,"count");i<_c2&&_c0!=CPMultipleValuesMarker;i++){
+if(!objj_msgSend(_c0,"isEqual:",objj_msgSend(_c1,"objectAtIndex:",i))){
+_c0=CPMultipleValuesMarker;
 }
 }
 }
 }
 }
-objj_msgSend(_cachedValues,"setValue:forKey:",_bd,_bc);
-return _bd;
+objj_msgSend(_cachedValues,"setValue:forKey:",_c0,_bf);
+return _c0;
 }
-}),new objj_method(sel_getUid("count"),function(_c0,_c1){
-with(_c0){
+}),new objj_method(sel_getUid("count"),function(_c3,_c4){
+with(_c3){
 return objj_msgSend(_cachedValues,"count");
 }
-}),new objj_method(sel_getUid("keyEnumerator"),function(_c2,_c3){
-with(_c2){
+}),new objj_method(sel_getUid("keyEnumerator"),function(_c5,_c6){
+with(_c5){
 return objj_msgSend(_cachedValues,"keyEnumerator");
 }
-}),new objj_method(sel_getUid("setValue:forKey:"),function(_c4,_c5,_c6,_c7){
-with(_c4){
-objj_msgSend(objj_msgSend(_controller,"selectedObjects"),"setValue:forKey:",_c6,_c7);
+}),new objj_method(sel_getUid("setValue:forKey:"),function(_c7,_c8,_c9,_ca){
+with(_c7){
+objj_msgSend(objj_msgSend(_controller,"selectedObjects"),"setValue:forKey:",_c9,_ca);
 }
-}),new objj_method(sel_getUid("controllerWillChange"),function(_c8,_c9){
-with(_c8){
+}),new objj_method(sel_getUid("controllerWillChange"),function(_cb,_cc){
+with(_cb){
 _keys=objj_msgSend(_cachedValues,"allKeys");
 if(!_keys){
 return;
 }
-for(var i=0,_ca=_keys.length;i<_ca;i++){
-objj_msgSend(_c8,"willChangeValueForKey:",_keys[i]);
+for(var i=0,_cd=_keys.length;i<_cd;i++){
+objj_msgSend(_cb,"willChangeValueForKey:",_keys[i]);
 }
 objj_msgSend(_cachedValues,"removeAllObjects");
 }
-}),new objj_method(sel_getUid("controllerDidChange"),function(_cb,_cc){
-with(_cb){
+}),new objj_method(sel_getUid("controllerDidChange"),function(_ce,_cf){
+with(_ce){
 objj_msgSend(_cachedValues,"removeAllObjects");
 if(!_keys){
 return;
 }
-for(var i=0,_cd=_keys.length;i<_cd;i++){
-objj_msgSend(_cb,"didChangeValueForKey:",_keys[i]);
+for(var i=0,_d0=_keys.length;i<_d0;i++){
+objj_msgSend(_ce,"didChangeValueForKey:",_keys[i]);
 }
 _keys=nil;
 }
-}),new objj_method(sel_getUid("observeValueForKeyPath:ofObject:change:context:"),function(_ce,_cf,_d0,_d1,_d2,_d3){
-with(_ce){
-objj_msgSend(_cachedValues,"removeObjectForKey:",_d0);
+}),new objj_method(sel_getUid("observeValueForKeyPath:ofObject:change:context:"),function(_d1,_d2,_d3,_d4,_d5,_d6){
+with(_d1){
+objj_msgSend(_cachedValues,"removeObjectForKey:",_d3);
 }
-}),new objj_method(sel_getUid("addObserver:forKeyPath:options:context:"),function(_d4,_d5,_d6,_d7,_d8,_d9){
-with(_d4){
-var _da=objj_msgSend(objj_msgSend(_CPObservationProxy,"alloc"),"initWithKeyPath:observer:object:",_d7,_d6,_d4);
-objj_msgSend(_da,"setNotifyObject:",YES);
-objj_msgSend(_observationProxies,"addObject:",_da);
-objj_msgSend(objj_msgSend(_controller,"selectedObjects"),"addObserver:forKeyPath:options:context:",_da,_d7,_d8,_d9);
+}),new objj_method(sel_getUid("addObserver:forKeyPath:options:context:"),function(_d7,_d8,_d9,_da,_db,_dc){
+with(_d7){
+var _dd=objj_msgSend(objj_msgSend(_CPObservationProxy,"alloc"),"initWithKeyPath:observer:object:",_da,_d9,_d7);
+objj_msgSend(_dd,"setNotifyObject:",YES);
+objj_msgSend(_observationProxies,"addObject:",_dd);
+objj_msgSend(objj_msgSend(_controller,"selectedObjects"),"addObserver:forKeyPath:options:context:",_dd,_da,_db,_dc);
 }
-}),new objj_method(sel_getUid("removeObserver:forKeyPath:"),function(_db,_dc,_dd,_de){
-with(_db){
-var _df=objj_msgSend(objj_msgSend(_CPObservationProxy,"alloc"),"initWithKeyPath:observer:object:",_de,_dd,_db),_e0=objj_msgSend(_observationProxies,"indexOfObject:",_df);
-objj_msgSend(objj_msgSend(_controller,"selectedObjects"),"removeObserver:forKeyPath:",objj_msgSend(_observationProxies,"objectAtIndex:",_e0),_de);
-objj_msgSend(_observationProxies,"removeObjectAtIndex:",_e0);
+}),new objj_method(sel_getUid("removeObserver:forKeyPath:"),function(_de,_df,_e0,_e1){
+with(_de){
+var _e2=objj_msgSend(objj_msgSend(_CPObservationProxy,"alloc"),"initWithKeyPath:observer:object:",_e1,_e0,_de),_e3=objj_msgSend(_observationProxies,"indexOfObject:",_e2);
+objj_msgSend(objj_msgSend(_controller,"selectedObjects"),"removeObserver:forKeyPath:",objj_msgSend(_observationProxies,"objectAtIndex:",_e3),_e1);
+objj_msgSend(_observationProxies,"removeObjectAtIndex:",_e3);
 }
 })]);
 p;15;CPPopUpButton.jt;13484;@STATIC;1.0;i;10;CPButton.ji;12;CPGeometry.ji;8;CPMenu.ji;12;CPMenuItem.jt;13403;

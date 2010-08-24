@@ -8778,7 +8778,7 @@ var _CPSaveSessionMake = function(anAbsoluteURL, aSaveOperation, aChangeCount, a
     return { absoluteURL:anAbsoluteURL, saveOperation:aSaveOperation, changeCount:aChangeCount, delegate:aDelegate, didSaveSelector:aDidSaveSelector, contextInfo:aContextInfo, connection:aConnection };
 }
 
-p;20;CPObjectController.jt;25972;@STATIC;1.0;I;25;Foundation/CPDictionary.ji;14;CPController.jt;25903;
+p;20;CPObjectController.jt;26267;@STATIC;1.0;I;25;Foundation/CPDictionary.ji;14;CPController.jt;26198;
 
 
 objj_executeFile("Foundation/CPDictionary.j", NO);
@@ -8792,7 +8792,7 @@ objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("initWithContent:"), function $CPObjectController__initWithContent_(self, _cmd, aContent)
 { with(self)
 {
-    self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPObjectController").super_class }, "init");
+    self = objj_msgSend(self, "init");
 
     if (self)
     {
@@ -9207,7 +9207,12 @@ class_addMethods(the_class, [new objj_method(sel_getUid("description"), function
 
     objj_msgSendSuper({ receiver:self, super_class:objj_getClass("_CPObservableArray").super_class }, "removeObjectAtIndex:", anIndex);
 }
-},["void","unsigned"]), new objj_method(sel_getUid("addObject:"), function $_CPObservableArray__addObject_(self, _cmd, anObject)
+},["void","unsigned"]), new objj_method(sel_getUid("objectsAtIndexes:"), function $_CPObservableArray__objectsAtIndexes_(self, _cmd, theIndexes)
+{ with(self)
+{
+    return objj_msgSend(_CPObservableArray, "arrayWithArray:", objj_msgSendSuper({ receiver:self, super_class:objj_getClass("_CPObservableArray").super_class }, "objectsAtIndexes:", theIndexes));
+}
+},["_CPObservableArray","CPIndexSet"]), new objj_method(sel_getUid("addObject:"), function $_CPObservableArray__addObject_(self, _cmd, anObject)
 { with(self)
 {
    objj_msgSend(self, "insertObject:atIndex:", anObject, objj_msgSend(self, "count"));
