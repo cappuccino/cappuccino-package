@@ -3546,7 +3546,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("initialize"), function
 },["CGRect","CGRect","CPShadowWeight"])]);
 }
 
-p;21;_CPImageAndTextView.jt;24004;@STATIC;1.0;I;21;Foundation/CPString.ji;9;CPColor.ji;8;CPFont.ji;9;CPImage.ji;8;CPView.ji;11;CPControl.jt;23892;objj_executeFile("Foundation/CPString.j", NO);
+p;21;_CPImageAndTextView.jt;24485;@STATIC;1.0;I;21;Foundation/CPString.ji;9;CPColor.ji;8;CPFont.ji;9;CPImage.ji;8;CPView.ji;11;CPControl.jt;24373;objj_executeFile("Foundation/CPString.j", NO);
 objj_executeFile("CPColor.j", YES);
 objj_executeFile("CPFont.j", YES);
 objj_executeFile("CPImage.j", YES);
@@ -3563,10 +3563,8 @@ var _CPimageAndTextViewFrameSizeChangedFlag = 1 << 0,
     _CPImageAndTextViewTextShadowColorChangedFlag = 1 << 8,
     _CPImageAndTextViewImagePositionChangedFlag = 1 << 9,
     _CPImageAndTextViewImageScalingChangedFlag = 1 << 10;
-var HORIZONTAL_MARGIN = 3.0,
-    VERTICAL_MARGIN = 5.0;
 {var the_class = objj_allocateClassPair(CPView, "_CPImageAndTextView"),
-meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_alignment"), new objj_ivar("_verticalAlignment"), new objj_ivar("_lineBreakMode"), new objj_ivar("_textColor"), new objj_ivar("_font"), new objj_ivar("_textShadowColor"), new objj_ivar("_textShadowOffset"), new objj_ivar("_imagePosition"), new objj_ivar("_imageScaling"), new objj_ivar("_shouldDimImage"), new objj_ivar("_image"), new objj_ivar("_text"), new objj_ivar("_textSize"), new objj_ivar("_flags"), new objj_ivar("_DOMImageElement"), new objj_ivar("_DOMTextElement"), new objj_ivar("_DOMTextShadowElement")]);
+meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_alignment"), new objj_ivar("_verticalAlignment"), new objj_ivar("_lineBreakMode"), new objj_ivar("_textColor"), new objj_ivar("_font"), new objj_ivar("_textShadowColor"), new objj_ivar("_textShadowOffset"), new objj_ivar("_imagePosition"), new objj_ivar("_imageScaling"), new objj_ivar("_imageOffset"), new objj_ivar("_shouldDimImage"), new objj_ivar("_image"), new objj_ivar("_text"), new objj_ivar("_textSize"), new objj_ivar("_flags"), new objj_ivar("_DOMImageElement"), new objj_ivar("_DOMTextElement"), new objj_ivar("_DOMTextShadowElement")]);
 objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:control:"), function $_CPImageAndTextView__initWithFrame_control_(self, _cmd, aFrame, aControl)
 { with(self)
@@ -3585,6 +3583,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:control:"
             objj_msgSend(self, "setFont:", objj_msgSend(aControl, "font"));
             objj_msgSend(self, "setImagePosition:", objj_msgSend(aControl, "imagePosition"));
             objj_msgSend(self, "setImageScaling:", objj_msgSend(aControl, "imageScaling"));
+            objj_msgSend(self, "setImageOffset:", objj_msgSend(aControl, "imageOffset"));
         }
         else
         {
@@ -3762,7 +3761,20 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:control:"
         objj_msgSend(_image, "setDelegate:", self);
     objj_msgSend(self, "setNeedsLayout");
 }
-},["void","CPImage"]), new objj_method(sel_getUid("imageDidLoad:"), function $_CPImageAndTextView__imageDidLoad_(self, _cmd, anImage)
+},["void","CPImage"]), new objj_method(sel_getUid("setImageOffset:"), function $_CPImageAndTextView__setImageOffset_(self, _cmd, theImageOffset)
+{ with(self)
+{
+    if (_imageOffset === theImageOffset)
+        return;
+    _imageOffset = theImageOffset;
+    objj_msgSend(self, "setNeedsLayout");
+}
+},["void","float"]), new objj_method(sel_getUid("imageOffset"), function $_CPImageAndTextView__imageOffset(self, _cmd)
+{ with(self)
+{
+    return _imageOffset;
+}
+},["float"]), new objj_method(sel_getUid("imageDidLoad:"), function $_CPImageAndTextView__imageDidLoad_(self, _cmd, anImage)
 { with(self)
 {
     if (anImage === _image)
@@ -3988,26 +4000,26 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:control:"
         {
             imageStyle.left = FLOOR(centerX - imageWidth / 2.0) + "px";
             imageStyle.top = FLOOR(size.height - imageHeight) + "px";
-            textRect.size.height = size.height - imageHeight - VERTICAL_MARGIN;
+            textRect.size.height = size.height - imageHeight - _imageOffset;
         }
         else if (_imagePosition === CPImageAbove)
         {
             if (NULL) var ____p = _CGPointApplyAffineTransform(CGPointMake(FLOOR(centerX - imageWidth / 2.0), 0), NULL); else var ____p = { x:FLOOR(centerX - imageWidth / 2.0), y:0 }; _DOMImageElement.style.left = ROUND(____p.x) + "px";_DOMImageElement.style.top = ROUND(____p.y) + "px";;
-            textRect.origin.y += imageHeight + VERTICAL_MARGIN;
-            textRect.size.height = size.height - imageHeight - VERTICAL_MARGIN;
+            textRect.origin.y += imageHeight + _imageOffset;
+            textRect.size.height = size.height - imageHeight - _imageOffset;
         }
         else if (_imagePosition === CPImageLeft)
         {
             imageStyle.top = FLOOR(centerY - imageHeight / 2.0) + "px";
             imageStyle.left = "0px";
-            textRect.origin.x = imageWidth + HORIZONTAL_MARGIN;
-            textRect.size.width -= imageWidth + HORIZONTAL_MARGIN;
+            textRect.origin.x = imageWidth + _imageOffset;
+            textRect.size.width -= imageWidth + _imageOffset;
         }
         else if (_imagePosition === CPImageRight)
         {
             imageStyle.top = FLOOR(centerY - imageHeight / 2.0) + "px";
             imageStyle.left = FLOOR(size.width - imageWidth) + "px";
-            textRect.size.width -= imageWidth + HORIZONTAL_MARGIN;
+            textRect.size.width -= imageWidth + _imageOffset;
         }
         else if (_imagePosition === CPImageOnly)
         {
@@ -4074,13 +4086,13 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:control:"
             _textSize = objj_msgSend(_text, "sizeWithFont:", _font ? _font : objj_msgSend(CPFont, "systemFontOfSize:", 12.0));
         if (_imagePosition === CPImageLeft || _imagePosition === CPImageRight)
         {
-            size.width += _textSize.width + HORIZONTAL_MARGIN;
+            size.width += _textSize.width + _imageOffset;
             size.height = MAX(size.height, _textSize.height);
         }
         else if (_imagePosition === CPImageAbove || _imagePosition === CPImageBelow)
         {
             size.width = MAX(size.width, _textSize.width);
-            size.height += _textSize.height + VERTICAL_MARGIN;
+            size.height += _textSize.height + _imageOffset;
         }
         else
         {
@@ -12142,7 +12154,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"])]);
 }
 
-p;19;CPArrayController.jt;23774;@STATIC;1.0;I;27;AppKit/CPObjectController.jI;26;AppKit/CPKeyValueBinding.jt;23691;objj_executeFile("AppKit/CPObjectController.j", NO);
+p;19;CPArrayController.jt;24042;@STATIC;1.0;I;27;AppKit/CPObjectController.jI;26;AppKit/CPKeyValueBinding.jt;23959;objj_executeFile("AppKit/CPObjectController.j", NO);
 objj_executeFile("AppKit/CPKeyValueBinding.j", NO);
 {var the_class = objj_allocateClassPair(CPObjectController, "CPArrayController"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_avoidsEmptySelection"), new objj_ivar("_clearsFilterPredicateOnInsertion"), new objj_ivar("_filterRestrictsInsertion"), new objj_ivar("_preservesSelection"), new objj_ivar("_selectsInsertedObjects"), new objj_ivar("_alwaysUsesMultipleValuesMarker"), new objj_ivar("_selectionIndexes"), new objj_ivar("_sortDescriptors"), new objj_ivar("_filterPredicate"), new objj_ivar("_arrangedObjects")]);
@@ -12344,7 +12356,12 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
 {
     objj_msgSend(self, "__setSelectionIndexes:", indexes);
 }
-},["BOOL","CPIndexSet"]), new objj_method(sel_getUid("__setSelectionIndexes:"), function $CPArrayController____setSelectionIndexes_(self, _cmd, indexes)
+},["BOOL","CPIndexSet"]), new objj_method(sel_getUid("__setSelectionIndex:"), function $CPArrayController____setSelectionIndex_(self, _cmd, theIndex)
+{ with(self)
+{
+    objj_msgSend(self, "__setSelectionIndexes:", objj_msgSend(CPIndexSet, "indexSetWithIndex:", theIndex));
+}
+},["BOOL","int"]), new objj_method(sel_getUid("__setSelectionIndexes:"), function $CPArrayController____setSelectionIndexes_(self, _cmd, indexes)
 { with(self)
 {
     if (!indexes)
@@ -27729,7 +27746,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","id"])]);
 }
 
-p;10;CPButton.jt;24893;@STATIC;1.0;i;21;_CPImageAndTextView.ji;12;CGGeometry.ji;11;CPControl.ji;17;CPStringDrawing.ji;12;CPCheckBox.ji;9;CPRadio.jt;24762;objj_executeFile("_CPImageAndTextView.j", YES);
+p;10;CPButton.jt;25479;@STATIC;1.0;i;21;_CPImageAndTextView.ji;12;CGGeometry.ji;11;CPControl.ji;17;CPStringDrawing.ji;12;CPCheckBox.ji;9;CPRadio.jt;25348;objj_executeFile("_CPImageAndTextView.j", YES);
 objj_executeFile("CGGeometry.j", YES);
 objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPStringDrawing.j", YES);
@@ -27770,7 +27787,7 @@ CPChangeGrayCellMask = CPGrayButtonMask;
 CPChangeBackgroundCellMask = CPBackgroundButtonMask;
 CPButtonStateMixed = CPThemeState("mixed");
 {var the_class = objj_allocateClassPair(CPControl, "CPButton"),
-meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_allowsMixedState"), new objj_ivar("_title"), new objj_ivar("_alternateTitle"), new objj_ivar("_image"), new objj_ivar("_alternateImage"), new objj_ivar("_showsStateBy"), new objj_ivar("_highlightsBy"), new objj_ivar("_imageDimsWhenDisabled"), new objj_ivar("_bezelStyle"), new objj_ivar("_controlSize"), new objj_ivar("_keyEquivalent"), new objj_ivar("_keyEquivalentModifierMask")]);
+meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_allowsMixedState"), new objj_ivar("_title"), new objj_ivar("_alternateTitle"), new objj_ivar("_showsStateBy"), new objj_ivar("_highlightsBy"), new objj_ivar("_imageDimsWhenDisabled"), new objj_ivar("_bezelStyle"), new objj_ivar("_controlSize"), new objj_ivar("_keyEquivalent"), new objj_ivar("_keyEquivalentModifierMask")]);
 objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), function $CPButton__initWithFrame_(self, _cmd, aFrame)
 { with(self)
@@ -27886,32 +27903,34 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["CPString"]), new objj_method(sel_getUid("setImage:"), function $CPButton__setImage_(self, _cmd, anImage)
 { with(self)
 {
-    if (_image === anImage)
-        return;
-    _image = anImage;
-    objj_msgSend(self, "setNeedsLayout");
-    objj_msgSend(self, "setNeedsDisplay:", YES);
+    objj_msgSend(self, "setValue:forThemeAttribute:", anImage, "image");
 }
 },["void","CPImage"]), new objj_method(sel_getUid("image"), function $CPButton__image(self, _cmd)
 { with(self)
 {
-    return _image;
+    return objj_msgSend(self, "valueForThemeAttribute:inState:", "image", CPThemeStateNormal);
 }
 },["CPImage"]), new objj_method(sel_getUid("setAlternateImage:"), function $CPButton__setAlternateImage_(self, _cmd, anImage)
 { with(self)
 {
-    if (_alternateImage === anImage)
-        return;
-    _alternateImage = anImage;
-    objj_msgSend(self, "setNeedsLayout");
-    objj_msgSend(self, "setNeedsDisplay:", YES);
+    objj_msgSend(self, "setValue:forThemeAttribute:inState:", anImage, "image", CPThemeStateHighlighted);
 }
 },["void","CPImage"]), new objj_method(sel_getUid("alternateImage"), function $CPButton__alternateImage(self, _cmd)
 { with(self)
 {
-    return _alternateImage;
+    return objj_msgSend(self, "valueForThemeAttribute:inState:", "image", CPThemeStateHighlighted);
 }
-},["CPImage"]), new objj_method(sel_getUid("setShowsStateBy:"), function $CPButton__setShowsStateBy_(self, _cmd, aMask)
+},["CPImage"]), new objj_method(sel_getUid("setImageOffset:"), function $CPButton__setImageOffset_(self, _cmd, theImageOffset)
+{ with(self)
+{
+    objj_msgSend(self, "setValue:forThemeAttribute:", theImageOffset, "imageOffset");
+}
+},["void","float"]), new objj_method(sel_getUid("imageOffset"), function $CPButton__imageOffset(self, _cmd)
+{ with(self)
+{
+    return objj_msgSend(self, "valueForThemeAttribute:", "imageOffset");
+}
+},["float"]), new objj_method(sel_getUid("setShowsStateBy:"), function $CPButton__setShowsStateBy_(self, _cmd, aMask)
 { with(self)
 {
     if (_showsStateBy === aMask)
@@ -28069,7 +28088,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     if (contentView)
     {
         objj_msgSend(contentView, "setText:", (objj_msgSend(self, "hasThemeState:", CPThemeStateHighlighted) && _alternateTitle) ? _alternateTitle : _title);
-        objj_msgSend(contentView, "setImage:", (objj_msgSend(self, "hasThemeState:", CPThemeStateHighlighted) && _alternateImage) ? _alternateImage : _image);
+        objj_msgSend(contentView, "setImage:", objj_msgSend(self, "currentValueForThemeAttribute:", "image"));
+        objj_msgSend(contentView, "setImageOffset:", objj_msgSend(self, "currentValueForThemeAttribute:", "imageOffset"));
         objj_msgSend(contentView, "setFont:", objj_msgSend(self, "currentValueForThemeAttribute:", "font"));
         objj_msgSend(contentView, "setTextColor:", objj_msgSend(self, "currentValueForThemeAttribute:", "text-color"));
         objj_msgSend(contentView, "setAlignment:", objj_msgSend(self, "currentValueForThemeAttribute:", "alignment"));
@@ -28163,7 +28183,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("buttonWithTitle:"), fu
 },["CPString"]), new objj_method(sel_getUid("themeAttributes"), function $CPButton__themeAttributes(self, _cmd)
 { with(self)
 {
-    return objj_msgSend(CPDictionary, "dictionaryWithObjects:forKeys:", [{ top:(0), right:(0), bottom:(0), left:(0) }, { top:(0), right:(0), bottom:(0), left:(0) }, objj_msgSend(CPNull, "null")], ["bezel-inset", "content-inset", "bezel-color"]);
+    return objj_msgSend(CPDictionary, "dictionaryWithObjects:forKeys:", [objj_msgSend(CPNull, "null"), 0.0, { top:(0), right:(0), bottom:(0), left:(0) }, { top:(0), right:(0), bottom:(0), left:(0) }, objj_msgSend(CPNull, "null")], ["image", "imageOffset", "bezel-inset", "content-inset", "bezel-color"]);
 }
 },["id"])]);
 }
@@ -28198,8 +28218,8 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
     if (self)
     {
         _controlSize = CPRegularControlSize;
-        _image = objj_msgSend(aCoder, "decodeObjectForKey:", CPButtonImageKey);
-        _alternateImage = objj_msgSend(aCoder, "decodeObjectForKey:", CPButtonAlternateImageKey);
+        objj_msgSend(self, "setImage:", objj_msgSend(aCoder, "decodeObjectForKey:", CPButtonImageKey));
+        objj_msgSend(self, "setAlternateImage:", objj_msgSend(aCoder, "decodeObjectForKey:", CPButtonAlternateImageKey));
         _title = objj_msgSend(aCoder, "decodeObjectForKey:", CPButtonTitleKey);
         _alternateTitle = objj_msgSend(aCoder, "decodeObjectForKey:", CPButtonAlternateTitleKey);
         objj_msgSend(self, "setImageDimsWhenDisabled:", objj_msgSend(aCoder, "decodeObjectForKey:", CPButtonImageDimsWhenDisabledKey));
@@ -28215,8 +28235,8 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 { with(self)
 {
     objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPButton").super_class }, "encodeWithCoder:", aCoder);
-    objj_msgSend(aCoder, "encodeObject:forKey:", _image, CPButtonImageKey);
-    objj_msgSend(aCoder, "encodeObject:forKey:", _alternateImage, CPButtonAlternateImageKey);
+    objj_msgSend(aCoder, "encodeObject:forKey:", objj_msgSend(self, "image"), CPButtonImageKey);
+    objj_msgSend(aCoder, "encodeObject:forKey:", objj_msgSend(self, "alternateImage"), CPButtonAlternateImageKey);
     objj_msgSend(aCoder, "encodeObject:forKey:", _title, CPButtonTitleKey);
     objj_msgSend(aCoder, "encodeObject:forKey:", _alternateTitle, CPButtonAlternateTitleKey);
     objj_msgSend(aCoder, "encodeObject:forKey:", objj_msgSend(self, "imageDimsWhenDisabled"), CPButtonImageDimsWhenDisabledKey);

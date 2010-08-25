@@ -5845,7 +5845,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("defaultManager"), func
 },["id"])]);
 }
 
-p;13;CPArray+KVO.jt;17918;@STATIC;1.0;i;9;CPArray.ji;8;CPNull.jt;17873;objj_executeFile("CPArray.j", YES);
+p;13;CPArray+KVO.jt;18586;@STATIC;1.0;i;9;CPArray.ji;8;CPNull.jt;18541;objj_executeFile("CPArray.j", YES);
 objj_executeFile("CPNull.j", YES);
 {
 var the_class = objj_getClass("CPObject")
@@ -5888,7 +5888,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithKey:forProxyObj
         _replace = objj_msgSend(_proxyObject, "methodForSelector:", _replaceSEL);
     _insertManySEL = sel_getName("insertObjects:in"+capitalizedKey+"AtIndexes:");
     if (objj_msgSend(_proxyObject, "respondsToSelector:", _insertManySEL))
-        _insert = objj_msgSend(_proxyObject, "methodForSelector:", _insertManySEL);
+        _insertMany = objj_msgSend(_proxyObject, "methodForSelector:", _insertManySEL);
     _removeManySEL = sel_getName("removeObjectsFrom"+capitalizedKey+"AtIndexes:");
     if (objj_msgSend(_proxyObject, "respondsToSelector:", _removeManySEL))
         _remove = objj_msgSend(_proxyObject, "methodForSelector:", _removeManySEL);
@@ -5984,11 +5984,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithKey:forProxyObj
 },["id","unsigned"]), new objj_method(sel_getUid("addObject:"), function $_CPKVCArray__addObject_(self, _cmd, anObject)
 { with(self)
 {
-    if (_insert)
-        return _insert(_proxyObject, _insertSEL, anObject, objj_msgSend(self, "count"));
-    var target = objj_msgSend(objj_msgSend(self, "_representedObject"), "copy");
-    objj_msgSend(target, "addObject:", anObject);
-    objj_msgSend(self, "_setRepresentedObject:", target);
+    objj_msgSend(self, "insertObject:atIndex:", anObject, objj_msgSend(self, "count"));
 }
 },["void","id"]), new objj_method(sel_getUid("addObjectsFromArray:"), function $_CPKVCArray__addObjectsFromArray_(self, _cmd, anArray)
 { with(self)
@@ -5996,18 +5992,37 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithKey:forProxyObj
     var index = 0,
         count = objj_msgSend(anArray, "count");
     for (; index < count; ++index)
-        objj_msgSend(self, "addObject:", objj_msgSend(anArray, "objectAtIndex:", index));
+        objj_msgSend(self, "insertObject:atIndex:", objj_msgSend(anArray, "objectAtIndex:", index), index);
 }
 },["void","CPArray"]), new objj_method(sel_getUid("insertObject:atIndex:"), function $_CPKVCArray__insertObject_atIndex_(self, _cmd, anObject, anIndex)
 { with(self)
 {
-    if (_insert)
-        return _insert(_proxyObject, _insertSEL, anObject, anIndex);
-    var target = objj_msgSend(objj_msgSend(self, "_representedObject"), "copy");
-    objj_msgSend(target, "insertObject:atIndex:", anObject, anIndex);
-    objj_msgSend(self, "_setRepresentedObject:", target);
+    objj_msgSend(self, "insertObjects:atIndexes:", [anObject], objj_msgSend(CPIndexSet, "indexSetWithIndex:", anIndex));
 }
-},["void","id","unsigned"]), new objj_method(sel_getUid("removeObject:"), function $_CPKVCArray__removeObject_(self, _cmd, anObject)
+},["void","id","unsigned"]), new objj_method(sel_getUid("insertObjects:atIndexes:"), function $_CPKVCArray__insertObjects_atIndexes_(self, _cmd, theObjects, theIndexes)
+{ with(self)
+{
+    if (_insertMany)
+        _insertMany(_proxyObject, _insertManySEL, theObjects, theIndexes);
+    else if (_insert)
+    {
+        var indexesArray = [];
+        objj_msgSend(theIndexes, "getIndexes:maxCount:inIndexRange:", indexesArray, -1, nil);
+        for (var index = 0; index < objj_msgSend(indexesArray, "count"); index++)
+        {
+            var objectIndex = objj_msgSend(indexesArray, "objectAtIndex:", index),
+                object = objj_msgSend(theObjects, "objectAtIndex:", index);
+            _insert(_proxyObject, _insertSEL, object, objectIndex);
+        }
+    }
+    else
+    {
+        var target = objj_msgSend(objj_msgSend(self, "_representedObject"), "copy");
+        objj_msgSend(target, "insertObjects:atIndexes:", theObjects, theIndexes);
+        objj_msgSend(self, "_setRepresentedObject:", target);
+    }
+}
+},["void","CPArray","CPIndexSet"]), new objj_method(sel_getUid("removeObject:"), function $_CPKVCArray__removeObject_(self, _cmd, anObject)
 { with(self)
 {
     objj_msgSend(self, "removeObject:inRange:", anObject, CPMakeRange(0, objj_msgSend(self, "count")));
