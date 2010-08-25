@@ -8384,7 +8384,7 @@ var _CPSaveSessionMake = function(anAbsoluteURL, aSaveOperation, aChangeCount, a
     return { absoluteURL:anAbsoluteURL, saveOperation:aSaveOperation, changeCount:aChangeCount, delegate:aDelegate, didSaveSelector:aDidSaveSelector, contextInfo:aContextInfo, connection:aConnection };
 }
 
-p;20;CPObjectController.jt;26267;@STATIC;1.0;I;25;Foundation/CPDictionary.ji;14;CPController.jt;26198;
+p;20;CPObjectController.jt;26586;@STATIC;1.0;I;25;Foundation/CPDictionary.ji;14;CPController.jt;26517;
 
 
 objj_executeFile("Foundation/CPDictionary.j", NO);
@@ -8395,16 +8395,21 @@ objj_executeFile("CPController.j", YES);
 {var the_class = objj_allocateClassPair(CPController, "CPObjectController"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_contentObject"), new objj_ivar("_selection"), new objj_ivar("_objectClass"), new objj_ivar("_isEditable"), new objj_ivar("_automaticallyPreparesContent"), new objj_ivar("_observedKeys")]);
 objj_registerClassPair(the_class);
-class_addMethods(the_class, [new objj_method(sel_getUid("initWithContent:"), function $CPObjectController__initWithContent_(self, _cmd, aContent)
+class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPObjectController__init(self, _cmd)
 { with(self)
 {
-    self = objj_msgSend(self, "init");
-
-    if (self)
+    return objj_msgSend(self, "initWithContent:", nil);
+}
+},["id"]), new objj_method(sel_getUid("initWithContent:"), function $CPObjectController__initWithContent_(self, _cmd, aContent)
+{ with(self)
+{
+    if (self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPObjectController").super_class }, "init"))
     {
         objj_msgSend(self, "setContent:", aContent);
         objj_msgSend(self, "setEditable:", YES);
         objj_msgSend(self, "setObjectClass:", objj_msgSend(CPMutableDictionary, "class"));
+
+        _observedKeys = objj_msgSend(objj_msgSend(CPCountedSet, "alloc"), "init");
     }
 
     return self;
