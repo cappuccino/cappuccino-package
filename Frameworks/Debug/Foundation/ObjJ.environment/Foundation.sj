@@ -14113,7 +14113,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithValue:"), funct
 },["CPString"])]);
 }
 
-p;13;CPPredicate.jt;32911;@STATIC;1.0;I;20;Foundation/CPValue.jI;20;Foundation/CPArray.jI;18;Foundation/CPSet.jI;19;Foundation/CPNull.jI;22;Foundation/CPScanner.ji;21;CPCompoundPredicate.ji;23;CPComparisonPredicate.ji;14;CPExpression.ji;23;CPExpression_operator.ji;24;CPExpression_aggregate.ji;25;CPExpression_assignment.jt;32607;
+p;13;CPPredicate.jt;32901;@STATIC;1.0;I;20;Foundation/CPValue.jI;20;Foundation/CPArray.jI;18;Foundation/CPSet.jI;19;Foundation/CPNull.jI;22;Foundation/CPScanner.ji;21;CPCompoundPredicate.ji;23;CPComparisonPredicate.ji;14;CPExpression.ji;23;CPExpression_operator.ji;24;CPExpression_aggregate.ji;25;CPExpression_assignment.jt;32597;
 
 
 objj_executeFile("Foundation/CPValue.j", NO);
@@ -14153,12 +14153,12 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("predicateWithFormat:")
     var args = Array.prototype.slice.call(arguments, 3);
     return objj_msgSend(self, "predicateWithFormat:argumentArray:", arguments[2], args);
 }
-},["CPPredicate","CPString"]), new objj_method(sel_getUid("predicateWithFormat:argumentArray:"), function $CPPredicate__predicateWithFormat_argumentArray_(self, _cmd, format, arguments)
+},["CPPredicate","CPString"]), new objj_method(sel_getUid("predicateWithFormat:argumentArray:"), function $CPPredicate__predicateWithFormat_argumentArray_(self, _cmd, format, args)
 { with(self)
 {
     if (!format)
         objj_msgSend(CPException, "raise:reason:", CPInvalidArgumentException, _cmd + " the format can't be 'nil'");
-    var s = objj_msgSend(objj_msgSend(CPPredicateScanner, "alloc"), "initWithString:args:", format, arguments),
+    var s = objj_msgSend(objj_msgSend(CPPredicateScanner, "alloc"), "initWithString:args:", format, args),
         p = objj_msgSend(s, "parse");
     return p;
 }
