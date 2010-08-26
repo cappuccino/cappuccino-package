@@ -347,7 +347,7 @@ with(_1e){
 objj_msgSend(objj_msgSend(objj_msgSend(_1e,"window"),"platformWindow"),"_propagateCurrentDOMEvent:",YES);
 }
 })]);
-p;13;CPTableView.jt;95954;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;95812;
+p;13;CPTableView.jt;95919;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;95777;
 objj_executeFile("Foundation/CPArray.j",NO);
 objj_executeFile("AppKit/CGGradient.j",NO);
 objj_executeFile("CPControl.j",YES);
@@ -2499,7 +2499,7 @@ _rowHeight=objj_msgSend(_2c0,"decodeFloatForKey:",_2b1);
 _rowHeight=23;
 }
 _intercellSpacing=objj_msgSend(_2c0,"decodeSizeForKey:",_2b2)||{width:3,height:2};
-objj_msgSend(self,"setGridColor:",objj_msgSend(_2c0,"decodeObjectForKey:",_2ba)||objj_msgSend(CPColor,"grayColor"));
+objj_msgSend(self,"setGridColor:",objj_msgSend(_2c0,"decodeObjectForKey:",_2ba));
 _gridStyleMask=objj_msgSend(_2c0,"decodeIntForKey:",_2bb)||CPTableViewGridNone;
 _usesAlternatingRowBackgroundColors=objj_msgSend(_2c0,"decodeObjectForKey:",_2bc);
 objj_msgSend(self,"setAlternatingRowBackgroundColors:",objj_msgSend(_2c0,"decodeObjectForKey:",_2bd));
