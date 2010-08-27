@@ -16340,11 +16340,11 @@ var _CPViewGetTransform = function( fromView, toView)
     return transform;
 }
 
-p;8;CPFont.jt;5085;@STATIC;1.0;t;5066;var _CPFonts = {},
+p;8;CPFont.jt;6597;@STATIC;1.0;t;6578;var _CPFonts = {},
     _CPFontSystemFontFace = "Arial, sans-serif",
     _CPWrapRegExp = new RegExp("\\s*,\\s*", "g");
 {var the_class = objj_allocateClassPair(CPObject, "CPFont"),
-meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_name"), new objj_ivar("_size"), new objj_ivar("_isBold"), new objj_ivar("_cssString")]);
+meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_name"), new objj_ivar("_size"), new objj_ivar("_ascender"), new objj_ivar("_descender"), new objj_ivar("_lineHeight"), new objj_ivar("_isBold"), new objj_ivar("_cssString")]);
 objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("_initWithName:size:bold:"), function $CPFont___initWithName_size_bold_(self, _cmd, aName, aSize, isBold)
 { with(self)
@@ -16354,13 +16354,37 @@ class_addMethods(the_class, [new objj_method(sel_getUid("_initWithName:size:bold
     {
         _name = aName;
         _size = aSize;
+        _ascender = 0;
+        _descender = 0;
+        _lineHeight = 0;
         _isBold = isBold;
         _cssString = (_isBold ? "bold " : "") + ROUND(_size) + "px " + ((_name === _CPFontSystemFontFace) ? _name : ("\"" + _name.replace(_CPWrapRegExp, '", "') + "\", " + _CPFontSystemFontFace));
         _CPFonts[_cssString] = self;
     }
     return self;
 }
-},["id","CPString","float","BOOL"]), new objj_method(sel_getUid("size"), function $CPFont__size(self, _cmd)
+},["id","CPString","float","BOOL"]), new objj_method(sel_getUid("ascender"), function $CPFont__ascender(self, _cmd)
+{ with(self)
+{
+    if (!_ascender)
+        objj_msgSend(self, "_getMetrics");
+    return _ascender;
+}
+},["float"]), new objj_method(sel_getUid("descender"), function $CPFont__descender(self, _cmd)
+{ with(self)
+{
+    if (!_descender)
+        objj_msgSend(self, "_getMetrics");
+    return _descender;
+}
+},["float"]), new objj_method(sel_getUid("defaultLineHeightForFont"), function $CPFont__defaultLineHeightForFont(self, _cmd)
+{ with(self)
+{
+    if (!_lineHeight)
+        objj_msgSend(self, "_getMetrics");
+    return _lineHeight;
+}
+},["float"]), new objj_method(sel_getUid("size"), function $CPFont__size(self, _cmd)
 { with(self)
 {
     return _size;
@@ -16385,8 +16409,23 @@ class_addMethods(the_class, [new objj_method(sel_getUid("_initWithName:size:bold
 {
     return objj_msgSend(CPString, "stringWithFormat:", "%@ %@ %f pt.", objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPFont").super_class }, "description"), objj_msgSend(self, "familyName"), objj_msgSend(self, "size"));
 }
-},["CPString"])]);
-class_addMethods(meta_class, [new objj_method(sel_getUid("fontWithName:size:"), function $CPFont__fontWithName_size_(self, _cmd, aName, aSize)
+},["CPString"]), new objj_method(sel_getUid("_getMetrics"), function $CPFont___getMetrics(self, _cmd)
+{ with(self)
+{
+    var metrics = objj_msgSend(CPString, "metricsOfFont:", self);
+    _ascender = objj_msgSend(metrics, "objectForKey:", "ascender");
+    _descender = objj_msgSend(metrics, "objectForKey:", "descender");
+    _lineHeight = objj_msgSend(metrics, "objectForKey:", "lineHeight");
+}
+},["void"])]);
+class_addMethods(meta_class, [new objj_method(sel_getUid("initialize"), function $CPFont__initialize(self, _cmd)
+{ with(self)
+{
+    var systemFont = objj_msgSend(objj_msgSend(CPBundle, "bundleForClass:", objj_msgSend(CPView, "class")), "objectForInfoDictionaryKey:", "CPSystemFontFace");
+    if (systemFont)
+        _CPFontSystemFontFace = systemFont;
+}
+},["void"]), new objj_method(sel_getUid("fontWithName:size:"), function $CPFont__fontWithName_size_(self, _cmd, aName, aSize)
 { with(self)
 {
     return _CPFonts[(NO ? "bold " : "") + ROUND(aSize) + "px " + ((aName === _CPFontSystemFontFace) ? aName : ("\"" + aName.replace(_CPWrapRegExp, '", "') + "\", " + _CPFontSystemFontFace))] || objj_msgSend(objj_msgSend(CPFont, "alloc"), "_initWithName:size:bold:", aName, aSize, NO);
@@ -24144,7 +24183,7 @@ objj_executeFile("_CPToolbarShowColorsItem.j", YES);
 objj_executeFile("_CPToolbarSeparatorItem.j", YES);
 objj_executeFile("_CPToolbarSpaceItem.j", YES);
 
-p;17;CPStringDrawing.jt;974;@STATIC;1.0;I;21;Foundation/CPString.ji;18;CPPlatformString.jt;907;objj_executeFile("Foundation/CPString.j", NO);
+p;17;CPStringDrawing.jt;1222;@STATIC;1.0;I;21;Foundation/CPString.ji;18;CPPlatformString.jt;1154;objj_executeFile("Foundation/CPString.j", NO);
 objj_executeFile("CPPlatformString.j", YES);
 {
 var the_class = objj_getClass("CPString")
@@ -24165,6 +24204,12 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
     return objj_msgSend(CPPlatformString, "sizeOfString:withFont:forWidth:", self, aFont, aWidth);
 }
 },["CGSize","CPFont","float"])]);
+class_addMethods(meta_class, [new objj_method(sel_getUid("metricsOfFont:"), function $CPString__metricsOfFont_(self, _cmd, aFont)
+{ with(self)
+{
+    return objj_msgSend(CPPlatformString, "metricsOfFont:", aFont);
+}
+},["CPDictionary","CPFont"])]);
 }
 
 p;8;CPText.jt;317;@STATIC;1.0;i;8;CPView.jt;287;objj_executeFile("CPView.j", YES);
