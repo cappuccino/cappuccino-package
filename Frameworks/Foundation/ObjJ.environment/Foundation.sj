@@ -5081,7 +5081,7 @@ _1=objj_msgSend(objj_msgSend(CPUserSessionManager,"alloc"),"init");
 return _1;
 }
 })]);
-p;13;CPArray+KVO.jt;12962;@STATIC;1.0;i;9;CPArray.ji;8;CPNull.jt;12917;
+p;13;CPArray+KVO.jt;13001;@STATIC;1.0;i;9;CPArray.ji;8;CPNull.jt;12956;
 objj_executeFile("CPArray.j",YES);
 objj_executeFile("CPNull.j",YES);
 var _1=objj_getClass("CPObject");
@@ -5226,9 +5226,7 @@ objj_msgSend(_33,"insertObject:atIndex:",_35,objj_msgSend(_33,"count"));
 }),new objj_method(sel_getUid("addObjectsFromArray:"),function(_36,_37,_38){
 with(_36){
 var _39=0,_3a=objj_msgSend(_38,"count");
-for(;_39<_3a;++_39){
-objj_msgSend(_36,"insertObject:atIndex:",objj_msgSend(_38,"objectAtIndex:",_39),_39);
-}
+objj_msgSend(_36,"insertObjects:atIndexes:",_38,objj_msgSend(CPIndexSet,"indexSetWithIndexesInRange:",CPMakeRange(objj_msgSend(_36,"count"),_3a)));
 }
 }),new objj_method(sel_getUid("insertObject:atIndex:"),function(_3b,_3c,_3d,_3e){
 with(_3b){

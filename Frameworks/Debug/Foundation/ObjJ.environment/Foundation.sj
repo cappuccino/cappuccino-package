@@ -5845,7 +5845,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("defaultManager"), func
 },["id"])]);
 }
 
-p;13;CPArray+KVO.jt;18586;@STATIC;1.0;i;9;CPArray.ji;8;CPNull.jt;18541;objj_executeFile("CPArray.j", YES);
+p;13;CPArray+KVO.jt;18610;@STATIC;1.0;i;9;CPArray.ji;8;CPNull.jt;18565;objj_executeFile("CPArray.j", YES);
 objj_executeFile("CPNull.j", YES);
 {
 var the_class = objj_getClass("CPObject")
@@ -5991,8 +5991,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithKey:forProxyObj
 {
     var index = 0,
         count = objj_msgSend(anArray, "count");
-    for (; index < count; ++index)
-        objj_msgSend(self, "insertObject:atIndex:", objj_msgSend(anArray, "objectAtIndex:", index), index);
+    objj_msgSend(self, "insertObjects:atIndexes:", anArray, objj_msgSend(CPIndexSet, "indexSetWithIndexesInRange:", CPMakeRange(objj_msgSend(self, "count"), count)));
 }
 },["void","CPArray"]), new objj_method(sel_getUid("insertObject:atIndex:"), function $_CPKVCArray__insertObject_atIndex_(self, _cmd, anObject, anIndex)
 { with(self)
