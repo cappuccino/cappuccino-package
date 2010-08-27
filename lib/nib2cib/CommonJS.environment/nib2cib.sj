@@ -1699,7 +1699,7 @@ loadFrameworks(_8.frameworks,function(){
 objj_msgSend(_9,"convert");
 });
 };
-p;15;NSTableColumn.jt;2619;@STATIC;1.0;I;22;AppKit/CPTableColumn.jI;26;AppKit/CPTableHeaderView.jt;2542;
+p;15;NSTableColumn.jt;2593;@STATIC;1.0;I;22;AppKit/CPTableColumn.jI;26;AppKit/CPTableHeaderView.jt;2516;
 objj_executeFile("AppKit/CPTableColumn.j",NO);
 objj_executeFile("AppKit/CPTableHeaderView.j",NO);
 var _1=objj_getClass("CPTableColumn");
@@ -1712,16 +1712,21 @@ with(_3){
 _3=objj_msgSend(_3,"init");
 if(_3){
 _identifier=objj_msgSend(_5,"decodeObjectForKey:","NSIdentifier");
+var _6=objj_msgSend(_5,"decodeObjectForKey:","NSDataCell");
 _dataView=objj_msgSend(objj_msgSend(CPTextField,"alloc"),"initWithFrame:",CPRectMakeZero());
-objj_msgSend(_dataView,"setValue:forThemeAttribute:",objj_msgSend(CPColor,"colorWithRed:green:blue:alpha:",51/255,51/255,51/255,1),"text-color");
-objj_msgSend(_dataView,"setValue:forThemeAttribute:inState:",objj_msgSend(CPColor,"whiteColor"),"text-color",CPThemeStateSelectedDataView);
+var _7=objj_msgSend(_6,"font"),_8=nil;
+if(!_7){
+_7=objj_msgSend(CPFont,"systemFontOfSize:",12);
+}
+var _8=objj_msgSend(CPFont,"boldFontWithName:size:",objj_msgSend(_7,"familyName"),objj_msgSend(_7,"size"));
+objj_msgSend(_dataView,"setFont:",_7);
+objj_msgSend(_dataView,"setValue:forThemeAttribute:inState:",_8,"font",CPThemeStateSelectedDataView);
 objj_msgSend(_dataView,"setLineBreakMode:",CPLineBreakByTruncatingTail);
-objj_msgSend(_dataView,"setValue:forThemeAttribute:inState:",objj_msgSend(CPFont,"boldSystemFontOfSize:",12),"font",CPThemeStateSelectedDataView);
 objj_msgSend(_dataView,"setValue:forThemeAttribute:",CPCenterVerticalTextAlignment,"vertical-alignment");
 objj_msgSend(_dataView,"setValue:forThemeAttribute:",CGInsetMake(0,0,0,5),"content-inset");
-var _6=objj_msgSend(_5,"decodeObjectForKey:","NSHeaderCell"),_7=objj_msgSend(objj_msgSend(_CPTableColumnHeaderView,"alloc"),"initWithFrame:",CPRectMakeZero());
-objj_msgSend(_7,"setStringValue:",objj_msgSend(_6,"objectValue"));
-objj_msgSend(_3,"setHeaderView:",_7);
+var _9=objj_msgSend(_5,"decodeObjectForKey:","NSHeaderCell"),_a=objj_msgSend(objj_msgSend(_CPTableColumnHeaderView,"alloc"),"initWithFrame:",CPRectMakeZero());
+objj_msgSend(_a,"setStringValue:",objj_msgSend(_9,"objectValue"));
+objj_msgSend(_3,"setHeaderView:",_a);
 _width=objj_msgSend(_5,"decodeFloatForKey:","NSWidth");
 _minWidth=objj_msgSend(_5,"decodeFloatForKey:","NSMinWidth");
 _maxWidth=objj_msgSend(_5,"decodeFloatForKey:","NSMaxWidth");
@@ -1735,12 +1740,12 @@ return _3;
 })]);
 var _1=objj_allocateClassPair(CPTableColumn,"NSTableColumn"),_2=_1.isa;
 objj_registerClassPair(_1);
-class_addMethods(_1,[new objj_method(sel_getUid("initWithCoder:"),function(_8,_9,_a){
-with(_8){
-return objj_msgSend(_8,"NS_initWithCoder:",_a);
-}
-}),new objj_method(sel_getUid("classForKeyedArchiver"),function(_b,_c){
+class_addMethods(_1,[new objj_method(sel_getUid("initWithCoder:"),function(_b,_c,_d){
 with(_b){
+return objj_msgSend(_b,"NS_initWithCoder:",_d);
+}
+}),new objj_method(sel_getUid("classForKeyedArchiver"),function(_e,_f){
+with(_e){
 return objj_msgSend(CPTableColumn,"class");
 }
 })]);
