@@ -5103,7 +5103,7 @@ objj_msgSend(_cc,"encodeFloat:forKey:",_verticalMargin,_c2);
 objj_msgSend(_cc,"encodeObject:forKey:",_backgroundColors,_c6);
 }
 })]);
-p;11;CPControl.jt;18806;@STATIC;1.0;i;8;CPFont.ji;10;CPShadow.ji;8;CPView.ji;19;CPKeyValueBinding.jt;18723;
+p;11;CPControl.jt;18845;@STATIC;1.0;i;8;CPFont.ji;10;CPShadow.ji;8;CPView.ji;19;CPKeyValueBinding.jt;18762;
 objj_executeFile("CPFont.j",YES);
 objj_executeFile("CPShadow.j",YES);
 objj_executeFile("CPView.j",YES);
@@ -5267,8 +5267,15 @@ return;
 }
 objj_msgSend(_35,"highlight:",YES);
 objj_msgSend(_35,"setState:",objj_msgSend(_35,"nextState"));
+try{
 objj_msgSend(_35,"sendAction:to:",objj_msgSend(_35,"action"),objj_msgSend(_35,"target"));
+}
+catch(e){
+throw e;
+}
+finally{
 objj_msgSend(CPTimer,"scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:",0.1,_35,sel_getUid("unhighlightButtonTimerDidFinish:"),nil,NO);
+}
 }
 }),new objj_method(sel_getUid("unhighlightButtonTimerDidFinish:"),function(_38,_39,_3a){
 with(_38){

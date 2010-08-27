@@ -6193,7 +6193,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"])]);
 }
 
-p;11;CPControl.jt;27004;@STATIC;1.0;i;8;CPFont.ji;10;CPShadow.ji;8;CPView.ji;19;CPKeyValueBinding.jt;26921;objj_executeFile("CPFont.j", YES);
+p;11;CPControl.jt;27099;@STATIC;1.0;i;8;CPFont.ji;10;CPShadow.ji;8;CPView.ji;19;CPKeyValueBinding.jt;27016;objj_executeFile("CPFont.j", YES);
 objj_executeFile("CPShadow.j", YES);
 objj_executeFile("CPView.j", YES);
 objj_executeFile("CPKeyValueBinding.j", YES);
@@ -6377,8 +6377,18 @@ _sendsActionOnEndEditing = newValue;
         return;
     objj_msgSend(self, "highlight:", YES);
     objj_msgSend(self, "setState:", objj_msgSend(self, "nextState"));
-    objj_msgSend(self, "sendAction:to:", objj_msgSend(self, "action"), objj_msgSend(self, "target"));
-    objj_msgSend(CPTimer, "scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:", 0.1, self, sel_getUid("unhighlightButtonTimerDidFinish:"), nil, NO);
+    try
+    {
+        objj_msgSend(self, "sendAction:to:", objj_msgSend(self, "action"), objj_msgSend(self, "target"));
+    }
+    catch (e)
+    {
+        throw e;
+    }
+    finally
+    {
+        objj_msgSend(CPTimer, "scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:", 0.1, self, sel_getUid("unhighlightButtonTimerDidFinish:"), nil, NO);
+    }
 }
 },["void","id"]), new objj_method(sel_getUid("unhighlightButtonTimerDidFinish:"), function $CPControl__unhighlightButtonTimerDidFinish_(self, _cmd, sender)
 { with(self)
