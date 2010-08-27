@@ -23186,7 +23186,7 @@ _index = newValue;
 },["void","CPString","id","CPDictionary","id"])]);
 }
 
-p;9;CPAlert.jt;16107;@STATIC;1.0;I;21;Foundation/CPObject.jI;21;Foundation/CPString.jI;22;AppKit/CPApplication.jI;17;AppKit/CPButton.jI;16;AppKit/CPColor.jI;15;AppKit/CPFont.jI;16;AppKit/CPImage.jI;20;AppKit/CPImageView.jI;16;AppKit/CPPanel.jI;20;AppKit/CPTextField.jt;15853;objj_executeFile("Foundation/CPObject.j", NO);
+p;9;CPAlert.jt;16191;@STATIC;1.0;I;21;Foundation/CPObject.jI;21;Foundation/CPString.jI;22;AppKit/CPApplication.jI;17;AppKit/CPButton.jI;16;AppKit/CPColor.jI;15;AppKit/CPFont.jI;16;AppKit/CPImage.jI;20;AppKit/CPImageView.jI;16;AppKit/CPPanel.jI;20;AppKit/CPTextField.jt;15937;objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("Foundation/CPString.j", NO);
 objj_executeFile("AppKit/CPApplication.j", NO);
 objj_executeFile("AppKit/CPButton.j", NO);
@@ -23212,7 +23212,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPAle
         _alertPanel = nil;
         _windowStyle = nil;
         _didEndSelector = nil;
-        _messageLabel = objj_msgSend(objj_msgSend(CPTextField, "alloc"), "initWithFrame:", CGRectMakeZero());
+        _messageLabel = objj_msgSend(CPTextField, "labelWithTitle:", "Alert");
         _alertImageView = objj_msgSend(objj_msgSend(CPImageView, "alloc"), "initWithFrame:", CGRectMakeZero());
         _informativeLabel = objj_msgSend(objj_msgSend(CPTextField, "alloc"), "initWithFrame:", CGRectMakeZero());
     }
@@ -23233,8 +23233,13 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPAle
     _alertPanel = objj_msgSend(objj_msgSend(CPPanel, "alloc"), "initWithContentRect:styleMask:", frame, _windowStyle ? _windowStyle | CPTitledWindowMask : CPTitledWindowMask);
     var contentView = objj_msgSend(_alertPanel, "contentView"),
         count = objj_msgSend(_buttons, "count");
-    while (count--)
-        objj_msgSend(contentView, "addSubview:", _buttons[count]);
+    if (count)
+    {
+        while (count--)
+            objj_msgSend(contentView, "addSubview:", _buttons[count]);
+    }
+    else
+        objj_msgSend(self, "addButtonWithTitle:", "OK");
     objj_msgSend(contentView, "addSubview:", _messageLabel);
     objj_msgSend(contentView, "addSubview:", _alertImageView);
     objj_msgSend(contentView, "addSubview:", _informativeLabel);
@@ -23311,7 +23316,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPAle
         objj_msgSend(button, "setKeyEquivalent:", CPEscapeFunctionKey);
     else
         objj_msgSend(button, "setKeyEquivalent:", nil);
-    objj_msgSend(_buttons, "addObject:", button);
+    objj_msgSend(_buttons, "insertObject:atIndex:", button, 0);
 }
 },["void","CPString"]), new objj_method(sel_getUid("layoutPanel"), function $CPAlert__layoutPanel(self, _cmd)
 { with(self)

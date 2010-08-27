@@ -21183,7 +21183,7 @@ objj_msgSend(_accordionView,"_invalidateItemsStartingAtIndex:",objj_msgSend(_75,
 }
 }
 })]);
-p;9;CPAlert.jt;11696;@STATIC;1.0;I;21;Foundation/CPObject.jI;21;Foundation/CPString.jI;22;AppKit/CPApplication.jI;17;AppKit/CPButton.jI;16;AppKit/CPColor.jI;15;AppKit/CPFont.jI;16;AppKit/CPImage.jI;20;AppKit/CPImageView.jI;16;AppKit/CPPanel.jI;20;AppKit/CPTextField.jt;11442;
+p;9;CPAlert.jt;11741;@STATIC;1.0;I;21;Foundation/CPObject.jI;21;Foundation/CPString.jI;22;AppKit/CPApplication.jI;17;AppKit/CPButton.jI;16;AppKit/CPColor.jI;15;AppKit/CPFont.jI;16;AppKit/CPImage.jI;20;AppKit/CPImageView.jI;16;AppKit/CPPanel.jI;20;AppKit/CPTextField.jt;11487;
 objj_executeFile("Foundation/CPObject.j",NO);
 objj_executeFile("Foundation/CPString.j",NO);
 objj_executeFile("AppKit/CPApplication.j",NO);
@@ -21208,7 +21208,7 @@ _alertStyle=CPWarningAlertStyle;
 _alertPanel=nil;
 _windowStyle=nil;
 _didEndSelector=nil;
-_messageLabel=objj_msgSend(objj_msgSend(CPTextField,"alloc"),"initWithFrame:",CGRectMakeZero());
+_messageLabel=objj_msgSend(CPTextField,"labelWithTitle:","Alert");
 _alertImageView=objj_msgSend(objj_msgSend(CPImageView,"alloc"),"initWithFrame:",CGRectMakeZero());
 _informativeLabel=objj_msgSend(objj_msgSend(CPTextField,"alloc"),"initWithFrame:",CGRectMakeZero());
 }
@@ -21226,8 +21226,12 @@ var _a=CGRectMakeZero();
 _a.size=objj_msgSend(_8,"currentValueForThemeAttribute:","size");
 _alertPanel=objj_msgSend(objj_msgSend(CPPanel,"alloc"),"initWithContentRect:styleMask:",_a,_windowStyle?_windowStyle|CPTitledWindowMask:CPTitledWindowMask);
 var _b=objj_msgSend(_alertPanel,"contentView"),_c=objj_msgSend(_buttons,"count");
+if(_c){
 while(_c--){
 objj_msgSend(_b,"addSubview:",_buttons[_c]);
+}
+}else{
+objj_msgSend(_8,"addButtonWithTitle:","OK");
 }
 objj_msgSend(_b,"addSubview:",_messageLabel);
 objj_msgSend(_b,"addSubview:",_alertImageView);
@@ -21294,7 +21298,7 @@ objj_msgSend(_2c,"setKeyEquivalent:",CPEscapeFunctionKey);
 objj_msgSend(_2c,"setKeyEquivalent:",nil);
 }
 }
-objj_msgSend(_buttons,"addObject:",_2c);
+objj_msgSend(_buttons,"insertObject:atIndex:",_2c,0);
 }
 }),new objj_method(sel_getUid("layoutPanel"),function(_2e,_2f){
 with(_2e){
