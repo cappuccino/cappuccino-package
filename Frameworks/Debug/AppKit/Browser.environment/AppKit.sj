@@ -14448,7 +14448,7 @@ var byteToHex = function(n)
            hexCharacters.charAt(n % 16);
 };
 
-p;13;CPTextField.jt;43486;@STATIC;1.0;i;11;CPControl.ji;17;CPStringDrawing.ji;17;CPCompatibility.ji;21;_CPImageAndTextView.jt;43380;objj_executeFile("CPControl.j", YES);
+p;13;CPTextField.jt;43540;@STATIC;1.0;i;11;CPControl.ji;17;CPStringDrawing.ji;17;CPCompatibility.ji;21;_CPImageAndTextView.jt;43434;objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPStringDrawing.j", YES);
 objj_executeFile("CPCompatibility.j", YES);
 objj_executeFile("_CPImageAndTextView.j", YES);
@@ -14567,6 +14567,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("_inputElement"), functi
     if (_isEditable === shouldBeEditable)
         return;
     _isEditable = shouldBeEditable;
+    if(shouldBeEditable)
+        _isSelectable = YES;
     if (!shouldBeEditable && objj_msgSend(objj_msgSend(self, "window"), "firstResponder") === self)
         objj_msgSend(objj_msgSend(self, "window"), "makeFirstResponder:", nil);
 }

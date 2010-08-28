@@ -12577,7 +12577,7 @@ return "00";
 n=ROUND(MIN(255,MAX(0,256*n)));
 return _9f.charAt((n-n%16)/16)+_9f.charAt(n%16);
 };
-p;13;CPTextField.jt;29793;@STATIC;1.0;i;11;CPControl.ji;17;CPStringDrawing.ji;17;CPCompatibility.ji;21;_CPImageAndTextView.jt;29687;
+p;13;CPTextField.jt;29823;@STATIC;1.0;i;11;CPControl.ji;17;CPStringDrawing.ji;17;CPCompatibility.ji;21;_CPImageAndTextView.jt;29717;
 objj_executeFile("CPControl.j",YES);
 objj_executeFile("CPStringDrawing.j",YES);
 objj_executeFile("CPCompatibility.j",YES);
@@ -12677,6 +12677,9 @@ if(_isEditable===_1a){
 return;
 }
 _isEditable=_1a;
+if(_1a){
+_isSelectable=YES;
+}
 if(!_1a&&objj_msgSend(objj_msgSend(_18,"window"),"firstResponder")===_18){
 objj_msgSend(objj_msgSend(_18,"window"),"makeFirstResponder:",nil);
 }
