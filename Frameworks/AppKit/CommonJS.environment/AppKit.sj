@@ -6121,70 +6121,57 @@ objj_msgSend(_3c,"encodeObject:forKey:",_cibName,_34);
 objj_msgSend(_3c,"encodeObject:forKey:",objj_msgSend(_cibBundle,"bundlePath"),_35);
 }
 })]);
-p;12;CPGraphics.jt;2953;@STATIC;1.0;i;9;CPColor.ji;19;CPGraphicsContext.jt;2897;
+p;12;CPGraphics.jt;1674;@STATIC;1.0;i;9;CPColor.ji;19;CPGraphicsContext.jt;1618;
 objj_executeFile("CPColor.j",YES);
 objj_executeFile("CPGraphicsContext.j",YES);
-CPDrawGrayBezel=function(_1){
-var _2=objj_msgSend(objj_msgSend(CPGraphicsContext,"currentContext"),"graphicsPort");
-CGContextBeginPath(_2);
-CGContextSetStrokeColor(_2,objj_msgSend(CPColor,"colorWithWhite:alpha:",142/255,1));
-var y=(_1.origin.y)+0.5;
-CGContextMoveToPoint(_2,(_1.origin.x),y);
-CGContextAddLineToPoint(_2,(_1.origin.x)+1,y);
-CGContextStrokePath(_2);
-CGContextBeginPath(_2);
-CGContextSetStrokeColor(_2,objj_msgSend(CPColor,"colorWithWhite:alpha:",192/255,1));
-CGContextMoveToPoint(_2,(_1.origin.x)+1,y);
-CGContextAddLineToPoint(_2,(_1.origin.x+_1.size.width)-1,y);
-CGContextStrokePath(_2);
-CGContextBeginPath(_2);
-CGContextSetStrokeColor(_2,objj_msgSend(CPColor,"colorWithWhite:alpha:",142/255,1));
-CGContextMoveToPoint(_2,(_1.origin.x+_1.size.width)-1,y);
-CGContextAddLineToPoint(_2,(_1.origin.x+_1.size.width),y);
-CGContextStrokePath(_2);
-CGContextBeginPath(_2);
-CGContextSetStrokeColor(_2,objj_msgSend(CPColor,"colorWithWhite:alpha:",190/255,1));
-var x=(_1.origin.x+_1.size.width)-0.5;
-CGContextMoveToPoint(_2,x,(_1.origin.y)+1);
-CGContextAddLineToPoint(_2,x,(_1.origin.y+_1.size.height));
-CGContextMoveToPoint(_2,x-0.5,(_1.origin.y+_1.size.height)-0.5);
-CGContextAddLineToPoint(_2,(_1.origin.x),(_1.origin.y+_1.size.height)-0.5);
-x=(_1.origin.x)+0.5;
-CGContextMoveToPoint(_2,x,(_1.origin.y+_1.size.height));
-CGContextAddLineToPoint(_2,x,(_1.origin.y)+1);
-CGContextStrokePath(_2);
-};
-CPDrawGroove=function(_3,_4){
-var _5=objj_msgSend(objj_msgSend(CPGraphicsContext,"currentContext"),"graphicsPort");
-CGContextBeginPath(_5);
-CGContextSetStrokeColor(_5,objj_msgSend(CPColor,"colorWithWhite:alpha:",159/255,1));
-var y=(_3.origin.y)+0.5;
-CGContextMoveToPoint(_5,(_3.origin.x),y);
-CGContextAddLineToPoint(_5,(_3.origin.x+_3.size.width),y);
-var x=(_3.origin.x+_3.size.width)-1.5;
-CGContextMoveToPoint(_5,x,(_3.origin.y)+2);
-CGContextAddLineToPoint(_5,x,(_3.origin.y+_3.size.height)-1);
-y=(_3.origin.y+_3.size.height)-1.5;
-CGContextMoveToPoint(_5,(_3.origin.x+_3.size.width)-1,y);
-CGContextAddLineToPoint(_5,(_3.origin.x)+2,y);
-x=(_3.origin.x)+0.5;
-CGContextMoveToPoint(_5,x,(_3.origin.y+_3.size.height));
-CGContextAddLineToPoint(_5,x,(_3.origin.y));
-CGContextStrokePath(_5);
-CGContextBeginPath(_5);
-CGContextSetStrokeColor(_5,objj_msgSend(CPColor,"whiteColor"));
-var _6={origin:{x:_3.origin.x+1,y:_3.origin.y+1},size:{width:_3.size.width,height:_3.size.height}};
-_6.size.width-=1;
-_6.size.height-=1;
-CGContextStrokeRect(_5,{origin:{x:_6.origin.x+0.5,y:_6.origin.y+0.5},size:{width:_6.size.width-2*0.5,height:_6.size.height-2*0.5}});
-if(_4){
-CGContextBeginPath(_5);
-CGContextSetStrokeColor(_5,objj_msgSend(CPColor,"colorWithWhite:alpha:",192/255,1));
-y=(_3.origin.y)+2.5;
-CGContextMoveToPoint(_5,(_3.origin.x)+2,y);
-CGContextAddLineToPoint(_5,(_3.origin.x+_3.size.width)-2,y);
-CGContextStrokePath(_5);
+CPDrawTiledRects=function(_1,_2,_3,_4){
+if(_3.length!=_4.length){
+objj_msgSend(CPException,"raise:reason:",CPInvalidArgumentException,"sides (length: "+_3.length+") and grays (length: "+_4.length+") must have the same length.");
 }
+var _5=[];
+for(var i=0;i<_4.length;++i){
+_5.push(objj_msgSend(CPColor,"colorWithWhite:alpha:",_4[i],1));
+}
+return CPDrawColorTiledRects(_1,_2,_3,_5);
+};
+CPDrawColorTiledRects=function(_6,_7,_8,_9){
+if(_8.length!=_9.length){
+objj_msgSend(CPException,"raise:reason:",CPInvalidArgumentException,"sides (length: "+_8.length+") and colors (length: "+_9.length+") must have the same length.");
+}
+var _a={origin:{x:_6.origin.x,y:_6.origin.y},size:{width:_6.size.width,height:_6.size.height}},_b={origin:{x:0,y:0},size:{width:0,height:0}},_c={origin:{x:0,y:0},size:{width:0,height:0}},_d=objj_msgSend(objj_msgSend(CPGraphicsContext,"currentContext"),"graphicsPort");
+for(var _e=0;_e<_8.length;++_e){
+var _f=_8[_e];
+CGRectDivide(_a,_b,_c,1,_f);
+_a=_c;
+_b=CGRectIntersection(_b,_7);
+if((_b.size.width<=0||_b.size.height<=0)){
+continue;
+}
+var _10,_11,_12,_13;
+if(_f==CPMinXEdge||_f==CPMaxXEdge){
+if((_b.size.width)<1){
+continue;
+}
+_10=(_b.origin.x)+0.5;
+_11=_10;
+_12=(_b.origin.y);
+_13=(_b.origin.y+_b.size.height);
+}else{
+if((_b.size.height)<1){
+continue;
+}
+_10=(_b.origin.x);
+_11=(_b.origin.x+_b.size.width);
+_12=(_b.origin.y)+0.5;
+_13=_12;
+}
+CGContextBeginPath(_d);
+CGContextMoveToPoint(_d,_10,_12);
+CGContextAddLineToPoint(_d,_11,_13);
+CGContextSetStrokeColor(_d,_9[_e]);
+CGContextStrokePath(_d);
+}
+return _a;
 };
 p;20;CPSegmentedControl.jt;23162;@STATIC;1.0;I;20;Foundation/CPArray.ji;11;CPControl.jt;23101;
 objj_executeFile("Foundation/CPArray.j",NO);
@@ -12718,7 +12705,7 @@ with(_d){
 return objj_msgSend(_view,"superview");
 }
 })]);
-p;12;CPGeometry.jt;4137;@STATIC;1.0;i;12;CGGeometry.jt;4101;
+p;12;CPGeometry.jt;4219;@STATIC;1.0;i;12;CGGeometry.jt;4183;
 objj_executeFile("CGGeometry.j",YES);
 CPMinXEdge=0;
 CPMinYEdge=1;
@@ -12821,32 +12808,35 @@ return _2a.size.width<=0||_2a.size.height<=0;
 CPRectIsNull=function(_2b){
 return _2b.size.width<=0||_2b.size.height<=0;
 };
-CPSizeEqualToSize=function(_2c,_2d){
-return _2c.width==_2d.width&&_2c.height==_2d.height;
+CPDivideRect=function(_2c,_2d,rem,_2e,_2f){
+CGRectDivide(_2c,_2d,rem,_2e,_2f);
 };
-CPStringFromPoint=function(_2e){
-return "{"+_2e.x+", "+_2e.y+"}";
+CPSizeEqualToSize=function(_30,_31){
+return _30.width==_31.width&&_30.height==_31.height;
 };
-CPStringFromSize=function(_2f){
-return "{"+_2f.width+", "+_2f.height+"}";
+CPStringFromPoint=function(_32){
+return "{"+_32.x+", "+_32.y+"}";
 };
-CPStringFromRect=function(_30){
-return "{"+CPStringFromPoint(_30.origin)+", "+CPStringFromSize(_30.size)+"}";
+CPStringFromSize=function(_33){
+return "{"+_33.width+", "+_33.height+"}";
 };
-CPPointFromString=function(_31){
-var _32=_31.indexOf(",");
-return {x:parseFloat(_31.substr(1,_32-1),10),y:parseFloat(_31.substring(_32+1,_31.length),10)};
+CPStringFromRect=function(_34){
+return "{"+CPStringFromPoint(_34.origin)+", "+CPStringFromSize(_34.size)+"}";
 };
-CPSizeFromString=function(_33){
-var _34=_33.indexOf(",");
-return {width:parseFloat(_33.substr(1,_34-1),10),height:parseFloat(_33.substring(_34+1,_33.length),10)};
+CPPointFromString=function(_35){
+var _36=_35.indexOf(",");
+return {x:parseFloat(_35.substr(1,_36-1),10),y:parseFloat(_35.substring(_36+1,_35.length),10)};
 };
-CPRectFromString=function(_35){
-var _36=_35.indexOf(",",_35.indexOf(",")+1);
-return {origin:CPPointFromString(_35.substr(1,_36-1)),size:CPSizeFromString(_35.substring(_36+2,_35.length))};
+CPSizeFromString=function(_37){
+var _38=_37.indexOf(",");
+return {width:parseFloat(_37.substr(1,_38-1),10),height:parseFloat(_37.substring(_38+1,_37.length),10)};
 };
-CPPointFromEvent=function(_37){
-return CPPointMake(_37.clientX,_37.clientY,0);
+CPRectFromString=function(_39){
+var _3a=_39.indexOf(",",_39.indexOf(",")+1);
+return {origin:CPPointFromString(_39.substr(1,_3a-1)),size:CPSizeFromString(_39.substring(_3a+2,_39.length))};
+};
+CPPointFromEvent=function(_3b){
+return CPPointMake(_3b.clientX,_3b.clientY,0);
 };
 CPSizeMakeZero=function(){
 return CPSizeMake(0,0);
@@ -19414,7 +19404,7 @@ return objj_msgSend(_6,"init");
 with(_9){
 }
 })]);
-p;14;CPScrollView.jt;22011;@STATIC;1.0;i;8;CPView.ji;12;CPClipView.ji;12;CPScroller.jt;21945;
+p;14;CPScrollView.jt;24960;@STATIC;1.0;i;8;CPView.ji;12;CPClipView.ji;12;CPScroller.jt;24894;
 objj_executeFile("CPView.j",YES);
 objj_executeFile("CPClipView.j",YES);
 objj_executeFile("CPScroller.j",YES);
@@ -19803,157 +19793,217 @@ CGContextSetStrokeColor(_8c,objj_msgSend(CPColor,"blackColor"));
 CGContextStrokeRect(_8c,{origin:{x:_8b.origin.x+0.5,y:_8b.origin.y+0.5},size:{width:_8b.size.width-2*0.5,height:_8b.size.height-2*0.5}});
 break;
 case CPBezelBorder:
-CPDrawGrayBezel(_8b);
+objj_msgSend(_88,"_drawGrayBezelInContext:bounds:",_8c,_8b);
 break;
 case CPGrooveBorder:
-CPDrawGroove(_8b,YES);
+objj_msgSend(_88,"_drawGrooveInContext:bounds:",_8c,_8b);
 break;
 default:
 break;
 }
 }
-}),new objj_method(sel_getUid("scrollWheel:"),function(_8d,_8e,_8f){
+}),new objj_method(sel_getUid("_drawGrayBezelInContext:bounds:"),function(_8d,_8e,_8f,_90){
 with(_8d){
-objj_msgSend(_8d,"_respondToScrollWheelEventWithDeltaX:deltaY:",objj_msgSend(_8f,"deltaX")*_horizontalLineScroll,objj_msgSend(_8f,"deltaY")*_verticalLineScroll);
+CGContextBeginPath(_8f);
+CGContextSetStrokeColor(_8f,objj_msgSend(CPColor,"colorWithWhite:alpha:",142/255,1));
+var y=(_90.origin.y)+0.5;
+CGContextMoveToPoint(_8f,(_90.origin.x),y);
+CGContextAddLineToPoint(_8f,(_90.origin.x)+1,y);
+CGContextStrokePath(_8f);
+CGContextBeginPath(_8f);
+CGContextSetStrokeColor(_8f,objj_msgSend(CPColor,"colorWithWhite:alpha:",192/255,1));
+CGContextMoveToPoint(_8f,(_90.origin.x)+1,y);
+CGContextAddLineToPoint(_8f,(_90.origin.x+_90.size.width)-1,y);
+CGContextStrokePath(_8f);
+CGContextBeginPath(_8f);
+CGContextSetStrokeColor(_8f,objj_msgSend(CPColor,"colorWithWhite:alpha:",142/255,1));
+CGContextMoveToPoint(_8f,(_90.origin.x+_90.size.width)-1,y);
+CGContextAddLineToPoint(_8f,(_90.origin.x+_90.size.width),y);
+CGContextStrokePath(_8f);
+CGContextBeginPath(_8f);
+CGContextSetStrokeColor(_8f,objj_msgSend(CPColor,"colorWithWhite:alpha:",190/255,1));
+var x=(_90.origin.x+_90.size.width)-0.5;
+CGContextMoveToPoint(_8f,x,(_90.origin.y)+1);
+CGContextAddLineToPoint(_8f,x,(_90.origin.y+_90.size.height));
+CGContextMoveToPoint(_8f,x-0.5,(_90.origin.y+_90.size.height)-0.5);
+CGContextAddLineToPoint(_8f,(_90.origin.x),(_90.origin.y+_90.size.height)-0.5);
+x=(_90.origin.x)+0.5;
+CGContextMoveToPoint(_8f,x,(_90.origin.y+_90.size.height));
+CGContextAddLineToPoint(_8f,x,(_90.origin.y)+1);
+CGContextStrokePath(_8f);
 }
-}),new objj_method(sel_getUid("_respondToScrollWheelEventWithDeltaX:deltaY:"),function(_90,_91,_92,_93){
-with(_90){
-var _94=objj_msgSend(objj_msgSend(_90,"documentView"),"frame"),_95=objj_msgSend(_contentView,"bounds"),_96=objj_msgSend(_contentView,"frame"),_97=objj_msgSend(_90,"enclosingScrollView"),_98=0,_99=0;
-_95.origin.x=ROUND(_95.origin.x+_92);
-_95.origin.y=ROUND(_95.origin.y+_93);
-var _9a=objj_msgSend(_contentView,"constrainScrollPoint:",CGPointCreateCopy(_95.origin));
-_98=((_95.origin.x-_9a.x)/_horizontalLineScroll)*objj_msgSend(_97,"horizontalLineScroll");
-_99=((_95.origin.y-_9a.y)/_verticalLineScroll)*objj_msgSend(_97,"verticalLineScroll");
-objj_msgSend(_contentView,"scrollToPoint:",_9a);
-objj_msgSend(_headerClipView,"scrollToPoint:",CGPointMake(_9a.x,0));
-if(_98||_99){
-objj_msgSend(_97,"_respondToScrollWheelEventWithDeltaX:deltaY:",_98,_99);
+}),new objj_method(sel_getUid("_drawGrooveInContext:bounds:"),function(_91,_92,_93,_94){
+with(_91){
+CGContextBeginPath(_93);
+CGContextSetStrokeColor(_93,objj_msgSend(CPColor,"colorWithWhite:alpha:",159/255,1));
+var y=(_94.origin.y)+0.5;
+CGContextMoveToPoint(_93,(_94.origin.x),y);
+CGContextAddLineToPoint(_93,(_94.origin.x+_94.size.width),y);
+var x=(_94.origin.x+_94.size.width)-1.5;
+CGContextMoveToPoint(_93,x,(_94.origin.y)+2);
+CGContextAddLineToPoint(_93,x,(_94.origin.y+_94.size.height)-1);
+y=(_94.origin.y+_94.size.height)-1.5;
+CGContextMoveToPoint(_93,(_94.origin.x+_94.size.width)-1,y);
+CGContextAddLineToPoint(_93,(_94.origin.x)+2,y);
+x=(_94.origin.x)+0.5;
+CGContextMoveToPoint(_93,x,(_94.origin.y+_94.size.height));
+CGContextAddLineToPoint(_93,x,(_94.origin.y));
+CGContextStrokePath(_93);
+CGContextBeginPath(_93);
+CGContextSetStrokeColor(_93,objj_msgSend(CPColor,"whiteColor"));
+var _95={origin:{x:_94.origin.x+1,y:_94.origin.y+1},size:{width:_94.size.width,height:_94.size.height}};
+_95.size.width-=1;
+_95.size.height-=1;
+CGContextStrokeRect(_93,{origin:{x:_95.origin.x+0.5,y:_95.origin.y+0.5},size:{width:_95.size.width-2*0.5,height:_95.size.height-2*0.5}});
+CGContextBeginPath(_93);
+CGContextSetStrokeColor(_93,objj_msgSend(CPColor,"colorWithWhite:alpha:",192/255,1));
+y=(_94.origin.y)+2.5;
+CGContextMoveToPoint(_93,(_94.origin.x)+2,y);
+CGContextAddLineToPoint(_93,(_94.origin.x+_94.size.width)-2,y);
+CGContextStrokePath(_93);
+}
+}),new objj_method(sel_getUid("scrollWheel:"),function(_96,_97,_98){
+with(_96){
+objj_msgSend(_96,"_respondToScrollWheelEventWithDeltaX:deltaY:",objj_msgSend(_98,"deltaX")*_horizontalLineScroll,objj_msgSend(_98,"deltaY")*_verticalLineScroll);
+}
+}),new objj_method(sel_getUid("_respondToScrollWheelEventWithDeltaX:deltaY:"),function(_99,_9a,_9b,_9c){
+with(_99){
+var _9d=objj_msgSend(objj_msgSend(_99,"documentView"),"frame"),_9e=objj_msgSend(_contentView,"bounds"),_9f=objj_msgSend(_contentView,"frame"),_a0=objj_msgSend(_99,"enclosingScrollView"),_a1=0,_a2=0;
+_9e.origin.x=ROUND(_9e.origin.x+_9b);
+_9e.origin.y=ROUND(_9e.origin.y+_9c);
+var _a3=objj_msgSend(_contentView,"constrainScrollPoint:",CGPointCreateCopy(_9e.origin));
+_a1=((_9e.origin.x-_a3.x)/_horizontalLineScroll)*objj_msgSend(_a0,"horizontalLineScroll");
+_a2=((_9e.origin.y-_a3.y)/_verticalLineScroll)*objj_msgSend(_a0,"verticalLineScroll");
+objj_msgSend(_contentView,"scrollToPoint:",_a3);
+objj_msgSend(_headerClipView,"scrollToPoint:",CGPointMake(_a3.x,0));
+if(_a1||_a2){
+objj_msgSend(_a0,"_respondToScrollWheelEventWithDeltaX:deltaY:",_a1,_a2);
 }
 }
-}),new objj_method(sel_getUid("keyDown:"),function(_9b,_9c,_9d){
-with(_9b){
-objj_msgSend(_9b,"interpretKeyEvents:",[_9d]);
+}),new objj_method(sel_getUid("keyDown:"),function(_a4,_a5,_a6){
+with(_a4){
+objj_msgSend(_a4,"interpretKeyEvents:",[_a6]);
 }
-}),new objj_method(sel_getUid("pageUp:"),function(_9e,_9f,_a0){
-with(_9e){
-var _a1=objj_msgSend(_contentView,"bounds");
-objj_msgSend(_9e,"moveByOffset:",CGSizeMake(0,-((_a1.size.height)-_verticalPageScroll)));
+}),new objj_method(sel_getUid("pageUp:"),function(_a7,_a8,_a9){
+with(_a7){
+var _aa=objj_msgSend(_contentView,"bounds");
+objj_msgSend(_a7,"moveByOffset:",CGSizeMake(0,-((_aa.size.height)-_verticalPageScroll)));
 }
-}),new objj_method(sel_getUid("pageDown:"),function(_a2,_a3,_a4){
-with(_a2){
-var _a5=objj_msgSend(_contentView,"bounds");
-objj_msgSend(_a2,"moveByOffset:",CGSizeMake(0,(_a5.size.height)-_verticalPageScroll));
+}),new objj_method(sel_getUid("pageDown:"),function(_ab,_ac,_ad){
+with(_ab){
+var _ae=objj_msgSend(_contentView,"bounds");
+objj_msgSend(_ab,"moveByOffset:",CGSizeMake(0,(_ae.size.height)-_verticalPageScroll));
 }
-}),new objj_method(sel_getUid("moveLeft:"),function(_a6,_a7,_a8){
-with(_a6){
-objj_msgSend(_a6,"moveByOffset:",CGSizeMake(-_horizontalLineScroll,0));
-}
-}),new objj_method(sel_getUid("moveRight:"),function(_a9,_aa,_ab){
-with(_a9){
-objj_msgSend(_a9,"moveByOffset:",CGSizeMake(_horizontalLineScroll,0));
-}
-}),new objj_method(sel_getUid("moveUp:"),function(_ac,_ad,_ae){
-with(_ac){
-objj_msgSend(_ac,"moveByOffset:",CGSizeMake(0,-_verticalLineScroll));
-}
-}),new objj_method(sel_getUid("moveDown:"),function(_af,_b0,_b1){
+}),new objj_method(sel_getUid("moveLeft:"),function(_af,_b0,_b1){
 with(_af){
-objj_msgSend(_af,"moveByOffset:",CGSizeMake(0,_verticalLineScroll));
+objj_msgSend(_af,"moveByOffset:",CGSizeMake(-_horizontalLineScroll,0));
 }
-}),new objj_method(sel_getUid("moveByOffset:"),function(_b2,_b3,_b4){
+}),new objj_method(sel_getUid("moveRight:"),function(_b2,_b3,_b4){
 with(_b2){
-var _b5=objj_msgSend(objj_msgSend(_b2,"documentView"),"frame"),_b6=objj_msgSend(_contentView,"bounds");
-_b6.origin.x+=_b4.width;
-_b6.origin.y+=_b4.height;
-objj_msgSend(_contentView,"scrollToPoint:",_b6.origin);
-objj_msgSend(_headerClipView,"scrollToPoint:",CGPointMake(_b6.origin,0));
+objj_msgSend(_b2,"moveByOffset:",CGSizeMake(_horizontalLineScroll,0));
+}
+}),new objj_method(sel_getUid("moveUp:"),function(_b5,_b6,_b7){
+with(_b5){
+objj_msgSend(_b5,"moveByOffset:",CGSizeMake(0,-_verticalLineScroll));
+}
+}),new objj_method(sel_getUid("moveDown:"),function(_b8,_b9,_ba){
+with(_b8){
+objj_msgSend(_b8,"moveByOffset:",CGSizeMake(0,_verticalLineScroll));
+}
+}),new objj_method(sel_getUid("moveByOffset:"),function(_bb,_bc,_bd){
+with(_bb){
+var _be=objj_msgSend(objj_msgSend(_bb,"documentView"),"frame"),_bf=objj_msgSend(_contentView,"bounds");
+_bf.origin.x+=_bd.width;
+_bf.origin.y+=_bd.height;
+objj_msgSend(_contentView,"scrollToPoint:",_bf.origin);
+objj_msgSend(_headerClipView,"scrollToPoint:",CGPointMake(_bf.origin,0));
 }
 })]);
-class_addMethods(_2,[new objj_method(sel_getUid("contentSizeForFrameSize:hasHorizontalScroller:hasVerticalScroller:borderType:"),function(_b7,_b8,_b9,_ba,_bb,_bc){
-with(_b7){
-var _bd=objj_msgSend(_b7,"_insetBounds:borderType:",{origin:{x:0,y:0},size:{width:_b9.width,height:_b9.height}},_bc),_be=objj_msgSend(CPScroller,"scrollerWidth");
-if(_ba){
-_bd.size.height-=_be;
-}
-if(_bb){
-_bd.size.width-=_be;
-}
-return _bd.size;
-}
-}),new objj_method(sel_getUid("frameSizeForContentSize:hasHorizontalScroller:hasVerticalScroller:borderType:"),function(_bf,_c0,_c1,_c2,_c3,_c4){
-with(_bf){
-var _c5=objj_msgSend(_bf,"_insetBounds:borderType:",{origin:{x:0,y:0},size:{width:_c1.width,height:_c1.height}},_c4),_c6=_c1.width-_c5.size.width,_c7=_c1.height-_c5.size.height,_c8={width:_c1.width+_c6,height:_c1.height+_c7},_c9=objj_msgSend(CPScroller,"scrollerWidth");
-if(_c2){
-_c8.height-=_c9;
-}
+class_addMethods(_2,[new objj_method(sel_getUid("contentSizeForFrameSize:hasHorizontalScroller:hasVerticalScroller:borderType:"),function(_c0,_c1,_c2,_c3,_c4,_c5){
+with(_c0){
+var _c6=objj_msgSend(_c0,"_insetBounds:borderType:",{origin:{x:0,y:0},size:{width:_c2.width,height:_c2.height}},_c5),_c7=objj_msgSend(CPScroller,"scrollerWidth");
 if(_c3){
-_c8.width-=_c9;
+_c6.size.height-=_c7;
 }
-return _c8;
+if(_c4){
+_c6.size.width-=_c7;
 }
-}),new objj_method(sel_getUid("_insetBounds:borderType:"),function(_ca,_cb,_cc,_cd){
-with(_ca){
-switch(_cd){
+return _c6.size;
+}
+}),new objj_method(sel_getUid("frameSizeForContentSize:hasHorizontalScroller:hasVerticalScroller:borderType:"),function(_c8,_c9,_ca,_cb,_cc,_cd){
+with(_c8){
+var _ce=objj_msgSend(_c8,"_insetBounds:borderType:",{origin:{x:0,y:0},size:{width:_ca.width,height:_ca.height}},_cd),_cf=_ca.width-_ce.size.width,_d0=_ca.height-_ce.size.height,_d1={width:_ca.width+_cf,height:_ca.height+_d0},_d2=objj_msgSend(CPScroller,"scrollerWidth");
+if(_cb){
+_d1.height-=_d2;
+}
+if(_cc){
+_d1.width-=_d2;
+}
+return _d1;
+}
+}),new objj_method(sel_getUid("_insetBounds:borderType:"),function(_d3,_d4,_d5,_d6){
+with(_d3){
+switch(_d6){
 case CPLineBorder:
 case CPBezelBorder:
-return {origin:{x:_cc.origin.x+1,y:_cc.origin.y+1},size:{width:_cc.size.width-2*1,height:_cc.size.height-2*1}};
+return {origin:{x:_d5.origin.x+1,y:_d5.origin.y+1},size:{width:_d5.size.width-2*1,height:_d5.size.height-2*1}};
 case CPGrooveBorder:
-_cc={origin:{x:_cc.origin.x+2,y:_cc.origin.y+2},size:{width:_cc.size.width-2*2,height:_cc.size.height-2*2}};
-++_cc.origin.y;
---_cc.size.height;
-return _cc;
+_d5={origin:{x:_d5.origin.x+2,y:_d5.origin.y+2},size:{width:_d5.size.width-2*2,height:_d5.size.height-2*2}};
+++_d5.origin.y;
+--_d5.size.height;
+return _d5;
 case CPNoBorder:
 default:
-return _cc;
+return _d5;
 }
 }
 })]);
-var _ce="CPScrollViewContentView",_cf="CPScrollViewHeaderClipViewKey",_d0="CPScrollViewVLineScroll",_d1="CPScrollViewHLineScroll",_d2="CPScrollViewVPageScroll",_d3="CPScrollViewHPageScroll",_d4="CPScrollViewHasVScroller",_d5="CPScrollViewHasHScroller",_d6="CPScrollViewVScroller",_d7="CPScrollViewHScroller",_d8="CPScrollViewAutohidesScroller",_d9="CPScrollViewCornerViewKey",_da="CPScrollViewBorderTypeKey";
+var _d7="CPScrollViewContentView",_d8="CPScrollViewHeaderClipViewKey",_d9="CPScrollViewVLineScroll",_da="CPScrollViewHLineScroll",_db="CPScrollViewVPageScroll",_dc="CPScrollViewHPageScroll",_dd="CPScrollViewHasVScroller",_de="CPScrollViewHasHScroller",_df="CPScrollViewVScroller",_e0="CPScrollViewHScroller",_e1="CPScrollViewAutohidesScroller",_e2="CPScrollViewCornerViewKey",_e3="CPScrollViewBorderTypeKey";
 var _1=objj_getClass("CPScrollView");
 if(!_1){
 throw new SyntaxError("*** Could not find definition for class \"CPScrollView\"");
 }
 var _2=_1.isa;
-class_addMethods(_1,[new objj_method(sel_getUid("initWithCoder:"),function(_db,_dc,_dd){
-with(_db){
-if(_db=objj_msgSendSuper({receiver:_db,super_class:objj_getClass("CPScrollView").super_class},"initWithCoder:",_dd)){
-_verticalLineScroll=objj_msgSend(_dd,"decodeFloatForKey:",_d0);
-_verticalPageScroll=objj_msgSend(_dd,"decodeFloatForKey:",_d2);
-_horizontalLineScroll=objj_msgSend(_dd,"decodeFloatForKey:",_d1);
-_horizontalPageScroll=objj_msgSend(_dd,"decodeFloatForKey:",_d3);
-_contentView=objj_msgSend(_dd,"decodeObjectForKey:",_ce);
-_headerClipView=objj_msgSend(_dd,"decodeObjectForKey:",_cf);
+class_addMethods(_1,[new objj_method(sel_getUid("initWithCoder:"),function(_e4,_e5,_e6){
+with(_e4){
+if(_e4=objj_msgSendSuper({receiver:_e4,super_class:objj_getClass("CPScrollView").super_class},"initWithCoder:",_e6)){
+_verticalLineScroll=objj_msgSend(_e6,"decodeFloatForKey:",_d9);
+_verticalPageScroll=objj_msgSend(_e6,"decodeFloatForKey:",_db);
+_horizontalLineScroll=objj_msgSend(_e6,"decodeFloatForKey:",_da);
+_horizontalPageScroll=objj_msgSend(_e6,"decodeFloatForKey:",_dc);
+_contentView=objj_msgSend(_e6,"decodeObjectForKey:",_d7);
+_headerClipView=objj_msgSend(_e6,"decodeObjectForKey:",_d8);
 if(!_headerClipView){
 _headerClipView=objj_msgSend(objj_msgSend(CPClipView,"alloc"),"init");
-objj_msgSend(_db,"addSubview:",_headerClipView);
+objj_msgSend(_e4,"addSubview:",_headerClipView);
 }
-_verticalScroller=objj_msgSend(_dd,"decodeObjectForKey:",_d6);
-_horizontalScroller=objj_msgSend(_dd,"decodeObjectForKey:",_d7);
-_hasVerticalScroller=objj_msgSend(_dd,"decodeBoolForKey:",_d4);
-_hasHorizontalScroller=objj_msgSend(_dd,"decodeBoolForKey:",_d5);
-_autohidesScrollers=objj_msgSend(_dd,"decodeBoolForKey:",_d8);
-_borderType=objj_msgSend(_dd,"decodeIntForKey:",_da);
-_cornerView=objj_msgSend(_dd,"decodeObjectForKey:",_d9);
-objj_msgSend(objj_msgSend(CPRunLoop,"currentRunLoop"),"performSelector:target:argument:order:modes:",sel_getUid("reflectScrolledClipView:"),_db,_contentView,0,[CPDefaultRunLoopMode]);
+_verticalScroller=objj_msgSend(_e6,"decodeObjectForKey:",_df);
+_horizontalScroller=objj_msgSend(_e6,"decodeObjectForKey:",_e0);
+_hasVerticalScroller=objj_msgSend(_e6,"decodeBoolForKey:",_dd);
+_hasHorizontalScroller=objj_msgSend(_e6,"decodeBoolForKey:",_de);
+_autohidesScrollers=objj_msgSend(_e6,"decodeBoolForKey:",_e1);
+_borderType=objj_msgSend(_e6,"decodeIntForKey:",_e3);
+_cornerView=objj_msgSend(_e6,"decodeObjectForKey:",_e2);
+objj_msgSend(objj_msgSend(CPRunLoop,"currentRunLoop"),"performSelector:target:argument:order:modes:",sel_getUid("reflectScrolledClipView:"),_e4,_contentView,0,[CPDefaultRunLoopMode]);
 }
-return _db;
+return _e4;
 }
-}),new objj_method(sel_getUid("encodeWithCoder:"),function(_de,_df,_e0){
-with(_de){
-objj_msgSendSuper({receiver:_de,super_class:objj_getClass("CPScrollView").super_class},"encodeWithCoder:",_e0);
-objj_msgSend(_e0,"encodeObject:forKey:",_contentView,_ce);
-objj_msgSend(_e0,"encodeObject:forKey:",_headerClipView,_cf);
-objj_msgSend(_e0,"encodeObject:forKey:",_verticalScroller,_d6);
-objj_msgSend(_e0,"encodeObject:forKey:",_horizontalScroller,_d7);
-objj_msgSend(_e0,"encodeFloat:forKey:",_verticalLineScroll,_d0);
-objj_msgSend(_e0,"encodeFloat:forKey:",_verticalPageScroll,_d2);
-objj_msgSend(_e0,"encodeFloat:forKey:",_horizontalLineScroll,_d1);
-objj_msgSend(_e0,"encodeFloat:forKey:",_horizontalPageScroll,_d3);
-objj_msgSend(_e0,"encodeBool:forKey:",_hasVerticalScroller,_d4);
-objj_msgSend(_e0,"encodeBool:forKey:",_hasHorizontalScroller,_d5);
-objj_msgSend(_e0,"encodeBool:forKey:",_autohidesScrollers,_d8);
-objj_msgSend(_e0,"encodeObject:forKey:",_cornerView,_d9);
-objj_msgSend(_e0,"encodeInt:forKey:",_borderType,_da);
+}),new objj_method(sel_getUid("encodeWithCoder:"),function(_e7,_e8,_e9){
+with(_e7){
+objj_msgSendSuper({receiver:_e7,super_class:objj_getClass("CPScrollView").super_class},"encodeWithCoder:",_e9);
+objj_msgSend(_e9,"encodeObject:forKey:",_contentView,_d7);
+objj_msgSend(_e9,"encodeObject:forKey:",_headerClipView,_d8);
+objj_msgSend(_e9,"encodeObject:forKey:",_verticalScroller,_df);
+objj_msgSend(_e9,"encodeObject:forKey:",_horizontalScroller,_e0);
+objj_msgSend(_e9,"encodeFloat:forKey:",_verticalLineScroll,_d9);
+objj_msgSend(_e9,"encodeFloat:forKey:",_verticalPageScroll,_db);
+objj_msgSend(_e9,"encodeFloat:forKey:",_horizontalLineScroll,_da);
+objj_msgSend(_e9,"encodeFloat:forKey:",_horizontalPageScroll,_dc);
+objj_msgSend(_e9,"encodeBool:forKey:",_hasVerticalScroller,_dd);
+objj_msgSend(_e9,"encodeBool:forKey:",_hasHorizontalScroller,_de);
+objj_msgSend(_e9,"encodeBool:forKey:",_autohidesScrollers,_e1);
+objj_msgSend(_e9,"encodeObject:forKey:",_cornerView,_e2);
+objj_msgSend(_e9,"encodeInt:forKey:",_borderType,_e3);
 }
 })]);
 p;17;CPAccordionView.jt;10946;@STATIC;1.0;I;20;Foundation/CPArray.jI;21;Foundation/CPObject.jI;32;Foundation/CPKeyValueObserving.jI;23;Foundation/CPIndexSet.jI;21;Foundation/CPString.jI;15;AppKit/CPView.jt;10764;
@@ -30619,7 +30669,7 @@ CGGradientRelease=function(){
 CGGradientRetain=function(_a){
 return _a;
 };
-p;12;CGGeometry.jt;5891;@STATIC;1.0;t;5872;
+p;12;CGGeometry.jt;6601;@STATIC;1.0;t;6582;
 CGPointMake=function(x,y){
 return {x:x,y:y};
 };
@@ -30725,75 +30775,106 @@ return {top:(_25.top),right:(_25.right),bottom:(_25.bottom),left:(_25.left)};
 CGInsetIsEmpty=function(_26){
 return ((_26).top===0&&(_26).right===0&&(_26).bottom===0&&(_26).left===0);
 };
+CGMinXEdge=0;
+CGMinYEdge=1;
+CGMaxXEdge=2;
+CGMaxYEdge=3;
 CGRectNull={origin:{x:Infinity,y:Infinity},size:{width:0,height:0}};
-CGRectContainsRect=function(_27,_28){
-var _29=CGRectUnion(_27,_28);
-return ((_29.origin.x==_27.origin.x&&_29.origin.y==_27.origin.y)&&(_29.size.width==_27.size.width&&_29.size.height==_27.size.height));
-};
-CGRectIntersectsRect=function(_2a,_2b){
-var _2c=CGRectIntersection(_2a,_2b);
-return !(_2c.size.width<=0||_2c.size.height<=0);
-};
-CGRectIntegral=function(_2d){
-_2d=CGRectStandardize(_2d);
-var x=FLOOR((_2d.origin.x)),y=FLOOR((_2d.origin.y));
-_2d.size.width=CEIL((_2d.origin.x+_2d.size.width))-x;
-_2d.size.height=CEIL((_2d.origin.y+_2d.size.height))-y;
-_2d.origin.x=x;
-_2d.origin.y=y;
-return _2d;
-};
-CGRectIntersection=function(_2e,_2f){
-var _30={origin:{x:MAX((_2e.origin.x),(_2f.origin.x)),y:MAX((_2e.origin.y),(_2f.origin.y))},size:{width:0,height:0}};
-_30.size.width=MIN((_2e.origin.x+_2e.size.width),(_2f.origin.x+_2f.size.width))-(_30.origin.x);
-_30.size.height=MIN((_2e.origin.y+_2e.size.height),(_2f.origin.y+_2f.size.height))-(_30.origin.y);
-return (_30.size.width<=0||_30.size.height<=0)?{origin:{x:0,y:0},size:{width:0,height:0}}:_30;
-};
-CGRectStandardize=function(_31){
-var _32=(_31.size.width),_33=(_31.size.height),_34={origin:{x:_31.origin.x,y:_31.origin.y},size:{width:_31.size.width,height:_31.size.height}};
-if(_32<0){
-_34.origin.x+=_32;
-_34.size.width=-_32;
+CGRectDivide=function(_27,_28,rem,_29,_2a){
+_28.origin={x:_27.origin.x,y:_27.origin.y};
+_28.size={width:_27.size.width,height:_27.size.height};
+rem.origin={x:_27.origin.x,y:_27.origin.y};
+rem.size={width:_27.size.width,height:_27.size.height};
+switch(_2a){
+case CGMinXEdge:
+_28.size.width=_29;
+rem.origin.x+=_29;
+rem.size.width-=_29;
+break;
+case CGMaxXEdge:
+_28.origin.x=(_28.origin.x+_28.size.width)-_29;
+_28.size.width=_29;
+rem.size.width-=_29;
+break;
+case CGMinYEdge:
+_28.size.height=_29;
+rem.origin.y+=_29;
+rem.size.height-=_29;
+break;
+case CGMaxYEdge:
+_28.origin.y=(_28.origin.y+_28.size.height)-_29;
+_28.size.height=_29;
+rem.size.height-=_29;
 }
-if(_33<0){
-_34.origin.y+=_33;
-_34.size.height=-_33;
+};
+CGRectContainsRect=function(_2b,_2c){
+var _2d=CGRectUnion(_2b,_2c);
+return ((_2d.origin.x==_2b.origin.x&&_2d.origin.y==_2b.origin.y)&&(_2d.size.width==_2b.size.width&&_2d.size.height==_2b.size.height));
+};
+CGRectIntersectsRect=function(_2e,_2f){
+var _30=CGRectIntersection(_2e,_2f);
+return !(_30.size.width<=0||_30.size.height<=0);
+};
+CGRectIntegral=function(_31){
+_31=CGRectStandardize(_31);
+var x=FLOOR((_31.origin.x)),y=FLOOR((_31.origin.y));
+_31.size.width=CEIL((_31.origin.x+_31.size.width))-x;
+_31.size.height=CEIL((_31.origin.y+_31.size.height))-y;
+_31.origin.x=x;
+_31.origin.y=y;
+return _31;
+};
+CGRectIntersection=function(_32,_33){
+var _34={origin:{x:MAX((_32.origin.x),(_33.origin.x)),y:MAX((_32.origin.y),(_33.origin.y))},size:{width:0,height:0}};
+_34.size.width=MIN((_32.origin.x+_32.size.width),(_33.origin.x+_33.size.width))-(_34.origin.x);
+_34.size.height=MIN((_32.origin.y+_32.size.height),(_33.origin.y+_33.size.height))-(_34.origin.y);
+return (_34.size.width<=0||_34.size.height<=0)?{origin:{x:0,y:0},size:{width:0,height:0}}:_34;
+};
+CGRectStandardize=function(_35){
+var _36=(_35.size.width),_37=(_35.size.height),_38={origin:{x:_35.origin.x,y:_35.origin.y},size:{width:_35.size.width,height:_35.size.height}};
+if(_36<0){
+_38.origin.x+=_36;
+_38.size.width=-_36;
 }
-return _34;
-};
-CGRectUnion=function(_35,_36){
-var _37=!_35||_35===CGRectNull,_38=!_36||_36===CGRectNull;
-if(_37){
-return _38?CGRectNull:_36;
+if(_37<0){
+_38.origin.y+=_37;
+_38.size.height=-_37;
 }
-if(_38){
-return _37?CGRectNull:_35;
+return _38;
+};
+CGRectUnion=function(_39,_3a){
+var _3b=!_39||_39===CGRectNull,_3c=!_3a||_3a===CGRectNull;
+if(_3b){
+return _3c?CGRectNull:_3a;
 }
-var _39=MIN((_35.origin.x),(_36.origin.x)),_3a=MIN((_35.origin.y),(_36.origin.y)),_3b=MAX((_35.origin.x+_35.size.width),(_36.origin.x+_36.size.width)),_3c=MAX((_35.origin.y+_35.size.height),(_36.origin.y+_36.size.height));
-return {origin:{x:_39,y:_3a},size:{width:_3b-_39,height:_3c-_3a}};
+if(_3c){
+return _3b?CGRectNull:_39;
+}
+var _3d=MIN((_39.origin.x),(_3a.origin.x)),_3e=MIN((_39.origin.y),(_3a.origin.y)),_3f=MAX((_39.origin.x+_39.size.width),(_3a.origin.x+_3a.size.width)),_40=MAX((_39.origin.y+_39.size.height),(_3a.origin.y+_3a.size.height));
+return {origin:{x:_3d,y:_3e},size:{width:_3f-_3d,height:_40-_3e}};
 };
-CGPointFromString=function(_3d){
-var _3e=_3d.indexOf(",");
-return {x:parseInt(_3d.substr(1,_3e-1)),y:parseInt(_3d.substring(_3e+1,_3d.length))};
+CGPointFromString=function(_41){
+var _42=_41.indexOf(",");
+return {x:parseInt(_41.substr(1,_42-1)),y:parseInt(_41.substring(_42+1,_41.length))};
 };
-CGSizeFromString=function(_3f){
-var _40=_3f.indexOf(",");
-return {width:parseInt(_3f.substr(1,_40-1)),height:parseInt(_3f.substring(_40+1,_3f.length))};
+CGSizeFromString=function(_43){
+var _44=_43.indexOf(",");
+return {width:parseInt(_43.substr(1,_44-1)),height:parseInt(_43.substring(_44+1,_43.length))};
 };
-CGRectFromString=function(_41){
-var _42=_41.indexOf(",",_41.indexOf(",")+1);
-return {origin:CGPointFromString(_41.substr(1,_42-1)),size:CGSizeFromString(_41.substring(_42+2,_41.length))};
+CGRectFromString=function(_45){
+var _46=_45.indexOf(",",_45.indexOf(",")+1);
+return {origin:CGPointFromString(_45.substr(1,_46-1)),size:CGSizeFromString(_45.substring(_46+2,_45.length))};
 };
-CGPointFromEvent=function(_43){
-return {x:_43.clientX,y:_43.clientY};
+CGPointFromEvent=function(_47){
+return {x:_47.clientX,y:_47.clientY};
 };
-CGInsetFromString=function(_44){
-var _45=_44.substr(1,_44.length-2).split(",");
-return {top:(parseFloat(_45[0])),right:(parseFloat(_45[1])),bottom:(parseFloat(_45[2])),left:(parseFloat(_45[3]))};
+CGInsetFromString=function(_48){
+var _49=_48.substr(1,_48.length-2).split(",");
+return {top:(parseFloat(_49[0])),right:(parseFloat(_49[1])),bottom:(parseFloat(_49[2])),left:(parseFloat(_49[3]))};
 };
 CGInsetFromCPString=CGInsetFromString;
-CPStringFromCGInset=function(_46){
-return "{"+_46.top+", "+_46.left+", "+_46.bottom+", "+_46.right+"}";
+CPStringFromCGInset=function(_4a){
+return "{"+_4a.top+", "+_4a.left+", "+_4a.bottom+", "+_4a.right+"}";
 };
 p;19;CGAffineTransform.jt;2936;@STATIC;1.0;i;12;CGGeometry.jt;2900;
 objj_executeFile("CGGeometry.j",YES);

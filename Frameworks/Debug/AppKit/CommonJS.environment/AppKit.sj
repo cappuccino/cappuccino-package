@@ -7006,72 +7006,67 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"])]);
 }
 
-p;12;CPGraphics.jt;3920;@STATIC;1.0;i;9;CPColor.ji;19;CPGraphicsContext.jt;3864;objj_executeFile("CPColor.j", YES);
+p;12;CPGraphics.jt;2733;@STATIC;1.0;i;9;CPColor.ji;19;CPGraphicsContext.jt;2677;objj_executeFile("CPColor.j", YES);
 objj_executeFile("CPGraphicsContext.j", YES);
-CPDrawGrayBezel= function(aRect)
+CPDrawTiledRects= function(
+                boundsRect,
+                clipRect,
+                      sides,
+                 grays)
 {
-    var context = objj_msgSend(objj_msgSend(CPGraphicsContext, "currentContext"), "graphicsPort");
-    CGContextBeginPath(context);
-    CGContextSetStrokeColor(context, objj_msgSend(CPColor, "colorWithWhite:alpha:", 142.0/255.0, 1.0));
-    var y = (aRect.origin.y) + 0.5;
-    CGContextMoveToPoint(context, (aRect.origin.x), y);
-    CGContextAddLineToPoint(context, (aRect.origin.x) + 1.0, y);
-    CGContextStrokePath(context);
-    CGContextBeginPath(context);
-    CGContextSetStrokeColor(context, objj_msgSend(CPColor, "colorWithWhite:alpha:", 192.0/255.0, 1.0));
-    CGContextMoveToPoint(context, (aRect.origin.x) + 1.0, y);
-    CGContextAddLineToPoint(context, (aRect.origin.x + aRect.size.width) - 1.0, y);
-    CGContextStrokePath(context);
-    CGContextBeginPath(context);
-    CGContextSetStrokeColor(context, objj_msgSend(CPColor, "colorWithWhite:alpha:", 142.0/255.0, 1.0));
-    CGContextMoveToPoint(context, (aRect.origin.x + aRect.size.width) - 1.0, y);
-    CGContextAddLineToPoint(context, (aRect.origin.x + aRect.size.width), y);
-    CGContextStrokePath(context);
-    CGContextBeginPath(context);
-    CGContextSetStrokeColor(context, objj_msgSend(CPColor, "colorWithWhite:alpha:", 190.0/255.0, 1.0));
-    var x = (aRect.origin.x + aRect.size.width) - 0.5;
-    CGContextMoveToPoint(context, x, (aRect.origin.y) + 1.0);
-    CGContextAddLineToPoint(context, x, (aRect.origin.y + aRect.size.height));
-    CGContextMoveToPoint(context, x - 0.5, (aRect.origin.y + aRect.size.height) - 0.5);
-    CGContextAddLineToPoint(context, (aRect.origin.x), (aRect.origin.y + aRect.size.height) - 0.5);
-    x = (aRect.origin.x) + 0.5;
-    CGContextMoveToPoint(context, x, (aRect.origin.y + aRect.size.height));
-    CGContextAddLineToPoint(context, x, (aRect.origin.y) + 1.0);
-    CGContextStrokePath(context);
+    if (sides.length != grays.length)
+        objj_msgSend(CPException, "raise:reason:", CPInvalidArgumentException, "sides (length: " + sides.length + ") and grays (length: " + grays.length + ") must have the same length.");
+    var colors = [];
+    for (var i = 0; i < grays.length; ++i)
+        colors.push(objj_msgSend(CPColor, "colorWithWhite:alpha:", grays[i], 1.0));
+    return CPDrawColorTiledRects(boundsRect, clipRect, sides, colors);
 }
-CPDrawGroove= function(aRect, drawTopBorder)
+CPDrawColorTiledRects= function(
+                boundsRect,
+                clipRect,
+                      sides,
+                   colors)
 {
-    var context = objj_msgSend(objj_msgSend(CPGraphicsContext, "currentContext"), "graphicsPort");
-    CGContextBeginPath(context);
-    CGContextSetStrokeColor(context, objj_msgSend(CPColor, "colorWithWhite:alpha:", 159.0/255.0, 1.0));
-    var y = (aRect.origin.y) + 0.5;
-    CGContextMoveToPoint(context, (aRect.origin.x), y);
-    CGContextAddLineToPoint(context, (aRect.origin.x + aRect.size.width), y);
-    var x = (aRect.origin.x + aRect.size.width) - 1.5;
-    CGContextMoveToPoint(context, x, (aRect.origin.y) + 2.0);
-    CGContextAddLineToPoint(context, x, (aRect.origin.y + aRect.size.height) - 1.0);
-    y = (aRect.origin.y + aRect.size.height) - 1.5;
-    CGContextMoveToPoint(context, (aRect.origin.x + aRect.size.width) - 1.0, y);
-    CGContextAddLineToPoint(context, (aRect.origin.x) + 2.0, y);
-    x = (aRect.origin.x) + 0.5;
-    CGContextMoveToPoint(context, x, (aRect.origin.y + aRect.size.height));
-    CGContextAddLineToPoint(context, x, (aRect.origin.y));
-    CGContextStrokePath(context);
-    CGContextBeginPath(context);
-    CGContextSetStrokeColor(context, objj_msgSend(CPColor, "whiteColor"));
-    var rect = { origin: { x:aRect.origin.x + 1.0, y:aRect.origin.y + 1.0 }, size: { width:aRect.size.width, height:aRect.size.height } };
-    rect.size.width -= 1.0;
-    rect.size.height -= 1.0;
-    CGContextStrokeRect(context, { origin: { x:rect.origin.x + 0.5, y:rect.origin.y + 0.5 }, size: { width:rect.size.width - 2 * 0.5, height:rect.size.height - 2 * 0.5 } });
-    if (drawTopBorder)
+    if (sides.length != colors.length)
+        objj_msgSend(CPException, "raise:reason:", CPInvalidArgumentException, "sides (length: " + sides.length + ") and colors (length: " + colors.length + ") must have the same length.");
+    var resultRect = { origin: { x:boundsRect.origin.x, y:boundsRect.origin.y }, size: { width:boundsRect.size.width, height:boundsRect.size.height } },
+        slice = { origin: { x:0.0, y:0.0 }, size: { width:0.0, height:0.0 } },
+        remainder = { origin: { x:0.0, y:0.0 }, size: { width:0.0, height:0.0 } },
+        context = objj_msgSend(objj_msgSend(CPGraphicsContext, "currentContext"), "graphicsPort");
+    for (var sideIndex = 0; sideIndex < sides.length; ++sideIndex)
     {
+        var side = sides[sideIndex];
+        CGRectDivide(resultRect, slice, remainder, 1.0, side);
+        resultRect = remainder;
+        slice = CGRectIntersection(slice, clipRect);
+        if ((slice.size.width <= 0.0 || slice.size.height <= 0.0))
+            continue;
+        var minX, maxX, minY, maxY;
+        if (side == CPMinXEdge || side == CPMaxXEdge)
+        {
+            if ((slice.size.width) < 1.0)
+                continue;
+            minX = (slice.origin.x) + 0.5;
+            maxX = minX;
+            minY = (slice.origin.y);
+            maxY = (slice.origin.y + slice.size.height);
+        }
+        else
+        {
+            if ((slice.size.height) < 1.0)
+                continue;
+            minX = (slice.origin.x);
+            maxX = (slice.origin.x + slice.size.width);
+            minY = (slice.origin.y) + 0.5;
+            maxY = minY;
+        }
         CGContextBeginPath(context);
-        CGContextSetStrokeColor(context, objj_msgSend(CPColor, "colorWithWhite:alpha:", 192.0/255.0, 1.0));
-        y = (aRect.origin.y) + 2.5;
-        CGContextMoveToPoint(context, (aRect.origin.x) + 2.0, y);
-        CGContextAddLineToPoint(context, (aRect.origin.x + aRect.size.width) - 2.0, y);
+        CGContextMoveToPoint(context, minX, minY);
+        CGContextAddLineToPoint(context, maxX, maxY);
+        CGContextSetStrokeColor(context, colors[sideIndex]);
         CGContextStrokePath(context);
     }
+    return resultRect;
 }
 
 p;20;CPSegmentedControl.jt;34164;@STATIC;1.0;I;20;Foundation/CPArray.ji;11;CPControl.jt;34103;objj_executeFile("Foundation/CPArray.j", NO);
@@ -14668,7 +14663,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("setRepresentedObject:")
 },["CPCollectionView"])]);
 }
 
-p;12;CPGeometry.jt;5521;@STATIC;1.0;i;12;CGGeometry.jt;5485;objj_executeFile("CGGeometry.j", YES);
+p;12;CPGeometry.jt;5646;@STATIC;1.0;i;12;CGGeometry.jt;5610;objj_executeFile("CGGeometry.j", YES);
 CPMinXEdge = 0;
 CPMinYEdge = 1;
 CPMaxXEdge = 2;
@@ -14752,8 +14747,8 @@ CPRectContainsPoint= function(aRect, aPoint)
 {
     return aPoint.x >= CPRectGetMinX(aRect) &&
             aPoint.y >= CPRectGetMinY(aRect) &&
-      aPoint.x < CPRectGetMaxX(aRect) &&
-      aPoint.y < CPRectGetMaxY(aRect);
+            aPoint.x < CPRectGetMaxX(aRect) &&
+            aPoint.y < CPRectGetMaxY(aRect);
 }
 CPRectContainsRect= function(possibleOuter, possibleInner)
 {
@@ -14811,6 +14806,10 @@ CPRectIsEmpty= function(aRect)
 CPRectIsNull= function(aRect)
 {
     return aRect.size.width <= 0.0 || aRect.size.height <= 0.0;
+}
+CPDivideRect= function(inRect, slice, rem, amount, edge)
+{
+    CGRectDivide(inRect, slice, rem, amount, edge);
 }
 CPSizeEqualToSize= function(lhsSize, rhsSize)
 {
@@ -22281,7 +22280,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithItemIdentifier:
 },["void","CPCoder"])]);
 }
 
-p;14;CPScrollView.jt;33302;@STATIC;1.0;i;8;CPView.ji;12;CPClipView.ji;12;CPScroller.jt;33236;objj_executeFile("CPView.j", YES);
+p;14;CPScrollView.jt;37219;@STATIC;1.0;i;8;CPView.ji;12;CPClipView.ji;12;CPScroller.jt;37153;objj_executeFile("CPView.j", YES);
 objj_executeFile("CPClipView.j", YES);
 objj_executeFile("CPScroller.j", YES);
 {var the_class = objj_allocateClassPair(CPView, "CPScrollView"),
@@ -22720,16 +22719,78 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
             CGContextStrokeRect(context, { origin: { x:strokeRect.origin.x + 0.5, y:strokeRect.origin.y + 0.5 }, size: { width:strokeRect.size.width - 2 * 0.5, height:strokeRect.size.height - 2 * 0.5 } });
             break;
         case CPBezelBorder:
-            CPDrawGrayBezel(strokeRect);
+            objj_msgSend(self, "_drawGrayBezelInContext:bounds:", context, strokeRect);
             break;
         case CPGrooveBorder:
-            CPDrawGroove(strokeRect, YES);
+            objj_msgSend(self, "_drawGrooveInContext:bounds:", context, strokeRect);
             break;
         default:
             break;
     }
 }
-},["void","CPRect"]), new objj_method(sel_getUid("scrollWheel:"), function $CPScrollView__scrollWheel_(self, _cmd, anEvent)
+},["void","CPRect"]), new objj_method(sel_getUid("_drawGrayBezelInContext:bounds:"), function $CPScrollView___drawGrayBezelInContext_bounds_(self, _cmd, context, aRect)
+{ with(self)
+{
+    CGContextBeginPath(context);
+    CGContextSetStrokeColor(context, objj_msgSend(CPColor, "colorWithWhite:alpha:", 142.0/255.0, 1.0));
+    var y = (aRect.origin.y) + 0.5;
+    CGContextMoveToPoint(context, (aRect.origin.x), y);
+    CGContextAddLineToPoint(context, (aRect.origin.x) + 1.0, y);
+    CGContextStrokePath(context);
+    CGContextBeginPath(context);
+    CGContextSetStrokeColor(context, objj_msgSend(CPColor, "colorWithWhite:alpha:", 192.0/255.0, 1.0));
+    CGContextMoveToPoint(context, (aRect.origin.x) + 1.0, y);
+    CGContextAddLineToPoint(context, (aRect.origin.x + aRect.size.width) - 1.0, y);
+    CGContextStrokePath(context);
+    CGContextBeginPath(context);
+    CGContextSetStrokeColor(context, objj_msgSend(CPColor, "colorWithWhite:alpha:", 142.0/255.0, 1.0));
+    CGContextMoveToPoint(context, (aRect.origin.x + aRect.size.width) - 1.0, y);
+    CGContextAddLineToPoint(context, (aRect.origin.x + aRect.size.width), y);
+    CGContextStrokePath(context);
+    CGContextBeginPath(context);
+    CGContextSetStrokeColor(context, objj_msgSend(CPColor, "colorWithWhite:alpha:", 190.0/255.0, 1.0));
+    var x = (aRect.origin.x + aRect.size.width) - 0.5;
+    CGContextMoveToPoint(context, x, (aRect.origin.y) + 1.0);
+    CGContextAddLineToPoint(context, x, (aRect.origin.y + aRect.size.height));
+    CGContextMoveToPoint(context, x - 0.5, (aRect.origin.y + aRect.size.height) - 0.5);
+    CGContextAddLineToPoint(context, (aRect.origin.x), (aRect.origin.y + aRect.size.height) - 0.5);
+    x = (aRect.origin.x) + 0.5;
+    CGContextMoveToPoint(context, x, (aRect.origin.y + aRect.size.height));
+    CGContextAddLineToPoint(context, x, (aRect.origin.y) + 1.0);
+    CGContextStrokePath(context);
+}
+},["void","CGContext","CGRect"]), new objj_method(sel_getUid("_drawGrooveInContext:bounds:"), function $CPScrollView___drawGrooveInContext_bounds_(self, _cmd, context, aRect)
+{ with(self)
+{
+    CGContextBeginPath(context);
+    CGContextSetStrokeColor(context, objj_msgSend(CPColor, "colorWithWhite:alpha:", 159.0/255.0, 1.0));
+    var y = (aRect.origin.y) + 0.5;
+    CGContextMoveToPoint(context, (aRect.origin.x), y);
+    CGContextAddLineToPoint(context, (aRect.origin.x + aRect.size.width), y);
+    var x = (aRect.origin.x + aRect.size.width) - 1.5;
+    CGContextMoveToPoint(context, x, (aRect.origin.y) + 2.0);
+    CGContextAddLineToPoint(context, x, (aRect.origin.y + aRect.size.height) - 1.0);
+    y = (aRect.origin.y + aRect.size.height) - 1.5;
+    CGContextMoveToPoint(context, (aRect.origin.x + aRect.size.width) - 1.0, y);
+    CGContextAddLineToPoint(context, (aRect.origin.x) + 2.0, y);
+    x = (aRect.origin.x) + 0.5;
+    CGContextMoveToPoint(context, x, (aRect.origin.y + aRect.size.height));
+    CGContextAddLineToPoint(context, x, (aRect.origin.y));
+    CGContextStrokePath(context);
+    CGContextBeginPath(context);
+    CGContextSetStrokeColor(context, objj_msgSend(CPColor, "whiteColor"));
+    var rect = { origin: { x:aRect.origin.x + 1.0, y:aRect.origin.y + 1.0 }, size: { width:aRect.size.width, height:aRect.size.height } };
+    rect.size.width -= 1.0;
+    rect.size.height -= 1.0;
+    CGContextStrokeRect(context, { origin: { x:rect.origin.x + 0.5, y:rect.origin.y + 0.5 }, size: { width:rect.size.width - 2 * 0.5, height:rect.size.height - 2 * 0.5 } });
+    CGContextBeginPath(context);
+    CGContextSetStrokeColor(context, objj_msgSend(CPColor, "colorWithWhite:alpha:", 192.0/255.0, 1.0));
+    y = (aRect.origin.y) + 2.5;
+    CGContextMoveToPoint(context, (aRect.origin.x) + 2.0, y);
+    CGContextAddLineToPoint(context, (aRect.origin.x + aRect.size.width) - 2.0, y);
+    CGContextStrokePath(context);
+}
+},["void","CGContext","CGRect"]), new objj_method(sel_getUid("scrollWheel:"), function $CPScrollView__scrollWheel_(self, _cmd, anEvent)
 { with(self)
 {
     objj_msgSend(self, "_respondToScrollWheelEventWithDeltaX:deltaY:", objj_msgSend(anEvent, "deltaX") * _horizontalLineScroll, objj_msgSend(anEvent, "deltaY") * _verticalLineScroll);
@@ -35470,7 +35531,7 @@ CGGradientRetain= function(aGradient)
     return aGradient;
 }
 
-p;12;CGGeometry.jt;7792;@STATIC;1.0;t;7773;CGPointMake= function(x, y) { return { x:x, y:y }; }
+p;12;CGGeometry.jt;8903;@STATIC;1.0;t;8884;CGPointMake= function(x, y) { return { x:x, y:y }; }
 CGPointMakeZero= function() { return { x:0.0, y:0.0 }; }
 CGPointMakeCopy= function(aPoint) { return { x:aPoint.x, y:aPoint.y }; }
 CGPointCreateCopy= function(aPoint) { return { x:aPoint.x, y:aPoint.y }; }
@@ -35505,7 +35566,40 @@ CGInsetMake= function(top, right, bottom, left) { return { top:(top), right:(rig
 CGInsetMakeZero= function() { return { top:(0), right:(0), bottom:(0), left:(0) }; }
 CGInsetMakeCopy= function(anInset) { return { top:(anInset.top), right:(anInset.right), bottom:(anInset.bottom), left:(anInset.left) }; }
 CGInsetIsEmpty= function(anInset) { return ((anInset).top === 0 && (anInset).right === 0 && (anInset).bottom === 0 && (anInset).left === 0); }
+CGMinXEdge = 0;
+CGMinYEdge = 1;
+CGMaxXEdge = 2;
+CGMaxYEdge = 3;
 CGRectNull = { origin: { x:Infinity, y:Infinity }, size: { width:0.0, height:0.0 } };
+CGRectDivide= function(inRect, slice, rem, amount, edge)
+{
+    slice.origin = { x:inRect.origin.x, y:inRect.origin.y };
+    slice.size = { width:inRect.size.width, height:inRect.size.height };
+    rem.origin = { x:inRect.origin.x, y:inRect.origin.y };
+    rem.size = { width:inRect.size.width, height:inRect.size.height };
+    switch (edge)
+    {
+        case CGMinXEdge:
+            slice.size.width = amount;
+            rem.origin.x += amount;
+            rem.size.width -= amount;
+            break;
+        case CGMaxXEdge:
+            slice.origin.x = (slice.origin.x + slice.size.width) - amount;
+            slice.size.width = amount;
+            rem.size.width -= amount;
+            break;
+        case CGMinYEdge:
+            slice.size.height = amount;
+            rem.origin.y += amount;
+            rem.size.height -= amount;
+            break;
+        case CGMaxYEdge:
+            slice.origin.y = (slice.origin.y + slice.size.height) - amount;
+            slice.size.height = amount;
+            rem.size.height -= amount;
+    }
+}
 CGRectContainsRect= function(lhsRect, rhsRect)
 {
     var union = CGRectUnion(lhsRect, rhsRect);
