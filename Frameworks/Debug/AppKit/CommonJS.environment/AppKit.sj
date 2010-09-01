@@ -37767,7 +37767,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("view"), function $_CPM
 },["id"])]);
 }
 
-p;24;_CPMenuItemMenuBarView.jt;10671;@STATIC;1.0;t;10651;
+p;24;_CPMenuItemMenuBarView.jt;10736;@STATIC;1.0;t;10716;
 
 var HORIZONTAL_MARGIN = 8.0,
     SUBMENU_INDICATOR_MARGIN = 3.0,
@@ -37805,6 +37805,7 @@ _menuItem = newValue;
         _imageAndTextView = objj_msgSend(objj_msgSend(_CPImageAndTextView, "alloc"), "initWithFrame:", CGRectMake(HORIZONTAL_MARGIN, 0.0, 0.0, 0.0));
 
         objj_msgSend(_imageAndTextView, "setImagePosition:", CPImageLeft);
+        objj_msgSend(_imageAndTextView, "setImageOffset:", 3.0);
         objj_msgSend(_imageAndTextView, "setTextShadowOffset:", CGSizeMake(0.0, 1.0));
         objj_msgSend(_imageAndTextView, "setAutoresizingMask:", CPViewMinYMargin | CPViewMaxYMargin);
 

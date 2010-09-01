@@ -1,4 +1,4 @@
-@STATIC;1.0;p;19;BKThemeDescriptor.jt;7375;@STATIC;1.0;I;21;Foundation/CPObject.jt;7330;
+@STATIC;1.0;p;19;BKThemeDescriptor.jt;7386;@STATIC;1.0;I;21;Foundation/CPObject.jt;7341;
 objj_executeFile("Foundation/CPObject.j",NO);
 var _1={},_2={},_3={},_4={},_5=nil,_6=nil,_7=nil;
 var _8=objj_allocateClassPair(CPObject,"BKThemeDescriptor"),_9=_8.isa;
@@ -84,9 +84,11 @@ if(objj_msgSend(_27,"respondsToSelector:",sel_getUid("themeShowcaseExcludes"))){
 _2f=objj_msgSend(_27,"themeShowcaseExcludes");
 }
 for(;_2d<_2f.length;++_2d){
-var _30=_2f[_2d];
+var _30=_2f[_2d].toLowerCase();
 if(_30&&_30.indexOf("themed")!==0){
-_2f[_2d]="themed"+_30.charAt(0).toUpperCase()+_30.substr(1);
+_2f[_2d]="themed"+_30;
+}else{
+_2f[_2d]=_30;
 }
 }
 for(_2d=0;_2d<_2e;++_2d){
@@ -98,7 +100,7 @@ var _33=method_getImplementation(_31),_34=_33(_27,_32);
 if(!_34){
 continue;
 }
-var _35=objj_msgSend(objj_msgSend(BKThemedObjectTemplate,"alloc"),"init"),_36=objj_msgSend(_2f,"containsObject:",_32);
+var _35=objj_msgSend(objj_msgSend(BKThemedObjectTemplate,"alloc"),"init"),_36=objj_msgSend(_2f,"containsObject:",_32.toLowerCase());
 objj_msgSend(_35,"setValue:forKey:",_34,"themedObject");
 objj_msgSend(_35,"setValue:forKey:",BKLabelFromIdentifier(_32),"label");
 objj_msgSend(_29,"addObject:",_35);

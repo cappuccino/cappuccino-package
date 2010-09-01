@@ -34049,7 +34049,7 @@ with(_b){
 return objj_msgSend(objj_msgSend(_b,"alloc"),"initWithFrame:",CGRectMake(0,0,0,10));
 }
 })]);
-p;24;_CPMenuItemMenuBarView.jt;7593;@STATIC;1.0;t;7574;
+p;24;_CPMenuItemMenuBarView.jt;7646;@STATIC;1.0;t;7627;
 var _1=8,_2=3,_3=4;
 var _4=nil,_5=nil,_6=nil,_7=nil,_8=[],_9=[];
 var _a=objj_allocateClassPair(CPView,"_CPMenuItemMenuBarView"),_b=_a.isa;
@@ -34069,6 +34069,7 @@ _11=objj_msgSendSuper({receiver:_11,super_class:objj_getClass("_CPMenuItemMenuBa
 if(_11){
 _imageAndTextView=objj_msgSend(objj_msgSend(_CPImageAndTextView,"alloc"),"initWithFrame:",CGRectMake(_1,0,0,0));
 objj_msgSend(_imageAndTextView,"setImagePosition:",CPImageLeft);
+objj_msgSend(_imageAndTextView,"setImageOffset:",3);
 objj_msgSend(_imageAndTextView,"setTextShadowOffset:",CGSizeMake(0,1));
 objj_msgSend(_imageAndTextView,"setAutoresizingMask:",CPViewMinYMargin|CPViewMaxYMargin);
 objj_msgSend(_11,"addSubview:",_imageAndTextView);

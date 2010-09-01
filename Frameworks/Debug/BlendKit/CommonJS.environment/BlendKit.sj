@@ -1,4 +1,4 @@
-@STATIC;1.0;p;19;BKThemeDescriptor.jt;12812;@STATIC;1.0;I;21;Foundation/CPObject.jt;12766;objj_executeFile("Foundation/CPObject.j", NO);
+@STATIC;1.0;p;19;BKThemeDescriptor.jt;12848;@STATIC;1.0;I;21;Foundation/CPObject.jt;12802;objj_executeFile("Foundation/CPObject.j", NO);
 var ItemSizes = { },
     ThemedObjects = { },
     ThemedShowcaseObjects = { },
@@ -100,9 +100,11 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("allThemeDescriptorClas
         excludes = objj_msgSend(self, "themeShowcaseExcludes");
     for (; index < excludes.length; ++index)
     {
-        var name = excludes[index];
+        var name = excludes[index].toLowerCase();
         if (name && name.indexOf("themed") !== 0)
-            excludes[index] = "themed" + name.charAt(0).toUpperCase() + name.substr(1);
+            excludes[index] = "themed" + name;
+        else
+            excludes[index] = name;
     }
     for (index = 0; index < count; ++index)
     {
@@ -115,7 +117,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("allThemeDescriptorClas
         if (!object)
             continue;
         var template = objj_msgSend(objj_msgSend(BKThemedObjectTemplate, "alloc"), "init"),
-            excluded = objj_msgSend(excludes, "containsObject:", selector);
+            excluded = objj_msgSend(excludes, "containsObject:", selector.toLowerCase());
         objj_msgSend(template, "setValue:forKey:", object, "themedObject");
         objj_msgSend(template, "setValue:forKey:", BKLabelFromIdentifier(selector), "label");
         objj_msgSend(templates, "addObject:", template);
