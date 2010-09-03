@@ -23175,7 +23175,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithItemIdentifier:
 },["void","CPCoder"])]);
 }
 
-p;14;CPScrollView.jt;37219;@STATIC;1.0;i;8;CPView.ji;12;CPClipView.ji;12;CPScroller.jt;37153;objj_executeFile("CPView.j", YES);
+p;14;CPScrollView.jt;36969;@STATIC;1.0;i;8;CPView.ji;12;CPClipView.ji;12;CPScroller.jt;36903;objj_executeFile("CPView.j", YES);
 objj_executeFile("CPClipView.j", YES);
 objj_executeFile("CPScroller.j", YES);
 {var the_class = objj_allocateClassPair(CPView, "CPScrollView"),
@@ -23688,7 +23688,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CGContext","CGRect"]), new objj_method(sel_getUid("scrollWheel:"), function $CPScrollView__scrollWheel_(self, _cmd, anEvent)
 { with(self)
 {
-    objj_msgSend(self, "_respondToScrollWheelEventWithDeltaX:deltaY:", objj_msgSend(anEvent, "deltaX") * _horizontalLineScroll, objj_msgSend(anEvent, "deltaY") * _verticalLineScroll);
+    objj_msgSend(self, "_respondToScrollWheelEventWithDeltaX:deltaY:", objj_msgSend(anEvent, "deltaX"), objj_msgSend(anEvent, "deltaY"));
 }
 },["void","CPEvent"]), new objj_method(sel_getUid("_respondToScrollWheelEventWithDeltaX:deltaY:"), function $CPScrollView___respondToScrollWheelEventWithDeltaX_deltaY_(self, _cmd, deltaX, deltaY)
 { with(self)
@@ -23696,14 +23696,12 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     var documentFrame = objj_msgSend(objj_msgSend(self, "documentView"), "frame"),
         contentBounds = objj_msgSend(_contentView, "bounds"),
         contentFrame = objj_msgSend(_contentView, "frame"),
-        enclosingScrollView = objj_msgSend(self, "enclosingScrollView"),
-        extraX = 0,
-        extraY = 0;
+        enclosingScrollView = objj_msgSend(self, "enclosingScrollView");
     contentBounds.origin.x = ROUND(contentBounds.origin.x + deltaX);
     contentBounds.origin.y = ROUND(contentBounds.origin.y + deltaY);
-    var constrainedOrigin = objj_msgSend(_contentView, "constrainScrollPoint:", CGPointCreateCopy(contentBounds.origin));
-    extraX = ((contentBounds.origin.x - constrainedOrigin.x) / _horizontalLineScroll) * objj_msgSend(enclosingScrollView, "horizontalLineScroll");
-    extraY = ((contentBounds.origin.y - constrainedOrigin.y) / _verticalLineScroll) * objj_msgSend(enclosingScrollView, "verticalLineScroll");
+    var constrainedOrigin = objj_msgSend(_contentView, "constrainScrollPoint:", CGPointCreateCopy(contentBounds.origin)),
+        extraX = contentBounds.origin.x - constrainedOrigin.x,
+        extraY = contentBounds.origin.y - constrainedOrigin.y;
     objj_msgSend(_contentView, "scrollToPoint:", constrainedOrigin);
     objj_msgSend(_headerClipView, "scrollToPoint:", CGPointMake(constrainedOrigin.x, 0.0));
     if (extraX || extraY)
@@ -34335,10 +34333,10 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("bootstrap"), function 
 },["CPDictionary","CPFont"])]);
 }
 
-p;18;CPPlatformWindow.jt;7805;@STATIC;1.0;I;21;Foundation/CPObject.ji;22;CPPlatformWindow+DOM.jt;7733;objj_executeFile("Foundation/CPObject.j", NO);
+p;18;CPPlatformWindow.jt;7894;@STATIC;1.0;I;21;Foundation/CPObject.ji;22;CPPlatformWindow+DOM.jt;7822;objj_executeFile("Foundation/CPObject.j", NO);
 var PrimaryPlatformWindow = NULL;
 {var the_class = objj_allocateClassPair(CPObject, "CPPlatformWindow"),
-meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_contentRect"), new objj_ivar("_level"), new objj_ivar("_hasShadow"), new objj_ivar("_shadowStyle"), new objj_ivar("_DOMWindow"), new objj_ivar("_DOMBodyElement"), new objj_ivar("_DOMFocusElement"), new objj_ivar("_DOMEventGuard"), new objj_ivar("_windowLevels"), new objj_ivar("_windowLayers"), new objj_ivar("_mouseIsDown"), new objj_ivar("_mouseDownIsRightClick"), new objj_ivar("_mouseDownWindow"), new objj_ivar("_lastMouseUp"), new objj_ivar("_lastMouseDown"), new objj_ivar("_charCodes"), new objj_ivar("_keyCode"), new objj_ivar("_lastKey"), new objj_ivar("_capsLockActive"), new objj_ivar("_ignoreNativeCopyOrCutEvent"), new objj_ivar("_ignoreNativePastePreparation"), new objj_ivar("_DOMEventMode"), new objj_ivar("_DOMPasteboardElement"), new objj_ivar("_pasteboardKeyDownEvent"), new objj_ivar("_overriddenEventType")]);
+meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_contentRect"), new objj_ivar("_level"), new objj_ivar("_hasShadow"), new objj_ivar("_shadowStyle"), new objj_ivar("_DOMWindow"), new objj_ivar("_DOMBodyElement"), new objj_ivar("_DOMFocusElement"), new objj_ivar("_DOMEventGuard"), new objj_ivar("_DOMScrollingElement"), new objj_ivar("_hideDOMScrollingElementTimeout"), new objj_ivar("_windowLevels"), new objj_ivar("_windowLayers"), new objj_ivar("_mouseIsDown"), new objj_ivar("_mouseDownIsRightClick"), new objj_ivar("_mouseDownWindow"), new objj_ivar("_lastMouseUp"), new objj_ivar("_lastMouseDown"), new objj_ivar("_charCodes"), new objj_ivar("_keyCode"), new objj_ivar("_lastKey"), new objj_ivar("_capsLockActive"), new objj_ivar("_ignoreNativeCopyOrCutEvent"), new objj_ivar("_ignoreNativePastePreparation"), new objj_ivar("_DOMEventMode"), new objj_ivar("_DOMPasteboardElement"), new objj_ivar("_pasteboardKeyDownEvent"), new objj_ivar("_overriddenEventType")]);
 objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("initWithContentRect:"), function $CPPlatformWindow__initWithContentRect_(self, _cmd, aRect)
 { with(self)
@@ -34491,7 +34489,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("visiblePlatformWindows
 }
 objj_executeFile("CPPlatformWindow+DOM.j", YES);
 
-p;22;CPPlatformWindow+DOM.jt;53418;@STATIC;1.0;I;21;Foundation/CPObject.jI;22;Foundation/CPRunLoop.ji;9;CPEvent.ji;8;CPText.ji;17;CPCompatibility.ji;18;CPDOMWindowLayer.ji;12;CPPlatform.ji;18;CPPlatformWindow.ji;26;CPPlatformWindow+DOMKeys.jt;53204;objj_executeFile("Foundation/CPObject.j", NO);
+p;22;CPPlatformWindow+DOM.jt;54462;@STATIC;1.0;I;21;Foundation/CPObject.jI;22;Foundation/CPRunLoop.ji;9;CPEvent.ji;8;CPText.ji;17;CPCompatibility.ji;18;CPDOMWindowLayer.ji;12;CPPlatform.ji;18;CPPlatformWindow.ji;26;CPPlatformWindow+DOMKeys.jt;54248;objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("Foundation/CPRunLoop.j", NO);
 objj_executeFile("CPEvent.j", YES);
 objj_executeFile("CPText.j", YES);
@@ -34649,6 +34647,23 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
     _DOMEventGuard.style.display = "none";
     _DOMEventGuard.className = "cpdontremove";
     _DOMBodyElement.appendChild(_DOMEventGuard);
+    _DOMScrollingElement = theDocument.createElement("div");
+    _DOMScrollingElement.style.position = "absolute";
+    _DOMScrollingElement.style.visibility = "hidden";
+    _DOMScrollingElement.style.zIndex = "998";
+    _DOMScrollingElement.style.height = "60px";
+    _DOMScrollingElement.style.width = "60px";
+    _DOMScrollingElement.style.overflow = "scroll";
+    _DOMScrollingElement.style.opacity = "0";
+    _DOMScrollingElement.style.filter = "alpha(opacity=0)";
+    _DOMScrollingElement.className = "cpdontremove";
+    _DOMBodyElement.appendChild(_DOMScrollingElement);
+    var _DOMInnerScrollingElement = theDocument.createElement("div");
+    _DOMInnerScrollingElement.style.width = "400px";
+    _DOMInnerScrollingElement.style.height = "400px";
+    _DOMScrollingElement.appendChild(_DOMInnerScrollingElement);
+    _DOMScrollingElement.scrollTop = 150;
+    _DOMScrollingElement.scrollLeft = 150;
 }
 },["void"]), new objj_method(sel_getUid("registerDOMWindow"), function $CPPlatformWindow__registerDOMWindow(self, _cmd)
 { with(self)
@@ -35080,6 +35095,11 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void"]), new objj_method(sel_getUid("scrollEvent:"), function $CPPlatformWindow__scrollEvent_(self, _cmd, aDOMEvent)
 { with(self)
 {
+    if (_hideDOMScrollingElementTimeout)
+    {
+        clearTimeout(_hideDOMScrollingElementTimeout);
+        _hideDOMScrollingElementTimeout = nil;
+    }
     if(!aDOMEvent)
         aDOMEvent = window.event;
     var location = nil;
@@ -35112,36 +35132,32 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
                         (aDOMEvent.ctrlKey ? CPControlKeyMask : 0) |
                         (aDOMEvent.altKey ? CPAlternateKeyMask : 0) |
                         (aDOMEvent.metaKey ? CPCommandKeyMask : 0);
-    StopDOMEventPropagation = YES;
+    _DOMScrollingElement.style.visibility = "visible";
+    _DOMScrollingElement.style.top = (location.y - 15) + "px";
+    _DOMScrollingElement.style.left = (location.x - 15) + "px";
+    StopDOMEventPropagation = NO;
     var theWindow = objj_msgSend(self, "hitTest:", location);
     if (!theWindow)
         return;
     var windowNumber = objj_msgSend(theWindow, "windowNumber");
     location = objj_msgSend(theWindow, "convertBridgeToBase:", location);
-    if(typeof aDOMEvent.wheelDeltaX != "undefined")
-    {
-        deltaX = aDOMEvent.wheelDeltaX / 120.0;
-        deltaY = aDOMEvent.wheelDeltaY / 120.0;
-    }
-    else if (aDOMEvent.wheelDelta)
-        deltaY = aDOMEvent.wheelDelta / 120.0;
-    else if (aDOMEvent.detail)
-        deltaY = -aDOMEvent.detail / 3.0;
-    else
-        return;
-    if(!CPFeatureIsCompatible(CPJavaScriptNegativeMouseWheelValues))
-    {
-        deltaX = -deltaX;
-        deltaY = -deltaY;
-    }
-    var event = objj_msgSend(CPEvent, "mouseEventWithType:location:modifierFlags:timestamp:windowNumber:context:eventNumber:clickCount:pressure:", CPScrollWheel, location, modifierFlags, timestamp, windowNumber, nil, -1, 1, 0 );
+    var event = objj_msgSend(CPEvent, "mouseEventWithType:location:modifierFlags:timestamp:windowNumber:context:eventNumber:clickCount:pressure:", CPScrollWheel, location, modifierFlags, timestamp, windowNumber, nil, -1, 1, 0);
     event._DOMEvent = aDOMEvent;
-    event._deltaX = deltaX;
-    event._deltaY = deltaY;
-    objj_msgSend(CPApp, "sendEvent:", event);
-    if (StopDOMEventPropagation)
-        CPDOMEventStop(aDOMEvent, self);
-    objj_msgSend(objj_msgSend(CPRunLoop, "currentRunLoop"), "limitDateForMode:", CPDefaultRunLoopMode);
+    setTimeout(function(){
+        var deltaX = _DOMScrollingElement.scrollLeft - 150,
+            deltaY = _DOMScrollingElement.scrollTop - 150;
+        if (deltaX || deltaY)
+        {
+            event._deltaX = deltaX;
+            event._deltaY = deltaY;
+            objj_msgSend(CPApp, "sendEvent:", event);
+        }
+        _DOMScrollingElement.scrollLeft = 150;
+        _DOMScrollingElement.scrollTop = 150;
+    }, 0);
+    _hideDOMScrollingElementTimeout = setTimeout(function(){
+        _DOMScrollingElement.style.visibility = "hidden";
+    }, 300);
 }
 },["void","DOMEvent"]), new objj_method(sel_getUid("resizeEvent:"), function $CPPlatformWindow__resizeEvent_(self, _cmd, aDOMEvent)
 { with(self)
