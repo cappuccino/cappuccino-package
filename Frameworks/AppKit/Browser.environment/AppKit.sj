@@ -10758,9 +10758,6 @@ with(_52){
 if(!_54){
 _54=objj_msgSend(CPIndexSet,"indexSet");
 }
-if(objj_msgSend(_selectionIndexes,"isEqualToIndexSet:",_54)){
-return NO;
-}
 if(!objj_msgSend(_54,"count")){
 if(_avoidsEmptySelection&&objj_msgSend(objj_msgSend(_52,"arrangedObjects"),"count")){
 _54=objj_msgSend(CPIndexSet,"indexSetWithIndex:",0);
@@ -10771,6 +10768,9 @@ objj_msgSend(_54,"removeIndexesInRange:",CPMakeRange(_55,objj_msgSend(_54,"lastI
 if(!objj_msgSend(_54,"count")&&_avoidsEmptySelection&&_55){
 _54=objj_msgSend(CPIndexSet,"indexSetWithIndex:",_55-1);
 }
+}
+if(objj_msgSend(_selectionIndexes,"isEqualToIndexSet:",_54)){
+return NO;
 }
 _selectionIndexes=objj_msgSend(_54,"copy");
 objj_msgSend(objj_msgSend(CPKeyValueBinding,"getBinding:forObject:","selectionIndexes",_52),"reverseSetValueFor:","selectionIndexes");

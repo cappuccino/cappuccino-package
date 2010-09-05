@@ -12371,8 +12371,6 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
 {
     if (!indexes)
         indexes = objj_msgSend(CPIndexSet, "indexSet");
-    if (objj_msgSend(_selectionIndexes, "isEqualToIndexSet:", indexes))
-        return NO;
     if (!objj_msgSend(indexes, "count"))
     {
         if(_avoidsEmptySelection && objj_msgSend(objj_msgSend(self, "arrangedObjects"), "count"))
@@ -12385,6 +12383,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
         if(!objj_msgSend(indexes, "count") && _avoidsEmptySelection && objectsCount)
             indexes = objj_msgSend(CPIndexSet, "indexSetWithIndex:", objectsCount-1);
     }
+    if (objj_msgSend(_selectionIndexes, "isEqualToIndexSet:", indexes))
+        return NO;
     _selectionIndexes = objj_msgSend(indexes, "copy");
     objj_msgSend(objj_msgSend(CPKeyValueBinding, "getBinding:forObject:", "selectionIndexes", self), "reverseSetValueFor:", "selectionIndexes");
     return YES;
