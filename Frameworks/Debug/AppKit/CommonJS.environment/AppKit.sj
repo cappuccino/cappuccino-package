@@ -4657,7 +4657,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["id","CPCoder"])]);
 }
 
-p;13;CPSplitView.jt;29847;@STATIC;1.0;i;13;CPButtonBar.ji;9;CPImage.ji;8;CPView.jt;29784;objj_executeFile("CPButtonBar.j", YES);
+p;13;CPSplitView.jt;30365;@STATIC;1.0;i;13;CPButtonBar.ji;9;CPImage.ji;8;CPView.jt;30302;objj_executeFile("CPButtonBar.j", YES);
 objj_executeFile("CPImage.j", YES);
 objj_executeFile("CPView.j", YES);
 CPSplitViewDidResizeSubviewsNotification = "CPSplitViewDidResizeSubviewsNotification";
@@ -4682,7 +4682,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["id","CGRect"]), new objj_method(sel_getUid("dividerThickness"), function $CPSplitView__dividerThickness(self, _cmd)
 { with(self)
 {
-    return _isPaneSplitter ? 1.0 : 10.0;
+    return objj_msgSend(self, "currentValueForThemeAttribute:", objj_msgSend(self, "isPaneSplitter") ? "pane-divider-thickness" : "divider-thickness");
 }
 },["float"]), new objj_method(sel_getUid("isVertical"), function $CPSplitView__isVertical(self, _cmd)
 { with(self)
@@ -5165,7 +5165,17 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     objj_msgSend(objj_msgSend(CPNotificationCenter, "defaultCenter"), "postNotificationName:object:", CPSplitViewDidResizeSubviewsNotification, self);
 }
 },["void"])]);
-class_addMethods(meta_class, [new objj_method(sel_getUid("initialize"), function $CPSplitView__initialize(self, _cmd)
+class_addMethods(meta_class, [new objj_method(sel_getUid("themeClass"), function $CPSplitView__themeClass(self, _cmd)
+{ with(self)
+{
+    return "splitview";
+}
+},["CPString"]), new objj_method(sel_getUid("themeAttributes"), function $CPSplitView__themeAttributes(self, _cmd)
+{ with(self)
+{
+    return objj_msgSend(CPDictionary, "dictionaryWithObjects:forKeys:", [10.0, 1.0], ["divider-thickness", "pane-divider-thickness"]);
+}
+},["id"]), new objj_method(sel_getUid("initialize"), function $CPSplitView__initialize(self, _cmd)
 { with(self)
 {
     if (self != objj_msgSend(CPSplitView, "class"))

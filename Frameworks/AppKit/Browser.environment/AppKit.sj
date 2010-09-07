@@ -4429,7 +4429,7 @@ objj_msgSend(_bf,"_init");
 return _bf;
 }
 })]);
-p;13;CPSplitView.jt;21498;@STATIC;1.0;i;13;CPButtonBar.ji;9;CPImage.ji;8;CPView.jt;21435;
+p;13;CPSplitView.jt;21905;@STATIC;1.0;i;13;CPButtonBar.ji;9;CPImage.ji;8;CPView.jt;21842;
 objj_executeFile("CPButtonBar.j",YES);
 objj_executeFile("CPImage.j",YES);
 objj_executeFile("CPView.j",YES);
@@ -4451,7 +4451,7 @@ return _5;
 }
 }),new objj_method(sel_getUid("dividerThickness"),function(_8,_9){
 with(_8){
-return _isPaneSplitter?1:10;
+return objj_msgSend(_8,"currentValueForThemeAttribute:",objj_msgSend(_8,"isPaneSplitter")?"pane-divider-thickness":"divider-thickness");
 }
 }),new objj_method(sel_getUid("isVertical"),function(_a,_b){
 with(_a){
@@ -4894,41 +4894,49 @@ with(_ae){
 objj_msgSend(objj_msgSend(CPNotificationCenter,"defaultCenter"),"postNotificationName:object:",CPSplitViewDidResizeSubviewsNotification,_ae);
 }
 })]);
-class_addMethods(_4,[new objj_method(sel_getUid("initialize"),function(_b0,_b1){
+class_addMethods(_4,[new objj_method(sel_getUid("themeClass"),function(_b0,_b1){
 with(_b0){
-if(_b0!=objj_msgSend(CPSplitView,"class")){
+return "splitview";
+}
+}),new objj_method(sel_getUid("themeAttributes"),function(_b2,_b3){
+with(_b2){
+return objj_msgSend(CPDictionary,"dictionaryWithObjects:forKeys:",[10,1],["divider-thickness","pane-divider-thickness"]);
+}
+}),new objj_method(sel_getUid("initialize"),function(_b4,_b5){
+with(_b4){
+if(_b4!=objj_msgSend(CPSplitView,"class")){
 return;
 }
-var _b2=objj_msgSend(CPBundle,"bundleForClass:",_b0);
-_1=objj_msgSend(objj_msgSend(CPImage,"alloc"),"initWithContentsOfFile:size:",objj_msgSend(_b2,"pathForResource:","CPSplitView/CPSplitViewHorizontal.png"),CPSizeMake(5,10));
-_2=objj_msgSend(objj_msgSend(CPImage,"alloc"),"initWithContentsOfFile:size:",objj_msgSend(_b2,"pathForResource:","CPSplitView/CPSplitViewVertical.png"),CPSizeMake(10,5));
+var _b6=objj_msgSend(CPBundle,"bundleForClass:",_b4);
+_1=objj_msgSend(objj_msgSend(CPImage,"alloc"),"initWithContentsOfFile:size:",objj_msgSend(_b6,"pathForResource:","CPSplitView/CPSplitViewHorizontal.png"),CPSizeMake(5,10));
+_2=objj_msgSend(objj_msgSend(CPImage,"alloc"),"initWithContentsOfFile:size:",objj_msgSend(_b6,"pathForResource:","CPSplitView/CPSplitViewVertical.png"),CPSizeMake(10,5));
 }
 })]);
-var _b3="CPSplitViewDelegateKey",_b4="CPSplitViewIsVerticalKey",_b5="CPSplitViewIsPaneSplitterKey",_b6="CPSplitViewButtonBarsKey";
+var _b7="CPSplitViewDelegateKey",_b8="CPSplitViewIsVerticalKey",_b9="CPSplitViewIsPaneSplitterKey",_ba="CPSplitViewButtonBarsKey";
 var _3=objj_getClass("CPSplitView");
 if(!_3){
 throw new SyntaxError("*** Could not find definition for class \"CPSplitView\"");
 }
 var _4=_3.isa;
-class_addMethods(_3,[new objj_method(sel_getUid("initWithCoder:"),function(_b7,_b8,_b9){
-with(_b7){
-_b7=objj_msgSendSuper({receiver:_b7,super_class:objj_getClass("CPSplitView").super_class},"initWithCoder:",_b9);
-if(_b7){
+class_addMethods(_3,[new objj_method(sel_getUid("initWithCoder:"),function(_bb,_bc,_bd){
+with(_bb){
+_bb=objj_msgSendSuper({receiver:_bb,super_class:objj_getClass("CPSplitView").super_class},"initWithCoder:",_bd);
+if(_bb){
 _currentDivider=CPNotFound;
 _DOMDividerElements=[];
-_buttonBars=objj_msgSend(_b9,"decodeObjectForKey:",_b6)||[];
-_delegate=objj_msgSend(_b9,"decodeObjectForKey:",_b3);
-_isPaneSplitter=objj_msgSend(_b9,"decodeBoolForKey:",_b5);
-objj_msgSend(_b7,"_setVertical:",objj_msgSend(_b9,"decodeBoolForKey:",_b4));
+_buttonBars=objj_msgSend(_bd,"decodeObjectForKey:",_ba)||[];
+_delegate=objj_msgSend(_bd,"decodeObjectForKey:",_b7);
+_isPaneSplitter=objj_msgSend(_bd,"decodeBoolForKey:",_b9);
+objj_msgSend(_bb,"_setVertical:",objj_msgSend(_bd,"decodeBoolForKey:",_b8));
 }
-return _b7;
+return _bb;
 }
-}),new objj_method(sel_getUid("encodeWithCoder:"),function(_ba,_bb,_bc){
-with(_ba){
-objj_msgSendSuper({receiver:_ba,super_class:objj_getClass("CPSplitView").super_class},"encodeWithCoder:",_bc);
-objj_msgSend(_bc,"encodeConditionalObject:forKey:",_delegate,_b3);
-objj_msgSend(_bc,"encodeBool:forKey:",_isVertical,_b4);
-objj_msgSend(_bc,"encodeBool:forKey:",_isPaneSplitter,_b5);
+}),new objj_method(sel_getUid("encodeWithCoder:"),function(_be,_bf,_c0){
+with(_be){
+objj_msgSendSuper({receiver:_be,super_class:objj_getClass("CPSplitView").super_class},"encodeWithCoder:",_c0);
+objj_msgSend(_c0,"encodeConditionalObject:forKey:",_delegate,_b7);
+objj_msgSend(_c0,"encodeBool:forKey:",_isVertical,_b8);
+objj_msgSend(_c0,"encodeBool:forKey:",_isPaneSplitter,_b9);
 }
 })]);
 p;18;CPCollectionView.jt;20468;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;Foundation/CPData.jI;23;Foundation/CPIndexSet.jI;28;Foundation/CPKeyedArchiver.jI;30;Foundation/CPKeyedUnarchiver.ji;8;CPView.ji;22;CPCollectionViewItem.jt;20264;
