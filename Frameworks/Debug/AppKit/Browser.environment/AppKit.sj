@@ -20179,7 +20179,7 @@ return _maxSize;
 },["void","CPString","id","CPDictionary","id"])]);
 }
 
-p;15;CPApplication.jt;40470;@STATIC;1.0;I;21;Foundation/CPBundle.ji;17;CPCompatibility.ji;9;CPEvent.ji;8;CPMenu.ji;13;CPResponder.ji;22;CPDocumentController.ji;14;CPThemeBlend.ji;14;CPCibLoading.ji;12;CPPlatform.jt;40277;objj_executeFile("Foundation/CPBundle.j", NO);
+p;15;CPApplication.jt;40736;@STATIC;1.0;I;21;Foundation/CPBundle.ji;17;CPCompatibility.ji;9;CPEvent.ji;8;CPMenu.ji;13;CPResponder.ji;22;CPDocumentController.ji;14;CPThemeBlend.ji;14;CPCibLoading.ji;12;CPPlatform.jt;40543;objj_executeFile("Foundation/CPBundle.j", NO);
 objj_executeFile("CPCompatibility.j", YES);
 objj_executeFile("CPEvent.j", YES);
 objj_executeFile("CPMenu.j", YES);
@@ -20875,7 +20875,13 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("actions"), function $_
 },["BOOL"]), new objj_method(sel_getUid("loadDefaultTheme"), function $_CPAppBootstrapper__loadDefaultTheme(self, _cmd)
 { with(self)
 {
-    var blend = objj_msgSend(objj_msgSend(CPThemeBlend, "alloc"), "initWithContentsOfURL:", objj_msgSend(objj_msgSend(CPBundle, "bundleForClass:", objj_msgSend(CPApplication, "class")), "pathForResource:", objj_msgSend(CPApplication, "defaultThemeName") + ".blend"));
+    var defaultThemeName = objj_msgSend(CPApplication, "defaultThemeName"),
+        themeURL = nil;
+    if (defaultThemeName === "Aristo")
+        themeURL = objj_msgSend(objj_msgSend(CPBundle, "bundleForClass:", objj_msgSend(CPApplication, "class")), "pathForResource:", defaultThemeName + ".blend");
+    else
+        themeURL = objj_msgSend(objj_msgSend(CPBundle, "mainBundle"), "pathForResource:", defaultThemeName + ".blend");
+    var blend = objj_msgSend(objj_msgSend(CPThemeBlend, "alloc"), "initWithContentsOfURL:", themeURL);
     objj_msgSend(blend, "loadWithDelegate:", self);
     return YES;
 }
