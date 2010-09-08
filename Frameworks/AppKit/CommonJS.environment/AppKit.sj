@@ -347,7 +347,7 @@ with(_1e){
 objj_msgSend(objj_msgSend(objj_msgSend(_1e,"window"),"platformWindow"),"_propagateCurrentDOMEvent:",YES);
 }
 })]);
-p;13;CPTableView.jt;95919;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;95777;
+p;13;CPTableView.jt;95981;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;95839;
 objj_executeFile("Foundation/CPArray.j",NO);
 objj_executeFile("AppKit/CGGradient.j",NO);
 objj_executeFile("CPControl.j",YES);
@@ -2505,6 +2505,9 @@ _usesAlternatingRowBackgroundColors=objj_msgSend(_2c0,"decodeObjectForKey:",_2bc
 objj_msgSend(self,"setAlternatingRowBackgroundColors:",objj_msgSend(_2c0,"decodeObjectForKey:",_2bd));
 _headerView=objj_msgSend(_2c0,"decodeObjectForKey:",_2af);
 _cornerView=objj_msgSend(_2c0,"decodeObjectForKey:",_2be);
+if(_cornerView){
+objj_msgSend(_cornerView,"setHidden:",NO);
+}
 _dataSource=objj_msgSend(_2c0,"decodeObjectForKey:",_2ad);
 _delegate=objj_msgSend(_2c0,"decodeObjectForKey:",_2ae);
 objj_msgSend(self,"_init");
