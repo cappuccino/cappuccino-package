@@ -3442,7 +3442,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("initialize"), function
 },["CGRect","CGRect","CPShadowWeight"])]);
 }
 
-p;21;_CPImageAndTextView.jt;11581;@STATIC;1.0;I;21;Foundation/CPString.ji;9;CPColor.ji;8;CPFont.ji;9;CPImage.ji;8;CPView.ji;11;CPControl.jt;11469;objj_executeFile("Foundation/CPString.j", NO);
+p;21;_CPImageAndTextView.jt;11673;@STATIC;1.0;I;21;Foundation/CPString.ji;9;CPColor.ji;8;CPFont.ji;9;CPImage.ji;8;CPView.ji;11;CPControl.jt;11561;objj_executeFile("Foundation/CPString.j", NO);
 objj_executeFile("CPColor.j", YES);
 objj_executeFile("CPFont.j", YES);
 objj_executeFile("CPImage.j", YES);
@@ -3543,6 +3543,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:control:"
 {
     if (_imagePosition == anImagePosition)
         return;
+    if (_imagePosition == CPNoImage)
+        _flags |= _CPImageAndTextViewImageChangedFlag;
     _imagePosition = anImagePosition;
     _flags |= _CPImageAndTextViewImagePositionChangedFlag;
     objj_msgSend(self, "setNeedsLayout");
@@ -14871,7 +14873,7 @@ CPPointMakeZero= function()
     return CPPointMake(0, 0, 0);
 }
 
-p;8;CPView.jt;67871;@STATIC;1.0;I;20;Foundation/CPArray.jI;26;Foundation/CPObjJRuntime.ji;19;CGAffineTransform.ji;12;CGGeometry.ji;9;CPColor.ji;12;CPGeometry.ji;19;CPGraphicsContext.ji;13;CPResponder.ji;9;CPTheme.ji;18;_CPDisplayServer.jt;67646;objj_executeFile("Foundation/CPArray.j", NO);
+p;8;CPView.jt;68148;@STATIC;1.0;I;20;Foundation/CPArray.jI;26;Foundation/CPObjJRuntime.ji;19;CGAffineTransform.ji;12;CGGeometry.ji;9;CPColor.ji;12;CPGeometry.ji;19;CPGraphicsContext.ji;13;CPResponder.ji;9;CPTheme.ji;18;_CPDisplayServer.jt;67923;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("Foundation/CPObjJRuntime.j", NO);
 objj_executeFile("CGAffineTransform.j", YES);
 objj_executeFile("CGGeometry.j", YES);
@@ -16146,7 +16148,14 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
     }
     return _ephemeralSubviewsForNames[aViewName];
 }
-},["CPView","CPString","CPWindowOrderingMode","CPString"])]);
+},["CPView","CPString","CPWindowOrderingMode","CPString"]), new objj_method(sel_getUid("ephemeralSubviewNamed:"), function $CPView__ephemeralSubviewNamed_(self, _cmd, aViewName)
+{ with(self)
+{
+    if (!_ephemeralSubviewsForNames)
+        return nil;
+    return (_ephemeralSubviewsForNames[aViewName] || nil);
+}
+},["CPView","CPString"])]);
 class_addMethods(meta_class, [new objj_method(sel_getUid("themeClass"), function $CPView__themeClass(self, _cmd)
 { with(self)
 {
@@ -16491,7 +16500,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"])]);
 }
 
-p;12;CPCheckBox.jt;2481;@STATIC;1.0;i;10;CPButton.jt;2447;objj_executeFile("CPButton.j", YES);
+p;12;CPCheckBox.jt;2480;@STATIC;1.0;i;10;CPButton.jt;2446;objj_executeFile("CPButton.j", YES);
 {var the_class = objj_allocateClassPair(CPButton, "CPCheckBox"),
 meta_class = the_class.isa;objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), function $CPCheckBox__initWithFrame_(self, _cmd, aFrame)
@@ -16504,7 +16513,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
         objj_msgSend(self, "setShowsStateBy:", CPContentsCellMask);
         objj_msgSend(self, "setImagePosition:", CPImageLeft);
         objj_msgSend(self, "setAlignment:", CPLeftTextAlignment);
-        objj_msgSend(self, "setBordered:", YES);
+        objj_msgSend(self, "setBordered:", NO);
     }
     return self;
 }
@@ -26936,7 +26945,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","id"])]);
 }
 
-p;10;CPButton.jt;25479;@STATIC;1.0;i;21;_CPImageAndTextView.ji;12;CGGeometry.ji;11;CPControl.ji;17;CPStringDrawing.ji;12;CPCheckBox.ji;9;CPRadio.jt;25348;objj_executeFile("_CPImageAndTextView.j", YES);
+p;10;CPButton.jt;26485;@STATIC;1.0;i;21;_CPImageAndTextView.ji;12;CGGeometry.ji;11;CPControl.ji;17;CPStringDrawing.ji;12;CPCheckBox.ji;9;CPRadio.jt;26354;objj_executeFile("_CPImageAndTextView.j", YES);
 objj_executeFile("CGGeometry.j", YES);
 objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPStringDrawing.j", YES);
@@ -27236,8 +27245,17 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["CGRect","CGRect"]), new objj_method(sel_getUid("sizeToFit"), function $CPButton__sizeToFit(self, _cmd)
 { with(self)
 {
-    var size = objj_msgSend((objj_msgSend(self, "title") || " "), "sizeWithFont:", objj_msgSend(self, "currentValueForThemeAttribute:", "font")),
-        contentInset = objj_msgSend(self, "currentValueForThemeAttribute:", "content-inset"),
+    objj_msgSend(self, "layoutSubviews");
+    var size,
+        contentView = objj_msgSend(self, "ephemeralSubviewNamed:", "content-view");
+    if (contentView)
+    {
+        objj_msgSend(contentView, "sizeToFit");
+        size = objj_msgSend(contentView, "frameSize");
+    }
+    else
+        size = objj_msgSend((objj_msgSend(self, "title") || " "), "sizeWithFont:", objj_msgSend(self, "currentValueForThemeAttribute:", "font"));
+    var contentInset = objj_msgSend(self, "currentValueForThemeAttribute:", "content-inset"),
         minSize = objj_msgSend(self, "currentValueForThemeAttribute:", "min-size"),
         maxSize = objj_msgSend(self, "currentValueForThemeAttribute:", "max-size");
     size.width = MAX(size.width + contentInset.left + contentInset.right, minSize.width);
@@ -27395,7 +27413,9 @@ var CPButtonImageKey = "CPButtonImageKey",
     CPButtonTitleKey = "CPButtonTitleKey",
     CPButtonAlternateTitleKey = "CPButtonAlternateTitleKey",
     CPButtonIsBorderedKey = "CPButtonIsBorderedKey",
+    CPButtonAllowsMixedStateKey = "CPButtonAllowsMixedStateKey",
     CPButtonImageDimsWhenDisabledKey = "CPButtonImageDimsWhenDisabledKey",
+    CPButtonImagePositionKey = "CPButtonImagePositionKey",
     CPButtonKeyEquivalentKey = "CPButtonKeyEquivalentKey",
     CPButtonKeyEquivalentMaskKey = "CPButtonKeyEquivalentMaskKey";
 {
@@ -27412,10 +27432,14 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
         objj_msgSend(self, "setAlternateImage:", objj_msgSend(aCoder, "decodeObjectForKey:", CPButtonAlternateImageKey));
         _title = objj_msgSend(aCoder, "decodeObjectForKey:", CPButtonTitleKey);
         _alternateTitle = objj_msgSend(aCoder, "decodeObjectForKey:", CPButtonAlternateTitleKey);
+        if (objj_msgSend(aCoder, "containsValueForKey:", CPButtonAllowsMixedStateKey))
+            _allowsMixedState = objj_msgSend(aCoder, "decodeBoolForKey:", CPButtonAllowsMixedStateKey);
         objj_msgSend(self, "setImageDimsWhenDisabled:", objj_msgSend(aCoder, "decodeObjectForKey:", CPButtonImageDimsWhenDisabledKey));
+        if (objj_msgSend(aCoder, "containsValueForKey:", CPButtonImagePositionKey))
+            objj_msgSend(self, "setImagePosition:", objj_msgSend(aCoder, "decodeIntForKey:", CPButtonImagePositionKey));
         if (objj_msgSend(aCoder, "containsValueForKey:", CPButtonKeyEquivalentKey))
             objj_msgSend(self, "setKeyEquivalent:", CFData.decodeBase64ToUtf16String(objj_msgSend(aCoder, "decodeObjectForKey:", CPButtonKeyEquivalentKey)));
-        _keyEquivalentModifierMask = objj_msgSend(aCoder, "decodeObjectForKey:", CPButtonKeyEquivalentMaskKey);
+        _keyEquivalentModifierMask = objj_msgSend(aCoder, "decodeIntForKey:", CPButtonKeyEquivalentMaskKey);
         objj_msgSend(self, "setNeedsLayout");
         objj_msgSend(self, "setNeedsDisplay:", YES);
     }
@@ -27429,7 +27453,9 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
     objj_msgSend(aCoder, "encodeObject:forKey:", objj_msgSend(self, "alternateImage"), CPButtonAlternateImageKey);
     objj_msgSend(aCoder, "encodeObject:forKey:", _title, CPButtonTitleKey);
     objj_msgSend(aCoder, "encodeObject:forKey:", _alternateTitle, CPButtonAlternateTitleKey);
-    objj_msgSend(aCoder, "encodeObject:forKey:", objj_msgSend(self, "imageDimsWhenDisabled"), CPButtonImageDimsWhenDisabledKey);
+    objj_msgSend(aCoder, "encodeBool:forKey:", _allowsMixedState, CPButtonAllowsMixedStateKey);
+    objj_msgSend(aCoder, "encodeBool:forKey:", objj_msgSend(self, "imageDimsWhenDisabled"), CPButtonImageDimsWhenDisabledKey);
+    objj_msgSend(aCoder, "encodeInt:forKey:", objj_msgSend(self, "imagePosition"), CPButtonImagePositionKey);
     if (_keyEquivalent)
         objj_msgSend(aCoder, "encodeObject:forKey:", CFData.encodeBase64Utf16String(_keyEquivalent), CPButtonKeyEquivalentKey);
     objj_msgSend(aCoder, "encodeInt:forKey:", _keyEquivalentModifierMask, CPButtonKeyEquivalentMaskKey);
@@ -34649,7 +34675,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","id","CPMutableArray"])]);
 }
 
-p;22;_CPCibCustomResource.jt;4319;@STATIC;1.0;I;21;Foundation/CPObject.jI;21;Foundation/CPString.jt;4248;objj_executeFile("Foundation/CPObject.j", NO);
+p;22;_CPCibCustomResource.jt;4626;@STATIC;1.0;I;21;Foundation/CPObject.jI;21;Foundation/CPString.jt;4555;objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("Foundation/CPString.j", NO);
 var _CPCibCustomResourceClassNameKey = "_CPCibCustomResourceClassNameKey",
     _CPCibCustomResourceResourceNameKey = "_CPCibCustomResourceResourceNameKey",
@@ -34728,7 +34754,17 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 {
     return NO;
 }
-},["BOOL"])]);
+},["BOOL"]), new objj_method(sel_getUid("loadStatus"), function $_CPCibCustomResource__loadStatus(self, _cmd)
+{ with(self)
+{
+    return CPImageLoadStatusCompleted;
+}
+},["unsigned"]), new objj_method(sel_getUid("delegate"), function $_CPCibCustomResource__delegate(self, _cmd)
+{ with(self)
+{
+    return nil;
+}
+},["id"])]);
 }
 
 p;7;CPCib.jt;7458;@STATIC;1.0;I;21;Foundation/CPObject.jI;28;Foundation/CPURLConnection.jI;25;Foundation/CPURLRequest.ji;20;_CPCibClassSwapper.ji;20;_CPCibCustomObject.ji;22;_CPCibCustomResource.ji;18;_CPCibCustomView.ji;23;_CPCibKeyedUnarchiver.ji;18;_CPCibObjectData.ji;19;_CPCibProxyObject.ji;22;_CPCibWindowTemplate.jt;7148;objj_executeFile("Foundation/CPObject.j", NO);
