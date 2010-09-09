@@ -3613,7 +3613,7 @@ _71.height=MAX(_71.height,_textSize.height);
 objj_msgSend(_6f,"setFrameSize:",_71);
 }
 })]);
-p;15;CPTableColumn.jt;12874;@STATIC;1.0;I;25;Foundation/CPDictionary.jI;21;Foundation/CPObject.jI;29;Foundation/CPSortDescriptor.jI;21;Foundation/CPString.ji;19;CPTableHeaderView.jt;12714;
+p;15;CPTableColumn.jt;12873;@STATIC;1.0;I;25;Foundation/CPDictionary.jI;21;Foundation/CPObject.jI;29;Foundation/CPSortDescriptor.jI;21;Foundation/CPString.ji;19;CPTableHeaderView.jt;12713;
 objj_executeFile("Foundation/CPDictionary.j",NO);
 objj_executeFile("Foundation/CPObject.j",NO);
 objj_executeFile("Foundation/CPSortDescriptor.j",NO);
@@ -3902,7 +3902,7 @@ objj_msgSend(_8a,"setIdentifier:",objj_msgSend(_8c,"decodeObjectForKey:",_80));
 objj_msgSend(_8a,"setHeaderView:",objj_msgSend(_8c,"decodeObjectForKey:",_81));
 objj_msgSend(_8a,"setDataView:",objj_msgSend(_8c,"decodeObjectForKey:",_82));
 objj_msgSend(_8a,"setHeaderView:",objj_msgSend(_8c,"decodeObjectForKey:",_81));
-_resizingMask=objj_msgSend(_8c,"decodeBoolForKey:",_86);
+_resizingMask=objj_msgSend(_8c,"decodeIntForKey:",_86);
 _isHidden=objj_msgSend(_8c,"decodeBoolForKey:",_87);
 _isEditable=objj_msgSend(_8c,"decodeBoolForKey:",_89);
 _sortDescriptorPrototype=objj_msgSend(_8c,"decodeObjectForKey:",_88);
