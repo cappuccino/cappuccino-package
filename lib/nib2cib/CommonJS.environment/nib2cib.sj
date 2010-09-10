@@ -1423,7 +1423,7 @@ with(_f){
 return objj_msgSend(CPView,"class");
 }
 })]);
-p;10;NSButton.jt;8271;@STATIC;1.0;I;17;AppKit/CPButton.jI;19;AppKit/CPCheckBox.jI;16;AppKit/CPRadio.ji;8;NSCell.ji;11;NSControl.jt;8157;
+p;10;NSButton.jt;8328;@STATIC;1.0;I;17;AppKit/CPButton.jI;19;AppKit/CPCheckBox.jI;16;AppKit/CPRadio.ji;8;NSCell.ji;11;NSControl.jt;8214;
 objj_executeFile("AppKit/CPButton.j",NO);
 objj_executeFile("AppKit/CPCheckBox.j",NO);
 objj_executeFile("AppKit/CPRadio.j",NO);
@@ -1482,10 +1482,10 @@ CPLog.error("Unknown bezel style: "+_bezelStyle);
 _bezelStyle=CPHUDBezelStyle;
 }
 if(objj_msgSend(_e,"isBordered")){
-CPLog.info("Adjusting CPButton height from "+_frame.size.height+" / "+_bounds.size.height+" to "+24);
-_frame.size.height=24;
+CPLog.info("Adjusting CPButton height from "+_frame.size.height+" / "+_bounds.size.height+" to "+CPButtonDefaultHeight);
+_frame.size.height=CPButtonDefaultHeight;
 _frame.origin.y+=4;
-_bounds.size.height=24;
+_bounds.size.height=CPButtonDefaultHeight;
 }
 }else{
 if(!objj_msgSend(_b,"isKindOfClass:",CPCheckBox)&&!objj_msgSend(_b,"isKindOfClass:",CPRadio)){
@@ -2224,7 +2224,7 @@ _15[_16]=_1.join(_14,_15[_16]);
 }
 return _15;
 };
-p;13;NSColorWell.jt;1111;@STATIC;1.0;I;20;AppKit/CPColorWell.ji;8;NSCell.ji;11;NSControl.jt;1039;
+p;13;NSColorWell.jt;1113;@STATIC;1.0;I;20;AppKit/CPColorWell.ji;8;NSCell.ji;11;NSControl.jt;1041;
 objj_executeFile("AppKit/CPColorWell.j",NO);
 objj_executeFile("NSCell.j",YES);
 objj_executeFile("NSControl.j",YES);
@@ -2238,7 +2238,7 @@ with(_3){
 _3=objj_msgSendSuper({receiver:_3,super_class:objj_getClass("CPColorWell").super_class},"NS_initWithCoder:",_5);
 if(_3){
 objj_msgSend(_3,"setBordered:",objj_msgSend(_5,"decodeBoolForKey:","NSIsBordered"));
-objj_msgSend(_3,"setColor:",objj_msgSend(_5,"decodeBoolForKey:","NSColor"));
+objj_msgSend(_3,"setColor:",objj_msgSend(_5,"decodeObjectForKey:","NSColor"));
 }
 return _3;
 }
