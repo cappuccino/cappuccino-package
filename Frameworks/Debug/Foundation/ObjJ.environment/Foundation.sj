@@ -2843,7 +2843,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithString:"), func
 },["double"]), new objj_method(sel_getUid("boolValue"), function $CPString__boolValue(self, _cmd)
 { with(self)
 {
-    var replaceRegExp = new RegExp("^\\s*[\\+,\\-]*0*");
+    var replaceRegExp = new RegExp("^\\s*[\\+,\\-]?0*");
     return RegExp("^[Y,y,t,T,1-9]").test(self.replace(replaceRegExp, ''));
 }
 },["BOOL"]), new objj_method(sel_getUid("floatValue"), function $CPString__floatValue(self, _cmd)
@@ -9514,7 +9514,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("sendSynchronousRequest
 },["CPData","CPURLRequest","{CPURLResponse}","id"])]);
 }
 
-p;16;CPCharacterSet.jt;33131;@STATIC;1.0;I;21;Foundation/CPObject.jt;33085;objj_executeFile("Foundation/CPObject.j", NO);
+p;16;CPCharacterSet.jt;34109;@STATIC;1.0;I;21;Foundation/CPObject.jt;34063;objj_executeFile("Foundation/CPObject.j", NO);
 var _builtInCharacterSets = {};
 {var the_class = objj_allocateClassPair(CPObject, "CPCharacterSet"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_inverted")]);
@@ -9776,7 +9776,27 @@ _CPCharacterSetTrimAtEnd = 1 << 2;
 {
 var the_class = objj_getClass("CPString")
 if(!the_class) throw new SyntaxError("*** Could not find definition for class \"CPString\"");
-var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_getUid("stringByTrimmingCharactersInSet:"), function $CPString__stringByTrimmingCharactersInSet_(self, _cmd, set)
+var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_getUid("componentsSeparatedByCharactersInSet:"), function $CPString__componentsSeparatedByCharactersInSet_(self, _cmd, separator)
+{ with(self)
+{
+ if (!separator)
+  objj_msgSend(CPException, "raise:reason:", CPInvalidArgumentException, "componentsSeparatedByCharactersInSet: the separator can't be 'nil'");
+ var components = objj_msgSend(CPMutableArray, "array"),
+     componentRange = CPMakeRange(0, 0);
+ for (var i=0; i < self.length; i++)
+ {
+  if (objj_msgSend(separator, "characterIsMember:", self.charAt(i)))
+  {
+   componentRange.length = i - componentRange.location;
+   objj_msgSend(components, "addObject:", objj_msgSend(self, "substringWithRange:", componentRange));
+   componentRange.location += componentRange.length + 1;
+  }
+ }
+ componentRange.length = self.length - componentRange.location;
+ objj_msgSend(components, "addObject:", objj_msgSend(self, "substringWithRange:", componentRange));
+ return components;
+}
+},["CPArray","CPCharacterSet"]), new objj_method(sel_getUid("stringByTrimmingCharactersInSet:"), function $CPString__stringByTrimmingCharactersInSet_(self, _cmd, set)
 { with(self)
 {
     return objj_msgSend(self, "_stringByTrimmingCharactersInSet:options:", set, _CPCharacterSetTrimAtBeginning | _CPCharacterSetTrimAtEnd);
