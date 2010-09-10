@@ -33261,7 +33261,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("visiblePlatformWindows
 },["void","CPPlatformWindow"])]);
 }
 
-p;22;CPPlatformWindow+DOM.jt;54462;@STATIC;1.0;I;21;Foundation/CPObject.jI;22;Foundation/CPRunLoop.ji;9;CPEvent.ji;8;CPText.ji;17;CPCompatibility.ji;18;CPDOMWindowLayer.ji;12;CPPlatform.ji;18;CPPlatformWindow.ji;26;CPPlatformWindow+DOMKeys.jt;54248;objj_executeFile("Foundation/CPObject.j", NO);
+p;22;CPPlatformWindow+DOM.jt;54548;@STATIC;1.0;I;21;Foundation/CPObject.jI;22;Foundation/CPRunLoop.ji;9;CPEvent.ji;8;CPText.ji;17;CPCompatibility.ji;18;CPDOMWindowLayer.ji;12;CPPlatform.ji;18;CPPlatformWindow.ji;26;CPPlatformWindow+DOMKeys.jt;54334;objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("Foundation/CPRunLoop.j", NO);
 objj_executeFile("CPEvent.j", YES);
 objj_executeFile("CPText.j", YES);
@@ -34038,6 +34038,8 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
     }
     else if (type === "mousedown")
     {
+        var button = aDOMEvent.button;
+        _mouseDownIsRightClick = button == 2 || (button == 0 && modifierFlags & CPControlKeyMask);
         if (sourceElement.tagName === "INPUT" && sourceElement != _DOMFocusElement)
         {
             if (objj_msgSend(CPPlatform, "supportsDragAndDrop"))
@@ -34047,8 +34049,8 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
             }
             _DOMEventMode = YES;
             _mouseIsDown = YES;
-            objj_msgSend(CPApp, "sendEvent:", objj_msgSend(CPEvent, "mouseEventWithType:location:modifierFlags:timestamp:windowNumber:context:eventNumber:clickCount:pressure:", CPLeftMouseDown, location, modifierFlags, timestamp, windowNumber, nil, -1, CPDOMEventGetClickCount(_lastMouseDown, timestamp, location), 0));
-            objj_msgSend(CPApp, "sendEvent:", objj_msgSend(CPEvent, "mouseEventWithType:location:modifierFlags:timestamp:windowNumber:context:eventNumber:clickCount:pressure:", CPLeftMouseUp, location, modifierFlags, timestamp, windowNumber, nil, -1, CPDOMEventGetClickCount(_lastMouseDown, timestamp, location), 0));
+            objj_msgSend(CPApp, "sendEvent:", objj_msgSend(CPEvent, "mouseEventWithType:location:modifierFlags:timestamp:windowNumber:context:eventNumber:clickCount:pressure:", _mouseDownIsRightClick ? CPRightMouseDown : CPLeftMouseDown, location, modifierFlags, timestamp, windowNumber, nil, -1, CPDOMEventGetClickCount(_lastMouseDown, timestamp, location), 0));
+            objj_msgSend(CPApp, "sendEvent:", objj_msgSend(CPEvent, "mouseEventWithType:location:modifierFlags:timestamp:windowNumber:context:eventNumber:clickCount:pressure:", _mouseDownIsRightClick ? CPRightMouseUp : CPLeftMouseUp, location, modifierFlags, timestamp, windowNumber, nil, -1, CPDOMEventGetClickCount(_lastMouseDown, timestamp, location), 0));
             return;
         }
         else if (objj_msgSend(CPPlatform, "supportsDragAndDrop"))
@@ -34056,8 +34058,6 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
             _DOMBodyElement.setAttribute("draggable", "true");
             _DOMBodyElement.style["-khtml-user-drag"] = "element";
         }
-        var button = aDOMEvent.button;
-        _mouseDownIsRightClick = button == 2 || (button == 0 && modifierFlags & CPControlKeyMask);
         StopContextMenuDOMEventPropagation = YES;
         event = _CPEventFromNativeMouseEvent(aDOMEvent, _mouseDownIsRightClick ? CPRightMouseDown : CPLeftMouseDown, location, modifierFlags, timestamp, windowNumber, nil, -1, CPDOMEventGetClickCount(_lastMouseDown, timestamp, location), 0);
         _mouseIsDown = YES;

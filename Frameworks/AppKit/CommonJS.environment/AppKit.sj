@@ -28808,7 +28808,7 @@ with(_3f){
 _1=_41;
 }
 })]);
-p;22;CPPlatformWindow+DOM.jt;32740;@STATIC;1.0;I;21;Foundation/CPObject.jI;22;Foundation/CPRunLoop.ji;9;CPEvent.ji;8;CPText.ji;17;CPCompatibility.ji;18;CPDOMWindowLayer.ji;12;CPPlatform.ji;18;CPPlatformWindow.ji;26;CPPlatformWindow+DOMKeys.jt;32526;
+p;22;CPPlatformWindow+DOM.jt;32818;@STATIC;1.0;I;21;Foundation/CPObject.jI;22;Foundation/CPRunLoop.ji;9;CPEvent.ji;8;CPText.ji;17;CPCompatibility.ji;18;CPDOMWindowLayer.ji;12;CPPlatform.ji;18;CPPlatformWindow.ji;26;CPPlatformWindow+DOMKeys.jt;32604;
 objj_executeFile("Foundation/CPObject.j",NO);
 objj_executeFile("Foundation/CPRunLoop.j",NO);
 objj_executeFile("CPEvent.j",YES);
@@ -29521,6 +29521,8 @@ return;
 }
 }else{
 if(_a4==="mousedown"){
+var _ad=_a3.button;
+_mouseDownIsRightClick=_ad==2||(_ad==0&&_aa&CPControlKeyMask);
 if(_a8.tagName==="INPUT"&&_a8!=_DOMFocusElement){
 if(objj_msgSend(CPPlatform,"supportsDragAndDrop")){
 _DOMBodyElement.setAttribute("draggable","false");
@@ -29528,8 +29530,8 @@ _DOMBodyElement.style["-khtml-user-drag"]="none";
 }
 _DOMEventMode=YES;
 _mouseIsDown=YES;
-objj_msgSend(CPApp,"sendEvent:",objj_msgSend(CPEvent,"mouseEventWithType:location:modifierFlags:timestamp:windowNumber:context:eventNumber:clickCount:pressure:",CPLeftMouseDown,_a6,_aa,_a7,_a9,nil,-1,_2(_lastMouseDown,_a7,_a6),0));
-objj_msgSend(CPApp,"sendEvent:",objj_msgSend(CPEvent,"mouseEventWithType:location:modifierFlags:timestamp:windowNumber:context:eventNumber:clickCount:pressure:",CPLeftMouseUp,_a6,_aa,_a7,_a9,nil,-1,_2(_lastMouseDown,_a7,_a6),0));
+objj_msgSend(CPApp,"sendEvent:",objj_msgSend(CPEvent,"mouseEventWithType:location:modifierFlags:timestamp:windowNumber:context:eventNumber:clickCount:pressure:",_mouseDownIsRightClick?CPRightMouseDown:CPLeftMouseDown,_a6,_aa,_a7,_a9,nil,-1,_2(_lastMouseDown,_a7,_a6),0));
+objj_msgSend(CPApp,"sendEvent:",objj_msgSend(CPEvent,"mouseEventWithType:location:modifierFlags:timestamp:windowNumber:context:eventNumber:clickCount:pressure:",_mouseDownIsRightClick?CPRightMouseUp:CPLeftMouseUp,_a6,_aa,_a7,_a9,nil,-1,_2(_lastMouseDown,_a7,_a6),0));
 return;
 }else{
 if(objj_msgSend(CPPlatform,"supportsDragAndDrop")){
@@ -29537,8 +29539,6 @@ _DOMBodyElement.setAttribute("draggable","true");
 _DOMBodyElement.style["-khtml-user-drag"]="element";
 }
 }
-var _ad=_a3.button;
-_mouseDownIsRightClick=_ad==2||(_ad==0&&_aa&CPControlKeyMask);
 _5=YES;
 _a5=_ac(_a3,_mouseDownIsRightClick?CPRightMouseDown:CPLeftMouseDown,_a6,_aa,_a7,_a9,nil,-1,_2(_lastMouseDown,_a7,_a6),0);
 _mouseIsDown=YES;
