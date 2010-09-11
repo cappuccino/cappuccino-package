@@ -347,7 +347,7 @@ with(_1e){
 objj_msgSend(objj_msgSend(objj_msgSend(_1e,"window"),"platformWindow"),"_propagateCurrentDOMEvent:",YES);
 }
 })]);
-p;13;CPTableView.jt;95981;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;95839;
+p;13;CPTableView.jt;95997;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;95855;
 objj_executeFile("Foundation/CPArray.j",NO);
 objj_executeFile("AppKit/CGGradient.j",NO);
 objj_executeFile("CPControl.j",YES);
@@ -993,16 +993,16 @@ objj_msgSend(self,"reloadDataForRowIndexes:columnIndexes:",objj_msgSend(CPIndexS
 }),new objj_method(sel_getUid("editedColumn"),function(self,_109){
 with(self){
 if(!_editingCellIndex){
-return -1;
+return CPNotFound;
 }
 return _editingCellIndex.x;
 }
 }),new objj_method(sel_getUid("editedRow"),function(self,_10a){
 with(self){
 if(!_editingCellIndex){
-return -1;
+return CPNotFound;
 }
-return _editingCellIndex.x;
+return _editingCellIndex.y;
 }
 }),new objj_method(sel_getUid("cornerView"),function(self,_10b){
 with(self){
