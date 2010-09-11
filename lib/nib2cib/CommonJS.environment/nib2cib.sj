@@ -1364,7 +1364,7 @@ with(_a){
 return objj_msgSend(CPScroller,"class");
 }
 })]);
-p;8;NSView.jt;1845;@STATIC;1.0;I;15;AppKit/CPView.jt;1806;
+p;8;NSView.jt;1844;@STATIC;1.0;I;15;AppKit/CPView.jt;1805;
 objj_executeFile("AppKit/CPView.j",NO);
 var _1=63,_2=1<<8,_3=1<<31;
 var _4=objj_getClass("CPView");
@@ -1384,7 +1384,7 @@ _frame.size=objj_msgSend(_8,"decodeSizeForKey:","NSFrameSize");
 }
 _6=objj_msgSendSuper({receiver:_6,super_class:objj_getClass("CPView").super_class},"NS_initWithCoder:",_8);
 if(_6){
-_tag=-1;
+_tag=0;
 if(objj_msgSend(_8,"containsValueForKey:","NSTag")){
 _tag=objj_msgSend(_8,"decodeIntForKey:","NSTag");
 }
