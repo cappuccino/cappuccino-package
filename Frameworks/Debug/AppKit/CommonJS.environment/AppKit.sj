@@ -6507,7 +6507,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("savePanel"), function 
 },["id"])]);
 }
 
-p;7;CPBox.jt;8893;@STATIC;1.0;i;8;CPView.jt;8862;objj_executeFile("CPView.j", YES);
+p;7;CPBox.jt;9764;@STATIC;1.0;i;8;CPView.jt;9733;objj_executeFile("CPView.j", YES);
 CPNoBorder = 0;
 CPLineBorder = 1;
 CPBezelBorder = 2;
@@ -6522,12 +6522,13 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     if (self)
     {
         _borderType = CPBezelBorder;
-        _fillColor = objj_msgSend(CPColor, "colorWithWhite:alpha:", 0.75, 0.1);
+        _fillColor = objj_msgSend(CPColor, "clearColor");
         _borderColor = objj_msgSend(CPColor, "blackColor");
         _borderWidth = 1.0;
         _contentMargin = CGSizeMake(0.0, 0.0);
         _contentView = objj_msgSend(objj_msgSend(CPView, "alloc"), "initWithFrame:", objj_msgSend(self, "bounds"));
         objj_msgSend(_contentView, "setAutoresizingMask:", CPViewWidthSizable|CPViewHeightSizable);
+        objj_msgSend(self, "setAutoresizesSubviews:", YES);
         objj_msgSend(self, "addSubview:", _contentView);
     }
     return self;
@@ -6645,41 +6646,29 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void"]), new objj_method(sel_getUid("drawRect:"), function $CPBox__drawRect_(self, _cmd, rect)
 { with(self)
 {
+    if (_borderType === CPNoBorder)
+        return;
     var bounds = objj_msgSend(self, "bounds"),
-        aContext = objj_msgSend(objj_msgSend(CPGraphicsContext, "currentContext"), "graphicsPort"),
-        border2 = _borderWidth/2,
-        strokeRect = CGRectMake(bounds.origin.x + border2,
-                                bounds.origin.y + border2,
-                                bounds.size.width - _borderWidth,
-                                bounds.size.height - _borderWidth),
-        fillRect = CGRectMake(bounds.origin.x + border2,
-                              bounds.origin.y + border2,
-                              bounds.size.width - _borderWidth,
-                              bounds.size.height - _borderWidth);
-    CGContextSetFillColor(aContext, objj_msgSend(self, "fillColor"));
-    CGContextSetLineWidth(aContext, _borderWidth);
-    switch(_borderType)
+        context = objj_msgSend(objj_msgSend(CPGraphicsContext, "currentContext"), "graphicsPort");
+    CGContextSetFillColor(context, objj_msgSend(self, "fillColor"));
+    switch (_borderType)
     {
-        case CPLineBorder: CGContextSetStrokeColor(aContext, objj_msgSend(self, "borderColor"));
-                            CGContextFillRoundedRectangleInRect(aContext, fillRect, _cornerRadius, YES, YES, YES, YES);
-                            CGContextStrokeRoundedRectangleInRect(aContext, strokeRect, _cornerRadius, YES, YES, YES, YES);
-                            break;
-        case CPBezelBorder: CGContextSetStrokeColor(aContext, objj_msgSend(CPColor, "colorWithWhite:alpha:", 0, 0.42));
-                            CGContextFillRoundedRectangleInRect(aContext, fillRect, _cornerRadius, YES, YES, YES, YES);
-                            CGContextSetStrokeColor(aContext, objj_msgSend(CPColor, "colorWithWhite:alpha:", 190.0/255.0, 1.0));
-                            CGContextBeginPath(aContext);
-                            CGContextMoveToPoint(aContext, strokeRect.origin.x, strokeRect.origin.y);
-                            CGContextAddLineToPoint(aContext, CGRectGetMinX(strokeRect), CGRectGetMaxY(strokeRect)),
-                            CGContextAddLineToPoint(aContext, CGRectGetMaxX(strokeRect), CGRectGetMaxY(strokeRect)),
-                            CGContextAddLineToPoint(aContext, CGRectGetMaxX(strokeRect), CGRectGetMinY(strokeRect)),
-                            CGContextStrokePath(aContext);
-                            CGContextSetStrokeColor(aContext, objj_msgSend(CPColor, "colorWithWhite:alpha:", 142.0/255.0, 1.0));
-                            CGContextBeginPath(aContext);
-                            CGContextMoveToPoint(aContext, bounds.origin.x, strokeRect.origin.y);
-                            CGContextAddLineToPoint(aContext, CGRectGetMaxX(bounds), CGRectGetMinY(strokeRect));
-                            CGContextStrokePath(aContext);
-                            break;
-        default: break;
+        case CPBezelBorder:
+            var sides = [CPMinYEdge, CPMaxXEdge, CPMaxYEdge, CPMinXEdge],
+                sideGray = 190.0 / 255.0,
+                grays = [142.0 / 255.0, sideGray, sideGray, sideGray],
+                borderWidth = _borderWidth;
+            while (borderWidth--)
+                bounds = CPDrawTiledRects(bounds, bounds, sides, grays);
+            CGContextFillRect(context, bounds);
+            break;
+        default:
+            bounds = CGRectInset(bounds, _borderWidth / 2.0, _borderWidth / 2.0);
+            CGContextSetStrokeColor(context, objj_msgSend(self, "borderColor"));
+            CGContextSetLineWidth(context, _borderWidth);
+            CGContextFillRoundedRectangleInRect(context, bounds, _cornerRadius, YES, YES, YES, YES);
+            CGContextStrokeRoundedRectangleInRect(context, bounds, _cornerRadius, YES, YES, YES, YES);
+            break;
     }
 }
 },["void","CPRect"])]);
@@ -6694,6 +6683,46 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("boxEnclosingView:"), f
     return box;
 }
 },["id","CPView"])]);
+}
+var CPBoxBorderTypeKey = "CPBoxBorderTypeKey",
+    CPBoxBorderColorKey = "CPBoxBorderColorKey",
+    CPBoxFillColorKey = "CPBoxFillColorKey",
+    CPBoxCornerRadiusKey = "CPBoxCornerRadiusKey",
+    CPBoxBorderWidthKey = "CPBoxBorderWidthKey",
+    CPBoxContentMarginKey = "CPBoxContentMarginKey";
+{
+var the_class = objj_getClass("CPBox")
+if(!the_class) throw new SyntaxError("*** Could not find definition for class \"CPBox\"");
+var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_getUid("initWithCoder:"), function $CPBox__initWithCoder_(self, _cmd, aCoder)
+{ with(self)
+{
+    self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPBox").super_class }, "initWithCoder:", aCoder);
+    if (self)
+    {
+        _borderType = objj_msgSend(aCoder, "decodeIntForKey:", CPBoxBorderTypeKey);
+        _borderColor = objj_msgSend(aCoder, "decodeObjectForKey:", CPBoxBorderColorKey);
+        _fillColor = objj_msgSend(aCoder, "decodeObjectForKey:", CPBoxFillColorKey);
+        _cornerRadius = objj_msgSend(aCoder, "decodeFloatForKey:", CPBoxCornerRadiusKey);
+        _borderWidth = objj_msgSend(aCoder, "decodeFloatForKey:", CPBoxBorderWidthKey);
+        _contentMargin = objj_msgSend(aCoder, "decodeSizeForKey:", CPBoxContentMarginKey);
+        _contentView = objj_msgSend(self, "subviews")[0];
+        objj_msgSend(self, "setAutoresizesSubviews:", YES);
+        objj_msgSend(_contentView, "setAutoresizingMask:", CPViewWidthSizable|CPViewHeightSizable);
+    }
+    return self;
+}
+},["id","CPCoder"]), new objj_method(sel_getUid("encodeWithCoder:"), function $CPBox__encodeWithCoder_(self, _cmd, aCoder)
+{ with(self)
+{
+    objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPBox").super_class }, "encodeWithCoder:", aCoder);
+    objj_msgSend(aCoder, "encodeInt:forKey:", _borderType, CPBoxBorderTypeKey);
+    objj_msgSend(aCoder, "encodeObject:forKey:", _borderColor, CPBoxBorderColorKey);
+    objj_msgSend(aCoder, "encodeObject:forKey:", _fillColor, CPBoxFillColorKey);
+    objj_msgSend(aCoder, "encodeFloat:forKey:", _cornerRadius, CPBoxCornerRadiusKey);
+    objj_msgSend(aCoder, "encodeFloat:forKey:", _borderWidth, CPBoxBorderWidthKey);
+    objj_msgSend(aCoder, "encodeSize:forKey:", _contentMargin, CPBoxContentMarginKey);
+}
+},["void","CPCoder"])]);
 }
 
 p;29;_CPToolbarFlexibleSpaceItem.jt;1179;@STATIC;1.0;i;15;CPToolbarItem.jt;1140;objj_executeFile("CPToolbarItem.j", YES);
@@ -7020,7 +7049,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"])]);
 }
 
-p;12;CPGraphics.jt;2733;@STATIC;1.0;i;9;CPColor.ji;19;CPGraphicsContext.jt;2677;objj_executeFile("CPColor.j", YES);
+p;12;CPGraphics.jt;2855;@STATIC;1.0;i;9;CPColor.ji;19;CPGraphicsContext.jt;2799;objj_executeFile("CPColor.j", YES);
 objj_executeFile("CPGraphicsContext.j", YES);
 CPDrawTiledRects= function(
                 boundsRect,
@@ -7032,7 +7061,7 @@ CPDrawTiledRects= function(
         objj_msgSend(CPException, "raise:reason:", CPInvalidArgumentException, "sides (length: " + sides.length + ") and grays (length: " + grays.length + ") must have the same length.");
     var colors = [];
     for (var i = 0; i < grays.length; ++i)
-        colors.push(objj_msgSend(CPColor, "colorWithWhite:alpha:", grays[i], 1.0));
+        colors.push(objj_msgSend(CPColor, "colorWithCalibratedWhite:alpha:", grays[i], 1.0));
     return CPDrawColorTiledRects(boundsRect, clipRect, sides, colors);
 }
 CPDrawColorTiledRects= function(
@@ -7047,6 +7076,8 @@ CPDrawColorTiledRects= function(
         slice = { origin: { x:0.0, y:0.0 }, size: { width:0.0, height:0.0 } },
         remainder = { origin: { x:0.0, y:0.0 }, size: { width:0.0, height:0.0 } },
         context = objj_msgSend(objj_msgSend(CPGraphicsContext, "currentContext"), "graphicsPort");
+    CGContextSaveGState(context);
+    CGContextSetLineWidth(context, 1.0);
     for (var sideIndex = 0; sideIndex < sides.length; ++sideIndex)
     {
         var side = sides[sideIndex];
@@ -7080,6 +7111,7 @@ CPDrawColorTiledRects= function(
         CGContextSetStrokeColor(context, colors[sideIndex]);
         CGContextStrokePath(context);
     }
+    CGContextRestoreGState(context);
     return resultRect;
 }
 

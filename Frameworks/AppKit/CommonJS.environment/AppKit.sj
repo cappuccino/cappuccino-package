@@ -5695,7 +5695,7 @@ with(_25){
 return objj_msgSend(objj_msgSend(CPSavePanel,"alloc"),"init");
 }
 })]);
-p;7;CPBox.jt;6152;@STATIC;1.0;i;8;CPView.jt;6121;
+p;7;CPBox.jt;6994;@STATIC;1.0;i;8;CPView.jt;6963;
 objj_executeFile("CPView.j",YES);
 CPNoBorder=0;
 CPLineBorder=1;
@@ -5709,12 +5709,13 @@ with(_3){
 _3=objj_msgSendSuper({receiver:_3,super_class:objj_getClass("CPBox").super_class},"initWithFrame:",_5);
 if(_3){
 _borderType=CPBezelBorder;
-_fillColor=objj_msgSend(CPColor,"colorWithWhite:alpha:",0.75,0.1);
+_fillColor=objj_msgSend(CPColor,"clearColor");
 _borderColor=objj_msgSend(CPColor,"blackColor");
 _borderWidth=1;
 _contentMargin=CGSizeMake(0,0);
 _contentView=objj_msgSend(objj_msgSend(CPView,"alloc"),"initWithFrame:",objj_msgSend(_3,"bounds"));
 objj_msgSend(_contentView,"setAutoresizingMask:",CPViewWidthSizable|CPViewHeightSizable);
+objj_msgSend(_3,"setAutoresizesSubviews:",YES);
 objj_msgSend(_3,"addSubview:",_contentView);
 }
 return _3;
@@ -5819,40 +5820,69 @@ objj_msgSend(_contentView,"setFrameOrigin:",CGPointMake(_contentMargin.width,_co
 }
 }),new objj_method(sel_getUid("drawRect:"),function(_31,_32,_33){
 with(_31){
-var _34=objj_msgSend(_31,"bounds"),_35=objj_msgSend(objj_msgSend(CPGraphicsContext,"currentContext"),"graphicsPort"),_36=_borderWidth/2,_37=CGRectMake(_34.origin.x+_36,_34.origin.y+_36,_34.size.width-_borderWidth,_34.size.height-_borderWidth),_38=CGRectMake(_34.origin.x+_36,_34.origin.y+_36,_34.size.width-_borderWidth,_34.size.height-_borderWidth);
+if(_borderType===CPNoBorder){
+return;
+}
+var _34=objj_msgSend(_31,"bounds"),_35=objj_msgSend(objj_msgSend(CPGraphicsContext,"currentContext"),"graphicsPort");
 CGContextSetFillColor(_35,objj_msgSend(_31,"fillColor"));
-CGContextSetLineWidth(_35,_borderWidth);
 switch(_borderType){
-case CPLineBorder:
-CGContextSetStrokeColor(_35,objj_msgSend(_31,"borderColor"));
-CGContextFillRoundedRectangleInRect(_35,_38,_cornerRadius,YES,YES,YES,YES);
-CGContextStrokeRoundedRectangleInRect(_35,_37,_cornerRadius,YES,YES,YES,YES);
-break;
 case CPBezelBorder:
-CGContextSetStrokeColor(_35,objj_msgSend(CPColor,"colorWithWhite:alpha:",0,0.42));
-CGContextFillRoundedRectangleInRect(_35,_38,_cornerRadius,YES,YES,YES,YES);
-CGContextSetStrokeColor(_35,objj_msgSend(CPColor,"colorWithWhite:alpha:",190/255,1));
-CGContextBeginPath(_35);
-CGContextMoveToPoint(_35,_37.origin.x,_37.origin.y);
-CGContextAddLineToPoint(_35,CGRectGetMinX(_37),CGRectGetMaxY(_37)),CGContextAddLineToPoint(_35,CGRectGetMaxX(_37),CGRectGetMaxY(_37)),CGContextAddLineToPoint(_35,CGRectGetMaxX(_37),CGRectGetMinY(_37)),CGContextStrokePath(_35);
-CGContextSetStrokeColor(_35,objj_msgSend(CPColor,"colorWithWhite:alpha:",142/255,1));
-CGContextBeginPath(_35);
-CGContextMoveToPoint(_35,_34.origin.x,_37.origin.y);
-CGContextAddLineToPoint(_35,CGRectGetMaxX(_34),CGRectGetMinY(_37));
-CGContextStrokePath(_35);
+var _36=[CPMinYEdge,CPMaxXEdge,CPMaxYEdge,CPMinXEdge],_37=190/255,_38=[142/255,_37,_37,_37],_39=_borderWidth;
+while(_39--){
+_34=CPDrawTiledRects(_34,_34,_36,_38);
+}
+CGContextFillRect(_35,_34);
 break;
 default:
+_34=CGRectInset(_34,_borderWidth/2,_borderWidth/2);
+CGContextSetStrokeColor(_35,objj_msgSend(_31,"borderColor"));
+CGContextSetLineWidth(_35,_borderWidth);
+CGContextFillRoundedRectangleInRect(_35,_34,_cornerRadius,YES,YES,YES,YES);
+CGContextStrokeRoundedRectangleInRect(_35,_34,_cornerRadius,YES,YES,YES,YES);
 break;
 }
 }
 })]);
-class_addMethods(_2,[new objj_method(sel_getUid("boxEnclosingView:"),function(_39,_3a,_3b){
-with(_39){
-var box=objj_msgSend(objj_msgSend(_39,"alloc"),"initWithFrame:",CGRectMakeZero()),_3c=objj_msgSend(_3b,"superview");
-objj_msgSend(box,"setFrameFromContentFrame:",objj_msgSend(_3b,"frame"));
-objj_msgSend(_3c,"replaceSubview:with:",_3b,box);
-objj_msgSend(box,"setContentView:",_3b);
+class_addMethods(_2,[new objj_method(sel_getUid("boxEnclosingView:"),function(_3a,_3b,_3c){
+with(_3a){
+var box=objj_msgSend(objj_msgSend(_3a,"alloc"),"initWithFrame:",CGRectMakeZero()),_3d=objj_msgSend(_3c,"superview");
+objj_msgSend(box,"setFrameFromContentFrame:",objj_msgSend(_3c,"frame"));
+objj_msgSend(_3d,"replaceSubview:with:",_3c,box);
+objj_msgSend(box,"setContentView:",_3c);
 return box;
+}
+})]);
+var _3e="CPBoxBorderTypeKey",_3f="CPBoxBorderColorKey",_40="CPBoxFillColorKey",_41="CPBoxCornerRadiusKey",_42="CPBoxBorderWidthKey",_43="CPBoxContentMarginKey";
+var _1=objj_getClass("CPBox");
+if(!_1){
+throw new SyntaxError("*** Could not find definition for class \"CPBox\"");
+}
+var _2=_1.isa;
+class_addMethods(_1,[new objj_method(sel_getUid("initWithCoder:"),function(_44,_45,_46){
+with(_44){
+_44=objj_msgSendSuper({receiver:_44,super_class:objj_getClass("CPBox").super_class},"initWithCoder:",_46);
+if(_44){
+_borderType=objj_msgSend(_46,"decodeIntForKey:",_3e);
+_borderColor=objj_msgSend(_46,"decodeObjectForKey:",_3f);
+_fillColor=objj_msgSend(_46,"decodeObjectForKey:",_40);
+_cornerRadius=objj_msgSend(_46,"decodeFloatForKey:",_41);
+_borderWidth=objj_msgSend(_46,"decodeFloatForKey:",_42);
+_contentMargin=objj_msgSend(_46,"decodeSizeForKey:",_43);
+_contentView=objj_msgSend(_44,"subviews")[0];
+objj_msgSend(_44,"setAutoresizesSubviews:",YES);
+objj_msgSend(_contentView,"setAutoresizingMask:",CPViewWidthSizable|CPViewHeightSizable);
+}
+return _44;
+}
+}),new objj_method(sel_getUid("encodeWithCoder:"),function(_47,_48,_49){
+with(_47){
+objj_msgSendSuper({receiver:_47,super_class:objj_getClass("CPBox").super_class},"encodeWithCoder:",_49);
+objj_msgSend(_49,"encodeInt:forKey:",_borderType,_3e);
+objj_msgSend(_49,"encodeObject:forKey:",_borderColor,_3f);
+objj_msgSend(_49,"encodeObject:forKey:",_fillColor,_40);
+objj_msgSend(_49,"encodeFloat:forKey:",_cornerRadius,_41);
+objj_msgSend(_49,"encodeFloat:forKey:",_borderWidth,_42);
+objj_msgSend(_49,"encodeSize:forKey:",_contentMargin,_43);
 }
 })]);
 p;29;_CPToolbarFlexibleSpaceItem.jt;794;@STATIC;1.0;i;15;CPToolbarItem.jt;756;
@@ -6135,7 +6165,7 @@ objj_msgSend(_3c,"encodeObject:forKey:",_cibName,_34);
 objj_msgSend(_3c,"encodeObject:forKey:",objj_msgSend(_cibBundle,"bundlePath"),_35);
 }
 })]);
-p;12;CPGraphics.jt;1674;@STATIC;1.0;i;9;CPColor.ji;19;CPGraphicsContext.jt;1618;
+p;12;CPGraphics.jt;1766;@STATIC;1.0;i;9;CPColor.ji;19;CPGraphicsContext.jt;1710;
 objj_executeFile("CPColor.j",YES);
 objj_executeFile("CPGraphicsContext.j",YES);
 CPDrawTiledRects=function(_1,_2,_3,_4){
@@ -6144,7 +6174,7 @@ objj_msgSend(CPException,"raise:reason:",CPInvalidArgumentException,"sides (leng
 }
 var _5=[];
 for(var i=0;i<_4.length;++i){
-_5.push(objj_msgSend(CPColor,"colorWithWhite:alpha:",_4[i],1));
+_5.push(objj_msgSend(CPColor,"colorWithCalibratedWhite:alpha:",_4[i],1));
 }
 return CPDrawColorTiledRects(_1,_2,_3,_5);
 };
@@ -6153,6 +6183,8 @@ if(_8.length!=_9.length){
 objj_msgSend(CPException,"raise:reason:",CPInvalidArgumentException,"sides (length: "+_8.length+") and colors (length: "+_9.length+") must have the same length.");
 }
 var _a={origin:{x:_6.origin.x,y:_6.origin.y},size:{width:_6.size.width,height:_6.size.height}},_b={origin:{x:0,y:0},size:{width:0,height:0}},_c={origin:{x:0,y:0},size:{width:0,height:0}},_d=objj_msgSend(objj_msgSend(CPGraphicsContext,"currentContext"),"graphicsPort");
+CGContextSaveGState(_d);
+CGContextSetLineWidth(_d,1);
 for(var _e=0;_e<_8.length;++_e){
 var _f=_8[_e];
 CGRectDivide(_a,_b,_c,1,_f);
@@ -6185,6 +6217,7 @@ CGContextAddLineToPoint(_d,_11,_13);
 CGContextSetStrokeColor(_d,_9[_e]);
 CGContextStrokePath(_d);
 }
+CGContextRestoreGState(_d);
 return _a;
 };
 p;20;CPSegmentedControl.jt;23162;@STATIC;1.0;I;20;Foundation/CPArray.ji;11;CPControl.jt;23101;
