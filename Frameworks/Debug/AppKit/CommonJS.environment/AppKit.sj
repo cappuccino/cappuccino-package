@@ -6887,12 +6887,24 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithViewAnimations:
 },["void","CPArray"])]);
 }
 
-p;18;CPViewController.jt;7579;@STATIC;1.0;I;20;AppKit/CPResponder.jt;7535;objj_executeFile("AppKit/CPResponder.j", NO);
+p;18;CPViewController.jt;8017;@STATIC;1.0;I;20;AppKit/CPResponder.jt;7973;objj_executeFile("AppKit/CPResponder.j", NO);
 var CPViewControllerCachedCibs;
 {var the_class = objj_allocateClassPair(CPResponder, "CPViewController"),
-meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_view"), new objj_ivar("_representedObject"), new objj_ivar("_title"), new objj_ivar("_cibName"), new objj_ivar("_cibBundle"), new objj_ivar("_cibExternalNameTable")]);
+meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_view"), new objj_ivar("_isLoading"), new objj_ivar("_representedObject"), new objj_ivar("_title"), new objj_ivar("_cibName"), new objj_ivar("_cibBundle"), new objj_ivar("_cibExternalNameTable")]);
 objj_registerClassPair(the_class);
-class_addMethods(the_class, [new objj_method(sel_getUid("representedObject"), function $CPViewController__representedObject(self, _cmd)
+class_addMethods(the_class, [new objj_method(sel_getUid("view"), function $CPViewController__view(self, _cmd)
+{ with(self)
+{
+return _view;
+}
+},["id"]),
+new objj_method(sel_getUid("setView:"), function $CPViewController__setView_(self, _cmd, newValue)
+{ with(self)
+{
+_view = newValue;
+}
+},["void","id"]),
+new objj_method(sel_getUid("representedObject"), function $CPViewController__representedObject(self, _cmd)
 { with(self)
 {
 return _representedObject;
@@ -6957,6 +6969,7 @@ return _cibExternalNameTable;
         _cibName = aCibNameOrNil;
         _cibBundle = aCibBundleOrNil || objj_msgSend(CPBundle, "mainBundle");
         _cibExternalNameTable = anExternalNameTable || objj_msgSend(CPDictionary, "dictionaryWithObject:forKey:", self, CPCibOwner);
+        _isLoading = NO;
     }
     return self;
 }
@@ -6978,6 +6991,7 @@ return _cibExternalNameTable;
 {
     if (!_view)
     {
+        _isLoading = YES;
         var cibOwner = objj_msgSend(_cibExternalNameTable, "objectForKey:", CPCibOwner);
         if (objj_msgSend(cibOwner, "respondsToSelector:", sel_getUid("viewControllerWillLoadCib:")))
             objj_msgSend(cibOwner, "viewControllerWillLoadCib:", self);
@@ -6991,6 +7005,8 @@ return _cibExternalNameTable;
         }
         if (objj_msgSend(cibOwner, "respondsToSelector:", sel_getUid("viewControllerDidLoadCib:")))
             objj_msgSend(cibOwner, "viewControllerDidLoadCib:", self);
+        _isLoading = NO;
+        objj_msgSend(self, "viewDidLoad");
     }
     return _view;
 }
@@ -7003,7 +7019,7 @@ return _cibExternalNameTable;
 {
     var viewWasLoaded = !_view;
     _view = aView;
-    if (viewWasLoaded)
+    if (!_isLoading && viewWasLoaded)
         objj_msgSend(self, "viewDidLoad");
 }
 },["void","CPView"])]);
