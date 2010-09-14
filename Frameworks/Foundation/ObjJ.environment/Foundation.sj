@@ -3675,7 +3675,7 @@ return objj_msgSend(this,"description");
 return String(this)+" (-description not implemented)";
 }
 };
-p;9;CPProxy.jt;3560;@STATIC;1.0;i;13;CPException.ji;14;CPInvocation.ji;10;CPString.jt;3489;
+p;9;CPProxy.jt;3567;@STATIC;1.0;i;13;CPException.ji;14;CPInvocation.ji;10;CPString.jt;3496;
 objj_executeFile("CPException.j",YES);
 objj_executeFile("CPInvocation.j",YES);
 objj_executeFile("CPString.j",YES);
@@ -3691,7 +3691,7 @@ objj_msgSend(CPException,"raise:reason:",CPInvalidArgumentException,"-forwardInv
 }
 }),new objj_method(sel_getUid("forward::"),function(_9,_a,_b,_c){
 with(_9){
-objj_msgSend(CPObject,"methodForSelector:",_a)(_9,_a,_b,_c);
+return objj_msgSend(CPObject,"methodForSelector:",_a)(_9,_a,_b,_c);
 }
 }),new objj_method(sel_getUid("hash"),function(_d,_e){
 with(_d){

@@ -4192,7 +4192,7 @@ objj_class.prototype.toString = objj_object.prototype.toString = function()
         return String(this) + " (-description not implemented)";
 }
 
-p;9;CPProxy.jt;5126;@STATIC;1.0;i;13;CPException.ji;14;CPInvocation.ji;10;CPString.jt;5055;objj_executeFile("CPException.j", YES);
+p;9;CPProxy.jt;5133;@STATIC;1.0;i;13;CPException.ji;14;CPInvocation.ji;10;CPString.jt;5062;objj_executeFile("CPException.j", YES);
 objj_executeFile("CPInvocation.j", YES);
 objj_executeFile("CPString.j", YES);
 {var the_class = objj_allocateClassPair(Nil, "CPProxy"),
@@ -4210,7 +4210,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("methodSignatureForSelec
 },["void","CPInvocation"]), new objj_method(sel_getUid("forward::"), function $CPProxy__forward__(self, _cmd, aSelector, args)
 { with(self)
 {
-    objj_msgSend(CPObject, "methodForSelector:", _cmd)(self, _cmd, aSelector, args);
+    return objj_msgSend(CPObject, "methodForSelector:", _cmd)(self, _cmd, aSelector, args);
 }
 },["void","SEL","marg_list"]), new objj_method(sel_getUid("hash"), function $CPProxy__hash(self, _cmd)
 { with(self)
