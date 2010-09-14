@@ -10383,7 +10383,7 @@ CPThemeAttributeDecode= function(aCoder, anAttributeName, aDefaultValue, aTheme,
     return attribute;
 }
 
-p;19;CPTableHeaderView.jt;31134;@STATIC;1.0;i;15;CPTableColumn.ji;13;CPTableView.ji;8;CPView.jt;31064;objj_executeFile("CPTableColumn.j", YES);
+p;19;CPTableHeaderView.jt;31219;@STATIC;1.0;i;15;CPTableColumn.ji;13;CPTableView.ji;8;CPView.jt;31149;objj_executeFile("CPTableColumn.j", YES);
 objj_executeFile("CPTableView.j", YES);
 objj_executeFile("CPView.j", YES);
 {var the_class = objj_allocateClassPair(CPView, "_CPTableColumnHeaderView"),
@@ -10884,7 +10884,7 @@ _tableView = newValue;
         firstIndex = objj_msgSend(exposedTableColumns, "firstIndex"),
         exposedRange = CPMakeRange(firstIndex, objj_msgSend(exposedTableColumns, "lastIndex") - firstIndex + 1);
     CGContextSetLineWidth(context, 1);
-    CGContextSetStrokeColor(context, objj_msgSend(_tableView, "gridColor"));
+    CGContextSetStrokeColor(context, objj_msgSend(self, "currentValueForThemeAttribute:", "divider-color"));
     objj_msgSend(exposedColumnIndexes, "getIndexes:maxCount:inIndexRange:", columnsArray, -1, exposedRange);
     var columnArrayIndex = 0,
         columnArrayCount = columnsArray.length,
@@ -10910,7 +10910,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("themeClass"), function
 },["CPString"]), new objj_method(sel_getUid("themeAttributes"), function $CPTableHeaderView__themeAttributes(self, _cmd)
 { with(self)
 {
-    return objj_msgSend(CPDictionary, "dictionaryWithObjects:forKeys:", [objj_msgSend(CPNull, "null")], ["background-color"]);
+    return objj_msgSend(CPDictionary, "dictionaryWithObjects:forKeys:", [objj_msgSend(CPNull, "null"), objj_msgSend(CPColor, "grayColor")], ["background-color", "divider-color"]);
 }
 },["id"])]);
 }
@@ -20225,7 +20225,7 @@ return _maxSize;
 },["void","CPString","id","CPDictionary","id"])]);
 }
 
-p;15;CPApplication.jt;40736;@STATIC;1.0;I;21;Foundation/CPBundle.ji;17;CPCompatibility.ji;9;CPEvent.ji;8;CPMenu.ji;13;CPResponder.ji;22;CPDocumentController.ji;14;CPThemeBlend.ji;14;CPCibLoading.ji;12;CPPlatform.jt;40543;objj_executeFile("Foundation/CPBundle.j", NO);
+p;15;CPApplication.jt;40732;@STATIC;1.0;I;21;Foundation/CPBundle.ji;17;CPCompatibility.ji;9;CPEvent.ji;8;CPMenu.ji;13;CPResponder.ji;22;CPDocumentController.ji;14;CPThemeBlend.ji;14;CPCibLoading.ji;12;CPPlatform.jt;40539;objj_executeFile("Foundation/CPBundle.j", NO);
 objj_executeFile("CPCompatibility.j", YES);
 objj_executeFile("CPEvent.j", YES);
 objj_executeFile("CPMenu.j", YES);
@@ -20869,7 +20869,7 @@ var _CPEventListenerMake = function(anEventMask, aCallback)
 {
     return { _mask:anEventMask, _callback:aCallback };
 }
-var _CPRunModalLoop = function(anEvent)
+_CPRunModalLoop = function(anEvent)
 {
     objj_msgSend(CPApp, "setCallback:forNextEventMatchingMask:untilDate:inMode:dequeue:", _CPRunModalLoop, CPAnyEventMask, nil, 0, NO);
     var theWindow = objj_msgSend(anEvent, "window"),
@@ -34611,7 +34611,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("visiblePlatformWindows
 }
 objj_executeFile("CPPlatformWindow+DOM.j", YES);
 
-p;22;CPPlatformWindow+DOM.jt;54548;@STATIC;1.0;I;21;Foundation/CPObject.jI;22;Foundation/CPRunLoop.ji;9;CPEvent.ji;8;CPText.ji;17;CPCompatibility.ji;18;CPDOMWindowLayer.ji;12;CPPlatform.ji;18;CPPlatformWindow.ji;26;CPPlatformWindow+DOMKeys.jt;54334;objj_executeFile("Foundation/CPObject.j", NO);
+p;22;CPPlatformWindow+DOM.jt;54807;@STATIC;1.0;I;21;Foundation/CPObject.jI;22;Foundation/CPRunLoop.ji;9;CPEvent.ji;8;CPText.ji;17;CPCompatibility.ji;18;CPDOMWindowLayer.ji;12;CPPlatform.ji;18;CPPlatformWindow.ji;26;CPPlatformWindow+DOMKeys.jt;54593;objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("Foundation/CPRunLoop.j", NO);
 objj_executeFile("CPEvent.j", YES);
 objj_executeFile("CPText.j", YES);
@@ -35022,12 +35022,10 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
                         (aDOMEvent.altKey ? CPAlternateKeyMask : 0) |
                         (aDOMEvent.metaKey ? CPCommandKeyMask : 0);
     StopDOMEventPropagation = YES;
-    if(! (CharacterKeysToPrevent[String.fromCharCode(aDOMEvent.keyCode || aDOMEvent.charCode).toLowerCase()] || KeyCodesToPrevent[aDOMEvent.keyCode]))
+    if (!(CharacterKeysToPrevent[String.fromCharCode(aDOMEvent.keyCode || aDOMEvent.charCode).toLowerCase()] || KeyCodesToPrevent[aDOMEvent.keyCode]))
     {
-        if((modifierFlags & (CPControlKeyMask | CPCommandKeyMask)) || KeyCodesToAllow[aDOMEvent.keyCode])
-        {
+        if ((modifierFlags & (CPControlKeyMask | CPCommandKeyMask)) || KeyCodesToAllow[aDOMEvent.keyCode])
             StopDOMEventPropagation = NO;
-        }
     }
     var isNativePasteEvent = NO,
         isNativeCopyOrCutEvent = NO,
@@ -35222,7 +35220,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
         clearTimeout(_hideDOMScrollingElementTimeout);
         _hideDOMScrollingElementTimeout = nil;
     }
-    if(!aDOMEvent)
+    if (!aDOMEvent)
         aDOMEvent = window.event;
     var location = nil;
     if (CPFeatureIsCompatible(CPJavaScriptMouseWheelValues_8_15))
@@ -35265,7 +35263,8 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
     location = objj_msgSend(theWindow, "convertBridgeToBase:", location);
     var event = objj_msgSend(CPEvent, "mouseEventWithType:location:modifierFlags:timestamp:windowNumber:context:eventNumber:clickCount:pressure:", CPScrollWheel, location, modifierFlags, timestamp, windowNumber, nil, -1, 1, 0);
     event._DOMEvent = aDOMEvent;
-    setTimeout(function(){
+    setTimeout(function()
+    {
         var deltaX = _DOMScrollingElement.scrollLeft - 150,
             deltaY = _DOMScrollingElement.scrollTop - 150;
         if (deltaX || deltaY)
@@ -35277,7 +35276,8 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
         _DOMScrollingElement.scrollLeft = 150;
         _DOMScrollingElement.scrollTop = 150;
     }, 0);
-    _hideDOMScrollingElementTimeout = setTimeout(function(){
+    _hideDOMScrollingElementTimeout = setTimeout(function()
+    {
         _DOMScrollingElement.style.visibility = "hidden";
     }, 300);
 }
@@ -35323,8 +35323,8 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
         newEvent.timestamp = aDOMEvent.timestamp;
         newEvent.target = aDOMEvent.target;
         newEvent.shiftKey = newEvent.ctrlKey = newEvent.altKey = newEvent.metaKey = false;
-        newEvent.preventDefault = function(){if(aDOMEvent.preventDefault) aDOMEvent.preventDefault()};
-        newEvent.stopPropagation = function(){if(aDOMEvent.stopPropagation) aDOMEvent.stopPropagation()};
+        newEvent.preventDefault = function() { if (aDOMEvent.preventDefault) aDOMEvent.preventDefault() };
+        newEvent.stopPropagation = function() { if (aDOMEvent.stopPropagation) aDOMEvent.stopPropagation() };
         objj_msgSend(self, "mouseEvent:", newEvent);
         return;
     }
@@ -35372,7 +35372,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
         location = objj_msgSend(CPApp._windows[windowNumber], "convertPlatformWindowToBase:", location);
     if (type === "mouseup")
     {
-        if(_mouseIsDown)
+        if (_mouseIsDown)
         {
             event = _CPEventFromNativeMouseEvent(aDOMEvent, _mouseDownIsRightClick ? CPRightMouseUp : CPLeftMouseUp, location, modifierFlags, timestamp, windowNumber, nil, -1, CPDOMEventGetClickCount(_lastMouseUp, timestamp, location), 0);
             _mouseIsDown = NO;
@@ -35380,7 +35380,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
             _mouseDownWindow = nil;
             _mouseDownIsRightClick = NO;
         }
-        if(_DOMEventMode)
+        if (_DOMEventMode)
         {
             _DOMEventMode = NO;
             return;
@@ -35427,7 +35427,16 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
     }
     if (StopDOMEventPropagation && (!supportsNativeDragAndDrop || type !== "mousedown" && !isDragging))
         CPDOMEventStop(aDOMEvent, self);
-    _DOMEventGuard.style.display = (CPApp._eventListeners.length === 0) ? "none" : "";
+    var hasTrackingEventListener = NO;
+    for (var i=0; i < CPApp._eventListeners.length; i++)
+    {
+        if (CPApp._eventListeners[i]._callback !== _CPRunModalLoop)
+        {
+            hasTrackingEventListener = YES;
+            break;
+        }
+    }
+    _DOMEventGuard.style.display = hasTrackingEventListener ? "" : "none";
     objj_msgSend(objj_msgSend(CPRunLoop, "currentRunLoop"), "limitDateForMode:", CPDefaultRunLoopMode);
 }
 },["void","DOMEvent"]), new objj_method(sel_getUid("contextMenuEvent:"), function $CPPlatformWindow__contextMenuEvent_(self, _cmd, aDOMEvent)
@@ -35592,7 +35601,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("visiblePlatformWindows
 },["CPSet"]), new objj_method(sel_getUid("preventCharacterKeysFromPropagating:"), function $CPPlatformWindow__preventCharacterKeysFromPropagating_(self, _cmd, characters)
 { with(self)
 {
-    for(var i=characters.length; i>0; i--)
+    for (var i = characters.length; i > 0; i--)
         CharacterKeysToPrevent[""+characters[i-1].toLowerCase()] = YES;
 }
 },["void","CPArray"]), new objj_method(sel_getUid("preventCharacterKeyFromPropagating:"), function $CPPlatformWindow__preventCharacterKeyFromPropagating_(self, _cmd, character)
@@ -35608,7 +35617,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("visiblePlatformWindows
 },["void"]), new objj_method(sel_getUid("preventKeyCodesFromPropagating:"), function $CPPlatformWindow__preventKeyCodesFromPropagating_(self, _cmd, keyCodes)
 { with(self)
 {
-    for(var i=keyCodes.length; i>0; i--)
+    for (var i = keyCodes.length; i > 0; i--)
         KeyCodesToPrevent[keyCodes[i-1]] = YES;
 }
 },["void","CPArray"]), new objj_method(sel_getUid("preventKeyCodeFromPropagating:"), function $CPPlatformWindow__preventKeyCodeFromPropagating_(self, _cmd, keyCode)
