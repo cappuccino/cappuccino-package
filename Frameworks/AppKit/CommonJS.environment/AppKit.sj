@@ -19561,7 +19561,7 @@ return objj_msgSend(_6,"init");
 with(_9){
 }
 })]);
-p;14;CPScrollView.jt;26686;@STATIC;1.0;i;8;CPView.ji;12;CPClipView.ji;12;CPScroller.jt;26620;
+p;14;CPScrollView.jt;26736;@STATIC;1.0;i;8;CPView.ji;12;CPClipView.ji;12;CPScroller.jt;26670;
 objj_executeFile("CPView.j",YES);
 objj_executeFile("CPClipView.j",YES);
 objj_executeFile("CPScroller.j",YES);
@@ -19672,7 +19672,8 @@ _1a.size.height-=_1f;
 }
 var _24=objj_msgSend(_contentView,"bounds").origin,_25=!objj_msgSend(_verticalScroller,"isHidden"),_26=!objj_msgSend(_horizontalScroller,"isHidden");
 if(_22){
-var _27=MAX((objj_msgSend(_15,"_cornerViewFrame").origin.y+objj_msgSend(_15,"_cornerViewFrame").size.height),_1c+1),_28=(_1a.origin.y+_1a.size.height)-_27;
+var _27=MAX((_1a.origin.y),MAX((objj_msgSend(_15,"_cornerViewFrame").origin.y+objj_msgSend(_15,"_cornerViewFrame").size.height),(_1b.origin.y+_1b.size.height)));
+var _28=(_1a.origin.y+_1a.size.height)-_27;
 objj_msgSend(_verticalScroller,"setFloatValue:",(_1d.height<=0)?0:_24.y/_1d.height);
 objj_msgSend(_verticalScroller,"setKnobProportion:",(_1a.size.height)/(_19.size.height));
 objj_msgSend(_verticalScroller,"setFrame:",{origin:{x:(_1a.origin.x+_1a.size.width),y:_27},size:{width:_1e,height:_28}});

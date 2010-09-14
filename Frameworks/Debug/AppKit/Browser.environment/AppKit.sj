@@ -23223,7 +23223,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithItemIdentifier:
 },["void","CPCoder"])]);
 }
 
-p;14;CPScrollView.jt;39566;@STATIC;1.0;i;8;CPView.ji;12;CPClipView.ji;12;CPScroller.jt;39500;objj_executeFile("CPView.j", YES);
+p;14;CPScrollView.jt;39646;@STATIC;1.0;i;8;CPView.ji;12;CPClipView.ji;12;CPScroller.jt;39580;objj_executeFile("CPView.j", YES);
 objj_executeFile("CPClipView.j", YES);
 objj_executeFile("CPScroller.j", YES);
 {var the_class = objj_allocateClassPair(CPView, "CPScrollView"),
@@ -23354,8 +23354,9 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
         wasShowingHorizontalScroller = !objj_msgSend(_horizontalScroller, "isHidden");
     if (shouldShowVerticalScroller)
     {
-        var verticalScrollerY = MAX((objj_msgSend(self, "_cornerViewFrame").origin.y + objj_msgSend(self, "_cornerViewFrame").size.height), headerClipViewHeight + 1.0),
-            verticalScrollerHeight = (contentFrame.origin.y + contentFrame.size.height) - verticalScrollerY;
+        var verticalScrollerY =
+            MAX((contentFrame.origin.y), MAX((objj_msgSend(self, "_cornerViewFrame").origin.y + objj_msgSend(self, "_cornerViewFrame").size.height), (headerClipViewFrame.origin.y + headerClipViewFrame.size.height)));
+        var verticalScrollerHeight = (contentFrame.origin.y + contentFrame.size.height) - verticalScrollerY;
         objj_msgSend(_verticalScroller, "setFloatValue:", (difference.height <= 0.0) ? 0.0 : scrollPoint.y / difference.height);
         objj_msgSend(_verticalScroller, "setKnobProportion:", (contentFrame.size.height) / (documentFrame.size.height));
         objj_msgSend(_verticalScroller, "setFrame:", { origin: { x:(contentFrame.origin.x + contentFrame.size.width), y:verticalScrollerY }, size: { width:verticalScrollerWidth, height:verticalScrollerHeight } });
