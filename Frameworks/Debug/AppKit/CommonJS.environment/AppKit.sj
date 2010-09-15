@@ -5948,7 +5948,7 @@ _sendsActionOnEndEditing = newValue;
 { with(self)
 {
     var type = objj_msgSend(anEvent, "type"),
-        currentLocation = objj_msgSend(self, "convertPoint:fromView:", objj_msgSend(anEvent, "locationInWindow"), nil);
+        currentLocation = objj_msgSend(self, "convertPoint:fromView:", objj_msgSend(anEvent, "locationInWindow"), nil),
         isWithinFrame = objj_msgSend(self, "tracksMouseOutsideOfFrame") || CGRectContainsPoint(objj_msgSend(self, "bounds"), currentLocation);
     if (type === CPLeftMouseUp)
     {
@@ -16690,7 +16690,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("checkBoxWithTitle:them
 },["CPString"])]);
 }
 
-p;14;CPDragServer.jt;21627;@STATIC;1.0;I;15;AppKit/CPView.jI;16;AppKit/CPEvent.jI;21;AppKit/CPPasteboard.jI;20;AppKit/CPImageView.jt;21515;objj_executeFile("AppKit/CPView.j", NO);
+p;14;CPDragServer.jt;21628;@STATIC;1.0;I;15;AppKit/CPView.jI;16;AppKit/CPEvent.jI;21;AppKit/CPPasteboard.jI;20;AppKit/CPImageView.jt;21516;objj_executeFile("AppKit/CPView.j", NO);
 objj_executeFile("AppKit/CPEvent.j", NO);
 objj_executeFile("AppKit/CPPasteboard.j", NO);
 objj_executeFile("AppKit/CPImageView.j", NO);
@@ -16877,7 +16877,7 @@ return _draggingSource;
         {
             var contentView = objj_msgSend(scrollView, "contentView"),
                 bounds = objj_msgSend(contentView, "bounds"),
-                insetBounds = CGRectInset(bounds, 10, 10)
+                insetBounds = CGRectInset(bounds, 10, 10),
                 eventLocation = objj_msgSend(contentView, "convertPoint:fromView:", _draggingLocation, nil),
                 deltaX = 0,
                 deltaY = 0;
@@ -25996,7 +25996,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithOutlineView:"),
     _outlineView._retargedChildIndex = nil;
     _outlineView._shouldRetargetChildIndex = NO;
     var location = objj_msgSend(_outlineView, "convertPoint:fromView:", objj_msgSend(theInfo, "draggingLocation"), nil),
-        parentItem = objj_msgSend(self, "_parentItemForDropOperation:row:offset:", theOperation, theRow, location);
+        parentItem = objj_msgSend(self, "_parentItemForDropOperation:row:offset:", theOperation, theRow, location),
         childIndex = objj_msgSend(self, "_childIndexForDropOperation:row:offset:", theOperation, theRow, location);
     return objj_msgSend(_outlineView._outlineViewDataSource, "outlineView:validateDrop:proposedItem:proposedChildIndex:", _outlineView, theInfo, parentItem, childIndex);
 }
