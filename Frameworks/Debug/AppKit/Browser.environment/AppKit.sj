@@ -12700,7 +12700,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void"])]);
 }
 
-p;14;CPColorPanel.jt;23144;@STATIC;1.0;i;10;CPButton.ji;10;CPCookie.ji;9;CPPanel.ji;8;CPView.ji;15;CPColorPicker.ji;21;CPSliderColorPicker.jt;23023;objj_executeFile("CPButton.j", YES);
+p;14;CPColorPanel.jt;23162;@STATIC;1.0;i;10;CPButton.ji;10;CPCookie.ji;9;CPPanel.ji;8;CPView.ji;15;CPColorPicker.ji;21;CPSliderColorPicker.jt;23041;objj_executeFile("CPButton.j", YES);
 objj_executeFile("CPCookie.j", YES);
 objj_executeFile("CPPanel.j", YES);
 objj_executeFile("CPView.j", YES);
@@ -12802,10 +12802,10 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPCol
         objj_msgSend(view, "setFrame:", objj_msgSend(_currentView, "frame"));
     else
     {
-        var height = (TOOLBAR_HEIGHT+10+PREVIEW_HEIGHT+5+SWATCH_HEIGHT+32),
+        var height = (TOOLBAR_HEIGHT + 10 + PREVIEW_HEIGHT + 5 + SWATCH_HEIGHT + 32),
             bounds = objj_msgSend(objj_msgSend(self, "contentView"), "bounds");
-        objj_msgSend(view, "setFrameSize:",  CPSizeMake(bounds.size.width - 10, bounds.size.height - height));
-        objj_msgSend(view, "setFrameOrigin:",  CPPointMake(5, height));
+        objj_msgSend(view, "setFrameSize:", CPSizeMake(bounds.size.width - 10, bounds.size.height - height));
+        objj_msgSend(view, "setFrameOrigin:", CPPointMake(5, height));
     }
     objj_msgSend(_currentView, "removeFromSuperview");
     objj_msgSend(objj_msgSend(self, "contentView"), "addSubview:", view);
@@ -12833,7 +12833,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPCol
         _color = objj_msgSend(CPColor, "whiteColor");
     _colorPickers = [];
     var count = objj_msgSend(ColorPickerClasses, "count");
-    for (var i=0; i<count; i++)
+    for (var i = 0; i < count; i++)
     {
         var currentPickerClass = ColorPickerClasses[i],
             currentPicker = objj_msgSend(objj_msgSend(currentPickerClass, "alloc"), "initWithPickerMask:colorPanel:", 0, self);
@@ -12846,11 +12846,11 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPCol
     var totalToolbarWidth = count * ICON_WIDTH + (count - 1) * ICON_PADDING,
         leftOffset = (CGRectGetWidth(bounds) - totalToolbarWidth) / 2.0,
         buttonForLater = nil;
-    for (var i=0; i<count; i++)
+    for (var i = 0; i < count; i++)
     {
         var image = objj_msgSend(_colorPickers[i], "provideNewButtonImage"),
             highlightImage = objj_msgSend(_colorPickers[i], "provideNewAlternateButtonImage"),
-            button = objj_msgSend(objj_msgSend(CPButton, "alloc"), "initWithFrame:", CGRectMake(leftOffset + i*(ICON_WIDTH+ICON_PADDING), 0, ICON_WIDTH, ICON_WIDTH));
+            button = objj_msgSend(objj_msgSend(CPButton, "alloc"), "initWithFrame:", CGRectMake(leftOffset + i * (ICON_WIDTH + ICON_PADDING), 0, ICON_WIDTH, ICON_WIDTH));
         objj_msgSend(button, "setTag:", i);
         objj_msgSend(button, "setTarget:", self);
         objj_msgSend(button, "setAction:", sel_getUid("_setPicker:"));
@@ -12870,15 +12870,15 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPCol
     objj_msgSend(previewBox, "setAutoresizingMask:", CPViewWidthSizable);
     objj_msgSend(previewBox, "addSubview:", _previewView);
     var _previewLabel = objj_msgSend(objj_msgSend(CPTextField, "alloc"), "initWithFrame:",  CPRectMake(10, TOOLBAR_HEIGHT + 10, 60, 15));
-    objj_msgSend(_previewLabel, "setStringValue:",  "Preview:");
+    objj_msgSend(_previewLabel, "setStringValue:", "Preview:");
     objj_msgSend(_previewLabel, "setTextColor:", objj_msgSend(CPColor, "blackColor"));
     objj_msgSend(_previewLabel, "setAlignment:", CPRightTextAlignment);
     var swatchBox = objj_msgSend(objj_msgSend(CPView, "alloc"), "initWithFrame:", CGRectMake(76, TOOLBAR_HEIGHT + 10 + PREVIEW_HEIGHT + 5, CGRectGetWidth(bounds) - 86, SWATCH_HEIGHT + 2.0));
     objj_msgSend(swatchBox, "setBackgroundColor:", objj_msgSend(CPColor, "colorWithWhite:alpha:", 0.8, 1.0));
     objj_msgSend(swatchBox, "setAutoresizingMask:", CPViewWidthSizable);
     _swatchView = objj_msgSend(objj_msgSend(_CPColorPanelSwatches, "alloc"), "initWithFrame:", CGRectInset(objj_msgSend(swatchBox, "bounds"), 1.0, 1.0));
-    objj_msgSend(_swatchView, "setColorPanel:",  self);
-    objj_msgSend(_swatchView, "setAutoresizingMask:",  CPViewWidthSizable);
+    objj_msgSend(_swatchView, "setColorPanel:", self);
+    objj_msgSend(_swatchView, "setAutoresizingMask:", CPViewWidthSizable);
     objj_msgSend(swatchBox, "addSubview:", _swatchView);
     var _swatchLabel = objj_msgSend(objj_msgSend(CPTextField, "alloc"), "initWithFrame:",  CPRectMake(10, TOOLBAR_HEIGHT + 8 + PREVIEW_HEIGHT + 6, 60, 15));
     objj_msgSend(_swatchLabel, "setStringValue:",  "Swatches:");
@@ -12931,7 +12931,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("provideColorPickerClas
 { with(self)
 {
     var panel = objj_msgSend(CPColorPanel, "sharedColorPanel");
-    objj_msgSend(panel, "setMode:",  mode);
+    objj_msgSend(panel, "setMode:", mode);
 }
 },["void","CPColorPanelMode"])]);
 }
@@ -13041,7 +13041,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     var swatch = _swatches[FLOOR(point.x / 13)];
     _dragColor = objj_msgSend(objj_msgSend(swatch, "subviews")[0], "backgroundColor");
     var bounds = CPRectCreateCopy(objj_msgSend(swatch, "bounds"));
-    var dragView = objj_msgSend(objj_msgSend(CPView, "alloc"), "initWithFrame:",  bounds);
+    var dragView = objj_msgSend(objj_msgSend(CPView, "alloc"), "initWithFrame:",  bounds),
         dragFillView = objj_msgSend(objj_msgSend(CPView, "alloc"), "initWithFrame:", CGRectInset(bounds, 1.0, 1.0));
     objj_msgSend(dragView, "setBackgroundColor:", objj_msgSend(CPColor, "blackColor"));
     objj_msgSend(dragFillView, "setBackgroundColor:", _dragColor);
@@ -13090,7 +13090,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 { with(self)
 {
     var pasteboard = objj_msgSend(aSender, "draggingPasteboard");
-    if(!objj_msgSend(pasteboard, "availableTypeFromArray:", [CPColorDragType]))
+    if (!objj_msgSend(pasteboard, "availableTypeFromArray:", [CPColorDragType]))
         return NO;
     var color = objj_msgSend(CPKeyedUnarchiver, "unarchiveObjectWithData:", objj_msgSend(pasteboard, "dataForType:", CPColorDragType));
     objj_msgSend(_colorPanel, "setColor:updatePicker:", color, YES);
@@ -13106,7 +13106,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     var point = objj_msgSend(self, "convertPoint:fromView:", objj_msgSend(anEvent, "locationInWindow"), nil);
     objj_msgSend(objj_msgSend(CPPasteboard, "pasteboardWithName:", CPDragPboard), "declareTypes:owner:", [CPColorDragType], self);
     var bounds = CPRectMake(0, 0, 15, 15);
-    var dragView = objj_msgSend(objj_msgSend(CPView, "alloc"), "initWithFrame:",  bounds);
+    var dragView = objj_msgSend(objj_msgSend(CPView, "alloc"), "initWithFrame:",  bounds),
         dragFillView = objj_msgSend(objj_msgSend(CPView, "alloc"), "initWithFrame:", CGRectInset(bounds, 1.0, 1.0));
     objj_msgSend(dragView, "setBackgroundColor:", objj_msgSend(CPColor, "blackColor"));
     objj_msgSend(dragFillView, "setBackgroundColor:", objj_msgSend(self, "backgroundColor"));
@@ -13116,7 +13116,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPEvent"]), new objj_method(sel_getUid("pasteboard:provideDataForType:"), function $_CPColorPanelPreview__pasteboard_provideDataForType_(self, _cmd, aPasteboard, aType)
 { with(self)
 {
-    if(aType == CPColorDragType)
+    if (aType == CPColorDragType)
         objj_msgSend(aPasteboard, "setData:forType:", objj_msgSend(CPKeyedArchiver, "archivedDataWithRootObject:", objj_msgSend(self, "backgroundColor")), aType);
 }
 },["void","CPPasteboard","CPString"])]);
@@ -27974,7 +27974,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","id"])]);
 }
 
-p;10;CPButton.jt;26104;@STATIC;1.0;i;21;_CPImageAndTextView.ji;12;CGGeometry.ji;11;CPControl.ji;17;CPStringDrawing.ji;12;CPCheckBox.ji;9;CPRadio.jt;25973;objj_executeFile("_CPImageAndTextView.j", YES);
+p;10;CPButton.jt;26108;@STATIC;1.0;i;21;_CPImageAndTextView.ji;12;CGGeometry.ji;11;CPControl.ji;17;CPStringDrawing.ji;12;CPCheckBox.ji;9;CPRadio.jt;25977;objj_executeFile("_CPImageAndTextView.j", YES);
 objj_executeFile("CGGeometry.j", YES);
 objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPStringDrawing.j", YES);
@@ -28153,12 +28153,12 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["CPImage"]), new objj_method(sel_getUid("setImageOffset:"), function $CPButton__setImageOffset_(self, _cmd, theImageOffset)
 { with(self)
 {
-    objj_msgSend(self, "setValue:forThemeAttribute:", theImageOffset, "imageOffset");
+    objj_msgSend(self, "setValue:forThemeAttribute:", theImageOffset, "image-offset");
 }
 },["void","float"]), new objj_method(sel_getUid("imageOffset"), function $CPButton__imageOffset(self, _cmd)
 { with(self)
 {
-    return objj_msgSend(self, "valueForThemeAttribute:", "imageOffset");
+    return objj_msgSend(self, "valueForThemeAttribute:", "image-offset");
 }
 },["float"]), new objj_method(sel_getUid("setShowsStateBy:"), function $CPButton__setShowsStateBy_(self, _cmd, aMask)
 { with(self)
@@ -28328,7 +28328,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     {
         objj_msgSend(contentView, "setText:", (objj_msgSend(self, "hasThemeState:", CPThemeStateHighlighted) && _alternateTitle) ? _alternateTitle : _title);
         objj_msgSend(contentView, "setImage:", objj_msgSend(self, "currentValueForThemeAttribute:", "image"));
-        objj_msgSend(contentView, "setImageOffset:", objj_msgSend(self, "currentValueForThemeAttribute:", "imageOffset"));
+        objj_msgSend(contentView, "setImageOffset:", objj_msgSend(self, "currentValueForThemeAttribute:", "image-offset"));
         objj_msgSend(contentView, "setFont:", objj_msgSend(self, "currentValueForThemeAttribute:", "font"));
         objj_msgSend(contentView, "setTextColor:", objj_msgSend(self, "currentValueForThemeAttribute:", "text-color"));
         objj_msgSend(contentView, "setAlignment:", objj_msgSend(self, "currentValueForThemeAttribute:", "alignment"));
@@ -28422,7 +28422,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("buttonWithTitle:"), fu
 },["CPString"]), new objj_method(sel_getUid("themeAttributes"), function $CPButton__themeAttributes(self, _cmd)
 { with(self)
 {
-    return objj_msgSend(CPDictionary, "dictionaryWithObjects:forKeys:", [objj_msgSend(CPNull, "null"), 0.0, { top:(0), right:(0), bottom:(0), left:(0) }, { top:(0), right:(0), bottom:(0), left:(0) }, objj_msgSend(CPNull, "null")], ["image", "imageOffset", "bezel-inset", "content-inset", "bezel-color"]);
+    return objj_msgSend(CPDictionary, "dictionaryWithObjects:forKeys:", [objj_msgSend(CPNull, "null"), 0.0, { top:(0), right:(0), bottom:(0), left:(0) }, { top:(0), right:(0), bottom:(0), left:(0) }, objj_msgSend(CPNull, "null")], ["image", "image-offset", "bezel-inset", "content-inset", "bezel-color"]);
 }
 },["id"])]);
 }
