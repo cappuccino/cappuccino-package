@@ -4927,7 +4927,7 @@ var mapURLsAndProperties = function( properties, ignoredURL)
 {
 }
 
-p;15;CPUndoManager.jt;22767;@STATIC;1.0;i;14;CPInvocation.ji;10;CPObject.ji;9;CPProxy.jt;22700;objj_executeFile("CPInvocation.j", YES);
+p;15;CPUndoManager.jt;22768;@STATIC;1.0;i;14;CPInvocation.ji;10;CPObject.ji;9;CPProxy.jt;22701;objj_executeFile("CPInvocation.j", YES);
 objj_executeFile("CPObject.j", YES);
 objj_executeFile("CPProxy.j", YES);
 var CPUndoManagerNormal = 0,
@@ -5228,7 +5228,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPUnd
 { with(self)
 {
     var grouping = _currentGrouping,
-        level = _currentGrouping != nil;
+        level = _currentGrouping ? 1 : 0;
     while (grouping = objj_msgSend(grouping, "parent"))
         ++level;
     return level;

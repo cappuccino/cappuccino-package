@@ -4269,7 +4269,7 @@ return _35;
 };
 var _3f=function(_40,_41){
 };
-p;15;CPUndoManager.jt;16162;@STATIC;1.0;i;14;CPInvocation.ji;10;CPObject.ji;9;CPProxy.jt;16095;
+p;15;CPUndoManager.jt;16161;@STATIC;1.0;i;14;CPInvocation.ji;10;CPObject.ji;9;CPProxy.jt;16094;
 objj_executeFile("CPInvocation.j",YES);
 objj_executeFile("CPObject.j",YES);
 objj_executeFile("CPProxy.j",YES);
@@ -4549,7 +4549,7 @@ objj_msgSend(_5d,"_unregisterWithRunLoop");
 }
 }),new objj_method(sel_getUid("groupingLevel"),function(_60,_61){
 with(_60){
-var _62=_currentGrouping,_63=_currentGrouping!=nil;
+var _62=_currentGrouping,_63=_currentGrouping?1:0;
 while(_62=objj_msgSend(_62,"parent")){
 ++_63;
 }
