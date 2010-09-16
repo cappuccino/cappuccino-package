@@ -9546,7 +9546,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"])]);
 }
 
-p;9;CPTheme.jt;18146;@STATIC;1.0;I;21;Foundation/CPObject.jI;21;Foundation/CPString.jI;30;Foundation/CPKeyedUnarchiver.jt;18039;objj_executeFile("Foundation/CPObject.j", NO);
+p;9;CPTheme.jt;20517;@STATIC;1.0;I;21;Foundation/CPObject.jI;21;Foundation/CPString.jI;30;Foundation/CPKeyedUnarchiver.jt;20410;objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("Foundation/CPString.j", NO);
 objj_executeFile("Foundation/CPKeyedUnarchiver.j", NO);
 var CPThemesByName = { },
@@ -9572,15 +9572,70 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithName:"), functi
 {
     return _name;
 }
-},["CPString"]), new objj_method(sel_getUid("_attributeWithName:forClass:"), function $CPTheme___attributeWithName_forClass_(self, _cmd, aName, aClass)
+},["CPString"]), new objj_method(sel_getUid("classNames"), function $CPTheme__classNames(self, _cmd)
 { with(self)
 {
-    var attributes = objj_msgSend(_attributes, "objectForKey:", aClass);
+    return objj_msgSend(_attributes, "allKeys");
+}
+},["CPArray"]), new objj_method(sel_getUid("attributesForClass:"), function $CPTheme__attributesForClass_(self, _cmd, aClass)
+{ with(self)
+{
+    if (!aClass)
+        return nil;
+    var className = nil;
+    if (objj_msgSend(aClass, "isKindOfClass:", objj_msgSend(CPString, "class")))
+    {
+        var theClass = CPClassFromString(aClass);
+        if (theClass)
+            aClass = theClass;
+        else
+            className = aClass;
+    }
+    if (!className)
+    {
+        if (objj_msgSend(aClass, "isKindOfClass:", objj_msgSend(CPView, "class")))
+        {
+            if (objj_msgSend(aClass, "respondsToSelector:", sel_getUid("themeClass")))
+                className = objj_msgSend(aClass, "themeClass");
+            else
+                return nil;
+        }
+        else
+            objj_msgSend(CPException, "raise:reason:", CPInvalidArgumentException, "aClass must be a class object or a string.");
+    }
+    return objj_msgSend(_attributes, "objectForKey:", className);
+}
+},["CPDictionary","id"]), new objj_method(sel_getUid("attributeNamesForClass:"), function $CPTheme__attributeNamesForClass_(self, _cmd, aClass)
+{ with(self)
+{
+    var attributes = objj_msgSend(self, "attributesForClass:", aClass);
+    if (attributes)
+        return objj_msgSend(attributes, "allKeys");
+    else
+        return objj_msgSend(CPArray, "array");
+}
+},["CPDictionary","id"]), new objj_method(sel_getUid("attributeWithName:forClass:"), function $CPTheme__attributeWithName_forClass_(self, _cmd, aName, aClass)
+{ with(self)
+{
+    var attributes = objj_msgSend(self, "attributesForClass:", aClass);
     if (!attributes)
         return nil;
     return objj_msgSend(attributes, "objectForKey:", aName);
 }
-},["_CPThemeAttribute","CPString","CPString"]), new objj_method(sel_getUid("takeThemeFromObject:"), function $CPTheme__takeThemeFromObject_(self, _cmd, anObject)
+},["_CPThemeAttribute","CPString","id"]), new objj_method(sel_getUid("valueForAttributeWithName:forClass:"), function $CPTheme__valueForAttributeWithName_forClass_(self, _cmd, aName, aClass)
+{ with(self)
+{
+    return objj_msgSend(self, "valueForAttributeWithName:inState:forClass:", aName, CPThemeStateNormal, aClass);
+}
+},["id","CPString","id"]), new objj_method(sel_getUid("valueForAttributeWithName:inState:forClass:"), function $CPTheme__valueForAttributeWithName_inState_forClass_(self, _cmd, aName, aState, aClass)
+{ with(self)
+{
+    var attribute = objj_msgSend(self, "attributeWithName:forClass:", aName, aClass);
+    if (!attribute)
+        return nil;
+    return objj_msgSend(attribute, "valueForState:", aState);
+}
+},["id","CPString","CPThemeState","id"]), new objj_method(sel_getUid("takeThemeFromObject:"), function $CPTheme__takeThemeFromObject_(self, _cmd, anObject)
 { with(self)
 {
     var attributes = objj_msgSend(anObject, "_themeAttributeDictionary"),
@@ -9751,7 +9806,12 @@ CPThemeStateCircular = CPThemeState("circular");
 {var the_class = objj_allocateClassPair(CPObject, "_CPThemeAttribute"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_name"), new objj_ivar("_defaultValue"), new objj_ivar("_values"), new objj_ivar("_cache"), new objj_ivar("_parentAttribute")]);
 objj_registerClassPair(the_class);
-class_addMethods(the_class, [new objj_method(sel_getUid("initWithName:defaultValue:"), function $_CPThemeAttribute__initWithName_defaultValue_(self, _cmd, aName, aDefaultValue)
+class_addMethods(the_class, [new objj_method(sel_getUid("values"), function $_CPThemeAttribute__values(self, _cmd)
+{ with(self)
+{
+return _values;
+}
+},["id"]), new objj_method(sel_getUid("initWithName:defaultValue:"), function $_CPThemeAttribute__initWithName_defaultValue_(self, _cmd, aName, aDefaultValue)
 { with(self)
 {
     self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("_CPThemeAttribute").super_class }, "init");
@@ -9855,7 +9915,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithName:defaultVal
     _cache = { };
     _parentAttribute = anAttribute;
 }
-},["void","CPThemeAttribute"]), new objj_method(sel_getUid("attributeMergedWithAttribute:"), function $_CPThemeAttribute__attributeMergedWithAttribute_(self, _cmd, anAttribute)
+},["void","_CPThemeAttribute"]), new objj_method(sel_getUid("attributeMergedWithAttribute:"), function $_CPThemeAttribute__attributeMergedWithAttribute_(self, _cmd, anAttribute)
 { with(self)
 {
     var mergedAttribute = objj_msgSend(objj_msgSend(_CPThemeAttribute, "alloc"), "initWithName:defaultValue:", _name, _defaultValue);
@@ -9863,7 +9923,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithName:defaultVal
     objj_msgSend(mergedAttribute._values, "addEntriesFromDictionary:", anAttribute._values);
     return mergedAttribute;
 }
-},["CPThemeAttribute","_CPThemeAttribute"])]);
+},["_CPThemeAttribute","_CPThemeAttribute"])]);
 }
 {
 var the_class = objj_getClass("_CPThemeAttribute")
@@ -9984,7 +10044,7 @@ CPThemeAttributeDecode= function(aCoder, anAttributeName, aDefaultValue, aTheme,
         }
     }
     if (aTheme && aClass)
-        objj_msgSend(attribute, "setParentAttribute:", objj_msgSend(aTheme, "_attributeWithName:forClass:", anAttributeName, aClass));
+        objj_msgSend(attribute, "setParentAttribute:", objj_msgSend(aTheme, "attributeWithName:forClass:", anAttributeName, aClass));
     return attribute;
 }
 
@@ -15005,7 +15065,7 @@ CPPointMakeZero= function()
     return CPPointMake(0, 0, 0);
 }
 
-p;8;CPView.jt;68148;@STATIC;1.0;I;20;Foundation/CPArray.jI;26;Foundation/CPObjJRuntime.ji;19;CGAffineTransform.ji;12;CGGeometry.ji;9;CPColor.ji;12;CPGeometry.ji;19;CPGraphicsContext.ji;13;CPResponder.ji;9;CPTheme.ji;18;_CPDisplayServer.jt;67923;objj_executeFile("Foundation/CPArray.j", NO);
+p;8;CPView.jt;68146;@STATIC;1.0;I;20;Foundation/CPArray.jI;26;Foundation/CPObjJRuntime.ji;19;CGAffineTransform.ji;12;CGGeometry.ji;9;CPColor.ji;12;CPGeometry.ji;19;CPGraphicsContext.ji;13;CPResponder.ji;9;CPTheme.ji;18;_CPDisplayServer.jt;67921;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("Foundation/CPObjJRuntime.j", NO);
 objj_executeFile("CGAffineTransform.j", YES);
 objj_executeFile("CGGeometry.j", YES);
@@ -16153,7 +16213,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
     {
         var attributeName = attributes[count--],
             attribute = objj_msgSend(objj_msgSend(_CPThemeAttribute, "alloc"), "initWithName:defaultValue:", attributeName, attributes[count]);
-        objj_msgSend(attribute, "setParentAttribute:", objj_msgSend(theme, "_attributeWithName:forClass:", attributeName, themeClass));
+        objj_msgSend(attribute, "setParentAttribute:", objj_msgSend(theme, "attributeWithName:forClass:", attributeName, themeClass));
         _themeAttributes[attributeName] = attribute;
     }
 }
@@ -16179,7 +16239,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
         themeClass = objj_msgSend(objj_msgSend(self, "class"), "themeClass");
     for (var attributeName in _themeAttributes)
         if (_themeAttributes.hasOwnProperty(attributeName))
-            objj_msgSend(_themeAttributes[attributeName], "setParentAttribute:", objj_msgSend(theme, "_attributeWithName:forClass:", attributeName, themeClass));
+            objj_msgSend(_themeAttributes[attributeName], "setParentAttribute:", objj_msgSend(theme, "attributeWithName:forClass:", attributeName, themeClass));
     objj_msgSend(self, "setNeedsLayout");
     objj_msgSend(self, "setNeedsDisplay:", YES);
 }
@@ -19439,7 +19499,7 @@ return _maxSize;
 },["void","CPString","id","CPDictionary","id"])]);
 }
 
-p;15;CPApplication.jt;40570;@STATIC;1.0;I;21;Foundation/CPBundle.ji;17;CPCompatibility.ji;9;CPEvent.ji;8;CPMenu.ji;13;CPResponder.ji;22;CPDocumentController.ji;14;CPThemeBlend.ji;14;CPCibLoading.ji;12;CPPlatform.jt;40377;objj_executeFile("Foundation/CPBundle.j", NO);
+p;15;CPApplication.jt;41007;@STATIC;1.0;I;21;Foundation/CPBundle.ji;17;CPCompatibility.ji;9;CPEvent.ji;8;CPMenu.ji;13;CPResponder.ji;22;CPDocumentController.ji;14;CPThemeBlend.ji;14;CPCibLoading.ji;12;CPPlatform.jt;40814;objj_executeFile("Foundation/CPBundle.j", NO);
 objj_executeFile("CPCompatibility.j", YES);
 objj_executeFile("CPEvent.j", YES);
 objj_executeFile("CPMenu.j", YES);
@@ -19465,9 +19525,20 @@ CPRunStoppedResponse = -1000;
 CPRunAbortedResponse = -1001;
 CPRunContinuesResponse = -1002;
 {var the_class = objj_allocateClassPair(CPResponder, "CPApplication"),
-meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_eventListeners"), new objj_ivar("_currentEvent"), new objj_ivar("_windows"), new objj_ivar("_keyWindow"), new objj_ivar("_mainWindow"), new objj_ivar("_previousKeyWindow"), new objj_ivar("_previousMainWindow"), new objj_ivar("_mainMenu"), new objj_ivar("_documentController"), new objj_ivar("_currentSession"), new objj_ivar("_delegate"), new objj_ivar("_finishedLaunching"), new objj_ivar("_isActive"), new objj_ivar("_namedArgs"), new objj_ivar("_args"), new objj_ivar("_fullArgsString"), new objj_ivar("_applicationIconImage"), new objj_ivar("_aboutPanel")]);
+meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_eventListeners"), new objj_ivar("_currentEvent"), new objj_ivar("_windows"), new objj_ivar("_keyWindow"), new objj_ivar("_mainWindow"), new objj_ivar("_previousKeyWindow"), new objj_ivar("_previousMainWindow"), new objj_ivar("_mainMenu"), new objj_ivar("_documentController"), new objj_ivar("_currentSession"), new objj_ivar("_delegate"), new objj_ivar("_finishedLaunching"), new objj_ivar("_isActive"), new objj_ivar("_namedArgs"), new objj_ivar("_args"), new objj_ivar("_fullArgsString"), new objj_ivar("_applicationIconImage"), new objj_ivar("_aboutPanel"), new objj_ivar("_themeBlend")]);
 objj_registerClassPair(the_class);
-class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPApplication__init(self, _cmd)
+class_addMethods(the_class, [new objj_method(sel_getUid("themeBlend"), function $CPApplication__themeBlend(self, _cmd)
+{ with(self)
+{
+return _themeBlend;
+}
+},["id"]),
+new objj_method(sel_getUid("setThemeBlend:"), function $CPApplication__setThemeBlend_(self, _cmd, newValue)
+{ with(self)
+{
+_themeBlend = newValue;
+}
+},["void","id"]), new objj_method(sel_getUid("init"), function $CPApplication__init(self, _cmd)
 { with(self)
 {
     self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPApplication").super_class }, "init");
@@ -20146,6 +20217,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("actions"), function $_
 },["BOOL"]), new objj_method(sel_getUid("blendDidFinishLoading:"), function $_CPAppBootstrapper__blendDidFinishLoading_(self, _cmd, aThemeBlend)
 { with(self)
 {
+    objj_msgSend(objj_msgSend(CPApplication, "sharedApplication"), "setThemeBlend:", aThemeBlend);
     objj_msgSend(CPTheme, "setDefaultTheme:", objj_msgSend(CPTheme, "themeNamed:", objj_msgSend(CPApplication, "defaultThemeName")));
     objj_msgSend(self, "performActions");
 }
@@ -20215,7 +20287,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("actions"), function $_
 },["void","CPCib"]), new objj_method(sel_getUid("reset"), function $_CPAppBootstrapper__reset(self, _cmd)
 { with(self)
 {
- _CPAppBootstrapperActions = nil;
+    _CPAppBootstrapperActions = nil;
 }
 },["void"])]);
 }
@@ -24921,19 +24993,14 @@ _CPEventFromNativeMouseEvent= function(aNativeEvent, anEventType, aPoint, modifi
     return aNativeEvent;
 }
 
-p;14;CPThemeBlend.jt;2154;@STATIC;1.0;I;21;Foundation/CPObject.jI;16;AppKit/CPTheme.jI;29;AppKit/_CPCibCustomResource.jI;30;AppKit/_CPCibKeyedUnarchiver.jt;2019;objj_executeFile("Foundation/CPObject.j", NO);
+p;14;CPThemeBlend.jt;2447;@STATIC;1.0;I;21;Foundation/CPObject.jI;16;AppKit/CPTheme.jI;29;AppKit/_CPCibCustomResource.jI;30;AppKit/_CPCibKeyedUnarchiver.jt;2312;objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("AppKit/CPTheme.j", NO);
 objj_executeFile("AppKit/_CPCibCustomResource.j", NO);
 objj_executeFile("AppKit/_CPCibKeyedUnarchiver.j", NO);
 {var the_class = objj_allocateClassPair(CPObject, "CPThemeBlend"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_bundle"), new objj_ivar("_themes"), new objj_ivar("_loadDelegate")]);
 objj_registerClassPair(the_class);
-class_addMethods(the_class, [new objj_method(sel_getUid("themes"), function $CPThemeBlend__themes(self, _cmd)
-{ with(self)
-{
-return _themes;
-}
-},["id"]), new objj_method(sel_getUid("initWithContentsOfURL:"), function $CPThemeBlend__initWithContentsOfURL_(self, _cmd, aURL)
+class_addMethods(the_class, [new objj_method(sel_getUid("initWithContentsOfURL:"), function $CPThemeBlend__initWithContentsOfURL_(self, _cmd, aURL)
 { with(self)
 {
     self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPThemeBlend").super_class }, "init");
@@ -24943,7 +25010,20 @@ return _themes;
     }
     return self;
 }
-},["id","CPURL"]), new objj_method(sel_getUid("loadWithDelegate:"), function $CPThemeBlend__loadWithDelegate_(self, _cmd, aDelegate)
+},["id","CPURL"]), new objj_method(sel_getUid("themes"), function $CPThemeBlend__themes(self, _cmd)
+{ with(self)
+{
+    return _themes;
+}
+},["CPArray"]), new objj_method(sel_getUid("themeNames"), function $CPThemeBlend__themeNames(self, _cmd)
+{ with(self)
+{
+    var names = [];
+    for (var i = 0; i < _themes.length; ++i)
+        names.push(_themes[i].substring(0, _themes[i].indexOf(".keyedtheme")));
+    return names;
+}
+},["CPArray"]), new objj_method(sel_getUid("loadWithDelegate:"), function $CPThemeBlend__loadWithDelegate_(self, _cmd, aDelegate)
 { with(self)
 {
     _loadDelegate = aDelegate;
@@ -24952,11 +25032,11 @@ return _themes;
 },["void","id"]), new objj_method(sel_getUid("bundleDidFinishLoading:"), function $CPThemeBlend__bundleDidFinishLoading_(self, _cmd, aBundle)
 { with(self)
 {
-    var themes = objj_msgSend(_bundle, "objectForInfoDictionaryKey:", "CPKeyedThemes"),
-        count = themes.length;
+    _themes = objj_msgSend(_bundle, "objectForInfoDictionaryKey:", "CPKeyedThemes");
+    var count = _themes.length;
     while (count--)
     {
-        var path = objj_msgSend(aBundle, "pathForResource:", themes[count]),
+        var path = objj_msgSend(aBundle, "pathForResource:", _themes[count]),
             unarchiver = objj_msgSend(objj_msgSend(_CPThemeKeyedUnarchiver, "alloc"), "initForReadingWithData:bundle:", objj_msgSend(objj_msgSend(CPURL, "URLWithString:", path), "staticResourceData"), _bundle);
         objj_msgSend(unarchiver, "decodeObjectForKey:", "root");
         objj_msgSend(unarchiver, "finishDecoding");
@@ -35793,7 +35873,7 @@ CGGradientRetain= function(aGradient)
     return aGradient;
 }
 
-p;12;CGGeometry.jt;8903;@STATIC;1.0;t;8884;CGPointMake= function(x, y) { return { x:x, y:y }; }
+p;12;CGGeometry.jt;9124;@STATIC;1.0;t;9105;CGPointMake= function(x, y) { return { x:x, y:y }; }
 CGPointMakeZero= function() { return { x:0.0, y:0.0 }; }
 CGPointMakeCopy= function(aPoint) { return { x:aPoint.x, y:aPoint.y }; }
 CGPointCreateCopy= function(aPoint) { return { x:aPoint.x, y:aPoint.y }; }
@@ -35828,6 +35908,7 @@ CGInsetMake= function(top, right, bottom, left) { return { top:(top), right:(rig
 CGInsetMakeZero= function() { return { top:(0), right:(0), bottom:(0), left:(0) }; }
 CGInsetMakeCopy= function(anInset) { return { top:(anInset.top), right:(anInset.right), bottom:(anInset.bottom), left:(anInset.left) }; }
 CGInsetIsEmpty= function(anInset) { return ((anInset).top === 0 && (anInset).right === 0 && (anInset).bottom === 0 && (anInset).left === 0); }
+CGInsetEqualToInset= function(lhsInset, rhsInset) { return ((lhsInset).top === (rhsInset).top && (lhsInset).right === (rhsInset).right && (lhsInset).bottom === (rhsInset).bottom && (lhsInset).left === (rhsInset).left); }
 CGMinXEdge = 0;
 CGMinYEdge = 1;
 CGMaxXEdge = 2;
