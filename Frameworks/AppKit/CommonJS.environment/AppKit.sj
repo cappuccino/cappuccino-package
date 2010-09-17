@@ -4574,7 +4574,7 @@ objj_msgSend(_bf,"encodeBool:forKey:",_isVertical,_b7);
 objj_msgSend(_bf,"encodeBool:forKey:",_isPaneSplitter,_b8);
 }
 })]);
-p;18;CPCollectionView.jt;20468;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;Foundation/CPData.jI;23;Foundation/CPIndexSet.jI;28;Foundation/CPKeyedArchiver.jI;30;Foundation/CPKeyedUnarchiver.ji;8;CPView.ji;22;CPCollectionViewItem.jt;20264;
+p;18;CPCollectionView.jt;20492;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;Foundation/CPData.jI;23;Foundation/CPIndexSet.jI;28;Foundation/CPKeyedArchiver.jI;30;Foundation/CPKeyedUnarchiver.ji;8;CPView.ji;22;CPCollectionViewItem.jt;20288;
 objj_executeFile("Foundation/CPArray.j",NO);
 objj_executeFile("Foundation/CPData.j",NO);
 objj_executeFile("Foundation/CPIndexSet.j",NO);
@@ -4692,7 +4692,7 @@ return _allowsMultipleSelection;
 }
 }),new objj_method(sel_getUid("setSelectionIndexes:"),function(_2a,_2b,_2c){
 with(_2a){
-if(_selectionIndexes==_2c||!_isSelectable){
+if(objj_msgSend(_selectionIndexes,"isEqual:",_2c)||!_isSelectable){
 return;
 }
 var _2d=CPNotFound;
@@ -28986,7 +28986,7 @@ with(_3f){
 _1=_41;
 }
 })]);
-p;22;CPPlatformWindow+DOM.jt;32928;@STATIC;1.0;I;21;Foundation/CPObject.jI;22;Foundation/CPRunLoop.ji;9;CPEvent.ji;8;CPText.ji;17;CPCompatibility.ji;18;CPDOMWindowLayer.ji;12;CPPlatform.ji;18;CPPlatformWindow.ji;26;CPPlatformWindow+DOMKeys.jt;32714;
+p;22;CPPlatformWindow+DOM.jt;32978;@STATIC;1.0;I;21;Foundation/CPObject.jI;22;Foundation/CPRunLoop.ji;9;CPEvent.ji;8;CPText.ji;17;CPCompatibility.ji;18;CPDOMWindowLayer.ji;12;CPPlatform.ji;18;CPPlatformWindow.ji;26;CPPlatformWindow+DOMKeys.jt;32764;
 objj_executeFile("Foundation/CPObject.j",NO);
 objj_executeFile("Foundation/CPRunLoop.j",NO);
 objj_executeFile("CPEvent.j",YES);
@@ -29700,7 +29700,7 @@ return;
 }else{
 if(_a4==="mousedown"){
 var _ad=_a3.button;
-_mouseDownIsRightClick=_ad==2||(_ad==0&&_aa&CPControlKeyMask);
+_mouseDownIsRightClick=_ad==2||(CPBrowserIsOperatingSystem(CPMacOperatingSystem)&&_ad==0&&_aa&CPControlKeyMask);
 if(_a8.tagName==="INPUT"&&_a8!=_DOMFocusElement){
 if(objj_msgSend(CPPlatform,"supportsDragAndDrop")){
 _DOMBodyElement.setAttribute("draggable","false");
