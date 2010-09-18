@@ -489,7 +489,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPEvent"])]);
 }
 
-p;13;CPTableView.jt;141414;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;141271;objj_executeFile("Foundation/CPArray.j", NO);
+p;13;CPTableView.jt;141459;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;141316;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("AppKit/CGGradient.j", NO);
 objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPTableColumn.j", YES);
@@ -1060,8 +1060,8 @@ _disableAutomaticResizing = newValue;
     objj_msgSend(selectRowIndexes, "getIndexes:maxCount:inIndexRange:", selectRows, -1, CPMakeRange(firstExposedRow, exposedLength));
     for (var identifier in _dataViewsForTableColumns)
     {
-        var dataViewsInTableColumn = _dataViewsForTableColumns[identifier];
-        var count = deselectRows.length;
+        var dataViewsInTableColumn = _dataViewsForTableColumns[identifier],
+            count = deselectRows.length;
         while (count--)
             objj_msgSend(self, "_performSelection:forRow:context:", NO, deselectRows[count], dataViewsInTableColumn);
         count = selectRows.length;
@@ -1453,10 +1453,10 @@ _disableAutomaticResizing = newValue;
     var count = (_tableColumns.length),
         visColumns = objj_msgSend(objj_msgSend(CPArray, "alloc"), "init"),
         buffer = 0.0;
-    for (var i=0; i < count; i++)
+    for (var i = 0; i < count; i++)
     {
         var tableColumn = _tableColumns[i];
-        if(!objj_msgSend(tableColumn, "isHidden") && (objj_msgSend(tableColumn, "resizingMask") & CPTableColumnAutoresizingMask))
+        if (!objj_msgSend(tableColumn, "isHidden") && (objj_msgSend(tableColumn, "resizingMask") & CPTableColumnAutoresizingMask))
             objj_msgSend(visColumns, "addObject:", i);
     }
     count = objj_msgSend(visColumns, "count");
@@ -1783,14 +1783,14 @@ _disableAutomaticResizing = newValue;
         }
     }
     var dragPoint = objj_msgSend(self, "convertPoint:fromView:", objj_msgSend(theDragEvent, "locationInWindow"), nil);
-    dragViewOffset.x = CGRectGetWidth(bounds)/2 - dragPoint.x;
-    dragViewOffset.y = CGRectGetHeight(bounds)/2 - dragPoint.y;
+    dragViewOffset.x = CGRectGetWidth(bounds) / 2 - dragPoint.x;
+    dragViewOffset.y = CGRectGetHeight(bounds) / 2 - dragPoint.y;
     return view;
 }
 },["CPView","CPIndexSet","CPArray","CPEvent","CPPointPointer"]), new objj_method(sel_getUid("_dragViewForColumn:event:offset:"), function $CPTableView___dragViewForColumn_event_offset_(self, _cmd, theColumnIndex, theDragEvent, theDragViewOffset)
 { with(self)
 {
-    var dragView = objj_msgSend(objj_msgSend(_CPColumnDragView, "alloc"), "initWithLineColor:", objj_msgSend(self, "gridColor"));
+    var dragView = objj_msgSend(objj_msgSend(_CPColumnDragView, "alloc"), "initWithLineColor:", objj_msgSend(self, "gridColor")),
         tableColumn = objj_msgSend(objj_msgSend(self, "tableColumns"), "objectAtIndex:", theColumnIndex),
         bounds = CPRectMake(0.0, 0.0, objj_msgSend(tableColumn, "width"), (objj_msgSend(self, "visibleRect").size.height) + 23.0),
         columnRect = objj_msgSend(self, "rectOfColumn:", theColumnIndex),
@@ -1826,11 +1826,11 @@ _disableAutomaticResizing = newValue;
 },["void","CPDragOperation","BOOL"]), new objj_method(sel_getUid("setDropRow:dropOperation:"), function $CPTableView__setDropRow_dropOperation_(self, _cmd, row, operation)
 { with(self)
 {
-    if(row > objj_msgSend(self, "numberOfRows") && operation === CPTableViewDropOn)
+    if (row > objj_msgSend(self, "numberOfRows") && operation === CPTableViewDropOn)
     {
-        var numberOfRows = objj_msgSend(self, "numberOfRows") + 1;
-        var reason = "Attempt to set dropRow=" + row +
-                     " dropOperation=CPTableViewDropOn when [0 - " + numberOfRows + "] is valid range of rows."
+        var numberOfRows = objj_msgSend(self, "numberOfRows") + 1,
+            reason = "Attempt to set dropRow=" + row +
+                     " dropOperation=CPTableViewDropOn when [0 - " + numberOfRows + "] is valid range of rows.";
         objj_msgSend(objj_msgSend(CPException, "exceptionWithName:reason:userInfo:", "Error", reason, nil), "raise");
     }
     _retargetedDropRow = row;
@@ -1963,8 +1963,8 @@ _disableAutomaticResizing = newValue;
     {
         var column = columnArray[columnIndex],
             tableColumn = _tableColumns[column],
-            tableColumnUID = objj_msgSend(tableColumn, "UID");
-        var rowIndex = 0,
+            tableColumnUID = objj_msgSend(tableColumn, "UID"),
+            rowIndex = 0,
             rowsCount = rowArray.length;
         for (; rowIndex < rowsCount; ++rowIndex)
         {
@@ -2001,8 +2001,8 @@ _disableAutomaticResizing = newValue;
         if (!_dataViewsForTableColumns[tableColumnUID])
             _dataViewsForTableColumns[tableColumnUID] = [];
         var rowIndex = 0,
-            rowsCount = rowArray.length;
-        var isColumnSelected = objj_msgSend(_selectedColumnIndexes, "containsIndex:", column);
+            rowsCount = rowArray.length,
+            isColumnSelected = objj_msgSend(_selectedColumnIndexes, "containsIndex:", column);
         for (; rowIndex < rowsCount; ++rowIndex)
         {
             var row = rowArray[rowIndex],
@@ -2060,8 +2060,8 @@ _disableAutomaticResizing = newValue;
             tableColumn = _tableColumns[column],
             tableColumnUID = objj_msgSend(tableColumn, "UID"),
             dataViewsForTableColumn = _dataViewsForTableColumns[tableColumnUID],
-            columnRange = _tableColumnRanges[column];
-        var rowIndex = 0,
+            columnRange = _tableColumnRanges[column],
+            rowIndex = 0,
             rowsCount = rowArray.length;
         for (; rowIndex < rowsCount; ++rowIndex)
         {
@@ -2180,7 +2180,7 @@ _disableAutomaticResizing = newValue;
     CGContextBeginPath(context);
     if (gridStyleMask & CPTableViewSolidHorizontalGridLineMask)
     {
-        var exposedRows = objj_msgSend(self, "rowsInRect:", aRect);
+        var exposedRows = objj_msgSend(self, "rowsInRect:", aRect),
             row = exposedRows.location,
             lastRow = CPMaxRange(exposedRows) - 1,
             rowY = -0.5,
@@ -2292,8 +2292,8 @@ _disableAutomaticResizing = newValue;
         CGContextFillPath(context);
     }
     CGContextBeginPath(context);
-    gridStyleMask = objj_msgSend(self, "gridStyleMask");
-    for(var i=0; i < count2; i++)
+    var gridStyleMask = objj_msgSend(self, "gridStyleMask");
+    for(var i = 0; i < count2; i++)
     {
          var rect = objj_msgSend(self, rectSelector, indexes[i]),
              minX = CGRectGetMinX(rect) - 0.5,
@@ -2303,12 +2303,12 @@ _disableAutomaticResizing = newValue;
         if (objj_msgSend(_selectedRowIndexes, "count") >= 1 && gridStyleMask & CPTableViewSolidVerticalGridLineMask)
         {
             var exposedColumns = objj_msgSend(self, "columnIndexesInRect:", aRect),
-            exposedColumnIndexes = [],
-            firstExposedColumn = objj_msgSend(exposedColumns, "firstIndex"),
-            exposedRange = CPMakeRange(firstExposedColumn, objj_msgSend(exposedColumns, "lastIndex") - firstExposedColumn + 1);
+                exposedColumnIndexes = [],
+                firstExposedColumn = objj_msgSend(exposedColumns, "firstIndex"),
+                exposedRange = CPMakeRange(firstExposedColumn, objj_msgSend(exposedColumns, "lastIndex") - firstExposedColumn + 1);
             objj_msgSend(exposedColumns, "getIndexes:maxCount:inIndexRange:", exposedColumnIndexes, -1, exposedRange);
             var exposedColumnCount = objj_msgSend(exposedColumnIndexes, "count");
-            for(var c = firstExposedColumn; c < exposedColumnCount; c++)
+            for (var c = firstExposedColumn; c < exposedColumnCount; c++)
             {
                 var colRect = objj_msgSend(self, "rectOfColumn:", exposedColumnIndexes[c]),
                     colX = CGRectGetMaxX(colRect) + 0.5;
@@ -2316,7 +2316,7 @@ _disableAutomaticResizing = newValue;
                 CGContextAddLineToPoint(context, colX, maxY);
             }
         }
-        if(objj_msgSend(indexes, "containsObject:", indexes[i]+1))
+        if (objj_msgSend(indexes, "containsObject:", indexes[i] + 1))
         {
             CGContextMoveToPoint(context, minX, maxY);
             CGContextAddLineToPoint(context, maxX, maxY);
@@ -2395,7 +2395,7 @@ _disableAutomaticResizing = newValue;
     _startTrackingTimestamp = new Date();
     if (_implementedDataSourceMethods & CPTableViewDataSource_tableView_setObjectValue_forTableColumn_row_)
         _trackingPointMovedOutOfClickSlop = NO;
-    if (row >=0 && !(_implementedDataSourceMethods & CPTableViewDataSource_tableView_writeRowsWithIndexes_toPasteboard_))
+    if (row >= 0 && !(_implementedDataSourceMethods & CPTableViewDataSource_tableView_writeRowsWithIndexes_toPasteboard_))
         objj_msgSend(self, "_updateSelectionWithMouseAtRow:", row);
     objj_msgSend(objj_msgSend(self, "window"), "makeFirstResponder:", self);
     return YES;
@@ -2415,7 +2415,7 @@ _disableAutomaticResizing = newValue;
 { with(self)
 {
     var row = objj_msgSend(self, "rowAtPoint:", aPoint);
-    if(!_isSelectingSession && _implementedDataSourceMethods & CPTableViewDataSource_tableView_writeRowsWithIndexes_toPasteboard_)
+    if (!_isSelectingSession && _implementedDataSourceMethods & CPTableViewDataSource_tableView_writeRowsWithIndexes_toPasteboard_)
     {
         if (row >= 0 && (ABS(_startTrackingPoint.x - aPoint.x) > 3 || (_verticalMotionCanDrag && ABS(_startTrackingPoint.y - aPoint.y) > 3)) ||
             (objj_msgSend(_selectedRowIndexes, "containsIndex:", row)))
@@ -2437,8 +2437,8 @@ _disableAutomaticResizing = newValue;
                     view = objj_msgSend(objj_msgSend(CPImageView, "alloc"), "initWithFrame:", CPMakeRect(0, 0, objj_msgSend(image, "size").width, objj_msgSend(image, "size").height));
                     objj_msgSend(view, "setImage:", image);
                 }
-                var bounds = objj_msgSend(view, "bounds");
-                var viewLocation = CPPointMake(aPoint.x - CGRectGetWidth(bounds)/2 + offset.x, aPoint.y - CGRectGetHeight(bounds)/2 + offset.y);
+                var bounds = objj_msgSend(view, "bounds"),
+                    viewLocation = CPPointMake(aPoint.x - CGRectGetWidth(bounds) / 2 + offset.x, aPoint.y - CGRectGetHeight(bounds) / 2 + offset.y);
                 objj_msgSend(self, "dragView:at:offset:event:pasteboard:source:slideBack:", view, viewLocation, CPPointMakeZero(), objj_msgSend(CPApp, "currentEvent"), pboard, self, YES);
                 _startTrackingPoint = nil;
                 return NO;
@@ -2449,7 +2449,7 @@ _disableAutomaticResizing = newValue;
             return YES;
     }
     _isSelectingSession = YES;
-    if(row >= 0 && row !== _lastTrackedRowIndex)
+    if (row >= 0 && row !== _lastTrackedRowIndex)
     {
         _lastTrackedRowIndex = row;
         objj_msgSend(self, "_updateSelectionWithMouseAtRow:", row);
@@ -2475,7 +2475,7 @@ _disableAutomaticResizing = newValue;
         column,
         rowIndex,
         shouldEdit = YES;
-    if(_implementedDataSourceMethods & CPTableViewDataSource_tableView_writeRowsWithIndexes_toPasteboard_)
+    if (_implementedDataSourceMethods & CPTableViewDataSource_tableView_writeRowsWithIndexes_toPasteboard_)
     {
         rowIndex = objj_msgSend(self, "rowAtPoint:", aPoint);
         if (rowIndex !== -1)
@@ -2514,7 +2514,7 @@ _disableAutomaticResizing = newValue;
             }
         }
     }
-    if(objj_msgSend(objj_msgSend(CPApp, "currentEvent"), "clickCount") === 2 && _doubleAction)
+    if (objj_msgSend(objj_msgSend(CPApp, "currentEvent"), "clickCount") === 2 && _doubleAction)
     {
         _clickedRow = objj_msgSend(self, "rowAtPoint:", aPoint);
         objj_msgSend(self, "sendAction:to:", _doubleAction, _target);
@@ -2526,7 +2526,7 @@ _disableAutomaticResizing = newValue;
     var location = objj_msgSend(self, "convertPoint:fromView:", objj_msgSend(sender, "draggingLocation"), nil),
         dropOperation = objj_msgSend(self, "_proposedDropOperationAtPoint:", location),
         row = objj_msgSend(self, "_proposedRowAtPoint:", location);
-    if(_retargetedDropRow !== nil)
+    if (_retargetedDropRow !== nil)
         row = _retargetedDropRow;
     var draggedTypes = objj_msgSend(self, "registeredDraggedTypes"),
         count = objj_msgSend(draggedTypes, "count"),
@@ -2564,7 +2564,7 @@ _disableAutomaticResizing = newValue;
 },["BOOL"]), new objj_method(sel_getUid("_proposedDropOperationAtPoint:"), function $CPTableView___proposedDropOperationAtPoint_(self, _cmd, theDragPoint)
 { with(self)
 {
-    if(_retargetedDropOperation !== nil)
+    if (_retargetedDropOperation !== nil)
         return _retargetedDropOperation;
     var row = objj_msgSend(self, "_proposedRowAtPoint:", theDragPoint),
         rowRect = objj_msgSend(self, "rectOfRow:", row);
@@ -2591,7 +2591,7 @@ _disableAutomaticResizing = newValue;
 },["CPInteger","CGPoint"]), new objj_method(sel_getUid("_validateDrop:proposedRow:proposedDropOperation:"), function $CPTableView___validateDrop_proposedRow_proposedDropOperation_(self, _cmd, info, row, dropOperation)
 { with(self)
 {
-    if(_implementedDataSourceMethods & CPTableViewDataSource_tableView_validateDrop_proposedRow_proposedDropOperation_)
+    if (_implementedDataSourceMethods & CPTableViewDataSource_tableView_validateDrop_proposedRow_proposedDropOperation_)
         return objj_msgSend(_dataSource, "tableView:validateDrop:proposedRow:proposedDropOperation:", self, info, row, dropOperation);
     return CPDragOperationNone;
 }
@@ -2614,11 +2614,11 @@ _disableAutomaticResizing = newValue;
 {
     var location = objj_msgSend(self, "convertPoint:fromView:", objj_msgSend(sender, "draggingLocation"), nil),
         dropOperation = objj_msgSend(self, "_proposedDropOperationAtPoint:", location),
-        numberOfRows = objj_msgSend(self, "numberOfRows");
-    var row = objj_msgSend(self, "_proposedRowAtPoint:", location),
-        dragOperation = objj_msgSend(self, "_validateDrop:proposedRow:proposedDropOperation:", sender, row, dropOperation);
+        numberOfRows = objj_msgSend(self, "numberOfRows"),
+        row = objj_msgSend(self, "_proposedRowAtPoint:", location),
+        dragOperation = objj_msgSend(self, "_validateDrop:proposedRow:proposedDropOperation:", sender, row, dropOperation),
         exposedClipRect = objj_msgSend(self, "visibleRect");
-    if(_retargetedDropRow !== nil)
+    if (_retargetedDropRow !== nil)
         row = _retargetedDropRow;
     if (dropOperation === CPTableViewDropOn && row >= objj_msgSend(self, "numberOfRows"))
         row = objj_msgSend(self, "numberOfRows") - 1;
@@ -2645,10 +2645,10 @@ _disableAutomaticResizing = newValue;
 },["BOOL","id"]), new objj_method(sel_getUid("performDragOperation:"), function $CPTableView__performDragOperation_(self, _cmd, sender)
 { with(self)
 {
-    var location = objj_msgSend(self, "convertPoint:fromView:", objj_msgSend(sender, "draggingLocation"), nil);
+    var location = objj_msgSend(self, "convertPoint:fromView:", objj_msgSend(sender, "draggingLocation"), nil),
         operation = objj_msgSend(self, "_proposedDropOperationAtPoint:", location),
         row = _retargetedDropRow;
-    if(row === nil)
+    if (row === nil)
         var row = objj_msgSend(self, "_proposedRowAtPoint:", location);
     return objj_msgSend(_dataSource, "tableView:acceptDrop:row:dropOperation:", self, sender, row, operation);
 }
@@ -10762,8 +10762,8 @@ _tableView = newValue;
 { with(self)
 {
     var tableColumns = objj_msgSend(_tableView, "tableColumns"),
-        lastColumnRect = objj_msgSend(self, "_headerRectOfLastVisibleColumn");
-        activeColumnRect = objj_msgSend(self, "headerRectOfColumn:", _activeColumn);
+        lastColumnRect = objj_msgSend(self, "_headerRectOfLastVisibleColumn"),
+        activeColumnRect = objj_msgSend(self, "headerRectOfColumn:", _activeColumn),
         dragWindow = objj_msgSend(theDragView, "window"),
         frame = objj_msgSend(dragWindow, "frame");
     frame.origin = objj_msgSend(objj_msgSend(self, "window"), "convertGlobalToBase:", frame.origin);
@@ -18794,7 +18794,7 @@ return _isVertical;
             objj_msgSend(self, "setFloatValue:", 0.0);
         else
         {
-            var location = objj_msgSend(self, "convertPoint:fromView:", objj_msgSend(anEvent, "locationInWindow"), nil);
+            var location = objj_msgSend(self, "convertPoint:fromView:", objj_msgSend(anEvent, "locationInWindow"), nil),
                 delta = !objj_msgSend(self, "isVertical") ? location.x - _trackingStartPoint.x : location.y - _trackingStartPoint.y;
             objj_msgSend(self, "setFloatValue:", _trackingFloatValue + delta / remainder);
         }

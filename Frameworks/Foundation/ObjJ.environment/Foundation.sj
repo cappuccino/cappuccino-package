@@ -4269,7 +4269,7 @@ return _35;
 };
 var _3f=function(_40,_41){
 };
-p;15;CPUndoManager.jt;16161;@STATIC;1.0;i;14;CPInvocation.ji;10;CPObject.ji;9;CPProxy.jt;16094;
+p;15;CPUndoManager.jt;15775;@STATIC;1.0;i;14;CPInvocation.ji;10;CPObject.ji;9;CPProxy.jt;15708;
 objj_executeFile("CPInvocation.j",YES);
 objj_executeFile("CPObject.j",YES);
 objj_executeFile("CPProxy.j",YES);
@@ -4659,53 +4659,48 @@ return;
 objj_msgSend(objj_msgSend(_8d,"prepareWithInvocationTarget:",_90),"applyChange:toKeyPath:",objj_msgSend(_91,"inverseChangeDictionary"),_8f);
 }
 })]);
-var _95="CPUndoManagerRedoStackKey",_96="CPUndoManagerUndoStackKey";
-CPUndoManagerLevelsOfUndoKey="CPUndoManagerLevelsOfUndoKey";
-CPUndoManagerActionNameKey="CPUndoManagerActionNameKey";
-CPUndoManagerCurrentGroupingKey="CPUndoManagerCurrentGroupingKey";
-CPUndoManagerRunLoopModesKey="CPUndoManagerRunLoopModesKey";
-CPUndoManagerGroupsByEventKey="CPUndoManagerGroupsByEventKey";
+var _95="CPUndoManagerRedoStackKey",_96="CPUndoManagerUndoStackKey",_97="CPUndoManagerLevelsOfUndoKey",_98="CPUndoManagerActionNameKey",_99="CPUndoManagerCurrentGroupingKey",_9a="CPUndoManagerRunLoopModesKey",_9b="CPUndoManagerGroupsByEventKey";
 var _6=objj_getClass("CPUndoManager");
 if(!_6){
 throw new SyntaxError("*** Could not find definition for class \"CPUndoManager\"");
 }
 var _7=_6.isa;
-class_addMethods(_6,[new objj_method(sel_getUid("initWithCoder:"),function(_97,_98,_99){
-with(_97){
-_97=objj_msgSendSuper({receiver:_97,super_class:objj_getClass("CPUndoManager").super_class},"init");
-if(_97){
-_redoStack=objj_msgSend(_99,"decodeObjectForKey:",_95);
-_undoStack=objj_msgSend(_99,"decodeObjectForKey:",_96);
-_levelsOfUndo=objj_msgSend(_99,"decodeObjectForKey:",CPUndoManagerLevelsOfUndoKey);
-_actionName=objj_msgSend(_99,"decodeObjectForKey:",CPUndoManagerActionNameKey);
-_currentGrouping=objj_msgSend(_99,"decodeObjectForKey:",CPUndoManagerCurrentGroupingKey);
+class_addMethods(_6,[new objj_method(sel_getUid("initWithCoder:"),function(_9c,_9d,_9e){
+with(_9c){
+_9c=objj_msgSendSuper({receiver:_9c,super_class:objj_getClass("CPUndoManager").super_class},"init");
+if(_9c){
+_redoStack=objj_msgSend(_9e,"decodeObjectForKey:",_95);
+_undoStack=objj_msgSend(_9e,"decodeObjectForKey:",_96);
+_levelsOfUndo=objj_msgSend(_9e,"decodeObjectForKey:",_97);
+_actionName=objj_msgSend(_9e,"decodeObjectForKey:",_98);
+_currentGrouping=objj_msgSend(_9e,"decodeObjectForKey:",_99);
 _state=_1;
-objj_msgSend(_97,"setRunLoopModes:",objj_msgSend(_99,"decodeObjectForKey:",CPUndoManagerRunLoopModesKey));
-objj_msgSend(_97,"setGroupsByEvent:",objj_msgSend(_99,"decodeBoolForKey:",CPUndoManagerGroupsByEventKey));
+objj_msgSend(_9c,"setRunLoopModes:",objj_msgSend(_9e,"decodeObjectForKey:",_9a));
+objj_msgSend(_9c,"setGroupsByEvent:",objj_msgSend(_9e,"decodeBoolForKey:",_9b));
 }
-return _97;
+return _9c;
 }
-}),new objj_method(sel_getUid("encodeWithCoder:"),function(_9a,_9b,_9c){
-with(_9a){
-objj_msgSend(_9c,"encodeObject:forKey:",_redoStack,_95);
-objj_msgSend(_9c,"encodeObject:forKey:",_undoStack,_96);
-objj_msgSend(_9c,"encodeInt:forKey:",_levelsOfUndo,CPUndoManagerLevelsOfUndoKey);
-objj_msgSend(_9c,"encodeObject:forKey:",_actionName,CPUndoManagerActionNameKey);
-objj_msgSend(_9c,"encodeObject:forKey:",_currentGrouping,CPUndoManagerCurrentGroupingKey);
-objj_msgSend(_9c,"encodeObject:forKey:",_runLoopModes,CPUndoManagerRunLoopModesKey);
-objj_msgSend(_9c,"encodeBool:forKey:",_groupsByEvent,CPUndoManagerGroupsByEventKey);
+}),new objj_method(sel_getUid("encodeWithCoder:"),function(_9f,_a0,_a1){
+with(_9f){
+objj_msgSend(_a1,"encodeObject:forKey:",_redoStack,_95);
+objj_msgSend(_a1,"encodeObject:forKey:",_undoStack,_96);
+objj_msgSend(_a1,"encodeInt:forKey:",_levelsOfUndo,_97);
+objj_msgSend(_a1,"encodeObject:forKey:",_actionName,_98);
+objj_msgSend(_a1,"encodeObject:forKey:",_currentGrouping,_99);
+objj_msgSend(_a1,"encodeObject:forKey:",_runLoopModes,_9a);
+objj_msgSend(_a1,"encodeBool:forKey:",_groupsByEvent,_9b);
 }
 })]);
 var _6=objj_allocateClassPair(CPProxy,"_CPUndoManagerProxy"),_7=_6.isa;
 class_addIvars(_6,[new objj_ivar("_undoManager")]);
 objj_registerClassPair(_6);
-class_addMethods(_6,[new objj_method(sel_getUid("methodSignatureForSelector:"),function(_9d,_9e,_9f){
-with(_9d){
-return objj_msgSend(_undoManager,"_methodSignatureOfPreparedTargetForSelector:",_9f);
+class_addMethods(_6,[new objj_method(sel_getUid("methodSignatureForSelector:"),function(_a2,_a3,_a4){
+with(_a2){
+return objj_msgSend(_undoManager,"_methodSignatureOfPreparedTargetForSelector:",_a4);
 }
-}),new objj_method(sel_getUid("forwardInvocation:"),function(_a0,_a1,_a2){
-with(_a0){
-objj_msgSend(_undoManager,"_forwardInvocationToPreparedTarget:",_a2);
+}),new objj_method(sel_getUid("forwardInvocation:"),function(_a5,_a6,_a7){
+with(_a5){
+objj_msgSend(_undoManager,"_forwardInvocationToPreparedTarget:",_a7);
 }
 })]);
 p;13;CPException.jt;3505;@STATIC;1.0;i;9;CPCoder.ji;10;CPObject.ji;10;CPString.jt;3443;

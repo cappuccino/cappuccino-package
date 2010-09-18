@@ -5355,11 +5355,11 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPUnd
 },["void","CPString","id","CPDictionary","id"])]);
 }
 var CPUndoManagerRedoStackKey = "CPUndoManagerRedoStackKey",
-    CPUndoManagerUndoStackKey = "CPUndoManagerUndoStackKey";
-    CPUndoManagerLevelsOfUndoKey = "CPUndoManagerLevelsOfUndoKey";
-    CPUndoManagerActionNameKey = "CPUndoManagerActionNameKey";
-    CPUndoManagerCurrentGroupingKey = "CPUndoManagerCurrentGroupingKey";
-    CPUndoManagerRunLoopModesKey = "CPUndoManagerRunLoopModesKey";
+    CPUndoManagerUndoStackKey = "CPUndoManagerUndoStackKey",
+    CPUndoManagerLevelsOfUndoKey = "CPUndoManagerLevelsOfUndoKey",
+    CPUndoManagerActionNameKey = "CPUndoManagerActionNameKey",
+    CPUndoManagerCurrentGroupingKey = "CPUndoManagerCurrentGroupingKey",
+    CPUndoManagerRunLoopModesKey = "CPUndoManagerRunLoopModesKey",
     CPUndoManagerGroupsByEventKey = "CPUndoManagerGroupsByEventKey";
 {
 var the_class = objj_getClass("CPUndoManager")
