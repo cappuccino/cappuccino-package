@@ -4927,7 +4927,7 @@ var mapURLsAndProperties = function( properties, ignoredURL)
 {
 }
 
-p;15;CPUndoManager.jt;22768;@STATIC;1.0;i;14;CPInvocation.ji;10;CPObject.ji;9;CPProxy.jt;22701;objj_executeFile("CPInvocation.j", YES);
+p;15;CPUndoManager.jt;24990;@STATIC;1.0;i;14;CPInvocation.ji;10;CPObject.ji;9;CPProxy.jt;24923;objj_executeFile("CPInvocation.j", YES);
 objj_executeFile("CPObject.j", YES);
 objj_executeFile("CPProxy.j", YES);
 var CPUndoManagerNormal = 0,
@@ -4944,7 +4944,7 @@ CPUndoCloseGroupingRunLoopOrdering = 350000;
 var _CPUndoGroupingPool = [],
     _CPUndoGroupingPoolCapacity = 5;
 {var the_class = objj_allocateClassPair(CPObject, "_CPUndoGrouping"),
-meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_parent"), new objj_ivar("_invocations")]);
+meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_parent"), new objj_ivar("_invocations"), new objj_ivar("_actionName")]);
 objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("initWithParent:"), function $_CPUndoGrouping__initWithParent_(self, _cmd, anUndoGrouping)
 { with(self)
@@ -4954,6 +4954,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithParent:"), func
     {
         _parent = anUndoGrouping;
         _invocations = [];
+        _actionName = "";
     }
     return self;
 }
@@ -4992,7 +4993,17 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithParent:"), func
     while (index--)
         objj_msgSend(_invocations[index], "invoke");
 }
-},["void"])]);
+},["void"]), new objj_method(sel_getUid("setActionName:"), function $_CPUndoGrouping__setActionName_(self, _cmd, aName)
+{ with(self)
+{
+    _actionName = aName;
+}
+},["void","CPString"]), new objj_method(sel_getUid("actionName"), function $_CPUndoGrouping__actionName(self, _cmd)
+{ with(self)
+{
+    return _actionName;
+}
+},["CPString"])]);
 class_addMethods(meta_class, [new objj_method(sel_getUid("_poolUndoGrouping:"), function $_CPUndoGrouping___poolUndoGrouping_(self, _cmd, anUndoGrouping)
 { with(self)
 {
@@ -5016,7 +5027,8 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("_poolUndoGrouping:"), 
 },["id","_CPUndoGrouping"])]);
 }
 var _CPUndoGroupingParentKey = "_CPUndoGroupingParentKey",
-    _CPUndoGroupingInvocationsKey = "_CPUndoGroupingInvocationsKey";
+    _CPUndoGroupingInvocationsKey = "_CPUndoGroupingInvocationsKey",
+    _CPUndoGroupingActionNameKey = "_CPUndoGroupingActionNameKey";
 {
 var the_class = objj_getClass("_CPUndoGrouping")
 if(!the_class) throw new SyntaxError("*** Could not find definition for class \"_CPUndoGrouping\"");
@@ -5028,6 +5040,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
     {
         _parent = objj_msgSend(aCoder, "decodeObjectForKey:", _CPUndoGroupingParentKey);
         _invocations = objj_msgSend(aCoder, "decodeObjectForKey:", _CPUndoGroupingInvocationsKey);
+        _actionName = objj_msgSend(aCoder, "decodeObjectForKey:", _CPUndoGroupingActionNameKey);
     }
     return self;
 }
@@ -5036,11 +5049,12 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 {
     objj_msgSend(aCoder, "encodeObject:forKey:", _parent, _CPUndoGroupingParentKey);
     objj_msgSend(aCoder, "encodeObject:forKey:", _invocations, _CPUndoGroupingInvocationsKey);
+    objj_msgSend(aCoder, "encodeObject:forKey:", _actionName, _CPUndoGroupingActionNameKey);
 }
 },["void","CPCoder"])]);
 }
 {var the_class = objj_allocateClassPair(CPObject, "CPUndoManager"),
-meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_redoStack"), new objj_ivar("_undoStack"), new objj_ivar("_groupsByEvent"), new objj_ivar("_disableCount"), new objj_ivar("_levelsOfUndo"), new objj_ivar("_currentGrouping"), new objj_ivar("_state"), new objj_ivar("_actionName"), new objj_ivar("_preparedTarget"), new objj_ivar("_undoManagerProxy"), new objj_ivar("_runLoopModes"), new objj_ivar("_registeredWithRunLoop")]);
+meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_redoStack"), new objj_ivar("_undoStack"), new objj_ivar("_groupsByEvent"), new objj_ivar("_disableCount"), new objj_ivar("_levelsOfUndo"), new objj_ivar("_currentGrouping"), new objj_ivar("_state"), new objj_ivar("_preparedTarget"), new objj_ivar("_undoManagerProxy"), new objj_ivar("_runLoopModes"), new objj_ivar("_registeredWithRunLoop")]);
 objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPUndoManager__init(self, _cmd)
 { with(self)
@@ -5131,13 +5145,15 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPUnd
     var defaultCenter = objj_msgSend(CPNotificationCenter, "defaultCenter");
     objj_msgSend(defaultCenter, "postNotificationName:object:", CPUndoManagerCheckpointNotification, self);
     objj_msgSend(defaultCenter, "postNotificationName:object:", CPUndoManagerWillUndoChangeNotification, self);
-    var undoGrouping = _undoStack.pop();
+    var undoGrouping = _undoStack.pop(),
+        actionName = objj_msgSend(undoGrouping, "actionName");
     _state = CPUndoManagerUndoing;
     objj_msgSend(self, "_beginUndoGrouping");
     objj_msgSend(undoGrouping, "invoke");
     objj_msgSend(self, "endUndoGrouping");
     objj_msgSend(_CPUndoGrouping, "_poolUndoGrouping:", undoGrouping);
     _state = CPUndoManagerNormal;
+    objj_msgSend(objj_msgSend(_redoStack, "lastObject"), "setActionName:", actionName);
     objj_msgSend(defaultCenter, "postNotificationName:object:", CPUndoManagerDidUndoChangeNotification, self);
 }
 },["void"]), new objj_method(sel_getUid("redo"), function $CPUndoManager__redo(self, _cmd)
@@ -5149,7 +5165,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPUnd
     objj_msgSend(defaultCenter, "postNotificationName:object:", CPUndoManagerCheckpointNotification, self);
     objj_msgSend(defaultCenter, "postNotificationName:object:", CPUndoManagerWillRedoChangeNotification, self);
     var oldUndoGrouping = _currentGrouping,
-        undoGrouping = _redoStack.pop();
+        undoGrouping = _redoStack.pop(),
+        actionName = objj_msgSend(undoGrouping, "actionName");
     _currentGrouping = nil;
     _state = CPUndoManagerRedoing;
     objj_msgSend(self, "_beginUndoGrouping");
@@ -5158,6 +5175,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPUnd
     objj_msgSend(_CPUndoGrouping, "_poolUndoGrouping:", undoGrouping);
     _currentGrouping = oldUndoGrouping;
     _state = CPUndoManagerNormal;
+    objj_msgSend(objj_msgSend(_undoStack, "lastObject"), "setActionName:", actionName);
     objj_msgSend(defaultCenter, "postNotificationName:object:", CPUndoManagerDidRedoChangeNotification, self);
 }
 },["void"]), new objj_method(sel_getUid("beginUndoGrouping"), function $CPUndoManager__beginUndoGrouping(self, _cmd)
@@ -5284,19 +5302,48 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPUnd
 },["void","id"]), new objj_method(sel_getUid("setActionName:"), function $CPUndoManager__setActionName_(self, _cmd, anActionName)
 { with(self)
 {
-    _actionName = anActionName;
+    if (anActionName !== nil && _currentGrouping)
+        objj_msgSend(_currentGrouping, "setActionName:", anActionName);
 }
 },["void","CPString"]), new objj_method(sel_getUid("redoActionName"), function $CPUndoManager__redoActionName(self, _cmd)
 { with(self)
 {
-    return objj_msgSend(self, "canRedo") ? _actionName : nil;
+    if (!objj_msgSend(self, "canRedo"))
+        return nil;
+    return objj_msgSend(objj_msgSend(_redoStack, "lastObject"), "actionName");
 }
-},["CPString"]), new objj_method(sel_getUid("undoActionName"), function $CPUndoManager__undoActionName(self, _cmd)
+},["CPString"]), new objj_method(sel_getUid("redoMenuItemTitle"), function $CPUndoManager__redoMenuItemTitle(self, _cmd)
 { with(self)
 {
-    return objj_msgSend(self, "canUndo") ? _actionName : nil;
+    return objj_msgSend(self, "redoMenuTitleForUndoActionName:", objj_msgSend(self, "redoActionName"));
 }
-},["CPString"]), new objj_method(sel_getUid("runLoopModes"), function $CPUndoManager__runLoopModes(self, _cmd)
+},["CPString"]), new objj_method(sel_getUid("redoMenuTitleForUndoActionName:"), function $CPUndoManager__redoMenuTitleForUndoActionName_(self, _cmd, anActionName)
+{ with(self)
+{
+    if (anActionName || anActionName === 0)
+        return "Redo " + anActionName;
+    return "Redo";
+}
+},["CPString","CPString"]), new objj_method(sel_getUid("undoActionName"), function $CPUndoManager__undoActionName(self, _cmd)
+{ with(self)
+{
+    if (!objj_msgSend(self, "canUndo"))
+        return nil;
+    return objj_msgSend(objj_msgSend(_undoStack, "lastObject"), "actionName");
+}
+},["CPString"]), new objj_method(sel_getUid("undoMenuItemTitle"), function $CPUndoManager__undoMenuItemTitle(self, _cmd)
+{ with(self)
+{
+    return objj_msgSend(self, "undoMenuTitleForUndoActionName:", objj_msgSend(self, "undoActionName"));
+}
+},["CPString"]), new objj_method(sel_getUid("undoMenuTitleForUndoActionName:"), function $CPUndoManager__undoMenuTitleForUndoActionName_(self, _cmd, anActionName)
+{ with(self)
+{
+    if (anActionName || anActionName === 0)
+        return "Undo " + anActionName;
+    return "Undo";
+}
+},["CPString","CPString"]), new objj_method(sel_getUid("runLoopModes"), function $CPUndoManager__runLoopModes(self, _cmd)
 { with(self)
 {
     return _runLoopModes;

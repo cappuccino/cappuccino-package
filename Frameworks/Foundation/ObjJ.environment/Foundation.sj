@@ -4269,7 +4269,7 @@ return _35;
 };
 var _3f=function(_40,_41){
 };
-p;15;CPUndoManager.jt;15775;@STATIC;1.0;i;14;CPInvocation.ji;10;CPObject.ji;9;CPProxy.jt;15708;
+p;15;CPUndoManager.jt;17233;@STATIC;1.0;i;14;CPInvocation.ji;10;CPObject.ji;9;CPProxy.jt;17166;
 objj_executeFile("CPInvocation.j",YES);
 objj_executeFile("CPObject.j",YES);
 objj_executeFile("CPProxy.j",YES);
@@ -4284,7 +4284,7 @@ CPUndoManagerWillUndoChangeNotification="CPUndoManagerWillUndoChangeNotification
 CPUndoCloseGroupingRunLoopOrdering=350000;
 var _4=[],_5=5;
 var _6=objj_allocateClassPair(CPObject,"_CPUndoGrouping"),_7=_6.isa;
-class_addIvars(_6,[new objj_ivar("_parent"),new objj_ivar("_invocations")]);
+class_addIvars(_6,[new objj_ivar("_parent"),new objj_ivar("_invocations"),new objj_ivar("_actionName")]);
 objj_registerClassPair(_6);
 class_addMethods(_6,[new objj_method(sel_getUid("initWithParent:"),function(_8,_9,_a){
 with(_8){
@@ -4292,6 +4292,7 @@ _8=objj_msgSendSuper({receiver:_8,super_class:objj_getClass("_CPUndoGrouping").s
 if(_8){
 _parent=_a;
 _invocations=[];
+_actionName="";
 }
 return _8;
 }
@@ -4327,380 +4328,422 @@ while(_1b--){
 objj_msgSend(_invocations[_1b],"invoke");
 }
 }
-})]);
-class_addMethods(_7,[new objj_method(sel_getUid("_poolUndoGrouping:"),function(_1c,_1d,_1e){
+}),new objj_method(sel_getUid("setActionName:"),function(_1c,_1d,_1e){
 with(_1c){
-if(!_1e||_4.length>=_5){
+_actionName=_1e;
+}
+}),new objj_method(sel_getUid("actionName"),function(_1f,_20){
+with(_1f){
+return _actionName;
+}
+})]);
+class_addMethods(_7,[new objj_method(sel_getUid("_poolUndoGrouping:"),function(_21,_22,_23){
+with(_21){
+if(!_23||_4.length>=_5){
 return;
 }
-_4.push(_1e);
+_4.push(_23);
 }
-}),new objj_method(sel_getUid("undoGroupingWithParent:"),function(_1f,_20,_21){
-with(_1f){
+}),new objj_method(sel_getUid("undoGroupingWithParent:"),function(_24,_25,_26){
+with(_24){
 if(_4.length){
-var _22=_4.pop();
-_22._parent=_21;
-if(_22._invocations.length){
-_22._invocations=[];
+var _27=_4.pop();
+_27._parent=_26;
+if(_27._invocations.length){
+_27._invocations=[];
 }
-return _22;
+return _27;
 }
-return objj_msgSend(objj_msgSend(_1f,"alloc"),"initWithParent:",_21);
+return objj_msgSend(objj_msgSend(_24,"alloc"),"initWithParent:",_26);
 }
 })]);
-var _23="_CPUndoGroupingParentKey",_24="_CPUndoGroupingInvocationsKey";
+var _28="_CPUndoGroupingParentKey",_29="_CPUndoGroupingInvocationsKey",_2a="_CPUndoGroupingActionNameKey";
 var _6=objj_getClass("_CPUndoGrouping");
 if(!_6){
 throw new SyntaxError("*** Could not find definition for class \"_CPUndoGrouping\"");
 }
 var _7=_6.isa;
-class_addMethods(_6,[new objj_method(sel_getUid("initWithCoder:"),function(_25,_26,_27){
-with(_25){
-_25=objj_msgSendSuper({receiver:_25,super_class:objj_getClass("_CPUndoGrouping").super_class},"init");
-if(_25){
-_parent=objj_msgSend(_27,"decodeObjectForKey:",_23);
-_invocations=objj_msgSend(_27,"decodeObjectForKey:",_24);
-}
-return _25;
-}
-}),new objj_method(sel_getUid("encodeWithCoder:"),function(_28,_29,_2a){
-with(_28){
-objj_msgSend(_2a,"encodeObject:forKey:",_parent,_23);
-objj_msgSend(_2a,"encodeObject:forKey:",_invocations,_24);
-}
-})]);
-var _6=objj_allocateClassPair(CPObject,"CPUndoManager"),_7=_6.isa;
-class_addIvars(_6,[new objj_ivar("_redoStack"),new objj_ivar("_undoStack"),new objj_ivar("_groupsByEvent"),new objj_ivar("_disableCount"),new objj_ivar("_levelsOfUndo"),new objj_ivar("_currentGrouping"),new objj_ivar("_state"),new objj_ivar("_actionName"),new objj_ivar("_preparedTarget"),new objj_ivar("_undoManagerProxy"),new objj_ivar("_runLoopModes"),new objj_ivar("_registeredWithRunLoop")]);
-objj_registerClassPair(_6);
-class_addMethods(_6,[new objj_method(sel_getUid("init"),function(_2b,_2c){
+class_addMethods(_6,[new objj_method(sel_getUid("initWithCoder:"),function(_2b,_2c,_2d){
 with(_2b){
-_2b=objj_msgSendSuper({receiver:_2b,super_class:objj_getClass("CPUndoManager").super_class},"init");
+_2b=objj_msgSendSuper({receiver:_2b,super_class:objj_getClass("_CPUndoGrouping").super_class},"init");
 if(_2b){
-_redoStack=[];
-_undoStack=[];
-_state=_1;
-objj_msgSend(_2b,"setRunLoopModes:",[CPDefaultRunLoopMode]);
-objj_msgSend(_2b,"setGroupsByEvent:",YES);
-_undoManagerProxy=objj_msgSend(_CPUndoManagerProxy,"alloc");
-_undoManagerProxy._undoManager=_2b;
+_parent=objj_msgSend(_2d,"decodeObjectForKey:",_28);
+_invocations=objj_msgSend(_2d,"decodeObjectForKey:",_29);
+_actionName=objj_msgSend(_2d,"decodeObjectForKey:",_2a);
 }
 return _2b;
 }
-}),new objj_method(sel_getUid("_addUndoInvocation:"),function(_2d,_2e,_2f){
-with(_2d){
+}),new objj_method(sel_getUid("encodeWithCoder:"),function(_2e,_2f,_30){
+with(_2e){
+objj_msgSend(_30,"encodeObject:forKey:",_parent,_28);
+objj_msgSend(_30,"encodeObject:forKey:",_invocations,_29);
+objj_msgSend(_30,"encodeObject:forKey:",_actionName,_2a);
+}
+})]);
+var _6=objj_allocateClassPair(CPObject,"CPUndoManager"),_7=_6.isa;
+class_addIvars(_6,[new objj_ivar("_redoStack"),new objj_ivar("_undoStack"),new objj_ivar("_groupsByEvent"),new objj_ivar("_disableCount"),new objj_ivar("_levelsOfUndo"),new objj_ivar("_currentGrouping"),new objj_ivar("_state"),new objj_ivar("_preparedTarget"),new objj_ivar("_undoManagerProxy"),new objj_ivar("_runLoopModes"),new objj_ivar("_registeredWithRunLoop")]);
+objj_registerClassPair(_6);
+class_addMethods(_6,[new objj_method(sel_getUid("init"),function(_31,_32){
+with(_31){
+_31=objj_msgSendSuper({receiver:_31,super_class:objj_getClass("CPUndoManager").super_class},"init");
+if(_31){
+_redoStack=[];
+_undoStack=[];
+_state=_1;
+objj_msgSend(_31,"setRunLoopModes:",[CPDefaultRunLoopMode]);
+objj_msgSend(_31,"setGroupsByEvent:",YES);
+_undoManagerProxy=objj_msgSend(_CPUndoManagerProxy,"alloc");
+_undoManagerProxy._undoManager=_31;
+}
+return _31;
+}
+}),new objj_method(sel_getUid("_addUndoInvocation:"),function(_33,_34,_35){
+with(_33){
 if(!_currentGrouping){
-if(objj_msgSend(_2d,"groupsByEvent")){
-objj_msgSend(_2d,"_beginUndoGroupingForEvent");
+if(objj_msgSend(_33,"groupsByEvent")){
+objj_msgSend(_33,"_beginUndoGroupingForEvent");
 }else{
 objj_msgSend(CPException,"raise:reason:",CPInternalInconsistencyException,"No undo group is currently open");
 }
 }
-objj_msgSend(_currentGrouping,"addInvocation:",_2f);
+objj_msgSend(_currentGrouping,"addInvocation:",_35);
 if(_state===_1){
 objj_msgSend(_redoStack,"removeAllObjects");
 }
 }
-}),new objj_method(sel_getUid("registerUndoWithTarget:selector:object:"),function(_30,_31,_32,_33,_34){
-with(_30){
+}),new objj_method(sel_getUid("registerUndoWithTarget:selector:object:"),function(_36,_37,_38,_39,_3a){
+with(_36){
 if(_disableCount>0){
 return;
 }
-var _35=objj_msgSend(CPInvocation,"invocationWithMethodSignature:",nil);
-objj_msgSend(_35,"setTarget:",_32);
-objj_msgSend(_35,"setSelector:",_33);
-objj_msgSend(_35,"setArgument:atIndex:",_34,2);
-objj_msgSend(_30,"_addUndoInvocation:",_35);
+var _3b=objj_msgSend(CPInvocation,"invocationWithMethodSignature:",nil);
+objj_msgSend(_3b,"setTarget:",_38);
+objj_msgSend(_3b,"setSelector:",_39);
+objj_msgSend(_3b,"setArgument:atIndex:",_3a,2);
+objj_msgSend(_36,"_addUndoInvocation:",_3b);
 }
-}),new objj_method(sel_getUid("prepareWithInvocationTarget:"),function(_36,_37,_38){
-with(_36){
-_preparedTarget=_38;
+}),new objj_method(sel_getUid("prepareWithInvocationTarget:"),function(_3c,_3d,_3e){
+with(_3c){
+_preparedTarget=_3e;
 return _undoManagerProxy;
 }
-}),new objj_method(sel_getUid("_methodSignatureOfPreparedTargetForSelector:"),function(_39,_3a,_3b){
-with(_39){
-if(objj_msgSend(_preparedTarget,"respondsToSelector:",_3b)){
+}),new objj_method(sel_getUid("_methodSignatureOfPreparedTargetForSelector:"),function(_3f,_40,_41){
+with(_3f){
+if(objj_msgSend(_preparedTarget,"respondsToSelector:",_41)){
 return 1;
 }
 return nil;
 }
-}),new objj_method(sel_getUid("_forwardInvocationToPreparedTarget:"),function(_3c,_3d,_3e){
-with(_3c){
+}),new objj_method(sel_getUid("_forwardInvocationToPreparedTarget:"),function(_42,_43,_44){
+with(_42){
 if(_disableCount>0){
 return;
 }
-objj_msgSend(_3e,"setTarget:",_preparedTarget);
-objj_msgSend(_3c,"_addUndoInvocation:",_3e);
+objj_msgSend(_44,"setTarget:",_preparedTarget);
+objj_msgSend(_42,"_addUndoInvocation:",_44);
 _preparedTarget=nil;
 }
-}),new objj_method(sel_getUid("canRedo"),function(_3f,_40){
-with(_3f){
-objj_msgSend(objj_msgSend(CPNotificationCenter,"defaultCenter"),"postNotificationName:object:",CPUndoManagerCheckpointNotification,_3f);
+}),new objj_method(sel_getUid("canRedo"),function(_45,_46){
+with(_45){
+objj_msgSend(objj_msgSend(CPNotificationCenter,"defaultCenter"),"postNotificationName:object:",CPUndoManagerCheckpointNotification,_45);
 return objj_msgSend(_redoStack,"count")>0;
 }
-}),new objj_method(sel_getUid("canUndo"),function(_41,_42){
-with(_41){
+}),new objj_method(sel_getUid("canUndo"),function(_47,_48){
+with(_47){
 if(_undoStack.length>0){
 return YES;
 }
 return objj_msgSend(objj_msgSend(_currentGrouping,"invocations"),"count")>0;
 }
-}),new objj_method(sel_getUid("undo"),function(_43,_44){
-with(_43){
-if(objj_msgSend(_43,"groupingLevel")===1){
-objj_msgSend(_43,"endUndoGrouping");
+}),new objj_method(sel_getUid("undo"),function(_49,_4a){
+with(_49){
+if(objj_msgSend(_49,"groupingLevel")===1){
+objj_msgSend(_49,"endUndoGrouping");
 }
-objj_msgSend(_43,"undoNestedGroup");
+objj_msgSend(_49,"undoNestedGroup");
 }
-}),new objj_method(sel_getUid("undoNestedGroup"),function(_45,_46){
-with(_45){
+}),new objj_method(sel_getUid("undoNestedGroup"),function(_4b,_4c){
+with(_4b){
 if(objj_msgSend(_undoStack,"count")<=0){
 return;
 }
-var _47=objj_msgSend(CPNotificationCenter,"defaultCenter");
-objj_msgSend(_47,"postNotificationName:object:",CPUndoManagerCheckpointNotification,_45);
-objj_msgSend(_47,"postNotificationName:object:",CPUndoManagerWillUndoChangeNotification,_45);
-var _48=_undoStack.pop();
+var _4d=objj_msgSend(CPNotificationCenter,"defaultCenter");
+objj_msgSend(_4d,"postNotificationName:object:",CPUndoManagerCheckpointNotification,_4b);
+objj_msgSend(_4d,"postNotificationName:object:",CPUndoManagerWillUndoChangeNotification,_4b);
+var _4e=_undoStack.pop(),_4f=objj_msgSend(_4e,"actionName");
 _state=_2;
-objj_msgSend(_45,"_beginUndoGrouping");
-objj_msgSend(_48,"invoke");
-objj_msgSend(_45,"endUndoGrouping");
-objj_msgSend(_CPUndoGrouping,"_poolUndoGrouping:",_48);
+objj_msgSend(_4b,"_beginUndoGrouping");
+objj_msgSend(_4e,"invoke");
+objj_msgSend(_4b,"endUndoGrouping");
+objj_msgSend(_CPUndoGrouping,"_poolUndoGrouping:",_4e);
 _state=_1;
-objj_msgSend(_47,"postNotificationName:object:",CPUndoManagerDidUndoChangeNotification,_45);
+objj_msgSend(objj_msgSend(_redoStack,"lastObject"),"setActionName:",_4f);
+objj_msgSend(_4d,"postNotificationName:object:",CPUndoManagerDidUndoChangeNotification,_4b);
 }
-}),new objj_method(sel_getUid("redo"),function(_49,_4a){
-with(_49){
+}),new objj_method(sel_getUid("redo"),function(_50,_51){
+with(_50){
 if(objj_msgSend(_redoStack,"count")<=0){
 return;
 }
-var _4b=objj_msgSend(CPNotificationCenter,"defaultCenter");
-objj_msgSend(_4b,"postNotificationName:object:",CPUndoManagerCheckpointNotification,_49);
-objj_msgSend(_4b,"postNotificationName:object:",CPUndoManagerWillRedoChangeNotification,_49);
-var _4c=_currentGrouping,_4d=_redoStack.pop();
+var _52=objj_msgSend(CPNotificationCenter,"defaultCenter");
+objj_msgSend(_52,"postNotificationName:object:",CPUndoManagerCheckpointNotification,_50);
+objj_msgSend(_52,"postNotificationName:object:",CPUndoManagerWillRedoChangeNotification,_50);
+var _53=_currentGrouping,_54=_redoStack.pop(),_55=objj_msgSend(_54,"actionName");
 _currentGrouping=nil;
 _state=_3;
-objj_msgSend(_49,"_beginUndoGrouping");
-objj_msgSend(_4d,"invoke");
-objj_msgSend(_49,"endUndoGrouping");
-objj_msgSend(_CPUndoGrouping,"_poolUndoGrouping:",_4d);
-_currentGrouping=_4c;
-_state=_1;
-objj_msgSend(_4b,"postNotificationName:object:",CPUndoManagerDidRedoChangeNotification,_49);
-}
-}),new objj_method(sel_getUid("beginUndoGrouping"),function(_4e,_4f){
-with(_4e){
-if(!_currentGrouping&&objj_msgSend(_4e,"groupsByEvent")){
-objj_msgSend(_4e,"_beginUndoGroupingForEvent");
-}
-objj_msgSend(objj_msgSend(CPNotificationCenter,"defaultCenter"),"postNotificationName:object:",CPUndoManagerCheckpointNotification,_4e);
-objj_msgSend(_4e,"_beginUndoGrouping");
-}
-}),new objj_method(sel_getUid("_beginUndoGroupingForEvent"),function(_50,_51){
-with(_50){
 objj_msgSend(_50,"_beginUndoGrouping");
-objj_msgSend(_50,"_registerWithRunLoop");
+objj_msgSend(_54,"invoke");
+objj_msgSend(_50,"endUndoGrouping");
+objj_msgSend(_CPUndoGrouping,"_poolUndoGrouping:",_54);
+_currentGrouping=_53;
+_state=_1;
+objj_msgSend(objj_msgSend(_undoStack,"lastObject"),"setActionName:",_55);
+objj_msgSend(_52,"postNotificationName:object:",CPUndoManagerDidRedoChangeNotification,_50);
 }
-}),new objj_method(sel_getUid("_beginUndoGrouping"),function(_52,_53){
-with(_52){
+}),new objj_method(sel_getUid("beginUndoGrouping"),function(_56,_57){
+with(_56){
+if(!_currentGrouping&&objj_msgSend(_56,"groupsByEvent")){
+objj_msgSend(_56,"_beginUndoGroupingForEvent");
+}
+objj_msgSend(objj_msgSend(CPNotificationCenter,"defaultCenter"),"postNotificationName:object:",CPUndoManagerCheckpointNotification,_56);
+objj_msgSend(_56,"_beginUndoGrouping");
+}
+}),new objj_method(sel_getUid("_beginUndoGroupingForEvent"),function(_58,_59){
+with(_58){
+objj_msgSend(_58,"_beginUndoGrouping");
+objj_msgSend(_58,"_registerWithRunLoop");
+}
+}),new objj_method(sel_getUid("_beginUndoGrouping"),function(_5a,_5b){
+with(_5a){
 _currentGrouping=objj_msgSend(_CPUndoGrouping,"undoGroupingWithParent:",_currentGrouping);
 }
-}),new objj_method(sel_getUid("endUndoGrouping"),function(_54,_55){
-with(_54){
+}),new objj_method(sel_getUid("endUndoGrouping"),function(_5c,_5d){
+with(_5c){
 if(!_currentGrouping){
 objj_msgSend(CPException,"raise:reason:",CPInternalInconsistencyException,"endUndoGrouping. No undo group is currently open.");
 }
-var _56=objj_msgSend(CPNotificationCenter,"defaultCenter");
-objj_msgSend(_56,"postNotificationName:object:",CPUndoManagerCheckpointNotification,_54);
-var _57=objj_msgSend(_currentGrouping,"parent");
-if(!_57&&objj_msgSend(_currentGrouping,"invocations").length>0){
-objj_msgSend(_56,"postNotificationName:object:",CPUndoManagerWillCloseUndoGroupNotification,_54);
-var _58=_state===_2?_redoStack:_undoStack;
-_58.push(_currentGrouping);
-if(_levelsOfUndo>0&&_58.length>_levelsOfUndo){
-_58.splice(0,1);
+var _5e=objj_msgSend(CPNotificationCenter,"defaultCenter");
+objj_msgSend(_5e,"postNotificationName:object:",CPUndoManagerCheckpointNotification,_5c);
+var _5f=objj_msgSend(_currentGrouping,"parent");
+if(!_5f&&objj_msgSend(_currentGrouping,"invocations").length>0){
+objj_msgSend(_5e,"postNotificationName:object:",CPUndoManagerWillCloseUndoGroupNotification,_5c);
+var _60=_state===_2?_redoStack:_undoStack;
+_60.push(_currentGrouping);
+if(_levelsOfUndo>0&&_60.length>_levelsOfUndo){
+_60.splice(0,1);
 }
 }else{
-objj_msgSend(_57,"addInvocationsFromArray:",objj_msgSend(_currentGrouping,"invocations"));
+objj_msgSend(_5f,"addInvocationsFromArray:",objj_msgSend(_currentGrouping,"invocations"));
 objj_msgSend(_CPUndoGrouping,"_poolUndoGrouping:",_currentGrouping);
 }
-_currentGrouping=_57;
+_currentGrouping=_5f;
 }
-}),new objj_method(sel_getUid("enableUndoRegistration"),function(_59,_5a){
-with(_59){
+}),new objj_method(sel_getUid("enableUndoRegistration"),function(_61,_62){
+with(_61){
 if(_disableCount<=0){
 objj_msgSend(CPException,"raise:reason:",CPInternalInconsistencyException,"enableUndoRegistration. There are no disable messages in effect right now.");
 }
 _disableCount--;
 }
-}),new objj_method(sel_getUid("groupsByEvent"),function(_5b,_5c){
-with(_5b){
+}),new objj_method(sel_getUid("groupsByEvent"),function(_63,_64){
+with(_63){
 return _groupsByEvent;
 }
-}),new objj_method(sel_getUid("setGroupsByEvent:"),function(_5d,_5e,_5f){
-with(_5d){
-_5f=!!_5f;
-if(_groupsByEvent===_5f){
+}),new objj_method(sel_getUid("setGroupsByEvent:"),function(_65,_66,_67){
+with(_65){
+_67=!!_67;
+if(_groupsByEvent===_67){
 return;
 }
-_groupsByEvent=_5f;
-if(!objj_msgSend(_5d,"groupsByEvent")){
-objj_msgSend(_5d,"_unregisterWithRunLoop");
+_groupsByEvent=_67;
+if(!objj_msgSend(_65,"groupsByEvent")){
+objj_msgSend(_65,"_unregisterWithRunLoop");
 }
 }
-}),new objj_method(sel_getUid("groupingLevel"),function(_60,_61){
-with(_60){
-var _62=_currentGrouping,_63=_currentGrouping?1:0;
-while(_62=objj_msgSend(_62,"parent")){
-++_63;
+}),new objj_method(sel_getUid("groupingLevel"),function(_68,_69){
+with(_68){
+var _6a=_currentGrouping,_6b=_currentGrouping?1:0;
+while(_6a=objj_msgSend(_6a,"parent")){
+++_6b;
 }
-return _63;
+return _6b;
 }
-}),new objj_method(sel_getUid("disableUndoRegistration"),function(_64,_65){
-with(_64){
+}),new objj_method(sel_getUid("disableUndoRegistration"),function(_6c,_6d){
+with(_6c){
 ++_disableCount;
 }
-}),new objj_method(sel_getUid("isUndoRegistrationEnabled"),function(_66,_67){
-with(_66){
+}),new objj_method(sel_getUid("isUndoRegistrationEnabled"),function(_6e,_6f){
+with(_6e){
 return _disableCount==0;
 }
-}),new objj_method(sel_getUid("isUndoing"),function(_68,_69){
-with(_68){
+}),new objj_method(sel_getUid("isUndoing"),function(_70,_71){
+with(_70){
 return _state===_2;
 }
-}),new objj_method(sel_getUid("isRedoing"),function(_6a,_6b){
-with(_6a){
+}),new objj_method(sel_getUid("isRedoing"),function(_72,_73){
+with(_72){
 return _state===_3;
 }
-}),new objj_method(sel_getUid("removeAllActions"),function(_6c,_6d){
-with(_6c){
+}),new objj_method(sel_getUid("removeAllActions"),function(_74,_75){
+with(_74){
 _redoStack=[];
 _undoStack=[];
 _disableCount=0;
 }
-}),new objj_method(sel_getUid("removeAllActionsWithTarget:"),function(_6e,_6f,_70){
-with(_6e){
-objj_msgSend(_currentGrouping,"removeInvocationsWithTarget:",_70);
-var _71=_redoStack.length;
-while(_71--){
-var _72=_redoStack[_71];
-objj_msgSend(_72,"removeInvocationsWithTarget:",_70);
-if(!objj_msgSend(_72,"invocations").length){
-_redoStack.splice(_71,1);
-}
-}
-_71=_undoStack.length;
-while(_71--){
-var _72=_undoStack[_71];
-objj_msgSend(_72,"removeInvocationsWithTarget:",_70);
-if(!objj_msgSend(_72,"invocations").length){
-_undoStack.splice(_71,1);
-}
-}
-}
-}),new objj_method(sel_getUid("setActionName:"),function(_73,_74,_75){
-with(_73){
-_actionName=_75;
-}
-}),new objj_method(sel_getUid("redoActionName"),function(_76,_77){
+}),new objj_method(sel_getUid("removeAllActionsWithTarget:"),function(_76,_77,_78){
 with(_76){
-return objj_msgSend(_76,"canRedo")?_actionName:nil;
+objj_msgSend(_currentGrouping,"removeInvocationsWithTarget:",_78);
+var _79=_redoStack.length;
+while(_79--){
+var _7a=_redoStack[_79];
+objj_msgSend(_7a,"removeInvocationsWithTarget:",_78);
+if(!objj_msgSend(_7a,"invocations").length){
+_redoStack.splice(_79,1);
 }
-}),new objj_method(sel_getUid("undoActionName"),function(_78,_79){
-with(_78){
-return objj_msgSend(_78,"canUndo")?_actionName:nil;
 }
-}),new objj_method(sel_getUid("runLoopModes"),function(_7a,_7b){
-with(_7a){
+_79=_undoStack.length;
+while(_79--){
+var _7a=_undoStack[_79];
+objj_msgSend(_7a,"removeInvocationsWithTarget:",_78);
+if(!objj_msgSend(_7a,"invocations").length){
+_undoStack.splice(_79,1);
+}
+}
+}
+}),new objj_method(sel_getUid("setActionName:"),function(_7b,_7c,_7d){
+with(_7b){
+if(_7d!==nil&&_currentGrouping){
+objj_msgSend(_currentGrouping,"setActionName:",_7d);
+}
+}
+}),new objj_method(sel_getUid("redoActionName"),function(_7e,_7f){
+with(_7e){
+if(!objj_msgSend(_7e,"canRedo")){
+return nil;
+}
+return objj_msgSend(objj_msgSend(_redoStack,"lastObject"),"actionName");
+}
+}),new objj_method(sel_getUid("redoMenuItemTitle"),function(_80,_81){
+with(_80){
+return objj_msgSend(_80,"redoMenuTitleForUndoActionName:",objj_msgSend(_80,"redoActionName"));
+}
+}),new objj_method(sel_getUid("redoMenuTitleForUndoActionName:"),function(_82,_83,_84){
+with(_82){
+if(_84||_84===0){
+return "Redo "+_84;
+}
+return "Redo";
+}
+}),new objj_method(sel_getUid("undoActionName"),function(_85,_86){
+with(_85){
+if(!objj_msgSend(_85,"canUndo")){
+return nil;
+}
+return objj_msgSend(objj_msgSend(_undoStack,"lastObject"),"actionName");
+}
+}),new objj_method(sel_getUid("undoMenuItemTitle"),function(_87,_88){
+with(_87){
+return objj_msgSend(_87,"undoMenuTitleForUndoActionName:",objj_msgSend(_87,"undoActionName"));
+}
+}),new objj_method(sel_getUid("undoMenuTitleForUndoActionName:"),function(_89,_8a,_8b){
+with(_89){
+if(_8b||_8b===0){
+return "Undo "+_8b;
+}
+return "Undo";
+}
+}),new objj_method(sel_getUid("runLoopModes"),function(_8c,_8d){
+with(_8c){
 return _runLoopModes;
 }
-}),new objj_method(sel_getUid("setRunLoopModes:"),function(_7c,_7d,_7e){
-with(_7c){
-_runLoopModes=objj_msgSend(_7e,"copy");
+}),new objj_method(sel_getUid("setRunLoopModes:"),function(_8e,_8f,_90){
+with(_8e){
+_runLoopModes=objj_msgSend(_90,"copy");
 if(_registeredWithRunLoop){
-objj_msgSend(_7c,"_unregisterWithRunLoop");
-objj_msgSend(_7c,"_registerWithRunLoop");
+objj_msgSend(_8e,"_unregisterWithRunLoop");
+objj_msgSend(_8e,"_registerWithRunLoop");
 }
 }
-}),new objj_method(sel_getUid("_runLoopEndUndoGrouping"),function(_7f,_80){
-with(_7f){
-objj_msgSend(_7f,"endUndoGrouping");
+}),new objj_method(sel_getUid("_runLoopEndUndoGrouping"),function(_91,_92){
+with(_91){
+objj_msgSend(_91,"endUndoGrouping");
 _registeredWithRunLoop=NO;
 }
-}),new objj_method(sel_getUid("_registerWithRunLoop"),function(_81,_82){
-with(_81){
+}),new objj_method(sel_getUid("_registerWithRunLoop"),function(_93,_94){
+with(_93){
 if(_registeredWithRunLoop){
 return;
 }
 _registeredWithRunLoop=YES;
-objj_msgSend(objj_msgSend(CPRunLoop,"currentRunLoop"),"performSelector:target:argument:order:modes:",sel_getUid("_runLoopEndUndoGrouping"),_81,nil,CPUndoCloseGroupingRunLoopOrdering,_runLoopModes);
+objj_msgSend(objj_msgSend(CPRunLoop,"currentRunLoop"),"performSelector:target:argument:order:modes:",sel_getUid("_runLoopEndUndoGrouping"),_93,nil,CPUndoCloseGroupingRunLoopOrdering,_runLoopModes);
 }
-}),new objj_method(sel_getUid("_unregisterWithRunLoop"),function(_83,_84){
-with(_83){
+}),new objj_method(sel_getUid("_unregisterWithRunLoop"),function(_95,_96){
+with(_95){
 if(!_registeredWithRunLoop){
 return;
 }
 _registeredWithRunLoop=NO;
-objj_msgSend(objj_msgSend(CPRunLoop,"currentRunLoop"),"cancelPerformSelector:target:argument:",sel_getUid("_runLoopEndUndoGrouping"),_83,nil);
+objj_msgSend(objj_msgSend(CPRunLoop,"currentRunLoop"),"cancelPerformSelector:target:argument:",sel_getUid("_runLoopEndUndoGrouping"),_95,nil);
 }
-}),new objj_method(sel_getUid("observeChangesForKeyPath:ofObject:"),function(_85,_86,_87,_88){
-with(_85){
-objj_msgSend(_88,"addObserver:forKeyPath:options:context:",_85,_87,CPKeyValueObservingOptionOld|CPKeyValueObservingOptionNew,NULL);
+}),new objj_method(sel_getUid("observeChangesForKeyPath:ofObject:"),function(_97,_98,_99,_9a){
+with(_97){
+objj_msgSend(_9a,"addObserver:forKeyPath:options:context:",_97,_99,CPKeyValueObservingOptionOld|CPKeyValueObservingOptionNew,NULL);
 }
-}),new objj_method(sel_getUid("stopObservingChangesForKeyPath:ofObject:"),function(_89,_8a,_8b,_8c){
-with(_89){
-objj_msgSend(_8c,"removeObserver:forKeyPath:",_89,_8b);
+}),new objj_method(sel_getUid("stopObservingChangesForKeyPath:ofObject:"),function(_9b,_9c,_9d,_9e){
+with(_9b){
+objj_msgSend(_9e,"removeObserver:forKeyPath:",_9b,_9d);
 }
-}),new objj_method(sel_getUid("observeValueForKeyPath:ofObject:change:context:"),function(_8d,_8e,_8f,_90,_91,_92){
-with(_8d){
-var _93=objj_msgSend(_91,"valueForKey:",CPKeyValueChangeOldKey),_94=objj_msgSend(_91,"valueForKey:",CPKeyValueChangeNewKey);
-if(_93===_94||(_93!==nil&&_93.isa&&(_94===nil||_94.isa)&&objj_msgSend(_93,"isEqual:",_94))){
+}),new objj_method(sel_getUid("observeValueForKeyPath:ofObject:change:context:"),function(_9f,_a0,_a1,_a2,_a3,_a4){
+with(_9f){
+var _a5=objj_msgSend(_a3,"valueForKey:",CPKeyValueChangeOldKey),_a6=objj_msgSend(_a3,"valueForKey:",CPKeyValueChangeNewKey);
+if(_a5===_a6||(_a5!==nil&&_a5.isa&&(_a6===nil||_a6.isa)&&objj_msgSend(_a5,"isEqual:",_a6))){
 return;
 }
-objj_msgSend(objj_msgSend(_8d,"prepareWithInvocationTarget:",_90),"applyChange:toKeyPath:",objj_msgSend(_91,"inverseChangeDictionary"),_8f);
+objj_msgSend(objj_msgSend(_9f,"prepareWithInvocationTarget:",_a2),"applyChange:toKeyPath:",objj_msgSend(_a3,"inverseChangeDictionary"),_a1);
 }
 })]);
-var _95="CPUndoManagerRedoStackKey",_96="CPUndoManagerUndoStackKey",_97="CPUndoManagerLevelsOfUndoKey",_98="CPUndoManagerActionNameKey",_99="CPUndoManagerCurrentGroupingKey",_9a="CPUndoManagerRunLoopModesKey",_9b="CPUndoManagerGroupsByEventKey";
+var _a7="CPUndoManagerRedoStackKey",_a8="CPUndoManagerUndoStackKey",_a9="CPUndoManagerLevelsOfUndoKey",_aa="CPUndoManagerActionNameKey",_ab="CPUndoManagerCurrentGroupingKey",_ac="CPUndoManagerRunLoopModesKey",_ad="CPUndoManagerGroupsByEventKey";
 var _6=objj_getClass("CPUndoManager");
 if(!_6){
 throw new SyntaxError("*** Could not find definition for class \"CPUndoManager\"");
 }
 var _7=_6.isa;
-class_addMethods(_6,[new objj_method(sel_getUid("initWithCoder:"),function(_9c,_9d,_9e){
-with(_9c){
-_9c=objj_msgSendSuper({receiver:_9c,super_class:objj_getClass("CPUndoManager").super_class},"init");
-if(_9c){
-_redoStack=objj_msgSend(_9e,"decodeObjectForKey:",_95);
-_undoStack=objj_msgSend(_9e,"decodeObjectForKey:",_96);
-_levelsOfUndo=objj_msgSend(_9e,"decodeObjectForKey:",_97);
-_actionName=objj_msgSend(_9e,"decodeObjectForKey:",_98);
-_currentGrouping=objj_msgSend(_9e,"decodeObjectForKey:",_99);
+class_addMethods(_6,[new objj_method(sel_getUid("initWithCoder:"),function(_ae,_af,_b0){
+with(_ae){
+_ae=objj_msgSendSuper({receiver:_ae,super_class:objj_getClass("CPUndoManager").super_class},"init");
+if(_ae){
+_redoStack=objj_msgSend(_b0,"decodeObjectForKey:",_a7);
+_undoStack=objj_msgSend(_b0,"decodeObjectForKey:",_a8);
+_levelsOfUndo=objj_msgSend(_b0,"decodeObjectForKey:",_a9);
+_actionName=objj_msgSend(_b0,"decodeObjectForKey:",_aa);
+_currentGrouping=objj_msgSend(_b0,"decodeObjectForKey:",_ab);
 _state=_1;
-objj_msgSend(_9c,"setRunLoopModes:",objj_msgSend(_9e,"decodeObjectForKey:",_9a));
-objj_msgSend(_9c,"setGroupsByEvent:",objj_msgSend(_9e,"decodeBoolForKey:",_9b));
+objj_msgSend(_ae,"setRunLoopModes:",objj_msgSend(_b0,"decodeObjectForKey:",_ac));
+objj_msgSend(_ae,"setGroupsByEvent:",objj_msgSend(_b0,"decodeBoolForKey:",_ad));
 }
-return _9c;
+return _ae;
 }
-}),new objj_method(sel_getUid("encodeWithCoder:"),function(_9f,_a0,_a1){
-with(_9f){
-objj_msgSend(_a1,"encodeObject:forKey:",_redoStack,_95);
-objj_msgSend(_a1,"encodeObject:forKey:",_undoStack,_96);
-objj_msgSend(_a1,"encodeInt:forKey:",_levelsOfUndo,_97);
-objj_msgSend(_a1,"encodeObject:forKey:",_actionName,_98);
-objj_msgSend(_a1,"encodeObject:forKey:",_currentGrouping,_99);
-objj_msgSend(_a1,"encodeObject:forKey:",_runLoopModes,_9a);
-objj_msgSend(_a1,"encodeBool:forKey:",_groupsByEvent,_9b);
+}),new objj_method(sel_getUid("encodeWithCoder:"),function(_b1,_b2,_b3){
+with(_b1){
+objj_msgSend(_b3,"encodeObject:forKey:",_redoStack,_a7);
+objj_msgSend(_b3,"encodeObject:forKey:",_undoStack,_a8);
+objj_msgSend(_b3,"encodeInt:forKey:",_levelsOfUndo,_a9);
+objj_msgSend(_b3,"encodeObject:forKey:",_actionName,_aa);
+objj_msgSend(_b3,"encodeObject:forKey:",_currentGrouping,_ab);
+objj_msgSend(_b3,"encodeObject:forKey:",_runLoopModes,_ac);
+objj_msgSend(_b3,"encodeBool:forKey:",_groupsByEvent,_ad);
 }
 })]);
 var _6=objj_allocateClassPair(CPProxy,"_CPUndoManagerProxy"),_7=_6.isa;
 class_addIvars(_6,[new objj_ivar("_undoManager")]);
 objj_registerClassPair(_6);
-class_addMethods(_6,[new objj_method(sel_getUid("methodSignatureForSelector:"),function(_a2,_a3,_a4){
-with(_a2){
-return objj_msgSend(_undoManager,"_methodSignatureOfPreparedTargetForSelector:",_a4);
+class_addMethods(_6,[new objj_method(sel_getUid("methodSignatureForSelector:"),function(_b4,_b5,_b6){
+with(_b4){
+return objj_msgSend(_undoManager,"_methodSignatureOfPreparedTargetForSelector:",_b6);
 }
-}),new objj_method(sel_getUid("forwardInvocation:"),function(_a5,_a6,_a7){
-with(_a5){
-objj_msgSend(_undoManager,"_forwardInvocationToPreparedTarget:",_a7);
+}),new objj_method(sel_getUid("forwardInvocation:"),function(_b7,_b8,_b9){
+with(_b7){
+objj_msgSend(_undoManager,"_forwardInvocationToPreparedTarget:",_b9);
 }
 })]);
 p;13;CPException.jt;3505;@STATIC;1.0;i;9;CPCoder.ji;10;CPObject.ji;10;CPString.jt;3443;
