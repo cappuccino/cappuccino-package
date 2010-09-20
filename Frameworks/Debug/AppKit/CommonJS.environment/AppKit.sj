@@ -18189,26 +18189,48 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","float","float"])]);
 }
 
-p;11;CPTabView.jt;27368;@STATIC;1.0;i;13;CPImageView.ji;15;CPTabViewItem.ji;8;CPView.jt;27298;objj_executeFile("CPImageView.j", YES);
-objj_executeFile("CPTabViewItem.j", YES);
-objj_executeFile("CPView.j", YES);
+p;11;CPTabView.jt;13748;@STATIC;1.0;I;15;AppKit/CPView.jI;22;AppKit/CPTabViewItem.jt;13681;
+
+objj_executeFile("AppKit/CPView.j", NO);
+objj_executeFile("AppKit/CPTabViewItem.j", NO);
+
+
+
+
+
+
 CPTopTabsBezelBorder = 0;
+
+CPBottomTabsBezelBorder = 2;
+
+
+
+
+
+
 CPNoTabsBezelBorder = 4;
+
+
+
+
+
 CPNoTabsLineBorder = 5;
+
+
+
+
+
 CPNoTabsNoBorder = 6;
-var CPTabViewBezelBorderLeftImage = nil,
-    CPTabViewBackgroundCenterImage = nil,
-    CPTabViewBezelBorderRightImage = nil,
-    CPTabViewBezelBorderColor = nil,
-    CPTabViewBezelBorderBackgroundColor = nil;
-var LEFT_INSET = 7.0,
-    RIGHT_INSET = 7.0;
+
 var CPTabViewDidSelectTabViewItemSelector = 1,
     CPTabViewShouldSelectTabViewItemSelector = 2,
     CPTabViewWillSelectTabViewItemSelector = 4,
     CPTabViewDidChangeNumberOfTabViewItemsSelector = 8;
+
+var HEIGHT_OF_SEGMENTED_CONTROL = 24;
+
 {var the_class = objj_allocateClassPair(CPView, "CPTabView"),
-meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_labelsView"), new objj_ivar("_backgroundView"), new objj_ivar("_separatorView"), new objj_ivar("_auxiliaryView"), new objj_ivar("_contentView"), new objj_ivar("_tabViewItems"), new objj_ivar("_selectedTabViewItem"), new objj_ivar("_tabViewType"), new objj_ivar("_delegate"), new objj_ivar("_delegateSelectors")]);
+meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("items"), new objj_ivar("tabs"), new objj_ivar("box"), new objj_ivar("selectedIndex"), new objj_ivar("type"), new objj_ivar("delegate"), new objj_ivar("delegateSelectors")]);
 objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), function $CPTabView__initWithFrame_(self, _cmd, aFrame)
 { with(self)
@@ -18216,294 +18238,276 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPTabView").super_class }, "initWithFrame:", aFrame);
     if (self)
     {
-        _tabViewType = CPTopTabsBezelBorder;
-        _tabViewItems = [];
+        items = objj_msgSend(CPArray, "array");
+
+        tabs = objj_msgSend(objj_msgSend(CPSegmentedControl, "alloc"), "initWithFrame:", CGRectMake(0, 0, 0, HEIGHT_OF_SEGMENTED_CONTROL));
+        objj_msgSend(tabs, "setHitTests:", NO);
+
+        box = objj_msgSend(objj_msgSend(CPBox, "alloc"), "initWithFrame:", CGRectMake(0, HEIGHT_OF_SEGMENTED_CONTROL / 2, CGRectGetWidth(aFrame),
+                                                            CGRectGetHeight(aFrame) - HEIGHT_OF_SEGMENTED_CONTROL));
+
+        selectedIndex = CPNotFound;
+
+        objj_msgSend(self, "setTabViewType:", CPTopTabsBezelBorder);
+        objj_msgSend(self, "setBackgroundColor:", objj_msgSend(CPColor, "colorWithCalibratedWhite:alpha:", 0.95, 1.0));
+
+        objj_msgSend(self, "addSubview:", box);
+        objj_msgSend(self, "addSubview:", tabs);
     }
     return self;
 }
-},["id","CGRect"]), new objj_method(sel_getUid("viewDidMoveToWindow"), function $CPTabView__viewDidMoveToWindow(self, _cmd)
+},["id","CGRect"]), new objj_method(sel_getUid("addTabViewItem:"), function $CPTabView__addTabViewItem_(self, _cmd, aTabViewItem)
 { with(self)
 {
-    if (_tabViewType != CPTopTabsBezelBorder || _labelsView)
-        return;
-    objj_msgSend(self, "_createBezelBorder");
-    objj_msgSend(self, "layoutSubviews");
-}
-},["void"]), new objj_method(sel_getUid("_createBezelBorder"), function $CPTabView___createBezelBorder(self, _cmd)
-{ with(self)
-{
-    var bounds = objj_msgSend(self, "bounds");
-    _labelsView = objj_msgSend(objj_msgSend(_CPTabLabelsView, "alloc"), "initWithFrame:", CGRectMake(0.0, 0.0, CGRectGetWidth(bounds), 0.0));
-    objj_msgSend(_labelsView, "setTabView:", self);
-    objj_msgSend(_labelsView, "setAutoresizingMask:", CPViewWidthSizable);
-    objj_msgSend(self, "addSubview:", _labelsView);
-    _backgroundView = objj_msgSend(objj_msgSend(CPView, "alloc"), "initWithFrame:", CGRectMakeZero());
-    objj_msgSend(_backgroundView, "setBackgroundColor:", CPTabViewBezelBorderBackgroundColor);
-    objj_msgSend(_backgroundView, "setAutoresizingMask:", CPViewWidthSizable | CPViewHeightSizable);
-    objj_msgSend(self, "addSubview:", _backgroundView);
-    _separatorView = objj_msgSend(objj_msgSend(CPView, "alloc"), "initWithFrame:", CGRectMakeZero());
-    objj_msgSend(_separatorView, "setBackgroundColor:", objj_msgSend(objj_msgSend(self, "class"), "bezelBorderColor"));
-    objj_msgSend(_separatorView, "setAutoresizingMask:", CPViewWidthSizable | CPViewMaxYMargin);
-    objj_msgSend(self, "addSubview:", _separatorView);
-}
-},["void"]), new objj_method(sel_getUid("layoutSubviews"), function $CPTabView__layoutSubviews(self, _cmd)
-{ with(self)
-{
-    if (_tabViewType == CPTopTabsBezelBorder)
-    {
-        var backgroundRect = objj_msgSend(self, "bounds"),
-            labelsViewHeight = objj_msgSend(_CPTabLabelsView, "height");
-        backgroundRect.origin.y += labelsViewHeight;
-        backgroundRect.size.height -= labelsViewHeight;
-        objj_msgSend(_backgroundView, "setFrame:", backgroundRect);
-        var auxiliaryViewHeight = 5.0;
-        if (_auxiliaryView)
-        {
-            auxiliaryViewHeight = CGRectGetHeight(objj_msgSend(_auxiliaryView, "frame"));
-            objj_msgSend(_auxiliaryView, "setFrame:", CGRectMake(LEFT_INSET, labelsViewHeight, CGRectGetWidth(backgroundRect) - LEFT_INSET - RIGHT_INSET, auxiliaryViewHeight));
-        }
-        objj_msgSend(_separatorView, "setFrame:", CGRectMake(LEFT_INSET, labelsViewHeight + auxiliaryViewHeight, CGRectGetWidth(backgroundRect) - LEFT_INSET - RIGHT_INSET, 1.0));
-    }
-    objj_msgSend(_contentView, "setFrame:", objj_msgSend(self, "contentRect"));
-}
-},["void"]), new objj_method(sel_getUid("addTabViewItem:"), function $CPTabView__addTabViewItem_(self, _cmd, aTabViewItem)
-{ with(self)
-{
-    objj_msgSend(self, "insertTabViewItem:atIndex:", aTabViewItem, objj_msgSend(_tabViewItems, "count"));
+    objj_msgSend(self, "insertTabViewItem:atIndex:", aTabViewItem, objj_msgSend(items, "count"));
 }
 },["void","CPTabViewItem"]), new objj_method(sel_getUid("insertTabViewItem:atIndex:"), function $CPTabView__insertTabViewItem_atIndex_(self, _cmd, aTabViewItem, anIndex)
 { with(self)
 {
-    if (!_labelsView)
-        objj_msgSend(self, "_createBezelBorder");
-    objj_msgSend(_tabViewItems, "insertObject:atIndex:", aTabViewItem, anIndex);
-    objj_msgSend(_labelsView, "tabView:didAddTabViewItem:", self, aTabViewItem);
-    objj_msgSend(aTabViewItem, "_setTabView:", self);
-    if (objj_msgSend(_tabViewItems, "count") == 1)
-        objj_msgSend(self, "selectFirstTabViewItem:", self);
-    if (_delegateSelectors & CPTabViewDidChangeNumberOfTabViewItemsSelector)
-        objj_msgSend(_delegate, "tabViewDidChangeNumberOfTabViewItems:", self);
+    objj_msgSend(items, "insertObject:atIndex:", aTabViewItem, anIndex);
+
+    objj_msgSend(self, "_updateItems");
+    objj_msgSend(self, "_repositionTabs");
+
+    if (delegateSelectors & CPTabViewDidChangeNumberOfTabViewItemsSelector)
+        objj_msgSend(delegate, "tabViewDidChangeNumberOfTabViewItems:", self);
 }
 },["void","CPTabViewItem","unsigned"]), new objj_method(sel_getUid("removeTabViewItem:"), function $CPTabView__removeTabViewItem_(self, _cmd, aTabViewItem)
 { with(self)
 {
-    var index = objj_msgSend(self, "indexOfTabViewItem:", aTabViewItem);
-    objj_msgSend(_tabViewItems, "removeObjectIdenticalTo:", aTabViewItem);
-    objj_msgSend(_labelsView, "tabView:didRemoveTabViewItemAtIndex:", self, index);
-    objj_msgSend(aTabViewItem, "_setTabView:", nil);
-    if (_delegateSelectors & CPTabViewDidChangeNumberOfTabViewItemsSelector)
-        objj_msgSend(_delegate, "tabViewDidChangeNumberOfTabViewItems:", self);
+    for (var i = 0; i < objj_msgSend(items, "count"); i++)
+    {
+        if (objj_msgSend(items, "objectAtIndex:", i) === aTabViewItem)
+        {
+            objj_msgSend(items, "removeObjectAtIndex:", i);
+        }
+    }
+
+    objj_msgSend(self, "_updateItems");
+    objj_msgSend(self, "_repositionTabs");
+
+    if (delegateSelectors & CPTabViewDidChangeNumberOfTabViewItemsSelector)
+        objj_msgSend(delegate, "tabViewDidChangeNumberOfTabViewItems:", self);
 }
 },["void","CPTabViewItem"]), new objj_method(sel_getUid("indexOfTabViewItem:"), function $CPTabView__indexOfTabViewItem_(self, _cmd, aTabViewItem)
 { with(self)
 {
-    return objj_msgSend(_tabViewItems, "indexOfObjectIdenticalTo:", aTabViewItem);
+    return objj_msgSend(items, "indexOfObjectIdenticalTo:", aTabViewItem);
 }
 },["int","CPTabViewItem"]), new objj_method(sel_getUid("indexOfTabViewItemWithIdentifier:"), function $CPTabView__indexOfTabViewItemWithIdentifier_(self, _cmd, anIdentifier)
 { with(self)
 {
-    var index = 0,
-        count = objj_msgSend(_tabViewItems, "count");
-    for (; index < count; ++index)
-        if (objj_msgSend(objj_msgSend(_tabViewItems[index], "identifier"), "isEqual:", anIdentifier))
+    for (var index = objj_msgSend(items, "count"); index >= 0; index--)
+        if (objj_msgSend(objj_msgSend(items[index], "identifier"), "isEqual:", anIdentifier))
             return index;
-    return index;
+
+    return CPNotFound;
 }
 },["int","CPString"]), new objj_method(sel_getUid("numberOfTabViewItems"), function $CPTabView__numberOfTabViewItems(self, _cmd)
 { with(self)
 {
-    return objj_msgSend(_tabViewItems, "count");
+    return objj_msgSend(items, "count");
 }
 },["unsigned"]), new objj_method(sel_getUid("tabViewItemAtIndex:"), function $CPTabView__tabViewItemAtIndex_(self, _cmd, anIndex)
 { with(self)
 {
-    return _tabViewItems[anIndex];
+    return objj_msgSend(items, "objectAtIndex:", anIndex);
 }
 },["CPTabViewItem","unsigned"]), new objj_method(sel_getUid("tabViewItems"), function $CPTabView__tabViewItems(self, _cmd)
 { with(self)
 {
-    return _tabViewItems;
+    return objj_msgSend(items, "copy");
 }
 },["CPArray"]), new objj_method(sel_getUid("selectFirstTabViewItem:"), function $CPTabView__selectFirstTabViewItem_(self, _cmd, aSender)
 { with(self)
 {
-    var count = objj_msgSend(_tabViewItems, "count");
-    if (count)
-        objj_msgSend(self, "selectTabViewItemAtIndex:", 0);
+    if (objj_msgSend(items, "count") === 0)
+        return;
+
+    objj_msgSend(self, "selectTabViewItemAtIndex:", 0);
 }
 },["void","id"]), new objj_method(sel_getUid("selectLastTabViewItem:"), function $CPTabView__selectLastTabViewItem_(self, _cmd, aSender)
 { with(self)
 {
-    var count = objj_msgSend(_tabViewItems, "count");
-    if (count)
-        objj_msgSend(self, "selectTabViewItemAtIndex:", count - 1);
+    if (objj_msgSend(items, "count") === 0)
+        return;
+
+    objj_msgSend(self, "selectTabViewItemAtIndex:", objj_msgSend(items, "count") - 1);
 }
 },["void","id"]), new objj_method(sel_getUid("selectNextTabViewItem:"), function $CPTabView__selectNextTabViewItem_(self, _cmd, aSender)
 { with(self)
 {
-    if (!_selectedTabViewItem)
+    if (selectedIndex === CPNotFound)
         return;
-    var index = objj_msgSend(self, "indexOfTabViewItem:", _selectedTabViewItem),
-        count = objj_msgSend(_tabViewItems, "count");
-    objj_msgSend(self, "selectTabViewItemAtIndex:", index + 1 % count);
+
+    var nextIndex = selectedIndex + 1;
+
+    if (nextIndex === objj_msgSend(items, "count"))
+        return;
+
+    objj_msgSend(self, "selectTabViewItemAtIndex:", nextIndex);
 }
 },["void","id"]), new objj_method(sel_getUid("selectPreviousTabViewItem:"), function $CPTabView__selectPreviousTabViewItem_(self, _cmd, aSender)
 { with(self)
 {
-    if (!_selectedTabViewItem)
+    if (selectedIndex === CPNotFound)
         return;
-    var index = objj_msgSend(self, "indexOfTabViewItem:", _selectedTabViewItem),
-        count = objj_msgSend(_tabViewItems, "count");
-    objj_msgSend(self, "selectTabViewItemAtIndex:", index == 0 ? count : index - 1);
+
+    var previousIndex = selectedIndex - 1;
+
+    if (previousIndex < 0)
+        return;
+
+    objj_msgSend(self, "selectTabViewItemAtIndex:", previousIndex);
 }
 },["void","id"]), new objj_method(sel_getUid("selectTabViewItem:"), function $CPTabView__selectTabViewItem_(self, _cmd, aTabViewItem)
 { with(self)
 {
-    if ((_delegateSelectors & CPTabViewShouldSelectTabViewItemSelector) && !objj_msgSend(_delegate, "tabView:shouldSelectTabViewItem:", self, aTabViewItem))
-        return;
-    if (_delegateSelectors & CPTabViewWillSelectTabViewItemSelector)
-        objj_msgSend(_delegate, "tabView:willSelectTabViewItem:", self, aTabViewItem);
-    if (_selectedTabViewItem)
-    {
-        _selectedTabViewItem._tabState = CPBackgroundTab;
-        objj_msgSend(_labelsView, "tabView:didChangeStateOfTabViewItem:", self, _selectedTabViewItem);
-    }
-    _selectedTabViewItem = aTabViewItem;
-    _selectedTabViewItem._tabState = CPSelectedTab;
-    var _previousContentView = _contentView;
-    _contentView = objj_msgSend(_selectedTabViewItem, "view");
-    if (_previousContentView !== _contentView)
-    {
-        objj_msgSend(_previousContentView, "removeFromSuperview");
-        objj_msgSend(_contentView, "setAutoresizingMask:", CPViewWidthSizable | CPViewHeightSizable);
-        objj_msgSend(self, "addSubview:", _contentView);
-    }
-    var _previousAuxiliaryView = _auxiliaryView;
-    _auxiliaryView = objj_msgSend(_selectedTabViewItem, "auxiliaryView");
-    if (_previousAuxiliaryView !== _auxiliaryView)
-    {
-        objj_msgSend(_previousAuxiliaryView, "removeFromSuperview");
-        objj_msgSend(_auxiliaryView, "setAutoresizingMask:", CPViewWidthSizable);
-        objj_msgSend(self, "addSubview:", _auxiliaryView);
-    }
-    objj_msgSend(_labelsView, "tabView:didChangeStateOfTabViewItem:", self, _selectedTabViewItem);
-    objj_msgSend(self, "layoutSubviews");
-    if (_delegateSelectors & CPTabViewDidSelectTabViewItemSelector)
-        objj_msgSend(_delegate, "tabView:didSelectTabViewItem:", self, aTabViewItem);
+    objj_msgSend(self, "selectTabViewItemAtIndex:", objj_msgSend(self, "indexOfTabViewItem:", aTabViewItem));
 }
 },["void","CPTabViewItem"]), new objj_method(sel_getUid("selectTabViewItemAtIndex:"), function $CPTabView__selectTabViewItemAtIndex_(self, _cmd, anIndex)
 { with(self)
 {
-    objj_msgSend(self, "selectTabViewItem:", _tabViewItems[anIndex]);
+    if (anIndex === selectedIndex)
+        return;
+
+    if ((delegateSelectors & CPTabViewShouldSelectTabViewItemSelector) && !objj_msgSend(delegate, "tabView:shouldSelectTabViewItem:", self, aTabViewItem))
+        return;
+
+    if (delegateSelectors & CPTabViewWillSelectTabViewItemSelector)
+        objj_msgSend(delegate, "tabView:willSelectTabViewItem:", self, aTabViewItem);
+
+    objj_msgSend(tabs, "selectSegmentWithTag:", anIndex);
+    objj_msgSend(self, "_setSelectedIndex:", anIndex);
+
+    if (delegateSelectors & CPTabViewDidSelectTabViewItemSelector)
+        objj_msgSend(delegate, "tabView:didSelectTabViewItem:", self, aTabViewItem);
 }
 },["void","unsigned"]), new objj_method(sel_getUid("selectedTabViewItem"), function $CPTabView__selectedTabViewItem(self, _cmd)
 { with(self)
 {
-    return _selectedTabViewItem;
+    return objj_msgSend(items, "objectAtIndex:", selectedIndex);
 }
 },["CPTabViewItem"]), new objj_method(sel_getUid("setTabViewType:"), function $CPTabView__setTabViewType_(self, _cmd, aTabViewType)
 { with(self)
 {
-    if (_tabViewType == aTabViewType)
+    if (type === aTabViewType)
         return;
-    _tabViewType = aTabViewType;
-    if (_tabViewType == CPNoTabsBezelBorder || _tabViewType == CPNoTabsLineBorder || _tabViewType == CPNoTabsNoBorder)
-        objj_msgSend(_labelsView, "removeFromSuperview");
-    else if (_labelsView && !objj_msgSend(_labelsView, "superview"))
-        objj_msgSend(self, "addSubview:", _labelsView);
-    if (_tabViewType == CPNoTabsLineBorder || _tabViewType == CPNoTabsNoBorder)
-        objj_msgSend(_backgroundView, "removeFromSuperview");
-    else if (_backgroundView && !objj_msgSend(_backgroundView, "superview"))
-        objj_msgSend(self, "addSubview:", _backgroundView);
-    objj_msgSend(self, "layoutSubviews");
+
+    if ((type === CPTopTabsBezelBorder || type === CPBottomTabsBezelBorder)
+            && (aTabViewType !== CPTopTabsBezelBorder && aTabViewType !== CPBottomTabsBezelBorder))
+        objj_msgSend(tabs, "removeFromSuperview");
+
+    if ((type === CPNoTabsBezelBorder || type === CPNoTabsLineBorder || type === CPNoTabsNoBorder)
+            && (aTabViewType !== CPNoTabsBezelBorder && aTabViewType !== CPNoTabsBezelBorder && aTabViewType !== CPNoTabsNoBorder))
+        objj_msgSend(self, "addSubview:", tabs);
+
+    type = aTabViewType;
+
+    switch (type) {
+        case CPTopTabsBezelBorder:
+        case CPBottomTabsBezelBorder:
+        case CPNoTabsBezelBorder:
+            objj_msgSend(box, "setBorderType:", CPBezelBorder);
+            break;
+        case CPNoTabsLineBorder:
+            objj_msgSend(box, "setBorderType:", CPLineBorder);
+            break;
+        case CPNoTabsNoBorder:
+            objj_msgSend(box, "setBorderType:", CPNoBorder);
+            break;
+    }
 }
 },["void","CPTabViewType"]), new objj_method(sel_getUid("tabViewType"), function $CPTabView__tabViewType(self, _cmd)
 { with(self)
 {
-    return _tabViewType;
+    return type;
 }
-},["CPTabViewType"]), new objj_method(sel_getUid("contentRect"), function $CPTabView__contentRect(self, _cmd)
+},["CPTabViewType"]), new objj_method(sel_getUid("delegate"), function $CPTabView__delegate(self, _cmd)
 { with(self)
 {
-    var contentRect = CGRectMakeCopy(objj_msgSend(self, "bounds"));
-    if (_tabViewType == CPTopTabsBezelBorder)
-    {
-        var labelsViewHeight = objj_msgSend(_CPTabLabelsView, "height"),
-            auxiliaryViewHeight = _auxiliaryView ? CGRectGetHeight(objj_msgSend(_auxiliaryView, "frame")) : 5.0,
-            separatorViewHeight = 1.0;
-        contentRect.origin.y += labelsViewHeight + auxiliaryViewHeight + separatorViewHeight;
-        contentRect.size.height -= labelsViewHeight + auxiliaryViewHeight + separatorViewHeight * 2.0;
-        contentRect.origin.x += LEFT_INSET;
-        contentRect.size.width -= LEFT_INSET + RIGHT_INSET;
-    }
-    return contentRect;
-}
-},["CGRect"]), new objj_method(sel_getUid("delegate"), function $CPTabView__delegate(self, _cmd)
-{ with(self)
-{
-    return _delegate;
+    return delegate;
 }
 },["id"]), new objj_method(sel_getUid("setDelegate:"), function $CPTabView__setDelegate_(self, _cmd, aDelegate)
 { with(self)
 {
-    if (_delegate == aDelegate)
+    if (delegate == aDelegate)
         return;
-    _delegate = aDelegate;
-    _delegateSelectors = 0;
-    if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("tabView:shouldSelectTabViewItem:")))
-        _delegateSelectors |= CPTabViewShouldSelectTabViewItemSelector;
-    if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("tabView:willSelectTabViewItem:")))
-        _delegateSelectors |= CPTabViewWillSelectTabViewItemSelector;
-    if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("tabView:didSelectTabViewItem:")))
-        _delegateSelectors |= CPTabViewDidSelectTabViewItemSelector;
-    if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("tabViewDidChangeNumberOfTabViewItems:")))
-        _delegateSelectors |= CPTabViewDidChangeNumberOfTabViewItemsSelector;
+
+    delegate = aDelegate;
+
+    delegateSelectors = 0;
+
+    if (objj_msgSend(delegate, "respondsToSelector:", sel_getUid("tabView:shouldSelectTabViewItem:")))
+        delegateSelectors |= CPTabViewShouldSelectTabViewItemSelector;
+
+    if (objj_msgSend(delegate, "respondsToSelector:", sel_getUid("tabView:willSelectTabViewItem:")))
+        delegateSelectors |= CPTabViewWillSelectTabViewItemSelector;
+
+    if (objj_msgSend(delegate, "respondsToSelector:", sel_getUid("tabView:didSelectTabViewItem:")))
+        delegateSelectors |= CPTabViewDidSelectTabViewItemSelector;
+
+    if (objj_msgSend(delegate, "respondsToSelector:", sel_getUid("tabViewDidChangeNumberOfTabViewItems:")))
+        delegateSelectors |= CPTabViewDidChangeNumberOfTabViewItemsSelector;
 }
-},["void","id"]), new objj_method(sel_getUid("mouseDown:"), function $CPTabView__mouseDown_(self, _cmd, anEvent)
+},["void","id"]), new objj_method(sel_getUid("setBackgroundColor:"), function $CPTabView__setBackgroundColor_(self, _cmd, aColor)
 { with(self)
 {
-    var location = objj_msgSend(_labelsView, "convertPoint:fromView:", objj_msgSend(anEvent, "locationInWindow"), nil),
-        tabViewItem = objj_msgSend(_labelsView, "representedTabViewItemAtPoint:", location);
-    if (tabViewItem)
-        objj_msgSend(self, "selectTabViewItem:", tabViewItem);
+    objj_msgSend(box, "setBackgroundColor:", aColor);
 }
-},["void","CPEvent"])]);
-class_addMethods(meta_class, [new objj_method(sel_getUid("initialize"), function $CPTabView__initialize(self, _cmd)
+},["void","CPColor"]), new objj_method(sel_getUid("mouseDown:"), function $CPTabView__mouseDown_(self, _cmd, anEvent)
 { with(self)
 {
-    if (self != CPTabView)
-        return;
-    var bundle = objj_msgSend(CPBundle, "bundleForClass:", self),
-        emptyImage = objj_msgSend(objj_msgSend(CPImage, "alloc"), "initByReferencingFile:size:", "", CGSizeMake(7.0, 0.0)),
-        backgroundImage = objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(bundle, "pathForResource:", "CPTabView/CPTabViewBezelBackgroundCenter.png"), CGSizeMake(1.0, 1.0)),
-        bezelBorderLeftImage = objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(bundle, "pathForResource:", "CPTabView/CPTabViewBezelBorderLeft.png"), CGSizeMake(7.0, 1.0)),
-        bezerBorderImage = objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(bundle, "pathForResource:", "CPTabView/CPTabViewBezelBorder.png"), CGSizeMake(1.0, 1.0)),
-        bezelBorderRightImage = objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(bundle, "pathForResource:", "CPTabView/CPTabViewBezelBorderRight.png"), CGSizeMake(7.0, 1.0));
-    CPTabViewBezelBorderBackgroundColor = objj_msgSend(CPColor, "colorWithPatternImage:", objj_msgSend(objj_msgSend(CPNinePartImage, "alloc"), "initWithImageSlices:", 
-        [
-            emptyImage,
-            emptyImage,
-            emptyImage,
-            bezelBorderLeftImage,
-            backgroundImage,
-            bezelBorderRightImage,
-            bezelBorderLeftImage,
-            bezerBorderImage,
-            bezelBorderRightImage
-        ]));
-    CPTabViewBezelBorderColor = objj_msgSend(CPColor, "colorWithPatternImage:", bezerBorderImage);
+    var segmentIndex = objj_msgSend(tabs, "testSegment:", objj_msgSend(tabs, "convertPoint:fromView:", objj_msgSend(anEvent, "locationInWindow"), nil));
+
+    if (segmentIndex != CPNotFound)
+    {
+        objj_msgSend(self, "selectTabViewItemAtIndex:", segmentIndex);
+        objj_msgSend(tabs, "trackSegment:", anEvent);
+    }
 }
-},["void"]), new objj_method(sel_getUid("bezelBorderColor"), function $CPTabView__bezelBorderColor(self, _cmd)
+},["void","CPEvent"]), new objj_method(sel_getUid("_repositionTabs"), function $CPTabView___repositionTabs(self, _cmd)
 { with(self)
 {
-    return CPTabViewBezelBorderColor;
+    var horizontalCenterOfSelf = CGRectGetWidth(objj_msgSend(self, "bounds")) / 2,
+        verticalCenterOfTabs = CGRectGetHeight(objj_msgSend(tabs, "bounds")) / 2;
+
+    if (type === CPBottomTabsBezelBorder)
+        objj_msgSend(tabs, "setCenter:", CGPointMake(horizontalCenterOfSelf, CGRectGetHeight(objj_msgSend(self, "bounds")) - verticalCenterOfTabs));
+    else
+        objj_msgSend(tabs, "setCenter:", CGPointMake(horizontalCenterOfSelf, verticalCenterOfTabs));
 }
-},["CPColor"])]);
+},["void"]), new objj_method(sel_getUid("_setSelectedIndex:"), function $CPTabView___setSelectedIndex_(self, _cmd, index)
+{ with(self)
+{
+    selectedIndex = index;
+
+    objj_msgSend(box, "setContentView:", objj_msgSend(objj_msgSend(items, "objectAtIndex:", selectedIndex), "view"));
 }
+},["void","CPNumber"]), new objj_method(sel_getUid("_updateItems"), function $CPTabView___updateItems(self, _cmd)
+{ with(self)
+{
+    objj_msgSend(tabs, "setSegmentCount:", objj_msgSend(items, "count"));
+
+    for (var i = 0; i < objj_msgSend(items, "count"); i++)
+    {
+        objj_msgSend(tabs, "setLabel:forSegment:", objj_msgSend(objj_msgSend(items, "objectAtIndex:", i), "label"), i);
+        objj_msgSend(tabs, "setTag:forSegment:", i, i);
+    }
+
+    if (selectedIndex === CPNotFound)
+    {
+        objj_msgSend(self, "selectFirstTabViewItem:", self);
+    }
+}
+},["void"])]);
+}
+
 var CPTabViewItemsKey = "CPTabViewItemsKey",
     CPTabViewSelectedItemKey = "CPTabViewSelectedItemKey",
     CPTabViewTypeKey = "CPTabViewTypeKey",
     CPTabViewDelegateKey = "CPTabViewDelegateKey";
+
 {
 var the_class = objj_getClass("CPTabView")
 if(!the_class) throw new SyntaxError("*** Could not find definition for class \"CPTabView\"");
@@ -18512,203 +18516,35 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 {
     if (self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPTabView").super_class }, "initWithCoder:", aCoder))
     {
-        _tabViewType = objj_msgSend(aCoder, "decodeIntForKey:", CPTabViewTypeKey);
-        _tabViewItems = [];
-        objj_msgSend(self, "_createBezelBorder");
-        var items = objj_msgSend(aCoder, "decodeObjectForKey:", CPTabViewItemsKey);
-        for (var i = 0; items && i < items.length; i++)
-            objj_msgSend(self, "insertTabViewItem:atIndex:", items[i], i);
+        type = objj_msgSend(aCoder, "decodeIntForKey:", CPTabViewTypeKey);
+        items = [];
+
+        var encodedItems = objj_msgSend(aCoder, "decodeObjectForKey:", CPTabViewItemsKey);
+        for (var i = 0; encodedItems && i < encodedItems.length; i++)
+            objj_msgSend(self, "insertTabViewItem:atIndex:", encodedItems[i], i);
+
         var selected = objj_msgSend(aCoder, "decodeObjectForKey:", CPTabViewSelectedItemKey);
         if (selected)
             objj_msgSend(self, "selectTabViewItem:", selected);
+
         objj_msgSend(self, "setDelegate:", objj_msgSend(aCoder, "decodeObjectForKey:", CPTabViewDelegateKey));
     }
+
     return self;
 }
 },["id","CPCoder"]), new objj_method(sel_getUid("encodeWithCoder:"), function $CPTabView__encodeWithCoder_(self, _cmd, aCoder)
 { with(self)
 {
-    var actualSubviews = _subviews;
-    _subviews = [];
     objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPTabView").super_class }, "encodeWithCoder:", aCoder);
-    _subviews = actualSubviews;
-    objj_msgSend(aCoder, "encodeObject:forKey:", _tabViewItems, CPTabViewItemsKey);;
-    objj_msgSend(aCoder, "encodeObject:forKey:", _selectedTabViewItem, CPTabViewSelectedItemKey);
-    objj_msgSend(aCoder, "encodeInt:forKey:", _tabViewType, CPTabViewTypeKey);
-    objj_msgSend(aCoder, "encodeConditionalObject:forKey:", _delegate, CPTabViewDelegateKey);
+
+    objj_msgSend(aCoder, "encodeObject:forKey:", items, CPTabViewItemsKey);;
+    objj_msgSend(aCoder, "encodeObject:forKey:", objj_msgSend(self, "selectedTabViewItem"), CPTabViewSelectedItemKey);
+
+    objj_msgSend(aCoder, "encodeInt:forKey:", type, CPTabViewTypeKey);
+
+    objj_msgSend(aCoder, "encodeConditionalObject:forKey:", delegate, CPTabViewDelegateKey);
 }
 },["void","CPCoder"])]);
-}
-var _CPTabLabelsViewBackgroundColor = nil,
-    _CPTabLabelsViewInsideMargin = 10.0,
-    _CPTabLabelsViewOutsideMargin = 15.0;
-{var the_class = objj_allocateClassPair(CPView, "_CPTabLabelsView"),
-meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_tabView"), new objj_ivar("_tabLabels")]);
-objj_registerClassPair(the_class);
-class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), function $_CPTabLabelsView__initWithFrame_(self, _cmd, aFrame)
-{ with(self)
-{
-    self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("_CPTabLabelsView").super_class }, "initWithFrame:", aFrame);
-    if (self)
-    {
-        _tabLabels = [];
-        objj_msgSend(self, "setBackgroundColor:", _CPTabLabelsViewBackgroundColor);
-        objj_msgSend(self, "setFrameSize:", CGSizeMake(CGRectGetWidth(aFrame), 26.0));
-    }
-    return self;
-}
-},["id","CGRect"]), new objj_method(sel_getUid("setTabView:"), function $_CPTabLabelsView__setTabView_(self, _cmd, aTabView)
-{ with(self)
-{
-    _tabView = aTabView;
-}
-},["void","CPTabView"]), new objj_method(sel_getUid("tabView"), function $_CPTabLabelsView__tabView(self, _cmd)
-{ with(self)
-{
-    return _tabView;
-}
-},["CPTabView"]), new objj_method(sel_getUid("tabView:didAddTabViewItem:"), function $_CPTabLabelsView__tabView_didAddTabViewItem_(self, _cmd, aTabView, aTabViewItem)
-{ with(self)
-{
-    var label = objj_msgSend(objj_msgSend(_CPTabLabel, "alloc"), "initWithFrame:", CGRectMakeZero());
-    objj_msgSend(label, "setTabViewItem:", aTabViewItem);
-    _tabLabels.push(label);
-    objj_msgSend(self, "addSubview:", label);
-    objj_msgSend(self, "layoutSubviews");
-}
-},["void","CPTabView","CPTabViewItem"]), new objj_method(sel_getUid("tabView:didRemoveTabViewItemAtIndex:"), function $_CPTabLabelsView__tabView_didRemoveTabViewItemAtIndex_(self, _cmd, aTabView, index)
-{ with(self)
-{
-    var label = _tabLabels[index];
-    objj_msgSend(_tabLabels, "removeObjectAtIndex:", index);
-    objj_msgSend(label, "removeFromSuperview");
-    objj_msgSend(self, "layoutSubviews");
-}
-},["void","CPTabView","unsigned"]), new objj_method(sel_getUid("tabView:didChangeStateOfTabViewItem:"), function $_CPTabLabelsView__tabView_didChangeStateOfTabViewItem_(self, _cmd, aTabView, aTabViewItem)
-{ with(self)
-{
-    objj_msgSend(_tabLabels[objj_msgSend(aTabView, "indexOfTabViewItem:", aTabViewItem)], "setTabState:", objj_msgSend(aTabViewItem, "tabState"));
- }
-},["void","CPTabView","CPTabViewItem"]), new objj_method(sel_getUid("representedTabViewItemAtPoint:"), function $_CPTabLabelsView__representedTabViewItemAtPoint_(self, _cmd, aPoint)
-{ with(self)
-{
-    var index = 0,
-        count = _tabLabels.length;
-    for (; index < count; ++index)
-    {
-        var label = _tabLabels[index];
-        if (CGRectContainsPoint(objj_msgSend(label, "frame"), aPoint))
-            return objj_msgSend(label, "tabViewItem");
-    }
-    return nil;
-}
-},["CPTabViewItem","CGPoint"]), new objj_method(sel_getUid("layoutSubviews"), function $_CPTabLabelsView__layoutSubviews(self, _cmd)
-{ with(self)
-{
-    var index = 0,
-        count = _tabLabels.length,
-        width = ((objj_msgSend(self, "bounds").size.width) - (count - 1) * _CPTabLabelsViewInsideMargin - 2 * _CPTabLabelsViewOutsideMargin) / count,
-        x = _CPTabLabelsViewOutsideMargin;
-    for (; index < count; ++index)
-    {
-        var label = _tabLabels[index],
-            frame = { origin: { x:x, y:8.0 }, size: { width:width, height:18.0 } };
-        objj_msgSend(label, "setFrame:", frame);
-        x = (frame.origin.x + frame.size.width) + _CPTabLabelsViewInsideMargin;
-    }
-}
-},["void"]), new objj_method(sel_getUid("setFrameSize:"), function $_CPTabLabelsView__setFrameSize_(self, _cmd, aSize)
-{ with(self)
-{
-    if (CGSizeEqualToSize(objj_msgSend(self, "frame").size, aSize))
-        return;
-    objj_msgSendSuper({ receiver:self, super_class:objj_getClass("_CPTabLabelsView").super_class }, "setFrameSize:", aSize);
-    objj_msgSend(self, "layoutSubviews");
-}
-},["void","CGSize"])]);
-class_addMethods(meta_class, [new objj_method(sel_getUid("initialize"), function $_CPTabLabelsView__initialize(self, _cmd)
-{ with(self)
-{
-    if (self != objj_msgSend(_CPTabLabelsView, "class"))
-        return;
-    var bundle = objj_msgSend(CPBundle, "bundleForClass:", self);
-    _CPTabLabelsViewBackgroundColor = objj_msgSend(CPColor, "colorWithPatternImage:", objj_msgSend(objj_msgSend(CPThreePartImage, "alloc"), "initWithImageSlices:isVertical:", 
-        [
-            objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(bundle, "pathForResource:", "CPTabView/_CPTabLabelsViewLeft.png"), CGSizeMake(12.0, 26.0)),
-            objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(bundle, "pathForResource:", "CPTabView/_CPTabLabelsViewCenter.png"), CGSizeMake(1.0, 26.0)),
-            objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(bundle, "pathForResource:", "CPTabView/_CPTabLabelsViewRight.png"), CGSizeMake(12.0, 26.0))
-        ], NO));
-}
-},["void"]), new objj_method(sel_getUid("height"), function $_CPTabLabelsView__height(self, _cmd)
-{ with(self)
-{
-    return 26.0;
-}
-},["float"])]);
-}
-var _CPTabLabelBackgroundColor = nil,
-    _CPTabLabelSelectedBackgroundColor = nil;
-{var the_class = objj_allocateClassPair(CPView, "_CPTabLabel"),
-meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_tabViewItem"), new objj_ivar("_labelField")]);
-objj_registerClassPair(the_class);
-class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), function $_CPTabLabel__initWithFrame_(self, _cmd, aFrame)
-{ with(self)
-{
-    self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("_CPTabLabel").super_class }, "initWithFrame:", aFrame);
-    if (self)
-    {
-        _labelField = objj_msgSend(objj_msgSend(CPTextField, "alloc"), "initWithFrame:", CGRectMakeZero());
-        objj_msgSend(_labelField, "setAlignment:", CPCenterTextAlignment);
-        objj_msgSend(_labelField, "setFrame:", CGRectMake(5.0, 0.0, CGRectGetWidth(aFrame) - 10.0, 20.0));
-        objj_msgSend(_labelField, "setAutoresizingMask:", CPViewWidthSizable);
-        objj_msgSend(_labelField, "setFont:", objj_msgSend(CPFont, "boldSystemFontOfSize:", 11.0));
-        objj_msgSend(self, "addSubview:", _labelField);
-        objj_msgSend(self, "setTabState:", CPBackgroundTab);
-    }
-    return self;
-}
-},["id","CGRect"]), new objj_method(sel_getUid("setTabState:"), function $_CPTabLabel__setTabState_(self, _cmd, aTabState)
-{ with(self)
-{
-    objj_msgSend(self, "setBackgroundColor:", aTabState == CPSelectedTab ? _CPTabLabelSelectedBackgroundColor : _CPTabLabelBackgroundColor);
-}
-},["void","CPTabState"]), new objj_method(sel_getUid("setTabViewItem:"), function $_CPTabLabel__setTabViewItem_(self, _cmd, aTabViewItem)
-{ with(self)
-{
-    _tabViewItem = aTabViewItem;
-    objj_msgSend(self, "update");
-}
-},["void","CPTabViewItem"]), new objj_method(sel_getUid("tabViewItem"), function $_CPTabLabel__tabViewItem(self, _cmd)
-{ with(self)
-{
-    return _tabViewItem;
-}
-},["CPTabViewItem"]), new objj_method(sel_getUid("update"), function $_CPTabLabel__update(self, _cmd)
-{ with(self)
-{
-    objj_msgSend(_labelField, "setStringValue:", objj_msgSend(_tabViewItem, "label"));
-}
-},["void"])]);
-class_addMethods(meta_class, [new objj_method(sel_getUid("initialize"), function $_CPTabLabel__initialize(self, _cmd)
-{ with(self)
-{
-    if (self != objj_msgSend(_CPTabLabel, "class"))
-        return;
-    var bundle = objj_msgSend(CPBundle, "bundleForClass:", self);
-    _CPTabLabelBackgroundColor = objj_msgSend(CPColor, "colorWithPatternImage:", objj_msgSend(objj_msgSend(CPThreePartImage, "alloc"), "initWithImageSlices:isVertical:", 
-        [
-            objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(bundle, "pathForResource:", "CPTabView/_CPTabLabelBackgroundLeft.png"), CGSizeMake(6.0, 18.0)),
-            objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(bundle, "pathForResource:", "CPTabView/_CPTabLabelBackgroundCenter.png"), CGSizeMake(1.0, 18.0)),
-            objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(bundle, "pathForResource:", "CPTabView/_CPTabLabelBackgroundRight.png"), CGSizeMake(6.0, 18.0))
-        ], NO));
-    _CPTabLabelSelectedBackgroundColor = objj_msgSend(CPColor, "colorWithPatternImage:", objj_msgSend(objj_msgSend(CPThreePartImage, "alloc"), "initWithImageSlices:isVertical:", 
-        [
-            objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(bundle, "pathForResource:", "CPTabView/_CPTabLabelSelectedLeft.png"), CGSizeMake(3.0, 18.0)),
-            objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(bundle, "pathForResource:", "CPTabView/_CPTabLabelSelectedCenter.png"), CGSizeMake(1.0, 18.0)),
-            objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:size:", objj_msgSend(bundle, "pathForResource:", "CPTabView/_CPTabLabelSelectedRight.png"), CGSizeMake(3.0, 18.0))
-        ], NO));
-}
-},["void"])]);
 }
 
 p;18;_CPDisplayServer.jt;2124;@STATIC;1.0;t;2105;;
