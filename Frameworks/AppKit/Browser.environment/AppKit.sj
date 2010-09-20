@@ -21825,7 +21825,7 @@ return [_1d[i],_1d[j]];
 return [_1d[0]];
 };
 objj_msgSend(CPFontManager,"setFontManagerFactory:",objj_msgSend(CPFontManager,"class"));
-p;10;CPCookie.jt;1234;@STATIC;1.0;I;21;Foundation/CPObject.jI;21;Foundation/CPString.jt;1163;
+p;10;CPCookie.jt;1483;@STATIC;1.0;I;21;Foundation/CPObject.jI;21;Foundation/CPString.jt;1412;
 objj_executeFile("Foundation/CPObject.j",NO);
 objj_executeFile("Foundation/CPString.j",NO);
 var _1=objj_allocateClassPair(CPObject,"CPCookie"),_2=_1.isa;
@@ -21862,11 +21862,21 @@ _10="; domain="+_10;
 }else{
 _10="";
 }
-_cookieValue=_e;
-_expires=_11;
+document.cookie=_cookieName+"="+_e+_11+"; path=/"+_10;
 }
 }),new objj_method(sel_getUid("_readCookieValue"),function(_12,_13){
 with(_12){
+var _14=_cookieName+"=";
+var ca=document.cookie.split(";");
+for(var i=0;i<ca.length;i++){
+var c=ca[i];
+while(c.charAt(0)==" "){
+c=c.substring(1,c.length);
+}
+if(c.indexOf(_14)==0){
+return c.substring(_14.length,c.length);
+}
+}
 return "";
 }
 })]);
