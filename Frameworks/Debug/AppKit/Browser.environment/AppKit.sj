@@ -23185,7 +23185,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 {
     return objj_msgSend(_contentView, "frame").size;
 }
-},["CGRect"]), new objj_method(sel_getUid("documentView"), function $CPScrollView__documentView(self, _cmd)
+},["CGSize"]), new objj_method(sel_getUid("documentView"), function $CPScrollView__documentView(self, _cmd)
 { with(self)
 {
     return objj_msgSend(_contentView, "documentView");
