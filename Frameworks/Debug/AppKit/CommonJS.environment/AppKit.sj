@@ -10928,7 +10928,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"])]);
 }
 
-p;19;CPKeyValueBinding.jt;18816;@STATIC;1.0;I;21;Foundation/CPObject.jI;20;Foundation/CPArray.jI;25;Foundation/CPDictionary.jI;31;Foundation/CPValueTransformer.jt;18679;objj_executeFile("Foundation/CPObject.j", NO);
+p;19;CPKeyValueBinding.jt;19408;@STATIC;1.0;I;21;Foundation/CPObject.jI;20;Foundation/CPArray.jI;25;Foundation/CPDictionary.jI;31;Foundation/CPValueTransformer.jt;19271;objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("Foundation/CPDictionary.j", NO);
 objj_executeFile("Foundation/CPValueTransformer.j", NO);
@@ -10967,9 +10967,32 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithBinding:name:to
     var destination = objj_msgSend(_info, "objectForKey:", CPObservedObjectKey),
         keyPath = objj_msgSend(_info, "objectForKey:", CPObservedKeyPathKey),
         options = objj_msgSend(_info, "objectForKey:", CPOptionsKey),
-        newValue = objj_msgSend(destination, "valueForKeyPath:", keyPath);
-    newValue = objj_msgSend(self, "transformValue:withOptions:", newValue, options);
+        newValue = objj_msgSend(destination, "valueForKeyPath:", keyPath),
+        isPlaceholder = CPIsControllerMarker(newValue);
+    if (isPlaceholder)
+    {
+        switch (newValue)
+        {
+            case CPMultipleValuesMarker:
+                newValue = objj_msgSend(options, "objectForKey:", CPMultipleValuesPlaceholderBindingOption) || "Multiple Values";
+                break;
+            case CPNoSelectionMarker:
+                newValue = objj_msgSend(options, "objectForKey:", CPNoSelectionPlaceholderBindingOption) || "No Selection";
+                break;
+            case CPNotApplicableMarker:
+                if (objj_msgSend(options, "objectForKey:", CPRaisesForNotApplicableKeysBindingOption))
+                    objj_msgSend(CPException, "raise:reason:", CPGenericException, "can't transform non applicable key on: "+_source+" value: "+newValue);
+                newValue = objj_msgSend(options, "objectForKey:", CPNotApplicablePlaceholderBindingOption) || "Not Applicable";
+                break;
+        }
+    }
+    else
+    {
+        newValue = objj_msgSend(self, "transformValue:withOptions:", newValue, options);
+    }
     objj_msgSend(_source, "setValue:forKey:", newValue, aBinding);
+    if (objj_msgSend(_source, "respondsToSelector:", sel_getUid("_setCurrentValueIsPlaceholder:")))
+        objj_msgSend(_source, "_setCurrentValueIsPlaceholder:", isPlaceholder);
 }
 },["void","CPString"]), new objj_method(sel_getUid("reverseSetValueFor:"), function $CPKeyValueBinding__reverseSetValueFor_(self, _cmd, aBinding)
 { with(self)
@@ -11013,16 +11036,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithBinding:name:to
         valueTransformer = objj_msgSend(options, "objectForKey:", CPValueTransformerBindingOption);
     if (valueTransformer)
         aValue = objj_msgSend(valueTransformer, "transformedValue:", aValue);
-    switch (aValue)
-    {
-        case CPMultipleValuesMarker: return objj_msgSend(options, "objectForKey:", CPMultipleValuesPlaceholderBindingOption) || "Multiple Values";
-        case CPNoSelectionMarker: return objj_msgSend(options, "objectForKey:", CPNoSelectionPlaceholderBindingOption) || "No Selection";
-        case CPNotApplicableMarker: if (objj_msgSend(options, "objectForKey:", CPRaisesForNotApplicableKeysBindingOption))
-                                            objj_msgSend(CPException, "raise:reason:", CPGenericException, "can't transform non applicable key on: "+_source+" value: "+aValue);
-                                        return objj_msgSend(options, "objectForKey:", CPNotApplicablePlaceholderBindingOption) || "Not Applicable";
-        case nil:
-        case undefined: return objj_msgSend(options, "objectForKey:", CPNullPlaceholderBindingOption) || nil;
-    }
+    if (aValue === undefined || aValue === nil)
+        aValue = objj_msgSend(options, "objectForKey:", CPNullPlaceholderBindingOption) || nil;
     return aValue;
 }
 },["id","id","CPDictionary"]), new objj_method(sel_getUid("reverseTransformValue:withOptions:"), function $CPKeyValueBinding__reverseTransformValue_withOptions_(self, _cmd, aValue, options)
@@ -11110,7 +11125,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 {
     var exposedBindings = [],
         theClass = objj_msgSend(self, "class");
-    while(theClass)
+    while (theClass)
     {
         var temp = objj_msgSend(CPKeyValueBinding, "exposedBindingsForClass:", theClass);
         if (temp)
@@ -11220,7 +11235,7 @@ var invokeAction = invokeAction= function( targetKey, argumentKey, bindings)
         return;
     var invocation = objj_msgSend(CPInvocation, "invocationWithMethodSignature:", objj_msgSend(target, "methodSignatureForSelector:", selector));
     objj_msgSend(invocation, "setSelector:", selector);
-    var bindingName = argumentKey
+    var bindingName = argumentKey,
         count = 1;
     while (theBinding = objj_msgSend(bindings, "objectForKey:", bindingName))
     {
@@ -11272,6 +11287,10 @@ CPSelectsAllWhenSettingContentBindingOption = "CPSelectsAllWhenSettingContentBin
 CPValidatesImmediatelyBindingOption = "CPValidatesImmediatelyBindingOption";
 CPValueTransformerNameBindingOption = "CPValueTransformerNameBindingOption";
 CPValueTransformerBindingOption = "CPValueTransformerBindingOption";
+CPIsControllerMarker = function( anObject)
+{
+    return anObject === CPMultipleValuesMarker || anObject === CPNoSelectionMarker || anObject === CPNotApplicableMarker;
+}
 
 p;25;_CPToolbarSeparatorItem.jt;1153;@STATIC;1.0;i;15;CPToolbarItem.jt;1114;objj_executeFile("CPToolbarItem.j", YES);
 {var the_class = objj_allocateClassPair(CPToolbarItem, "_CPToolbarSeparatorItem"),
@@ -11825,7 +11844,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"])]);
 }
 
-p;19;CPArrayController.jt;24042;@STATIC;1.0;I;27;AppKit/CPObjectController.jI;26;AppKit/CPKeyValueBinding.jt;23959;objj_executeFile("AppKit/CPObjectController.j", NO);
+p;19;CPArrayController.jt;24156;@STATIC;1.0;I;27;AppKit/CPObjectController.jI;26;AppKit/CPKeyValueBinding.jt;24073;objj_executeFile("AppKit/CPObjectController.j", NO);
 objj_executeFile("AppKit/CPKeyValueBinding.j", NO);
 {var the_class = objj_allocateClassPair(CPObjectController, "CPArrayController"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_avoidsEmptySelection"), new objj_ivar("_clearsFilterPredicateOnInsertion"), new objj_ivar("_filterRestrictsInsertion"), new objj_ivar("_preservesSelection"), new objj_ivar("_selectsInsertedObjects"), new objj_ivar("_alwaysUsesMultipleValuesMarker"), new objj_ivar("_selectionIndexes"), new objj_ivar("_sortDescriptors"), new objj_ivar("_filterPredicate"), new objj_ivar("_arrangedObjects")]);
@@ -11878,7 +11897,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
 },["void","BOOL"]), new objj_method(sel_getUid("setContent:"), function $CPArrayController__setContent_(self, _cmd, value)
 { with(self)
 {
-    if(!objj_msgSend(value, "isKindOfClass:", objj_msgSend(CPArray, "class")))
+    if (!objj_msgSend(value, "isKindOfClass:", objj_msgSend(CPArray, "class")))
         value = [value];
     var oldSelectedObjects = nil,
         oldSelectionIndexes = nil;
@@ -11889,7 +11908,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
     if (_clearsFilterPredicateOnInsertion)
         objj_msgSend(self, "willChangeValueForKey:", "filterPredicate");
     _contentObject = value;
-    if(_clearsFilterPredicateOnInsertion)
+    if (_clearsFilterPredicateOnInsertion)
         objj_msgSend(self, "__setFilterPredicate:", nil);
     else
         objj_msgSend(self, "_rearrangeObjects");
@@ -12025,7 +12044,9 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
 },["CPIndexSet"]), new objj_method(sel_getUid("setSelectionIndexes:"), function $CPArrayController__setSelectionIndexes_(self, _cmd, indexes)
 { with(self)
 {
+    objj_msgSend(self, "_selectionWillChange")
     objj_msgSend(self, "__setSelectionIndexes:", indexes);
+    objj_msgSend(self, "_selectionDidChange");
 }
 },["BOOL","CPIndexSet"]), new objj_method(sel_getUid("__setSelectionIndex:"), function $CPArrayController____setSelectionIndex_(self, _cmd, theIndex)
 { with(self)
@@ -12039,15 +12060,15 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
         indexes = objj_msgSend(CPIndexSet, "indexSet");
     if (!objj_msgSend(indexes, "count"))
     {
-        if(_avoidsEmptySelection && objj_msgSend(objj_msgSend(self, "arrangedObjects"), "count"))
+        if (_avoidsEmptySelection && objj_msgSend(objj_msgSend(self, "arrangedObjects"), "count"))
             indexes = objj_msgSend(CPIndexSet, "indexSetWithIndex:", 0);
     }
     else
     {
         var objectsCount = objj_msgSend(objj_msgSend(self, "arrangedObjects"), "count");
-        objj_msgSend(indexes, "removeIndexesInRange:", CPMakeRange(objectsCount, objj_msgSend(indexes, "lastIndex")+1));
-        if(!objj_msgSend(indexes, "count") && _avoidsEmptySelection && objectsCount)
-            indexes = objj_msgSend(CPIndexSet, "indexSetWithIndex:", objectsCount-1);
+        objj_msgSend(indexes, "removeIndexesInRange:", CPMakeRange(objectsCount, objj_msgSend(indexes, "lastIndex") + 1));
+        if (!objj_msgSend(indexes, "count") && _avoidsEmptySelection && objectsCount)
+            indexes = objj_msgSend(CPIndexSet, "indexSetWithIndex:", objectsCount - 1);
     }
     if (objj_msgSend(_selectionIndexes, "isEqualToIndexSet:", indexes))
         return NO;
@@ -12076,7 +12097,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
     var set = objj_msgSend(CPIndexSet, "indexSet"),
         count = objj_msgSend(objects, "count"),
         arrangedObjects = objj_msgSend(self, "arrangedObjects");
-    for (var i=0; i<count; i++)
+    for (var i = 0; i < count; i++)
     {
         var index = objj_msgSend(arrangedObjects, "indexOfObject:", objj_msgSend(objects, "objectAtIndex:", i));
         if (index !== CPNotFound)
@@ -12174,14 +12195,14 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
 },["void","id"]), new objj_method(sel_getUid("add:"), function $CPArrayController__add_(self, _cmd, sender)
 { with(self)
 {
-    if(!objj_msgSend(self, "canAdd"))
+    if (!objj_msgSend(self, "canAdd"))
         return;
     objj_msgSend(self, "insert:", sender);
 }
 },["void","id"]), new objj_method(sel_getUid("insert:"), function $CPArrayController__insert_(self, _cmd, sender)
 { with(self)
 {
-    if(!objj_msgSend(self, "canInsert"))
+    if (!objj_msgSend(self, "canInsert"))
         return;
     var newObject = objj_msgSend(self, "automaticallyPreparesContent") ? objj_msgSend(self, "newObject") : objj_msgSend(self, "_defaultNewObject");
     objj_msgSend(self, "addObject:", newObject);
@@ -12199,18 +12220,18 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
 },["void","CPIndexSet"]), new objj_method(sel_getUid("addObjects:"), function $CPArrayController__addObjects_(self, _cmd, objects)
 { with(self)
 {
-    if(!objj_msgSend(self, "canAdd"))
+    if (!objj_msgSend(self, "canAdd"))
         return;
     var contentArray = objj_msgSend(self, "contentArray"),
         count = objj_msgSend(objects, "count");
-    for (var i=0; i<count; i++)
+    for (var i = 0; i < count; i++)
         objj_msgSend(contentArray, "addObject:", objj_msgSend(objects, "objectAtIndex:", i));
     objj_msgSend(self, "setContent:", contentArray);
 }
 },["void","CPArray"]), new objj_method(sel_getUid("removeObjects:"), function $CPArrayController__removeObjects_(self, _cmd, objects)
 { with(self)
 {
-    if(!objj_msgSend(self, "canRemove"))
+    if (!objj_msgSend(self, "canRemove"))
         return;
     objj_msgSend(self, "_removeObjects:", objects);
 }
@@ -14111,7 +14132,7 @@ var byteToHex = function(n)
            hexCharacters.charAt(n % 16);
 };
 
-p;13;CPTextField.jt;36294;@STATIC;1.0;i;11;CPControl.ji;17;CPStringDrawing.ji;17;CPCompatibility.ji;21;_CPImageAndTextView.jt;36188;objj_executeFile("CPControl.j", YES);
+p;13;CPTextField.jt;37336;@STATIC;1.0;i;11;CPControl.ji;17;CPStringDrawing.ji;17;CPCompatibility.ji;21;_CPImageAndTextView.jt;37230;objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPStringDrawing.j", YES);
 objj_executeFile("CPCompatibility.j", YES);
 objj_executeFile("_CPImageAndTextView.j", YES);
@@ -14133,7 +14154,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 CPTextFieldStateRounded = CPThemeState("rounded");
 CPTextFieldStatePlaceholder = CPThemeState("placeholder");
 {var the_class = objj_allocateClassPair(CPControl, "CPTextField"),
-meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_isEditing"), new objj_ivar("_isEditable"), new objj_ivar("_isSelectable"), new objj_ivar("_isSecure"), new objj_ivar("_drawsBackground"), new objj_ivar("_textFieldBackgroundColor"), new objj_ivar("_placeholderString"), new objj_ivar("_delegate"), new objj_ivar("_textDidChangeValue"), new objj_ivar("_bezelStyle"), new objj_ivar("_isBordered"), new objj_ivar("_controlSize")]);
+meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_isEditing"), new objj_ivar("_isEditable"), new objj_ivar("_isSelectable"), new objj_ivar("_isSecure"), new objj_ivar("_drawsBackground"), new objj_ivar("_textFieldBackgroundColor"), new objj_ivar("_placeholderString"), new objj_ivar("_originalPlaceholderString"), new objj_ivar("_currentValueIsPlaceholder"), new objj_ivar("_delegate"), new objj_ivar("_textDidChangeValue"), new objj_ivar("_bezelStyle"), new objj_ivar("_isBordered"), new objj_ivar("_controlSize")]);
 objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), function $CPTextField__initWithFrame_(self, _cmd, aFrame)
 { with(self)
@@ -14154,7 +14175,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     if (_isEditable === shouldBeEditable)
         return;
     _isEditable = shouldBeEditable;
-    if(shouldBeEditable)
+    if (shouldBeEditable)
         _isSelectable = YES;
     if (!shouldBeEditable && objj_msgSend(objj_msgSend(self, "window"), "firstResponder") === self)
         objj_msgSend(objj_msgSend(self, "window"), "makeFirstResponder:", nil);
@@ -14387,18 +14408,25 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPEvent"]), new objj_method(sel_getUid("textDidBlur:"), function $CPTextField__textDidBlur_(self, _cmd, note)
 { with(self)
 {
-    if(objj_msgSend(note, "object") != self)
+    if (objj_msgSend(note, "object") != self)
         return;
     objj_msgSend(objj_msgSend(CPNotificationCenter, "defaultCenter"), "postNotification:", note);
 }
 },["void","CPNotification"]), new objj_method(sel_getUid("textDidFocus:"), function $CPTextField__textDidFocus_(self, _cmd, note)
 { with(self)
 {
-    if(objj_msgSend(note, "object") != self)
+    if (objj_msgSend(note, "object") != self)
         return;
     objj_msgSend(objj_msgSend(CPNotificationCenter, "defaultCenter"), "postNotification:", note);
 }
-},["void","CPNotification"]), new objj_method(sel_getUid("objectValue"), function $CPTextField__objectValue(self, _cmd)
+},["void","CPNotification"]), new objj_method(sel_getUid("sendAction:to:"), function $CPTextField__sendAction_to_(self, _cmd, anAction, anObject)
+{ with(self)
+{
+    if (!_currentValueIsPlaceholder)
+        objj_msgSend(self, "_reverseSetBinding");
+    objj_msgSend(CPApp, "sendAction:to:from:", anAction, anObject, self);
+}
+},["void","SEL","id"]), new objj_method(sel_getUid("objectValue"), function $CPTextField__objectValue(self, _cmd)
 { with(self)
 {
     return objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPTextField").super_class }, "objectValue");
@@ -14443,7 +14471,23 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 {
     return _placeholderString;
 }
-},["CPString"]), new objj_method(sel_getUid("sizeToFit"), function $CPTextField__sizeToFit(self, _cmd)
+},["CPString"]), new objj_method(sel_getUid("_setCurrentValueIsPlaceholder:"), function $CPTextField___setCurrentValueIsPlaceholder_(self, _cmd, isPlaceholder)
+{ with(self)
+{
+    if (isPlaceholder)
+    {
+        if (!_currentValueIsPlaceholder)
+            _originalPlaceholderString = objj_msgSend(self, "placeholderString");
+        objj_msgSend(self, "setPlaceholderString:", objj_msgSend(self, "stringValue"));
+        objj_msgSend(self, "setStringValue:", "");
+    }
+    else
+    {
+        objj_msgSend(self, "setPlaceholderString:", _originalPlaceholderString);
+    }
+    _currentValueIsPlaceholder = isPlaceholder;
+}
+},["void","BOOL"]), new objj_method(sel_getUid("sizeToFit"), function $CPTextField__sizeToFit(self, _cmd)
 { with(self)
 {
     var size = objj_msgSend((objj_msgSend(self, "stringValue") || " "), "sizeWithFont:", objj_msgSend(self, "currentValueForThemeAttribute:", "font")),
@@ -14502,7 +14546,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
             pasteString = objj_msgSend(pasteboard, "stringForType:", CPStringPboardType),
             newValue = objj_msgSend(stringValue, "stringByReplacingCharactersInRange:withString:", selectedRange, pasteString);
         objj_msgSend(self, "setStringValue:", newValue);
-        objj_msgSend(self, "setSelectedRange:", CPMakeRange(selectedRange.location+pasteString.length, 0));
+        objj_msgSend(self, "setSelectedRange:", CPMakeRange(selectedRange.location + pasteString.length, 0));
     }
 }
 },["void","id"]), new objj_method(sel_getUid("selectedRange"), function $CPTextField__selectedRange(self, _cmd)
@@ -14765,7 +14809,7 @@ var secureStringForString = function(aString)
 {
     if (!aString)
         return "";
-    return Array(aString.length+1).join(CPSecureTextFieldCharacter);
+    return Array(aString.length + 1).join(CPSecureTextFieldCharacter);
 }
 var CPTextFieldIsEditableKey = "CPTextFieldIsEditableKey",
     CPTextFieldIsSelectableKey = "CPTextFieldIsSelectableKey",
