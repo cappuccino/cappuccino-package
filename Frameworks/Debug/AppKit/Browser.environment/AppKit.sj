@@ -489,7 +489,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPEvent"])]);
 }
 
-p;13;CPTableView.jt;141882;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;141739;objj_executeFile("Foundation/CPArray.j", NO);
+p;13;CPTableView.jt;141822;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;141679;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("AppKit/CGGradient.j", NO);
 objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPTableColumn.j", YES);
@@ -2766,7 +2766,7 @@ _disableAutomaticResizing = newValue;
         modifierFlags = objj_msgSend(anEvent, "modifierFlags");
     if (character === CPUpArrowFunctionKey || character === CPDownArrowFunctionKey)
     {
-        if (objj_msgSend(self, "numberOfRows") === 0)
+        if (objj_msgSend(self, "numberOfRows") !== 0)
         {
             if (character === CPUpArrowFunctionKey)
                 objj_msgSend(self, "_moveSelectionUp:", anEvent);
@@ -2782,13 +2782,12 @@ _disableAutomaticResizing = newValue;
     }
     objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPTableView").super_class }, "keyDown:", anEvent);
 }
-},["void","CPEvent"]), new objj_method(sel_getUid("moveDown:"), function $CPTableView__moveDown_(self, _cmd, aSender)
+},["void","CPEvent"]), new objj_method(sel_getUid("_moveSelectionDown:"), function $CPTableView___moveSelectionDown_(self, _cmd, theEvent)
 { with(self)
 {
     if (_implementedDelegateMethods & CPTableViewDelegate_selectionShouldChangeInTableView_ &&
         !objj_msgSend(_delegate, "selectionShouldChangeInTableView:", self))
         return;
-    var theEvent = objj_msgSend(CPApp, "currentEvent");
     if(objj_msgSend(objj_msgSend(self, "selectedRowIndexes"), "count") > 0)
     {
         var extend = NO;
@@ -2817,13 +2816,12 @@ _disableAutomaticResizing = newValue;
     if(i >= 0)
         objj_msgSend(self, "scrollRowToVisible:", i);
 }
-},["void","id"]), new objj_method(sel_getUid("moveUp:"), function $CPTableView__moveUp_(self, _cmd, aSender)
+},["void","CPEvent"]), new objj_method(sel_getUid("_moveSelectionUp:"), function $CPTableView___moveSelectionUp_(self, _cmd, theEvent)
 { with(self)
 {
     if (_implementedDelegateMethods & CPTableViewDelegate_selectionShouldChangeInTableView_ &&
         !objj_msgSend(_delegate, "selectionShouldChangeInTableView:", self))
         return;
-    var theEvent = objj_msgSend(CPApp, "currentEvent");
     if(objj_msgSend(objj_msgSend(self, "selectedRowIndexes"), "count") > 0)
     {
          var extend = NO;
@@ -2852,7 +2850,7 @@ _disableAutomaticResizing = newValue;
      if(i >= 0)
         objj_msgSend(self, "scrollRowToVisible:", i);
 }
-},["void","id"])]);
+},["void","CPEvent"])]);
 class_addMethods(meta_class, [new objj_method(sel_getUid("themeClass"), function $CPTableView__themeClass(self, _cmd)
 { with(self)
 {
