@@ -387,7 +387,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPEvent"])]);
 }
 
-p;13;CPTableView.jt;141459;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;141316;objj_executeFile("Foundation/CPArray.j", NO);
+p;13;CPTableView.jt;141882;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;141739;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("AppKit/CGGradient.j", NO);
 objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPTableColumn.j", YES);
@@ -1547,7 +1547,17 @@ _disableAutomaticResizing = newValue;
     if (_implementedDelegateMethods & CPTableViewDelegate_tableView_mouseDownInHeaderOfTableColumn_)
             objj_msgSend(_delegate, "tableView:mouseDownInHeaderOfTableColumn:", self, _tableColumns[column]);
 }
-},["void","int"]), new objj_method(sel_getUid("_sendDataSourceSortDescriptorsDidChange:"), function $CPTableView___sendDataSourceSortDescriptorsDidChange_(self, _cmd, oldDescriptors)
+},["void","int"]), new objj_method(sel_getUid("_sendDelegateDeleteKeyPressed"), function $CPTableView___sendDelegateDeleteKeyPressed(self, _cmd)
+{ with(self)
+{
+    if(objj_msgSend(_delegate, "respondsToSelector:",  sel_getUid("tableViewDeleteKeyPressed:")))
+    {
+        objj_msgSend(_delegate, "tableViewDeleteKeyPressed:", self);
+        return YES;
+    }
+    return NO;
+}
+},["BOOL"]), new objj_method(sel_getUid("_sendDataSourceSortDescriptorsDidChange:"), function $CPTableView___sendDataSourceSortDescriptorsDidChange_(self, _cmd, oldDescriptors)
 { with(self)
 {
     if (_implementedDataSourceMethods & CPTableViewDataSource_tableView_sortDescriptorsDidChange_)
@@ -2650,19 +2660,37 @@ _disableAutomaticResizing = newValue;
 },["BOOL"]), new objj_method(sel_getUid("keyDown:"), function $CPTableView__keyDown_(self, _cmd, anEvent)
 { with(self)
 {
-    objj_msgSend(self, "interpretKeyEvents:", [anEvent]);
+    var character = objj_msgSend(anEvent, "charactersIgnoringModifiers"),
+        modifierFlags = objj_msgSend(anEvent, "modifierFlags");
+    if (character === CPUpArrowFunctionKey || character === CPDownArrowFunctionKey)
+    {
+        if (objj_msgSend(self, "numberOfRows") === 0)
+        {
+            if (character === CPUpArrowFunctionKey)
+                objj_msgSend(self, "_moveSelectionUp:", anEvent);
+            else
+                objj_msgSend(self, "_moveSelectionDown:", anEvent)
+            return;
+        }
+    }
+    else if (character === CPDeleteCharacter || character === CPDeleteFunctionKey)
+    {
+        if (objj_msgSend(self, "_sendDelegateDeleteKeyPressed"))
+            return;
+    }
+    objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPTableView").super_class }, "keyDown:", anEvent);
 }
-},["void","CPEvent"]), new objj_method(sel_getUid("moveDown:"), function $CPTableView__moveDown_(self, _cmd, sender)
+},["void","CPEvent"]), new objj_method(sel_getUid("moveDown:"), function $CPTableView__moveDown_(self, _cmd, aSender)
 { with(self)
 {
     if (_implementedDelegateMethods & CPTableViewDelegate_selectionShouldChangeInTableView_ &&
         !objj_msgSend(_delegate, "selectionShouldChangeInTableView:", self))
         return;
-    var anEvent = objj_msgSend(CPApp, "currentEvent");
+    var theEvent = objj_msgSend(CPApp, "currentEvent");
     if(objj_msgSend(objj_msgSend(self, "selectedRowIndexes"), "count") > 0)
     {
         var extend = NO;
-        if((objj_msgSend(anEvent, "modifierFlags") & CPShiftKeyMask) && _allowsMultipleSelection)
+        if((objj_msgSend(theEvent, "modifierFlags") & CPShiftKeyMask) && _allowsMultipleSelection)
             extend = YES;
         var i = objj_msgSend(objj_msgSend(self, "selectedRowIndexes"), "lastIndex");
         if(i<objj_msgSend(self, "numberOfRows") - 1)
@@ -2687,22 +2715,17 @@ _disableAutomaticResizing = newValue;
     if(i >= 0)
         objj_msgSend(self, "scrollRowToVisible:", i);
 }
-},["void","id"]), new objj_method(sel_getUid("moveDownAndModifySelection:"), function $CPTableView__moveDownAndModifySelection_(self, _cmd, sender)
-{ with(self)
-{
-    objj_msgSend(self, "moveDown:", sender);
-}
-},["void","id"]), new objj_method(sel_getUid("moveUp:"), function $CPTableView__moveUp_(self, _cmd, sender)
+},["void","id"]), new objj_method(sel_getUid("moveUp:"), function $CPTableView__moveUp_(self, _cmd, aSender)
 { with(self)
 {
     if (_implementedDelegateMethods & CPTableViewDelegate_selectionShouldChangeInTableView_ &&
         !objj_msgSend(_delegate, "selectionShouldChangeInTableView:", self))
         return;
-    var anEvent = objj_msgSend(CPApp, "currentEvent");
+    var theEvent = objj_msgSend(CPApp, "currentEvent");
     if(objj_msgSend(objj_msgSend(self, "selectedRowIndexes"), "count") > 0)
     {
          var extend = NO;
-         if((objj_msgSend(anEvent, "modifierFlags") & CPShiftKeyMask) && _allowsMultipleSelection)
+         if((objj_msgSend(theEvent, "modifierFlags") & CPShiftKeyMask) && _allowsMultipleSelection)
            extend = YES;
           var i = objj_msgSend(objj_msgSend(self, "selectedRowIndexes"), "firstIndex");
           if(i > 0)
@@ -2726,17 +2749,6 @@ _disableAutomaticResizing = newValue;
      objj_msgSend(self, "selectRowIndexes:byExtendingSelection:", objj_msgSend(CPIndexSet, "indexSetWithIndex:", i), extend);
      if(i >= 0)
         objj_msgSend(self, "scrollRowToVisible:", i);
-}
-},["void","id"]), new objj_method(sel_getUid("moveUpAndModifySelection:"), function $CPTableView__moveUpAndModifySelection_(self, _cmd, sender)
-{ with(self)
-{
-    objj_msgSend(self, "moveUp:", sender);
-}
-},["void","id"]), new objj_method(sel_getUid("deleteBackward:"), function $CPTableView__deleteBackward_(self, _cmd, sender)
-{ with(self)
-{
-    if(objj_msgSend(_delegate, "respondsToSelector:",  sel_getUid("tableViewDeleteKeyPressed:")))
-        objj_msgSend(_delegate, "tableViewDeleteKeyPressed:", self);
 }
 },["void","id"])]);
 class_addMethods(meta_class, [new objj_method(sel_getUid("themeClass"), function $CPTableView__themeClass(self, _cmd)
@@ -14132,7 +14144,7 @@ var byteToHex = function(n)
            hexCharacters.charAt(n % 16);
 };
 
-p;13;CPTextField.jt;37336;@STATIC;1.0;i;11;CPControl.ji;17;CPStringDrawing.ji;17;CPCompatibility.ji;21;_CPImageAndTextView.jt;37230;objj_executeFile("CPControl.j", YES);
+p;13;CPTextField.jt;36745;@STATIC;1.0;i;11;CPControl.ji;17;CPStringDrawing.ji;17;CPCompatibility.ji;21;_CPImageAndTextView.jt;36639;objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPStringDrawing.j", YES);
 objj_executeFile("CPCompatibility.j", YES);
 objj_executeFile("_CPImageAndTextView.j", YES);
@@ -14154,7 +14166,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 CPTextFieldStateRounded = CPThemeState("rounded");
 CPTextFieldStatePlaceholder = CPThemeState("placeholder");
 {var the_class = objj_allocateClassPair(CPControl, "CPTextField"),
-meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_isEditing"), new objj_ivar("_isEditable"), new objj_ivar("_isSelectable"), new objj_ivar("_isSecure"), new objj_ivar("_drawsBackground"), new objj_ivar("_textFieldBackgroundColor"), new objj_ivar("_placeholderString"), new objj_ivar("_originalPlaceholderString"), new objj_ivar("_currentValueIsPlaceholder"), new objj_ivar("_delegate"), new objj_ivar("_textDidChangeValue"), new objj_ivar("_bezelStyle"), new objj_ivar("_isBordered"), new objj_ivar("_controlSize")]);
+meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_isEditing"), new objj_ivar("_isEditable"), new objj_ivar("_isSelectable"), new objj_ivar("_isSecure"), new objj_ivar("_willBecomeFirstResponderByClick"), new objj_ivar("_drawsBackground"), new objj_ivar("_textFieldBackgroundColor"), new objj_ivar("_placeholderString"), new objj_ivar("_originalPlaceholderString"), new objj_ivar("_currentValueIsPlaceholder"), new objj_ivar("_delegate"), new objj_ivar("_textDidChangeValue"), new objj_ivar("_bezelStyle"), new objj_ivar("_isBordered"), new objj_ivar("_controlSize")]);
 objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), function $CPTextField__initWithFrame_(self, _cmd, aFrame)
 { with(self)
@@ -14321,7 +14333,10 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 { with(self)
 {
     if (objj_msgSend(self, "isEditable") && objj_msgSend(self, "isEnabled"))
-        return objj_msgSend(objj_msgSend(self, "window"), "makeFirstResponder:", self);
+    {
+        _willBecomeFirstResponderByClick = YES;
+        objj_msgSend(objj_msgSend(self, "window"), "makeFirstResponder:", self);
+    }
     else if (objj_msgSend(self, "isSelectable"))
     {
         if (document.attachEvent)
@@ -14389,16 +14404,6 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
         }
         objj_msgSend(self, "sendAction:to:", objj_msgSend(self, "action"), objj_msgSend(self, "target"));
         objj_msgSend(self, "selectText:", nil);
-        objj_msgSend(objj_msgSend(objj_msgSend(self, "window"), "platformWindow"), "_propagateCurrentDOMEvent:", NO);
-    }
-    else if (objj_msgSend(anEvent, "keyCode") === CPTabKeyCode)
-    {
-        if (objj_msgSend(anEvent, "modifierFlags") & CPShiftKeyMask)
-            objj_msgSend(objj_msgSend(self, "window"), "selectPreviousKeyView:", self);
-        else
-            objj_msgSend(objj_msgSend(self, "window"), "selectNextKeyView:", self);
-        if (objj_msgSend(objj_msgSend(objj_msgSend(self, "window"), "firstResponder"), "respondsToSelector:", sel_getUid("selectText:")))
-            objj_msgSend(objj_msgSend(objj_msgSend(self, "window"), "firstResponder"), "selectText:", self);
         objj_msgSend(objj_msgSend(objj_msgSend(self, "window"), "platformWindow"), "_propagateCurrentDOMEvent:", NO);
     }
     else
@@ -22401,7 +22406,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithItemIdentifier:
 },["void","CPCoder"])]);
 }
 
-p;14;CPScrollView.jt;39646;@STATIC;1.0;i;8;CPView.ji;12;CPClipView.ji;12;CPScroller.jt;39580;objj_executeFile("CPView.j", YES);
+p;14;CPScrollView.jt;39478;@STATIC;1.0;i;8;CPView.ji;12;CPClipView.ji;12;CPScroller.jt;39412;objj_executeFile("CPView.j", YES);
 objj_executeFile("CPClipView.j", YES);
 objj_executeFile("CPScroller.j", YES);
 {var the_class = objj_allocateClassPair(CPView, "CPScrollView"),
@@ -22967,18 +22972,13 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     if (extraX || extraY)
         objj_msgSend(enclosingScrollView, "_respondToScrollWheelEventWithDeltaX:deltaY:", extraX, extraY);
 }
-},["void","float","float"]), new objj_method(sel_getUid("keyDown:"), function $CPScrollView__keyDown_(self, _cmd, anEvent)
-{ with(self)
-{
-    objj_msgSend(self, "interpretKeyEvents:", [anEvent]);
-}
-},["void","CPEvent"]), new objj_method(sel_getUid("pageUp:"), function $CPScrollView__pageUp_(self, _cmd, sender)
+},["void","float","float"]), new objj_method(sel_getUid("scrollPageUp:"), function $CPScrollView__scrollPageUp_(self, _cmd, sender)
 { with(self)
 {
     var contentBounds = objj_msgSend(_contentView, "bounds");
     objj_msgSend(self, "moveByOffset:", CGSizeMake(0.0, -((contentBounds.size.height) - _verticalPageScroll)));
 }
-},["void","id"]), new objj_method(sel_getUid("pageDown:"), function $CPScrollView__pageDown_(self, _cmd, sender)
+},["void","id"]), new objj_method(sel_getUid("scrollPageDown:"), function $CPScrollView__scrollPageDown_(self, _cmd, sender)
 { with(self)
 {
     var contentBounds = objj_msgSend(_contentView, "bounds");
@@ -27608,7 +27608,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 objj_executeFile("CPCheckBox.j", YES);
 objj_executeFile("CPRadio.j", YES);
 
-p;10;CPWindow.jt;84873;@STATIC;1.0;I;25;Foundation/CPCountedSet.jI;33;Foundation/CPNotificationCenter.jI;26;Foundation/CPUndoManager.ji;12;CGGeometry.ji;13;CPAnimation.ji;13;CPResponder.ji;10;CPScreen.ji;18;CPPlatformWindow.ji;15;_CPWindowView.ji;23;_CPStandardWindowView.ji;23;_CPDocModalWindowView.ji;18;_CPHUDWindowView.ji;25;_CPBorderlessWindowView.ji;31;_CPBorderlessBridgeWindowView.ji;14;CPDragServer.ji;8;CPView.jt;84467;objj_executeFile("Foundation/CPCountedSet.j", NO);
+p;10;CPWindow.jt;87882;@STATIC;1.0;I;25;Foundation/CPCountedSet.jI;33;Foundation/CPNotificationCenter.jI;26;Foundation/CPUndoManager.ji;12;CGGeometry.ji;13;CPAnimation.ji;13;CPResponder.ji;10;CPScreen.ji;18;CPPlatformWindow.ji;15;_CPWindowView.ji;23;_CPStandardWindowView.ji;23;_CPDocModalWindowView.ji;18;_CPHUDWindowView.ji;25;_CPBorderlessWindowView.ji;31;_CPBorderlessBridgeWindowView.ji;14;CPDragServer.ji;8;CPView.jt;87476;objj_executeFile("Foundation/CPCountedSet.j", NO);
 objj_executeFile("Foundation/CPNotificationCenter.j", NO);
 objj_executeFile("Foundation/CPUndoManager.j", NO);
 objj_executeFile("CGGeometry.j", YES);
@@ -28297,10 +28297,25 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPWin
     {
         case CPFlagsChanged: return objj_msgSend(objj_msgSend(self, "firstResponder"), "flagsChanged:", anEvent);
         case CPKeyUp: return objj_msgSend(objj_msgSend(self, "firstResponder"), "keyUp:", anEvent);
-        case CPKeyDown: objj_msgSend(objj_msgSend(self, "firstResponder"), "keyDown:", anEvent);
+        case CPKeyDown: if (objj_msgSend(anEvent, "charactersIgnoringModifiers") === CPTabCharacter)
+                                    {
+                                        if (objj_msgSend(anEvent, "modifierFlags") & CPShiftKeyMask)
+                                            objj_msgSend(self, "selectPreviousKeyView:", self);
+                                        else
+                                            objj_msgSend(self, "selectNextKeyView:", self);
+                                        return;
+                                    }
+                                    else if (objj_msgSend(anEvent, "charactersIgnoringModifiers") === CPBackTabCharacter)
+                                        return objj_msgSend(self, "selectPreviousKeyView:", self);
+                                    objj_msgSend(objj_msgSend(self, "firstResponder"), "keyDown:", anEvent);
                                     if (!objj_msgSend(self, "disableKeyEquivalentForDefaultButton"))
-                                        if (objj_msgSend(anEvent, "_triggersKeyEquivalent:withModifierMask:", objj_msgSend(objj_msgSend(self, "defaultButton"), "keyEquivalent"), objj_msgSend(objj_msgSend(self, "defaultButton"), "keyEquivalentModifierMask")))
+                                    {
+                                        var defaultButton = objj_msgSend(self, "defaultButton"),
+                                            keyEquivalent = objj_msgSend(defaultButton, "keyEquivalent"),
+                                            modifierMask = objj_msgSend(defaultButton, "keyEquivalentModifierMask");
+                                        if (objj_msgSend(anEvent, "_triggersKeyEquivalent:withModifierMask:", keyEquivalent, modifierMask))
                                             objj_msgSend(objj_msgSend(self, "defaultButton"), "performClick:", self);
+                                    }
                                     return;
         case CPScrollWheel: return objj_msgSend(objj_msgSend(_windowView, "hitTest:", point), "scrollWheel:", anEvent);
         case CPLeftMouseUp:
@@ -28894,14 +28909,57 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPWin
 {
     if (objj_msgSend(anEvent, "_couldBeKeyEquivalent") && objj_msgSend(self, "performKeyEquivalent:", anEvent))
         return;
-    objj_msgSend(self, "interpretKeyEvents:", [anEvent]);
+    objj_msgSend(self, "_processKeyboardUIKey:", anEvent);
 }
-},["void","CPEvent"]), new objj_method(sel_getUid("insertTab:"), function $CPWindow__insertTab_(self, _cmd, sender)
+},["void","CPEvent"]), new objj_method(sel_getUid("_processKeyboardUIKey:"), function $CPWindow___processKeyboardUIKey_(self, _cmd, anEvent)
 { with(self)
 {
-    objj_msgSend(self, "selectNextKeyView:", nil);
+    var character = objj_msgSend(anEvent, "charactersIgnoringModifiers"),
+        uiKeys = [CPLeftArrowFunctionKey, CPRightArrowFunctionKey, CPUpArrowFunctionKey, CPDownArrowFunctionKey, CPPageUpFunctionKey, CPPageDownFunctionKey, CPEscapeFunctionKey];
+    if (!objj_msgSend(uiKeys, "containsObject:", character))
+        return NO;
+    var selectors = objj_msgSend(CPKeyBinding, "selectorsForKey:modifierFlags:", character, 0);
+    if (objj_msgSend(selectors, "count") <= 0)
+        return NO;
+    if (character !== CPEscapeFunctionKey)
+    {
+        var selector = objj_msgSend(selectors, "objectAtIndex:", 0);
+        return objj_msgSend(objj_msgSend(self, "firstResponder"), "tryToPerform:with:", selector, self);
+    }
+    else
+    {
+        objj_msgSend(objj_msgSend(self, "firstResponder"), "doCommandBySelector:", sel_getUid("complete:"));
+    }
 }
-},["void","id"]), new objj_method(sel_getUid("_dirtyKeyViewLoop"), function $CPWindow___dirtyKeyViewLoop(self, _cmd)
+},["BOOL","CPEvent"]), new objj_method(sel_getUid("_processKeyboardUIKey:"), function $CPWindow___processKeyboardUIKey_(self, _cmd, anEvent)
+{ with(self)
+{
+    var character = objj_msgSend(anEvent, "charactersIgnoringModifiers"),
+        uiKeys = [
+            CPLeftArrowFunctionKey,
+            CPRightArrowFunctionKey,
+            CPUpArrowFunctionKey,
+            CPDownArrowFunctionKey,
+            CPPageUpFunctionKey,
+            CPPageDownFunctionKey,
+            CPEscapeFunctionKey
+        ];
+    if (!objj_msgSend(uiKeys, "containsObject:", character))
+        return NO;
+    var selectors = objj_msgSend(CPKeyBinding, "selectorsForKey:modifierFlags:", character, 0);
+    if (objj_msgSend(selectors, "count") <= 0)
+        return NO;
+    if (character !== CPEscapeFunctionKey)
+    {
+        var selector = objj_msgSend(selectors, "objectAtIndex:", 0);
+        return objj_msgSend(objj_msgSend(self, "firstResponder"), "tryToPerform:with:", selector, self);
+    }
+    else
+    {
+        objj_msgSend(objj_msgSend(self, "firstResponder"), "doCommandBySelector:", sel_getUid("complete:"));
+    }
+}
+},["BOOL","CPEvent"]), new objj_method(sel_getUid("_dirtyKeyViewLoop"), function $CPWindow___dirtyKeyViewLoop(self, _cmd)
 { with(self)
 {
     if (_autorecalculatesKeyViewLoop)
