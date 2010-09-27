@@ -444,7 +444,7 @@ with(_26){
 objj_msgSend(objj_msgSend(objj_msgSend(_26,"window"),"platformWindow"),"_propagateCurrentDOMEvent:",YES);
 }
 })]);
-p;13;CPTableView.jt;96068;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;95926;
+p;13;CPTableView.jt;96116;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;95974;
 objj_executeFile("Foundation/CPArray.j",NO);
 objj_executeFile("AppKit/CGGradient.j",NO);
 objj_executeFile("CPControl.j",YES);
@@ -2603,8 +2603,8 @@ _cornerView=objj_msgSend(_2c3,"decodeObjectForKey:",_2c1);
 if(_cornerView){
 objj_msgSend(_cornerView,"setHidden:",NO);
 }
-_dataSource=objj_msgSend(_2c3,"decodeObjectForKey:",_2b0);
-_delegate=objj_msgSend(_2c3,"decodeObjectForKey:",_2b1);
+objj_msgSend(self,"setDataSource:",objj_msgSend(_2c3,"decodeObjectForKey:",_2b0));
+objj_msgSend(self,"setDelegate:",objj_msgSend(_2c3,"decodeObjectForKey:",_2b1));
 objj_msgSend(self,"_init");
 objj_msgSend(self,"viewWillMoveToSuperview:",objj_msgSend(self,"superview"));
 }
