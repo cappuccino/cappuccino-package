@@ -6912,7 +6912,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("savePanel"), function 
 },["id"])]);
 }
 
-p;7;CPBox.jt;12554;@STATIC;1.0;i;8;CPView.jt;12522;objj_executeFile("CPView.j", YES);
+p;7;CPBox.jt;12561;@STATIC;1.0;i;8;CPView.jt;12529;objj_executeFile("CPView.j", YES);
 CPBoxPrimary = 0;
 CPBoxSecondary = 1;
 CPBoxSeperator = 2;
@@ -6937,7 +6937,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
         _borderWidth = 1.0;
         _contentMargin = CGSizeMake(0.0, 0.0);
         _contentView = objj_msgSend(objj_msgSend(CPView, "alloc"), "initWithFrame:", objj_msgSend(self, "bounds"));
-        objj_msgSend(_contentView, "setAutoresizingMask:", CPViewWidthSizable|CPViewHeightSizable);
+        objj_msgSend(_contentView, "setAutoresizingMask:", CPViewWidthSizable | CPViewHeightSizable);
         objj_msgSend(self, "setAutoresizesSubviews:", YES);
         objj_msgSend(self, "addSubview:", _contentView);
     }
@@ -7037,7 +7037,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     if (aView === _contentView)
         return;
     objj_msgSend(aView, "setFrame:", CGRectInset(objj_msgSend(self, "bounds"), _contentMargin.width + _borderWidth, _contentMargin.height + _borderWidth));
-    objj_msgSend(aView, "setAutoresizingMask:", CPViewWidthSizable|CPViewHeightSizable);
+    objj_msgSend(aView, "setAutoresizingMask:", CPViewWidthSizable | CPViewHeightSizable);
     objj_msgSend(self, "replaceSubview:with:", _contentView, aView);
     _contentView = aView;
 }
@@ -7049,7 +7049,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["CPSize"]), new objj_method(sel_getUid("setContentViewMargins:"), function $CPBox__setContentViewMargins_(self, _cmd, size)
 { with(self)
 {
-     if(size.width < 0 || size.height < 0)
+     if (size.width < 0 || size.height < 0)
          objj_msgSend(CPException, "raise:reason:", CPGenericException, "Margins must be positive");
     _contentMargin = CGSizeMakeCopy(size);
     objj_msgSend(self, "setNeedsDisplay:", YES);
@@ -7176,7 +7176,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
         _contentMargin = objj_msgSend(aCoder, "decodeSizeForKey:", CPBoxContentMarginKey);
         _contentView = objj_msgSend(self, "subviews")[0];
         objj_msgSend(self, "setAutoresizesSubviews:", YES);
-        objj_msgSend(_contentView, "setAutoresizingMask:", CPViewWidthSizable|CPViewHeightSizable);
+        objj_msgSend(_contentView, "setAutoresizingMask:", CPViewWidthSizable | CPViewHeightSizable);
     }
     return self;
 }
@@ -20239,7 +20239,7 @@ return _maxSize;
 },["void","CPString","id","CPDictionary","id"])]);
 }
 
-p;15;CPApplication.jt;41169;@STATIC;1.0;I;21;Foundation/CPBundle.ji;17;CPCompatibility.ji;9;CPEvent.ji;8;CPMenu.ji;13;CPResponder.ji;22;CPDocumentController.ji;14;CPThemeBlend.ji;14;CPCibLoading.ji;12;CPPlatform.jt;40976;objj_executeFile("Foundation/CPBundle.j", NO);
+p;15;CPApplication.jt;41178;@STATIC;1.0;I;21;Foundation/CPBundle.ji;17;CPCompatibility.ji;9;CPEvent.ji;8;CPMenu.ji;13;CPResponder.ji;22;CPDocumentController.ji;14;CPThemeBlend.ji;14;CPCibLoading.ji;12;CPPlatform.jt;40985;objj_executeFile("Foundation/CPBundle.j", NO);
 objj_executeFile("CPCompatibility.j", YES);
 objj_executeFile("CPEvent.j", YES);
 objj_executeFile("CPMenu.j", YES);
@@ -20650,7 +20650,7 @@ _themeBlend = newValue;
         return NO;
     if (objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPApplication").super_class }, "tryToPerform:with:", anAction, anObject))
         return YES;
-    if(objj_msgSend(_delegate, "respondsToSelector:", anAction))
+    if (objj_msgSend(_delegate, "respondsToSelector:", anAction))
     {
         objj_msgSend(_delegate, "performSelector:withObject:", anAction, anObject);
         return YES;
@@ -20754,8 +20754,8 @@ _themeBlend = newValue;
     var count = objj_msgSend(_windows, "count");
     while (--count >= 0)
     {
-        var aWindow = objj_msgSend(_windows, "objectAtIndex:", count);
-        var context = aWindow._sheetContext;
+        var aWindow = objj_msgSend(_windows, "objectAtIndex:", count),
+            context = aWindow._sheetContext;
         if (context != nil && context["sheet"] === sheet)
         {
             context["returnCode"] = returnCode;
@@ -20772,24 +20772,24 @@ _themeBlend = newValue;
 },["void","CPWindow"]), new objj_method(sel_getUid("arguments"), function $CPApplication__arguments(self, _cmd)
 { with(self)
 {
-    if(_fullArgsString !== window.location.hash)
+    if (_fullArgsString !== window.location.hash)
         objj_msgSend(self, "_reloadArguments");
     return _args;
 }
 },["CPArray"]), new objj_method(sel_getUid("setArguments:"), function $CPApplication__setArguments_(self, _cmd, args)
 { with(self)
 {
-    if(!args || args.length == 0)
+    if (!args || args.length == 0)
     {
         _args = [];
         window.location.hash = "#";
         return;
     }
-    if(objj_msgSend(args, "class") != CPArray)
+    if (objj_msgSend(args, "class") != CPArray)
         args = objj_msgSend(CPArray, "arrayWithObject:", args);
     _args = args;
     var toEncode = objj_msgSend(_args, "copy");
-    for(var i=0, count = toEncode.length; i<count; i++)
+    for (var i = 0, count = toEncode.length; i < count; i++)
         toEncode[i] = encodeURIComponent(toEncode[i]);
     var hash = objj_msgSend(toEncode, "componentsJoinedByString:", "/");
     window.location.hash = "#" + hash;
@@ -21388,7 +21388,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","id"])]);
 }
 
-p;11;CPBrowser.jt;46395;@STATIC;1.0;i;11;CPControl.ji;9;CPImage.ji;13;CPTableView.ji;14;CPScrollView.jt;46309;objj_executeFile("CPControl.j", YES);
+p;11;CPBrowser.jt;46399;@STATIC;1.0;i;11;CPControl.ji;9;CPImage.ji;13;CPTableView.ji;14;CPScrollView.jt;46313;objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPImage.j", YES);
 objj_executeFile("CPTableView.j", YES);
 objj_executeFile("CPScrollView.j", YES);
@@ -21454,7 +21454,7 @@ _defaultColumnWidth = newValue;
         _horizontalScrollView = objj_msgSend(objj_msgSend(CPScrollView, "alloc"), "initWithFrame:", objj_msgSend(self, "bounds"));
         objj_msgSend(_horizontalScrollView, "setHasVerticalScroller:", NO);
         objj_msgSend(_horizontalScrollView, "setAutohidesScrollers:", YES);
-        objj_msgSend(_horizontalScrollView, "setAutoresizingMask:", CPViewWidthSizable|CPViewHeightSizable);
+        objj_msgSend(_horizontalScrollView, "setAutoresizingMask:", CPViewWidthSizable | CPViewHeightSizable);
         _contentView = objj_msgSend(objj_msgSend(CPView, "alloc"), "initWithFrame:", CGRectMake(0, 0, 0, CGRectGetHeight(objj_msgSend(self, "bounds"))));
         objj_msgSend(_contentView, "setAutoresizingMask:", CPViewHeightSizable);
         objj_msgSend(_horizontalScrollView, "setDocumentView:", _contentView);
@@ -21511,8 +21511,8 @@ _defaultColumnWidth = newValue;
 {
     if (columnIndex >= _tableViews.length)
         return;
-    var oldValue = _tableViews.length - 1;
-    var indexPlusOne = columnIndex + 1;
+    var oldValue = _tableViews.length - 1,
+        indexPlusOne = columnIndex + 1;
     objj_msgSend(objj_msgSend(_tableViews.slice(indexPlusOne), "valueForKey:", "enclosingScrollView"), "makeObjectsPerformSelector:", sel_getUid("removeFromSuperview"));
     _tableViews = _tableViews.slice(0, indexPlusOne);
     _tableDelegates = _tableDelegates.slice(0, indexPlusOne);
@@ -21533,7 +21533,7 @@ _defaultColumnWidth = newValue;
         selectionIndexes = objj_msgSend(lastColumn, "selectedRowIndexes");
     if (lastIndex >= 0 && objj_msgSend(selectionIndexes, "count") > 1)
         objj_msgSend(CPException, "raise:reason:", CPInvalidArgumentException, "Can't add column, column "+lastIndex+" has invalid selection.");
-    var index = lastIndex+1,
+    var index = lastIndex + 1,
         item = index === 0 ? _rootItem : objj_msgSend(_tableDelegates[lastIndex], "childAtIndex:", objj_msgSend(selectionIndexes, "firstIndex"));
     if (index > 0 && item && objj_msgSend(self, "isLeafItem:", item))
         return;
@@ -22246,8 +22246,8 @@ _highlightedBranchImage = newValue;
 },["CPView","CPString"]), new objj_method(sel_getUid("layoutSubviews"), function $_CPBrowserLeafView__layoutSubviews(self, _cmd)
 { with(self)
 {
-    var imageView = objj_msgSend(self, "layoutEphemeralSubviewNamed:positioned:relativeToEphemeralSubviewNamed:", "image-view", CPWindowAbove, nil);
-    var isHighlighted = objj_msgSend(self, "themeState") & CPThemeStateSelectedDataView;
+    var imageView = objj_msgSend(self, "layoutEphemeralSubviewNamed:positioned:relativeToEphemeralSubviewNamed:", "image-view", CPWindowAbove, nil),
+        isHighlighted = objj_msgSend(self, "themeState") & CPThemeStateSelectedDataView;
     objj_msgSend(imageView, "setImage:",  _isLeaf ? (isHighlighted ? _highlightedBranchImage : _branchImage) : nil);
     objj_msgSend(imageView, "setImageScaling:", CPScaleNone);
 }
@@ -27440,7 +27440,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithItemIdentifier:
 },["void","CPCoder"])]);
 }
 
-p;13;CPButtonBar.jt;13496;@STATIC;1.0;I;15;AppKit/CPView.jt;13456;
+p;13;CPButtonBar.jt;13515;@STATIC;1.0;I;15;AppKit/CPView.jt;13475;
 
 
 objj_executeFile("AppKit/CPView.j", NO);
@@ -27593,7 +27593,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
             width = CGRectGetWidth(objj_msgSend(button, "frame"));
 
         if (availableWidth > width)
-            availableWidth -=width;
+            availableWidth -= width;
         else
             break;
 
@@ -27608,15 +27608,15 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
             currentButtonOffset += width - 1;
         }
 
-        objj_msgSend(button, "setValue:forThemeAttribute:inState:", normalColor, "bezel-color", CPThemeStateNormal|CPThemeStateBordered);
-        objj_msgSend(button, "setValue:forThemeAttribute:inState:", highlightedColor, "bezel-color", CPThemeStateHighlighted|CPThemeStateBordered);
-        objj_msgSend(button, "setValue:forThemeAttribute:inState:", disabledColor, "bezel-color", CPThemeStateDisabled|CPThemeStateBordered);
+        objj_msgSend(button, "setValue:forThemeAttribute:inState:", normalColor, "bezel-color", CPThemeStateNormal | CPThemeStateBordered);
+        objj_msgSend(button, "setValue:forThemeAttribute:inState:", highlightedColor, "bezel-color", CPThemeStateHighlighted | CPThemeStateBordered);
+        objj_msgSend(button, "setValue:forThemeAttribute:inState:", disabledColor, "bezel-color", CPThemeStateDisabled | CPThemeStateBordered);
         objj_msgSend(button, "setValue:forThemeAttribute:inState:", textColor, "text-color", CPThemeStateBordered);
 
 
-        objj_msgSend(button, "setValue:forThemeAttribute:inState:", normalColor, "bezel-color", CPThemeStateNormal|CPThemeStateBordered|CPPopUpButtonStatePullsDown);
-        objj_msgSend(button, "setValue:forThemeAttribute:inState:", highlightedColor, "bezel-color", CPThemeStateHighlighted|CPThemeStateBordered|CPPopUpButtonStatePullsDown);
-        objj_msgSend(button, "setValue:forThemeAttribute:inState:", disabledColor, "bezel-color", CPThemeStateDisabled|CPThemeStateBordered|CPPopUpButtonStatePullsDown);
+        objj_msgSend(button, "setValue:forThemeAttribute:inState:", normalColor, "bezel-color", CPThemeStateNormal | CPThemeStateBordered | CPPopUpButtonStatePullsDown);
+        objj_msgSend(button, "setValue:forThemeAttribute:inState:", highlightedColor, "bezel-color", CPThemeStateHighlighted | CPThemeStateBordered | CPPopUpButtonStatePullsDown);
+        objj_msgSend(button, "setValue:forThemeAttribute:inState:", disabledColor, "bezel-color", CPThemeStateDisabled | CPThemeStateBordered | CPPopUpButtonStatePullsDown);
 
         objj_msgSend(self, "addSubview:", button);
     }

@@ -17741,7 +17741,7 @@ objj_msgSend(_d6,"updateFromItem");
 }
 }
 })]);
-p;15;CPApplication.jt;29757;@STATIC;1.0;I;21;Foundation/CPBundle.ji;17;CPCompatibility.ji;9;CPEvent.ji;8;CPMenu.ji;13;CPResponder.ji;22;CPDocumentController.ji;14;CPThemeBlend.ji;14;CPCibLoading.ji;12;CPPlatform.jt;29564;
+p;15;CPApplication.jt;29752;@STATIC;1.0;I;21;Foundation/CPBundle.ji;17;CPCompatibility.ji;9;CPEvent.ji;8;CPMenu.ji;13;CPResponder.ji;22;CPDocumentController.ji;14;CPThemeBlend.ji;14;CPCibLoading.ji;12;CPPlatform.jt;29559;
 objj_executeFile("Foundation/CPBundle.j",NO);
 objj_executeFile("CPCompatibility.j",YES);
 objj_executeFile("CPEvent.j",YES);
@@ -18194,8 +18194,7 @@ objj_msgSend(_bf,"_attachSheet:modalDelegate:didEndSelector:contextInfo:",_be,_c
 with(_c4){
 var _c8=objj_msgSend(_windows,"count");
 while(--_c8>=0){
-var _c9=objj_msgSend(_windows,"objectAtIndex:",_c8);
-var _ca=_c9._sheetContext;
+var _c9=objj_msgSend(_windows,"objectAtIndex:",_c8),_ca=_c9._sheetContext;
 if(_ca!=nil&&_ca["sheet"]===_c6){
 _ca["returnCode"]=_c7;
 objj_msgSend(_c9,"_detachSheetWindow");
@@ -18759,7 +18758,7 @@ CPLog.warn("[CPSlider setValue:] is deprecated, use setDoubleValue: or setObject
 objj_msgSend(_73,"setObjectValue:",_75);
 }
 })]);
-p;11;CPBrowser.jt;33588;@STATIC;1.0;i;11;CPControl.ji;9;CPImage.ji;13;CPTableView.ji;14;CPScrollView.jt;33502;
+p;11;CPBrowser.jt;33578;@STATIC;1.0;i;11;CPControl.ji;9;CPImage.ji;13;CPTableView.ji;14;CPScrollView.jt;33492;
 objj_executeFile("CPControl.j",YES);
 objj_executeFile("CPImage.j",YES);
 objj_executeFile("CPTableView.j",YES);
@@ -18862,8 +18861,7 @@ with(_27){
 if(_29>=_tableViews.length){
 return;
 }
-var _2a=_tableViews.length-1;
-var _2b=_29+1;
+var _2a=_tableViews.length-1,_2b=_29+1;
 objj_msgSend(objj_msgSend(_tableViews.slice(_2b),"valueForKey:","enclosingScrollView"),"makeObjectsPerformSelector:",sel_getUid("removeFromSuperview"));
 _tableViews=_tableViews.slice(0,_2b);
 _tableDelegates=_tableDelegates.slice(0,_2b);
@@ -19492,8 +19490,7 @@ return objj_msgSendSuper({receiver:self,super_class:objj_getClass("_CPBrowserLea
 }
 }),new objj_method(sel_getUid("layoutSubviews"),function(self,_14e){
 with(self){
-var _14f=objj_msgSend(self,"layoutEphemeralSubviewNamed:positioned:relativeToEphemeralSubviewNamed:","image-view",CPWindowAbove,nil);
-var _150=objj_msgSend(self,"themeState")&CPThemeStateSelectedDataView;
+var _14f=objj_msgSend(self,"layoutEphemeralSubviewNamed:positioned:relativeToEphemeralSubviewNamed:","image-view",CPWindowAbove,nil),_150=objj_msgSend(self,"themeState")&CPThemeStateSelectedDataView;
 objj_msgSend(_14f,"setImage:",_isLeaf?(_150?_highlightedBranchImage:_branchImage):nil);
 objj_msgSend(_14f,"setImageScaling:",CPScaleNone);
 }
