@@ -422,7 +422,7 @@ _a4.range.length=_a5-_a3;
 _a4.attributes=objj_msgSend(_a4.attributes,"copy");
 return [_a2,_a4];
 };
-p;9;CPArray.jt;21105;@STATIC;1.0;i;14;CPEnumerator.ji;13;CPException.ji;10;CPObject.ji;9;CPRange.ji;18;CPSortDescriptor.jt;20997;
+p;9;CPArray.jt;21069;@STATIC;1.0;i;14;CPEnumerator.ji;13;CPException.ji;10;CPObject.ji;9;CPRange.ji;18;CPSortDescriptor.jt;20961;
 objj_executeFile("CPEnumerator.j",YES);
 objj_executeFile("CPException.j",YES);
 objj_executeFile("CPObject.j",YES);
@@ -1099,7 +1099,7 @@ B[i]=self[j];
 for(i=0,k=l;k<j&&j<=m+h;k++){
 A=self[j];
 o=_135(A,B[i],_136);
-if(o==CPOrderedDescending||o==CPOrderedSame){
+if(o>=0){
 self[k]=B[i++];
 }else{
 self[k]=A;

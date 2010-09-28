@@ -479,7 +479,7 @@ var splitRangeEntry = splitRangeEntryAtIndex= function( aRangeEntry, anIndex)
     return [aRangeEntry, newRangeEntry];
 }
 
-p;9;CPArray.jt;32564;@STATIC;1.0;i;14;CPEnumerator.ji;13;CPException.ji;10;CPObject.ji;9;CPRange.ji;18;CPSortDescriptor.jt;32456;objj_executeFile("CPEnumerator.j", YES);
+p;9;CPArray.jt;32524;@STATIC;1.0;i;14;CPEnumerator.ji;13;CPException.ji;10;CPObject.ji;9;CPRange.ji;18;CPSortDescriptor.jt;32416;objj_executeFile("CPEnumerator.j", YES);
 objj_executeFile("CPException.j", YES);
 objj_executeFile("CPObject.j", YES);
 objj_executeFile("CPRange.j", YES);
@@ -1230,7 +1230,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
             {
                 A = self[j];
                 o = aFunction(A, B[i], aContext);
-                if (o == CPOrderedDescending || o == CPOrderedSame)
+                if (o >= 0)
                     self[k] = B[i++];
                 else
                 {
