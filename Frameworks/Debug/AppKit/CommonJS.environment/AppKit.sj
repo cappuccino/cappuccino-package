@@ -387,7 +387,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPEvent"])]);
 }
 
-p;13;CPTableView.jt;141870;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;141727;objj_executeFile("Foundation/CPArray.j", NO);
+p;13;CPTableView.jt;141880;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;141737;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("AppKit/CGGradient.j", NO);
 objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPTableColumn.j", YES);
@@ -2862,7 +2862,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
     objj_msgSend(aCoder, "encodeObject:forKey:", objj_msgSend(self, "gridColor"), CPTableViewGridColorKey);
     objj_msgSend(aCoder, "encodeInt:forKey:", _gridStyleMask, CPTableViewGridStyleMaskKey);
     objj_msgSend(aCoder, "encodeBool:forKey:", _usesAlternatingRowBackgroundColors, CPTableViewUsesAlternatingBackgroundKey);
-    objj_msgSend(aCoder, "encodeObject:forKey:", objj_msgSend(self, "alternatingRowBackgroundColors"), CPTableViewAlternatingRowColorsKey)
+    objj_msgSend(aCoder, "encodeObject:forKey:", objj_msgSend(self, "alternatingRowBackgroundColors"), CPTableViewAlternatingRowColorsKey);
     objj_msgSend(aCoder, "encodeObject:forKey:", _cornerView, CPTableViewCornerViewKey);
     objj_msgSend(aCoder, "encodeObject:forKey:", _headerView, CPTableViewHeaderViewKey);
 }
@@ -2875,7 +2875,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 { with(self)
 {
     var firstindex = objj_msgSend(self, "firstIndex");
-    var index = MIN(firstindex,objj_msgSend(otherSet, "firstIndex"));
+    var index = MIN(firstindex, objj_msgSend(otherSet, "firstIndex"));
     var switchFlag = (index == firstindex);
     while(index != CPNotFound)
     {
@@ -2890,7 +2890,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
         switchFlag = !switchFlag;
     }
 }
-},["void",null])]);
+},["void","CPIndexSet"])]);
 }
 {var the_class = objj_allocateClassPair(CPView, "_CPDropOperationDrawingView"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("dropOperation"), new objj_ivar("tableView"), new objj_ivar("currentRow"), new objj_ivar("isBlinking")]);
@@ -18236,7 +18236,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","float","float"])]);
 }
 
-p;11;CPTabView.jt;13748;@STATIC;1.0;I;15;AppKit/CPView.jI;22;AppKit/CPTabViewItem.jt;13681;
+p;11;CPTabView.jt;13820;@STATIC;1.0;I;15;AppKit/CPView.jI;22;AppKit/CPTabViewItem.jt;13753;
 
 objj_executeFile("AppKit/CPView.j", NO);
 objj_executeFile("AppKit/CPTabViewItem.j", NO);
@@ -18415,6 +18415,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPTabViewItem"]), new objj_method(sel_getUid("selectTabViewItemAtIndex:"), function $CPTabView__selectTabViewItemAtIndex_(self, _cmd, anIndex)
 { with(self)
 {
+    var aTabViewItem = objj_msgSend(items, "objectAtIndex:", anIndex);
+
     if (anIndex === selectedIndex)
         return;
 
