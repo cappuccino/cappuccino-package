@@ -18641,7 +18641,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("isFloatingPanel"), func
 },["BOOL"])]);
 }
 
-p;12;CPScroller.jt;24471;@STATIC;1.0;i;11;CPControl.jt;24435;objj_executeFile("CPControl.j", YES);
+p;12;CPScroller.jt;24475;@STATIC;1.0;i;11;CPControl.jt;24439;objj_executeFile("CPControl.j", YES);
 CPScrollerNoPart = 0;
 CPScrollerDecrementPage = 1;
 CPScrollerKnob = 2;
@@ -18785,9 +18785,9 @@ return _isVertical;
         _partRects[CPScrollerKnobSlot] = { origin: { x:trackInset.left, y:effectiveDecrementLineHeight }, size: { width:width - trackInset.left - trackInset.right, height:slotHeight } };
         _partRects[CPScrollerDecrementLine] = { origin: { x:0.0, y:0.0 }, size: { width:decrementLineSize.width, height:decrementLineSize.height } };
         _partRects[CPScrollerIncrementLine] = { origin: { x:0.0, y:height - incrementLineSize.height }, size: { width:incrementLineSize.width, height:incrementLineSize.height } };
-        if(height < knobHeight + decrementLineSize.height + incrementLineSize.height + trackInset.top + trackInset.bottom)
+        if (height < knobHeight + decrementLineSize.height + incrementLineSize.height + trackInset.top + trackInset.bottom)
             _partRects[CPScrollerKnob] = { origin: { x:0.0, y:0.0 }, size: { width:0.0, height:0.0 } };
-        if(height < decrementLineSize.height + incrementLineSize.height - 2)
+        if (height < decrementLineSize.height + incrementLineSize.height - 2)
         {
             _partRects[CPScrollerIncrementLine] = { origin: { x:0.0, y:0.0 }, size: { width:0.0, height:0.0 } };
             _partRects[CPScrollerDecrementLine] = { origin: { x:0.0, y:0.0 }, size: { width:0.0, height:0.0 } };
@@ -18799,7 +18799,7 @@ return _isVertical;
         var decrementLineSize = objj_msgSend(self, "currentValueForThemeAttribute:", "decrement-line-size"),
             incrementLineSize = objj_msgSend(self, "currentValueForThemeAttribute:", "increment-line-size"),
             effectiveDecrementLineWidth = decrementLineSize.width + trackInset.left,
-            effectiveIncrementLineWidth = incrementLineSize.width + trackInset.right;
+            effectiveIncrementLineWidth = incrementLineSize.width + trackInset.right,
             slotWidth = width - effectiveDecrementLineWidth - effectiveIncrementLineWidth,
             minimumKnobLength = objj_msgSend(self, "currentValueForThemeAttribute:", "minimum-knob-length"),
             knobWidth = MAX(minimumKnobLength, (slotWidth * _knobProportion)),
@@ -18811,9 +18811,9 @@ return _isVertical;
         _partRects[CPScrollerKnobSlot] = { origin: { x:effectiveDecrementLineWidth, y:trackInset.top }, size: { width:slotWidth, height:height - trackInset.top - trackInset.bottom } };
         _partRects[CPScrollerDecrementLine] = { origin: { x:0.0, y:0.0 }, size: { width:decrementLineSize.width, height:decrementLineSize.height } };
         _partRects[CPScrollerIncrementLine] = { origin: { x:width - incrementLineSize.width, y:0.0 }, size: { width:incrementLineSize.width, height:incrementLineSize.height } };
-        if(width < knobWidth + decrementLineSize.width + incrementLineSize.width + trackInset.left + trackInset.right)
+        if (width < knobWidth + decrementLineSize.width + incrementLineSize.width + trackInset.left + trackInset.right)
             _partRects[CPScrollerKnob] = { origin: { x:0.0, y:0.0 }, size: { width:0.0, height:0.0 } };
-        if(width < decrementLineSize.width + incrementLineSize.width - 2)
+        if (width < decrementLineSize.width + incrementLineSize.width - 2)
         {
             _partRects[CPScrollerIncrementLine] = { origin: { x:0.0, y:0.0 }, size: { width:0.0, height:0.0 } };
             _partRects[CPScrollerDecrementLine] = { origin: { x:0.0, y:0.0 }, size: { width:0.0, height:0.0 } };
