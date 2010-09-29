@@ -30896,12 +30896,15 @@ return objj_msgSend(CPApplication,"sharedApplication");
 return objj_msgSend(objj_msgSend(_13,"alloc"),"init");
 }
 })]);
-p;12;CGGradient.jt;622;@STATIC;1.0;i;9;CGColor.ji;14;CGColorSpace.jt;572;
+p;12;CGGradient.jt;672;@STATIC;1.0;i;9;CGColor.ji;14;CGColorSpace.jt;622;
 objj_executeFile("CGColor.j",YES);
 objj_executeFile("CGColorSpace.j",YES);
 kCGGradientDrawsBeforeStartLocation=1<<0;
 kCGGradientDrawsAfterEndLocation=1<<1;
 CGGradientCreateWithColorComponents=function(_1,_2,_3,_4){
+if(arguments["locations"]==NULL){
+var _3=[0,1];
+}
 if(arguments["count"]==NULL){
 var _4=_3.length;
 }

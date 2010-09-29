@@ -37097,12 +37097,14 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["id"])]);
 }
 
-p;12;CGGradient.jt;876;@STATIC;1.0;i;9;CGColor.ji;14;CGColorSpace.jt;826;objj_executeFile("CGColor.j", YES);
+p;12;CGGradient.jt;952;@STATIC;1.0;i;9;CGColor.ji;14;CGColorSpace.jt;902;objj_executeFile("CGColor.j", YES);
 objj_executeFile("CGColorSpace.j", YES);
 kCGGradientDrawsBeforeStartLocation = 1 << 0;
 kCGGradientDrawsAfterEndLocation = 1 << 1;
 CGGradientCreateWithColorComponents= function(aColorSpace, components, locations, count)
 {
+    if (arguments["locations"] == NULL)
+        var locations = [0.0, 1.0];
     if (arguments["count"] == NULL)
         var count = locations.length;
     var colors = [];
