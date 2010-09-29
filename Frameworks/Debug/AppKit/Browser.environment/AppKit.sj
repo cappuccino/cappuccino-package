@@ -6912,7 +6912,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("savePanel"), function 
 },["id"])]);
 }
 
-p;7;CPBox.jt;12561;@STATIC;1.0;i;8;CPView.jt;12529;objj_executeFile("CPView.j", YES);
+p;7;CPBox.jt;12567;@STATIC;1.0;i;8;CPView.jt;12535;objj_executeFile("CPView.j", YES);
 CPBoxPrimary = 0;
 CPBoxSecondary = 1;
 CPBoxSeperator = 2;
@@ -6958,7 +6958,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 {
     if (_borderType === aBorderType)
         return;
-    _borderType = value;
+    _borderType = aBorderType;
     objj_msgSend(self, "setNeedsDisplay:", YES);
 }
 },["void","CPBorderType"]), new objj_method(sel_getUid("boxType"), function $CPBox__boxType(self, _cmd)

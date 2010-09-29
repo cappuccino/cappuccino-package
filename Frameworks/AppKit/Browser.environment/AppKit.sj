@@ -6058,7 +6058,7 @@ with(_25){
 return objj_msgSend(objj_msgSend(CPSavePanel,"alloc"),"init");
 }
 })]);
-p;7;CPBox.jt;9087;@STATIC;1.0;i;8;CPView.jt;9056;
+p;7;CPBox.jt;9084;@STATIC;1.0;i;8;CPView.jt;9053;
 objj_executeFile("CPView.j",YES);
 CPBoxPrimary=0;
 CPBoxSecondary=1;
@@ -6101,7 +6101,7 @@ with(_a){
 if(_borderType===_c){
 return;
 }
-_borderType=value;
+_borderType=_c;
 objj_msgSend(_a,"setNeedsDisplay:",YES);
 }
 }),new objj_method(sel_getUid("boxType"),function(_d,_e){
