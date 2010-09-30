@@ -23268,7 +23268,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithItemIdentifier:
 },["void","CPCoder"])]);
 }
 
-p;14;CPScrollView.jt;39478;@STATIC;1.0;i;8;CPView.ji;12;CPClipView.ji;12;CPScroller.jt;39412;objj_executeFile("CPView.j", YES);
+p;14;CPScrollView.jt;39493;@STATIC;1.0;i;8;CPView.ji;12;CPClipView.ji;12;CPScroller.jt;39427;objj_executeFile("CPView.j", YES);
 objj_executeFile("CPClipView.j", YES);
 objj_executeFile("CPScroller.j", YES);
 {var the_class = objj_allocateClassPair(CPView, "CPScrollView"),
@@ -23340,7 +23340,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPView"]), new objj_method(sel_getUid("reflectScrolledClipView:"), function $CPScrollView__reflectScrolledClipView_(self, _cmd, aClipView)
 { with(self)
 {
-    if(_contentView !== aClipView)
+    if (_contentView !== aClipView)
         return;
     if (_recursionCount > 5)
         return;
@@ -23754,23 +23754,23 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 { with(self)
 {
     CGContextBeginPath(context);
-    CGContextSetStrokeColor(context, objj_msgSend(CPColor, "colorWithWhite:alpha:", 142.0/255.0, 1.0));
+    CGContextSetStrokeColor(context, objj_msgSend(CPColor, "colorWithWhite:alpha:", 142.0 / 255.0, 1.0));
     var y = (aRect.origin.y) + 0.5;
     CGContextMoveToPoint(context, (aRect.origin.x), y);
     CGContextAddLineToPoint(context, (aRect.origin.x) + 1.0, y);
     CGContextStrokePath(context);
     CGContextBeginPath(context);
-    CGContextSetStrokeColor(context, objj_msgSend(CPColor, "colorWithWhite:alpha:", 192.0/255.0, 1.0));
+    CGContextSetStrokeColor(context, objj_msgSend(CPColor, "colorWithWhite:alpha:", 192.0 / 255.0, 1.0));
     CGContextMoveToPoint(context, (aRect.origin.x) + 1.0, y);
     CGContextAddLineToPoint(context, (aRect.origin.x + aRect.size.width) - 1.0, y);
     CGContextStrokePath(context);
     CGContextBeginPath(context);
-    CGContextSetStrokeColor(context, objj_msgSend(CPColor, "colorWithWhite:alpha:", 142.0/255.0, 1.0));
+    CGContextSetStrokeColor(context, objj_msgSend(CPColor, "colorWithWhite:alpha:", 142.0 / 255.0, 1.0));
     CGContextMoveToPoint(context, (aRect.origin.x + aRect.size.width) - 1.0, y);
     CGContextAddLineToPoint(context, (aRect.origin.x + aRect.size.width), y);
     CGContextStrokePath(context);
     CGContextBeginPath(context);
-    CGContextSetStrokeColor(context, objj_msgSend(CPColor, "colorWithWhite:alpha:", 190.0/255.0, 1.0));
+    CGContextSetStrokeColor(context, objj_msgSend(CPColor, "colorWithWhite:alpha:", 190.0 / 255.0, 1.0));
     var x = (aRect.origin.x + aRect.size.width) - 0.5;
     CGContextMoveToPoint(context, x, (aRect.origin.y) + 1.0);
     CGContextAddLineToPoint(context, x, (aRect.origin.y + aRect.size.height));
@@ -23785,7 +23785,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 { with(self)
 {
     CGContextBeginPath(context);
-    CGContextSetStrokeColor(context, objj_msgSend(CPColor, "colorWithWhite:alpha:", 159.0/255.0, 1.0));
+    CGContextSetStrokeColor(context, objj_msgSend(CPColor, "colorWithWhite:alpha:", 159.0 / 255.0, 1.0));
     var y = (aRect.origin.y) + 0.5;
     CGContextMoveToPoint(context, (aRect.origin.x), y);
     CGContextAddLineToPoint(context, (aRect.origin.x + aRect.size.width), y);
@@ -23806,7 +23806,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     rect.size.height -= 1.0;
     CGContextStrokeRect(context, { origin: { x:rect.origin.x + 0.5, y:rect.origin.y + 0.5 }, size: { width:rect.size.width - 2 * 0.5, height:rect.size.height - 2 * 0.5 } });
     CGContextBeginPath(context);
-    CGContextSetStrokeColor(context, objj_msgSend(CPColor, "colorWithWhite:alpha:", 192.0/255.0, 1.0));
+    CGContextSetStrokeColor(context, objj_msgSend(CPColor, "colorWithWhite:alpha:", 192.0 / 255.0, 1.0));
     y = (aRect.origin.y) + 2.5;
     CGContextMoveToPoint(context, (aRect.origin.x) + 2.0, y);
     CGContextAddLineToPoint(context, (aRect.origin.x + aRect.size.width) - 2.0, y);
@@ -23976,7 +23976,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
         _autohidesScrollers = objj_msgSend(aCoder, "decodeBoolForKey:", CPScrollViewAutohidesScrollerKey);
         _borderType = objj_msgSend(aCoder, "decodeIntForKey:", CPScrollViewBorderTypeKey);
         _cornerView = objj_msgSend(aCoder, "decodeObjectForKey:", CPScrollViewCornerViewKey);
-        objj_msgSend(objj_msgSend(CPRunLoop, "currentRunLoop"), "performSelector:target:argument:order:modes:", sel_getUid("reflectScrolledClipView:"), self, _contentView, 0, [CPDefaultRunLoopMode]);
+        objj_msgSend(objj_msgSend(CPRunLoop, "currentRunLoop"), "performSelector:target:argument:order:modes:", sel_getUid("_updateCornerAndHeaderView"), self, _contentView, 0, [CPDefaultRunLoopMode]);
     }
     return self;
 }
