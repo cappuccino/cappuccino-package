@@ -1860,7 +1860,7 @@ with(_9){
 return objj_msgSend(CPResponder,"class");
 }
 })]);
-p;18;NSViewController.jt;1124;@STATIC;1.0;I;25;AppKit/CPViewController.jt;1075;
+p;18;NSViewController.jt;1145;@STATIC;1.0;I;25;AppKit/CPViewController.jt;1096;
 objj_executeFile("AppKit/CPViewController.j",NO);
 var _1=objj_getClass("CPViewController");
 if(!_1){
@@ -1873,19 +1873,22 @@ _3=objj_msgSendSuper({receiver:_3,super_class:objj_getClass("CPViewController").
 if(_3){
 _title=objj_msgSend(_5,"decodeObjectForKey:","NSTitle");
 _cibName=objj_msgSend(_5,"decodeObjectForKey:","NSNibName");
-_cibBundle=objj_msgSend(CPBundle,"bundleWithPath:",objj_msgSend(_5,"decodeObjectForKey:","NSNibBundleIdentifier"));
+var _6=objj_msgSend(_5,"decodeObjectForKey:","NSNibBundleIdentifier");
+if(_6){
+_cibBundle=objj_msgSend(CPBundle,"bundleWithPath:",_6);
+}
 }
 return _3;
 }
 })]);
 var _1=objj_allocateClassPair(CPViewController,"NSViewController"),_2=_1.isa;
 objj_registerClassPair(_1);
-class_addMethods(_1,[new objj_method(sel_getUid("initWithCoder:"),function(_6,_7,_8){
-with(_6){
-return objj_msgSend(_6,"NS_initWithCoder:",_8);
+class_addMethods(_1,[new objj_method(sel_getUid("initWithCoder:"),function(_7,_8,_9){
+with(_7){
+return objj_msgSend(_7,"NS_initWithCoder:",_9);
 }
-}),new objj_method(sel_getUid("classForKeyedArchiver"),function(_9,_a){
-with(_9){
+}),new objj_method(sel_getUid("classForKeyedArchiver"),function(_a,_b){
+with(_a){
 return objj_msgSend(CPViewController,"class");
 }
 })]);
