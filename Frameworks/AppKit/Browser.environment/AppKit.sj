@@ -20413,7 +20413,7 @@ return objj_msgSend(_6,"init");
 with(_9){
 }
 })]);
-p;14;CPScrollView.jt;26625;@STATIC;1.0;i;8;CPView.ji;12;CPClipView.ji;12;CPScroller.jt;26559;
+p;14;CPScrollView.jt;26623;@STATIC;1.0;i;8;CPView.ji;12;CPClipView.ji;12;CPScroller.jt;26557;
 objj_executeFile("CPView.j",YES);
 objj_executeFile("CPClipView.j",YES);
 objj_executeFile("CPScroller.j",YES);
@@ -21029,7 +21029,7 @@ _hasHorizontalScroller=objj_msgSend(_f0,"decodeBoolForKey:",_e8);
 _autohidesScrollers=objj_msgSend(_f0,"decodeBoolForKey:",_eb);
 _borderType=objj_msgSend(_f0,"decodeIntForKey:",_ed);
 _cornerView=objj_msgSend(_f0,"decodeObjectForKey:",_ec);
-objj_msgSend(objj_msgSend(CPRunLoop,"currentRunLoop"),"performSelector:target:argument:order:modes:",sel_getUid("_updateCornerAndHeaderView"),_ee,_contentView,0,[CPDefaultRunLoopMode]);
+objj_msgSend(objj_msgSend(CPRunLoop,"currentRunLoop"),"performSelector:target:argument:order:modes:",sel_getUid("reflectScrolledClipView:"),_ee,_contentView,0,[CPDefaultRunLoopMode]);
 }
 return _ee;
 }
