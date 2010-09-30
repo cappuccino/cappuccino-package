@@ -5233,7 +5233,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"])]);
 }
 
-p;18;CPCollectionView.jt;29016;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;Foundation/CPData.jI;23;Foundation/CPIndexSet.jI;28;Foundation/CPKeyedArchiver.jI;30;Foundation/CPKeyedUnarchiver.ji;8;CPView.ji;22;CPCollectionViewItem.jt;28812;objj_executeFile("Foundation/CPArray.j", NO);
+p;18;CPCollectionView.jt;29357;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;Foundation/CPData.jI;23;Foundation/CPIndexSet.jI;28;Foundation/CPKeyedArchiver.jI;30;Foundation/CPKeyedUnarchiver.ji;8;CPView.ji;22;CPCollectionViewItem.jt;29153;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("Foundation/CPData.j", NO);
 objj_executeFile("Foundation/CPIndexSet.j", NO);
 objj_executeFile("Foundation/CPKeyedArchiver.j", NO);
@@ -5661,7 +5661,7 @@ if(!the_class) throw new SyntaxError("*** Could not find definition for class \"
 var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_getUid("_modifySelectionWithNewIndex:direction:expand:"), function $CPCollectionView___modifySelectionWithNewIndex_direction_expand_(self, _cmd, anIndex, aDirection, shouldExpand)
 { with(self)
 {
-    anIndex = MIN(MAX(anIndex, 0), objj_msgSend(objj_msgSend(self, "items"), "count")-1);
+    anIndex = MIN(MAX(anIndex, 0), objj_msgSend(objj_msgSend(self, "items"), "count") - 1);
     if (_allowsMultipleSelection && shouldExpand)
     {
         var indexes = objj_msgSend(_selectionIndexes, "copy"),
@@ -5743,8 +5743,8 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
     {
         objj_msgSend(objj_msgSend(self, "delegate"), "collectionView:shouldDeleteItemsAtIndexes:", self, objj_msgSend(self, "selectionIndexes"));
         var index = objj_msgSend(objj_msgSend(self, "selectionIndexes"), "firstIndex");
-        if (index > objj_msgSend(objj_msgSend(self, "content"), "count")-1)
-            objj_msgSend(self, "setSelectionIndexes:", objj_msgSend(CPIndexSet, "indexSetWithIndex:", objj_msgSend(objj_msgSend(self, "content"), "count")-1));
+        if (index > objj_msgSend(objj_msgSend(self, "content"), "count") - 1)
+            objj_msgSend(self, "setSelectionIndexes:", objj_msgSend(CPIndexSet, "indexSetWithIndex:", objj_msgSend(objj_msgSend(self, "content"), "count") - 1));
         objj_msgSend(self, "_scrollToSelection");
         objj_msgSend(self, "setNeedsDisplay:", YES);
     }
@@ -5779,6 +5779,7 @@ var CPCollectionViewMinItemSizeKey = "CPCollectionViewMinItemSizeKey",
     CPCollectionViewMaxNumberOfRowsKey = "CPCollectionViewMaxNumberOfRowsKey",
     CPCollectionViewMaxNumberOfColumnsKey = "CPCollectionViewMaxNumberOfColumnsKey",
     CPCollectionViewSelectableKey = "CPCollectionViewSelectableKey",
+    CPCollectionViewAllowsMultipleSelectionKey = "CPCollectionViewAllowsMultipleSelectionKey",
     CPCollectionViewBackgroundColorsKey = "CPCollectionViewBackgroundColorsKey";
 {
 var the_class = objj_getClass("CPCollectionView")
@@ -5799,6 +5800,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
         _maxNumberOfColumns = objj_msgSend(aCoder, "decodeIntForKey:", CPCollectionViewMaxNumberOfColumnsKey) || 0;
         _verticalMargin = objj_msgSend(aCoder, "decodeFloatForKey:", CPCollectionViewVerticalMarginKey);
         _isSelectable = objj_msgSend(aCoder, "decodeBoolForKey:", CPCollectionViewSelectableKey);
+        _allowsMultipleSelection = objj_msgSend(aCoder, "decodeBoolForKey:", CPCollectionViewAllowsMultipleSelectionKey);
         objj_msgSend(self, "setBackgroundColors:", objj_msgSend(aCoder, "decodeObjectForKey:", CPCollectionViewBackgroundColorsKey));
         _tileWidth = -1.0;
         _selectionIndexes = objj_msgSend(CPIndexSet, "indexSet");
@@ -5817,6 +5819,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
     objj_msgSend(aCoder, "encodeInt:forKey:", _maxNumberOfRows, CPCollectionViewMaxNumberOfRowsKey);
     objj_msgSend(aCoder, "encodeInt:forKey:", _maxNumberOfColumns, CPCollectionViewMaxNumberOfColumnsKey);
     objj_msgSend(aCoder, "encodeBool:forKey:", _isSelectable, CPCollectionViewSelectableKey);
+    objj_msgSend(aCoder, "encodeBool:forKey:", _allowsMultipleSelection, CPCollectionViewAllowsMultipleSelectionKey);
     objj_msgSend(aCoder, "encodeFloat:forKey:", _verticalMargin, CPCollectionViewVerticalMarginKey);
     objj_msgSend(aCoder, "encodeObject:forKey:", _backgroundColors, CPCollectionViewBackgroundColorsKey);
 }
