@@ -6659,7 +6659,7 @@ CGContextStrokePath(_d);
 CGContextRestoreGState(_d);
 return _a;
 };
-p;20;CPSegmentedControl.jt;23162;@STATIC;1.0;I;20;Foundation/CPArray.ji;11;CPControl.jt;23101;
+p;20;CPSegmentedControl.jt;23125;@STATIC;1.0;I;20;Foundation/CPArray.ji;11;CPControl.jt;23064;
 objj_executeFile("Foundation/CPArray.j",NO);
 objj_executeFile("CPControl.j",YES);
 CPSegmentSwitchTrackingSelectOne=0;
@@ -6911,7 +6911,7 @@ return objj_msgSendSuper({receiver:_60,super_class:objj_getClass("CPSegmentedCon
 }
 }),new objj_method(sel_getUid("createEphemeralSubviewNamed:"),function(_6c,_6d,_6e){
 with(_6c){
-if(_6e.substring(0,"segment-content".length)=="segment-content"){
+if(objj_msgSend(_6e,"hasPrefix:","segment-content")){
 return objj_msgSend(objj_msgSend(_CPImageAndTextView,"alloc"),"initWithFrame:",{origin:{x:0,y:0},size:{width:0,height:0}});
 }
 return objj_msgSend(objj_msgSend(CPView,"alloc"),"initWithFrame:",{origin:{x:0,y:0},size:{width:0,height:0}});
@@ -6923,22 +6923,18 @@ return;
 }
 var _71=_themeStates[0];
 _71|=_themeState&CPThemeStateDisabled;
-var _72=objj_msgSend(_6f,"valueForThemeAttribute:inState:","left-segment-bezel-color",_71);
-var _73=objj_msgSend(_6f,"layoutEphemeralSubviewNamed:positioned:relativeToEphemeralSubviewNamed:","left-segment-bezel",CPWindowBelow,nil);
+var _72=objj_msgSend(_6f,"valueForThemeAttribute:inState:","left-segment-bezel-color",_71),_73=objj_msgSend(_6f,"layoutEphemeralSubviewNamed:positioned:relativeToEphemeralSubviewNamed:","left-segment-bezel",CPWindowBelow,nil);
 objj_msgSend(_73,"setBackgroundColor:",_72);
 var _71=_themeStates[_themeStates.length-1];
 _71|=_themeState&CPThemeStateDisabled;
-var _74=objj_msgSend(_6f,"valueForThemeAttribute:inState:","right-segment-bezel-color",_71);
-var _75=objj_msgSend(_6f,"layoutEphemeralSubviewNamed:positioned:relativeToEphemeralSubviewNamed:","right-segment-bezel",CPWindowBelow,nil);
+var _74=objj_msgSend(_6f,"valueForThemeAttribute:inState:","right-segment-bezel-color",_71),_75=objj_msgSend(_6f,"layoutEphemeralSubviewNamed:positioned:relativeToEphemeralSubviewNamed:","right-segment-bezel",CPWindowBelow,nil);
 objj_msgSend(_75,"setBackgroundColor:",_74);
 for(var i=0,_76=_themeStates.length;i<_76;i++){
 var _71=_themeStates[i];
 _71|=_themeState&CPThemeStateDisabled;
-var _77=objj_msgSend(_6f,"valueForThemeAttribute:inState:","center-segment-bezel-color",_71);
-var _78=objj_msgSend(_6f,"layoutEphemeralSubviewNamed:positioned:relativeToEphemeralSubviewNamed:","segment-bezel-"+i,CPWindowBelow,nil);
+var _77=objj_msgSend(_6f,"valueForThemeAttribute:inState:","center-segment-bezel-color",_71),_78=objj_msgSend(_6f,"layoutEphemeralSubviewNamed:positioned:relativeToEphemeralSubviewNamed:","segment-bezel-"+i,CPWindowBelow,nil);
 objj_msgSend(_78,"setBackgroundColor:",_77);
-var _79=_segments[i];
-var _7a=objj_msgSend(_6f,"layoutEphemeralSubviewNamed:positioned:relativeToEphemeralSubviewNamed:","segment-content-"+i,CPWindowAbove,"segment-bezel-"+i);
+var _79=_segments[i],_7a=objj_msgSend(_6f,"layoutEphemeralSubviewNamed:positioned:relativeToEphemeralSubviewNamed:","segment-content-"+i,CPWindowAbove,"segment-bezel-"+i);
 objj_msgSend(_7a,"setText:",objj_msgSend(_79,"label"));
 objj_msgSend(_7a,"setImage:",objj_msgSend(_79,"image"));
 objj_msgSend(_7a,"setFont:",objj_msgSend(_6f,"valueForThemeAttribute:inState:","font",_71));
@@ -6962,8 +6958,7 @@ continue;
 var _7b=_themeStates[i]|_themeStates[i+1];
 _7b=(_7b&CPThemeStateSelected&~CPThemeStateHighlighted)?CPThemeStateSelected:CPThemeStateNormal;
 _7b|=_themeState&CPThemeStateDisabled;
-var _7c=objj_msgSend(_6f,"valueForThemeAttribute:inState:","divider-bezel-color",_7b);
-var _7d=objj_msgSend(_6f,"layoutEphemeralSubviewNamed:positioned:relativeToEphemeralSubviewNamed:","divider-bezel-"+i,CPWindowBelow,nil);
+var _7c=objj_msgSend(_6f,"valueForThemeAttribute:inState:","divider-bezel-color",_7b),_7d=objj_msgSend(_6f,"layoutEphemeralSubviewNamed:positioned:relativeToEphemeralSubviewNamed:","divider-bezel-"+i,CPWindowBelow,nil);
 objj_msgSend(_7d,"setBackgroundColor:",_7c);
 }
 }

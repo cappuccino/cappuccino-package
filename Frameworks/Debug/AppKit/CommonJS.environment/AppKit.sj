@@ -7209,7 +7209,7 @@ CPDrawColorTiledRects= function(
     return resultRect;
 }
 
-p;20;CPSegmentedControl.jt;34164;@STATIC;1.0;I;20;Foundation/CPArray.ji;11;CPControl.jt;34103;objj_executeFile("Foundation/CPArray.j", NO);
+p;20;CPSegmentedControl.jt;34167;@STATIC;1.0;I;20;Foundation/CPArray.ji;11;CPControl.jt;34106;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("CPControl.j", YES);
 CPSegmentSwitchTrackingSelectOne = 0;
 CPSegmentSwitchTrackingSelectAny = 1;
@@ -7493,7 +7493,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["CGRect","CPString"]), new objj_method(sel_getUid("createEphemeralSubviewNamed:"), function $CPSegmentedControl__createEphemeralSubviewNamed_(self, _cmd, aName)
 { with(self)
 {
-    if (aName.substring(0, "segment-content".length) == "segment-content")
+    if (objj_msgSend(aName, "hasPrefix:", "segment-content"))
         return objj_msgSend(objj_msgSend(_CPImageAndTextView, "alloc"), "initWithFrame:", { origin: { x:0.0, y:0.0 }, size: { width:0.0, height:0.0 } });
     return objj_msgSend(objj_msgSend(CPView, "alloc"), "initWithFrame:", { origin: { x:0.0, y:0.0 }, size: { width:0.0, height:0.0 } });
 }
@@ -7504,23 +7504,23 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
         return;
     var themeState = _themeStates[0];
     themeState |= _themeState & CPThemeStateDisabled;
-    var leftCapColor = objj_msgSend(self, "valueForThemeAttribute:inState:", "left-segment-bezel-color", themeState);
-    var leftBezelView = objj_msgSend(self, "layoutEphemeralSubviewNamed:positioned:relativeToEphemeralSubviewNamed:", "left-segment-bezel", CPWindowBelow, nil);
+    var leftCapColor = objj_msgSend(self, "valueForThemeAttribute:inState:", "left-segment-bezel-color", themeState),
+        leftBezelView = objj_msgSend(self, "layoutEphemeralSubviewNamed:positioned:relativeToEphemeralSubviewNamed:", "left-segment-bezel", CPWindowBelow, nil);
     objj_msgSend(leftBezelView, "setBackgroundColor:", leftCapColor);
     var themeState = _themeStates[_themeStates.length - 1];
     themeState |= _themeState & CPThemeStateDisabled;
-    var rightCapColor = objj_msgSend(self, "valueForThemeAttribute:inState:", "right-segment-bezel-color", themeState);
-    var rightBezelView = objj_msgSend(self, "layoutEphemeralSubviewNamed:positioned:relativeToEphemeralSubviewNamed:", "right-segment-bezel", CPWindowBelow, nil);
+    var rightCapColor = objj_msgSend(self, "valueForThemeAttribute:inState:", "right-segment-bezel-color", themeState),
+        rightBezelView = objj_msgSend(self, "layoutEphemeralSubviewNamed:positioned:relativeToEphemeralSubviewNamed:", "right-segment-bezel", CPWindowBelow, nil);
     objj_msgSend(rightBezelView, "setBackgroundColor:", rightCapColor);
-    for (var i=0, count = _themeStates.length; i<count; i++)
+    for (var i = 0, count = _themeStates.length; i < count; i++)
     {
         var themeState = _themeStates[i];
         themeState |= _themeState & CPThemeStateDisabled;
-        var bezelColor = objj_msgSend(self, "valueForThemeAttribute:inState:", "center-segment-bezel-color", themeState);
-        var bezelView = objj_msgSend(self, "layoutEphemeralSubviewNamed:positioned:relativeToEphemeralSubviewNamed:", "segment-bezel-"+i, CPWindowBelow, nil);
+        var bezelColor = objj_msgSend(self, "valueForThemeAttribute:inState:", "center-segment-bezel-color", themeState),
+            bezelView = objj_msgSend(self, "layoutEphemeralSubviewNamed:positioned:relativeToEphemeralSubviewNamed:", "segment-bezel-" + i, CPWindowBelow, nil);
         objj_msgSend(bezelView, "setBackgroundColor:", bezelColor);
-        var segment = _segments[i];
-        var contentView = objj_msgSend(self, "layoutEphemeralSubviewNamed:positioned:relativeToEphemeralSubviewNamed:", "segment-content-"+i, CPWindowAbove, "segment-bezel-"+i);
+        var segment = _segments[i],
+            contentView = objj_msgSend(self, "layoutEphemeralSubviewNamed:positioned:relativeToEphemeralSubviewNamed:", "segment-content-" + i, CPWindowAbove, "segment-bezel-" + i);
         objj_msgSend(contentView, "setText:", objj_msgSend(segment, "label"));
         objj_msgSend(contentView, "setImage:", objj_msgSend(segment, "image"));
         objj_msgSend(contentView, "setFont:", objj_msgSend(self, "valueForThemeAttribute:inState:", "font", themeState));
@@ -7537,11 +7537,11 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
             objj_msgSend(contentView, "setImagePosition:", CPImageOnly);
         if (i == count - 1)
             continue;
-        var borderState = _themeStates[i] | _themeStates[i+1];
+        var borderState = _themeStates[i] | _themeStates[i + 1];
         borderState = (borderState & CPThemeStateSelected & ~CPThemeStateHighlighted) ? CPThemeStateSelected : CPThemeStateNormal;
         borderState |= _themeState & CPThemeStateDisabled;
-        var borderColor = objj_msgSend(self, "valueForThemeAttribute:inState:", "divider-bezel-color", borderState);
-        var borderView = objj_msgSend(self, "layoutEphemeralSubviewNamed:positioned:relativeToEphemeralSubviewNamed:", "divider-bezel-"+i, CPWindowBelow, nil);
+        var borderColor = objj_msgSend(self, "valueForThemeAttribute:inState:", "divider-bezel-color", borderState),
+            borderView = objj_msgSend(self, "layoutEphemeralSubviewNamed:positioned:relativeToEphemeralSubviewNamed:", "divider-bezel-" + i, CPWindowBelow, nil);
         objj_msgSend(borderView, "setBackgroundColor:", borderColor);
     }
 }
@@ -7750,7 +7750,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
         }
         var difference = MAX(originalWidth - objj_msgSend(self, "frame").size.width, 0.0),
             remainingWidth = FLOOR(difference / _segments.length);
-        for (var i=0; i < _segments.length; i++)
+        for (var i = 0; i < _segments.length; i++)
             objj_msgSend(self, "setWidth:forSegment:", objj_msgSend(_segments[i], "width") + remainingWidth, i);
         objj_msgSend(self, "tileWithChangedSegment:", 0);
     }
