@@ -13283,7 +13283,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"])]);
 }
 
-p;12;CPClipView.jt;7063;@STATIC;1.0;i;8;CPView.jt;7032;objj_executeFile("CPView.j", YES);
+p;12;CPClipView.jt;7091;@STATIC;1.0;i;8;CPView.jt;7060;objj_executeFile("CPView.j", YES);
 {var the_class = objj_allocateClassPair(CPView, "CPClipView"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_documentView")]);
 objj_registerClassPair(the_class);
@@ -13303,10 +13303,10 @@ class_addMethods(the_class, [new objj_method(sel_getUid("setDocumentView:"), fun
     if (_documentView)
     {
         objj_msgSend(self, "addSubview:", _documentView);
-  objj_msgSend(_documentView, "setPostsFrameChangedNotifications:", YES);
-  objj_msgSend(_documentView, "setPostsBoundsChangedNotifications:", YES);
-  objj_msgSend(defaultCenter, "addObserver:selector:name:object:", self, sel_getUid("viewFrameChanged:"), CPViewFrameDidChangeNotification, _documentView);
-  objj_msgSend(defaultCenter, "addObserver:selector:name:object:", self, sel_getUid("viewBoundsChanged:"), CPViewBoundsDidChangeNotification, _documentView);
+        objj_msgSend(_documentView, "setPostsFrameChangedNotifications:", YES);
+        objj_msgSend(_documentView, "setPostsBoundsChangedNotifications:", YES);
+        objj_msgSend(defaultCenter, "addObserver:selector:name:object:", self, sel_getUid("viewFrameChanged:"), CPViewFrameDidChangeNotification, _documentView);
+        objj_msgSend(defaultCenter, "addObserver:selector:name:object:", self, sel_getUid("viewBoundsChanged:"), CPViewBoundsDidChangeNotification, _documentView);
     }
 }
 },["void","CPView"]), new objj_method(sel_getUid("documentView"), function $CPClipView__documentView(self, _cmd)
@@ -13332,7 +13332,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("setDocumentView:"), fun
     objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPClipView").super_class }, "setBoundsOrigin:", aPoint);
     var superview = objj_msgSend(self, "superview"),
         scrollViewClass = objj_getClass("CPScrollView");
-    if(objj_msgSend(superview, "isKindOfClass:", scrollViewClass))
+    if (objj_msgSend(superview, "isKindOfClass:", scrollViewClass))
         objj_msgSend(superview, "reflectScrolledClipView:", self);
 }
 },["void","CGPoint"]), new objj_method(sel_getUid("scrollToPoint:"), function $CPClipView__scrollToPoint_(self, _cmd, aPoint)
@@ -13400,7 +13400,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("setDocumentView:"), fun
         if (deltaX > bounds.size.width)
             deltaX = bounds.size.width;
     }
- return objj_msgSend(self, "scrollToPoint:", CGPointMake(bounds.origin.x - deltaX, bounds.origin.y - deltaY));
+    return objj_msgSend(self, "scrollToPoint:", CGPointMake(bounds.origin.x - deltaX, bounds.origin.y - deltaY));
 }
 },["BOOL","CPEvent"])]);
 }
@@ -13781,7 +13781,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("bezierPath"), function
 },["void","CGPoint","CGPoint"])]);
 }
 
-p;9;CPColor.jt;18340;@STATIC;1.0;I;21;Foundation/CPObject.ji;9;CGColor.ji;17;CPCompatibility.ji;9;CPImage.jt;18246;objj_executeFile("Foundation/CPObject.j", NO);
+p;9;CPColor.jt;18342;@STATIC;1.0;I;21;Foundation/CPObject.ji;9;CGColor.ji;17;CPCompatibility.ji;9;CPImage.jt;18248;objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("CGColor.j", YES);
 objj_executeFile("CPCompatibility.j", YES);
 objj_executeFile("CPImage.j", YES);
@@ -13817,8 +13817,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("_initWithCSSString:"), 
     if (aString.indexOf("rgb") == CPNotFound)
         return nil;
     self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPColor").super_class }, "init");
-    var startingIndex = aString.indexOf("(");
-    var parts = aString.substring(startingIndex+1).split(',');
+    var startingIndex = aString.indexOf("("),
+        parts = aString.substring(startingIndex + 1).split(',');
     _components = [
         parseInt(parts[0], 10) / 255.0,
         parseInt(parts[1], 10) / 255.0,
@@ -13911,9 +13911,9 @@ class_addMethods(the_class, [new objj_method(sel_getUid("_initWithCSSString:"), 
     }
     else
     {
-        var rr = (max - red) / delta;
-        var gr = (max - green) / delta;
-        var br = (max - blue) / delta;
+        var rr = (max - red) / delta,
+            gr = (max - green) / delta,
+            br = (max - blue) / delta;
         if (red == max)
             hue = br - gr;
         else if (green == max)
@@ -14206,9 +14206,9 @@ var hexToRGB = function(hex)
     for (var i = 0; i < hex.length; i++)
         if (hexCharacters.indexOf(hex.charAt(i)) == -1)
             return null;
-    var red = (hexCharacters.indexOf(hex.charAt(0)) * 16 + hexCharacters.indexOf(hex.charAt(1))) / 255.0;
-    var green = (hexCharacters.indexOf(hex.charAt(2)) * 16 + hexCharacters.indexOf(hex.charAt(3))) / 255.0;
-    var blue = (hexCharacters.indexOf(hex.charAt(4)) * 16 + hexCharacters.indexOf(hex.charAt(5))) / 255.0;
+    var red = (hexCharacters.indexOf(hex.charAt(0)) * 16 + hexCharacters.indexOf(hex.charAt(1))) / 255.0,
+        green = (hexCharacters.indexOf(hex.charAt(2)) * 16 + hexCharacters.indexOf(hex.charAt(3))) / 255.0,
+        blue = (hexCharacters.indexOf(hex.charAt(4)) * 16 + hexCharacters.indexOf(hex.charAt(5))) / 255.0;
     return [red, green, blue, 1.0];
 };
 var rgbToHex = function(r,g,b)

@@ -11934,7 +11934,7 @@ objj_msgSend(_4f,"lineToPoint:",_4e);
 objj_msgSend(_4f,"stroke");
 }
 })]);
-p;9;CPColor.jt;11992;@STATIC;1.0;I;21;Foundation/CPObject.ji;9;CGColor.ji;17;CPCompatibility.ji;9;CPImage.jt;11898;
+p;9;CPColor.jt;11967;@STATIC;1.0;I;21;Foundation/CPObject.ji;9;CGColor.ji;17;CPCompatibility.ji;9;CPImage.jt;11873;
 objj_executeFile("Foundation/CPObject.j",NO);
 objj_executeFile("CGColor.j",YES);
 objj_executeFile("CPCompatibility.j",YES);
@@ -11951,8 +11951,7 @@ if(_1c.indexOf("rgb")==CPNotFound){
 return nil;
 }
 _1a=objj_msgSendSuper({receiver:_1a,super_class:objj_getClass("CPColor").super_class},"init");
-var _1d=_1c.indexOf("(");
-var _1e=_1c.substring(_1d+1).split(",");
+var _1d=_1c.indexOf("("),_1e=_1c.substring(_1d+1).split(",");
 _components=[parseInt(_1e[0],10)/255,parseInt(_1e[1],10)/255,parseInt(_1e[2],10)/255,_1e[3]?parseInt(_1e[3],10)/255:1];
 _cssString=_1c;
 return _1a;
@@ -12016,9 +12015,7 @@ var hue;
 if(_3c==0){
 hue=0;
 }else{
-var rr=(max-red)/_3a;
-var gr=(max-_38)/_3a;
-var br=(max-_39)/_3a;
+var rr=(max-red)/_3a,gr=(max-_38)/_3a,br=(max-_39)/_3a;
 if(red==max){
 hue=br-gr;
 }else{
@@ -12300,9 +12297,7 @@ if(_a0.indexOf(hex.charAt(i))==-1){
 return null;
 }
 }
-var red=(_a0.indexOf(hex.charAt(0))*16+_a0.indexOf(hex.charAt(1)))/255;
-var _a1=(_a0.indexOf(hex.charAt(2))*16+_a0.indexOf(hex.charAt(3)))/255;
-var _a2=(_a0.indexOf(hex.charAt(4))*16+_a0.indexOf(hex.charAt(5)))/255;
+var red=(_a0.indexOf(hex.charAt(0))*16+_a0.indexOf(hex.charAt(1)))/255,_a1=(_a0.indexOf(hex.charAt(2))*16+_a0.indexOf(hex.charAt(3)))/255,_a2=(_a0.indexOf(hex.charAt(4))*16+_a0.indexOf(hex.charAt(5)))/255;
 return [red,_a1,_a2,1];
 };
 var _41=function(r,g,b){
