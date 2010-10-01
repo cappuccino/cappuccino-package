@@ -3558,7 +3558,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("initialize"), function
 },["CGRect","CGRect","CPShadowWeight"])]);
 }
 
-p;21;_CPImageAndTextView.jt;24436;@STATIC;1.0;I;21;Foundation/CPString.ji;9;CPColor.ji;8;CPFont.ji;9;CPImage.ji;8;CPView.ji;11;CPControl.jt;24324;objj_executeFile("Foundation/CPString.j", NO);
+p;21;_CPImageAndTextView.jt;24430;@STATIC;1.0;I;21;Foundation/CPString.ji;9;CPColor.ji;8;CPFont.ji;9;CPImage.ji;8;CPView.ji;11;CPControl.jt;24318;objj_executeFile("Foundation/CPString.j", NO);
 objj_executeFile("CPColor.j", YES);
 objj_executeFile("CPFont.j", YES);
 objj_executeFile("CPImage.j", YES);
@@ -3605,7 +3605,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:control:"
             objj_msgSend(self, "setImagePosition:", CPNoImage);
             objj_msgSend(self, "setImageScaling:", CPScaleNone);
         }
-        _textSize = NULL;
+        _textSize = nil;
     }
     return self;
 }
@@ -3727,7 +3727,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:control:"
         return;
     _font = aFont;
     _flags |= _CPImageAndTextViewFontChangedFlag;
-    _textSize = NULL;
+    _textSize = nil;
     objj_msgSend(self, "setNeedsLayout");
 }
 },["void","CPFont"]), new objj_method(sel_getUid("font"), function $_CPImageAndTextView__font(self, _cmd)
@@ -3809,7 +3809,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:control:"
         return;
     _text = text;
     _flags |= _CPImageAndTextViewTextChangedFlag;
-    _textSize = NULL;
+    _textSize = nil;
     objj_msgSend(self, "setNeedsLayout");
 }
 },["void","CPString"]), new objj_method(sel_getUid("text"), function $_CPImageAndTextView__text(self, _cmd)
@@ -3827,7 +3827,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:control:"
         if (hasDOMTextElement)
         {
             _DOMElement.removeChild(_DOMTextElement);
-            _DOMTextElement = NULL;
+            _DOMTextElement = nil;
             hasDOMTextElement = NO;
         }
         else
@@ -3851,7 +3851,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:control:"
         if (hasDOMTextShadowElement)
         {
             _DOMElement.removeChild(_DOMTextShadowElement);
-            _DOMTextShadowElement = NULL;
+            _DOMTextShadowElement = nil;
             hasDOMTextShadowElement = NO;
         }
         else
@@ -3958,7 +3958,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:control:"
         if (hasDOMImageElement)
         {
             _DOMElement.removeChild(_DOMImageElement);
-            _DOMImageElement = NULL;
+            _DOMImageElement = nil;
             hasDOMImageElement = NO;
         }
         else
@@ -21037,7 +21037,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("actions"), function $_
 },["void"])]);
 }
 
-p;10;CPSlider.jt;16903;@STATIC;1.0;i;11;CPControl.jt;16867;objj_executeFile("CPControl.j", YES);
+p;10;CPSlider.jt;16905;@STATIC;1.0;i;11;CPControl.jt;16869;objj_executeFile("CPControl.j", YES);
 CPLinearSlider = 0;
 CPCircularSlider = 1;
 {var the_class = objj_allocateClassPair(CPControl, "CPSlider"),
@@ -21154,7 +21154,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
         trackRect = bounds;
     if (objj_msgSend(self, "hasThemeState:", CPThemeStateCircular))
     {
-        var angle = 3*PI_2 - (1.0 - objj_msgSend(self, "doubleValue") - _minValue) / (_maxValue - _minValue) * PI2,
+        var angle = 3 * PI_2 - (1.0 - objj_msgSend(self, "doubleValue") - _minValue) / (_maxValue - _minValue) * PI2,
             radius = CGRectGetWidth(trackRect) / 2.0 - 8.0;
         knobRect.origin.x = radius * COS(angle) + CGRectGetMidX(trackRect) - 3.0;
         knobRect.origin.y = radius * SIN(angle) + CGRectGetMidY(trackRect) - 2.0;

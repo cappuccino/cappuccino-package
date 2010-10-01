@@ -3014,7 +3014,7 @@ return CGRectMake((_36.origin.x)-_7,(_36.origin.y)-_9,(_36.size.width)+_7+_8,(_3
 }
 }
 })]);
-p;21;_CPImageAndTextView.jt;7255;@STATIC;1.0;I;21;Foundation/CPString.ji;9;CPColor.ji;8;CPFont.ji;9;CPImage.ji;8;CPView.ji;11;CPControl.jt;7144;
+p;21;_CPImageAndTextView.jt;7252;@STATIC;1.0;I;21;Foundation/CPString.ji;9;CPColor.ji;8;CPFont.ji;9;CPImage.ji;8;CPView.ji;11;CPControl.jt;7141;
 objj_executeFile("Foundation/CPString.j",NO);
 objj_executeFile("CPColor.j",YES);
 objj_executeFile("CPFont.j",YES);
@@ -3047,7 +3047,7 @@ objj_msgSend(_e,"setFont:",objj_msgSend(CPFont,"systemFontOfSize:",12));
 objj_msgSend(_e,"setImagePosition:",CPNoImage);
 objj_msgSend(_e,"setImageScaling:",CPScaleNone);
 }
-_textSize=NULL;
+_textSize=nil;
 }
 return _e;
 }
@@ -3147,7 +3147,7 @@ return;
 }
 _font=_38;
 _flags|=_8;
-_textSize=NULL;
+_textSize=nil;
 objj_msgSend(_36,"setNeedsLayout");
 }
 }),new objj_method(sel_getUid("font"),function(_39,_3a){
@@ -3224,7 +3224,7 @@ return;
 }
 _text=_54;
 _flags|=_3;
-_textSize=NULL;
+_textSize=nil;
 objj_msgSend(_52,"setNeedsLayout");
 }
 }),new objj_method(sel_getUid("text"),function(_55,_56){
