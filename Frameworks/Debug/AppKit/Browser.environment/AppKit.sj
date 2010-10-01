@@ -5628,7 +5628,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"])]);
 }
 
-p;18;CPCollectionView.jt;29357;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;Foundation/CPData.jI;23;Foundation/CPIndexSet.jI;28;Foundation/CPKeyedArchiver.jI;30;Foundation/CPKeyedUnarchiver.ji;8;CPView.ji;22;CPCollectionViewItem.jt;29153;objj_executeFile("Foundation/CPArray.j", NO);
+p;18;CPCollectionView.jt;30174;@STATIC;1.0;I;20;Foundation/CPArray.jI;19;Foundation/CPData.jI;23;Foundation/CPIndexSet.jI;28;Foundation/CPKeyedArchiver.jI;30;Foundation/CPKeyedUnarchiver.ji;8;CPView.ji;22;CPCollectionViewItem.jt;29970;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("Foundation/CPData.j", NO);
 objj_executeFile("Foundation/CPIndexSet.j", NO);
 objj_executeFile("Foundation/CPKeyedArchiver.j", NO);
@@ -5959,11 +5959,25 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     {
         if (_allowsMultipleSelection && (objj_msgSend(anEvent, "modifierFlags") & CPCommandKeyMask || objj_msgSend(anEvent, "modifierFlags") & CPShiftKeyMask))
         {
-            var indexes = objj_msgSend(_selectionIndexes, "copy");
-            if (objj_msgSend(indexes, "containsIndex:", index))
-                objj_msgSend(indexes, "removeIndex:", index);
-            else
-                objj_msgSend(indexes, "addIndex:", index);
+            if (objj_msgSend(anEvent, "modifierFlags") & CPCommandKeyMask)
+            {
+                var indexes = objj_msgSend(_selectionIndexes, "copy");
+                if (objj_msgSend(indexes, "containsIndex:", index))
+                    objj_msgSend(indexes, "removeIndex:", index);
+                else
+                    objj_msgSend(indexes, "addIndex:", index);
+            }
+            else if (objj_msgSend(anEvent, "modifierFlags") & CPShiftKeyMask)
+            {
+                var firstSelectedIndex = objj_msgSend(objj_msgSend(self, "selectionIndexes"), "firstIndex"),
+                    newSelectedRange = nil;
+                if (index < firstSelectedIndex)
+                    newSelectedRange = CPMakeRange(index, (firstSelectedIndex - index) + 1);
+                else
+                    newSelectedRange = CPMakeRange(firstSelectedIndex, (index - firstSelectedIndex) + 1);
+                indexes = objj_msgSend(objj_msgSend(self, "selectionIndexes"), "copy");
+                objj_msgSend(indexes, "addIndexesInRange:", newSelectedRange);
+            }
         }
         else
             indexes = objj_msgSend(CPIndexSet, "indexSetWithIndex:", index);
