@@ -12310,7 +12310,7 @@ return "00";
 n=FLOOR(MIN(255,MAX(0,256*n)));
 return _a0.charAt((n-n%16)/16)+_a0.charAt(n%16);
 };
-p;13;CPTextField.jt;26284;@STATIC;1.0;i;11;CPControl.ji;17;CPStringDrawing.ji;17;CPCompatibility.ji;21;_CPImageAndTextView.jt;26178;
+p;13;CPTextField.jt;26334;@STATIC;1.0;i;11;CPControl.ji;17;CPStringDrawing.ji;17;CPCompatibility.ji;21;_CPImageAndTextView.jt;26228;
 objj_executeFile("CPControl.j",YES);
 objj_executeFile("CPStringDrawing.j",YES);
 objj_executeFile("CPCompatibility.j",YES);
@@ -12621,6 +12621,9 @@ return _placeholderString;
 }
 }),new objj_method(sel_getUid("_setCurrentValueIsPlaceholder:"),function(_67,_68,_69){
 with(_67){
+if(!!_currentValueIsPlaceholder===_69){
+return;
+}
 if(_69){
 if(!_currentValueIsPlaceholder){
 _originalPlaceholderString=objj_msgSend(_67,"placeholderString");

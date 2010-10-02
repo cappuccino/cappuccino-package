@@ -12723,7 +12723,7 @@ return "00";
 n=FLOOR(MIN(255,MAX(0,256*n)));
 return _a0.charAt((n-n%16)/16)+_a0.charAt(n%16);
 };
-p;13;CPTextField.jt;30273;@STATIC;1.0;i;11;CPControl.ji;17;CPStringDrawing.ji;17;CPCompatibility.ji;21;_CPImageAndTextView.jt;30167;
+p;13;CPTextField.jt;30323;@STATIC;1.0;i;11;CPControl.ji;17;CPStringDrawing.ji;17;CPCompatibility.ji;21;_CPImageAndTextView.jt;30217;
 objj_executeFile("CPControl.j",YES);
 objj_executeFile("CPStringDrawing.j",YES);
 objj_executeFile("CPCompatibility.j",YES);
@@ -13160,6 +13160,9 @@ return _placeholderString;
 }
 }),new objj_method(sel_getUid("_setCurrentValueIsPlaceholder:"),function(_7a,_7b,_7c){
 with(_7a){
+if(!!_currentValueIsPlaceholder===_7c){
+return;
+}
 if(_7c){
 if(!_currentValueIsPlaceholder){
 _originalPlaceholderString=objj_msgSend(_7a,"placeholderString");

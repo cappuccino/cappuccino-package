@@ -14224,7 +14224,7 @@ var byteToHex = function(n)
            hexCharacters.charAt(n % 16);
 };
 
-p;13;CPTextField.jt;36745;@STATIC;1.0;i;11;CPControl.ji;17;CPStringDrawing.ji;17;CPCompatibility.ji;21;_CPImageAndTextView.jt;36639;objj_executeFile("CPControl.j", YES);
+p;13;CPTextField.jt;36817;@STATIC;1.0;i;11;CPControl.ji;17;CPStringDrawing.ji;17;CPCompatibility.ji;21;_CPImageAndTextView.jt;36711;objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPStringDrawing.j", YES);
 objj_executeFile("CPCompatibility.j", YES);
 objj_executeFile("_CPImageAndTextView.j", YES);
@@ -14559,6 +14559,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["CPString"]), new objj_method(sel_getUid("_setCurrentValueIsPlaceholder:"), function $CPTextField___setCurrentValueIsPlaceholder_(self, _cmd, isPlaceholder)
 { with(self)
 {
+    if (!!_currentValueIsPlaceholder === isPlaceholder)
+        return;
     if (isPlaceholder)
     {
         if (!_currentValueIsPlaceholder)
