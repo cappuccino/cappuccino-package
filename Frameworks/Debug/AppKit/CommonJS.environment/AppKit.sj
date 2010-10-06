@@ -19975,7 +19975,7 @@ return _maxSize;
 },["void","CPString","id","CPDictionary","id"])]);
 }
 
-p;15;CPApplication.jt;41016;@STATIC;1.0;I;21;Foundation/CPBundle.ji;17;CPCompatibility.ji;9;CPEvent.ji;8;CPMenu.ji;13;CPResponder.ji;22;CPDocumentController.ji;14;CPThemeBlend.ji;14;CPCibLoading.ji;12;CPPlatform.jt;40823;objj_executeFile("Foundation/CPBundle.j", NO);
+p;15;CPApplication.jt;41052;@STATIC;1.0;I;21;Foundation/CPBundle.ji;17;CPCompatibility.ji;9;CPEvent.ji;8;CPMenu.ji;13;CPResponder.ji;22;CPDocumentController.ji;14;CPThemeBlend.ji;14;CPCibLoading.ji;12;CPPlatform.jt;40859;objj_executeFile("Foundation/CPBundle.j", NO);
 objj_executeFile("CPCompatibility.j", YES);
 objj_executeFile("CPEvent.j", YES);
 objj_executeFile("CPMenu.j", YES);
@@ -20278,7 +20278,8 @@ _themeBlend = newValue;
     _currentSession = aModalSession;
     var theWindow = aModalSession._window;
     objj_msgSend(theWindow, "center");
-    objj_msgSend(theWindow, "makeKeyAndOrderFront:", self);
+    objj_msgSend(theWindow, "makeKeyWindow");
+    objj_msgSend(theWindow, "orderFront:", self);
     objj_msgSend(CPApp, "setCallback:forNextEventMatchingMask:untilDate:inMode:dequeue:", _CPRunModalLoop, CPAnyEventMask, nil, 0, NO);
 }
 },["void","CPModalSession"]), new objj_method(sel_getUid("modalWindow"), function $CPApplication__modalWindow(self, _cmd)

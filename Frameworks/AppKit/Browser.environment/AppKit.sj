@@ -18381,7 +18381,7 @@ objj_msgSend(_d6,"updateFromItem");
 }
 }
 })]);
-p;15;CPApplication.jt;29752;@STATIC;1.0;I;21;Foundation/CPBundle.ji;17;CPCompatibility.ji;9;CPEvent.ji;8;CPMenu.ji;13;CPResponder.ji;22;CPDocumentController.ji;14;CPThemeBlend.ji;14;CPCibLoading.ji;12;CPPlatform.jt;29559;
+p;15;CPApplication.jt;29777;@STATIC;1.0;I;21;Foundation/CPBundle.ji;17;CPCompatibility.ji;9;CPEvent.ji;8;CPMenu.ji;13;CPResponder.ji;22;CPDocumentController.ji;14;CPThemeBlend.ji;14;CPCibLoading.ji;12;CPPlatform.jt;29584;
 objj_executeFile("Foundation/CPBundle.j",NO);
 objj_executeFile("CPCompatibility.j",YES);
 objj_executeFile("CPEvent.j",YES);
@@ -18630,7 +18630,8 @@ _67._previous=_currentSession;
 _currentSession=_67;
 var _68=_67._window;
 objj_msgSend(_68,"center");
-objj_msgSend(_68,"makeKeyAndOrderFront:",_65);
+objj_msgSend(_68,"makeKeyWindow");
+objj_msgSend(_68,"orderFront:",_65);
 objj_msgSend(CPApp,"setCallback:forNextEventMatchingMask:untilDate:inMode:dequeue:",_CPRunModalLoop,CPAnyEventMask,nil,0,NO);
 }
 }),new objj_method(sel_getUid("modalWindow"),function(_69,_6a){
