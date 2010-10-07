@@ -13573,7 +13573,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("initialize"), function
 },["CPArray","CPString","unsigned"])]);
 }
 
-p;13;CPResponder.jt;8679;@STATIC;1.0;I;21;Foundation/CPObject.jt;8634;objj_executeFile("Foundation/CPObject.j", NO);
+p;13;CPResponder.jt;8555;@STATIC;1.0;I;21;Foundation/CPObject.jt;8510;objj_executeFile("Foundation/CPObject.j", NO);
 CPDeleteKeyCode = 8;
 CPTabKeyCode = 9;
 CPReturnKeyCode = 13;
@@ -13714,10 +13714,6 @@ class_addMethods(the_class, [new objj_method(sel_getUid("acceptsFirstResponder")
 {
     objj_msgSend(objj_msgSend(self, "nextResponder"), "insertNewline:", aSender);
 }
-},["void","id"]), new objj_method(sel_getUid("cancel:"), function $CPResponder__cancel_(self, _cmd, sender)
-{ with(self)
-{
-}
 },["void","id"]), new objj_method(sel_getUid("insertTab:"), function $CPResponder__insertTab_(self, _cmd, sender)
 { with(self)
 {
@@ -13741,7 +13737,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("acceptsFirstResponder")
 },["void","SEL"]), new objj_method(sel_getUid("tryToPerform:with:"), function $CPResponder__tryToPerform_with_(self, _cmd, aSelector, anObject)
 { with(self)
 {
-    if(objj_msgSend(self, "respondsToSelector:", aSelector))
+    if (objj_msgSend(self, "respondsToSelector:", aSelector))
     {
         objj_msgSend(self, "performSelector:withObject:", aSelector, anObject);
         return YES;
