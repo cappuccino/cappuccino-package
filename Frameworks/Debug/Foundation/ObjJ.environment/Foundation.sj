@@ -8576,7 +8576,7 @@ Number.prototype.isa = CPNumber;
 Boolean.prototype.isa = CPNumber;
 objj_msgSend(CPNumber, "initialize");
 
-p;21;CPKeyValueObserving.jt;28374;@STATIC;1.0;i;9;CPArray.ji;14;CPDictionary.ji;13;CPException.ji;8;CPNull.ji;10;CPObject.ji;7;CPSet.ji;13;CPArray+KVO.jt;28248;objj_executeFile("CPArray.j", YES);
+p;21;CPKeyValueObserving.jt;29243;@STATIC;1.0;i;9;CPArray.ji;14;CPDictionary.ji;13;CPException.ji;8;CPNull.ji;10;CPObject.ji;7;CPSet.ji;13;CPArray+KVO.jt;29117;objj_executeFile("CPArray.j", YES);
 objj_executeFile("CPDictionary.j", YES);
 objj_executeFile("CPException.j", YES);
 objj_executeFile("CPNull.j", YES);
@@ -8640,7 +8640,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("automaticallyNotifiesO
 },["BOOL","CPString"]), new objj_method(sel_getUid("keyPathsForValuesAffectingValueForKey:"), function $CPObject__keyPathsForValuesAffectingValueForKey_(self, _cmd, aKey)
 { with(self)
 {
-    var capitalizedKey = aKey.charAt(0).toUpperCase() + aKey.substring(1);
+    var capitalizedKey = aKey.charAt(0).toUpperCase() + aKey.substring(1),
         selector = "keyPathsForValuesAffecting" + capitalizedKey;
     if (objj_msgSend(objj_msgSend(self, "class"), "respondsToSelector:", selector))
         return objj_msgSend(objj_msgSend(self, "class"), selector);
@@ -8690,7 +8690,7 @@ CPKeyValueChangeSetting = 1;
 CPKeyValueChangeInsertion = 2;
 CPKeyValueChangeRemoval = 3;
 CPKeyValueChangeReplacement = 4;
-var kvoNewAndOld = CPKeyValueObservingOptionNew|CPKeyValueObservingOptionOld,
+var kvoNewAndOld = CPKeyValueObservingOptionNew | CPKeyValueObservingOptionOld,
     DependentKeysKey = "$KVODEPENDENT",
     KVOProxyKey = "$KVOPROXY";
 {var the_class = objj_allocateClassPair(CPObject, "_CPKVOProxy"),
@@ -8792,10 +8792,24 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithTarget:"), func
             dependentKeysForClass[affectingKey] = affectedKeys;
         }
         objj_msgSend(affectedKeys, "addObject:", aKey);
-        objj_msgSend(self, "_replaceSetterForKey:", affectingKey);
+        if (affectingKey.indexOf(".") !== -1)
+            objj_msgSend(_targetObject, "addObserver:forKeyPath:options:context:", self, affectingKey, 0, nil);
+        else
+            objj_msgSend(self, "_replaceSetterForKey:", affectingKey);
     }
 }
-},["void","CPString"]), new objj_method(sel_getUid("_addObserver:forKeyPath:options:context:"), function $_CPKVOProxy___addObserver_forKeyPath_options_context_(self, _cmd, anObserver, aPath, options, aContext)
+},["void","CPString"]), new objj_method(sel_getUid("observeValueForKeyPath:ofObject:change:context:"), function $_CPKVOProxy__observeValueForKeyPath_ofObject_change_context_(self, _cmd, theKeyPath, theObject, theChanges, theContext)
+{ with(self)
+{
+    var dependentKeysForClass = _nativeClass[DependentKeysKey],
+        dependantKeys = objj_msgSend(dependentKeysForClass[theKeyPath], "allObjects");
+    for (var i = 0; i < objj_msgSend(dependantKeys, "count"); i++)
+    {
+        var dependantKey = objj_msgSend(dependantKeys, "objectAtIndex:", i);
+        objj_msgSend(self, "_sendNotificationsForKey:changeOptions:isBefore:", dependantKey, theChanges, NO);
+    }
+}
+},["void","CPString","id","CPDictionary","id"]), new objj_method(sel_getUid("_addObserver:forKeyPath:options:context:"), function $_CPKVOProxy___addObserver_forKeyPath_options_context_(self, _cmd, anObserver, aPath, options, aContext)
 { with(self)
 {
     if (!anObserver)
