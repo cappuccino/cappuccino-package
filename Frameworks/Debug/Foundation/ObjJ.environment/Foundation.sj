@@ -8576,7 +8576,7 @@ Number.prototype.isa = CPNumber;
 Boolean.prototype.isa = CPNumber;
 objj_msgSend(CPNumber, "initialize");
 
-p;21;CPKeyValueObserving.jt;28365;@STATIC;1.0;i;9;CPArray.ji;14;CPDictionary.ji;13;CPException.ji;8;CPNull.ji;10;CPObject.ji;7;CPSet.ji;13;CPArray+KVO.jt;28239;objj_executeFile("CPArray.j", YES);
+p;21;CPKeyValueObserving.jt;28374;@STATIC;1.0;i;9;CPArray.ji;14;CPDictionary.ji;13;CPException.ji;8;CPNull.ji;10;CPObject.ji;7;CPSet.ji;13;CPArray+KVO.jt;28248;objj_executeFile("CPArray.j", YES);
 objj_executeFile("CPDictionary.j", YES);
 objj_executeFile("CPException.j", YES);
 objj_executeFile("CPNull.j", YES);
@@ -8819,7 +8819,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithTarget:"), func
         if (newValue === nil || newValue === undefined)
             newValue = objj_msgSend(CPNull, "null");
         var changes = objj_msgSend(CPDictionary, "dictionaryWithObject:forKey:", newValue, CPKeyValueChangeNewKey);
-        objj_msgSend(anObserver, "observeValueForKeyPath:ofObject:change:context:", aPath, self, changes, aContext);
+        objj_msgSend(anObserver, "observeValueForKeyPath:ofObject:change:context:", aPath, _targetObject, changes, aContext);
     }
 }
 },["void","id","CPString","unsigned","id"]), new objj_method(sel_getUid("_removeObserver:forKeyPath:"), function $_CPKVOProxy___removeObserver_forKeyPath_(self, _cmd, anObserver, aPath)
