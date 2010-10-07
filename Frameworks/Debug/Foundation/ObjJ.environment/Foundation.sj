@@ -3910,7 +3910,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("addObject:"), function 
 },["unsigned","id"])]);
 }
 
-p;10;CPObject.jt;10234;@STATIC;1.0;t;10214;{var the_class = objj_allocateClassPair(Nil, "CPObject"),
+p;10;CPObject.jt;10238;@STATIC;1.0;t;10218;{var the_class = objj_allocateClassPair(Nil, "CPObject"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("isa")]);
 objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPObject__init(self, _cmd)
@@ -4008,7 +4008,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPObj
     var signature = objj_msgSend(self, "methodSignatureForSelector:", aSelector);
     if (signature)
     {
-        invocation = objj_msgSend(CPInvocation, "invocationWithMethodSignature:", signature);
+        var invocation = objj_msgSend(CPInvocation, "invocationWithMethodSignature:", signature);
         objj_msgSend(invocation, "setTarget:", self);
         objj_msgSend(invocation, "setSelector:", aSelector);
         var index = 2,
