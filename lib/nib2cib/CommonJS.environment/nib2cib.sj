@@ -952,11 +952,11 @@ with(_9){
 return objj_msgSend(CPCollectionView,"class");
 }
 })]);
-p;8;NSCell.jt;3550;@STATIC;1.0;I;21;Foundation/CPObject.ji;8;NSFont.jt;3493;
+p;8;NSCell.jt;3870;@STATIC;1.0;I;21;Foundation/CPObject.ji;8;NSFont.jt;3813;
 objj_executeFile("Foundation/CPObject.j",NO);
 objj_executeFile("NSFont.j",YES);
 var _1=objj_allocateClassPair(CPObject,"NSCell"),_2=_1.isa;
-class_addIvars(_1,[new objj_ivar("_state"),new objj_ivar("_isHighlighted"),new objj_ivar("_isEnabled"),new objj_ivar("_isEditable"),new objj_ivar("_isBordered"),new objj_ivar("_isBezeled"),new objj_ivar("_isSelectable"),new objj_ivar("_isScrollable"),new objj_ivar("_isContinuous"),new objj_ivar("_wraps"),new objj_ivar("_alignment"),new objj_ivar("_controlSize"),new objj_ivar("_objectValue"),new objj_ivar("_font"),new objj_ivar("_lineBreakMode")]);
+class_addIvars(_1,[new objj_ivar("_state"),new objj_ivar("_isHighlighted"),new objj_ivar("_isEnabled"),new objj_ivar("_isEditable"),new objj_ivar("_isBordered"),new objj_ivar("_isBezeled"),new objj_ivar("_isSelectable"),new objj_ivar("_isScrollable"),new objj_ivar("_isContinuous"),new objj_ivar("_scrolls"),new objj_ivar("_wraps"),new objj_ivar("_truncates"),new objj_ivar("_alignment"),new objj_ivar("_controlSize"),new objj_ivar("_objectValue"),new objj_ivar("_font"),new objj_ivar("_lineBreakMode")]);
 objj_registerClassPair(_1);
 class_addMethods(_1,[new objj_method(sel_getUid("state"),function(_3,_4){
 with(_3){
@@ -994,59 +994,69 @@ return _isScrollable;
 with(_13){
 return _isContinuous;
 }
-}),new objj_method(sel_getUid("wraps"),function(_15,_16){
+}),new objj_method(sel_getUid("scrolls"),function(_15,_16){
 with(_15){
+return _scrolls;
+}
+}),new objj_method(sel_getUid("wraps"),function(_17,_18){
+with(_17){
 return _wraps;
 }
-}),new objj_method(sel_getUid("alignment"),function(_17,_18){
-with(_17){
+}),new objj_method(sel_getUid("truncates"),function(_19,_1a){
+with(_19){
+return _truncates;
+}
+}),new objj_method(sel_getUid("alignment"),function(_1b,_1c){
+with(_1b){
 return _alignment;
 }
-}),new objj_method(sel_getUid("controlSize"),function(_19,_1a){
-with(_19){
+}),new objj_method(sel_getUid("controlSize"),function(_1d,_1e){
+with(_1d){
 return _controlSize;
 }
-}),new objj_method(sel_getUid("objectValue"),function(_1b,_1c){
-with(_1b){
+}),new objj_method(sel_getUid("objectValue"),function(_1f,_20){
+with(_1f){
 return _objectValue;
 }
-}),new objj_method(sel_getUid("font"),function(_1d,_1e){
-with(_1d){
+}),new objj_method(sel_getUid("font"),function(_21,_22){
+with(_21){
 return _font;
 }
-}),new objj_method(sel_getUid("lineBreakMode"),function(_1f,_20){
-with(_1f){
+}),new objj_method(sel_getUid("lineBreakMode"),function(_23,_24){
+with(_23){
 return _lineBreakMode;
 }
-}),new objj_method(sel_getUid("initWithCoder:"),function(_21,_22,_23){
-with(_21){
-_21=objj_msgSendSuper({receiver:_21,super_class:objj_getClass("NSCell").super_class},"init");
-if(_21){
-var _24=objj_msgSend(_23,"decodeIntForKey:","NSCellFlags"),_25=objj_msgSend(_23,"decodeIntForKey:","NSCellFlags2");
-_state=(_24&2147483648)?CPOnState:CPOffState;
-_isHighlighted=(_24&1073741824)?YES:NO;
-_isEnabled=(_24&536870912)?NO:YES;
-_isEditable=(_24&268435456)?YES:NO;
-_isBordered=(_24&8388608)?YES:NO;
-_isBezeled=(_24&4194304)?YES:NO;
-_isSelectable=(_24&2097152)?YES:NO;
-_isScrollable=(_24&1048576)?YES:NO;
-_isContinuous=(_24&524544)?YES:NO;
-_wraps=(_24&1048576)?NO:YES;
-_alignment=(_25&469762048)>>26;
-_lineBreakMode=(_25&3584)>>9;
-_controlSize=(_25&917504)>>17;
-_objectValue=objj_msgSend(_23,"decodeObjectForKey:","NSContents");
-_font=objj_msgSend(_23,"decodeObjectForKey:","NSSupport");
+}),new objj_method(sel_getUid("initWithCoder:"),function(_25,_26,_27){
+with(_25){
+_25=objj_msgSendSuper({receiver:_25,super_class:objj_getClass("NSCell").super_class},"init");
+if(_25){
+var _28=objj_msgSend(_27,"decodeIntForKey:","NSCellFlags"),_29=objj_msgSend(_27,"decodeIntForKey:","NSCellFlags2");
+_state=(_28&2147483648)?CPOnState:CPOffState;
+_isHighlighted=(_28&1073741824)?YES:NO;
+_isEnabled=(_28&536870912)?NO:YES;
+_isEditable=(_28&268435456)?YES:NO;
+_isBordered=(_28&8388608)?YES:NO;
+_isBezeled=(_28&4194304)?YES:NO;
+_isSelectable=(_28&2097152)?YES:NO;
+_isScrollable=(_28&1048576)?YES:NO;
+_isContinuous=(_28&524544)?YES:NO;
+_scrolls=(_28&1048576)&&(_28&64);
+_wraps=(_28&1048576===0)&&(_28&64===0);
+_truncates=!(_28&1048576)&&(_28&64);
+_alignment=(_29&469762048)>>26;
+_lineBreakMode=(_29&3584)>>9;
+_controlSize=(_29&917504)>>17;
+_objectValue=objj_msgSend(_27,"decodeObjectForKey:","NSContents");
+_font=objj_msgSend(_27,"decodeObjectForKey:","NSSupport");
 }
-return _21;
+return _25;
 }
-}),new objj_method(sel_getUid("replacementObjectForCoder:"),function(_26,_27,_28){
-with(_26){
+}),new objj_method(sel_getUid("replacementObjectForCoder:"),function(_2a,_2b,_2c){
+with(_2a){
 return nil;
 }
-}),new objj_method(sel_getUid("stringValue"),function(_29,_2a){
-with(_29){
+}),new objj_method(sel_getUid("stringValue"),function(_2d,_2e){
+with(_2d){
 if(objj_msgSend(_objectValue,"isKindOfClass:",objj_msgSend(CPString,"class"))){
 return _objectValue;
 }
