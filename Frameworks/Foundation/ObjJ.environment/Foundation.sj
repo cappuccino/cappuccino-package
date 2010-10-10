@@ -3778,11 +3778,12 @@ with(_41){
 return !!class_getInstanceMethod(isa,aSelector);
 }
 })]);
-p;18;CPOperationQueue.jt;5153;@STATIC;1.0;i;21;CPFunctionOperation.ji;23;CPInvocationOperation.ji;10;CPObject.ji;13;CPOperation.jt;5047;
+p;18;CPOperationQueue.jt;5201;@STATIC;1.0;i;21;CPFunctionOperation.ji;23;CPInvocationOperation.ji;10;CPObject.ji;13;CPOperation.ji;9;CPTimer.jt;5082;
 objj_executeFile("CPFunctionOperation.j",YES);
 objj_executeFile("CPInvocationOperation.j",YES);
 objj_executeFile("CPObject.j",YES);
 objj_executeFile("CPOperation.j",YES);
+objj_executeFile("CPTimer.j",YES);
 var _1=nil;
 var _2=objj_allocateClassPair(CPObject,"CPOperationQueue"),_3=_2.isa;
 class_addIvars(_2,[new objj_ivar("_operations"),new objj_ivar("_suspended"),new objj_ivar("_name"),new objj_ivar("_timer")]);
@@ -4149,7 +4150,10 @@ _1=objj_msgSend(objj_msgSend(CPNull,"alloc"),"init");
 return _1;
 }
 })]);
-p;17;CPWebDAVManager.jt;4315;@STATIC;1.0;t;4296;
+p;17;CPWebDAVManager.jt;4533;@STATIC;1.0;I;21;Foundation/CPObject.jI;25;Foundation/CPDictionary.jI;18;Foundation/CPURL.jt;4435;
+objj_executeFile("Foundation/CPObject.j",NO);
+objj_executeFile("Foundation/CPDictionary.j",NO);
+objj_executeFile("Foundation/CPURL.j",NO);
 var _1=function(_2,_3,_4){
 var _5=objj_msgSend(_4,"objectForKey:","resourcetype");
 if(_5===CPWebDAVManagerCollectionResourceType){
@@ -4269,10 +4273,11 @@ return _35;
 };
 var _3f=function(_40,_41){
 };
-p;15;CPUndoManager.jt;17233;@STATIC;1.0;i;14;CPInvocation.ji;10;CPObject.ji;9;CPProxy.jt;17166;
+p;15;CPUndoManager.jt;17286;@STATIC;1.0;i;14;CPInvocation.ji;10;CPObject.ji;9;CPProxy.ji;11;CPRunLoop.jt;17203;
 objj_executeFile("CPInvocation.j",YES);
 objj_executeFile("CPObject.j",YES);
 objj_executeFile("CPProxy.j",YES);
+objj_executeFile("CPRunLoop.j",YES);
 var _1=0,_2=1,_3=2;
 CPUndoManagerCheckpointNotification="CPUndoManagerCheckpointNotification";
 CPUndoManagerDidOpenUndoGroupNotification="CPUndoManagerDidOpenUndoGroupNotification";
@@ -5581,9 +5586,15 @@ objj_msgSend(functionOp,"addExecutionFunction:",_10);
 return functionOp;
 }
 })]);
-p;19;CPKeyedUnarchiver.jt;8540;@STATIC;1.0;i;9;CPCoder.ji;8;CPNull.jt;8496;
+p;19;CPKeyedUnarchiver.jt;8860;@STATIC;1.0;i;9;CPArray.ji;8;CPData.ji;14;CPDictionary.ji;9;CPCoder.ji;17;CPKeyedArchiver.ji;8;CPNull.ji;10;CPNumber.ji;10;CPString.jt;8720;
+objj_executeFile("CPArray.j",YES);
+objj_executeFile("CPData.j",YES);
+objj_executeFile("CPDictionary.j",YES);
 objj_executeFile("CPCoder.j",YES);
+objj_executeFile("CPKeyedArchiver.j",YES);
 objj_executeFile("CPNull.j",YES);
+objj_executeFile("CPNumber.j",YES);
+objj_executeFile("CPString.j",YES);
 CPInvalidUnarchiveOperationException="CPInvalidUnarchiveOperationException";
 var _1=1<<0,_2=1<<1,_3=1<<2,_4=1<<3,_5=1<<4,_6=1<<5;
 var _7="$null";
@@ -8057,8 +8068,9 @@ with(_b){
 return _statusCode;
 }
 })]);
-p;13;CPOperation.jt;4258;@STATIC;1.0;i;10;CPObject.jt;4224;
+p;13;CPOperation.jt;4306;@STATIC;1.0;i;10;CPObject.ji;9;CPArray.jt;4259;
 objj_executeFile("CPObject.j",YES);
+objj_executeFile("CPArray.j",YES);
 CPOperationQueuePriorityVeryLow=-8;
 CPOperationQueuePriorityLow=-4;
 CPOperationQueuePriorityNormal=0;
@@ -8330,8 +8342,9 @@ _CPReportLenientDeprecation(_2f,_30,sel_getUid("sendSynchronousRequest:returning
 return objj_msgSend(_2f,"sendSynchronousRequest:returningResponse:",_31,_32);
 }
 })]);
-p;16;CPCharacterSet.jt;27383;@STATIC;1.0;I;21;Foundation/CPObject.jt;27337;
+p;16;CPCharacterSet.jt;27455;@STATIC;1.0;I;21;Foundation/CPObject.jI;21;Foundation/CPString.jt;27383;
 objj_executeFile("Foundation/CPObject.j",NO);
+objj_executeFile("Foundation/CPString.j",NO);
 var _1={};
 var _2=objj_allocateClassPair(CPObject,"CPCharacterSet"),_3=_2.isa;
 class_addIvars(_2,[new objj_ivar("_inverted")]);

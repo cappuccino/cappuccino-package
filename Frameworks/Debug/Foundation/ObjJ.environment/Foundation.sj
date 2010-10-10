@@ -4320,10 +4320,11 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("load"), function $CPPr
 },["BOOL","SEL"])]);
 }
 
-p;18;CPOperationQueue.jt;7953;@STATIC;1.0;i;21;CPFunctionOperation.ji;23;CPInvocationOperation.ji;10;CPObject.ji;13;CPOperation.jt;7847;objj_executeFile("CPFunctionOperation.j", YES);
+p;18;CPOperationQueue.jt;8002;@STATIC;1.0;i;21;CPFunctionOperation.ji;23;CPInvocationOperation.ji;10;CPObject.ji;13;CPOperation.ji;9;CPTimer.jt;7883;objj_executeFile("CPFunctionOperation.j", YES);
 objj_executeFile("CPInvocationOperation.j", YES);
 objj_executeFile("CPObject.j", YES);
 objj_executeFile("CPOperation.j", YES);
+objj_executeFile("CPTimer.j", YES);
 var cpOperationMainQueue = nil;
 {var the_class = objj_allocateClassPair(CPObject, "CPOperationQueue"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_operations"), new objj_ivar("_suspended"), new objj_ivar("_name"), new objj_ivar("_timer")]);
@@ -4781,7 +4782,10 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("null"), function $CPNu
 },["CPNull"])]);
 }
 
-p;17;CPWebDAVManager.jt;6966;@STATIC;1.0;t;6947;var setURLResourceValuesForKeysFromProperties = function(aURL, keys, properties)
+p;17;CPWebDAVManager.jt;7187;@STATIC;1.0;I;21;Foundation/CPObject.jI;25;Foundation/CPDictionary.jI;18;Foundation/CPURL.jt;7089;objj_executeFile("Foundation/CPObject.j", NO);
+objj_executeFile("Foundation/CPDictionary.j", NO);
+objj_executeFile("Foundation/CPURL.j", NO);
+var setURLResourceValuesForKeysFromProperties = function(aURL, keys, properties)
 {
     var resourceType = objj_msgSend(properties, "objectForKey:", "resourcetype");
     if (resourceType === CPWebDAVManagerCollectionResourceType)
@@ -4927,9 +4931,10 @@ var mapURLsAndProperties = function( properties, ignoredURL)
 {
 }
 
-p;15;CPUndoManager.jt;24990;@STATIC;1.0;i;14;CPInvocation.ji;10;CPObject.ji;9;CPProxy.jt;24923;objj_executeFile("CPInvocation.j", YES);
+p;15;CPUndoManager.jt;25044;@STATIC;1.0;i;14;CPInvocation.ji;10;CPObject.ji;9;CPProxy.ji;11;CPRunLoop.jt;24961;objj_executeFile("CPInvocation.j", YES);
 objj_executeFile("CPObject.j", YES);
 objj_executeFile("CPProxy.j", YES);
+objj_executeFile("CPRunLoop.j", YES);
 var CPUndoManagerNormal = 0,
     CPUndoManagerUndoing = 1,
     CPUndoManagerRedoing = 2;
@@ -6412,8 +6417,14 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("functionOperationWithF
 },["id","JSObject"])]);
 }
 
-p;19;CPKeyedUnarchiver.jt;14373;@STATIC;1.0;i;9;CPCoder.ji;8;CPNull.jt;14328;objj_executeFile("CPCoder.j", YES);
+p;19;CPKeyedUnarchiver.jt;14699;@STATIC;1.0;i;9;CPArray.ji;8;CPData.ji;14;CPDictionary.ji;9;CPCoder.ji;17;CPKeyedArchiver.ji;8;CPNull.ji;10;CPNumber.ji;10;CPString.jt;14558;objj_executeFile("CPArray.j", YES);
+objj_executeFile("CPData.j", YES);
+objj_executeFile("CPDictionary.j", YES);
+objj_executeFile("CPCoder.j", YES);
+objj_executeFile("CPKeyedArchiver.j", YES);
 objj_executeFile("CPNull.j", YES);
+objj_executeFile("CPNumber.j", YES);
+objj_executeFile("CPString.j", YES);
 CPInvalidUnarchiveOperationException = "CPInvalidUnarchiveOperationException";
 var _CPKeyedUnarchiverCannotDecodeObjectOfClassNameOriginalClassesSelector = 1 << 0,
     _CPKeyedUnarchiverDidDecodeObjectSelector = 1 << 1,
@@ -9248,7 +9259,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("_setStatusCode:"), func
 },["int"])]);
 }
 
-p;13;CPOperation.jt;6037;@STATIC;1.0;i;10;CPObject.jt;6003;objj_executeFile("CPObject.j", YES);
+p;13;CPOperation.jt;6086;@STATIC;1.0;i;10;CPObject.ji;9;CPArray.jt;6039;objj_executeFile("CPObject.j", YES);
+objj_executeFile("CPArray.j", YES);
 CPOperationQueuePriorityVeryLow = -8;
 CPOperationQueuePriorityLow = -4;
 CPOperationQueuePriorityNormal = 0;
@@ -9575,7 +9587,8 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("sendSynchronousRequest
 },["CPData","CPURLRequest","{CPURLResponse}","id"])]);
 }
 
-p;16;CPCharacterSet.jt;34109;@STATIC;1.0;I;21;Foundation/CPObject.jt;34063;objj_executeFile("Foundation/CPObject.j", NO);
+p;16;CPCharacterSet.jt;34182;@STATIC;1.0;I;21;Foundation/CPObject.jI;21;Foundation/CPString.jt;34110;objj_executeFile("Foundation/CPObject.j", NO);
+objj_executeFile("Foundation/CPString.j", NO);
 var _builtInCharacterSets = {};
 {var the_class = objj_allocateClassPair(CPObject, "CPCharacterSet"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_inverted")]);
