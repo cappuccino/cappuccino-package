@@ -11936,10 +11936,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithItemIdentifier:
 },["void","CPCoder"])]);
 }
 
-p;15;_CPCornerView.jt;1835;@STATIC;1.0;i;8;CPView.jt;1804;
-
-objj_executeFile("CPView.j", YES);
-
+p;15;_CPCornerView.jt;1828;@STATIC;1.0;i;8;CPView.jt;1797;objj_executeFile("CPView.j", YES);
 {var the_class = objj_allocateClassPair(CPView, "_CPCornerView"),
 meta_class = the_class.isa;objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("layoutSubviews"), function $_CPCornerView__layoutSubviews(self, _cmd)
@@ -11956,20 +11953,16 @@ class_addMethods(the_class, [new objj_method(sel_getUid("layoutSubviews"), funct
 { with(self)
 {
     self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("_CPCornerView").super_class }, "initWithFrame:", aFrame)
-
     if (self)
         objj_msgSend(self, "_init");
-
     return self;
 }
 },["id","CGRect"]), new objj_method(sel_getUid("initWithCoder:"), function $_CPCornerView__initWithCoder_(self, _cmd, aCoder)
 { with(self)
 {
     self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("_CPCornerView").super_class }, "initWithCoder:", aCoder);
-
     if (self)
         objj_msgSend(self, "_init");
-
     return self;
 }
 },["id","CPCoder"])]);
@@ -12970,7 +12963,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void"])]);
 }
 
-p;14;CPColorPanel.jt;23224;@STATIC;1.0;i;15;CPApplication.ji;10;CPButton.ji;10;CPCookie.ji;9;CPPanel.ji;8;CPView.ji;15;CPColorPicker.ji;21;CPSliderColorPicker.jt;23083;objj_executeFile("CPApplication.j", YES);
+p;14;CPColorPanel.jt;23247;@STATIC;1.0;i;15;CPApplication.ji;10;CPButton.ji;10;CPCookie.ji;9;CPPanel.ji;8;CPView.ji;15;CPColorPicker.ji;21;CPSliderColorPicker.jt;23106;objj_executeFile("CPApplication.j", YES);
 objj_executeFile("CPButton.j", YES);
 objj_executeFile("CPCookie.j", YES);
 objj_executeFile("CPPanel.j", YES);
@@ -13126,7 +13119,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPCol
         objj_msgSend(button, "setTarget:", self);
         objj_msgSend(button, "setAction:", sel_getUid("_setPicker:"));
         objj_msgSend(button, "setBordered:", NO);
-        objj_msgSend(button, "setAutoresizingMask:", CPViewMinXMargin|CPViewMaxXMargin);
+        objj_msgSend(button, "setAutoresizingMask:", CPViewMinXMargin | CPViewMaxXMargin);
         objj_msgSend(button, "setImage:", image);
         objj_msgSend(button, "setAlternateImage:", highlightImage);
         objj_msgSend(_toolbar, "addSubview:", button);
@@ -13221,9 +13214,9 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     _swatchCookie = objj_msgSend(objj_msgSend(CPCookie, "alloc"), "initWithName:",  CPColorPanelSwatchesCookie);
     var colorList = objj_msgSend(self, "startingColorList");
     _swatches = [];
-    for(var i=0; i < 50; i++)
+    for (var i = 0; i < 50; i++)
     {
-        var view = objj_msgSend(objj_msgSend(CPView, "alloc"), "initWithFrame:",  CPRectMake(13*i+1, 1, 12, 12)),
+        var view = objj_msgSend(objj_msgSend(CPView, "alloc"), "initWithFrame:",  CPRectMake(13 * i + 1, 1, 12, 12)),
             fillView = objj_msgSend(objj_msgSend(CPView, "alloc"), "initWithFrame:", CGRectInset(objj_msgSend(view, "bounds"), 1.0, 1.0));
         objj_msgSend(view, "setBackgroundColor:", whiteColor);
         objj_msgSend(fillView, "setBackgroundColor:",  (i < colorList.length) ? colorList[i] : whiteColor);
@@ -13242,7 +13235,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 { with(self)
 {
     var cookieValue = objj_msgSend(_swatchCookie, "value");
-    if(cookieValue == "")
+    if (cookieValue == "")
     {
         return [
             objj_msgSend(CPColor, "blackColor"),
@@ -13256,9 +13249,9 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
             objj_msgSend(CPColor, "yellowColor")
         ];
     }
-    var cookieValue = eval(cookieValue);
-    var result = [];
-    for(var i=0; i<cookieValue.length; i++)
+    var cookieValue = eval(cookieValue),
+        result = [];
+    for (var i = 0; i < cookieValue.length; i++)
         result.push(objj_msgSend(CPColor, "colorWithHexString:",  cookieValue[i]));
     return result;
 }
@@ -13266,7 +13259,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 { with(self)
 {
     var result = [];
-    for(var i=0; i<_swatches.length; i++)
+    for (var i = 0; i < _swatches.length; i++)
         result.push(objj_msgSend(objj_msgSend(objj_msgSend(_swatches[i], "subviews")[0], "backgroundColor"), "hexString"));
     var future = new Date();
     future.setYear(2019);
@@ -13298,7 +13291,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 {
     var point = objj_msgSend(self, "convertPoint:fromView:", objj_msgSend(anEvent, "locationInWindow"), nil),
         bounds = objj_msgSend(self, "bounds");
-    if(!CGRectContainsPoint(bounds, point) || point.x > objj_msgSend(self, "bounds").size.width - 1 || point.x < 1)
+    if (!CGRectContainsPoint(bounds, point) || point.x > objj_msgSend(self, "bounds").size.width - 1 || point.x < 1)
         return NO;
     objj_msgSend(_colorPanel, "setColor:updatePicker:",  objj_msgSend(self, "colorAtIndex:", FLOOR(point.x / 13)),  YES);
 }
@@ -13322,7 +13315,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPEvent"]), new objj_method(sel_getUid("pasteboard:provideDataForType:"), function $_CPColorPanelSwatches__pasteboard_provideDataForType_(self, _cmd, aPasteboard, aType)
 { with(self)
 {
-    if(aType == CPColorDragType)
+    if (aType == CPColorDragType)
         objj_msgSend(aPasteboard, "setData:forType:", objj_msgSend(CPKeyedArchiver, "archivedDataWithRootObject:", _dragColor), aType);
 }
 },["void","CPPasteboard","CPString"]), new objj_method(sel_getUid("performDragOperation:"), function $_CPColorPanelSwatches__performDragOperation_(self, _cmd, aSender)
@@ -13331,7 +13324,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     var location = objj_msgSend(self, "convertPoint:fromView:", objj_msgSend(aSender, "draggingLocation"), nil),
         pasteboard = objj_msgSend(aSender, "draggingPasteboard"),
         swatch = nil;
-    if(!objj_msgSend(pasteboard, "availableTypeFromArray:", [CPColorDragType]) || location.x > objj_msgSend(self, "bounds").size.width - 1 || location.x < 1)
+    if (!objj_msgSend(pasteboard, "availableTypeFromArray:", [CPColorDragType]) || location.x > objj_msgSend(self, "bounds").size.width - 1 || location.x < 1)
         return NO;
     objj_msgSend(self, "setColor:atIndex:", objj_msgSend(CPKeyedUnarchiver, "unarchiveObjectWithData:", objj_msgSend(pasteboard, "dataForType:", CPColorDragType)),  FLOOR(location.x / 13));
 }
@@ -21155,7 +21148,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","id"])]);
 }
 
-p;11;CPBrowser.jt;46607;@STATIC;1.0;I;23;Foundation/CPIndexSet.ji;11;CPControl.ji;9;CPImage.ji;13;CPTableView.ji;13;CPTextField.ji;14;CPScrollView.jI;21;Foundation/CPObject.jt;46449;objj_executeFile("Foundation/CPIndexSet.j", NO);
+p;11;CPBrowser.jt;46973;@STATIC;1.0;I;23;Foundation/CPIndexSet.ji;11;CPControl.ji;9;CPImage.ji;13;CPTableView.ji;13;CPTextField.ji;14;CPScrollView.jI;21;Foundation/CPObject.jt;46815;objj_executeFile("Foundation/CPIndexSet.j", NO);
 objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPImage.j", YES);
 objj_executeFile("CPTableView.j", YES);
@@ -21550,7 +21543,13 @@ _defaultColumnWidth = newValue;
 {
     objj_msgSend(_contentView, "scrollRectToVisible:", objj_msgSend(objj_msgSend(objj_msgSend(self, "tableViewInColumn:", columnIndex), "enclosingScrollView"), "frame"));
 }
-},["void","unsigned"]), new objj_method(sel_getUid("autohidesScroller"), function $CPBrowser__autohidesScroller(self, _cmd)
+},["void","unsigned"]), new objj_method(sel_getUid("scrollRowToVisible:inColumn:"), function $CPBrowser__scrollRowToVisible_inColumn_(self, _cmd, rowIndex, columnIndex)
+{ with(self)
+{
+    objj_msgSend(self, "scrollColumnToVisible:", columnIndex);
+    objj_msgSend(objj_msgSend(self, "tableViewInColumn:", columnIndex), "scrollRowToVisible:", rowIndex);
+}
+},["void","unsigned","unsigned"]), new objj_method(sel_getUid("autohidesScroller"), function $CPBrowser__autohidesScroller(self, _cmd)
 { with(self)
 {
     return objj_msgSend(_horizontalScrollView, "autohidesScrollers");
@@ -22749,7 +22748,7 @@ else
     CPRedoKeyEquivalentModifierMask = CPControlKeyMask;
 }
 
-p;15;CPColorPicker.jt;13596;@STATIC;1.0;I;21;Foundation/CPObject.jI;15;AppKit/CPView.jt;13530;objj_executeFile("Foundation/CPObject.j", NO);
+p;15;CPColorPicker.jt;13604;@STATIC;1.0;I;21;Foundation/CPObject.jI;15;AppKit/CPView.jt;13538;objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("AppKit/CPView.j", NO);
 {var the_class = objj_allocateClassPair(CPObject, "CPColorPicker"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_panel"), new objj_ivar("_mask")]);
@@ -22797,7 +22796,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithPickerMask:colo
 {
     aFrame = CPRectMake(0, 0, CPColorPickerViewWidth, CPColorPickerViewHeight);
     _pickerView = objj_msgSend(objj_msgSend(CPView, "alloc"), "initWithFrame:", aFrame);
-    objj_msgSend(_pickerView, "setAutoresizingMask:", CPViewWidthSizable|CPViewHeightSizable);
+    objj_msgSend(_pickerView, "setAutoresizingMask:", CPViewWidthSizable | CPViewHeightSizable);
     _brightnessSlider = objj_msgSend(objj_msgSend(CPSlider, "alloc"), "initWithFrame:", CGRectMake(0, (aFrame.size.height - 34), aFrame.size.width, 15));
     objj_msgSend(_brightnessSlider, "setValue:forThemeAttribute:", 15.0, "track-width");
     objj_msgSend(_brightnessSlider, "setValue:forThemeAttribute:", objj_msgSend(CPColor, "colorWithPatternImage:", objj_msgSend(objj_msgSend(CPImage, "alloc"), "initWithContentsOfFile:", objj_msgSend(objj_msgSend(CPBundle, "bundleForClass:", objj_msgSend(CPColorPicker, "class")), "pathForResource:", "brightness_bar.png"))), "track-color");
@@ -22906,7 +22905,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 { with(self)
 {
     _blackWheelImage.style.opacity = 1.0 - brightness;
-    _blackWheelImage.style.filter = "alpha(opacity=" + (1.0 - brightness)*100 + ")"
+    _blackWheelImage.style.filter = "alpha(opacity=" + (1.0 - brightness) * 100 + ")"
 }
 },["void","float"]), new objj_method(sel_getUid("setFrameSize:"), function $__CPColorWheel__setFrameSize_(self, _cmd, aSize)
 { with(self)
@@ -22967,20 +22966,20 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 { with(self)
 {
     var bounds = objj_msgSend(self, "bounds"),
-        location = objj_msgSend(self, "convertPoint:fromView:", objj_msgSend(anEvent, "locationInWindow"), nil);
-    var midX = CGRectGetMidX(bounds);
-    var midY = CGRectGetMidY(bounds);
-    var distance = MIN(SQRT((location.x - midX)*(location.x - midX) + (location.y - midY)*(location.y - midY)), _radius);
-    var angle = ATAN2(location.y - midY, location.x - midX);
+        location = objj_msgSend(self, "convertPoint:fromView:", objj_msgSend(anEvent, "locationInWindow"), nil),
+        midX = CGRectGetMidX(bounds),
+        midY = CGRectGetMidY(bounds),
+        distance = MIN(SQRT((location.x - midX) * (location.x - midX) + (location.y - midY) * (location.y - midY)), _radius),
+        angle = ATAN2(location.y - midY, location.x - midX);
     objj_msgSend(self, "setAngle:distance:", angle, distance);
     objj_msgSend(_delegate, "colorWheelDidChange:", self);
 }
 },["void","CPEvent"]), new objj_method(sel_getUid("setAngle:distance:"), function $__CPColorWheel__setAngle_distance_(self, _cmd, angle, distance)
 { with(self)
 {
-    var bounds = objj_msgSend(self, "bounds");
-    var midX = CGRectGetMidX(bounds);
-    var midY = CGRectGetMidY(bounds);
+    var bounds = objj_msgSend(self, "bounds"),
+        midX = CGRectGetMidX(bounds),
+        midY = CGRectGetMidY(bounds);
     _angle = objj_msgSend(self, "radiansToDegrees:", angle);
     _distance = (distance / _radius) * 100.0;
     objj_msgSend(_crosshair, "setFrameOrigin:", CPPointMake(COS(angle) * distance + midX - 2.0, SIN(angle) * distance + midY - 2.0));
@@ -22989,8 +22988,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 { with(self)
 {
     var hsb = objj_msgSend(aColor, "hsbComponents"),
-        bounds = objj_msgSend(self, "bounds");
-    var angle = objj_msgSend(self, "degreesToRadians:", hsb[0]),
+        bounds = objj_msgSend(self, "bounds"),
+        angle = objj_msgSend(self, "degreesToRadians:", hsb[0]),
         distance = (hsb[1] / 100.0) * _radius;
     objj_msgSend(self, "setAngle:distance:", angle, distance);
 }
