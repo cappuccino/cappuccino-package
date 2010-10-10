@@ -14068,7 +14068,7 @@ objj_executeFile("CPSliderColorPicker.j", YES);
 objj_msgSend(CPColorPanel, "provideColorPickerClass:", CPColorWheelColorPicker);
 objj_msgSend(CPColorPanel, "provideColorPickerClass:", CPSliderColorPicker);
 
-p;14;CPKeyBinding.jt;11196;@STATIC;1.0;I;21;Foundation/CPObject.jI;16;AppKit/CPEvent.jt;11129;objj_executeFile("Foundation/CPObject.j", NO);
+p;14;CPKeyBinding.jt;11672;@STATIC;1.0;I;21;Foundation/CPObject.jI;16;AppKit/CPEvent.jt;11605;objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("AppKit/CPEvent.j", NO);
 CPStandardKeyBindings = {
     "@.": "cancelOperation:",
@@ -14174,7 +14174,19 @@ var CPKeyBindingCache = {};
 {var the_class = objj_allocateClassPair(CPObject, "CPKeyBinding"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_key"), new objj_ivar("_modifierFlags"), new objj_ivar("_selectors"), new objj_ivar("_cacheName")]);
 objj_registerClassPair(the_class);
-class_addMethods(the_class, [new objj_method(sel_getUid("initWithKey:modifierFlags:selectors:"), function $CPKeyBinding__initWithKey_modifierFlags_selectors_(self, _cmd, aKey, aFlag, selectors)
+class_addMethods(the_class, [new objj_method(sel_getUid("initWithPhysicalKeyString:selectors:"), function $CPKeyBinding__initWithPhysicalKeyString_selectors_(self, _cmd, binding, selectors)
+{ with(self)
+{
+    var components = binding.split(""),
+        modifierFlags = (objj_msgSend(components, "containsObject:", "$") ? CPShiftKeyMask : 0) |
+                        (objj_msgSend(components, "containsObject:", "^") ? CPControlKeyMask : 0) |
+                        (objj_msgSend(components, "containsObject:", "~") ? CPAlternateKeyMask : 0) |
+                        (objj_msgSend(components, "containsObject:", "@") ? CPCommandKeyMask : 0);
+    if (!objj_msgSend(selectors, "isKindOfClass:", CPArray))
+        selectors = [selectors];
+    return objj_msgSend(self, "initWithKey:modifierFlags:selectors:", objj_msgSend(components, "lastObject"), modifierFlags, selectors);
+}
+},["id","CPString","CPArray"]), new objj_method(sel_getUid("initWithKey:modifierFlags:selectors:"), function $CPKeyBinding__initWithKey_modifierFlags_selectors_(self, _cmd, aKey, aFlag, selectors)
 { with(self)
 {
     self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPKeyBinding").super_class }, "init");
@@ -14222,7 +14234,12 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithKey:modifierFla
 {
     return _key === objj_msgSend(rhs, "key") && _modifierFlags === objj_msgSend(rhs, "modifierFlags");
 }
-},["BOOL","CPKeyBinding"])]);
+},["BOOL","CPKeyBinding"]), new objj_method(sel_getUid("description"), function $CPKeyBinding__description(self, _cmd)
+{ with(self)
+{
+    return objj_msgSend(CPString, "stringWithFormat:", "<KeyBinding string: '%@' modifierFlags: 0x%lx selectors: %@>", _key, _modifierFlags, _selectors);
+}
+},["CPString"])]);
 class_addMethods(meta_class, [new objj_method(sel_getUid("initialize"), function $CPKeyBinding__initialize(self, _cmd)
 { with(self)
 {
@@ -14235,18 +14252,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("initialize"), function
 {
     var binding;
     for (binding in anObject)
-    {
-        var components = binding.split(""),
-            modifierFlags = (objj_msgSend(components, "containsObject:", "$") ? CPShiftKeyMask : 0) |
-                            (objj_msgSend(components, "containsObject:", "^") ? CPControlKeyMask : 0) |
-                            (objj_msgSend(components, "containsObject:", "~") ? CPAlternateKeyMask : 0) |
-                            (objj_msgSend(components, "containsObject:", "@") ? CPCommandKeyMask : 0);
-        var selectors = anObject[binding];
-        if (!objj_msgSend(selectors, "isKindOfClass:", CPArray))
-            selectors = [selectors];
-        var keyBinding = objj_msgSend(objj_msgSend(self, "alloc"), "initWithKey:modifierFlags:selectors:", objj_msgSend(components, "lastObject"), modifierFlags, selectors);
-        objj_msgSend(self, "cacheKeyBinding:", keyBinding);
-    }
+        objj_msgSend(self, "cacheKeyBinding:", objj_msgSend(objj_msgSend(CPKeyBinding, "alloc"), "initWithPhysicalKeyString:selectors:", binding, anObject[binding]));
 }
 },["void","JSObject"]), new objj_method(sel_getUid("cacheKeyBinding:"), function $CPKeyBinding__cacheKeyBinding_(self, _cmd, aBinding)
 { with(self)
