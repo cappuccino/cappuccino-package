@@ -10324,7 +10324,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithController:"), 
 },["void","id","CPString"])]);
 }
 
-p;15;CPPopUpButton.jt;19331;@STATIC;1.0;i;10;CPButton.ji;12;CPGeometry.ji;8;CPMenu.ji;12;CPMenuItem.jt;19250;objj_executeFile("CPButton.j", YES);
+p;15;CPPopUpButton.jt;19480;@STATIC;1.0;i;10;CPButton.ji;12;CPGeometry.ji;8;CPMenu.ji;12;CPMenuItem.jt;19399;objj_executeFile("CPButton.j", YES);
 objj_executeFile("CPGeometry.j", YES);
 objj_executeFile("CPMenu.j", YES);
 objj_executeFile("CPMenuItem.j", YES);
@@ -10699,6 +10699,10 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:pullsDown
             if (objj_msgSend(highlightedItem, "_isSelectable"))
                 objj_msgSend(self, "selectItem:", highlightedItem);
         });
+}
+},["void","CPEvent"]), new objj_method(sel_getUid("rightMouseDown:"), function $CPPopUpButton__rightMouseDown_(self, _cmd, anEvent)
+{ with(self)
+{
 }
 },["void","CPEvent"]), new objj_method(sel_getUid("_popUpItemAction:"), function $CPPopUpButton___popUpItemAction_(self, _cmd, aSender)
 { with(self)
