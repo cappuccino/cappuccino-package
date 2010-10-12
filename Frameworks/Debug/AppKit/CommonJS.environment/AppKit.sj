@@ -3739,7 +3739,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:control:"
 },["void"])]);
 }
 
-p;15;CPTableColumn.jt;18911;@STATIC;1.0;I;25;Foundation/CPDictionary.jI;21;Foundation/CPObject.jI;23;Foundation/CPIndexSet.jI;29;Foundation/CPSortDescriptor.jI;21;Foundation/CPString.ji;19;CPTableHeaderView.jt;18723;objj_executeFile("Foundation/CPDictionary.j", NO);
+p;15;CPTableColumn.jt;18872;@STATIC;1.0;I;25;Foundation/CPDictionary.jI;21;Foundation/CPObject.jI;23;Foundation/CPIndexSet.jI;29;Foundation/CPSortDescriptor.jI;21;Foundation/CPString.ji;19;CPTableHeaderView.jt;18684;objj_executeFile("Foundation/CPDictionary.j", NO);
 objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("Foundation/CPIndexSet.j", NO);
 objj_executeFile("Foundation/CPSortDescriptor.j", NO);
@@ -3902,8 +3902,6 @@ _disableResizingPosting = newValue;
 },["CPView"]), new objj_method(sel_getUid("setDataView:"), function $CPTableColumn__setDataView_(self, _cmd, aView)
 { with(self)
 {
-    if (_dataView === aView)
-        return;
     if (_dataView)
         _dataViewData[objj_msgSend(_dataView, "UID")] = nil;
     objj_msgSend(aView, "setThemeState:", CPThemeStateTableDataView);
@@ -4012,7 +4010,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 {
     var bindingsDictionary = objj_msgSend(CPKeyValueBinding, "allBindingsForObject:", self),
         keys = objj_msgSend(bindingsDictionary, "allKeys");
-    for (var i=0, count = objj_msgSend(keys, "count"); i<count; i++)
+    for (var i = 0, count = objj_msgSend(keys, "count"); i < count; i++)
     {
         var bindingName = keys[i],
             bindingPath = objj_msgSend(aDataView, "_replacementKeyPathForBinding:", bindingName),
@@ -4027,7 +4025,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
         else
         {
             var firstPart = keyPath.substring(0, dotIndex),
-                secondPart = keyPath.substring(dotIndex+1),
+                secondPart = keyPath.substring(dotIndex + 1),
                 firstValue = objj_msgSend(destination, "valueForKeyPath:", firstPart);
             if (objj_msgSend(firstValue, "isKindOfClass:", CPArray))
                 value = objj_msgSend(objj_msgSend(firstValue, "objectAtIndex:", aRow), "valueForKeyPath:", secondPart);

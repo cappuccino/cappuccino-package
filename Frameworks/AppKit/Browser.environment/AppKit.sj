@@ -3613,7 +3613,7 @@ _71.height=MAX(_71.height,_textSize.height);
 objj_msgSend(_6f,"setFrameSize:",_71);
 }
 })]);
-p;15;CPTableColumn.jt;12949;@STATIC;1.0;I;25;Foundation/CPDictionary.jI;21;Foundation/CPObject.jI;23;Foundation/CPIndexSet.jI;29;Foundation/CPSortDescriptor.jI;21;Foundation/CPString.ji;19;CPTableHeaderView.jt;12761;
+p;15;CPTableColumn.jt;12918;@STATIC;1.0;I;25;Foundation/CPDictionary.jI;21;Foundation/CPObject.jI;23;Foundation/CPIndexSet.jI;29;Foundation/CPSortDescriptor.jI;21;Foundation/CPString.ji;19;CPTableHeaderView.jt;12730;
 objj_executeFile("Foundation/CPDictionary.j",NO);
 objj_executeFile("Foundation/CPObject.j",NO);
 objj_executeFile("Foundation/CPIndexSet.j",NO);
@@ -3765,9 +3765,6 @@ return _headerView;
 }
 }),new objj_method(sel_getUid("setDataView:"),function(_3b,_3c,_3d){
 with(_3b){
-if(_dataView===_3d){
-return;
-}
 if(_dataView){
 _dataViewData[objj_msgSend(_dataView,"UID")]=nil;
 }
