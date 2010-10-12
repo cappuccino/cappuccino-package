@@ -1795,7 +1795,7 @@ loadFrameworks(_8.frameworks,function(){
 objj_msgSend(_9,"convert");
 });
 };
-p;15;NSTableColumn.jt;2532;@STATIC;1.0;I;22;AppKit/CPTableColumn.jI;26;AppKit/CPTableHeaderView.jt;2455;
+p;15;NSTableColumn.jt;2722;@STATIC;1.0;I;22;AppKit/CPTableColumn.jI;26;AppKit/CPTableHeaderView.jt;2645;
 objj_executeFile("AppKit/CPTableColumn.j",NO);
 objj_executeFile("AppKit/CPTableHeaderView.j",NO);
 var _1=objj_getClass("CPTableColumn");
@@ -1818,10 +1818,12 @@ var _8=objj_msgSend(CPFont,"boldFontWithName:size:",objj_msgSend(_7,"familyName"
 objj_msgSend(_dataView,"setFont:",_7);
 objj_msgSend(_dataView,"setValue:forThemeAttribute:inState:",_8,"font",CPThemeStateSelectedDataView);
 objj_msgSend(_dataView,"setLineBreakMode:",CPLineBreakByTruncatingTail);
+objj_msgSend(_dataView,"setValue:forThemeAttribute:",objj_msgSend(_6,"alignment"),"alignment");
 objj_msgSend(_dataView,"setValue:forThemeAttribute:",CPCenterVerticalTextAlignment,"vertical-alignment");
-objj_msgSend(_dataView,"setValue:forThemeAttribute:",CGInsetMake(0,0,0,5),"content-inset");
+objj_msgSend(_dataView,"setValue:forThemeAttribute:",CGInsetMake(0,5,0,5),"content-inset");
 var _9=objj_msgSend(_5,"decodeObjectForKey:","NSHeaderCell"),_a=objj_msgSend(objj_msgSend(_CPTableColumnHeaderView,"alloc"),"initWithFrame:",CPRectMakeZero());
 objj_msgSend(_a,"setStringValue:",objj_msgSend(_9,"objectValue"));
+objj_msgSend(_a,"setValue:forThemeAttribute:",objj_msgSend(_6,"alignment"),"text-alignment");
 objj_msgSend(_3,"setHeaderView:",_a);
 _width=objj_msgSend(_5,"decodeFloatForKey:","NSWidth");
 _minWidth=objj_msgSend(_5,"decodeFloatForKey:","NSMinWidth");
