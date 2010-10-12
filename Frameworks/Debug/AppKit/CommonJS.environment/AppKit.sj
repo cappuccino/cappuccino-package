@@ -14751,7 +14751,7 @@ var byteToHex = function(n)
            hexCharacters.charAt(n % 16);
 };
 
-p;13;CPTextField.jt;36817;@STATIC;1.0;i;11;CPControl.ji;17;CPStringDrawing.ji;17;CPCompatibility.ji;21;_CPImageAndTextView.jt;36711;objj_executeFile("CPControl.j", YES);
+p;13;CPTextField.jt;38246;@STATIC;1.0;i;11;CPControl.ji;17;CPStringDrawing.ji;17;CPCompatibility.ji;21;_CPImageAndTextView.jt;38140;objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPStringDrawing.j", YES);
 objj_executeFile("CPCompatibility.j", YES);
 objj_executeFile("_CPImageAndTextView.j", YES);
@@ -15104,21 +15104,44 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","BOOL"]), new objj_method(sel_getUid("sizeToFit"), function $CPTextField__sizeToFit(self, _cmd)
 { with(self)
 {
-    var size = objj_msgSend((objj_msgSend(self, "stringValue") || " "), "sizeWithFont:", objj_msgSend(self, "currentValueForThemeAttribute:", "font")),
+    objj_msgSend(self, "setFrameSize:", objj_msgSend(self, "_minimumFrameSize"));
+}
+},["void"]), new objj_method(sel_getUid("_minimumFrameSize"), function $CPTextField___minimumFrameSize(self, _cmd)
+{ with(self)
+{
+    var frameSize = objj_msgSend(self, "frameSize"),
         contentInset = objj_msgSend(self, "currentValueForThemeAttribute:", "content-inset"),
         minSize = objj_msgSend(self, "currentValueForThemeAttribute:", "min-size"),
-        maxSize = objj_msgSend(self, "currentValueForThemeAttribute:", "max-size");
-    size.width = MAX(size.width + contentInset.left + contentInset.right, minSize.width);
-    size.height = MAX(size.height + contentInset.top + contentInset.bottom, minSize.height);
-    if (maxSize.width >= 0.0)
-        size.width = MIN(size.width, maxSize.width);
-    if (maxSize.height >= 0.0)
-        size.height = MIN(size.height, maxSize.height);
-    if (objj_msgSend(self, "isEditable"))
-        size.width = CGRectGetWidth(objj_msgSend(self, "frame"));
-    objj_msgSend(self, "setFrameSize:", size);
+        maxSize = objj_msgSend(self, "currentValueForThemeAttribute:", "max-size"),
+        lineBreakMode = objj_msgSend(self, "lineBreakMode"),
+        text = (objj_msgSend(self, "stringValue") || " "),
+        textSize = { width:frameSize.width, height:frameSize.height },
+        font = objj_msgSend(self, "currentValueForThemeAttribute:", "font");
+    textSize.width -= contentInset.left + contentInset.right;
+    textSize.height -= contentInset.top + contentInset.bottom;
+    if (frameSize.width !== 0 &&
+        !objj_msgSend(self, "isBezeled") &&
+        (lineBreakMode === CPLineBreakByWordWrapping || lineBreakMode === CPLineBreakByCharWrapping))
+    {
+        textSize = objj_msgSend(text, "sizeWithFont:inWidth:", font, textSize.width);
+    }
+    else
+        textSize = objj_msgSend(text, "sizeWithFont:", font);
+    frameSize.height = textSize.height + contentInset.top + contentInset.bottom;
+    if (objj_msgSend(self, "isBezeled"))
+    {
+        frameSize.height = MAX(frameSize.height, minSize.height);
+        if (maxSize.width > 0.0)
+            frameSize.width = MIN(frameSize.width, maxSize.width);
+        if (maxSize.height > 0.0)
+            frameSize.height = MIN(frameSize.height, maxSize.height);
+    }
+    else
+        frameSize.width = textSize.width + contentInset.left + contentInset.right;
+    frameSize.width = MAX(frameSize.width, minSize.width);
+    return frameSize;
 }
-},["void"]), new objj_method(sel_getUid("selectText:"), function $CPTextField__selectText_(self, _cmd, sender)
+},["CGSize"]), new objj_method(sel_getUid("selectText:"), function $CPTextField__selectText_(self, _cmd, sender)
 { with(self)
 {
 }
@@ -15451,6 +15474,12 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
         objj_msgSend(self, "setLineBreakMode:", objj_msgSend(aCoder, "decodeIntForKey:", CPTextFieldLineBreakModeKey));
         objj_msgSend(self, "setAlignment:", objj_msgSend(aCoder, "decodeIntForKey:", CPTextFieldAlignmentKey));
         objj_msgSend(self, "setPlaceholderString:", objj_msgSend(aCoder, "decodeObjectForKey:", CPTextFieldPlaceholderStringKey));
+        var minSize = objj_msgSend(self, "_minimumFrameSize");
+        minSize.width = MAX(CGRectGetWidth(objj_msgSend(self, "frame")), minSize.width);
+        if (objj_msgSend(self, "isBezeled"))
+            if (objj_msgSend(self, "lineBreakMode") === CPLineBreakByCharWrapping || objj_msgSend(self, "lineBreakMode") == CPLineBreakByWordWrapping)
+                minSize.height = MAX(CGRectGetHeight(objj_msgSend(self, "frame")), minSize.height);
+        objj_msgSend(self, "setFrameSize:", minSize);
     }
     return self;
 }
