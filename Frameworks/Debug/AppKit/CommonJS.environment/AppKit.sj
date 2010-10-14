@@ -9074,7 +9074,7 @@ var _CPSaveSessionMake = function(anAbsoluteURL, aSaveOperation, aChangeCount, a
     return { absoluteURL:anAbsoluteURL, saveOperation:aSaveOperation, changeCount:aChangeCount, delegate:aDelegate, didSaveSelector:aDidSaveSelector, contextInfo:aContextInfo, connection:aConnection };
 }
 
-p;20;CPObjectController.jt;26586;@STATIC;1.0;I;25;Foundation/CPDictionary.ji;14;CPController.jt;26517;
+p;20;CPObjectController.jt;26665;@STATIC;1.0;I;25;Foundation/CPDictionary.ji;14;CPController.jt;26596;
 
 
 objj_executeFile("Foundation/CPDictionary.j", NO);
@@ -9544,7 +9544,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("description"), function
             objj_msgSend(self, "didChangeValueForKey:", keyPath);
     }
 
-    objj_msgSend(self, "replaceObjectAtIndex:withObject:", anIndex, anObject);
+    objj_msgSendSuper({ receiver:self, super_class:objj_getClass("_CPObservableArray").super_class }, "replaceObjectAtIndex:withObject:", anIndex, anObject);
 }
 },["void","unsigned","id"])]);
 class_addMethods(meta_class, [new objj_method(sel_getUid("alloc"), function $_CPObservableArray__alloc(self, _cmd)
@@ -22645,7 +22645,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("initialize"), function
 },["void"])]);
 }
 
-p;17;CPCompatibility.jt;5406;@STATIC;1.0;i;9;CPEvent.ji;12;CPPlatform.jt;5357;objj_executeFile("CPEvent.j", YES);
+p;17;CPCompatibility.jt;5472;@STATIC;1.0;i;9;CPEvent.ji;12;CPPlatform.jt;5423;objj_executeFile("CPEvent.j", YES);
 objj_executeFile("CPPlatform.j", YES);
 CPUnknownBrowserEngine = 0;
 CPGeckoBrowserEngine = 1;
@@ -22680,12 +22680,12 @@ var USER_AGENT = "",
 PLATFORM_FEATURES |= CPInputTypeCanBeChangedFeature;
 if (typeof window !== "undefined" && typeof window.navigator !== "undefined")
     USER_AGENT = window.navigator.userAgent;
-if (window.opera)
+if (typeof window !== "undefined" && window.opera)
 {
     PLATFORM_ENGINE = CPOperaBrowserEngine;
     PLATFORM_FEATURES |= CPJavaScriptCanvasDrawFeature;
 }
-else if (window.attachEvent)
+else if (typeof window !== "undefined" && window.attachEvent)
 {
     PLATFORM_ENGINE = CPInternetExplorerBrowserEngine;
     PLATFORM_FEATURES |= CPVMLFeature;

@@ -8465,7 +8465,7 @@ return {fileType:_d6,delegate:_d7,didReadSelector:_d8,contextInfo:_d9};
 var _71=function(_da,_db,_dc,_dd,_de,_df,_e0){
 return {absoluteURL:_da,saveOperation:_db,changeCount:_dc,delegate:_dd,didSaveSelector:_de,contextInfo:_df,connection:_e0};
 };
-p;20;CPObjectController.jt;18248;@STATIC;1.0;I;25;Foundation/CPDictionary.ji;14;CPController.jt;18179;
+p;20;CPObjectController.jt;18324;@STATIC;1.0;I;25;Foundation/CPDictionary.ji;14;CPController.jt;18255;
 objj_executeFile("Foundation/CPDictionary.j",NO);
 objj_executeFile("CPController.j",YES);
 var _1=objj_allocateClassPair(CPController,"CPObjectController"),_2=_1.isa;
@@ -8811,7 +8811,7 @@ if(_b7){
 objj_msgSend(_af,"didChangeValueForKey:",_b6);
 }
 }
-objj_msgSend(_af,"replaceObjectAtIndex:withObject:",_b1,_b2);
+objj_msgSendSuper({receiver:_af,super_class:objj_getClass("_CPObservableArray").super_class},"replaceObjectAtIndex:withObject:",_b1,_b2);
 }
 })]);
 class_addMethods(_2,[new objj_method(sel_getUid("alloc"),function(_b8,_b9){
@@ -20742,7 +20742,7 @@ _4[_59+_56]=[{width:3,height:16},{width:1,height:16},{width:3,height:16}];
 }
 }
 })]);
-p;17;CPCompatibility.jt;3813;@STATIC;1.0;i;9;CPEvent.ji;12;CPPlatform.jt;3764;
+p;17;CPCompatibility.jt;3871;@STATIC;1.0;i;9;CPEvent.ji;12;CPPlatform.jt;3822;
 objj_executeFile("CPEvent.j",YES);
 objj_executeFile("CPPlatform.j",YES);
 CPUnknownBrowserEngine=0;
@@ -20777,11 +20777,11 @@ _3|=CPInputTypeCanBeChangedFeature;
 if(typeof window!=="undefined"&&typeof window.navigator!=="undefined"){
 _1=window.navigator.userAgent;
 }
-if(window.opera){
+if(typeof window!=="undefined"&&window.opera){
 _2=CPOperaBrowserEngine;
 _3|=CPJavaScriptCanvasDrawFeature;
 }else{
-if(window.attachEvent){
+if(typeof window!=="undefined"&&window.attachEvent){
 _2=CPInternetExplorerBrowserEngine;
 _3|=CPVMLFeature;
 _3|=CPJavascriptRemedialKeySupport;
