@@ -23112,7 +23112,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["id"]), new objj_method(sel_getUid("setContentView:"), function $CPScrollView__setContentView_(self, _cmd, aContentView)
 { with(self)
 {
-    if (_contentView !== aContentView || !aContentView)
+    if (_contentView === aContentView || !aContentView)
         return;
     var documentView = objj_msgSend(aContentView, "documentView");
     if (documentView)

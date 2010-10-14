@@ -21151,7 +21151,7 @@ return objj_msgSend(_contentView,"documentView");
 }
 }),new objj_method(sel_getUid("setContentView:"),function(_c,_d,_e){
 with(_c){
-if(_contentView!==_e||!_e){
+if(_contentView===_e||!_e){
 return;
 }
 var _f=objj_msgSend(_e,"documentView");
