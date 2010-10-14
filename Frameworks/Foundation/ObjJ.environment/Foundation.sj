@@ -6045,7 +6045,7 @@ with(_4b){
 objj_msgSend(_observer,"performSelector:withObject:",_selector,_4d);
 }
 })]);
-p;9;CPTimer.jt;5527;@STATIC;1.0;i;8;CPDate.ji;14;CPInvocation.ji;10;CPObject.ji;11;CPRunLoop.jt;5446;
+p;9;CPTimer.jt;5129;@STATIC;1.0;i;8;CPDate.ji;14;CPInvocation.ji;10;CPObject.ji;11;CPRunLoop.jt;5048;
 objj_executeFile("CPDate.j",YES);
 objj_executeFile("CPInvocation.j",YES);
 objj_executeFile("CPObject.j",YES);
@@ -6190,22 +6190,6 @@ _4d[_53]=nil;
 }
 _4d[_53]=objj_msgSend(CPTimer,"scheduledTimerWithTimeInterval:callback:repeats:",_50/1000,_54,_51);
 return _53;
-};
-window.setTimeout=function(_55,_56){
-return _4e(_55,_56,NO,Array.prototype.slice.apply(arguments,[2]));
-};
-window.clearTimeout=function(_57){
-var _58=_4d[_57];
-if(_58){
-objj_msgSend(_58,"invalidate");
-}
-_4d[_57]=nil;
-};
-window.setInterval=function(_59,_5a,_5b){
-return _4e(_59,_5a,YES,Array.prototype.slice.apply(arguments,[2]));
-};
-window.clearInterval=function(_5c){
-window.clearTimeout(_5c);
 };
 p;19;CPJSONPConnection.jt;3704;@STATIC;1.0;i;10;CPObject.jt;3670;
 objj_executeFile("CPObject.j",YES);

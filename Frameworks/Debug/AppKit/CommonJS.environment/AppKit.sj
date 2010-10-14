@@ -6881,13 +6881,14 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithItemIdentifier:
 },["void","CPCoder"])]);
 }
 
-p;14;CPTokenField.jt;25197;@STATIC;1.0;I;27;Foundation/CPCharacterSet.jI;23;Foundation/CPIndexSet.jI;17;AppKit/CPButton.jI;22;AppKit/_CPMenuWindow.jI;21;AppKit/CPScrollView.jI;20;AppKit/CPTextField.jI;17;AppKit/CPWindow.jt;24995;objj_executeFile("Foundation/CPCharacterSet.j", NO);
+p;14;CPTokenField.jt;25464;@STATIC;1.0;I;27;Foundation/CPCharacterSet.jI;23;Foundation/CPIndexSet.jI;20;Foundation/CPTimer.ji;10;CPButton.ji;14;CPScrollView.ji;13;CPTextField.ji;10;CPWindow.ji;15;_CPMenuWindow.jt;25272;objj_executeFile("Foundation/CPCharacterSet.j", NO);
 objj_executeFile("Foundation/CPIndexSet.j", NO);
-objj_executeFile("AppKit/CPButton.j", NO);
-objj_executeFile("AppKit/_CPMenuWindow.j", NO);
-objj_executeFile("AppKit/CPScrollView.j", NO);
-objj_executeFile("AppKit/CPTextField.j", NO);
-objj_executeFile("AppKit/CPWindow.j", NO);
+objj_executeFile("Foundation/CPTimer.j", NO);
+objj_executeFile("CPButton.j", YES);
+objj_executeFile("CPScrollView.j", YES);
+objj_executeFile("CPTextField.j", YES);
+objj_executeFile("CPWindow.j", YES);
+objj_executeFile("_CPMenuWindow.j", YES);
 var CPThemeStateAutoCompleting = "CPThemeStateAutoCompleting",
     CPTokenFieldTableColumnIdentifier = "CPTokenFieldTableColumnIdentifier";
 {var the_class = objj_allocateClassPair(CPTextField, "CPTokenField"),
@@ -7304,8 +7305,10 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 {
     objj_msgSendSuper({ receiver:self, super_class:objj_getClass("_CPTokenFieldToken").super_class }, "sizeToFit");
     var size = objj_msgSend(self, "bounds").size,
-        minSize = objj_msgSend(self, "currentValueForThemeAttribute:", "min-size");
+        minSize = objj_msgSend(self, "currentValueForThemeAttribute:", "min-size"),
+        contentInset = objj_msgSend(self, "currentValueForThemeAttribute:", "content-inset");
     size.height = minSize.height;
+    size.width = objj_msgSend((objj_msgSend(self, "stringValue") || " "), "sizeWithFont:", objj_msgSend(self, "font")).width + contentInset.left + contentInset.right;
     objj_msgSend(self, "setFrameSize:", size);
 }
 },["void"]), new objj_method(sel_getUid("layoutSubviews"), function $_CPTokenFieldToken__layoutSubviews(self, _cmd)
@@ -13595,7 +13598,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("initialize"), function
 },["CPArray","CPString","unsigned"])]);
 }
 
-p;13;CPResponder.jt;8555;@STATIC;1.0;I;21;Foundation/CPObject.jt;8510;objj_executeFile("Foundation/CPObject.j", NO);
+p;13;CPResponder.jt;8772;@STATIC;1.0;I;21;Foundation/CPObject.jt;8727;objj_executeFile("Foundation/CPObject.j", NO);
 CPDeleteKeyCode = 8;
 CPTabKeyCode = 9;
 CPReturnKeyCode = 13;
@@ -13787,7 +13790,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("acceptsFirstResponder")
 }
 },["void","SEL"])]);
 }
-var CPResponderNextResponderKey = "CPResponderNextResponderKey";
+var CPResponderNextResponderKey = "CPResponderNextResponderKey",
+    CPResponderMenuKey = "CPResponderMenuKey";
 {
 var the_class = objj_getClass("CPResponder")
 if(!the_class) throw new SyntaxError("*** Could not find definition for class \"CPResponder\"");
@@ -13796,7 +13800,10 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 {
     self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPResponder").super_class }, "init");
     if (self)
+    {
         _nextResponder = objj_msgSend(aCoder, "decodeObjectForKey:", CPResponderNextResponderKey);
+        _menu = objj_msgSend(aCoder, "decodeObjectForKey:", CPResponderMenuKey);
+    }
     return self;
 }
 },["id","CPCoder"]), new objj_method(sel_getUid("encodeWithCoder:"), function $CPResponder__encodeWithCoder_(self, _cmd, aCoder)
@@ -13804,6 +13811,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 {
     if (_nextResponder !== nil)
         objj_msgSend(aCoder, "encodeConditionalObject:forKey:", _nextResponder, CPResponderNextResponderKey);
+    objj_msgSend(aCoder, "encodeObject:forKey:", _menu, CPResponderMenuKey);
 }
 },["void","CPCoder"])]);
 }
