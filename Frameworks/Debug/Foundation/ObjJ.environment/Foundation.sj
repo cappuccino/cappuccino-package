@@ -1604,7 +1604,7 @@ MIN = Math.min;
 MAX = Math.max;
 ABS = Math.abs;
 
-p;12;CPIndexSet.jt;21433;@STATIC;1.0;i;10;CPObject.ji;9;CPRange.jt;21385;objj_executeFile("CPObject.j", YES);
+p;12;CPIndexSet.jt;21489;@STATIC;1.0;i;10;CPObject.ji;9;CPRange.jt;21441;objj_executeFile("CPObject.j", YES);
 objj_executeFile("CPRange.j", YES);
 {var the_class = objj_allocateClassPair(CPObject, "CPIndexSet"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_count"), new objj_ivar("_ranges")]);
@@ -2048,6 +2048,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
         }
         if ((range.location += aDelta) < 0)
         {
+            _count -= range.length - CPMaxRange(range);
             range.length = CPMaxRange(range);
             range.location = 0;
         }

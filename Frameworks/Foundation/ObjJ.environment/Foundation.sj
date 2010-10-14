@@ -1407,7 +1407,7 @@ CPNotFound=-1;
 MIN=Math.min;
 MAX=Math.max;
 ABS=Math.abs;
-p;12;CPIndexSet.jt;12162;@STATIC;1.0;i;10;CPObject.ji;9;CPRange.jt;12114;
+p;12;CPIndexSet.jt;12198;@STATIC;1.0;i;10;CPObject.ji;9;CPRange.jt;12150;
 objj_executeFile("CPObject.j",YES);
 objj_executeFile("CPRange.j",YES);
 var _1=objj_allocateClassPair(CPObject,"CPIndexSet"),_2=_1.isa;
@@ -1808,6 +1808,7 @@ _90.location=0;
 break;
 }
 if((_91.location+=_8f)<0){
+_count-=_91.length-CPMaxRange(_91);
 _91.length=CPMaxRange(_91);
 _91.location=0;
 }
