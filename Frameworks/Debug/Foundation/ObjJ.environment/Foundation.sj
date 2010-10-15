@@ -6948,7 +6948,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithObserver:select
 },["void","CPNotification"])]);
 }
 
-p;9;CPTimer.jt;7987;@STATIC;1.0;i;8;CPDate.ji;14;CPInvocation.ji;10;CPObject.ji;11;CPRunLoop.jt;7906;objj_executeFile("CPDate.j", YES);
+p;9;CPTimer.jt;8729;@STATIC;1.0;i;8;CPDate.ji;14;CPInvocation.ji;10;CPObject.ji;11;CPRunLoop.jt;8648;objj_executeFile("CPDate.j", YES);
 objj_executeFile("CPInvocation.j", YES);
 objj_executeFile("CPObject.j", YES);
 objj_executeFile("CPRunLoop.j", YES);
@@ -7099,6 +7099,28 @@ var _CPTimerBridgeTimer = function(codeOrFunction, aDelay, shouldRepeat, functio
     }
     CPTimersForTimeoutIDs[timeoutID] = objj_msgSend(CPTimer, "scheduledTimerWithTimeInterval:callback:repeats:", aDelay / 1000, theFunction, shouldRepeat);
     return timeoutID;
+}
+if (typeof(window) !== 'undefined')
+{
+    window.setTimeout = function(codeOrFunction, aDelay)
+    {
+        return _CPTimerBridgeTimer(codeOrFunction, aDelay, NO, Array.prototype.slice.apply(arguments, [2]));
+    }
+    window.clearTimeout = function(aTimeoutID)
+    {
+        var timer = CPTimersForTimeoutIDs[aTimeoutID];
+        if (timer)
+            objj_msgSend(timer, "invalidate");
+        CPTimersForTimeoutIDs[aTimeoutID] = nil;
+    }
+    window.setInterval = function(codeOrFunction, aDelay, functionArgs)
+    {
+        return _CPTimerBridgeTimer(codeOrFunction, aDelay, YES, Array.prototype.slice.apply(arguments, [2]));
+    }
+    window.clearInterval = function(aTimeoutID)
+    {
+        window.clearTimeout(aTimeoutID);
+    }
 }
 
 p;19;CPJSONPConnection.jt;5177;@STATIC;1.0;i;10;CPObject.jt;5143;objj_executeFile("CPObject.j", YES);
