@@ -79,11 +79,11 @@ _8.push(_d);
 }
 return _8;
 };
-p;10;Generate.jt;6591;@STATIC;1.0;i;15;Configuration.jt;6552;
+p;10;Generate.jt;6615;@STATIC;1.0;i;15;Configuration.jt;6576;
 objj_executeFile("Configuration.j",YES);
 var OS=require("os"),_1=require("system"),_2=require("file"),_3=require("objective-j");
-var _4=require("term").stream;
-var _5=new (require("args").Parser)();
+var _4=require("narwhal/term").stream;
+var _5=new (require("narwhal/args").Parser)();
 _5.usage("DESTINATION_DIRECTORY");
 _5.help("Generate a Cappuccino project or Frameworks directory");
 _5.option("-t","--template","template").set().def("Application").help("Selects a project template to use (default: Application).");
@@ -100,7 +100,7 @@ _5.option("--noconfig","noconfig").set(true).help("Selects a project template to
 _5.option("--list-templates","listTemplates").set(true).help("Lists available templates.");
 _5.option("--list-frameworks","listFrameworks").set(true).help("Lists available frameworks.");
 _5.helpful();
-var _6=require("packages").catalog["cappuccino"].directory;
+var _6=require("narwhal/packages").catalog["cappuccino"].directory;
 var _7=_2.join(_6,"lib","capp","Resources","Templates");
 gen=function(){
 var _8=["capp gen"].concat(Array.prototype.slice.call(arguments));

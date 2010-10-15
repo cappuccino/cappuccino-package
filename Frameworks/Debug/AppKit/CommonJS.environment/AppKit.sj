@@ -387,7 +387,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 },["void","CPEvent"])]);
 }
 
-p;13;CPTableView.jt;141957;@STATIC;1.0;I;20;Foundation/CPArray.jI;23;Foundation/CPIndexSet.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;141786;objj_executeFile("Foundation/CPArray.j", NO);
+p;13;CPTableView.jt;146954;@STATIC;1.0;I;20;Foundation/CPArray.jI;23;Foundation/CPIndexSet.jI;19;AppKit/CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;146783;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("Foundation/CPIndexSet.j", NO);
 objj_executeFile("AppKit/CGGradient.j", NO);
 objj_executeFile("CPControl.j", YES);
@@ -468,7 +468,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithTableView:"), f
 },["void","CGRect"])]);
 }
 {var the_class = objj_allocateClassPair(CPControl, "CPTableView"),
-meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_dataSource"), new objj_ivar("_implementedDataSourceMethods"), new objj_ivar("_delegate"), new objj_ivar("_implementedDelegateMethods"), new objj_ivar("_tableColumns"), new objj_ivar("_tableColumnRanges"), new objj_ivar("_dirtyTableColumnRangeIndex"), new objj_ivar("_numberOfHiddenColumns"), new objj_ivar("_reloadAllRows"), new objj_ivar("_objectValues"), new objj_ivar("_exposedRows"), new objj_ivar("_exposedColumns"), new objj_ivar("_dataViewsForTableColumns"), new objj_ivar("_cachedDataViews"), new objj_ivar("_allowsColumnReordering"), new objj_ivar("_allowsColumnResizing"), new objj_ivar("_allowsColumnSelection"), new objj_ivar("_allowsMultipleSelection"), new objj_ivar("_allowsEmptySelection"), new objj_ivar("_sortDescriptors"), new objj_ivar("_intercellSpacing"), new objj_ivar("_rowHeight"), new objj_ivar("_usesAlternatingRowBackgroundColors"), new objj_ivar("_alternatingRowBackgroundColors"), new objj_ivar("_selectionHighlightStyle"), new objj_ivar("_currentHighlightedTableColumn"), new objj_ivar("_gridStyleMask"), new objj_ivar("_numberOfRows"), new objj_ivar("_headerView"), new objj_ivar("_cornerView"), new objj_ivar("_selectedColumnIndexes"), new objj_ivar("_selectedRowIndexes"), new objj_ivar("_selectionAnchorRow"), new objj_ivar("_lastSelectedRow"), new objj_ivar("_previouslySelectedRowIndexes"), new objj_ivar("_startTrackingPoint"), new objj_ivar("_startTrackingTimestamp"), new objj_ivar("_trackingPointMovedOutOfClickSlop"), new objj_ivar("_editingCellIndex"), new objj_ivar("_tableDrawView"), new objj_ivar("_doubleAction"), new objj_ivar("_clickedRow"), new objj_ivar("_columnAutoResizingStyle"), new objj_ivar("_lastTrackedRowIndex"), new objj_ivar("_originalMouseDownPoint"), new objj_ivar("_verticalMotionCanDrag"), new objj_ivar("_destinationDragStyle"), new objj_ivar("_isSelectingSession"), new objj_ivar("_draggedRowIndexes"), new objj_ivar("_dropOperationFeedbackView"), new objj_ivar("_dragOperationDefaultMask"), new objj_ivar("_retargetedDropRow"), new objj_ivar("_retargetedDropOperation"), new objj_ivar("_disableAutomaticResizing"), new objj_ivar("_lastColumnShouldSnap"), new objj_ivar("_implementsCustomDrawRow"), new objj_ivar("_draggedColumn"), new objj_ivar("_differedColumnDataToRemove")]);
+meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_dataSource"), new objj_ivar("_implementedDataSourceMethods"), new objj_ivar("_delegate"), new objj_ivar("_implementedDelegateMethods"), new objj_ivar("_tableColumns"), new objj_ivar("_tableColumnRanges"), new objj_ivar("_dirtyTableColumnRangeIndex"), new objj_ivar("_numberOfHiddenColumns"), new objj_ivar("_reloadAllRows"), new objj_ivar("_objectValues"), new objj_ivar("_exposedRows"), new objj_ivar("_exposedColumns"), new objj_ivar("_dataViewsForTableColumns"), new objj_ivar("_cachedDataViews"), new objj_ivar("_allowsColumnReordering"), new objj_ivar("_allowsColumnResizing"), new objj_ivar("_allowsColumnSelection"), new objj_ivar("_allowsMultipleSelection"), new objj_ivar("_allowsEmptySelection"), new objj_ivar("_sortDescriptors"), new objj_ivar("_intercellSpacing"), new objj_ivar("_rowHeight"), new objj_ivar("_usesAlternatingRowBackgroundColors"), new objj_ivar("_alternatingRowBackgroundColors"), new objj_ivar("_selectionHighlightStyle"), new objj_ivar("_currentHighlightedTableColumn"), new objj_ivar("_gridStyleMask"), new objj_ivar("_numberOfRows"), new objj_ivar("_groupRows"), new objj_ivar("_headerView"), new objj_ivar("_cornerView"), new objj_ivar("_selectedColumnIndexes"), new objj_ivar("_selectedRowIndexes"), new objj_ivar("_selectionAnchorRow"), new objj_ivar("_lastSelectedRow"), new objj_ivar("_previouslySelectedRowIndexes"), new objj_ivar("_startTrackingPoint"), new objj_ivar("_startTrackingTimestamp"), new objj_ivar("_trackingPointMovedOutOfClickSlop"), new objj_ivar("_editingCellIndex"), new objj_ivar("_tableDrawView"), new objj_ivar("_doubleAction"), new objj_ivar("_clickedRow"), new objj_ivar("_columnAutoResizingStyle"), new objj_ivar("_lastTrackedRowIndex"), new objj_ivar("_originalMouseDownPoint"), new objj_ivar("_verticalMotionCanDrag"), new objj_ivar("_destinationDragStyle"), new objj_ivar("_isSelectingSession"), new objj_ivar("_draggedRowIndexes"), new objj_ivar("_dropOperationFeedbackView"), new objj_ivar("_dragOperationDefaultMask"), new objj_ivar("_retargetedDropRow"), new objj_ivar("_retargetedDropOperation"), new objj_ivar("_disableAutomaticResizing"), new objj_ivar("_lastColumnShouldSnap"), new objj_ivar("_implementsCustomDrawRow"), new objj_ivar("_draggedColumn"), new objj_ivar("_differedColumnDataToRemove")]);
 objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("disableAutomaticResizing"), function $CPTableView__disableAutomaticResizing(self, _cmd)
 { with(self)
@@ -545,6 +545,7 @@ _disableAutomaticResizing = newValue;
         _exposedRows = objj_msgSend(CPIndexSet, "indexSet");
         _exposedColumns = objj_msgSend(CPIndexSet, "indexSet");
         _cachedDataViews = { };
+        _groupRows = objj_msgSend(CPIndexSet, "indexSet");
         _tableDrawView = objj_msgSend(objj_msgSend(_CPTableDrawView, "alloc"), "initWithTableView:", self);
         objj_msgSend(_tableDrawView, "setBackgroundColor:", objj_msgSend(CPColor, "clearColor"));
         objj_msgSend(self, "addSubview:", _tableDrawView);
@@ -1925,6 +1926,20 @@ _disableAutomaticResizing = newValue;
                 objj_msgSend(dataView, "setThemeState:", CPThemeStateSelectedDataView);
             else
                 objj_msgSend(dataView, "unsetThemeState:", CPThemeStateSelectedDataView);
+            if (_implementedDelegateMethods & CPTableViewDelegate_tableView_isGroupRow_)
+            {
+                if(objj_msgSend(_delegate, "tableView:isGroupRow:", self, row))
+                {
+                    objj_msgSend(_groupRows, "addIndex:", row);
+                    objj_msgSend(dataView, "setThemeState:", CPThemeStateGroupRow);
+                }
+                else
+                {
+                    objj_msgSend(_groupRows, "removeIndexesInRange:", CPMakeRange(row, 1));
+                    objj_msgSend(dataView, "unsetThemeState:", CPThemeStateGroupRow);
+                }
+                objj_msgSend(self, "setNeedsDisplay:", YES)
+            }
             if (_implementedDelegateMethods & CPTableViewDelegate_tableView_willDisplayView_forTableColumn_row_)
                 objj_msgSend(_delegate, "tableView:willDisplayView:forTableColumn:row:", self, dataView, tableColumn, row);
             if (objj_msgSend(dataView, "superview") !== self)
@@ -2051,15 +2066,21 @@ _disableAutomaticResizing = newValue;
         firstRow = exposedRows.location,
         lastRow = CPMaxRange(exposedRows) - 1,
         colorIndex = MIN(exposedRows.length, colorCount),
-        heightFilled = 0.0;
+        heightFilled = 0.0,
+        groupRowRects = [ ];
     while (colorIndex--)
     {
         var row = firstRow - firstRow % colorCount + colorIndex,
-            fillRect = nil;
+            fillRect = { origin: { x:0.0, y:0.0 }, size: { width:0.0, height:0.0 } };
         CGContextBeginPath(context);
         for (; row <= lastRow; row += colorCount)
             if (row >= firstRow)
-                CGContextAddRect(context, CGRectIntersection(aRect, fillRect = objj_msgSend(self, "rectOfRow:", row)));
+            {
+                if (!objj_msgSend(_groupRows, "containsIndex:", row) && _selectionHighlightStyle !== CPTableViewSelectionHighlightStyleSourceList)
+                    CGContextAddRect(context, CGRectIntersection(aRect, fillRect = objj_msgSend(self, "rectOfRow:", row)));
+                else
+                    groupRowRects.push(CGRectIntersection(aRect, objj_msgSend(self, "rectOfRow:", row)));
+            }
         if (row - colorCount === lastRow)
             heightFilled = (fillRect.origin.y + fillRect.size.height);
         CGContextClosePath(context);
@@ -2068,16 +2089,23 @@ _disableAutomaticResizing = newValue;
     }
     var totalHeight = (aRect.origin.y + aRect.size.height);
     if (heightFilled >= totalHeight || _rowHeight <= 0.0)
+    {
+        objj_msgSend(self, "_drawGroupRowsForRects:", groupRowRects);
         return;
+    }
     var rowHeight = _rowHeight + _intercellSpacing.height,
         fillRect = { origin: { x:(aRect.origin.x), y:(aRect.origin.y) + heightFilled }, size: { width:(aRect.size.width), height:rowHeight } };
     for (row = lastRow + 1; heightFilled < totalHeight; ++row)
     {
-        CGContextSetFillColor(context, rowColors[row % colorCount]);
-        CGContextFillRect(context, fillRect);
+        if(!objj_msgSend(_groupRows, "containsIndex:", row) && _selectionHighlightStyle !== CPTableViewSelectionHighlightStyleSourceList)
+        {
+            CGContextSetFillColor(context, rowColors[row % colorCount]);
+            CGContextFillRect(context, fillRect);
+        }
         heightFilled += rowHeight;
         fillRect.origin.y += rowHeight;
     }
+    objj_msgSend(self, "_drawGroupRowsForRects:", groupRowRects);
 }
 },["void","CGRect"]), new objj_method(sel_getUid("drawGridInClipRect:"), function $CPTableView__drawGridInClipRect_(self, _cmd, aRect)
 { with(self)
@@ -2164,40 +2192,62 @@ _disableAutomaticResizing = newValue;
     var drawGradient = (_selectionHighlightStyle === CPTableViewSelectionHighlightStyleSourceList && objj_msgSend(_selectedRowIndexes, "count") >= 1),
         deltaHeight = 0.5 * (_gridStyleMask & CPTableViewSolidHorizontalGridLineMask);
     CGContextBeginPath(context);
-    var gradientCache = objj_msgSend(self, "selectionGradientColors"),
-        topLineColor = objj_msgSend(gradientCache, "objectForKey:", CPSourceListTopLineColor),
-        bottomLineColor = objj_msgSend(gradientCache, "objectForKey:", CPSourceListBottomLineColor),
-        gradientColor = objj_msgSend(gradientCache, "objectForKey:", CPSourceListGradient);
+    if (drawGradient)
+    {
+        var gradientCache = objj_msgSend(self, "selectionGradientColors"),
+            topLineColor = objj_msgSend(gradientCache, "objectForKey:", CPSourceListTopLineColor),
+            bottomLineColor = objj_msgSend(gradientCache, "objectForKey:", CPSourceListBottomLineColor),
+            gradientColor = objj_msgSend(gradientCache, "objectForKey:", CPSourceListGradient);
+    }
+    var normalSelectionHighlightColor = objj_msgSend(self, "selectionHighlightColor");
+    if (objj_msgSend(_groupRows, "count"))
+    {
+        var topGroupLineColor = objj_msgSend(CPColor, "colorWithCalibratedWhite:alpha:", 212.0 / 255.0, 1.0),
+            bottomGroupLineColor = objj_msgSend(CPColor, "colorWithCalibratedWhite:alpha:", 185.0 / 255.0, 1.0),
+            gradientGroupColor = CGGradientCreateWithColorComponents(CGColorSpaceCreateDeviceRGB(), [212.0 / 255.0, 212.0 / 255.0, 212.0 / 255.0,1.0, 197.0 / 255.0, 197.0 / 255.0, 197.0 / 255.0,1.0], [0,1], 2);
+    }
     while (count--)
     {
-        var rowRect = CGRectIntersection(objj_msgSend(self, rectSelector, indexes[count]), aRect);
-        CGContextAddRect(context, rowRect);
-        if (drawGradient)
+        var currentIndex = indexes[count],
+            rowRect = CGRectIntersection(objj_msgSend(self, rectSelector, currentIndex), aRect);
+        if (!drawGradient)
+            var shouldUseGroupGradient = objj_msgSend(_groupRows, "containsIndex:", currentIndex);
+        if (drawGradient || shouldUseGroupGradient)
         {
             var minX = (rowRect.origin.x),
                 minY = (rowRect.origin.y),
                 maxX = (rowRect.origin.x + rowRect.size.width),
                 maxY = (rowRect.origin.y + rowRect.size.height) - deltaHeight;
-            CGContextDrawLinearGradient(context, gradientColor, rowRect.origin, CGPointMake(minX, maxY), 0);
+            if (!drawGradient)
+            {
+                objj_msgSend(normalSelectionHighlightColor, "setFill");
+                CGContextClosePath(context);
+                CGContextFillPath(context);
+                CGContextBeginPath(context);
+            }
+            CGContextAddRect(context, rowRect);
+            CGContextDrawLinearGradient(context, (shouldUseGroupGradient) ? gradientGroupColor : gradientColor, rowRect.origin, { x:minX, y:maxY }, 0);
             CGContextClosePath(context);
             CGContextBeginPath(context);
             CGContextMoveToPoint(context, minX, minY);
             CGContextAddLineToPoint(context, maxX, minY);
             CGContextClosePath(context);
-            CGContextSetStrokeColor(context, topLineColor);
+            CGContextSetStrokeColor(context, (shouldUseGroupGradient) ? topGroupLineColor : topLineColor);
             CGContextStrokePath(context);
             CGContextBeginPath(context);
             CGContextMoveToPoint(context, minX, maxY);
             CGContextAddLineToPoint(context, maxX, maxY - 1);
             CGContextClosePath(context);
-            CGContextSetStrokeColor(context, bottomLineColor);
+            CGContextSetStrokeColor(context, (shouldUseGroupGradient) ? bottomGroupLineColor : bottomLineColor);
             CGContextStrokePath(context);
         }
+        else
+            CGContextAddRect(context, rowRect);
     }
     CGContextClosePath(context);
     if (!drawGradient)
     {
-        objj_msgSend(objj_msgSend(self, "selectionHighlightColor"), "setFill");
+        objj_msgSend(normalSelectionHighlightColor, "setFill");
         CGContextFillPath(context);
     }
     CGContextBeginPath(context);
@@ -2205,10 +2255,10 @@ _disableAutomaticResizing = newValue;
     for(var i = 0; i < count2; i++)
     {
          var rect = objj_msgSend(self, rectSelector, indexes[i]),
-             minX = CGRectGetMinX(rect) - 0.5,
-             maxX = CGRectGetMaxX(rect) - 0.5,
-             minY = CGRectGetMinY(rect) - 0.5,
-             maxY = CGRectGetMaxY(rect) - 0.5;
+             minX = (rect.origin.x) - 0.5,
+             maxX = (rect.origin.x + rect.size.width) - 0.5,
+             minY = (rect.origin.y) - 0.5,
+             maxY = (rect.origin.y + rect.size.height) - 0.5;
         if (objj_msgSend(_selectedRowIndexes, "count") >= 1 && gridStyleMask & CPTableViewSolidVerticalGridLineMask)
         {
             var exposedColumns = objj_msgSend(self, "columnIndexesInRect:", aRect),
@@ -2220,7 +2270,7 @@ _disableAutomaticResizing = newValue;
             for (var c = firstExposedColumn; c < exposedColumnCount; c++)
             {
                 var colRect = objj_msgSend(self, "rectOfColumn:", exposedColumnIndexes[c]),
-                    colX = CGRectGetMaxX(colRect) + 0.5;
+                    colX = (colRect.origin.x + colRect.size.width) + 0.5;
                 CGContextMoveToPoint(context, colX, minY);
                 CGContextAddLineToPoint(context, colX, maxY);
             }
@@ -2235,7 +2285,49 @@ _disableAutomaticResizing = newValue;
     CGContextSetStrokeColor(context, objj_msgSend(self, "currentValueForThemeAttribute:", "highlighted-grid-color"));
     CGContextStrokePath(context);
 }
-},["void","CGRect"]), new objj_method(sel_getUid("_drawRows:clipRect:"), function $CPTableView___drawRows_clipRect_(self, _cmd, rowsIndexes, clipRect)
+},["void","CGRect"]), new objj_method(sel_getUid("_drawGroupRowsForRects:"), function $CPTableView___drawGroupRowsForRects_(self, _cmd, rects)
+{ with(self)
+{
+    if (_selectionHighlightStyle === CPTableViewSelectionHighlightStyleSourceList || !rects.length)
+        return;
+    var context = objj_msgSend(objj_msgSend(CPGraphicsContext, "currentContext"), "graphicsPort"),
+        i = rects.length;
+    CGContextBeginPath(context);
+    var gradientCache = objj_msgSend(self, "selectionGradientColors"),
+        topLineColor = objj_msgSend(CPColor, "colorWithHexString:", "d3d3d3"),
+        bottomLineColor = objj_msgSend(CPColor, "colorWithHexString:", "bebebd"),
+        gradientColor = CGGradientCreateWithColorComponents(CGColorSpaceCreateDeviceRGB(), [220.0 / 255.0, 220.0 / 255.0, 220.0 / 255.0,1.0,
+                                                                                            199.0 / 255.0, 199.0 / 255.0, 199.0 / 255.0,1.0], [0,1], 2),
+        drawGradient = YES;
+        while (i--)
+        {
+            var rowRect = rects[i];
+            CGContextAddRect(context, rowRect);
+            if (drawGradient)
+            {
+                var minX = CGRectGetMinX(rowRect),
+                    minY = CGRectGetMinY(rowRect),
+                    maxX = CGRectGetMaxX(rowRect),
+                    maxY = CGRectGetMaxY(rowRect);
+                CGContextDrawLinearGradient(context, gradientColor, rowRect.origin, CGPointMake(minX, maxY), 0);
+                CGContextClosePath(context);
+                CGContextBeginPath(context);
+                CGContextMoveToPoint(context, minX, minY);
+                CGContextAddLineToPoint(context, maxX, minY);
+                CGContextClosePath(context);
+                CGContextSetStrokeColor(context, topLineColor);
+                CGContextStrokePath(context);
+                CGContextBeginPath(context);
+                CGContextMoveToPoint(context, minX, maxY);
+                CGContextAddLineToPoint(context, maxX, maxY - 1);
+                CGContextClosePath(context);
+                CGContextSetStrokeColor(context, bottomLineColor);
+                CGContextStrokePath(context);
+            }
+        }
+    CGContextClosePath(context);
+}
+},["void","CPArray"]), new objj_method(sel_getUid("_drawRows:clipRect:"), function $CPTableView___drawRows_clipRect_(self, _cmd, rowsIndexes, clipRect)
 { with(self)
 {
     var row = objj_msgSend(rowsIndexes, "firstIndex");
@@ -6881,7 +6973,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithItemIdentifier:
 },["void","CPCoder"])]);
 }
 
-p;14;CPTokenField.jt;25464;@STATIC;1.0;I;27;Foundation/CPCharacterSet.jI;23;Foundation/CPIndexSet.jI;20;Foundation/CPTimer.ji;10;CPButton.ji;14;CPScrollView.ji;13;CPTextField.ji;10;CPWindow.ji;15;_CPMenuWindow.jt;25272;objj_executeFile("Foundation/CPCharacterSet.j", NO);
+p;14;CPTokenField.jt;25339;@STATIC;1.0;I;27;Foundation/CPCharacterSet.jI;23;Foundation/CPIndexSet.jI;20;Foundation/CPTimer.ji;10;CPButton.ji;14;CPScrollView.ji;13;CPTextField.ji;10;CPWindow.ji;15;_CPMenuWindow.jt;25147;objj_executeFile("Foundation/CPCharacterSet.j", NO);
 objj_executeFile("Foundation/CPIndexSet.j", NO);
 objj_executeFile("Foundation/CPTimer.j", NO);
 objj_executeFile("CPButton.j", YES);
@@ -7300,18 +7392,17 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 {
     _tokenField = tokenField;
 }
-},["void","CPTokenField"]), new objj_method(sel_getUid("sizeToFit"), function $_CPTokenFieldToken__sizeToFit(self, _cmd)
+},["void","CPTokenField"]), new objj_method(sel_getUid("_minimumFrameSize"), function $_CPTokenFieldToken___minimumFrameSize(self, _cmd)
 { with(self)
 {
-    objj_msgSendSuper({ receiver:self, super_class:objj_getClass("_CPTokenFieldToken").super_class }, "sizeToFit");
-    var size = objj_msgSend(self, "bounds").size,
+    var size = CGRectMakeZero(),
         minSize = objj_msgSend(self, "currentValueForThemeAttribute:", "min-size"),
         contentInset = objj_msgSend(self, "currentValueForThemeAttribute:", "content-inset");
     size.height = minSize.height;
-    size.width = objj_msgSend((objj_msgSend(self, "stringValue") || " "), "sizeWithFont:", objj_msgSend(self, "font")).width + contentInset.left + contentInset.right;
-    objj_msgSend(self, "setFrameSize:", size);
+    size.width = MAX(minSize.width, objj_msgSend((objj_msgSend(self, "stringValue") || " "), "sizeWithFont:", objj_msgSend(self, "font")).width + contentInset.left + contentInset.right);
+    return size;
 }
-},["void"]), new objj_method(sel_getUid("layoutSubviews"), function $_CPTokenFieldToken__layoutSubviews(self, _cmd)
+},["CGSize"]), new objj_method(sel_getUid("layoutSubviews"), function $_CPTokenFieldToken__layoutSubviews(self, _cmd)
 { with(self)
 {
     objj_msgSendSuper({ receiver:self, super_class:objj_getClass("_CPTokenFieldToken").super_class }, "layoutSubviews");
@@ -8551,7 +8642,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("openPanel"), function 
 },["id"])]);
 }
 
-p;12;CPDocument.jt;27917;@STATIC;1.0;I;21;Foundation/CPString.jI;20;Foundation/CPArray.ji;15;CPApplication.ji;13;CPResponder.ji;13;CPSavePanel.ji;18;CPViewController.ji;20;CPWindowController.jt;27742;objj_executeFile("Foundation/CPString.j", NO);
+p;12;CPDocument.jt;27926;@STATIC;1.0;I;21;Foundation/CPString.jI;20;Foundation/CPArray.ji;15;CPApplication.ji;13;CPResponder.ji;13;CPSavePanel.ji;18;CPViewController.ji;20;CPWindowController.jt;27751;objj_executeFile("Foundation/CPString.j", NO);
 objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("CPApplication.j", YES);
 objj_executeFile("CPResponder.j", YES);
@@ -8739,9 +8830,9 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPDoc
         return objj_msgSend(_fileURL, "lastPathComponent");
     if (!_untitledDocumentIndex)
         _untitledDocumentIndex = ++CPDocumentUntitledCount;
- if (_untitledDocumentIndex == 1)
-    return "Untitled";
- return "Untitled " + _untitledDocumentIndex;
+    if (_untitledDocumentIndex == 1)
+       return "Untitled";
+    return "Untitled " + _untitledDocumentIndex;
 }
 },["CPString"]), new objj_method(sel_getUid("viewCibName"), function $CPDocument__viewCibName(self, _cmd)
 { with(self)
@@ -10164,7 +10255,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"])]);
 }
 
-p;9;CPTheme.jt;20517;@STATIC;1.0;I;21;Foundation/CPObject.jI;21;Foundation/CPString.jI;30;Foundation/CPKeyedUnarchiver.jt;20410;objj_executeFile("Foundation/CPObject.j", NO);
+p;9;CPTheme.jt;20578;@STATIC;1.0;I;21;Foundation/CPObject.jI;21;Foundation/CPString.jI;30;Foundation/CPKeyedUnarchiver.jt;20471;objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("Foundation/CPString.j", NO);
 objj_executeFile("Foundation/CPKeyedUnarchiver.j", NO);
 var CPThemesByName = { },
@@ -10414,6 +10505,7 @@ CPThemeStateHighlighted = CPThemeState("highlighted");
 CPThemeStateSelected = CPThemeState("selected");
 CPThemeStateTableDataView = CPThemeState("tableDataView");
 CPThemeStateSelectedDataView = CPThemeStateSelectedTableDataView = CPThemeState("selectedTableDataView");
+CPThemeStateGroupRow = CPThemeState("CPThemeStateGroupRow");
 CPThemeStateBezeled = CPThemeState("bezeled");
 CPThemeStateBordered = CPThemeState("bordered");
 CPThemeStateEditable = CPThemeState("editable");
@@ -22653,7 +22745,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("initialize"), function
 },["void"])]);
 }
 
-p;17;CPCompatibility.jt;5472;@STATIC;1.0;i;9;CPEvent.ji;12;CPPlatform.jt;5423;objj_executeFile("CPEvent.j", YES);
+p;17;CPCompatibility.jt;5473;@STATIC;1.0;i;9;CPEvent.ji;12;CPPlatform.jt;5424;objj_executeFile("CPEvent.j", YES);
 objj_executeFile("CPPlatform.j", YES);
 CPUnknownBrowserEngine = 0;
 CPGeckoBrowserEngine = 1;
@@ -22718,7 +22810,7 @@ else if (USER_AGENT.indexOf("AppleWebKit/") != -1)
         versionDivision = versionString.indexOf('.'),
         majorVersion = parseInt(versionString.substring(0, versionDivision)),
         minorVersion = parseInt(versionString.substr(versionDivision + 1));
-    if((USER_AGENT.indexOf("Safari") !== CPNotFound && (majorVersion > 525 || (majorVersion === 525 && minorVersion > 14))) || USER_AGENT.indexOf("Chrome") !== CPNotFound)
+    if ((USER_AGENT.indexOf("Safari") !== CPNotFound && (majorVersion > 525 || (majorVersion === 525 && minorVersion > 14))) || USER_AGENT.indexOf("Chrome") !== CPNotFound)
         PLATFORM_FEATURES |= CPJavascriptRemedialKeySupport;
     if (!objj_msgSend(CPPlatform, "isBrowser"))
         PLATFORM_FEATURES |= CPJavascriptRemedialKeySupport;
@@ -24646,7 +24738,7 @@ var _CPFontDetectPickTwoDifferentFonts = function(candidates) {
 }
 objj_msgSend(CPFontManager, "setFontManagerFactory:", objj_msgSend(CPFontManager, "class"));
 
-p;10;CPCookie.jt;1762;@STATIC;1.0;I;21;Foundation/CPObject.jI;21;Foundation/CPString.jt;1691;objj_executeFile("Foundation/CPObject.j", NO);
+p;10;CPCookie.jt;1768;@STATIC;1.0;I;21;Foundation/CPObject.jI;21;Foundation/CPString.jt;1697;objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("Foundation/CPString.j", NO);
 {var the_class = objj_allocateClassPair(CPObject, "CPCookie"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_cookieName"), new objj_ivar("_cookieValue"), new objj_ivar("_expires")]);
@@ -24677,12 +24769,12 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithName:"), functi
 },["CPString"]), new objj_method(sel_getUid("setValue:expires:domain:"), function $CPCookie__setValue_expires_domain_(self, _cmd, value, date, domain)
 { with(self)
 {
-    if(date)
-        var expires = "; expires="+date.toGMTString();
+    if (date)
+        var expires = "; expires=" + date.toGMTString();
     else
         var expires = "";
-    if(domain)
-        domain = "; domain="+domain;
+    if (domain)
+        domain = "; domain=" + domain;
     else
         domain = "";
     _cookieValue = value;
@@ -27470,7 +27562,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["id","CPCoder"])]);
 }
 
-p;22;CPDocumentController.jt;14881;@STATIC;1.0;I;21;Foundation/CPObject.jI;21;Foundation/CPBundle.ji;12;CPDocument.ji;13;CPOpenPanel.jt;14774;objj_executeFile("Foundation/CPObject.j", NO);
+p;22;CPDocumentController.jt;14902;@STATIC;1.0;I;21;Foundation/CPObject.jI;21;Foundation/CPBundle.ji;12;CPDocument.ji;13;CPOpenPanel.jt;14795;objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("Foundation/CPBundle.j", NO);
 objj_executeFile("CPDocument.j", YES);
 objj_executeFile("CPOpenPanel.j", YES);;
@@ -27496,13 +27588,13 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPDoc
 {
     var index = 0,
         count = objj_msgSend(_documents, "count");
- for (; index < count; ++index)
+    for (; index < count; ++index)
     {
         var theDocument = _documents[index];
-  if (objj_msgSend(objj_msgSend(theDocument, "fileURL"), "isEqual:", aURL))
-   return theDocument;
+        if (objj_msgSend(objj_msgSend(theDocument, "fileURL"), "isEqual:", aURL))
+            return theDocument;
     }
- return nil;
+    return nil;
 }
 },["CPDocument","CPURL"]), new objj_method(sel_getUid("openUntitledDocumentOfType:display:"), function $CPDocumentController__openUntitledDocumentOfType_display_(self, _cmd, aType, shouldDisplay)
 { with(self)

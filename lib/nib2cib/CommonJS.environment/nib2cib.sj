@@ -1730,7 +1730,7 @@ with(_3){
 return objj_msgSend(_CPToolbarFlexibleSpaceItem,"class");
 }
 })]);
-p;6;main.jt;2126;@STATIC;1.0;I;23;Foundation/Foundation.jI;14;AppKit/CPCib.ji;14;NSFoundation.ji;10;NSAppKit.ji;24;Nib2CibKeyedUnarchiver.ji;11;Converter.jt;1981;
+p;6;main.jt;2134;@STATIC;1.0;I;23;Foundation/Foundation.jI;14;AppKit/CPCib.ji;14;NSFoundation.ji;10;NSAppKit.ji;24;Nib2CibKeyedUnarchiver.ji;11;Converter.jt;1989;
 objj_executeFile("Foundation/Foundation.j",NO);
 objj_executeFile("AppKit/CPCib.j",NO);
 objj_executeFile("NSFoundation.j",YES);
@@ -1739,7 +1739,7 @@ objj_executeFile("Nib2CibKeyedUnarchiver.j",YES);
 objj_executeFile("Converter.j",YES);
 var _1=require("file");
 var OS=require("os");
-var _2=new (require("args").Parser)();
+var _2=new (require("narwhal/args").Parser)();
 _2.usage("INPUT_FILE [OUTPUT_FILE]");
 _2.option("-F","framework","frameworks").push().help("Add a framework to load");
 _2.option("-R","resources").set().help("Set the Resources directory");
