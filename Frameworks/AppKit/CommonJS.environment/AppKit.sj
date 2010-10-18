@@ -12814,7 +12814,7 @@ return "00";
 n=FLOOR(MIN(255,MAX(0,256*n)));
 return _a0.charAt((n-n%16)/16)+_a0.charAt(n%16);
 };
-p;13;CPTextField.jt;27232;@STATIC;1.0;i;11;CPControl.ji;17;CPStringDrawing.ji;17;CPCompatibility.ji;21;_CPImageAndTextView.jt;27126;
+p;13;CPTextField.jt;27303;@STATIC;1.0;i;11;CPControl.ji;17;CPStringDrawing.ji;17;CPCompatibility.ji;21;_CPImageAndTextView.jt;27197;
 objj_executeFile("CPControl.j",YES);
 objj_executeFile("CPStringDrawing.j",YES);
 objj_executeFile("CPCompatibility.j",YES);
@@ -13454,6 +13454,7 @@ objj_msgSend(_f3,"setAlignment:",objj_msgSend(_f5,"decodeIntForKey:",_f0));
 objj_msgSend(_f3,"setPlaceholderString:",objj_msgSend(_f5,"decodeObjectForKey:",_f2));
 var _f6=objj_msgSend(_f3,"_minimumFrameSize");
 _f6.width=MAX(CGRectGetWidth(objj_msgSend(_f3,"frame")),_f6.width);
+_f6.height=MAX(CGRectGetHeight(objj_msgSend(_f3,"frame")),_f6.height);
 if(objj_msgSend(_f3,"isBezeled")){
 if(objj_msgSend(_f3,"lineBreakMode")===CPLineBreakByCharWrapping||objj_msgSend(_f3,"lineBreakMode")==CPLineBreakByWordWrapping){
 _f6.height=MAX(CGRectGetHeight(objj_msgSend(_f3,"frame")),_f6.height);

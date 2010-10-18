@@ -14849,7 +14849,7 @@ var byteToHex = function(n)
            hexCharacters.charAt(n % 16);
 };
 
-p;13;CPTextField.jt;38246;@STATIC;1.0;i;11;CPControl.ji;17;CPStringDrawing.ji;17;CPCompatibility.ji;21;_CPImageAndTextView.jt;38140;objj_executeFile("CPControl.j", YES);
+p;13;CPTextField.jt;38338;@STATIC;1.0;i;11;CPControl.ji;17;CPStringDrawing.ji;17;CPCompatibility.ji;21;_CPImageAndTextView.jt;38232;objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPStringDrawing.j", YES);
 objj_executeFile("CPCompatibility.j", YES);
 objj_executeFile("_CPImageAndTextView.j", YES);
@@ -15574,6 +15574,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
         objj_msgSend(self, "setPlaceholderString:", objj_msgSend(aCoder, "decodeObjectForKey:", CPTextFieldPlaceholderStringKey));
         var minSize = objj_msgSend(self, "_minimumFrameSize");
         minSize.width = MAX(CGRectGetWidth(objj_msgSend(self, "frame")), minSize.width);
+        minSize.height = MAX(CGRectGetHeight(objj_msgSend(self, "frame")), minSize.height);
         if (objj_msgSend(self, "isBezeled"))
             if (objj_msgSend(self, "lineBreakMode") === CPLineBreakByCharWrapping || objj_msgSend(self, "lineBreakMode") == CPLineBreakByWordWrapping)
                 minSize.height = MAX(CGRectGetHeight(objj_msgSend(self, "frame")), minSize.height);
