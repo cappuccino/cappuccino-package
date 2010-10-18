@@ -11639,7 +11639,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"])]);
 }
 
-p;19;CPKeyValueBinding.jt;19408;@STATIC;1.0;I;21;Foundation/CPObject.jI;20;Foundation/CPArray.jI;25;Foundation/CPDictionary.jI;31;Foundation/CPValueTransformer.jt;19271;objj_executeFile("Foundation/CPObject.j", NO);
+p;19;CPKeyValueBinding.jt;19415;@STATIC;1.0;I;21;Foundation/CPObject.jI;20;Foundation/CPArray.jI;25;Foundation/CPDictionary.jI;31;Foundation/CPValueTransformer.jt;19278;objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("Foundation/CPDictionary.j", NO);
 objj_executeFile("Foundation/CPValueTransformer.j", NO);
@@ -11761,7 +11761,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithBinding:name:to
     else
         valueTransformer = objj_msgSend(options, "objectForKey:", CPValueTransformerBindingOption);
     if (valueTransformer && objj_msgSend(objj_msgSend(valueTransformer, "class"), "allowsReverseTransformation"))
-        aValue = objj_msgSend(valueTransformer, "transformedValue:", aValue);
+        aValue = objj_msgSend(valueTransformer, "reverseTransformedValue:", aValue);
     return aValue;
 }
 },["id","id","CPDictionary"])]);

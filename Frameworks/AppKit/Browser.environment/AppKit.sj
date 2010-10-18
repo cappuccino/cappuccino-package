@@ -10625,7 +10625,7 @@ objj_msgSend(_5a,"encodeBool:forKey:",_isEditable,_54);
 }
 }
 })]);
-p;19;CPKeyValueBinding.jt;13153;@STATIC;1.0;I;21;Foundation/CPObject.jI;20;Foundation/CPArray.jI;25;Foundation/CPDictionary.jI;31;Foundation/CPValueTransformer.jt;13016;
+p;19;CPKeyValueBinding.jt;13160;@STATIC;1.0;I;21;Foundation/CPObject.jI;20;Foundation/CPArray.jI;25;Foundation/CPDictionary.jI;31;Foundation/CPValueTransformer.jt;13023;
 objj_executeFile("Foundation/CPObject.j",NO);
 objj_executeFile("Foundation/CPArray.j",NO);
 objj_executeFile("Foundation/CPDictionary.j",NO);
@@ -10727,7 +10727,7 @@ _32=objj_msgSend(CPValueTransformer,"valueTransformerForName:",_31);
 _32=objj_msgSend(_30,"objectForKey:",CPValueTransformerBindingOption);
 }
 if(_32&&objj_msgSend(objj_msgSend(_32,"class"),"allowsReverseTransformation")){
-_2f=objj_msgSend(_32,"transformedValue:",_2f);
+_2f=objj_msgSend(_32,"reverseTransformedValue:",_2f);
 }
 return _2f;
 }
