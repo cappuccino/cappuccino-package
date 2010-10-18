@@ -6870,7 +6870,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $_CPNo
     else
     {
         var key = objj_msgSend(anObject, "UID"),
-            observers = objj_msgSend(_objectObservers, "objectForKey:", key);
+            observers = objj_msgSend(_objectObservers, "objectForKey:", key),
             count = observers ? observers.length : 0;
         while (count--)
             if (objj_msgSend(observers[count], "observer") == anObserver)
