@@ -4216,7 +4216,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["id","int"])]);
 }
 
-p;15;CPSearchField.jt;30239;@STATIC;1.0;i;10;CPButton.ji;13;CPTextField.jt;30186;objj_executeFile("CPButton.j", YES);
+p;15;CPSearchField.jt;30388;@STATIC;1.0;i;10;CPButton.ji;13;CPTextField.jt;30335;objj_executeFile("CPButton.j", YES);
 objj_executeFile("CPTextField.j", YES);
 CPSearchFieldRecentsTitleMenuItemTag = 1000;
 CPSearchFieldRecentsMenuItemTag = 1001;
@@ -4702,7 +4702,12 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     }
 }
 },["void"])]);
-class_addMethods(meta_class, [new objj_method(sel_getUid("initialize"), function $CPSearchField__initialize(self, _cmd)
+class_addMethods(meta_class, [new objj_method(sel_getUid("themeClass"), function $CPSearchField__themeClass(self, _cmd)
+{ with(self)
+{
+    return "searchfield"
+}
+},["CPString"]), new objj_method(sel_getUid("initialize"), function $CPSearchField__initialize(self, _cmd)
 { with(self)
 {
     if (self != objj_msgSend(CPSearchField, "class"))

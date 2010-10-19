@@ -3666,7 +3666,7 @@ with(_9a){
 objj_msgSend(CPException,"raise:reason:",CPUnsupportedMethodException,"dataCellForRow: is not supported. Use -dataViewForRow:row instead.");
 }
 })]);
-p;15;CPSearchField.jt;21821;@STATIC;1.0;i;10;CPButton.ji;13;CPTextField.jt;21768;
+p;15;CPSearchField.jt;21919;@STATIC;1.0;i;10;CPButton.ji;13;CPTextField.jt;21866;
 objj_executeFile("CPButton.j",YES);
 objj_executeFile("CPTextField.j",YES);
 CPSearchFieldRecentsTitleMenuItemTag=1000;
@@ -4087,63 +4087,67 @@ _recentSearches=_ab;
 }
 }
 })]);
-class_addMethods(_a,[new objj_method(sel_getUid("initialize"),function(_b1,_b2){
+class_addMethods(_a,[new objj_method(sel_getUid("themeClass"),function(_b1,_b2){
 with(_b1){
-if(_b1!=objj_msgSend(CPSearchField,"class")){
+return "searchfield";
+}
+}),new objj_method(sel_getUid("initialize"),function(_b3,_b4){
+with(_b3){
+if(_b3!=objj_msgSend(CPSearchField,"class")){
 return;
 }
-var _b3=objj_msgSend(CPBundle,"bundleForClass:",_b1);
-_1=objj_msgSend(objj_msgSend(CPImage,"alloc"),"initWithContentsOfFile:size:",objj_msgSend(_b3,"pathForResource:","CPSearchField/CPSearchFieldSearch.png"),{width:_5,height:_7});
-_2=objj_msgSend(objj_msgSend(CPImage,"alloc"),"initWithContentsOfFile:size:",objj_msgSend(_b3,"pathForResource:","CPSearchField/CPSearchFieldFind.png"),{width:_5,height:_7});
-_3=objj_msgSend(objj_msgSend(CPImage,"alloc"),"initWithContentsOfFile:size:",objj_msgSend(_b3,"pathForResource:","CPSearchField/CPSearchFieldCancel.png"),{width:_6,height:_7});
-_4=objj_msgSend(objj_msgSend(CPImage,"alloc"),"initWithContentsOfFile:size:",objj_msgSend(_b3,"pathForResource:","CPSearchField/CPSearchFieldCancelPressed.png"),{width:_6,height:_7});
+var _b5=objj_msgSend(CPBundle,"bundleForClass:",_b3);
+_1=objj_msgSend(objj_msgSend(CPImage,"alloc"),"initWithContentsOfFile:size:",objj_msgSend(_b5,"pathForResource:","CPSearchField/CPSearchFieldSearch.png"),{width:_5,height:_7});
+_2=objj_msgSend(objj_msgSend(CPImage,"alloc"),"initWithContentsOfFile:size:",objj_msgSend(_b5,"pathForResource:","CPSearchField/CPSearchFieldFind.png"),{width:_5,height:_7});
+_3=objj_msgSend(objj_msgSend(CPImage,"alloc"),"initWithContentsOfFile:size:",objj_msgSend(_b5,"pathForResource:","CPSearchField/CPSearchFieldCancel.png"),{width:_6,height:_7});
+_4=objj_msgSend(objj_msgSend(CPImage,"alloc"),"initWithContentsOfFile:size:",objj_msgSend(_b5,"pathForResource:","CPSearchField/CPSearchFieldCancelPressed.png"),{width:_6,height:_7});
 }
-}),new objj_method(sel_getUid("_keyboardDelayForPartialSearchString:"),function(_b4,_b5,_b6){
-with(_b4){
-return (6-MIN(objj_msgSend(_b6,"length"),4))/10;
+}),new objj_method(sel_getUid("_keyboardDelayForPartialSearchString:"),function(_b6,_b7,_b8){
+with(_b6){
+return (6-MIN(objj_msgSend(_b8,"length"),4))/10;
 }
 })]);
-var _b7="CPRecentsAutosaveNameKey",_b8="CPSendsWholeSearchStringKey",_b9="CPSendsSearchStringImmediatelyKey",_ba="CPMaximumRecentsKey",_bb="CPSearchMenuTemplateKey";
+var _b9="CPRecentsAutosaveNameKey",_ba="CPSendsWholeSearchStringKey",_bb="CPSendsSearchStringImmediatelyKey",_bc="CPMaximumRecentsKey",_bd="CPSearchMenuTemplateKey";
 var _9=objj_getClass("CPSearchField");
 if(!_9){
 throw new SyntaxError("*** Could not find definition for class \"CPSearchField\"");
 }
 var _a=_9.isa;
-class_addMethods(_9,[new objj_method(sel_getUid("encodeWithCoder:"),function(_bc,_bd,_be){
-with(_bc){
+class_addMethods(_9,[new objj_method(sel_getUid("encodeWithCoder:"),function(_be,_bf,_c0){
+with(_be){
 objj_msgSend(_searchButton,"removeFromSuperview");
 objj_msgSend(_cancelButton,"removeFromSuperview");
-objj_msgSendSuper({receiver:_bc,super_class:objj_getClass("CPSearchField").super_class},"encodeWithCoder:",_be);
+objj_msgSendSuper({receiver:_be,super_class:objj_getClass("CPSearchField").super_class},"encodeWithCoder:",_c0);
 if(_searchButton){
-objj_msgSend(_bc,"addSubview:",_searchButton);
+objj_msgSend(_be,"addSubview:",_searchButton);
 }
 if(_cancelButton){
-objj_msgSend(_bc,"addSubview:",_cancelButton);
+objj_msgSend(_be,"addSubview:",_cancelButton);
 }
-objj_msgSend(_be,"encodeBool:forKey:",_sendsWholeSearchString,_b8);
-objj_msgSend(_be,"encodeBool:forKey:",_sendsSearchStringImmediately,_b9);
-objj_msgSend(_be,"encodeInt:forKey:",_maximumRecents,_ba);
+objj_msgSend(_c0,"encodeBool:forKey:",_sendsWholeSearchString,_ba);
+objj_msgSend(_c0,"encodeBool:forKey:",_sendsSearchStringImmediately,_bb);
+objj_msgSend(_c0,"encodeInt:forKey:",_maximumRecents,_bc);
 if(_recentsAutosaveName){
-objj_msgSend(_be,"encodeObject:forKey:",_recentsAutosaveName,_b7);
+objj_msgSend(_c0,"encodeObject:forKey:",_recentsAutosaveName,_b9);
 }
 if(_searchMenuTemplate){
-objj_msgSend(_be,"encodeObject:forKey:",_searchMenuTemplate,_bb);
+objj_msgSend(_c0,"encodeObject:forKey:",_searchMenuTemplate,_bd);
 }
 }
-}),new objj_method(sel_getUid("initWithCoder:"),function(_bf,_c0,_c1){
-with(_bf){
-if(_bf=objj_msgSendSuper({receiver:_bf,super_class:objj_getClass("CPSearchField").super_class},"initWithCoder:",_c1)){
-_recentsAutosaveName=objj_msgSend(_c1,"decodeObjectForKey:",_b7);
-_sendsWholeSearchString=objj_msgSend(_c1,"decodeBoolForKey:",_b8);
-_sendsSearchStringImmediately=objj_msgSend(_c1,"decodeBoolForKey:",_b9);
-_maximumRecents=objj_msgSend(_c1,"decodeIntForKey:",_ba);
-var _c2=objj_msgSend(_c1,"decodeObjectForKey:",_bb);
-if(_c2){
-objj_msgSend(_bf,"setSearchMenuTemplate:",_c2);
+}),new objj_method(sel_getUid("initWithCoder:"),function(_c1,_c2,_c3){
+with(_c1){
+if(_c1=objj_msgSendSuper({receiver:_c1,super_class:objj_getClass("CPSearchField").super_class},"initWithCoder:",_c3)){
+_recentsAutosaveName=objj_msgSend(_c3,"decodeObjectForKey:",_b9);
+_sendsWholeSearchString=objj_msgSend(_c3,"decodeBoolForKey:",_ba);
+_sendsSearchStringImmediately=objj_msgSend(_c3,"decodeBoolForKey:",_bb);
+_maximumRecents=objj_msgSend(_c3,"decodeIntForKey:",_bc);
+var _c4=objj_msgSend(_c3,"decodeObjectForKey:",_bd);
+if(_c4){
+objj_msgSend(_c1,"setSearchMenuTemplate:",_c4);
 }
-objj_msgSend(_bf,"_init");
+objj_msgSend(_c1,"_init");
 }
-return _bf;
+return _c1;
 }
 })]);
 p;13;CPSplitView.jt;21099;@STATIC;1.0;i;13;CPButtonBar.ji;9;CPImage.ji;8;CPView.jt;21036;
