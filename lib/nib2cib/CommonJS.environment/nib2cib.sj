@@ -1908,7 +1908,7 @@ with(_a){
 return objj_msgSend(CPViewController,"class");
 }
 })]);
-p;13;NSTextField.jt;4300;@STATIC;1.0;I;20;AppKit/CPTextField.ji;11;NSControl.ji;8;NSCell.jI;15;AppKit/CPFont.jt;4208;
+p;13;NSTextField.jt;4108;@STATIC;1.0;I;20;AppKit/CPTextField.ji;11;NSControl.ji;8;NSCell.jI;15;AppKit/CPFont.jt;4016;
 objj_executeFile("AppKit/CPTextField.j",NO);
 objj_executeFile("NSControl.j",YES);
 objj_executeFile("NSCell.j",YES);
@@ -1944,10 +1944,6 @@ objj_msgSend(_3,"setTextColor:",objj_msgSend(_6,"textColor"));
 var _9=objj_msgSend(_3,"frame");
 objj_msgSend(_3,"setFrameOrigin:",CGPointMake(_9.origin.x,_9.origin.y));
 objj_msgSend(_3,"setFrameSize:",CGSizeMake(_9.size.width,_9.size.height));
-if(objj_msgSend(_3,"isBezeled")){
-objj_msgSend(_3,"setFrameOrigin:",CGPointMake(_9.origin.x-4,_9.origin.y-4));
-objj_msgSend(_3,"setFrameSize:",CGSizeMake(_9.size.width+8,_9.size.height+8));
-}
 CPLog.debug(objj_msgSend(_3,"stringValue")+" => isBordered="+objj_msgSend(_3,"isBordered")+", isBezeled="+objj_msgSend(_3,"isBezeled")+", bezelStyle="+objj_msgSend(_3,"bezelStyle")+"("+objj_msgSend(_6,"stringValue")+", "+objj_msgSend(_6,"placeholderString")+")");
 }
 return _3;
