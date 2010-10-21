@@ -3139,7 +3139,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithLineColor:"), f
 },["void","CGRect"])]);
 }
 
-p;10;CPCursor.jt;10527;@STATIC;1.0;I;21;Foundation/CPObject.jt;10481;objj_executeFile("Foundation/CPObject.j", NO);
+p;10;CPCursor.jt;10533;@STATIC;1.0;I;21;Foundation/CPObject.jt;10487;objj_executeFile("Foundation/CPObject.j", NO);
 var currentCursor = nil,
     cursorStack = [],
     cursors = {},
@@ -3185,7 +3185,7 @@ _isSetOnMouseExited = newValue;
 },["CPString"]), new objj_method(sel_getUid("initWithImage:hotSpot:"), function $CPCursor__initWithImage_hotSpot_(self, _cmd, image, hotSpot)
 { with(self)
 {
-    return objj_msgSend(self, "initWithCSSString:", "url(" + objj_msgSend(image, "filename") + ")");
+    return objj_msgSend(self, "initWithCSSString:", "url(" + objj_msgSend(image, "filename") + "), auto");
 }
 },["id","CPImage","CPPoint"]), new objj_method(sel_getUid("mouseEntered:"), function $CPCursor__mouseEntered_(self, _cmd, event)
 { with(self)

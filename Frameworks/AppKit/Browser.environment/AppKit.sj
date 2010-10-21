@@ -2846,7 +2846,7 @@ _2f5=[{x:_2f3.size.width-0.5,y:0},{x:_2f3.size.width-0.5,y:_2f3.size.height}];
 CGContextStrokeLineSegments(_2f4,_2f5,2);
 }
 })]);
-p;10;CPCursor.jt;7923;@STATIC;1.0;I;21;Foundation/CPObject.jt;7878;
+p;10;CPCursor.jt;7929;@STATIC;1.0;I;21;Foundation/CPObject.jt;7884;
 objj_executeFile("Foundation/CPObject.j",NO);
 var _1=nil,_2=[],_3={},_4=nil;
 var _5=objj_allocateClassPair(CPObject,"CPCursor"),_6=_5.isa;
@@ -2881,7 +2881,7 @@ return _cssString;
 }
 }),new objj_method(sel_getUid("initWithImage:hotSpot:"),function(_16,_17,_18,_19){
 with(_16){
-return objj_msgSend(_16,"initWithCSSString:","url("+objj_msgSend(_18,"filename")+")");
+return objj_msgSend(_16,"initWithCSSString:","url("+objj_msgSend(_18,"filename")+"), auto");
 }
 }),new objj_method(sel_getUid("mouseEntered:"),function(_1a,_1b,_1c){
 with(_1a){
