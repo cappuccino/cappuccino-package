@@ -136,7 +136,7 @@ objj_msgSend(_2e,"save");
 }
 }
 };
-p;10;Generate.jt;6587;@STATIC;1.0;i;15;Configuration.jt;6548;
+p;10;Generate.jt;6591;@STATIC;1.0;i;15;Configuration.jt;6552;
 objj_executeFile("Configuration.j",YES);
 var OS=require("os"),_1=require("system"),_2=require("file"),_3=require("objective-j");
 var _4=require("term").stream;
@@ -153,7 +153,7 @@ _5.option("-l").action(function(o){
 o.symlink=o.useCappBuild=true;
 }).help("Enables both the --symlink and --build options.");
 _5.option("--force","force").set(true).help("Overwrite update existing frameworks.");
-_5.option("--noconfig","noconfig").set().help("Selects a project template to use.");
+_5.option("--noconfig","noconfig").set(true).help("Selects a project template to use.");
 _5.option("--list-templates","listTemplates").set(true).help("Lists available templates.");
 _5.option("--list-frameworks","listFrameworks").set(true).help("Lists available frameworks.");
 _5.helpful();
