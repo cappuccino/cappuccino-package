@@ -10483,7 +10483,7 @@ var _CPSaveSessionMake = function(anAbsoluteURL, aSaveOperation, aChangeCount, a
     return { absoluteURL:anAbsoluteURL, saveOperation:aSaveOperation, changeCount:aChangeCount, delegate:aDelegate, didSaveSelector:aDidSaveSelector, contextInfo:aContextInfo, connection:aConnection };
 }
 
-p;20;CPObjectController.jt;28653;@STATIC;1.0;I;25;Foundation/CPDictionary.jI;25;Foundation/CPCountedSet.ji;14;CPController.jt;28554;objj_executeFile("Foundation/CPDictionary.j", NO);
+p;20;CPObjectController.jt;28779;@STATIC;1.0;I;25;Foundation/CPDictionary.jI;25;Foundation/CPCountedSet.ji;14;CPController.jt;28680;objj_executeFile("Foundation/CPDictionary.j", NO);
 objj_executeFile("Foundation/CPCountedSet.j", NO);
 objj_executeFile("CPController.j", YES);
 {var the_class = objj_allocateClassPair(CPController, "CPObjectController"),
@@ -10798,7 +10798,7 @@ objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("description"), function $_CPObservableArray__description(self, _cmd)
 { with(self)
 {
-    return "<_CPObservableArray: "+objj_msgSendSuper({ receiver:self, super_class:objj_getClass("_CPObservableArray").super_class }, "description")+" >";
+    return "<_CPObservableArray: " + objj_msgSendSuper({ receiver:self, super_class:objj_getClass("_CPObservableArray").super_class }, "description") + " >";
 }
 },["CPString"]), new objj_method(sel_getUid("initWithArray:"), function $_CPObservableArray__initWithArray_(self, _cmd, anArray)
 { with(self)
@@ -10985,6 +10985,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithController:"), 
 {
     objj_msgSend(objj_msgSend(_controller, "selectedObjects"), "setValue:forKeyPath:", theValue, theKeyPath);
     objj_msgSend(_cachedValues, "removeObjectForKey:", theKeyPath);
+    objj_msgSend(objj_msgSend(CPBinder, "getBinding:forObject:", "contentArray", _controller), "_contentArrayDidChange");
 }
 },["void","id","CPString"]), new objj_method(sel_getUid("setValue:forKey:"), function $CPControllerSelectionProxy__setValue_forKey_(self, _cmd, theValue, theKeyPath)
 { with(self)
@@ -12988,7 +12989,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"])]);
 }
 
-p;19;CPKeyValueBinding.jt;19159;@STATIC;1.0;I;21;Foundation/CPObject.jI;20;Foundation/CPArray.jI;25;Foundation/CPDictionary.jI;31;Foundation/CPValueTransformer.jt;19022;objj_executeFile("Foundation/CPObject.j", NO);
+p;19;CPKeyValueBinding.jt;20704;@STATIC;1.0;I;21;Foundation/CPObject.jI;20;Foundation/CPArray.jI;25;Foundation/CPDictionary.jI;31;Foundation/CPValueTransformer.jt;20567;objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("Foundation/CPDictionary.j", NO);
 objj_executeFile("Foundation/CPValueTransformer.j", NO);
@@ -12997,7 +12998,7 @@ var exposedBindingsMap = objj_msgSend(CPDictionary, "new"),
 var CPBindingOperationAnd = 0,
     CPBindingOperationOr = 1;
 {var the_class = objj_allocateClassPair(CPObject, "CPBinder"),
-meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_info"), new objj_ivar("_source")]);
+meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_info"), new objj_ivar("_source"), new objj_ivar("_suppressedNotifications")]);
 objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("initWithBinding:name:to:keyPath:options:from:"), function $CPBinder__initWithBinding_name_to_keyPath_options_from_(self, _cmd, aBinding, aName, aDestination, aKeyPath, options, aSource)
 { with(self)
@@ -13007,6 +13008,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithBinding:name:to
     {
         _source = aSource;
         _info = objj_msgSend(CPDictionary, "dictionaryWithObjects:forKeys:", [aDestination, aKeyPath], [CPObservedObjectKey, CPObservedKeyPathKey]);
+        _suppressedNotifications = {};
         if (options)
             objj_msgSend(_info, "setObject:forKey:", options, CPOptionsKey);
         objj_msgSend(aDestination, "addObserver:forKeyPath:options:context:", self, aKeyPath, CPKeyValueObservingOptionNew, aBinding);
@@ -13045,6 +13047,9 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithBinding:name:to
 { with(self)
 {
     if (!changes)
+        return;
+    var objectSuppressions = _suppressedNotifications[objj_msgSend(anObject, "UID")];
+    if (objectSuppressions && objectSuppressions[aKeyPath])
         return;
     objj_msgSend(self, "setValueFor:", context);
 }
@@ -13093,7 +13098,35 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithBinding:name:to
     var options = objj_msgSend(_info, "objectForKey:", CPOptionsKey);
     return objj_msgSend(objj_msgSend(options, "objectForKey:", CPContinuouslyUpdatesValueBindingOption), "boolValue");
 }
-},["BOOL"])]);
+},["BOOL"]), new objj_method(sel_getUid("handlesContentAsCompoundValue"), function $CPBinder__handlesContentAsCompoundValue(self, _cmd)
+{ with(self)
+{
+    var options = objj_msgSend(_info, "objectForKey:", CPOptionsKey);
+    return objj_msgSend(objj_msgSend(options, "objectForKey:", CPHandlesContentAsCompoundValueBindingOption), "boolValue");
+}
+},["BOOL"]), new objj_method(sel_getUid("suppressSpecificNotificationFromObject:keyPath:"), function $CPBinder__suppressSpecificNotificationFromObject_keyPath_(self, _cmd, anObject, aKeyPath)
+{ with(self)
+{
+    if (!anObject)
+        return;
+    var uid = objj_msgSend(anObject, "UID"),
+        objectSuppressions = _suppressedNotifications[uid];
+    if (!objectSuppressions)
+        _suppressedNotifications[uid] = objectSuppressions = {};
+    objectSuppressions[aKeyPath] = YES;
+}
+},["void","id","CPString"]), new objj_method(sel_getUid("unsuppressSpecificNotificationFromObject:keyPath:"), function $CPBinder__unsuppressSpecificNotificationFromObject_keyPath_(self, _cmd, anObject, aKeyPath)
+{ with(self)
+{
+    if (!anObject)
+        return;
+    var uid = objj_msgSend(anObject, "UID"),
+        objectSuppressions = _suppressedNotifications[uid];
+    if (!objectSuppressions)
+        return;
+    delete objectSuppressions[aKeyPath];
+}
+},["void","id","CPString"])]);
 class_addMethods(meta_class, [new objj_method(sel_getUid("exposeBinding:forClass:"), function $CPBinder__exposeBinding_forClass_(self, _cmd, aBinding, aClass)
 { with(self)
 {
@@ -13919,7 +13952,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"])]);
 }
 
-p;19;CPArrayController.jt;30441;@STATIC;1.0;I;23;Foundation/CPIndexSet.ji;20;CPObjectController.ji;19;CPKeyValueBinding.jt;30344;objj_executeFile("Foundation/CPIndexSet.j", NO);
+p;19;CPArrayController.jt;33210;@STATIC;1.0;I;23;Foundation/CPIndexSet.ji;20;CPObjectController.ji;19;CPKeyValueBinding.jt;33113;objj_executeFile("Foundation/CPIndexSet.j", NO);
 objj_executeFile("CPObjectController.j", YES);
 objj_executeFile("CPKeyValueBinding.j", YES);
 {var the_class = objj_allocateClassPair(CPObjectController, "CPArrayController"),
@@ -14274,6 +14307,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
     objj_msgSend(self, "willChangeValueForKey:", "content");
     _disableSetContent = YES;
     objj_msgSend(_contentObject, "addObject:", object);
+    objj_msgSend(objj_msgSend(CPBinder, "getBinding:forObject:", "contentArray", self), "_contentArrayDidChange");
     _disableSetContent = NO;
     if (willClearPredicate)
     {
@@ -14297,13 +14331,18 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
 {
     if (!objj_msgSend(self, "canAdd"))
         return;
-    if (_clearsFilterPredicateOnInsertion)
+    var willClearPredicate = NO;
+    if (_clearsFilterPredicateOnInsertion && _filterPredicate)
+    {
         objj_msgSend(self, "willChangeValueForKey:", "filterPredicate");
+        willClearPredicate = YES;
+    }
     objj_msgSend(self, "willChangeValueForKey:", "content");
     _disableSetContent = YES;
-    objj_msgSend(_contentObject, "insertObject:atIndex:", anObject, anIndex);
+    objj_msgSend(_contentObject, "addObject:", anObject);
+    objj_msgSend(objj_msgSend(CPBinder, "getBinding:forObject:", "contentArray", self), "_contentArrayDidChange");
     _disableSetContent = NO;
-    if (_clearsFilterPredicateOnInsertion)
+    if (willClearPredicate)
         objj_msgSend(self, "__setFilterPredicate:", nil);
     objj_msgSend(objj_msgSend(self, "arrangedObjects"), "insertObject:atIndex:", anObject, anIndex);
     if (objj_msgSend(self, "selectsInsertedObjects"))
@@ -14313,23 +14352,24 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
     if (objj_msgSend(self, "avoidsEmptySelection") && objj_msgSend(objj_msgSend(self, "selectionIndexes"), "count") <= 0 && objj_msgSend(_contentObject, "count") > 0)
         objj_msgSend(self, "__setSelectionIndexes:", objj_msgSend(CPIndexSet, "indexSetWithIndex:", 0));
     objj_msgSend(self, "didChangeValueForKey:", "content");
-    if (_clearsFilterPredicateOnInsertion)
+    if (willClearPredicate)
         objj_msgSend(self, "didChangeValueForKey:", "filterPredicate");
 }
 },["void","id","int"]), new objj_method(sel_getUid("removeObject:"), function $CPArrayController__removeObject_(self, _cmd, object)
 { with(self)
 {
-   objj_msgSend(self, "willChangeValueForKey:", "content");
-   _disableSetContent = YES;
-   objj_msgSend(_contentObject, "removeObject:", object);
-   _disableSetContent = NO;
-   if (_filterPredicate === nil || objj_msgSend(_filterPredicate, "evaluateWithObject:", object))
-   {
+    objj_msgSend(self, "willChangeValueForKey:", "content");
+    _disableSetContent = YES;
+    objj_msgSend(_contentObject, "removeObject:", object);
+    objj_msgSend(objj_msgSend(CPBinder, "getBinding:forObject:", "contentArray", self), "_contentArrayDidChange");
+    _disableSetContent = NO;
+    if (_filterPredicate === nil || objj_msgSend(_filterPredicate, "evaluateWithObject:", object))
+    {
         var pos = objj_msgSend(_arrangedObjects, "indexOfObject:", object);
         objj_msgSend(_arrangedObjects, "removeObjectAtIndex:", pos);
         objj_msgSend(_selectionIndexes, "shiftIndexesStartingAtIndex:by:", pos, -1);
-   }
-   objj_msgSend(self, "didChangeValueForKey:", "content");
+    }
+    objj_msgSend(self, "didChangeValueForKey:", "content");
 }
 },["void","id"]), new objj_method(sel_getUid("add:"), function $CPArrayController__add_(self, _cmd, sender)
 { with(self)
@@ -14349,12 +14389,36 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
 },["void","id"]), new objj_method(sel_getUid("remove:"), function $CPArrayController__remove_(self, _cmd, sender)
 { with(self)
 {
-   objj_msgSend(self, "removeObjects:", objj_msgSend(objj_msgSend(self, "arrangedObjects"), "objectsAtIndexes:", objj_msgSend(self, "selectionIndexes")));
+    objj_msgSend(self, "removeObjectsAtArrangedObjectIndexes:", _selectionIndexes);
 }
-},["void","id"]), new objj_method(sel_getUid("removeObjectsAtArrangedObjectIndexes:"), function $CPArrayController__removeObjectsAtArrangedObjectIndexes_(self, _cmd, indexes)
+},["void","id"]), new objj_method(sel_getUid("removeObjectsAtArrangedObjectIndexes:"), function $CPArrayController__removeObjectsAtArrangedObjectIndexes_(self, _cmd, anIndexSet)
 { with(self)
 {
-    objj_msgSend(self, "_removeObjects:", objj_msgSend(objj_msgSend(self, "arrangedObjects"), "objectsAtIndexes:", indexes));
+    objj_msgSend(self, "willChangeValueForKey:", "content");
+    _disableSetContent = YES;
+    var arrangedObjects = objj_msgSend(self, "arrangedObjects"),
+        index = objj_msgSend(anIndexSet, "lastIndex"),
+        position = CPNotFound,
+        newSelectionIndexes = objj_msgSend(_selectionIndexes, "copy");
+    while (index !== CPNotFound)
+    {
+        var object = objj_msgSend(arrangedObjects, "objectAtIndex:", index);
+        if (objj_msgSend(_contentObject, "objectAtIndex:", index) === object)
+            objj_msgSend(_contentObject, "removeObjectAtIndex:", index);
+        else
+        {
+            contentIndex = objj_msgSend(_contentObject, "indexOfObjectIdenticalTo:", object);
+            objj_msgSend(_contentObject, "removeObjectAtIndex:", contentIndex);
+        }
+        objj_msgSend(arrangedObjects, "removeObjectAtIndex:", index);
+        objj_msgSend(newSelectionIndexes, "removeIndex:", index);
+        objj_msgSend(newSelectionIndexes, "shiftIndexesStartingAtIndex:by:", index, -1);
+        index = objj_msgSend(anIndexSet, "indexLessThanIndex:", index);
+    }
+    objj_msgSend(objj_msgSend(CPBinder, "getBinding:forObject:", "contentArray", self), "_contentArrayDidChange");
+    _disableSetContent = NO;
+    objj_msgSend(self, "__setSelectionIndexes:", newSelectionIndexes);
+    objj_msgSend(self, "didChangeValueForKey:", "content");
 }
 },["void","CPIndexSet"]), new objj_method(sel_getUid("addObjects:"), function $CPArrayController__addObjects_(self, _cmd, objects)
 { with(self)
@@ -14366,6 +14430,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
     for (var i = 0; i < count; i++)
         objj_msgSend(contentArray, "addObject:", objj_msgSend(objects, "objectAtIndex:", i));
     objj_msgSend(self, "setContent:", contentArray);
+    objj_msgSend(objj_msgSend(CPBinder, "getBinding:forObject:", "contentArray", self), "_contentArrayDidChange");
 }
 },["void","CPArray"]), new objj_method(sel_getUid("removeObjects:"), function $CPArrayController__removeObjects_(self, _cmd, objects)
 { with(self)
@@ -14378,6 +14443,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPArr
     objj_msgSend(self, "willChangeValueForKey:", "content");
     _disableSetContent = YES;
     objj_msgSend(_contentObject, "removeObjectsInArray:", objects);
+    objj_msgSend(objj_msgSend(CPBinder, "getBinding:forObject:", "contentArray", self), "_contentArrayDidChange");
     _disableSetContent = NO;
     var arrangedObjects = objj_msgSend(self, "arrangedObjects"),
         position = objj_msgSend(arrangedObjects, "indexOfObject:", objj_msgSend(objects, "objectAtIndex:", 0));
@@ -14476,11 +14542,35 @@ class_addMethods(the_class, [new objj_method(sel_getUid("setValueFor:"), functio
     var destination = objj_msgSend(_info, "objectForKey:", CPObservedObjectKey),
         keyPath = objj_msgSend(_info, "objectForKey:", CPObservedKeyPathKey),
         options = objj_msgSend(_info, "objectForKey:", CPOptionsKey),
+        isCompound = objj_msgSend(self, "handlesContentAsCompoundValue");
+    if (!isCompound)
+    {
         newValue = objj_msgSend(destination, "mutableArrayValueForKeyPath:", keyPath);
+    }
+    else
+    {
+        newValue = objj_msgSend(destination, "valueForKeyPath:", keyPath);
+    }
     newValue = objj_msgSend(self, "transformValue:withOptions:", newValue, options);
+    if (isCompound)
+    {
+        newValue = objj_msgSend(newValue, "mutableCopy");
+    }
     objj_msgSend(_source, "setValue:forKey:", newValue, aBinding);
 }
-},["void","CPString"])]);
+},["void","CPString"]), new objj_method(sel_getUid("_contentArrayDidChange"), function $_CPArrayControllerContentBinder___contentArrayDidChange(self, _cmd)
+{ with(self)
+{
+    if (objj_msgSend(self, "handlesContentAsCompoundValue"))
+    {
+        var destination = objj_msgSend(_info, "objectForKey:", CPObservedObjectKey),
+            keyPath = objj_msgSend(_info, "objectForKey:", CPObservedKeyPathKey);
+        objj_msgSend(self, "suppressSpecificNotificationFromObject:keyPath:", destination, keyPath);
+        objj_msgSend(self, "reverseSetValueFor:", "contentArray");
+        objj_msgSend(self, "unsuppressSpecificNotificationFromObject:keyPath:", destination, keyPath);
+    }
+}
+},["void"])]);
 }
 var CPArrayControllerAvoidsEmptySelection = "CPArrayControllerAvoidsEmptySelection",
     CPArrayControllerClearsFilterPredicateOnInsertion = "CPArrayControllerClearsFilterPredicateOnInsertion",

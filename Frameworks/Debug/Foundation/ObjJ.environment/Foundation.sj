@@ -1799,7 +1799,7 @@ var assumedPositionOfIndex = function(ranges, anIndex)
 }
 
 p;7;CPLog.jt;17;@STATIC;1.0;t;1;
-p;12;Foundation.jt;3096;@STATIC;1.0;i;9;CPArray.ji;10;CPBundle.ji;16;CPCharacterSet.ji;9;CPCoder.ji;23;CPComparisonPredicate.ji;21;CPCompoundPredicate.ji;8;CPData.ji;8;CPDate.ji;11;CPDecimal.ji;17;CPDecimalNumber.ji;14;CPDictionary.ji;14;CPEnumerator.ji;13;CPException.ji;14;CPExpression.ji;13;CPFormatter.ji;12;CPIndexSet.ji;13;CPIndexPath.ji;14;CPInvocation.ji;19;CPJSONPConnection.ji;17;CPKeyedArchiver.ji;19;CPKeyedUnarchiver.ji;18;CPKeyValueCoding.ji;21;CPKeyValueObserving.ji;16;CPMutableArray.ji;14;CPMutableSet.ji;16;CPNotification.ji;22;CPNotificationCenter.ji;8;CPNull.ji;10;CPNumber.ji;10;CPObject.ji;15;CPObjJRuntime.ji;13;CPOperation.ji;18;CPOperationQueue.ji;13;CPPredicate.ji;29;CPPropertyListSerialization.ji;9;CPRange.ji;11;CPRunLoop.ji;11;CPScanner.ji;7;CPSet.ji;18;CPSortDescriptor.ji;10;CPString.ji;9;CPTimer.ji;15;CPUndoManager.ji;7;CPURL.ji;17;CPURLConnection.ji;14;CPURLRequest.ji;15;CPURLResponse.ji;16;CPUserDefaults.ji;22;CPUserSessionManager.ji;9;CPValue.ji;20;CPValueTransformer.jt;2105;objj_executeFile("CPArray.j", YES);
+p;12;Foundation.jt;3166;@STATIC;1.0;i;9;CPArray.ji;10;CPBundle.ji;16;CPCharacterSet.ji;9;CPCoder.ji;23;CPComparisonPredicate.ji;21;CPCompoundPredicate.ji;8;CPData.ji;8;CPDate.ji;11;CPDecimal.ji;17;CPDecimalNumber.ji;14;CPDictionary.ji;14;CPEnumerator.ji;13;CPException.ji;14;CPExpression.ji;13;CPFormatter.ji;12;CPIndexSet.ji;13;CPIndexPath.ji;14;CPInvocation.ji;19;CPJSONPConnection.ji;17;CPKeyedArchiver.ji;19;CPKeyedUnarchiver.ji;18;CPKeyValueCoding.ji;21;CPKeyValueObserving.ji;16;CPMutableArray.ji;14;CPMutableSet.ji;16;CPNotification.ji;22;CPNotificationCenter.ji;8;CPNull.ji;10;CPNumber.ji;19;CPNumberFormatter.ji;10;CPObject.ji;15;CPObjJRuntime.ji;13;CPOperation.ji;18;CPOperationQueue.ji;13;CPPredicate.ji;29;CPPropertyListSerialization.ji;9;CPRange.ji;11;CPRunLoop.ji;11;CPScanner.ji;7;CPSet.ji;18;CPSortDescriptor.ji;10;CPString.ji;9;CPTimer.ji;15;CPUndoManager.ji;7;CPURL.ji;17;CPURLConnection.ji;14;CPURLRequest.ji;15;CPURLResponse.ji;16;CPUserDefaults.ji;22;CPUserSessionManager.ji;9;CPValue.ji;20;CPValueTransformer.jt;2151;objj_executeFile("CPArray.j", YES);
 objj_executeFile("CPBundle.j", YES);
 objj_executeFile("CPCharacterSet.j", YES);
 objj_executeFile("CPCoder.j", YES);
@@ -1828,6 +1828,7 @@ objj_executeFile("CPNotification.j", YES);
 objj_executeFile("CPNotificationCenter.j", YES);
 objj_executeFile("CPNull.j", YES);
 objj_executeFile("CPNumber.j", YES);
+objj_executeFile("CPNumberFormatter.j", YES);
 objj_executeFile("CPObject.j", YES);
 objj_executeFile("CPObjJRuntime.j", YES);
 objj_executeFile("CPOperation.j", YES);
@@ -4221,6 +4222,31 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"])]);
 }
 CFURL.prototype.isa = objj_msgSend(CPURL, "class");
+
+p;19;CPNumberFormatter.jt;1141;@STATIC;1.0;I;21;Foundation/CPString.jI;24;Foundation/CPFormatter.jt;1067;objj_executeFile("Foundation/CPString.j", NO);
+objj_executeFile("Foundation/CPFormatter.j", NO);
+{var the_class = objj_allocateClassPair(CPFormatter, "CPNumberFormatter"),
+meta_class = the_class.isa;objj_registerClassPair(the_class);
+}
+{
+var the_class = objj_getClass("CPNumberFormatter")
+if(!the_class) throw new SyntaxError("*** Could not find definition for class \"CPNumberFormatter\"");
+var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_getUid("initWithCoder:"), function $CPNumberFormatter__initWithCoder_(self, _cmd, aCoder)
+{ with(self)
+{
+    self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPNumberFormatter").super_class }, "initWithCoder:", aCoder);
+    if (self)
+    {
+    }
+    return self;
+}
+},["id","CPCoder"]), new objj_method(sel_getUid("encodeWithCoder:"), function $CPNumberFormatter__encodeWithCoder_(self, _cmd, aCoder)
+{ with(self)
+{
+    objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPNumberFormatter").super_class }, "encodeWithCoder:", aCoder);
+}
+},["void","CPCoder"])]);
+}
 
 p;8;CPNull.jt;1103;@STATIC;1.0;i;10;CPObject.jt;1069;objj_executeFile("CPObject.j", YES);
 var CPNullSharedNull = nil;
@@ -8555,8 +8581,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPUse
         objj_msgSend(_domains, "setObject:forKey:", domain, aDomain);
     }
     objj_msgSend(domain, "setObject:forKey:", anObject, aKey);
-    objj_msgSend(self, "domainDidChange:", aDomain);
     _searchListNeedsReload = YES;
+    objj_msgSend(self, "domainDidChange:", aDomain);
 }
 },["void","id","CPString","CPString"]), new objj_method(sel_getUid("removeObjectForKey:"), function $CPUserDefaults__removeObjectForKey_(self, _cmd, aKey)
 { with(self)
@@ -8572,8 +8598,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPUse
     if (!domain)
         return;
     objj_msgSend(domain, "removeObjectForKey:", aKey);
-    objj_msgSend(self, "domainDidChange:", aDomain);
     _searchListNeedsReload = YES;
+    objj_msgSend(self, "domainDidChange:", aDomain);
 }
 },["void","CPString","CPString"]), new objj_method(sel_getUid("registerDefaults:"), function $CPUserDefaults__registerDefaults_(self, _cmd, aDictionary)
 { with(self)

@@ -1582,7 +1582,7 @@ return _b2;
 return CPNotFound;
 };
 p;7;CPLog.jt;17;@STATIC;1.0;t;1;
-p;12;Foundation.jt;3045;@STATIC;1.0;i;9;CPArray.ji;10;CPBundle.ji;16;CPCharacterSet.ji;9;CPCoder.ji;23;CPComparisonPredicate.ji;21;CPCompoundPredicate.ji;8;CPData.ji;8;CPDate.ji;11;CPDecimal.ji;17;CPDecimalNumber.ji;14;CPDictionary.ji;14;CPEnumerator.ji;13;CPException.ji;14;CPExpression.ji;13;CPFormatter.ji;12;CPIndexSet.ji;13;CPIndexPath.ji;14;CPInvocation.ji;19;CPJSONPConnection.ji;17;CPKeyedArchiver.ji;19;CPKeyedUnarchiver.ji;18;CPKeyValueCoding.ji;21;CPKeyValueObserving.ji;16;CPMutableArray.ji;14;CPMutableSet.ji;16;CPNotification.ji;22;CPNotificationCenter.ji;8;CPNull.ji;10;CPNumber.ji;10;CPObject.ji;15;CPObjJRuntime.ji;13;CPOperation.ji;18;CPOperationQueue.ji;13;CPPredicate.ji;29;CPPropertyListSerialization.ji;9;CPRange.ji;11;CPRunLoop.ji;11;CPScanner.ji;7;CPSet.ji;18;CPSortDescriptor.ji;10;CPString.ji;9;CPTimer.ji;15;CPUndoManager.ji;7;CPURL.ji;17;CPURLConnection.ji;14;CPURLRequest.ji;15;CPURLResponse.ji;16;CPUserDefaults.ji;22;CPUserSessionManager.ji;9;CPValue.ji;20;CPValueTransformer.jt;2054;
+p;12;Foundation.jt;3114;@STATIC;1.0;i;9;CPArray.ji;10;CPBundle.ji;16;CPCharacterSet.ji;9;CPCoder.ji;23;CPComparisonPredicate.ji;21;CPCompoundPredicate.ji;8;CPData.ji;8;CPDate.ji;11;CPDecimal.ji;17;CPDecimalNumber.ji;14;CPDictionary.ji;14;CPEnumerator.ji;13;CPException.ji;14;CPExpression.ji;13;CPFormatter.ji;12;CPIndexSet.ji;13;CPIndexPath.ji;14;CPInvocation.ji;19;CPJSONPConnection.ji;17;CPKeyedArchiver.ji;19;CPKeyedUnarchiver.ji;18;CPKeyValueCoding.ji;21;CPKeyValueObserving.ji;16;CPMutableArray.ji;14;CPMutableSet.ji;16;CPNotification.ji;22;CPNotificationCenter.ji;8;CPNull.ji;10;CPNumber.ji;19;CPNumberFormatter.ji;10;CPObject.ji;15;CPObjJRuntime.ji;13;CPOperation.ji;18;CPOperationQueue.ji;13;CPPredicate.ji;29;CPPropertyListSerialization.ji;9;CPRange.ji;11;CPRunLoop.ji;11;CPScanner.ji;7;CPSet.ji;18;CPSortDescriptor.ji;10;CPString.ji;9;CPTimer.ji;15;CPUndoManager.ji;7;CPURL.ji;17;CPURLConnection.ji;14;CPURLRequest.ji;15;CPURLResponse.ji;16;CPUserDefaults.ji;22;CPUserSessionManager.ji;9;CPValue.ji;20;CPValueTransformer.jt;2099;
 objj_executeFile("CPArray.j",YES);
 objj_executeFile("CPBundle.j",YES);
 objj_executeFile("CPCharacterSet.j",YES);
@@ -1612,6 +1612,7 @@ objj_executeFile("CPNotification.j",YES);
 objj_executeFile("CPNotificationCenter.j",YES);
 objj_executeFile("CPNull.j",YES);
 objj_executeFile("CPNumber.j",YES);
+objj_executeFile("CPNumberFormatter.j",YES);
 objj_executeFile("CPObject.j",YES);
 objj_executeFile("CPObjJRuntime.j",YES);
 objj_executeFile("CPOperation.j",YES);
@@ -3668,6 +3669,28 @@ objj_msgSend(_5b,"encodeObject:forKey:",_string,_54);
 }
 })]);
 CFURL.prototype.isa=objj_msgSend(CPURL,"class");
+p;19;CPNumberFormatter.jt;866;@STATIC;1.0;I;21;Foundation/CPString.jI;24;Foundation/CPFormatter.jt;793;
+objj_executeFile("Foundation/CPString.j",NO);
+objj_executeFile("Foundation/CPFormatter.j",NO);
+var _1=objj_allocateClassPair(CPFormatter,"CPNumberFormatter"),_2=_1.isa;
+objj_registerClassPair(_1);
+var _1=objj_getClass("CPNumberFormatter");
+if(!_1){
+throw new SyntaxError("*** Could not find definition for class \"CPNumberFormatter\"");
+}
+var _2=_1.isa;
+class_addMethods(_1,[new objj_method(sel_getUid("initWithCoder:"),function(_3,_4,_5){
+with(_3){
+_3=objj_msgSendSuper({receiver:_3,super_class:objj_getClass("CPNumberFormatter").super_class},"initWithCoder:",_5);
+if(_3){
+}
+return _3;
+}
+}),new objj_method(sel_getUid("encodeWithCoder:"),function(_6,_7,_8){
+with(_6){
+objj_msgSendSuper({receiver:_6,super_class:objj_getClass("CPNumberFormatter").super_class},"encodeWithCoder:",_8);
+}
+})]);
 p;8;CPNull.jt;731;@STATIC;1.0;i;10;CPObject.jt;698;
 objj_executeFile("CPObject.j",YES);
 var _1=nil;
@@ -7448,8 +7471,8 @@ _1e=objj_msgSend(CPDictionary,"dictionary");
 objj_msgSend(_domains,"setObject:forKey:",_1e,_1d);
 }
 objj_msgSend(_1e,"setObject:forKey:",_1b,_1c);
-objj_msgSend(_19,"domainDidChange:",_1d);
 _searchListNeedsReload=YES;
+objj_msgSend(_19,"domainDidChange:",_1d);
 }
 }),new objj_method(sel_getUid("removeObjectForKey:"),function(_1f,_20,_21){
 with(_1f){
@@ -7465,8 +7488,8 @@ if(!_26){
 return;
 }
 objj_msgSend(_26,"removeObjectForKey:",_24);
-objj_msgSend(_22,"domainDidChange:",_25);
 _searchListNeedsReload=YES;
+objj_msgSend(_22,"domainDidChange:",_25);
 }
 }),new objj_method(sel_getUid("registerDefaults:"),function(_27,_28,_29){
 with(_27){

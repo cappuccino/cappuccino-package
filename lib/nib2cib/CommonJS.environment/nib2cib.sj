@@ -175,10 +175,8 @@ with(_a){
 return objj_msgSend(CPImage,"class");
 }
 })]);
-p;13;NSFormatter.jt;211;@STATIC;1.0;t;193;
+p;13;NSFormatter.jt;111;@STATIC;1.0;t;94;
 var _1=objj_allocateClassPair(CPObject,"NSFormatter"),_2=_1.isa;
-objj_registerClassPair(_1);
-var _1=objj_allocateClassPair(CPObject,"NSNumberFormatter"),_2=_1.isa;
 objj_registerClassPair(_1);
 p;7;NSBox.jt;1374;@STATIC;1.0;I;14;AppKit/CPBox.jt;1336;
 objj_executeFile("AppKit/CPBox.j",NO);
@@ -693,6 +691,32 @@ with(_a){
 return objj_msgSend(CPObjectController,"class");
 }
 })]);
+p;19;NSNumberFormatter.jt;889;@STATIC;1.0;I;30;Foundation/CPNumberFormatter.jt;836;
+objj_executeFile("Foundation/CPNumberFormatter.j",NO);
+var _1=objj_getClass("CPNumberFormatter");
+if(!_1){
+throw new SyntaxError("*** Could not find definition for class \"CPNumberFormatter\"");
+}
+var _2=_1.isa;
+class_addMethods(_1,[new objj_method(sel_getUid("NS_initWithCoder:"),function(_3,_4,_5){
+with(_3){
+_3=objj_msgSendSuper({receiver:_3,super_class:objj_getClass("CPNumberFormatter").super_class},"init");
+if(_3){
+}
+return _3;
+}
+})]);
+var _1=objj_allocateClassPair(CPNumberFormatter,"NSNumberFormatter"),_2=_1.isa;
+objj_registerClassPair(_1);
+class_addMethods(_1,[new objj_method(sel_getUid("initWithCoder:"),function(_6,_7,_8){
+with(_6){
+return objj_msgSend(_6,"NS_initWithCoder:",_8);
+}
+}),new objj_method(sel_getUid("classForKeyedArchiver"),function(_9,_a){
+with(_9){
+return objj_msgSend(CPNumberFormatter,"class");
+}
+})]);
 p;10;NSMatrix.jt;2946;@STATIC;1.0;I;21;Foundation/CPObject.jI;15;AppKit/CPView.ji;8;NSView.jt;2869;
 objj_executeFile("Foundation/CPObject.j",NO);
 objj_executeFile("AppKit/CPView.j",NO);
@@ -985,7 +1009,7 @@ with(_15){
 return objj_msgSend(_CPCibObjectData,"class");
 }
 })]);
-p;10;NSAppKit.jt;3700;@STATIC;1.0;i;15;_NSCornerView.ji;19;NSArrayController.ji;7;NSBox.ji;10;NSButton.ji;8;NSCell.ji;16;NSClassSwapper.ji;12;NSClipView.ji;9;NSColor.ji;13;NSColorWell.ji;18;NSCollectionView.ji;22;NSCollectionViewItem.ji;11;NSControl.ji;16;NSCustomObject.ji;18;NSCustomResource.ji;14;NSCustomView.ji;9;NSEvent.ji;8;NSFont.ji;13;NSFormatter.ji;16;NSIBObjectData.ji;9;NSImage.ji;13;NSImageView.ji;18;NSLevelIndicator.ji;10;NSMatrix.ji;8;NSMenu.ji;12;NSMenuItem.ji;16;NSNibConnector.ji;20;NSObjectController.ji;15;NSOutlineView.ji;15;NSPopUpButton.ji;19;NSPredicateEditor.ji;13;NSResponder.ji;14;NSRuleEditor.ji;14;NSScrollView.ji;12;NSScroller.ji;15;NSSearchField.ji;7;NSSet.ji;19;NSSecureTextField.ji;20;NSSegmentedControl.ji;10;NSSlider.ji;13;NSSplitView.ji;15;NSTableColumn.ji;19;NSTableHeaderView.ji;13;NSTableView.ji;11;NSTabView.ji;15;NSTabViewItem.ji;13;NSTextField.ji;11;NSToolbar.ji;28;NSToolbarFlexibleSpaceItem.ji;15;NSToolbarItem.ji;25;NSToolbarShowColorsItem.ji;24;NSToolbarSeparatorItem.ji;20;NSToolbarSpaceItem.ji;26;NSUserDefaultsController.ji;8;NSView.ji;18;NSViewController.ji;18;NSWindowTemplate.ji;9;WebView.ji;18;NSSortDescriptor.jt;2549;
+p;10;NSAppKit.jt;3769;@STATIC;1.0;i;15;_NSCornerView.ji;19;NSArrayController.ji;7;NSBox.ji;10;NSButton.ji;8;NSCell.ji;16;NSClassSwapper.ji;12;NSClipView.ji;9;NSColor.ji;13;NSColorWell.ji;18;NSCollectionView.ji;22;NSCollectionViewItem.ji;11;NSControl.ji;16;NSCustomObject.ji;18;NSCustomResource.ji;14;NSCustomView.ji;9;NSEvent.ji;8;NSFont.ji;13;NSFormatter.ji;16;NSIBObjectData.ji;9;NSImage.ji;13;NSImageView.ji;18;NSLevelIndicator.ji;10;NSMatrix.ji;8;NSMenu.ji;12;NSMenuItem.ji;16;NSNibConnector.ji;19;NSNumberFormatter.ji;20;NSObjectController.ji;15;NSOutlineView.ji;15;NSPopUpButton.ji;19;NSPredicateEditor.ji;13;NSResponder.ji;14;NSRuleEditor.ji;14;NSScrollView.ji;12;NSScroller.ji;15;NSSearchField.ji;7;NSSet.ji;19;NSSecureTextField.ji;20;NSSegmentedControl.ji;10;NSSlider.ji;13;NSSplitView.ji;15;NSTableColumn.ji;19;NSTableHeaderView.ji;13;NSTableView.ji;11;NSTabView.ji;15;NSTabViewItem.ji;13;NSTextField.ji;11;NSToolbar.ji;28;NSToolbarFlexibleSpaceItem.ji;15;NSToolbarItem.ji;25;NSToolbarShowColorsItem.ji;24;NSToolbarSeparatorItem.ji;20;NSToolbarSpaceItem.ji;26;NSUserDefaultsController.ji;8;NSView.ji;18;NSViewController.ji;18;NSWindowTemplate.ji;9;WebView.ji;18;NSSortDescriptor.jt;2594;
 objj_executeFile("_NSCornerView.j",YES);
 objj_executeFile("NSArrayController.j",YES);
 objj_executeFile("NSBox.j",YES);
@@ -1012,6 +1036,7 @@ objj_executeFile("NSMatrix.j",YES);
 objj_executeFile("NSMenu.j",YES);
 objj_executeFile("NSMenuItem.j",YES);
 objj_executeFile("NSNibConnector.j",YES);
+objj_executeFile("NSNumberFormatter.j",YES);
 objj_executeFile("NSObjectController.j",YES);
 objj_executeFile("NSOutlineView.j",YES);
 objj_executeFile("NSPopUpButton.j",YES);
