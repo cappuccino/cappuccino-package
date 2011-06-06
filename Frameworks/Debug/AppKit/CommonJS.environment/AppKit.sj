@@ -7431,7 +7431,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("savePanel"), function 
 },["id"])]);
 }
 
-p;18;CPLevelIndicator.jt;19150;@STATIC;1.0;i;11;CPControl.jt;19114;objj_executeFile("CPControl.j", YES);
+p;18;CPLevelIndicator.jt;19480;@STATIC;1.0;i;11;CPControl.jt;19444;objj_executeFile("CPControl.j", YES);
 CPTickMarkBelow = 0;
 CPTickMarkAbove = 1;
 CPTickMarkLeft = CPTickMarkAbove;
@@ -7627,7 +7627,14 @@ _numberOfMajorTickMarks = newValue;
 {
     return _isEditable;
 }
-},["BOOL"]), new objj_method(sel_getUid("mouseDown:"), function $CPLevelIndicator__mouseDown_(self, _cmd, anEvent)
+},["BOOL"]), new objj_method(sel_getUid("hitTest:"), function $CPLevelIndicator__hitTest_(self, _cmd, aPoint)
+{ with(self)
+{
+    if (!objj_msgSend(self, "isEditable"))
+        return nil;
+    return objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPLevelIndicator").super_class }, "hitTest:", aPoint);
+}
+},["CPView","CPPoint"]), new objj_method(sel_getUid("mouseDown:"), function $CPLevelIndicator__mouseDown_(self, _cmd, anEvent)
 { with(self)
 {
     if (!objj_msgSend(self, "isEditable") || !objj_msgSend(self, "isEnabled"))

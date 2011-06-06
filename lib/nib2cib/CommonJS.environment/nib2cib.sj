@@ -3113,7 +3113,7 @@ with(_9){
 return objj_msgSend(CPToolbar,"class");
 }
 })]);
-p;18;NSLevelIndicator.jt;3853;@STATIC;1.0;I;25;AppKit/CPLevelIndicator.jt;3804;
+p;18;NSLevelIndicator.jt;3914;@STATIC;1.0;I;25;AppKit/CPLevelIndicator.jt;3865;
 objj_executeFile("AppKit/CPLevelIndicator.j",NO);
 var _1=objj_getClass("CPLevelIndicator");
 if(!_1){
@@ -3142,6 +3142,7 @@ _tickMarkPosition=objj_msgSend(_9,"tickMarkPosition");
 _numberOfTickMarks=objj_msgSend(_9,"numberOfTickMarks");
 _numberOfMajorTickMarks=objj_msgSend(_9,"numberOfMajorTickMarks");
 objj_msgSend(_7,"setEditable:",objj_msgSend(_9,"isEditable"));
+objj_msgSend(_7,"setEnabled:",objj_msgSend(_9,"isEnabled"));
 objj_msgSend(_7,"setContinuous:",objj_msgSend(_9,"isContinuous"));
 return _7;
 }
