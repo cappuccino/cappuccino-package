@@ -19283,7 +19283,7 @@ objj_msgSend(_labelField,"sizeToFit");
 objj_msgSend(_b7,"setEnabled:",objj_msgSend(_toolbarItem,"isEnabled"));
 _labelSize=objj_msgSend(_labelField,"frame").size;
 _minSize=CGSizeMake(MAX(_labelSize.width,_bb.width),_labelSize.height+_bb.height+_a8+_a7);
-_maxSize=CGSizeMake(MAX(_labelSize.width,_bb.width),100000000);
+_maxSize=CGSizeMake(MIN(_labelSize.width,_bc.width),100000000);
 objj_msgSend(_toolbar,"tile");
 }
 }),new objj_method(sel_getUid("layoutSubviews"),function(_bd,_be){
