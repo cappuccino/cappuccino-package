@@ -605,7 +605,7 @@ with(_26){
 objj_msgSend(objj_msgSend(objj_msgSend(_26,"window"),"platformWindow"),"_propagateCurrentDOMEvent:",YES);
 }
 })]);
-p;13;CPTableView.jt;110125;@STATIC;1.0;I;20;Foundation/CPArray.jI;23;Foundation/CPIndexSet.ji;12;CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;109961;
+p;13;CPTableView.jt;110187;@STATIC;1.0;I;20;Foundation/CPArray.jI;23;Foundation/CPIndexSet.ji;12;CGGradient.ji;11;CPControl.ji;15;CPTableColumn.ji;15;_CPCornerView.ji;12;CPScroller.jt;110023;
 objj_executeFile("Foundation/CPArray.j",NO);
 objj_executeFile("Foundation/CPIndexSet.j",NO);
 objj_executeFile("CGGradient.j",YES);
@@ -1950,7 +1950,7 @@ _currentHighlightedTableColumn=_1c5;
 }
 }),new objj_method(sel_getUid("canDragRowsWithIndexes:atPoint:"),function(self,_1c6,_1c7,_1c8){
 with(self){
-return YES;
+return objj_msgSend(_1c7,"count")>0&&objj_msgSend(self,"numberOfRows")>0;
 }
 }),new objj_method(sel_getUid("dragImageForRowsWithIndexes:tableColumns:event:offset:"),function(self,_1c9,_1ca,_1cb,_1cc,_1cd){
 with(self){
