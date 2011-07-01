@@ -1,4 +1,4 @@
-@STATIC;1.0;p;19;BKThemeDescriptor.jt;12848;@STATIC;1.0;I;21;Foundation/CPObject.jt;12802;objj_executeFile("Foundation/CPObject.j", NO);
+@STATIC;1.0;p;19;BKThemeDescriptor.jt;12852;@STATIC;1.0;I;21;Foundation/CPObject.jt;12806;objj_executeFile("Foundation/CPObject.j", NO);
 var ItemSizes = { },
     ThemedObjects = { },
     ThemedShowcaseObjects = { },
@@ -221,7 +221,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("allThemeDescriptorClas
     if (themeValues)
         objj_msgSend(self, "registerThemeValues:forView:", themeValues, aView);
 }
-},["void","CPArray",null,"CPArray"])]);
+},["void","CPArray","CPView","CPArray"])]);
 }
 BKLabelFromIdentifier= function(anIdentifier)
 {
