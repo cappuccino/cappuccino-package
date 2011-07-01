@@ -29768,7 +29768,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("shadowWithOffset:blurR
 },["id","CGSize","float","CPColor"])]);
 }
 
-p;15;CPOutlineView.jt;70243;@STATIC;1.0;i;15;CPTableColumn.ji;13;CPTableView.jt;70185;objj_executeFile("CPTableColumn.j", YES);
+p;15;CPOutlineView.jt;71488;@STATIC;1.0;i;15;CPTableColumn.ji;13;CPTableView.jt;71430;objj_executeFile("CPTableColumn.j", YES);
 objj_executeFile("CPTableView.j", YES);
 CPOutlineViewColumnDidMoveNotification = "CPOutlineViewColumnDidMoveNotification";
 CPOutlineViewColumnDidResizeNotification = "CPOutlineViewColumnDidResizeNotification";
@@ -30519,7 +30519,34 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
 {
     objj_msgSend(objj_msgSend(CPNotificationCenter, "defaultCenter"), "postNotificationName:object:userInfo:", CPOutlineViewItemDidCollapseNotification, self, objj_msgSend(CPDictionary, "dictionaryWithObject:forKey:", item, "CPObject"));
 }
-},["void","id"])]);
+},["void","id"]), new objj_method(sel_getUid("keyDown:"), function $CPOutlineView__keyDown_(self, _cmd, anEvent)
+{ with(self)
+{
+    var character = objj_msgSend(anEvent, "charactersIgnoringModifiers"),
+        modifierFlags = objj_msgSend(anEvent, "modifierFlags");
+    if (character !== CPRightArrowFunctionKey && character !== CPLeftArrowFunctionKey)
+        return objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPOutlineView").super_class }, "keyDown:", anEvent);
+    var rows = objj_msgSend(self, "selectedRowIndexes"),
+        indexes = [],
+        items = [];
+    objj_msgSend(rows, "getIndexes:maxCount:inIndexRange:", indexes, -1, nil);
+    var i = 0,
+        c = objj_msgSend(indexes, "count");
+    for (; i < c; i++)
+        items.push(objj_msgSend(self, "itemAtRow:", indexes[i]));
+    if (character === CPRightArrowFunctionKey)
+    {
+        for (var i = 0; i < c; i++)
+            objj_msgSend(self, "expandItem:", items[i]);
+    }
+    else if (character === CPLeftArrowFunctionKey)
+    {
+        for (var i = 0; i < c; i++)
+            objj_msgSend(self, "collapseItem:", items[i]);
+    }
+    objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPOutlineView").super_class }, "keyDown:", anEvent);
+}
+},["void","CPEvent"])]);
 }
 var _reloadItem = function( anOutlineView, anItem)
 {
