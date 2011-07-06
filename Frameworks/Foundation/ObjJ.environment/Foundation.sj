@@ -3669,26 +3669,149 @@ objj_msgSend(_5b,"encodeObject:forKey:",_string,_54);
 }
 })]);
 CFURL.prototype.isa=objj_msgSend(CPURL,"class");
-p;19;CPNumberFormatter.jt;866;@STATIC;1.0;I;21;Foundation/CPString.jI;24;Foundation/CPFormatter.jt;793;
+p;19;CPNumberFormatter.jt;5126;@STATIC;1.0;I;21;Foundation/CPString.jI;24;Foundation/CPFormatter.jI;28;Foundation/CPDecimalNumber.jt;5019;
 objj_executeFile("Foundation/CPString.j",NO);
 objj_executeFile("Foundation/CPFormatter.j",NO);
+objj_executeFile("Foundation/CPDecimalNumber.j",NO);
+CPNumberFormatterNoStyle=0;
+CPNumberFormatterDecimalStyle=1;
+CPNumberFormatterCurrencyStyle=2;
+CPNumberFormatterPercentStyle=3;
+CPNumberFormatterScientificStyle=4;
+CPNumberFormatterSpellOutStyle=5;
+CPNumberFormatterRoundCeiling=CPRoundUp;
+CPNumberFormatterRoundFloor=CPRoundDown;
+CPNumberFormatterRoundDown=CPRoundDown;
+CPNumberFormatterRoundUp=CPRoundUp;
+CPNumberFormatterRoundHalfEven=CPRoundBankers;
+CPNumberFormatterRoundHalfDown=_CPRoundHalfDown;
+CPNumberFormatterRoundHalfUp=CPRoundPlain;
 var _1=objj_allocateClassPair(CPFormatter,"CPNumberFormatter"),_2=_1.isa;
+class_addIvars(_1,[new objj_ivar("_numberStyle"),new objj_ivar("_perMillSymbol"),new objj_ivar("_roundingMode"),new objj_ivar("_maximumFractionalDigits"),new objj_ivar("_numberHandler")]);
 objj_registerClassPair(_1);
+class_addMethods(_1,[new objj_method(sel_getUid("numberStyle"),function(_3,_4){
+with(_3){
+return _numberStyle;
+}
+}),new objj_method(sel_getUid("setNumberStyle:"),function(_5,_6,_7){
+with(_5){
+_numberStyle=_7;
+}
+}),new objj_method(sel_getUid("perMillSymbol"),function(_8,_9){
+with(_8){
+return _perMillSymbol;
+}
+}),new objj_method(sel_getUid("setPerMillSymbol:"),function(_a,_b,_c){
+with(_a){
+_perMillSymbol=_c;
+}
+}),new objj_method(sel_getUid("roundingMode"),function(_d,_e){
+with(_d){
+return _roundingMode;
+}
+}),new objj_method(sel_getUid("setRoundingMode:"),function(_f,_10,_11){
+with(_f){
+_roundingMode=_11;
+}
+}),new objj_method(sel_getUid("maximalFractionalDigits"),function(_12,_13){
+with(_12){
+return _maximumFractionalDigits;
+}
+}),new objj_method(sel_getUid("setMaximalFractionalDigits:"),function(_14,_15,_16){
+with(_14){
+_maximumFractionalDigits=_16;
+}
+}),new objj_method(sel_getUid("init"),function(_17,_18){
+with(_17){
+if(_17=objj_msgSendSuper({receiver:_17,super_class:objj_getClass("CPNumberFormatter").super_class},"init")){
+_roundingMode=CPNumberFormatterRoundHalfUp;
+_maximumFractionalDigits=3;
+}
+return _17;
+}
+}),new objj_method(sel_getUid("stringFromNumber:"),function(_19,_1a,_1b){
+with(_19){
+switch(_numberStyle){
+case CPNumberFormatterDecimalStyle:
+if(!_numberHandler){
+_numberHandler=objj_msgSend(CPDecimalNumberHandler,"decimalNumberHandlerWithRoundingMode:scale:raiseOnExactness:raiseOnOverflow:raiseOnUnderflow:raiseOnDivideByZero:",_roundingMode,_maximumFractionalDigits,NO,NO,NO,YES);
+}
+var _1c=objj_msgSend(CPDecimalNumber,"numberWithFloat:",_1b);
+_1c=objj_msgSend(_1c,"decimalNumberByRoundingAccordingToBehavior:",_numberHandler);
+var _1d=objj_msgSend(_1c,"descriptionWithLocale:",nil),_1e=objj_msgSend(_1d,"componentsSeparatedByString:","."),_1f=_1e[0],_20=_1e.length>1?_1e[1]:"",_21=objj_msgSend(_1f,"length"),_22=3,_23=objj_msgSend(_19,"_effectivePerMillSymbol");
+if(_23){
+while(_22<objj_msgSend(_1f,"length")){
+_1f=objj_msgSend(_1f,"stringByReplacingCharactersInRange:withString:",CPMakeRange(_22,0),_23);
+_22+=4;
+}
+}
+if(_20){
+return _1f+"."+_20;
+}else{
+return _1f;
+}
+default:
+return objj_msgSend(_1b,"description");
+}
+}
+}),new objj_method(sel_getUid("numberFromString:"),function(_24,_25,_26){
+with(_24){
+return parseFloat(_26);
+}
+}),new objj_method(sel_getUid("stringForObjectValue:"),function(_27,_28,_29){
+with(_27){
+if(objj_msgSend(_29,"isKindOfClass:",objj_msgSend(CPNumber,"class"))){
+return objj_msgSend(_27,"stringFromNumber:",_29);
+}else{
+return objj_msgSend(_29,"description");
+}
+}
+}),new objj_method(sel_getUid("editingStringForObjectValue:"),function(_2a,_2b,_2c){
+with(_2a){
+return objj_msgSend(_2a,"stringForObjectValue:",_2c);
+}
+}),new objj_method(sel_getUid("getObjectValue:forString:errorDescription:"),function(_2d,_2e,_2f,_30,_31){
+with(_2d){
+var _32=objj_msgSend(_2d,"numberFromString:",_30);
+_2f(_32);
+return YES;
+}
+}),new objj_method(sel_getUid("_effectivePerMillSymbol"),function(_33,_34){
+with(_33){
+if(_perMillSymbol===nil||_perMillSymbol===undefined){
+return ",";
+}
+return _perMillSymbol;
+}
+}),new objj_method(sel_getUid("setRoundingMode:"),function(_35,_36,_37){
+with(_35){
+_roundingMode=_37;
+_numberHandler=nil;
+}
+}),new objj_method(sel_getUid("setMaximumFractionDigits:"),function(_38,_39,_3a){
+with(_38){
+_maximumFractionalDigits=_3a;
+_numberHandler=nil;
+}
+})]);
+var _3b="CPNumberFormatterStyleKey";
 var _1=objj_getClass("CPNumberFormatter");
 if(!_1){
 throw new SyntaxError("*** Could not find definition for class \"CPNumberFormatter\"");
 }
 var _2=_1.isa;
-class_addMethods(_1,[new objj_method(sel_getUid("initWithCoder:"),function(_3,_4,_5){
-with(_3){
-_3=objj_msgSendSuper({receiver:_3,super_class:objj_getClass("CPNumberFormatter").super_class},"initWithCoder:",_5);
-if(_3){
+class_addMethods(_1,[new objj_method(sel_getUid("initWithCoder:"),function(_3c,_3d,_3e){
+with(_3c){
+_3c=objj_msgSendSuper({receiver:_3c,super_class:objj_getClass("CPNumberFormatter").super_class},"initWithCoder:",_3e);
+if(_3c){
+_numberStyle=objj_msgSend(_3e,"decodeIntForKey:",_3b);
 }
-return _3;
+return _3c;
 }
-}),new objj_method(sel_getUid("encodeWithCoder:"),function(_6,_7,_8){
-with(_6){
-objj_msgSendSuper({receiver:_6,super_class:objj_getClass("CPNumberFormatter").super_class},"encodeWithCoder:",_8);
+}),new objj_method(sel_getUid("encodeWithCoder:"),function(_3f,_40,_41){
+with(_3f){
+objj_msgSendSuper({receiver:_3f,super_class:objj_getClass("CPNumberFormatter").super_class},"encodeWithCoder:",_41);
+objj_msgSend(_41,"encodeInt:forKey:",_numberStyle,_3b);
 }
 })]);
 p;8;CPNull.jt;731;@STATIC;1.0;i;10;CPObject.jt;698;
@@ -4456,7 +4579,7 @@ with(_5){
 return [];
 }
 })]);
-p;11;CPDecimal.jt;16944;@STATIC;1.0;i;9;CPArray.ji;10;CPNumber.jt;16896;
+p;11;CPDecimal.jt;17024;@STATIC;1.0;i;9;CPArray.ji;10;CPNumber.jt;16976;
 objj_executeFile("CPArray.j",YES);
 objj_executeFile("CPNumber.j",YES);
 CPDecimalMaxDigits=38;
@@ -4472,6 +4595,7 @@ CPRoundPlain=1;
 CPRoundDown=2;
 CPRoundUp=3;
 CPRoundBankers=4;
+_CPRoundHalfDown=5;
 CPDecimalNumberOverflowException="CPDecimalNumberOverflowException";
 CPDecimalNumberUnderflowException="CPDecimalNumberUnderflowException";
 CPDecimalNumberExactnessException="CPDecimalNumberExactnessException";
@@ -5215,6 +5339,10 @@ break;
 case CPRoundPlain:
 n=_59._mantissa[l];
 up=(n>=5);
+break;
+case _CPRoundHalfDown:
+n=_59._mantissa[l];
+up=(n>5);
 break;
 case CPRoundBankers:
 n=_59._mantissa[l];

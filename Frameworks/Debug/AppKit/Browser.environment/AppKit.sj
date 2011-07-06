@@ -3375,7 +3375,7 @@ _disableAutomaticResizing = newValue;
             }
             _wasSelectionBroken = true;
         }
-        else if (_wasSelectionBroken && ((shouldGoUpward && i !== objj_msgSend(selectedIndexes, "firstIndex")) || (!shouldGoUpward && i !== objj_msgSend(selectedIndexes, "lastindex"))))
+        else if (_wasSelectionBroken && ((shouldGoUpward && i !== objj_msgSend(selectedIndexes, "firstIndex")) || (!shouldGoUpward && i !== objj_msgSend(selectedIndexes, "lastIndex"))))
         {
             shouldGoUpward ? i = objj_msgSend(selectedIndexes, "firstIndex") - 1 : i = objj_msgSend(selectedIndexes, "lastIndex");
             _wasSelectionBroken = false;
@@ -7083,7 +7083,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"])]);
 }
 
-p;11;CPControl.jt;28990;@STATIC;1.0;i;8;CPFont.ji;10;CPShadow.ji;8;CPView.ji;19;CPKeyValueBinding.jt;28907;objj_executeFile("CPFont.j", YES);
+p;11;CPControl.jt;29851;@STATIC;1.0;i;8;CPFont.ji;10;CPShadow.ji;8;CPView.ji;19;CPKeyValueBinding.jt;29768;objj_executeFile("CPFont.j", YES);
 objj_executeFile("CPShadow.j", YES);
 objj_executeFile("CPView.j", YES);
 objj_executeFile("CPKeyValueBinding.j", YES);
@@ -7126,7 +7126,7 @@ CPControlTextDidChangeNotification = "CPControlTextDidChangeNotification";
 CPControlTextDidEndEditingNotification = "CPControlTextDidEndEditingNotification";
 var CPControlBlackColor = objj_msgSend(CPColor, "blackColor");
 {var the_class = objj_allocateClassPair(CPView, "CPControl"),
-meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_value"), new objj_ivar("_target"), new objj_ivar("_action"), new objj_ivar("_sendActionOn"), new objj_ivar("_sendsActionOnEndEditing"), new objj_ivar("_continuousTracking"), new objj_ivar("_trackingWasWithinFrame"), new objj_ivar("_trackingMouseDownFlags"), new objj_ivar("_previousTrackingLocation")]);
+meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_value"), new objj_ivar("_target"), new objj_ivar("_action"), new objj_ivar("_sendActionOn"), new objj_ivar("_sendsActionOnEndEditing"), new objj_ivar("_formatter"), new objj_ivar("_continuousTracking"), new objj_ivar("_trackingWasWithinFrame"), new objj_ivar("_trackingMouseDownFlags"), new objj_ivar("_previousTrackingLocation")]);
 objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("sendsActionOnEndEditing"), function $CPControl__sendsActionOnEndEditing(self, _cmd)
 { with(self)
@@ -7138,6 +7138,18 @@ new objj_method(sel_getUid("setSendsActionOnEndEditing:"), function $CPControl__
 { with(self)
 {
 _sendsActionOnEndEditing = newValue;
+}
+},["void","id"]),
+new objj_method(sel_getUid("formatter"), function $CPControl__formatter(self, _cmd)
+{ with(self)
+{
+return _formatter;
+}
+},["id"]),
+new objj_method(sel_getUid("setFormatter:"), function $CPControl__setFormatter_(self, _cmd, newValue)
+{ with(self)
+{
+_formatter = newValue;
 }
 },["void","id"]), new objj_method(sel_getUid("_continuouslyReverseSetBinding"), function $CPControl___continuouslyReverseSetBinding(self, _cmd)
 { with(self)
@@ -7392,12 +7404,26 @@ _sendsActionOnEndEditing = newValue;
 },["void","int"]), new objj_method(sel_getUid("stringValue"), function $CPControl__stringValue(self, _cmd)
 { with(self)
 {
+    var formatted;
+    if (_formatter)
+    {
+        formatted = objj_msgSend(_formatter, "stringForObjectValue:", _value);
+        if (formatted !== nil && formatted !== undefined)
+            return formatted;
+    }
     return (_value === undefined || _value === nil) ? "" : String(_value);
 }
 },["CPString"]), new objj_method(sel_getUid("setStringValue:"), function $CPControl__setStringValue_(self, _cmd, anObject)
 { with(self)
 {
-    objj_msgSend(self, "setObjectValue:", anObject);
+    var value = anObject;
+    if (_formatter)
+    {
+        var formattedValue = nil;
+        if (objj_msgSend(_formatter, "getObjectValue:forString:errorDescription:", function(__input) { if (arguments.length) return formattedValue = __input; return formattedValue; }, value, NULL))
+            value = formattedValue;
+    }
+    objj_msgSend(self, "setObjectValue:", value);
 }
 },["void","CPString"]), new objj_method(sel_getUid("takeDoubleValueFrom:"), function $CPControl__takeDoubleValueFrom_(self, _cmd, sender)
 { with(self)
@@ -7829,7 +7855,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("savePanel"), function 
 },["id"])]);
 }
 
-p;18;CPLevelIndicator.jt;19480;@STATIC;1.0;i;11;CPControl.jt;19444;objj_executeFile("CPControl.j", YES);
+p;18;CPLevelIndicator.jt;19482;@STATIC;1.0;i;11;CPControl.jt;19446;objj_executeFile("CPControl.j", YES);
 CPTickMarkBelow = 0;
 CPTickMarkAbove = 1;
 CPTickMarkLeft = CPTickMarkAbove;
@@ -7970,9 +7996,9 @@ _numberOfMajorTickMarks = newValue;
         return;
     var filledColor = _CPLevelIndicatorSegmentNormalColor,
         value = objj_msgSend(self, "doubleValue");
-    if (value < _criticalValue)
+    if (value <= _criticalValue)
         filledColor = _CPLevelIndicatorSegmentCriticalColor;
-    else if (value < _warningValue)
+    else if (value <= _warningValue)
         filledColor = _CPLevelIndicatorSegmentWarningColor;
     for (var i = 0; i < segmentCount; i++)
     {

@@ -1191,11 +1191,11 @@ with(_9){
 return objj_msgSend(CPCollectionView,"class");
 }
 })]);
-p;8;NSCell.jt;4081;@STATIC;1.0;I;21;Foundation/CPObject.ji;8;NSFont.jt;4024;
+p;8;NSCell.jt;4269;@STATIC;1.0;I;21;Foundation/CPObject.ji;8;NSFont.jt;4212;
 objj_executeFile("Foundation/CPObject.j",NO);
 objj_executeFile("NSFont.j",YES);
 var _1=objj_allocateClassPair(CPObject,"NSCell"),_2=_1.isa;
-class_addIvars(_1,[new objj_ivar("_state"),new objj_ivar("_isHighlighted"),new objj_ivar("_isEnabled"),new objj_ivar("_isEditable"),new objj_ivar("_isBordered"),new objj_ivar("_isBezeled"),new objj_ivar("_isSelectable"),new objj_ivar("_isScrollable"),new objj_ivar("_isContinuous"),new objj_ivar("_scrolls"),new objj_ivar("_wraps"),new objj_ivar("_truncates"),new objj_ivar("_sendsActionOnEndEditing"),new objj_ivar("_alignment"),new objj_ivar("_controlSize"),new objj_ivar("_objectValue"),new objj_ivar("_font"),new objj_ivar("_lineBreakMode")]);
+class_addIvars(_1,[new objj_ivar("_state"),new objj_ivar("_isHighlighted"),new objj_ivar("_isEnabled"),new objj_ivar("_isEditable"),new objj_ivar("_isBordered"),new objj_ivar("_isBezeled"),new objj_ivar("_isSelectable"),new objj_ivar("_isScrollable"),new objj_ivar("_isContinuous"),new objj_ivar("_scrolls"),new objj_ivar("_wraps"),new objj_ivar("_truncates"),new objj_ivar("_sendsActionOnEndEditing"),new objj_ivar("_alignment"),new objj_ivar("_controlSize"),new objj_ivar("_objectValue"),new objj_ivar("_font"),new objj_ivar("_lineBreakMode"),new objj_ivar("_formatter")]);
 objj_registerClassPair(_1);
 class_addMethods(_1,[new objj_method(sel_getUid("state"),function(_3,_4){
 with(_3){
@@ -1269,38 +1269,43 @@ return _font;
 with(_25){
 return _lineBreakMode;
 }
-}),new objj_method(sel_getUid("initWithCoder:"),function(_27,_28,_29){
+}),new objj_method(sel_getUid("formatter"),function(_27,_28){
 with(_27){
-_27=objj_msgSendSuper({receiver:_27,super_class:objj_getClass("NSCell").super_class},"init");
-if(_27){
-var _2a=objj_msgSend(_29,"decodeIntForKey:","NSCellFlags"),_2b=objj_msgSend(_29,"decodeIntForKey:","NSCellFlags2");
-_state=(_2a&2147483648)?CPOnState:CPOffState;
-_isHighlighted=(_2a&1073741824)?YES:NO;
-_isEnabled=(_2a&536870912)?NO:YES;
-_isEditable=(_2a&268435456)?YES:NO;
-_isBordered=(_2a&8388608)?YES:NO;
-_isBezeled=(_2a&4194304)?YES:NO;
-_isSelectable=(_2a&2097152)?YES:NO;
-_isScrollable=(_2a&1048576)?YES:NO;
-_isContinuous=(_2a&524544)?YES:NO;
-_scrolls=(_2a&1048576)&&(_2a&64);
-_wraps=(_2a&1048576===0)&&(_2a&64===0);
-_truncates=!(_2a&1048576)&&(_2a&64);
-_alignment=(_2b&469762048)>>26;
-_lineBreakMode=(_2b&3584)>>9;
-_controlSize=(_2b&917504)>>17;
-_sendsActionOnEndEditing=(_2b&4194304)?YES:NO;
-_objectValue=objj_msgSend(_29,"decodeObjectForKey:","NSContents");
-_font=objj_msgSend(_29,"decodeObjectForKey:","NSSupport");
+return _formatter;
 }
-return _27;
+}),new objj_method(sel_getUid("initWithCoder:"),function(_29,_2a,_2b){
+with(_29){
+_29=objj_msgSendSuper({receiver:_29,super_class:objj_getClass("NSCell").super_class},"init");
+if(_29){
+var _2c=objj_msgSend(_2b,"decodeIntForKey:","NSCellFlags"),_2d=objj_msgSend(_2b,"decodeIntForKey:","NSCellFlags2");
+_state=(_2c&2147483648)?CPOnState:CPOffState;
+_isHighlighted=(_2c&1073741824)?YES:NO;
+_isEnabled=(_2c&536870912)?NO:YES;
+_isEditable=(_2c&268435456)?YES:NO;
+_isBordered=(_2c&8388608)?YES:NO;
+_isBezeled=(_2c&4194304)?YES:NO;
+_isSelectable=(_2c&2097152)?YES:NO;
+_isScrollable=(_2c&1048576)?YES:NO;
+_isContinuous=(_2c&524544)?YES:NO;
+_scrolls=(_2c&1048576)&&(_2c&64);
+_wraps=(_2c&1048576===0)&&(_2c&64===0);
+_truncates=!(_2c&1048576)&&(_2c&64);
+_alignment=(_2d&469762048)>>26;
+_lineBreakMode=(_2d&3584)>>9;
+_controlSize=(_2d&917504)>>17;
+_sendsActionOnEndEditing=(_2d&4194304)?YES:NO;
+_objectValue=objj_msgSend(_2b,"decodeObjectForKey:","NSContents");
+_font=objj_msgSend(_2b,"decodeObjectForKey:","NSSupport");
+_formatter=objj_msgSend(_2b,"decodeObjectForKey:","NSFormatter");
 }
-}),new objj_method(sel_getUid("replacementObjectForCoder:"),function(_2c,_2d,_2e){
-with(_2c){
+return _29;
+}
+}),new objj_method(sel_getUid("replacementObjectForCoder:"),function(_2e,_2f,_30){
+with(_2e){
 return nil;
 }
-}),new objj_method(sel_getUid("stringValue"),function(_2f,_30){
-with(_2f){
+}),new objj_method(sel_getUid("stringValue"),function(_31,_32){
+with(_31){
 if(objj_msgSend(_objectValue,"isKindOfClass:",objj_msgSend(CPString,"class"))){
 return _objectValue;
 }
@@ -1787,7 +1792,7 @@ with(_9){
 return objj_msgSend(CPTabViewItem,"class");
 }
 })]);
-p;11;NSControl.jt;1689;@STATIC;1.0;I;18;AppKit/CPControl.ji;8;NSCell.ji;8;NSView.jt;1623;
+p;11;NSControl.jt;1752;@STATIC;1.0;I;18;AppKit/CPControl.ji;8;NSCell.ji;8;NSView.jt;1686;
 objj_executeFile("AppKit/CPControl.j",NO);
 objj_executeFile("NSCell.j",YES);
 objj_executeFile("NSView.j",YES);
@@ -1811,6 +1816,7 @@ objj_msgSend(_3,"setContinuous:",objj_msgSend(_6,"isContinuous"));
 objj_msgSend(_3,"setTarget:",objj_msgSend(_5,"decodeObjectForKey:","NSTarget"));
 objj_msgSend(_3,"setAction:",objj_msgSend(_5,"decodeObjectForKey:","NSAction"));
 objj_msgSend(_3,"setLineBreakMode:",objj_msgSend(_6,"lineBreakMode"));
+objj_msgSend(_3,"setFormatter:",objj_msgSend(_6,"formatter"));
 }
 return _3;
 }

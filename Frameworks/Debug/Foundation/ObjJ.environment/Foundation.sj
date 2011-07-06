@@ -4223,11 +4223,159 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 }
 CFURL.prototype.isa = objj_msgSend(CPURL, "class");
 
-p;19;CPNumberFormatter.jt;1141;@STATIC;1.0;I;21;Foundation/CPString.jI;24;Foundation/CPFormatter.jt;1067;objj_executeFile("Foundation/CPString.j", NO);
+p;19;CPNumberFormatter.jt;7535;@STATIC;1.0;I;21;Foundation/CPString.jI;24;Foundation/CPFormatter.jI;28;Foundation/CPDecimalNumber.jt;7428;objj_executeFile("Foundation/CPString.j", NO);
 objj_executeFile("Foundation/CPFormatter.j", NO);
+objj_executeFile("Foundation/CPDecimalNumber.j", NO);
+CPNumberFormatterNoStyle = 0;
+CPNumberFormatterDecimalStyle = 1;
+CPNumberFormatterCurrencyStyle = 2;
+CPNumberFormatterPercentStyle = 3;
+CPNumberFormatterScientificStyle = 4;
+CPNumberFormatterSpellOutStyle = 5;
+CPNumberFormatterRoundCeiling = CPRoundUp;
+CPNumberFormatterRoundFloor = CPRoundDown;
+CPNumberFormatterRoundDown = CPRoundDown;
+CPNumberFormatterRoundUp = CPRoundUp;
+CPNumberFormatterRoundHalfEven = CPRoundBankers;
+CPNumberFormatterRoundHalfDown = _CPRoundHalfDown;
+CPNumberFormatterRoundHalfUp = CPRoundPlain;
 {var the_class = objj_allocateClassPair(CPFormatter, "CPNumberFormatter"),
-meta_class = the_class.isa;objj_registerClassPair(the_class);
+meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_numberStyle"), new objj_ivar("_perMillSymbol"), new objj_ivar("_roundingMode"), new objj_ivar("_maximumFractionalDigits"), new objj_ivar("_numberHandler")]);
+objj_registerClassPair(the_class);
+class_addMethods(the_class, [new objj_method(sel_getUid("numberStyle"), function $CPNumberFormatter__numberStyle(self, _cmd)
+{ with(self)
+{
+return _numberStyle;
 }
+},["id"]),
+new objj_method(sel_getUid("setNumberStyle:"), function $CPNumberFormatter__setNumberStyle_(self, _cmd, newValue)
+{ with(self)
+{
+_numberStyle = newValue;
+}
+},["void","id"]),
+new objj_method(sel_getUid("perMillSymbol"), function $CPNumberFormatter__perMillSymbol(self, _cmd)
+{ with(self)
+{
+return _perMillSymbol;
+}
+},["id"]),
+new objj_method(sel_getUid("setPerMillSymbol:"), function $CPNumberFormatter__setPerMillSymbol_(self, _cmd, newValue)
+{ with(self)
+{
+_perMillSymbol = newValue;
+}
+},["void","id"]),
+new objj_method(sel_getUid("roundingMode"), function $CPNumberFormatter__roundingMode(self, _cmd)
+{ with(self)
+{
+return _roundingMode;
+}
+},["id"]),
+new objj_method(sel_getUid("setRoundingMode:"), function $CPNumberFormatter__setRoundingMode_(self, _cmd, newValue)
+{ with(self)
+{
+_roundingMode = newValue;
+}
+},["void","id"]),
+new objj_method(sel_getUid("maximalFractionalDigits"), function $CPNumberFormatter__maximalFractionalDigits(self, _cmd)
+{ with(self)
+{
+return _maximumFractionalDigits;
+}
+},["id"]),
+new objj_method(sel_getUid("setMaximalFractionalDigits:"), function $CPNumberFormatter__setMaximalFractionalDigits_(self, _cmd, newValue)
+{ with(self)
+{
+_maximumFractionalDigits = newValue;
+}
+},["void","id"]), new objj_method(sel_getUid("init"), function $CPNumberFormatter__init(self, _cmd)
+{ with(self)
+{
+    if (self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPNumberFormatter").super_class }, "init"))
+    {
+        _roundingMode = CPNumberFormatterRoundHalfUp;
+        _maximumFractionalDigits = 3;
+    }
+    return self;
+}
+},["id"]), new objj_method(sel_getUid("stringFromNumber:"), function $CPNumberFormatter__stringFromNumber_(self, _cmd, number)
+{ with(self)
+{
+    switch(_numberStyle)
+    {
+        case CPNumberFormatterDecimalStyle:
+            if (!_numberHandler) _numberHandler = objj_msgSend(CPDecimalNumberHandler, "decimalNumberHandlerWithRoundingMode:scale:raiseOnExactness:raiseOnOverflow:raiseOnUnderflow:raiseOnDivideByZero:", _roundingMode, _maximumFractionalDigits, NO, NO, NO, YES);;
+            var dcmn = objj_msgSend(CPDecimalNumber, "numberWithFloat:", number);
+            dcmn = objj_msgSend(dcmn, "decimalNumberByRoundingAccordingToBehavior:", _numberHandler);
+            var output = objj_msgSend(dcmn, "descriptionWithLocale:", nil),
+                parts = objj_msgSend(output, "componentsSeparatedByString:", "."),
+                preFraction = parts[0],
+                fraction = parts.length > 1 ? parts[1] : "",
+                preFractionLength = objj_msgSend(preFraction, "length"),
+                commaPosition = 3,
+                perMillSymbol = objj_msgSend(self, "_effectivePerMillSymbol");
+            if (perMillSymbol)
+                while(commaPosition < objj_msgSend(preFraction, "length"))
+                {
+                    preFraction = objj_msgSend(preFraction, "stringByReplacingCharactersInRange:withString:", CPMakeRange(commaPosition, 0), perMillSymbol);
+                    commaPosition += 4;
+                }
+            if (fraction)
+                return preFraction + "." + fraction;
+            else
+                return preFraction;
+        default:
+            return objj_msgSend(number, "description");
+    }
+}
+},["CPString","CPNumber"]), new objj_method(sel_getUid("numberFromString:"), function $CPNumberFormatter__numberFromString_(self, _cmd, string)
+{ with(self)
+{
+    return parseFloat(string);
+}
+},["CPNumber","CPString"]), new objj_method(sel_getUid("stringForObjectValue:"), function $CPNumberFormatter__stringForObjectValue_(self, _cmd, anObject)
+{ with(self)
+{
+    if (objj_msgSend(anObject, "isKindOfClass:", objj_msgSend(CPNumber, "class")))
+        return objj_msgSend(self, "stringFromNumber:", anObject);
+    else
+        return objj_msgSend(anObject, "description");
+}
+},["CPString","id"]), new objj_method(sel_getUid("editingStringForObjectValue:"), function $CPNumberFormatter__editingStringForObjectValue_(self, _cmd, anObject)
+{ with(self)
+{
+    return objj_msgSend(self, "stringForObjectValue:", anObject);
+}
+},["CPString","id"]), new objj_method(sel_getUid("getObjectValue:forString:errorDescription:"), function $CPNumberFormatter__getObjectValue_forString_errorDescription_(self, _cmd, anObject, aString, anError)
+{ with(self)
+{
+    var value = objj_msgSend(self, "numberFromString:", aString);
+    anObject( value);
+    return YES;
+}
+},["BOOL","id","CPString","CPString"]), new objj_method(sel_getUid("_effectivePerMillSymbol"), function $CPNumberFormatter___effectivePerMillSymbol(self, _cmd)
+{ with(self)
+{
+    if (_perMillSymbol === nil || _perMillSymbol === undefined)
+        return ",";
+    return _perMillSymbol;
+}
+},["CPString"]), new objj_method(sel_getUid("setRoundingMode:"), function $CPNumberFormatter__setRoundingMode_(self, _cmd, aRoundingMode)
+{ with(self)
+{
+    _roundingMode = aRoundingMode;
+    _numberHandler = nil;;
+}
+},["void","CPNumberFormatterRoundingMode"]), new objj_method(sel_getUid("setMaximumFractionDigits:"), function $CPNumberFormatter__setMaximumFractionDigits_(self, _cmd, aNumber)
+{ with(self)
+{
+    _maximumFractionalDigits = aNumber;
+    _numberHandler = nil;;
+}
+},["void","CPUInteger"])]);
+}
+var CPNumberFormatterStyleKey = "CPNumberFormatterStyleKey";
 {
 var the_class = objj_getClass("CPNumberFormatter")
 if(!the_class) throw new SyntaxError("*** Could not find definition for class \"CPNumberFormatter\"");
@@ -4237,6 +4385,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
     self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPNumberFormatter").super_class }, "initWithCoder:", aCoder);
     if (self)
     {
+        _numberStyle = objj_msgSend(aCoder, "decodeIntForKey:", CPNumberFormatterStyleKey);
     }
     return self;
 }
@@ -4244,6 +4393,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 { with(self)
 {
     objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPNumberFormatter").super_class }, "encodeWithCoder:", aCoder);
+    objj_msgSend(aCoder, "encodeInt:forKey:", _numberStyle, CPNumberFormatterStyleKey);
 }
 },["void","CPCoder"])]);
 }
@@ -5120,7 +5270,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("nextObject"), function 
 },["CPArray"])]);
 }
 
-p;11;CPDecimal.jt;28057;@STATIC;1.0;i;9;CPArray.ji;10;CPNumber.jt;28009;objj_executeFile("CPArray.j", YES);
+p;11;CPDecimal.jt;28192;@STATIC;1.0;i;9;CPArray.ji;10;CPNumber.jt;28144;objj_executeFile("CPArray.j", YES);
 objj_executeFile("CPNumber.j", YES);
 CPDecimalMaxDigits = 38;
 CPDecimalMaxExponent = 127;
@@ -5135,6 +5285,7 @@ CPRoundPlain = 1;
 CPRoundDown = 2;
 CPRoundUp = 3;
 CPRoundBankers = 4;
+_CPRoundHalfDown = 5;
 CPDecimalNumberOverflowException = "CPDecimalNumberOverflowException";
 CPDecimalNumberUnderflowException = "CPDecimalNumberUnderflowException";
 CPDecimalNumberExactnessException = "CPDecimalNumberExactnessException";
@@ -6006,6 +6157,10 @@ CPDecimalRound= function(result, dcm, scale ,roundingMode)
         case CPRoundPlain:
             n = result._mantissa[l];
             up = (n >= 5);
+            break;
+        case _CPRoundHalfDown:
+            n = result._mantissa[l];
+            up = (n > 5);
             break;
         case CPRoundBankers:
             n = result._mantissa[l];
