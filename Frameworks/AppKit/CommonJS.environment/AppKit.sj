@@ -30021,7 +30021,7 @@ objj_msgSendSuper({receiver:_9c,super_class:objj_getClass("_CPMenuView").super_c
 objj_msgSend(_9c,"tile");
 }
 })]);
-p;8;CPMenu.jt;26000;@STATIC;1.0;I;20;Foundation/CPArray.jI;25;Foundation/CPDictionary.jI;33;Foundation/CPNotificationCenter.jI;21;Foundation/CPString.ji;16;_CPMenuManager.ji;15;CPApplication.ji;12;CPClipView.ji;12;CPMenuItem.ji;9;CPPanel.ji;18;_CPMenuBarWindow.ji;15;_CPMenuWindow.jt;25730;
+p;8;CPMenu.jt;25999;@STATIC;1.0;I;20;Foundation/CPArray.jI;25;Foundation/CPDictionary.jI;33;Foundation/CPNotificationCenter.jI;21;Foundation/CPString.ji;16;_CPMenuManager.ji;15;CPApplication.ji;12;CPClipView.ji;12;CPMenuItem.ji;9;CPPanel.ji;18;_CPMenuBarWindow.ji;15;_CPMenuWindow.jt;25729;
 objj_executeFile("Foundation/CPArray.j",NO);
 objj_executeFile("Foundation/CPDictionary.j",NO);
 objj_executeFile("Foundation/CPNotificationCenter.j",NO);
@@ -30335,7 +30335,7 @@ return _showsStateColumn;
 }
 }),new objj_method(sel_getUid("highlightedItem"),function(_9b,_9c){
 with(_9b){
-if(_highlightedIndex<=0){
+if(_highlightedIndex<0){
 return nil;
 }
 var _9d=_items[_highlightedIndex];
