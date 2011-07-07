@@ -34748,7 +34748,7 @@ _font = newValue;
 },["void","CPMenu"])]);
 }
 
-p;8;CPMenu.jt;37343;@STATIC;1.0;I;20;Foundation/CPArray.jI;25;Foundation/CPDictionary.jI;33;Foundation/CPNotificationCenter.jI;21;Foundation/CPString.ji;16;_CPMenuManager.ji;15;CPApplication.ji;12;CPClipView.ji;12;CPMenuItem.ji;9;CPPanel.ji;18;_CPMenuBarWindow.ji;15;_CPMenuWindow.jt;37073;objj_executeFile("Foundation/CPArray.j", NO);
+p;8;CPMenu.jt;37804;@STATIC;1.0;I;20;Foundation/CPArray.jI;25;Foundation/CPDictionary.jI;33;Foundation/CPNotificationCenter.jI;21;Foundation/CPString.ji;16;_CPMenuManager.ji;15;CPApplication.ji;12;CPClipView.ji;12;CPMenuItem.ji;9;CPPanel.ji;18;_CPMenuBarWindow.ji;15;_CPMenuWindow.jt;37534;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("Foundation/CPDictionary.j", NO);
 objj_executeFile("Foundation/CPNotificationCenter.j", NO);
 objj_executeFile("Foundation/CPString.j", NO);
@@ -35042,9 +35042,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("menuBarHeight"), functi
     var theWindow = objj_msgSend(aView, "window");
     if (aView && !theWindow)
         throw "In call to popUpMenuPositioningItem:atLocation:inView:callback:, view is not in any window.";
-    var delegate = objj_msgSend(self, "delegate");
-    if (objj_msgSend(delegate, "respondsToSelector:", sel_getUid("menuWillOpen:")))
-        objj_msgSend(delegate, "menuWillOpen:", self);
+    objj_msgSend(self, "_menuWillOpen");
     if (aView)
         aLocation = objj_msgSend(theWindow, "convertBaseToGlobal:", objj_msgSend(aView, "convertPoint:toView:", aLocation, nil));
     var menuWindow = objj_msgSend(_CPMenuWindow, "menuWindowWithMenu:font:", self, objj_msgSend(self, "font"));
@@ -35090,7 +35088,12 @@ class_addMethods(the_class, [new objj_method(sel_getUid("menuBarHeight"), functi
 },["BOOL"]), new objj_method(sel_getUid("highlightedItem"), function $CPMenu__highlightedItem(self, _cmd)
 { with(self)
 {
-    return _highlightedIndex >= 0 ? _items[_highlightedIndex] : nil;
+    if (_highlightedIndex <= 0)
+        return nil;
+    var highlightedItem = _items[_highlightedIndex];
+    if (objj_msgSend(highlightedItem, "isSeparatorItem"))
+        return nil;
+    return highlightedItem;
 }
 },["CPMenuItem"]), new objj_method(sel_getUid("setDelegate:"), function $CPMenu__setDelegate_(self, _cmd, aDelegate)
 { with(self)
@@ -35102,7 +35105,21 @@ class_addMethods(the_class, [new objj_method(sel_getUid("menuBarHeight"), functi
 {
     return _delegate;
 }
-},["id"]), new objj_method(sel_getUid("cancelTracking"), function $CPMenu__cancelTracking(self, _cmd)
+},["id"]), new objj_method(sel_getUid("_menuWillOpen"), function $CPMenu___menuWillOpen(self, _cmd)
+{ with(self)
+{
+    var delegate = objj_msgSend(self, "delegate");
+    if (objj_msgSend(delegate, "respondsToSelector:", sel_getUid("menuWillOpen:")))
+        objj_msgSend(delegate, "menuWillOpen:", self);
+}
+},["void"]), new objj_method(sel_getUid("_menuDidClose"), function $CPMenu___menuDidClose(self, _cmd)
+{ with(self)
+{
+    var delegate = objj_msgSend(self, "delegate");
+    if (objj_msgSend(delegate, "respondsToSelector:", sel_getUid("menuDidClose:")))
+        objj_msgSend(delegate, "menuDidClose:", self);
+}
+},["void"]), new objj_method(sel_getUid("cancelTracking"), function $CPMenu__cancelTracking(self, _cmd)
 { with(self)
 {
     objj_msgSend(objj_msgSend(CPRunLoop, "currentRunLoop"), "performSelector:target:argument:order:modes:", sel_getUid("_fireCancelTrackingEvent"), self, nil, 0, [CPDefaultRunLoopMode]);
@@ -35367,9 +35384,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("initialize"), function
 },["void","CPMenu","CPEvent","CPView"]), new objj_method(sel_getUid("popUpContextMenu:withEvent:forView:withFont:"), function $CPMenu__popUpContextMenu_withEvent_forView_withFont_(self, _cmd, aMenu, anEvent, aView, aFont)
 { with(self)
 {
-    var delegate = objj_msgSend(aMenu, "delegate");
-    if (objj_msgSend(delegate, "respondsToSelector:", sel_getUid("menuWillOpen:")))
-        objj_msgSend(delegate, "menuWillOpen:", aMenu);
+    objj_msgSend(aMenu, "_menuWillOpen");
     if (!aFont)
         aFont = objj_msgSend(CPFont, "systemFontOfSize:", 12.0);
     var theWindow = objj_msgSend(aView, "window"),
@@ -35480,7 +35495,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 objj_executeFile("_CPMenuBarWindow.j", YES);
 objj_executeFile("_CPMenuWindow.j", YES);
 
-p;16;_CPMenuManager.jt;24825;@STATIC;1.0;I;21;Foundation/CPObject.jt;24779;
+p;16;_CPMenuManager.jt;24885;@STATIC;1.0;I;21;Foundation/CPObject.jt;24839;
 
 objj_executeFile("Foundation/CPObject.j", NO);
 
@@ -35493,7 +35508,7 @@ var STICKY_TIME_INTERVAL = 500,
     SharedMenuManager = nil;
 
 {var the_class = objj_allocateClassPair(CPObject, "_CPMenuManager"),
-meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_startTime"), new objj_ivar("_scrollingState"), new objj_ivar("_lastGlobalLocation"), new objj_ivar("_lastMouseOverMenuView"), new objj_ivar("_constraintRect"), new objj_ivar("_menuContainerStack"), new objj_ivar("_trackingCallback"), new objj_ivar("_keyBuffer"), new objj_ivar("_previousActiveItem"), new objj_ivar("_showTimerID")]);
+meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_startTime"), new objj_ivar("_hasMouseGoneUpAfterStartedTracking"), new objj_ivar("_scrollingState"), new objj_ivar("_lastGlobalLocation"), new objj_ivar("_lastMouseOverMenuView"), new objj_ivar("_constraintRect"), new objj_ivar("_menuContainerStack"), new objj_ivar("_trackingCallback"), new objj_ivar("_keyBuffer"), new objj_ivar("_previousActiveItem"), new objj_ivar("_showTimerID")]);
 objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $_CPMenuManager__init(self, _cmd)
 { with(self)
@@ -35544,6 +35559,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $_CPMe
         if (objj_msgSend(activeItem, "_isMenuBarButton"))
             return objj_msgSend(self, "trackMenuBarButtonEvent:", anEvent);
     }
+
+    _hasMouseGoneUpAfterStartedTracking = NO;
 
     objj_msgSend(self, "trackEvent:", anEvent);
 }
@@ -35670,8 +35687,13 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $_CPMe
                     objj_msgSend(CPEvent, "startPeriodicEventsAfterDelay:withPeriod:", 0.0, 0.04);
             }
         }
-        else if (type === CPLeftMouseUp && (objj_msgSend(anEvent, "timestamp") - _startTime > (STICKY_TIME_INTERVAL + objj_msgSend(activeMenu, "numberOfItems") * 5)))
-            objj_msgSend(trackingMenu, "cancelTracking");
+        else if (type === CPLeftMouseUp)
+        {
+            if (_hasMouseGoneUpAfterStartedTracking)
+                objj_msgSend(trackingMenu, "cancelTracking");
+            else
+                _hasMouseGoneUpAfterStartedTracking = YES;
+        }
     }
 
 
@@ -35755,11 +35777,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $_CPMe
 
 
     objj_msgSend(self, "showMenu:fromMenu:atPoint:", nil, trackingMenu, nil);
-
-    var delegate = objj_msgSend(trackingMenu, "delegate");
-
-    if (objj_msgSend(delegate, "respondsToSelector:", sel_getUid("menuDidClose:")))
-        objj_msgSend(delegate, "menuDidClose:", trackingMenu);
+    objj_msgSend(trackingMenu, "_menuDidClose");
 
     if (_trackingCallback)
         _trackingCallback(objj_msgSend(self, "trackingMenuContainer"), trackingMenu);
@@ -35827,6 +35845,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $_CPMe
     var count = _menuContainerStack.length,
         index = count;
 
+    objj_msgSend(newMenu, "_menuWillOpen");
+
 
     while (index--)
     {
@@ -35846,6 +35866,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $_CPMe
 
         objj_msgSend(_CPMenuWindow, "poolMenuWindow:", menuContainer);
         objj_msgSend(_menuContainerStack, "removeObjectAtIndex:", index);
+
+        objj_msgSend(menu, "_menuDidClose");
     }
 
     if (!newMenu)
@@ -46164,7 +46186,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("setColor:"), function $
 },["void","CGRect"])]);
 }
 
-p;12;CPMenuItem.jt;26332;@STATIC;1.0;I;20;Foundation/CPCoder.jI;21;Foundation/CPObject.jI;21;Foundation/CPString.ji;9;CPImage.ji;8;CPMenu.ji;8;CPView.ji;17;_CPMenuItemView.jt;26176;objj_executeFile("Foundation/CPCoder.j", NO);
+p;12;CPMenuItem.jt;26405;@STATIC;1.0;I;20;Foundation/CPCoder.jI;21;Foundation/CPObject.jI;21;Foundation/CPString.ji;9;CPImage.ji;8;CPMenu.ji;8;CPView.ji;17;_CPMenuItemView.jt;26249;objj_executeFile("Foundation/CPCoder.j", NO);
 objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("Foundation/CPString.j", NO);
 objj_executeFile("CPImage.j", YES);
@@ -46414,6 +46436,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPMen
     if (_submenu)
     {
         objj_msgSend(_submenu, "setSupermenu:", _menu);
+        objj_msgSend(_submenu, "setTitle:", objj_msgSend(self, "title"))
         objj_msgSend(self, "setTarget:", _menu);
         objj_msgSend(self, "setAction:", sel_getUid("submenuAction:"));
     }
