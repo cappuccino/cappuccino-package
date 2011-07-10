@@ -7083,7 +7083,8 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"])]);
 }
 
-p;11;CPControl.jt;29851;@STATIC;1.0;i;8;CPFont.ji;10;CPShadow.ji;8;CPView.ji;19;CPKeyValueBinding.jt;29768;objj_executeFile("CPFont.j", YES);
+p;11;CPControl.jt;30473;@STATIC;1.0;i;27;../Foundation/CPFormatter.ji;8;CPFont.ji;10;CPShadow.ji;8;CPView.ji;19;CPKeyValueBinding.jt;30358;objj_executeFile("../Foundation/CPFormatter.j", YES);
+objj_executeFile("CPFont.j", YES);
 objj_executeFile("CPShadow.j", YES);
 objj_executeFile("CPView.j", YES);
 objj_executeFile("CPKeyValueBinding.j", YES);
@@ -7126,21 +7127,9 @@ CPControlTextDidChangeNotification = "CPControlTextDidChangeNotification";
 CPControlTextDidEndEditingNotification = "CPControlTextDidEndEditingNotification";
 var CPControlBlackColor = objj_msgSend(CPColor, "blackColor");
 {var the_class = objj_allocateClassPair(CPView, "CPControl"),
-meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_value"), new objj_ivar("_target"), new objj_ivar("_action"), new objj_ivar("_sendActionOn"), new objj_ivar("_sendsActionOnEndEditing"), new objj_ivar("_formatter"), new objj_ivar("_continuousTracking"), new objj_ivar("_trackingWasWithinFrame"), new objj_ivar("_trackingMouseDownFlags"), new objj_ivar("_previousTrackingLocation")]);
+meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_value"), new objj_ivar("_formatter"), new objj_ivar("_target"), new objj_ivar("_action"), new objj_ivar("_sendActionOn"), new objj_ivar("_sendsActionOnEndEditing"), new objj_ivar("_continuousTracking"), new objj_ivar("_trackingWasWithinFrame"), new objj_ivar("_trackingMouseDownFlags"), new objj_ivar("_previousTrackingLocation")]);
 objj_registerClassPair(the_class);
-class_addMethods(the_class, [new objj_method(sel_getUid("sendsActionOnEndEditing"), function $CPControl__sendsActionOnEndEditing(self, _cmd)
-{ with(self)
-{
-return _sendsActionOnEndEditing;
-}
-},["id"]),
-new objj_method(sel_getUid("setSendsActionOnEndEditing:"), function $CPControl__setSendsActionOnEndEditing_(self, _cmd, newValue)
-{ with(self)
-{
-_sendsActionOnEndEditing = newValue;
-}
-},["void","id"]),
-new objj_method(sel_getUid("formatter"), function $CPControl__formatter(self, _cmd)
+class_addMethods(the_class, [new objj_method(sel_getUid("formatter"), function $CPControl__formatter(self, _cmd)
 { with(self)
 {
 return _formatter;
@@ -7150,6 +7139,18 @@ new objj_method(sel_getUid("setFormatter:"), function $CPControl__setFormatter_(
 { with(self)
 {
 _formatter = newValue;
+}
+},["void","id"]),
+new objj_method(sel_getUid("sendsActionOnEndEditing"), function $CPControl__sendsActionOnEndEditing(self, _cmd)
+{ with(self)
+{
+return _sendsActionOnEndEditing;
+}
+},["id"]),
+new objj_method(sel_getUid("setSendsActionOnEndEditing:"), function $CPControl__setSendsActionOnEndEditing_(self, _cmd, newValue)
+{ with(self)
+{
+_sendsActionOnEndEditing = newValue;
 }
 },["void","id"]), new objj_method(sel_getUid("_continuouslyReverseSetBinding"), function $CPControl___continuouslyReverseSetBinding(self, _cmd)
 { with(self)
@@ -7201,9 +7202,9 @@ _formatter = newValue;
 { with(self)
 {
     objj_msgSend(self, "_reverseSetBinding");
-    objj_msgSend(CPApp, "sendAction:to:from:", anAction, anObject, self);
+    return objj_msgSend(CPApp, "sendAction:to:from:", anAction, anObject, self);
 }
-},["void","SEL","id"]), new objj_method(sel_getUid("sendActionOn:"), function $CPControl__sendActionOn_(self, _cmd, mask)
+},["BOOL","SEL","id"]), new objj_method(sel_getUid("sendActionOn:"), function $CPControl__sendActionOn_(self, _cmd, mask)
 { with(self)
 {
     var previousMask = _sendActionOn;
@@ -7404,25 +7405,34 @@ _formatter = newValue;
 },["void","int"]), new objj_method(sel_getUid("stringValue"), function $CPControl__stringValue(self, _cmd)
 { with(self)
 {
-    var formatted;
-    if (_formatter)
+    if (_formatter && _value !== undefined && _value !== nil)
     {
-        formatted = objj_msgSend(_formatter, "stringForObjectValue:", _value);
-        if (formatted !== nil && formatted !== undefined)
-            return formatted;
+        var formattedValue = objj_msgSend(self, "hasThemeState:", CPThemeStateEditing) ? objj_msgSend(_formatter, "editingStringForObjectValue:", _value) : objj_msgSend(_formatter, "stringForObjectValue:", _value);
+        if (formattedValue !== nil && formattedValue !== undefined)
+            return formattedValue;
     }
     return (_value === undefined || _value === nil) ? "" : String(_value);
 }
-},["CPString"]), new objj_method(sel_getUid("setStringValue:"), function $CPControl__setStringValue_(self, _cmd, anObject)
+},["CPString"]), new objj_method(sel_getUid("setStringValue:"), function $CPControl__setStringValue_(self, _cmd, aString)
 { with(self)
 {
-    var value = anObject;
+    if (aString === nil || aString === undefined)
+    {
+        CPLog.warn("nil sent to CPControl -setStringValue");
+        return;
+    }
+    var value;
     if (_formatter)
     {
-        var formattedValue = nil;
-        if (objj_msgSend(_formatter, "getObjectValue:forString:errorDescription:", function(__input) { if (arguments.length) return formattedValue = __input; return formattedValue; }, value, NULL))
-            value = formattedValue;
+        value = nil;
+        if (objj_msgSend(_formatter, "getObjectValue:forString:errorDescription:", function(__input) { if (arguments.length) return value = __input; return value; }, aString, nil) === NO)
+        {
+            if (!aString || objj_msgSend(_formatter, "getObjectValue:forString:errorDescription:", function(__input) { if (arguments.length) return value = __input; return value; }, "", nil) === NO)
+                value = undefined;
+        }
     }
+    else
+        value = aString;
     objj_msgSend(self, "setObjectValue:", value);
 }
 },["void","CPString"]), new objj_method(sel_getUid("takeDoubleValueFrom:"), function $CPControl__takeDoubleValueFrom_(self, _cmd, sender)
@@ -7690,7 +7700,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
         objj_msgSend(aCoder, "encodeObject:forKey:", objectValue, CPControlValueKey);
     if (_target !== nil)
         objj_msgSend(aCoder, "encodeConditionalObject:forKey:", _target, CPControlTargetKey);
-    if (_action !== NULL)
+    if (_action !== nil)
         objj_msgSend(aCoder, "encodeObject:forKey:", _action, CPControlActionKey);
     objj_msgSend(aCoder, "encodeInt:forKey:", _sendActionOn, CPControlSendActionOnKey);
 }
@@ -17180,7 +17190,7 @@ var byteToHex = function(n)
            hexCharacters.charAt(n % 16);
 };
 
-p;13;CPTextField.jt;50664;@STATIC;1.0;i;11;CPControl.ji;17;CPStringDrawing.ji;17;CPCompatibility.ji;21;_CPImageAndTextView.jt;50558;objj_executeFile("CPControl.j", YES);
+p;13;CPTextField.jt;52787;@STATIC;1.0;i;11;CPControl.ji;17;CPStringDrawing.ji;17;CPCompatibility.ji;21;_CPImageAndTextView.jt;52681;objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPStringDrawing.j", YES);
 objj_executeFile("CPCompatibility.j", YES);
 objj_executeFile("_CPImageAndTextView.j", YES);
@@ -17213,7 +17223,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 CPTextFieldStateRounded = CPThemeState("rounded");
 CPTextFieldStatePlaceholder = CPThemeState("placeholder");
 {var the_class = objj_allocateClassPair(CPControl, "CPTextField"),
-meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_isEditing"), new objj_ivar("_isEditable"), new objj_ivar("_isSelectable"), new objj_ivar("_isSecure"), new objj_ivar("_willBecomeFirstResponderByClick"), new objj_ivar("_drawsBackground"), new objj_ivar("_textFieldBackgroundColor"), new objj_ivar("_placeholderString"), new objj_ivar("_delegate"), new objj_ivar("_textDidChangeValue"), new objj_ivar("_bezelStyle"), new objj_ivar("_isBordered"), new objj_ivar("_controlSize")]);
+meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_isEditing"), new objj_ivar("_isEditable"), new objj_ivar("_isSelectable"), new objj_ivar("_isSecure"), new objj_ivar("_willBecomeFirstResponderByClick"), new objj_ivar("_drawsBackground"), new objj_ivar("_textFieldBackgroundColor"), new objj_ivar("_placeholderString"), new objj_ivar("_stringValue"), new objj_ivar("_delegate"), new objj_ivar("_bezelStyle"), new objj_ivar("_isBordered"), new objj_ivar("_controlSize")]);
 objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("_inputElement"), function $CPTextField___inputElement(self, _cmd)
 { with(self)
@@ -17420,11 +17430,11 @@ class_addMethods(the_class, [new objj_method(sel_getUid("_inputElement"), functi
     objj_msgSend(self, "_updatePlaceholderState");
     objj_msgSend(self, "setNeedsLayout");
     _isEditing = NO;
-    var string = objj_msgSend(self, "stringValue"),
-        element = objj_msgSend(self, "_inputElement"),
+    _stringValue = objj_msgSend(self, "stringValue");
+    var element = objj_msgSend(self, "_inputElement"),
         font = objj_msgSend(self, "currentValueForThemeAttribute:", "font");
     objj_msgSend(font, "_getMetrics");
-    element.value = string;
+    element.value = _stringValue;
     element.style.color = objj_msgSend(objj_msgSend(self, "currentValueForThemeAttribute:", "text-color"), "cssString");
     element.style.font = objj_msgSend(font, "cssString");
     element.style.zIndex = 1000;
@@ -17467,7 +17477,6 @@ class_addMethods(the_class, [new objj_method(sel_getUid("_inputElement"), functi
         objj_msgSend(self, "textDidFocus:", objj_msgSend(CPNotification, "notificationWithName:object:userInfo:", CPTextFieldDidFocusNotification, self, nil));
         CPTextFieldInputOwner = self;
     }, 0.0);
-    element.value = objj_msgSend(self, "stringValue");
     objj_msgSend(objj_msgSend(objj_msgSend(self, "window"), "platformWindow"), "_propagateCurrentDOMEvent:", YES);
     CPTextFieldInputIsActive = YES;
     if (document.attachEvent)
@@ -17483,11 +17492,18 @@ class_addMethods(the_class, [new objj_method(sel_getUid("_inputElement"), functi
 { with(self)
 {
     objj_msgSend(self, "unsetThemeState:", CPThemeStateEditing);
+    var element = objj_msgSend(self, "_inputElement"),
+        error = "";
+    if (objj_msgSend(self, "_valueIsValid:", element.value) === NO)
+    {
+        objj_msgSend(self, "setThemeState:", CPThemeStateEditing);
+        element.focus();
+        return NO;
+    }
+    _stringValue = objj_msgSend(self, "stringValue");
+    _willBecomeFirstResponderByClick = NO;
     objj_msgSend(self, "_updatePlaceholderState");
     objj_msgSend(self, "setNeedsLayout");
-    var element = objj_msgSend(self, "_inputElement");
-    if (objj_msgSend(self, "stringValue") !== element.value)
-        objj_msgSend(self, "_setStringValue:", element.value);
     CPTextFieldInputResigning = YES;
     if (CPTextFieldInputIsActive)
         element.blur();
@@ -17515,7 +17531,21 @@ class_addMethods(the_class, [new objj_method(sel_getUid("_inputElement"), functi
     objj_msgSend(self, "textDidBlur:", objj_msgSend(CPNotification, "notificationWithName:object:userInfo:", CPTextFieldDidBlurNotification, self, nil));
     return YES;
 }
-},["BOOL"]), new objj_method(sel_getUid("needsPanelToBecomeKey"), function $CPTextField__needsPanelToBecomeKey(self, _cmd)
+},["BOOL"]), new objj_method(sel_getUid("_valueIsValid:"), function $CPTextField___valueIsValid_(self, _cmd, aValue)
+{ with(self)
+{
+    var error = "";
+    if (objj_msgSend(self, "_setStringValue:isNewValue:errorDescription:", aValue, NO, function(__input) { if (arguments.length) return error = __input; return error; }) === NO)
+    {
+        var acceptInvalidValue = NO;
+        if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("control:didFailToFormatString:errorDescription:")))
+            acceptInvalidValue = objj_msgSend(_delegate, "control:didFailToFormatString:errorDescription:", self, objj_msgSend(self, "_inputElement"), error);
+        if (acceptInvalidValue === NO)
+            return NO;
+    }
+    return YES;
+}
+},["BOOL","CPString"]), new objj_method(sel_getUid("needsPanelToBecomeKey"), function $CPTextField__needsPanelToBecomeKey(self, _cmd)
 { with(self)
 {
     return YES;
@@ -17570,10 +17600,10 @@ class_addMethods(the_class, [new objj_method(sel_getUid("_inputElement"), functi
 },["void","CPEvent"]), new objj_method(sel_getUid("keyUp:"), function $CPTextField__keyUp_(self, _cmd, anEvent)
 { with(self)
 {
-    var oldValue = objj_msgSend(self, "stringValue");
-    objj_msgSend(self, "_setStringValue:", objj_msgSend(self, "_inputElement").value);
-    if (oldValue !== objj_msgSend(self, "stringValue"))
+    var newValue = objj_msgSend(self, "_inputElement").value;
+    if (newValue !== _stringValue)
     {
+        objj_msgSend(self, "_setStringValue:", newValue);
         if (!_isEditing)
         {
             _isEditing = YES;
@@ -17601,38 +17631,39 @@ class_addMethods(the_class, [new objj_method(sel_getUid("_inputElement"), functi
 },["void","SEL"]), new objj_method(sel_getUid("insertNewline:"), function $CPTextField__insertNewline_(self, _cmd, sender)
 { with(self)
 {
-    if (_isEditing)
+    if (objj_msgSend(self, "_valueIsValid:", _stringValue))
     {
-        _isEditing = NO;
-        objj_msgSend(self, "textDidEndEditing:", objj_msgSend(CPNotification, "notificationWithName:object:userInfo:", CPControlTextDidEndEditingNotification, self, nil));
+        if (!objj_msgSend(self, "action") || objj_msgSend(self, "sendAction:to:", objj_msgSend(self, "action"), objj_msgSend(self, "target")))
+        {
+            if (_isEditing)
+            {
+                _isEditing = NO;
+                objj_msgSend(self, "textDidEndEditing:", objj_msgSend(CPNotification, "notificationWithName:object:userInfo:", CPControlTextDidEndEditingNotification, self, nil));
+            }
+            objj_msgSend(self, "selectAll:", nil);
+        }
     }
-    objj_msgSend(self, "sendAction:to:", objj_msgSend(self, "action"), objj_msgSend(self, "target"));
-    objj_msgSend(self, "selectText:", nil);
     objj_msgSend(objj_msgSend(objj_msgSend(self, "window"), "platformWindow"), "_propagateCurrentDOMEvent:", NO);
 }
 },["void","id"]), new objj_method(sel_getUid("insertNewlineIgnoringFieldEditor:"), function $CPTextField__insertNewlineIgnoringFieldEditor_(self, _cmd, sender)
 { with(self)
 {
-    var oldValue = objj_msgSend(self, "stringValue");
-    objj_msgSend(self, "_inputElement").value += CPNewlineCharacter;
-    objj_msgSend(self, "_setStringValue:", objj_msgSend(self, "_inputElement").value);
-    if (oldValue !== objj_msgSend(self, "stringValue"))
-    {
-        if (!_isEditing)
-        {
-            _isEditing = YES;
-            objj_msgSend(self, "textDidBeginEditing:", objj_msgSend(CPNotification, "notificationWithName:object:userInfo:", CPControlTextDidBeginEditingNotification, self, nil));
-        }
-        objj_msgSend(self, "textDidChange:", objj_msgSend(CPNotification, "notificationWithName:object:userInfo:", CPControlTextDidChangeNotification, self, nil));
-    }
+    objj_msgSend(self, "_insertCharacterIgnoringFieldEditor:", CPNewlineCharacter);
 }
 },["void","id"]), new objj_method(sel_getUid("insertTabIgnoringFieldEditor:"), function $CPTextField__insertTabIgnoringFieldEditor_(self, _cmd, sender)
 { with(self)
 {
-    var oldValue = objj_msgSend(self, "stringValue");
-    objj_msgSend(self, "_inputElement").value += CPTabCharacter;
-    objj_msgSend(self, "_setStringValue:", objj_msgSend(self, "_inputElement").value);
-    if (oldValue !== objj_msgSend(self, "stringValue"))
+    objj_msgSend(self, "_insertCharacterIgnoringFieldEditor:", CPTabCharacter);
+}
+},["void","id"]), new objj_method(sel_getUid("_insertCharacterIgnoringFieldEditor:"), function $CPTextField___insertCharacterIgnoringFieldEditor_(self, _cmd, aCharacter)
+{ with(self)
+{
+    var oldValue = _stringValue,
+        range = objj_msgSend(self, "selectedRange"),
+        element = objj_msgSend(self, "_inputElement");
+    element.value = objj_msgSend(element.value, "stringByReplacingCharactersInRange:withString:", objj_msgSend(self, "selectedRange"), aCharacter);
+    objj_msgSend(self, "_setStringValue:", element.value);
+    if (oldValue !== _stringValue)
     {
         if (!_isEditing)
         {
@@ -17642,7 +17673,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("_inputElement"), functi
         objj_msgSend(self, "textDidChange:", objj_msgSend(CPNotification, "notificationWithName:object:userInfo:", CPControlTextDidChangeNotification, self, nil));
     }
 }
-},["void","id"]), new objj_method(sel_getUid("textDidBlur:"), function $CPTextField__textDidBlur_(self, _cmd, note)
+},["void","CPString"]), new objj_method(sel_getUid("textDidBlur:"), function $CPTextField__textDidBlur_(self, _cmd, note)
 { with(self)
 {
     if (objj_msgSend(note, "object") != self)
@@ -17664,13 +17695,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("_inputElement"), functi
     objj_msgSend(self, "_continuouslyReverseSetBinding");
     objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPTextField").super_class }, "textDidChange:", note);
 }
-},["void","CPNotification"]), new objj_method(sel_getUid("sendAction:to:"), function $CPTextField__sendAction_to_(self, _cmd, anAction, anObject)
-{ with(self)
-{
-    objj_msgSend(self, "_reverseSetBinding");
-    objj_msgSend(CPApp, "sendAction:to:from:", anAction, anObject, self);
-}
-},["void","SEL","id"]), new objj_method(sel_getUid("objectValue"), function $CPTextField__objectValue(self, _cmd)
+},["void","CPNotification"]), new objj_method(sel_getUid("objectValue"), function $CPTextField__objectValue(self, _cmd)
 { with(self)
 {
     return objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPTextField").super_class }, "objectValue");
@@ -17678,24 +17703,61 @@ class_addMethods(the_class, [new objj_method(sel_getUid("_inputElement"), functi
 },["id"]), new objj_method(sel_getUid("_setStringValue:"), function $CPTextField___setStringValue_(self, _cmd, aValue)
 { with(self)
 {
-    objj_msgSend(self, "willChangeValueForKey:", "objectValue");
-    objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPTextField").super_class }, "setObjectValue:", String(aValue));
-    objj_msgSend(self, "_updatePlaceholderState");
-    objj_msgSend(self, "didChangeValueForKey:", "objectValue");
+    return objj_msgSend(self, "_setStringValue:isNewValue:errorDescription:", aValue, YES, nil);
 }
-},["void","id"]), new objj_method(sel_getUid("setObjectValue:"), function $CPTextField__setObjectValue_(self, _cmd, aValue)
+},["BOOL","CPString"]), new objj_method(sel_getUid("_setStringValue:isNewValue:errorDescription:"), function $CPTextField___setStringValue_isNewValue_errorDescription_(self, _cmd, aValue, isNewValue, anError)
+{ with(self)
+{
+    _stringValue = aValue;
+    var objectValue = aValue,
+        formatter = objj_msgSend(self, "formatter"),
+        result = YES;
+    if (formatter)
+    {
+        var object = nil;
+        if (objj_msgSend(formatter, "getObjectValue:forString:errorDescription:", function(__input) { if (arguments.length) return object = __input; return object; }, aValue, anError))
+            objectValue = object;
+        else
+        {
+            objectValue = undefined;
+            result = NO;
+        }
+        isNewValue |= objectValue !== objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPTextField").super_class }, "objectValue");
+    }
+    if (isNewValue)
+    {
+        objj_msgSend(self, "willChangeValueForKey:", "objectValue");
+        objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPTextField").super_class }, "setObjectValue:", objectValue);
+        objj_msgSend(self, "_updatePlaceholderState");
+        objj_msgSend(self, "didChangeValueForKey:", "objectValue");
+    }
+    return result;
+}
+},["BOOL","CPString","BOOL","CPStringRef"]), new objj_method(sel_getUid("setObjectValue:"), function $CPTextField__setObjectValue_(self, _cmd, aValue)
 { with(self)
 {
     objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPTextField").super_class }, "setObjectValue:", aValue);
+    var formatter = objj_msgSend(self, "formatter");
+    if (formatter)
+    {
+        var formattedString = objj_msgSend(self, "hasThemeState:", CPThemeStateEditing) ? objj_msgSend(formatter, "editingStringForObjectValue:", aValue) : objj_msgSend(formatter, "stringForObjectValue:", aValue);
+        if (formattedString === nil)
+        {
+            var value = nil;
+            if (objj_msgSend(formatter, "getObjectValue:forString:errorDescription:", function(__input) { if (arguments.length) return value = __input; return value; }, "", nil) === NO)
+                value = undefined;
+            objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPTextField").super_class }, "setObjectValue:", value);
+        }
+    }
+    _stringValue = objj_msgSend(self, "stringValue");
     if (CPTextFieldInputOwner === self || objj_msgSend(objj_msgSend(self, "window"), "firstResponder") === self)
-        objj_msgSend(self, "_inputElement").value = aValue;
+        objj_msgSend(self, "_inputElement").value = _stringValue;
     objj_msgSend(self, "_updatePlaceholderState");
 }
 },["void","id"]), new objj_method(sel_getUid("_updatePlaceholderState"), function $CPTextField___updatePlaceholderState(self, _cmd)
 { with(self)
 {
-    var string = objj_msgSend(self, "stringValue");
-    if ((!string || string.length === 0) && !objj_msgSend(self, "hasThemeState:", CPThemeStateEditing))
+    if ((!_stringValue || _stringValue.length === 0) && !objj_msgSend(self, "hasThemeState:", CPThemeStateEditing))
         objj_msgSend(self, "setThemeState:", CPTextFieldStatePlaceholder);
     else
         objj_msgSend(self, "unsetThemeState:", CPTextFieldStatePlaceholder);
@@ -17730,7 +17792,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("_inputElement"), functi
         minSize = objj_msgSend(self, "currentValueForThemeAttribute:", "min-size"),
         maxSize = objj_msgSend(self, "currentValueForThemeAttribute:", "max-size"),
         lineBreakMode = objj_msgSend(self, "lineBreakMode"),
-        text = (objj_msgSend(self, "stringValue") || " "),
+        text = (_stringValue || " "),
         textSize = { width:frameSize.width, height:frameSize.height },
         font = objj_msgSend(self, "currentValueForThemeAttribute:", "font");
     textSize.width -= contentInset.left + contentInset.right;
@@ -17778,8 +17840,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("_inputElement"), functi
         if (selectedRange.length < 1)
             return;
         var pasteboard = objj_msgSend(CPPasteboard, "generalPasteboard"),
-            stringValue = objj_msgSend(self, "stringValue"),
-            stringForPasting = objj_msgSend(stringValue, "substringWithRange:", selectedRange);
+            stringForPasting = objj_msgSend(_stringValue, "substringWithRange:", selectedRange);
         objj_msgSend(pasteboard, "declareTypes:owner:", [CPStringPboardType], nil);
         objj_msgSend(pasteboard, "setString:forType:", stringForPasting, CPStringPboardType);
     }
@@ -17805,9 +17866,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("_inputElement"), functi
             return;
         objj_msgSend(self, "deleteBackward:", sender);
         var selectedRange = objj_msgSend(self, "selectedRange"),
-            stringValue = objj_msgSend(self, "stringValue"),
             pasteString = objj_msgSend(pasteboard, "stringForType:", CPStringPboardType),
-            newValue = objj_msgSend(stringValue, "stringByReplacingCharactersInRange:withString:", selectedRange, pasteString);
+            newValue = objj_msgSend(_stringValue, "stringByReplacingCharactersInRange:withString:", selectedRange, pasteString);
         objj_msgSend(self, "setStringValue:", newValue);
         objj_msgSend(self, "setSelectedRange:", CPMakeRange(selectedRange.location + pasteString.length, 0));
     }
@@ -17884,8 +17944,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("_inputElement"), functi
          return;
     selectedRange.location += 1;
     selectedRange.length -= 1;
-    var stringValue = objj_msgSend(self, "stringValue"),
-        newValue = objj_msgSend(stringValue, "stringByReplacingCharactersInRange:withString:", selectedRange, "");
+    var newValue = objj_msgSend(_stringValue, "stringByReplacingCharactersInRange:withString:", selectedRange, "");
     objj_msgSend(self, "setStringValue:", newValue);
     objj_msgSend(self, "setSelectedRange:", CPMakeRange(selectedRange.location, 0));
 }
@@ -17983,7 +18042,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("_inputElement"), functi
             string = objj_msgSend(self, "placeholderString");
         else
         {
-            string = objj_msgSend(self, "stringValue");
+            string = _stringValue;
             if (objj_msgSend(self, "isSecure"))
                 string = secureStringForString(string);
         }

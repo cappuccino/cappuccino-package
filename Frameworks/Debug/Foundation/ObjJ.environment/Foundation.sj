@@ -907,7 +907,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","id","CPString"])]);
 }
 
-p;13;CPFormatter.jt;2231;@STATIC;1.0;i;13;CPException.ji;10;CPObject.jt;2179;objj_executeFile("CPException.j", YES);
+p;13;CPFormatter.jt;2622;@STATIC;1.0;i;13;CPException.ji;10;CPObject.jt;2570;objj_executeFile("CPException.j", YES);
 objj_executeFile("CPObject.j", YES);
 {var the_class = objj_allocateClassPair(CPObject, "CPFormatter"),
 meta_class = the_class.isa;objj_registerClassPair(the_class);
@@ -928,19 +928,28 @@ class_addMethods(the_class, [new objj_method(sel_getUid("stringForObjectValue:")
     _CPRaiseInvalidAbstractInvocation(self, _cmd);
     return NO;
 }
-},["BOOL","id","CPString","CPString"]), new objj_method(sel_getUid("isPartialStringValid:newEditingString:errorDescription:"), function $CPFormatter__isPartialStringValid_newEditingString_errorDescription_(self, _cmd, aPartialString, aNewString, anError)
+},["BOOL","idRef","CPString","CPStringRef"]), new objj_method(sel_getUid("isPartialStringValid:newEditingString:errorDescription:"), function $CPFormatter__isPartialStringValid_newEditingString_errorDescription_(self, _cmd, aPartialString, aNewString, anError)
 { with(self)
 {
-    _CPRaiseInvalidAbstractInvocation(self, _cmd);
-    return NO;
+    aPartialString( nil);
+    if (anError)
+        anError( nil);
+    return YES;
 }
-},["BOOL","CPString","CPString","CPString"]), new objj_method(sel_getUid("isPartialStringValue:proposedSelectedRange:originalString:originalSelectedRange:errorDescription:"), function $CPFormatter__isPartialStringValue_proposedSelectedRange_originalString_originalSelectedRange_errorDescription_(self, _cmd, aPartialString, aProposedSelectedRange, originalString, originalSelectedRange, anError)
+},["BOOL","CPString","CPStringRef","CPStringRef"]), new objj_method(sel_getUid("isPartialStringValid:proposedSelectedRange:originalString:originalSelectedRange:errorDescription:"), function $CPFormatter__isPartialStringValid_proposedSelectedRange_originalString_originalSelectedRange_errorDescription_(self, _cmd, aPartialString, aProposedSelectedRange, originalString, originalSelectedRange, anError)
 { with(self)
 {
-    _CPRaiseInvalidAbstractInvocation(self, _cmd);
-    return NO;
+    var newString = nil,
+        valid = objj_msgSend(self, "isPartialStringValid:newEditingString:errorDescription:", aPartialString, function(__input) { if (arguments.length) return newString = __input; return newString; }, anError);
+    if (!valid)
+    {
+        aPartialString( newString);
+        if (newString !== nil)
+            aProposedSelectedRange( CPMakeRange(newString.length, 0));
+    }
+    return valid;
 }
-},["BOOL","CPString","CPRange","CPString","CPRange","CPString"]), new objj_method(sel_getUid("initWithCoder:"), function $CPFormatter__initWithCoder_(self, _cmd, aCoder)
+},["BOOL","CPStringRef","CPRangeRef","CPString","CPRange","CPStringRef"]), new objj_method(sel_getUid("initWithCoder:"), function $CPFormatter__initWithCoder_(self, _cmd, aCoder)
 { with(self)
 {
     return objj_msgSend(self, "init");
