@@ -30723,7 +30723,7 @@ objj_msgSend(_11c,"encodeBool:forKey:",_showsStateColumn,_118);
 })]);
 objj_executeFile("_CPMenuBarWindow.j",YES);
 objj_executeFile("_CPMenuWindow.j",YES);
-p;16;_CPMenuManager.jt;16518;@STATIC;1.0;I;21;Foundation/CPObject.jt;16472;
+p;16;_CPMenuManager.jt;16570;@STATIC;1.0;I;21;Foundation/CPObject.jt;16524;
 objj_executeFile("Foundation/CPObject.j",NO);
 _CPMenuManagerScrollingStateUp=-1,_CPMenuManagerScrollingStateDown=1,_CPMenuManagerScrollingStateNone=0;
 var _1=500,_2=nil;
@@ -30748,6 +30748,9 @@ return objj_msgSend(objj_msgSend(_9,"trackingMenuContainer"),"menu");
 }),new objj_method(sel_getUid("beginTracking:menuContainer:constraintRect:callback:"),function(_b,_c,_d,_e,_f,_10){
 with(_b){
 var _11=objj_msgSend(_e,"menu");
+if(objj_msgSend(_11,"numberOfItems")<=0){
+return;
+}
 CPApp._activeMenu=_11;
 _startTime=objj_msgSend(_d,"timestamp");
 _scrollingState=_CPMenuManagerScrollingStateNone;

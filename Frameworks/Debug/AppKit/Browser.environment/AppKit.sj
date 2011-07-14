@@ -36739,7 +36739,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 objj_executeFile("_CPMenuBarWindow.j", YES);
 objj_executeFile("_CPMenuWindow.j", YES);
 
-p;16;_CPMenuManager.jt;24933;@STATIC;1.0;I;21;Foundation/CPObject.jt;24887;
+p;16;_CPMenuManager.jt;25000;@STATIC;1.0;I;21;Foundation/CPObject.jt;24954;
 
 objj_executeFile("Foundation/CPObject.j", NO);
 
@@ -36776,6 +36776,9 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $_CPMe
 { with(self)
 {
     var menu = objj_msgSend(aMenuContainer, "menu");
+
+    if (objj_msgSend(menu, "numberOfItems") <= 0)
+        return;
 
     CPApp._activeMenu = menu;
 
