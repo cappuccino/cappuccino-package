@@ -35473,7 +35473,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 objj_executeFile("_CPMenuBarWindow.j", YES);
 objj_executeFile("_CPMenuWindow.j", YES);
 
-p;16;_CPMenuManager.jt;24885;@STATIC;1.0;I;21;Foundation/CPObject.jt;24839;
+p;16;_CPMenuManager.jt;24933;@STATIC;1.0;I;21;Foundation/CPObject.jt;24887;
 
 objj_executeFile("Foundation/CPObject.j", NO);
 
@@ -35552,7 +35552,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $_CPMe
     if (type === CPAppKitDefined)
         return objj_msgSend(self, "completeTracking");
 
-    objj_msgSend(CPApp, "setTarget:selector:forNextEventMatchingMask:untilDate:inMode:dequeue:", self, sel_getUid("trackEvent:"), CPKeyDownMask | CPPeriodicMask | CPMouseMovedMask | CPLeftMouseDraggedMask | CPLeftMouseUpMask | CPAppKitDefinedMask | CPScrollWheelMask, nil, nil, YES);
+    objj_msgSend(CPApp, "setTarget:selector:forNextEventMatchingMask:untilDate:inMode:dequeue:", self, sel_getUid("trackEvent:"), CPKeyDownMask | CPPeriodicMask | CPMouseMovedMask | CPLeftMouseDraggedMask | CPLeftMouseUpMask | CPRightMouseUpMask | CPAppKitDefinedMask | CPScrollWheelMask, nil, nil, YES);
 
     if (type === CPKeyDown)
     {
@@ -35665,7 +35665,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $_CPMe
                     objj_msgSend(CPEvent, "startPeriodicEventsAfterDelay:withPeriod:", 0.0, 0.04);
             }
         }
-        else if (type === CPLeftMouseUp)
+        else if (type === CPLeftMouseUp || type === CPRightMouseUp)
         {
             if (_hasMouseGoneUpAfterStartedTracking)
                 objj_msgSend(trackingMenu, "cancelTracking");

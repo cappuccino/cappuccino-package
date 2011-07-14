@@ -32034,7 +32034,7 @@ objj_msgSend(_11c,"encodeBool:forKey:",_showsStateColumn,_118);
 })]);
 objj_executeFile("_CPMenuBarWindow.j",YES);
 objj_executeFile("_CPMenuWindow.j",YES);
-p;16;_CPMenuManager.jt;16477;@STATIC;1.0;I;21;Foundation/CPObject.jt;16431;
+p;16;_CPMenuManager.jt;16518;@STATIC;1.0;I;21;Foundation/CPObject.jt;16472;
 objj_executeFile("Foundation/CPObject.j",NO);
 _CPMenuManagerScrollingStateUp=-1,_CPMenuManagerScrollingStateDown=1,_CPMenuManagerScrollingStateNone=0;
 var _1=500,_2=nil;
@@ -32082,7 +32082,7 @@ var _19=objj_msgSend(_18,"type"),_1a=objj_msgSend(_16,"trackingMenu");
 if(_19===CPAppKitDefined){
 return objj_msgSend(_16,"completeTracking");
 }
-objj_msgSend(CPApp,"setTarget:selector:forNextEventMatchingMask:untilDate:inMode:dequeue:",_16,sel_getUid("trackEvent:"),CPKeyDownMask|CPPeriodicMask|CPMouseMovedMask|CPLeftMouseDraggedMask|CPLeftMouseUpMask|CPAppKitDefinedMask|CPScrollWheelMask,nil,nil,YES);
+objj_msgSend(CPApp,"setTarget:selector:forNextEventMatchingMask:untilDate:inMode:dequeue:",_16,sel_getUid("trackEvent:"),CPKeyDownMask|CPPeriodicMask|CPMouseMovedMask|CPLeftMouseDraggedMask|CPLeftMouseUpMask|CPRightMouseUpMask|CPAppKitDefinedMask|CPScrollWheelMask,nil,nil,YES);
 if(_19===CPKeyDown){
 var _1b=_1a,_1c=objj_msgSend(objj_msgSend(_1b,"highlightedItem"),"submenu");
 while(_1c&&objj_msgSend(_1c._menuWindow,"isVisible")){
@@ -32158,7 +32158,7 @@ objj_msgSend(CPEvent,"startPeriodicEventsAfterDelay:withPeriod:",0,0.04);
 }
 }
 }else{
-if(_19===CPLeftMouseUp){
+if(_19===CPLeftMouseUp||_19===CPRightMouseUp){
 if(_hasMouseGoneUpAfterStartedTracking){
 objj_msgSend(_1a,"cancelTracking");
 }else{
