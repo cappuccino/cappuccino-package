@@ -2669,7 +2669,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"])]);
 }
 
-p;14;CPDictionary.jt;13157;@STATIC;1.0;i;9;CPArray.ji;14;CPEnumerator.ji;13;CPException.ji;8;CPNull.ji;10;CPObject.jt;13060;objj_executeFile("CPArray.j", YES);
+p;14;CPDictionary.jt;13399;@STATIC;1.0;i;9;CPArray.ji;14;CPEnumerator.ji;13;CPException.ji;8;CPNull.ji;10;CPObject.jt;13302;objj_executeFile("CPArray.j", YES);
 objj_executeFile("CPEnumerator.j", YES);
 objj_executeFile("CPException.j", YES);
 objj_executeFile("CPNull.j", YES);
@@ -2948,10 +2948,17 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("alloc"), function $CPD
                 for (; i < count; i++)
                 {
                     var thisValue = value[i];
-                    if (thisValue.constructor === Object)
-                        newValue.push(objj_msgSend(CPDictionary, "dictionaryWithJSObject:recursively:", thisValue, YES));
+                    if (thisValue === null)
+                    {
+                        newValue.push(objj_msgSend(CPNull, "null"));
+                    }
                     else
-                        newValue.push(thisValue);
+                    {
+                        if (thisValue.constructor === Object)
+                            newValue.push(objj_msgSend(CPDictionary, "dictionaryWithJSObject:recursively:", thisValue, YES));
+                        else
+                            newValue.push(thisValue);
+                    }
                 }
                 value = newValue;
             }
@@ -9149,7 +9156,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("main"), function $CPInv
 },["id"])]);
 }
 
-p;17;CPKeyedArchiver.jt;16868;@STATIC;1.0;i;9;CPArray.ji;9;CPCoder.ji;8;CPData.ji;14;CPDictionary.ji;10;CPNumber.ji;10;CPString.ji;9;CPValue.jt;16748;objj_executeFile("CPArray.j", YES);
+p;17;CPKeyedArchiver.jt;16798;@STATIC;1.0;i;9;CPArray.ji;9;CPCoder.ji;8;CPData.ji;14;CPDictionary.ji;10;CPNumber.ji;10;CPString.ji;9;CPValue.jt;16678;objj_executeFile("CPArray.j", YES);
 objj_executeFile("CPCoder.j", YES);
 objj_executeFile("CPData.j", YES);
 objj_executeFile("CPDictionary.j", YES);
@@ -9207,8 +9214,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initForWritingWithMutab
         classes = [];
     for (; i < _objects.length; ++i)
     {
-        var object = _objects[i],
-            theClass = objj_msgSend(object, "classForKeyedArchiver");
+        var object = _objects[i];
         _plistObject = _plistObjects[objj_msgSend(_UIDs, "objectForKey:", objj_msgSend(object, "UID"))];
         objj_msgSend(object, "encodeWithCoder:", self);
         if (_delegate && _delegateSelectors & _CPKeyedArchiverDidEncodeObjectSelector)
@@ -16789,7 +16795,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 },["void","CPCoder"])]);
 }
 
-p;23;CPComparisonPredicate.jt;19454;@STATIC;1.0;i;9;CPArray.ji;14;CPEnumerator.ji;14;CPExpression.ji;8;CPNull.ji;13;CPPredicate.ji;10;CPString.jt;19338;objj_executeFile("CPArray.j", YES);
+p;23;CPComparisonPredicate.jt;19788;@STATIC;1.0;i;9;CPArray.ji;14;CPEnumerator.ji;14;CPExpression.ji;8;CPNull.ji;13;CPPredicate.ji;10;CPString.jt;19672;objj_executeFile("CPArray.j", YES);
 objj_executeFile("CPEnumerator.j", YES);
 objj_executeFile("CPExpression.j", YES);
 objj_executeFile("CPNull.j", YES);
@@ -16989,13 +16995,17 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithLeftExpression:
                                                             var commut = (_options & CPCaseInsensitivePredicateOption) ? "gi":"g",
                                                                 reg = new RegExp(rhs.escapeForRegExp(),commut);
                                                             return reg.test(lhs);
-        case CPBeginsWithPredicateOperatorType: var range = CPMakeRange(0,objj_msgSend(rhs, "length"));
-                                                            if (_options & CPCaseInsensitivePredicateOption) string_compare_options |= CPCaseInsensitiveSearch;
-                                                            if (_options & CPDiacriticInsensitivePredicateOption) string_compare_options |= CPDiacriticInsensitiveSearch;
+        case CPBeginsWithPredicateOperatorType: var range = CPMakeRange(0, MIN(objj_msgSend(lhs, "length"), objj_msgSend(rhs, "length")));
+                                                            if (_options & CPCaseInsensitivePredicateOption)
+                                                                string_compare_options |= CPCaseInsensitiveSearch;
+                                                            if (_options & CPDiacriticInsensitivePredicateOption)
+                                                                string_compare_options |= CPDiacriticInsensitiveSearch;
                                                             return (objj_msgSend(lhs, "compare:options:range:", rhs, string_compare_options, range) == CPOrderedSame);
-        case CPEndsWithPredicateOperatorType: var range = CPMakeRange(objj_msgSend(lhs, "length") - objj_msgSend(rhs, "length"),objj_msgSend(rhs, "length"));
-                                                            if (_options & CPCaseInsensitivePredicateOption) string_compare_options |= CPCaseInsensitiveSearch;
-                                                            if (_options & CPDiacriticInsensitivePredicateOption) string_compare_options |= CPDiacriticInsensitiveSearch;
+        case CPEndsWithPredicateOperatorType: var range = CPMakeRange(MAX(objj_msgSend(lhs, "length") - objj_msgSend(rhs, "length"), 0), MIN(objj_msgSend(lhs, "length"), objj_msgSend(rhs, "length")));
+                                                            if (_options & CPCaseInsensitivePredicateOption)
+                                                                string_compare_options |= CPCaseInsensitiveSearch;
+                                                            if (_options & CPDiacriticInsensitivePredicateOption)
+                                                                string_compare_options |= CPDiacriticInsensitiveSearch;
                                                             return (objj_msgSend(lhs, "compare:options:range:", rhs, string_compare_options, range) == CPOrderedSame);
         case CPCustomSelectorPredicateOperatorType: return objj_msgSend(lhs, "performSelector:withObject:", _customSelector, rhs);
         case CPInPredicateOperatorType: var a = lhs;

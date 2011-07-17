@@ -35731,7 +35731,7 @@ with(_15){
 })]);
 var _1=objj_allocateClassPair(CPBasePlatform,"CPPlatform"),_2=_1.isa;
 objj_registerClassPair(_1);
-p;18;CPPlatformString.jt;529;@STATIC;1.0;I;21;Foundation/CPObject.jt;485;
+p;18;CPPlatformString.jt;874;@STATIC;1.0;I;21;Foundation/CPObject.jt;830;
 objj_executeFile("Foundation/CPObject.j",NO);
 var _1=objj_allocateClassPair(CPObject,"CPBasePlatformString"),_2=_1.isa;
 objj_registerClassPair(_1);
@@ -35745,6 +35745,15 @@ return {width:0,height:0};
 })]);
 var _1=objj_allocateClassPair(CPBasePlatformString,"CPPlatformString"),_2=_1.isa;
 objj_registerClassPair(_1);
+class_addMethods(_2,[new objj_method(sel_getUid("sizeOfString:withFont:forWidth:"),function(_a,_b,_c,_d,_e){
+with(_a){
+return {width:0,height:0};
+}
+}),new objj_method(sel_getUid("metricsOfFont:"),function(_f,_10,_11){
+with(_f){
+return objj_msgSend(CPDictionary,"dictionaryWithObjectsAndKeys:",0,"ascender",0,"descender",0,"lineHeight");
+}
+})]);
 p;18;CPPlatformWindow.jt;3848;@STATIC;1.0;I;21;Foundation/CPObject.jt;3803;
 objj_executeFile("Foundation/CPObject.j",NO);
 var _1=NULL;

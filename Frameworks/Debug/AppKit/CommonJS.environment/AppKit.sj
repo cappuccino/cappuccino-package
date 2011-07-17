@@ -41737,7 +41737,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("bootstrap"), function 
 meta_class = the_class.isa;objj_registerClassPair(the_class);
 }
 
-p;18;CPPlatformString.jt;796;@STATIC;1.0;I;21;Foundation/CPObject.jt;752;objj_executeFile("Foundation/CPObject.j", NO);
+p;18;CPPlatformString.jt;1361;@STATIC;1.0;I;21;Foundation/CPObject.jt;1316;objj_executeFile("Foundation/CPObject.j", NO);
 {var the_class = objj_allocateClassPair(CPObject, "CPBasePlatformString"),
 meta_class = the_class.isa;objj_registerClassPair(the_class);
 class_addMethods(meta_class, [new objj_method(sel_getUid("bootstrap"), function $CPBasePlatformString__bootstrap(self, _cmd)
@@ -41753,6 +41753,17 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("bootstrap"), function 
 }
 {var the_class = objj_allocateClassPair(CPBasePlatformString, "CPPlatformString"),
 meta_class = the_class.isa;objj_registerClassPair(the_class);
+class_addMethods(meta_class, [new objj_method(sel_getUid("sizeOfString:withFont:forWidth:"), function $CPPlatformString__sizeOfString_withFont_forWidth_(self, _cmd, aString, aFont, aWidth)
+{ with(self)
+{
+    return { width:0.0, height:0.0 };
+}
+},["CGSize","CPString","CPFont","float"]), new objj_method(sel_getUid("metricsOfFont:"), function $CPPlatformString__metricsOfFont_(self, _cmd, aFont)
+{ with(self)
+{
+    return objj_msgSend(CPDictionary, "dictionaryWithObjectsAndKeys:", 0, "ascender", 0, "descender", 0, "lineHeight");
+}
+},["CPDictionary","CPFont"])]);
 }
 
 p;18;CPPlatformWindow.jt;5928;@STATIC;1.0;I;21;Foundation/CPObject.jt;5883;objj_executeFile("Foundation/CPObject.j", NO);

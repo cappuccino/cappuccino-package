@@ -1940,7 +1940,7 @@ with(_f){
 return objj_msgSend(CPView,"class");
 }
 })]);
-p;10;NSButton.jt;7207;@STATIC;1.0;I;17;AppKit/CPButton.jI;19;AppKit/CPCheckBox.jI;16;AppKit/CPRadio.ji;8;NSCell.ji;11;NSControl.jt;7093;
+p;10;NSButton.jt;7280;@STATIC;1.0;I;17;AppKit/CPButton.jI;19;AppKit/CPCheckBox.jI;16;AppKit/CPRadio.ji;8;NSCell.ji;11;NSControl.jt;7166;
 objj_executeFile("AppKit/CPButton.j",NO);
 objj_executeFile("AppKit/CPCheckBox.j",NO);
 objj_executeFile("AppKit/CPRadio.j",NO);
@@ -1977,6 +1977,7 @@ _13.isa=objj_msgSend(CPRadio,"class");
 _13._radioGroup=objj_msgSend(CPRadioGroup,"new");
 }
 }
+_themeClass=objj_msgSend(objj_msgSend(_13,"class"),"defaultThemeClass");
 }
 NIB_CONNECTION_EQUIVALENCY_TABLE[objj_msgSend(_15,"UID")]=_13;
 _title=objj_msgSend(_15,"title");
