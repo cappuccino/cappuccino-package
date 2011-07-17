@@ -9486,7 +9486,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("themeAttributes"), fun
 },["CPString"])]);
 }
 
-p;17;CPViewAnimation.jt;7836;@STATIC;1.0;i;13;CPAnimation.jt;7799;objj_executeFile("CPAnimation.j", YES);
+p;17;CPViewAnimation.jt;7950;@STATIC;1.0;i;13;CPAnimation.jt;7913;objj_executeFile("CPAnimation.j", YES);
 CPViewAnimationTargetKey = "CPViewAnimationTargetKey";
 CPViewAnimationStartFrameKey = "CPViewAnimationStartFrameKey";
 CPViewAnimationEndFrameKey = "CPViewAnimationEndFrameKey";
@@ -9537,22 +9537,23 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithViewAnimations:
             view = objj_msgSend(self, "_targetView:", dictionary),
             startFrame = objj_msgSend(self, "_startFrame:", dictionary),
             endFrame = objj_msgSend(self, "_endFrame:", dictionary),
-            differenceFrame = { origin: { x:0.0, y:0.0 }, size: { width:0.0, height:0.0 } };
+            differenceFrame = { origin: { x:0.0, y:0.0 }, size: { width:0.0, height:0.0 } },
+            value = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPViewAnimation").super_class }, "currentValue");
         differenceFrame.origin.x = endFrame.origin.x - startFrame.origin.x;
         differenceFrame.origin.y = endFrame.origin.y - startFrame.origin.y;
         differenceFrame.size.width = endFrame.size.width - startFrame.size.width;
         differenceFrame.size.height = endFrame.size.height - startFrame.size.height;
         var intermediateFrame = { origin: { x:0.0, y:0.0 }, size: { width:0.0, height:0.0 } };
-        intermediateFrame.origin.x = startFrame.origin.x + differenceFrame.origin.x * progress;
-        intermediateFrame.origin.y = startFrame.origin.y + differenceFrame.origin.y * progress;
-        intermediateFrame.size.width = startFrame.size.width + differenceFrame.size.width * progress;
-        intermediateFrame.size.height = startFrame.size.height + differenceFrame.size.height * progress;
+        intermediateFrame.origin.x = startFrame.origin.x + differenceFrame.origin.x * value;
+        intermediateFrame.origin.y = startFrame.origin.y + differenceFrame.origin.y * value;
+        intermediateFrame.size.width = startFrame.size.width + differenceFrame.size.width * value;
+        intermediateFrame.size.height = startFrame.size.height + differenceFrame.size.height * value;
         objj_msgSend(view, "setFrame:", intermediateFrame);
         var effect = objj_msgSend(self, "_effect:", dictionary);
         if (effect === CPViewAnimationFadeInEffect)
-            objj_msgSend(view, "setAlphaValue:", 1.0 * progress);
+            objj_msgSend(view, "setAlphaValue:", 1.0 * value);
         else if (effect === CPViewAnimationFadeOutEffect)
-            objj_msgSend(view, "setAlphaValue:", 1.0 + ( 0.0 - 1.0 ) * progress);
+            objj_msgSend(view, "setAlphaValue:", 1.0 + ( 0.0 - 1.0 ) * value);
         if (progress === 1.0)
             objj_msgSend(self, "_targetView:setHidden:", view, (endFrame.size.width <= 0.0 || endFrame.size.height <= 0.0) || objj_msgSend(view, "alphaValue") === 0.0);
     }
@@ -25746,7 +25747,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("isSecure"), function $C
 },["BOOL"])]);
 }
 
-p;13;CPAnimation.jt;8164;@STATIC;1.0;I;21;Foundation/CPObject.jI;20;Foundation/CPTimer.ji;23;CAMediaTimingFunction.jt;8066;objj_executeFile("Foundation/CPObject.j", NO);
+p;13;CPAnimation.jt;8228;@STATIC;1.0;I;21;Foundation/CPObject.jI;20;Foundation/CPTimer.ji;23;CAMediaTimingFunction.jt;8130;objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("Foundation/CPTimer.j", NO);
 objj_executeFile("CAMediaTimingFunction.j", YES);
 CPAnimationEaseInOut = 0;
@@ -25886,6 +25887,8 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithDuration:animat
     var t = objj_msgSend(self, "currentProgress");
     if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("animation:valueForProgress:")))
         return objj_msgSend(_delegate, "animation:valueForProgress:", self, t);
+    if (_animationCurve == CPAnimationLinear)
+        return t;
     var c1 = [],
         c2 = [];
     objj_msgSend(_timingFunction, "getControlPointAtIndex:values:", 1, c1);
