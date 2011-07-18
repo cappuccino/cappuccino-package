@@ -17191,7 +17191,7 @@ var byteToHex = function(n)
            hexCharacters.charAt(n % 16);
 };
 
-p;13;CPTextField.jt;52787;@STATIC;1.0;i;11;CPControl.ji;17;CPStringDrawing.ji;17;CPCompatibility.ji;21;_CPImageAndTextView.jt;52681;objj_executeFile("CPControl.j", YES);
+p;13;CPTextField.jt;52639;@STATIC;1.0;i;11;CPControl.ji;17;CPStringDrawing.ji;17;CPCompatibility.ji;21;_CPImageAndTextView.jt;52533;objj_executeFile("CPControl.j", YES);
 objj_executeFile("CPStringDrawing.j", YES);
 objj_executeFile("CPCompatibility.j", YES);
 objj_executeFile("_CPImageAndTextView.j", YES);
@@ -17617,8 +17617,6 @@ class_addMethods(the_class, [new objj_method(sel_getUid("_inputElement"), functi
 },["void","CPEvent"]), new objj_method(sel_getUid("keyDown:"), function $CPTextField__keyDown_(self, _cmd, anEvent)
 { with(self)
 {
-    if (objj_msgSend(anEvent, "_couldBeKeyEquivalent") && objj_msgSend(self, "performKeyEquivalent:", anEvent))
-        return;
     objj_msgSend(objj_msgSend(objj_msgSend(self, "window"), "platformWindow"), "_propagateCurrentDOMEvent:", YES);
     objj_msgSend(self, "interpretKeyEvents:", [anEvent]);
     objj_msgSend(objj_msgSend(CPRunLoop, "currentRunLoop"), "limitDateForMode:", CPDefaultRunLoopMode);
@@ -17634,13 +17632,13 @@ class_addMethods(the_class, [new objj_method(sel_getUid("_inputElement"), functi
 {
     if (objj_msgSend(self, "_valueIsValid:", _stringValue))
     {
+        if (_isEditing)
+        {
+            _isEditing = NO;
+            objj_msgSend(self, "textDidEndEditing:", objj_msgSend(CPNotification, "notificationWithName:object:userInfo:", CPControlTextDidEndEditingNotification, self, nil));
+        }
         if (!objj_msgSend(self, "action") || objj_msgSend(self, "sendAction:to:", objj_msgSend(self, "action"), objj_msgSend(self, "target")))
         {
-            if (_isEditing)
-            {
-                _isEditing = NO;
-                objj_msgSend(self, "textDidEndEditing:", objj_msgSend(CPNotification, "notificationWithName:object:userInfo:", CPControlTextDidEndEditingNotification, self, nil));
-            }
             objj_msgSend(self, "selectAll:", nil);
         }
     }
@@ -21942,7 +21940,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("isFloatingPanel"), func
 },["BOOL"])]);
 }
 
-p;12;CPScroller.jt;24475;@STATIC;1.0;i;11;CPControl.jt;24439;objj_executeFile("CPControl.j", YES);
+p;12;CPScroller.jt;24516;@STATIC;1.0;i;11;CPControl.jt;24480;objj_executeFile("CPControl.j", YES);
 CPScrollerNoPart = 0;
 CPScrollerDecrementPage = 1;
 CPScrollerKnob = 2;
@@ -22217,7 +22215,8 @@ return _isVertical;
         }
     }
     objj_msgSend(CPApp, "setTarget:selector:forNextEventMatchingMask:untilDate:inMode:dequeue:", self, sel_getUid("trackKnob:"), CPLeftMouseDraggedMask | CPLeftMouseUpMask, nil, nil, YES);
-    objj_msgSend(self, "sendAction:to:", objj_msgSend(self, "action"), objj_msgSend(self, "target"));
+    if (type === CPLeftMouseDragged)
+        objj_msgSend(self, "sendAction:to:", objj_msgSend(self, "action"), objj_msgSend(self, "target"));
 }
 },["void","CPEvent"]), new objj_method(sel_getUid("trackScrollButtons:"), function $CPScroller__trackScrollButtons_(self, _cmd, anEvent)
 { with(self)
@@ -26709,12 +26708,15 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithItemIdentifier:
 },["void","CPCoder"])]);
 }
 
-p;14;CPScrollView.jt;40619;@STATIC;1.0;i;7;CPBox.ji;12;CPClipView.ji;12;CPScroller.ji;8;CPView.jt;40542;objj_executeFile("CPBox.j", YES);
+p;14;CPScrollView.jt;43219;@STATIC;1.0;i;7;CPBox.ji;12;CPClipView.ji;12;CPScroller.ji;8;CPView.jt;43142;objj_executeFile("CPBox.j", YES);
 objj_executeFile("CPClipView.j", YES);
 objj_executeFile("CPScroller.j", YES);
 objj_executeFile("CPView.j", YES);
+var TIMER_INTERVAL = 0.2,
+    CPScrollViewDelegate_scrollViewWillScroll_ = 1 << 0,
+    CPScrollViewDelegate_scrollViewDidScroll_ = 1 << 1;
 {var the_class = objj_allocateClassPair(CPView, "CPScrollView"),
-meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_contentView"), new objj_ivar("_headerClipView"), new objj_ivar("_cornerView"), new objj_ivar("_bottomCornerView"), new objj_ivar("_hasVerticalScroller"), new objj_ivar("_hasHorizontalScroller"), new objj_ivar("_autohidesScrollers"), new objj_ivar("_verticalScroller"), new objj_ivar("_horizontalScroller"), new objj_ivar("_recursionCount"), new objj_ivar("_verticalLineScroll"), new objj_ivar("_verticalPageScroll"), new objj_ivar("_horizontalLineScroll"), new objj_ivar("_horizontalPageScroll"), new objj_ivar("_borderType")]);
+meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_contentView"), new objj_ivar("_headerClipView"), new objj_ivar("_cornerView"), new objj_ivar("_bottomCornerView"), new objj_ivar("_delegate"), new objj_ivar("_scrollTimer"), new objj_ivar("_hasVerticalScroller"), new objj_ivar("_hasHorizontalScroller"), new objj_ivar("_autohidesScrollers"), new objj_ivar("_verticalScroller"), new objj_ivar("_horizontalScroller"), new objj_ivar("_recursionCount"), new objj_ivar("_implementedDelegateMethods"), new objj_ivar("_verticalLineScroll"), new objj_ivar("_verticalPageScroll"), new objj_ivar("_horizontalLineScroll"), new objj_ivar("_horizontalPageScroll"), new objj_ivar("_borderType")]);
 objj_registerClassPair(the_class);
 class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), function $CPScrollView__initWithFrame_(self, _cmd, aFrame)
 { with(self)
@@ -26735,10 +26737,32 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
         objj_msgSend(self, "addSubview:", _bottomCornerView);
         objj_msgSend(self, "setHasVerticalScroller:", YES);
         objj_msgSend(self, "setHasHorizontalScroller:", YES);
+        _delegate = nil;
+        _scrollTimer = nil;
+        _implementedDelegateMethods = 0;
     }
     return self;
 }
-},["id","CGRect"]), new objj_method(sel_getUid("_insetBounds"), function $CPScrollView___insetBounds(self, _cmd)
+},["id","CGRect"]), new objj_method(sel_getUid("delegate"), function $CPScrollView__delegate(self, _cmd)
+{ with(self)
+{
+    return _delegate;
+}
+},["id"]), new objj_method(sel_getUid("setDelegate:"), function $CPScrollView__setDelegate_(self, _cmd, aDelegate)
+{ with(self)
+{
+    if (aDelegate === _delegate)
+        return;
+    _delegate = aDelegate;
+    _implementedDelegateMethods = 0;
+    if (_delegate === nil)
+        return;
+    if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("scrollViewWillScroll:")))
+        _implementedDelegateMethods |= CPScrollViewDelegate_scrollViewWillScroll_;
+    if (objj_msgSend(_delegate, "respondsToSelector:", sel_getUid("scrollViewDidScroll:")))
+        _implementedDelegateMethods |= CPScrollViewDelegate_scrollViewDidScroll_;
+}
+},["void","id"]), new objj_method(sel_getUid("_insetBounds"), function $CPScrollView___insetBounds(self, _cmd)
 { with(self)
 {
     return objj_msgSend(objj_msgSend(self, "class"), "_insetBounds:borderType:", objj_msgSend(self, "bounds"), _borderType);
@@ -27072,6 +27096,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
         case CPScrollerKnob:
         default: contentBounds.origin.y = ROUND(value * ((documentFrame.size.height) - (contentBounds.size.height)));
     }
+    objj_msgSend(self, "_sendDelegateMessages");
     objj_msgSend(_contentView, "scrollToPoint:", contentBounds.origin);
 }
 },["void","CPScroller"]), new objj_method(sel_getUid("_horizontalScrollerDidScroll:"), function $CPScrollView___horizontalScrollerDidScroll_(self, _cmd, aScroller)
@@ -27094,6 +27119,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
         case CPScrollerKnob:
         default: contentBounds.origin.x = ROUND(value * ((documentFrame.size.width) - (contentBounds.size.width)));
     }
+    objj_msgSend(self, "_sendDelegateMessages");
     objj_msgSend(_contentView, "scrollToPoint:", contentBounds.origin);
     objj_msgSend(_headerClipView, "scrollToPoint:", CGPointMake(contentBounds.origin.x, 0.0));
 }
@@ -27272,6 +27298,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     var constrainedOrigin = objj_msgSend(_contentView, "constrainScrollPoint:", CGPointCreateCopy(contentBounds.origin)),
         extraX = contentBounds.origin.x - constrainedOrigin.x,
         extraY = contentBounds.origin.y - constrainedOrigin.y;
+    objj_msgSend(self, "_sendDelegateMessages");
     objj_msgSend(_contentView, "scrollToPoint:", constrainedOrigin);
     objj_msgSend(_headerClipView, "scrollToPoint:", CGPointMake(constrainedOrigin.x, 0.0));
     if (extraX || extraY)
@@ -27334,7 +27361,34 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithFrame:"), funct
     objj_msgSend(_contentView, "scrollToPoint:", contentBounds.origin);
     objj_msgSend(_headerClipView, "scrollToPoint:", CGPointMake(contentBounds.origin.x, 0));
 }
-},["void","CGSize"])]);
+},["void","CGSize"]), new objj_method(sel_getUid("_sendDelegateMessages"), function $CPScrollView___sendDelegateMessages(self, _cmd)
+{ with(self)
+{
+    if (_implementedDelegateMethods == 0)
+        return;
+    if (!_scrollTimer)
+    {
+        objj_msgSend(self, "_scrollViewWillScroll");
+        _scrollTimer = objj_msgSend(CPTimer, "scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:", TIMER_INTERVAL, self, sel_getUid("_scrollViewDidScroll"), nil, YES);
+    }
+    else
+        objj_msgSend(_scrollTimer, "setFireDate:", objj_msgSend(CPDate, "dateWithTimeIntervalSinceNow:", TIMER_INTERVAL));
+}
+},["void"]), new objj_method(sel_getUid("_scrollViewWillScroll"), function $CPScrollView___scrollViewWillScroll(self, _cmd)
+{ with(self)
+{
+    if (_implementedDelegateMethods & CPScrollViewDelegate_scrollViewWillScroll_)
+        objj_msgSend(_delegate, "scrollViewWillScroll:", self);
+}
+},["void"]), new objj_method(sel_getUid("_scrollViewDidScroll"), function $CPScrollView___scrollViewDidScroll(self, _cmd)
+{ with(self)
+{
+    objj_msgSend(_scrollTimer, "invalidate");
+    _scrollTimer = nil;
+    if (_implementedDelegateMethods & CPScrollViewDelegate_scrollViewDidScroll_)
+        objj_msgSend(_delegate, "scrollViewDidScroll:", self);
+}
+},["void"])]);
 class_addMethods(meta_class, [new objj_method(sel_getUid("defaultThemeClass"), function $CPScrollView__defaultThemeClass(self, _cmd)
 { with(self)
 {
@@ -27434,6 +27488,9 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
         _borderType = objj_msgSend(aCoder, "decodeIntForKey:", CPScrollViewBorderTypeKey);
         _cornerView = objj_msgSend(aCoder, "decodeObjectForKey:", CPScrollViewCornerViewKey);
         _bottomCornerView = objj_msgSend(aCoder, "decodeObjectForKey:", CPScrollViewBottomCornerViewKey);
+        _delegate = nil;
+        _scrollTimer = nil;
+        _implementedDelegateMethods = 0;
         objj_msgSend(objj_msgSend(CPRunLoop, "currentRunLoop"), "performSelector:target:argument:order:modes:", sel_getUid("_updateCornerAndHeaderView"), self, _contentView, 0, [CPDefaultRunLoopMode]);
     }
     return self;
@@ -29056,7 +29113,7 @@ CPCarriageReturnCharacter = "\u000d";
 CPBackTabCharacter = "\u0019";
 CPDeleteCharacter = "\u007f";
 
-p;9;CPEvent.jt;18416;@STATIC;1.0;I;21;Foundation/CPObject.ji;8;CPText.jt;18358;objj_executeFile("Foundation/CPObject.j", NO);
+p;9;CPEvent.jt;18353;@STATIC;1.0;I;21;Foundation/CPObject.ji;8;CPText.jt;18295;objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("CPText.j", YES);
 CPLeftMouseDown = 1;
 CPLeftMouseUp = 2;
@@ -29395,27 +29452,21 @@ class_addMethods(the_class, [new objj_method(sel_getUid("_initWithType:"), funct
         return NO;
     if (_modifierFlags & (CPCommandKeyMask | CPControlKeyMask))
         return YES;
+    var firstResponderIsText = objj_msgSend(objj_msgSend(_window, "firstResponder"), "isKindOfClass:", objj_msgSend(CPTextField, "class"));
     for (var i = 0; i < characterCount; i++)
     {
-        switch (_characters.charAt(i))
+        var c = _characters.charAt(i);
+        if ((c >= CPUpArrowFunctionKey && c <= CPModeSwitchFunctionKey) ||
+            c === CPEnterCharacter ||
+            c === CPNewlineCharacter ||
+            c === CPCarriageReturnCharacter ||
+            c === CPEscapeFunctionKey ||
+            (!firstResponderIsText &&
+                (c === CPSpaceFunctionKey ||
+                 c === CPDeleteCharacter ||
+                 c === CPBackspaceCharacter)))
         {
-            case CPBackspaceCharacter:
-            case CPDeleteCharacter:
-            case CPDeleteFunctionKey:
-            case CPTabCharacter:
-            case CPCarriageReturnCharacter:
-            case CPNewlineCharacter:
-            case CPSpaceFunctionKey:
-            case CPEscapeFunctionKey:
-            case CPPageUpFunctionKey:
-            case CPPageDownFunctionKey:
-            case CPLeftArrowFunctionKey:
-            case CPUpArrowFunctionKey:
-            case CPRightArrowFunctionKey:
-            case CPDownArrowFunctionKey:
-            case CPEndFunctionKey:
-            case CPHomeFunctionKey:
-                return YES;
+            return YES;
         }
     }
     return NO;
