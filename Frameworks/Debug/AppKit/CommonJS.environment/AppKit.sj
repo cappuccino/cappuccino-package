@@ -34780,7 +34780,7 @@ _font = newValue;
 },["void","CPMenu"])]);
 }
 
-p;8;CPMenu.jt;37803;@STATIC;1.0;I;20;Foundation/CPArray.jI;25;Foundation/CPDictionary.jI;33;Foundation/CPNotificationCenter.jI;21;Foundation/CPString.ji;16;_CPMenuManager.ji;15;CPApplication.ji;12;CPClipView.ji;12;CPMenuItem.ji;9;CPPanel.ji;18;_CPMenuBarWindow.ji;15;_CPMenuWindow.jt;37533;objj_executeFile("Foundation/CPArray.j", NO);
+p;8;CPMenu.jt;37800;@STATIC;1.0;I;20;Foundation/CPArray.jI;25;Foundation/CPDictionary.jI;33;Foundation/CPNotificationCenter.jI;21;Foundation/CPString.ji;16;_CPMenuManager.ji;15;CPApplication.ji;12;CPClipView.ji;12;CPMenuItem.ji;9;CPPanel.ji;18;_CPMenuBarWindow.ji;15;_CPMenuWindow.jt;37530;objj_executeFile("Foundation/CPArray.j", NO);
 objj_executeFile("Foundation/CPDictionary.j", NO);
 objj_executeFile("Foundation/CPNotificationCenter.j", NO);
 objj_executeFile("Foundation/CPString.j", NO);
@@ -35018,11 +35018,11 @@ class_addMethods(the_class, [new objj_method(sel_getUid("menuBarHeight"), functi
             continue;
         var validator = objj_msgSend(CPApp, "targetForAction:to:from:", objj_msgSend(item, "action"), objj_msgSend(item, "target"), item);
         if (!validator || !objj_msgSend(validator, "respondsToSelector:", objj_msgSend(item, "action")))
-            objj_msgSend(item, "_setEnabled:", NO);
+            objj_msgSend(item, "setEnabled:", NO);
         else if (objj_msgSend(validator, "respondsToSelector:", sel_getUid("validateMenuItem:")))
-            objj_msgSend(item, "_setEnabled:", objj_msgSend(validator, "validateMenuItem:", item));
+            objj_msgSend(item, "setEnabled:", objj_msgSend(validator, "validateMenuItem:", item));
         else if (objj_msgSend(validator, "respondsToSelector:", sel_getUid("validateUserInterfaceItem:")))
-            objj_msgSend(item, "_setEnabled:", objj_msgSend(validator, "validateUserInterfaceItem:", item));
+            objj_msgSend(item, "setEnabled:", objj_msgSend(validator, "validateUserInterfaceItem:", item));
     }
     objj_msgSend(objj_msgSend(_menuWindow, "_menuView"), "tile");
 }
@@ -46239,7 +46239,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("setColor:"), function $
 },["void","CGRect"])]);
 }
 
-p;12;CPMenuItem.jt;26405;@STATIC;1.0;I;20;Foundation/CPCoder.jI;21;Foundation/CPObject.jI;21;Foundation/CPString.ji;9;CPImage.ji;8;CPMenu.ji;8;CPView.ji;17;_CPMenuItemView.jt;26249;objj_executeFile("Foundation/CPCoder.j", NO);
+p;12;CPMenuItem.jt;26150;@STATIC;1.0;I;20;Foundation/CPCoder.jI;21;Foundation/CPObject.jI;21;Foundation/CPString.ji;9;CPImage.ji;8;CPMenu.ji;8;CPView.ji;17;_CPMenuItemView.jt;25994;objj_executeFile("Foundation/CPCoder.j", NO);
 objj_executeFile("Foundation/CPObject.j", NO);
 objj_executeFile("Foundation/CPString.j", NO);
 objj_executeFile("CPImage.j", YES);
@@ -46294,13 +46294,6 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $CPMen
     return self;
 }
 },["id","CPString","SEL","CPString"]), new objj_method(sel_getUid("setEnabled:"), function $CPMenuItem__setEnabled_(self, _cmd, isEnabled)
-{ with(self)
-{
-    if (objj_msgSend(_menu, "autoenablesItems"))
-        return;
-    objj_msgSend(self, "_setEnabled:", isEnabled);
-}
-},["void","BOOL"]), new objj_method(sel_getUid("_setEnabled:"), function $CPMenuItem___setEnabled_(self, _cmd, isEnabled)
 { with(self)
 {
     if (_isEnabled === isEnabled)
