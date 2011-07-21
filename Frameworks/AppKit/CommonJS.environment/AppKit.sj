@@ -30768,7 +30768,7 @@ objj_msgSend(_11c,"encodeBool:forKey:",_showsStateColumn,_118);
 })]);
 objj_executeFile("_CPMenuBarWindow.j",YES);
 objj_executeFile("_CPMenuWindow.j",YES);
-p;16;_CPMenuManager.jt;16570;@STATIC;1.0;I;21;Foundation/CPObject.jt;16524;
+p;16;_CPMenuManager.jt;16643;@STATIC;1.0;I;21;Foundation/CPObject.jt;16597;
 objj_executeFile("Foundation/CPObject.j",NO);
 _CPMenuManagerScrollingStateUp=-1,_CPMenuManagerScrollingStateDown=1,_CPMenuManagerScrollingStateNone=0;
 var _1=500,_2=nil;
@@ -30897,6 +30897,9 @@ objj_msgSend(CPEvent,"startPeriodicEventsAfterDelay:withPeriod:",0,0.04);
 }else{
 if(_19===CPLeftMouseUp||_19===CPRightMouseUp){
 if(_hasMouseGoneUpAfterStartedTracking){
+if(objj_msgSend(_22,"action")===sel_getUid("submenuAction:")){
+return;
+}
 objj_msgSend(_1a,"cancelTracking");
 }else{
 _hasMouseGoneUpAfterStartedTracking=YES;

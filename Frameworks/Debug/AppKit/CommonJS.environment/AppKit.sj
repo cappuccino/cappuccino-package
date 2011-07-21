@@ -35527,7 +35527,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 objj_executeFile("_CPMenuBarWindow.j", YES);
 objj_executeFile("_CPMenuWindow.j", YES);
 
-p;16;_CPMenuManager.jt;25000;@STATIC;1.0;I;21;Foundation/CPObject.jt;24954;
+p;16;_CPMenuManager.jt;25148;@STATIC;1.0;I;21;Foundation/CPObject.jt;25102;
 
 objj_executeFile("Foundation/CPObject.j", NO);
 
@@ -35725,7 +35725,14 @@ class_addMethods(the_class, [new objj_method(sel_getUid("init"), function $_CPMe
         else if (type === CPLeftMouseUp || type === CPRightMouseUp)
         {
             if (_hasMouseGoneUpAfterStartedTracking)
+            {
+
+
+                if (objj_msgSend(activeItem, "action") === sel_getUid("submenuAction:"))
+                    return;
+
                 objj_msgSend(trackingMenu, "cancelTracking");
+            }
             else
                 _hasMouseGoneUpAfterStartedTracking = YES;
         }
