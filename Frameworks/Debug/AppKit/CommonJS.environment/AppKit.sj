@@ -22243,7 +22243,7 @@ return _maxSize;
     objj_msgSend(self, "setEnabled:", objj_msgSend(_toolbarItem, "isEnabled"));
     _labelSize = objj_msgSend(_labelField, "frame").size;
     _minSize = CGSizeMake(MAX(_labelSize.width, minSize.width), _labelSize.height + minSize.height + LABEL_MARGIN + TOP_MARGIN);
-    _maxSize = CGSizeMake(MIN(_labelSize.width, maxSize.width), 100000000.0);
+    _maxSize = CGSizeMake(MAX(_labelSize.width, maxSize.width), 100000000.0);
     objj_msgSend(_toolbar, "tile");
 }
 },["void"]), new objj_method(sel_getUid("layoutSubviews"), function $_CPToolbarItemView__layoutSubviews(self, _cmd)
