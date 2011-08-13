@@ -1009,7 +1009,7 @@ with(_15){
 return objj_msgSend(_CPCibObjectData,"class");
 }
 })]);
-p;10;NSAppKit.jt;3769;@STATIC;1.0;i;15;_NSCornerView.ji;19;NSArrayController.ji;7;NSBox.ji;10;NSButton.ji;8;NSCell.ji;16;NSClassSwapper.ji;12;NSClipView.ji;9;NSColor.ji;13;NSColorWell.ji;18;NSCollectionView.ji;22;NSCollectionViewItem.ji;11;NSControl.ji;16;NSCustomObject.ji;18;NSCustomResource.ji;14;NSCustomView.ji;9;NSEvent.ji;8;NSFont.ji;13;NSFormatter.ji;16;NSIBObjectData.ji;9;NSImage.ji;13;NSImageView.ji;18;NSLevelIndicator.ji;10;NSMatrix.ji;8;NSMenu.ji;12;NSMenuItem.ji;16;NSNibConnector.ji;19;NSNumberFormatter.ji;20;NSObjectController.ji;15;NSOutlineView.ji;15;NSPopUpButton.ji;19;NSPredicateEditor.ji;13;NSResponder.ji;14;NSRuleEditor.ji;14;NSScrollView.ji;12;NSScroller.ji;15;NSSearchField.ji;7;NSSet.ji;19;NSSecureTextField.ji;20;NSSegmentedControl.ji;10;NSSlider.ji;13;NSSplitView.ji;15;NSTableColumn.ji;19;NSTableHeaderView.ji;13;NSTableView.ji;11;NSTabView.ji;15;NSTabViewItem.ji;13;NSTextField.ji;11;NSToolbar.ji;28;NSToolbarFlexibleSpaceItem.ji;15;NSToolbarItem.ji;25;NSToolbarShowColorsItem.ji;24;NSToolbarSeparatorItem.ji;20;NSToolbarSpaceItem.ji;26;NSUserDefaultsController.ji;8;NSView.ji;18;NSViewController.ji;18;NSWindowTemplate.ji;9;WebView.ji;18;NSSortDescriptor.jt;2594;
+p;10;NSAppKit.jt;3828;@STATIC;1.0;i;15;_NSCornerView.ji;19;NSArrayController.ji;7;NSBox.ji;10;NSButton.ji;8;NSCell.ji;16;NSClassSwapper.ji;12;NSClipView.ji;9;NSColor.ji;13;NSColorWell.ji;18;NSCollectionView.ji;22;NSCollectionViewItem.ji;11;NSControl.ji;16;NSCustomObject.ji;18;NSCustomResource.ji;14;NSCustomView.ji;9;NSEvent.ji;8;NSFont.ji;13;NSFormatter.ji;16;NSIBObjectData.ji;9;NSImage.ji;13;NSImageView.ji;18;NSLevelIndicator.ji;10;NSMatrix.ji;8;NSMenu.ji;12;NSMenuItem.ji;16;NSNibConnector.ji;19;NSNumberFormatter.ji;20;NSObjectController.ji;15;NSOutlineView.ji;15;NSPopUpButton.ji;19;NSPredicateEditor.ji;13;NSResponder.ji;14;NSRuleEditor.ji;14;NSScrollView.ji;12;NSScroller.ji;15;NSSearchField.ji;7;NSSet.ji;19;NSSecureTextField.ji;20;NSSegmentedControl.ji;10;NSSlider.ji;13;NSSplitView.ji;15;NSTableColumn.ji;19;NSTableHeaderView.ji;13;NSTableView.ji;11;NSTabView.ji;15;NSTabViewItem.ji;13;NSTextField.ji;14;NSTokenField.ji;11;NSToolbar.ji;28;NSToolbarFlexibleSpaceItem.ji;15;NSToolbarItem.ji;25;NSToolbarShowColorsItem.ji;24;NSToolbarSeparatorItem.ji;20;NSToolbarSpaceItem.ji;26;NSUserDefaultsController.ji;8;NSView.ji;18;NSViewController.ji;18;NSWindowTemplate.ji;9;WebView.ji;18;NSSortDescriptor.jt;2634;
 objj_executeFile("_NSCornerView.j",YES);
 objj_executeFile("NSArrayController.j",YES);
 objj_executeFile("NSBox.j",YES);
@@ -1057,6 +1057,7 @@ objj_executeFile("NSTableView.j",YES);
 objj_executeFile("NSTabView.j",YES);
 objj_executeFile("NSTabViewItem.j",YES);
 objj_executeFile("NSTextField.j",YES);
+objj_executeFile("NSTokenField.j",YES);
 objj_executeFile("NSToolbar.j",YES);
 objj_executeFile("NSToolbarFlexibleSpaceItem.j",YES);
 objj_executeFile("NSToolbarItem.j",YES);
@@ -3088,6 +3089,18 @@ with(_13){
 return objj_msgSend(_CPRuleEditorViewUnboundRowHolder,"class");
 }
 })]);
+p;20;NSAttributedString.jt;598;@STATIC;1.0;I;21;Foundation/CPObject.jI;31;Foundation/CPAttributedString.jt;518;
+objj_executeFile("Foundation/CPObject.j",NO);
+objj_executeFile("Foundation/CPAttributedString.j",NO);
+var _1=objj_allocateClassPair(CPAttributedString,"NSAttributedString"),_2=_1.isa;
+objj_registerClassPair(_1);
+class_addMethods(_1,[new objj_method(sel_getUid("initWithCoder:"),function(_3,_4,_5){
+with(_3){
+return objj_msgSend(objj_msgSend(CPAttributedString,"alloc"),"initWithString:","");
+}
+})]);
+var _1=objj_allocateClassPair(NSAttributedString,"NSMutableAttributedString"),_2=_1.isa;
+objj_registerClassPair(_1);
 p;11;NSToolbar.jt;1543;@STATIC;1.0;I;18;AppKit/CPToolbar.jt;1501;
 objj_executeFile("AppKit/CPToolbar.j",NO);
 var _1=objj_getClass("CPToolbar");
@@ -3218,6 +3231,58 @@ _numberOfTickMarks=objj_msgSend(_21,"decodeIntForKey:","NSNumberOfTickMarks")||0
 _numberOfTickMarks=objj_msgSend(_21,"decodeIntForKey:","NSNumberOfMajorTickMarks")||0;
 }
 return _1f;
+}
+})]);
+p;14;NSTokenField.jt;1836;@STATIC;1.0;I;21;AppKit/CPTokenField.ji;11;NSControl.ji;8;NSCell.ji;13;NSTextField.jI;15;AppKit/CPFont.jt;1725;
+objj_executeFile("AppKit/CPTokenField.j",NO);
+objj_executeFile("NSControl.j",YES);
+objj_executeFile("NSCell.j",YES);
+objj_executeFile("NSTextField.j",YES);
+objj_executeFile("AppKit/CPFont.j",NO);
+var _1=objj_getClass("CPTokenField");
+if(!_1){
+throw new SyntaxError("*** Could not find definition for class \"CPTokenField\"");
+}
+var _2=_1.isa;
+class_addMethods(_1,[new objj_method(sel_getUid("NS_initWithCoder:"),function(_3,_4,_5){
+with(_3){
+_3=objj_msgSendSuper({receiver:_3,super_class:objj_getClass("CPTokenField").super_class},"NS_initWithCoder:",_5);
+if(_3){
+var _6=objj_msgSend(_5,"decodeObjectForKey:","NSCell");
+_3=objj_msgSend(_3,"NS_initWithCell:",_6);
+}
+return _3;
+}
+}),new objj_method(sel_getUid("NS_initWithCell:"),function(_7,_8,_9){
+with(_7){
+return _7;
+}
+})]);
+var _1=objj_allocateClassPair(CPTokenField,"NSTokenField"),_2=_1.isa;
+objj_registerClassPair(_1);
+class_addMethods(_1,[new objj_method(sel_getUid("initWithCoder:"),function(_a,_b,_c){
+with(_a){
+return objj_msgSend(_a,"NS_initWithCoder:",_c);
+}
+}),new objj_method(sel_getUid("classForKeyedArchiver"),function(_d,_e){
+with(_d){
+return objj_msgSend(CPTokenField,"class");
+}
+})]);
+var _1=objj_allocateClassPair(NSTextFieldCell,"NSTokenFieldCell"),_2=_1.isa;
+class_addIvars(_1,[new objj_ivar("_tokenStyle")]);
+objj_registerClassPair(_1);
+class_addMethods(_1,[new objj_method(sel_getUid("tokenStyle"),function(_f,_10){
+with(_f){
+return _tokenStyle;
+}
+}),new objj_method(sel_getUid("initWithCoder:"),function(_11,_12,_13){
+with(_11){
+_11=objj_msgSendSuper({receiver:_11,super_class:objj_getClass("NSTokenFieldCell").super_class},"initWithCoder:",_13);
+if(_11){
+_tokenStyle=objj_msgSend(_13,"decodeObjectForKey:","NSTokenStyle")||0;
+}
+return _11;
 }
 })]);
 p;9;NSEvent.jt;718;@STATIC;1.0;t;700;
@@ -3578,10 +3643,11 @@ with(_12){
 return objj_msgSend(_CPCibWindowTemplate,"class");
 }
 })]);
-p;14;NSFoundation.jt;294;@STATIC;1.0;i;9;NSArray.ji;14;NSExpression.ji;14;NSDictionary.ji;17;NSMutableString.ji;7;NSSet.jt;192;
+p;14;NSFoundation.jt;365;@STATIC;1.0;i;9;NSArray.ji;20;NSAttributedString.ji;14;NSDictionary.ji;14;NSExpression.ji;17;NSMutableString.ji;7;NSSet.jt;238;
 objj_executeFile("NSArray.j",YES);
-objj_executeFile("NSExpression.j",YES);
+objj_executeFile("NSAttributedString.j",YES);
 objj_executeFile("NSDictionary.j",YES);
+objj_executeFile("NSExpression.j",YES);
 objj_executeFile("NSMutableString.j",YES);
 objj_executeFile("NSSet.j",YES);
 p;12;NSClipView.jt;1141;@STATIC;1.0;I;19;AppKit/CPClipView.jt;1098;

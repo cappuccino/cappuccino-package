@@ -8157,7 +8157,7 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithItemIdentifier:
 },["void","CPCoder"])]);
 }
 
-p;14;CPTokenField.jt;33848;@STATIC;1.0;I;27;Foundation/CPCharacterSet.jI;23;Foundation/CPIndexSet.jI;20;Foundation/CPTimer.ji;10;CPButton.ji;14;CPScrollView.ji;13;CPTextField.ji;13;CPTableView.ji;10;CPWindow.ji;15;_CPMenuWindow.jt;33638;objj_executeFile("Foundation/CPCharacterSet.j", NO);
+p;14;CPTokenField.jt;35558;@STATIC;1.0;I;27;Foundation/CPCharacterSet.jI;23;Foundation/CPIndexSet.jI;20;Foundation/CPTimer.ji;10;CPButton.ji;14;CPScrollView.ji;13;CPTextField.ji;13;CPTableView.ji;10;CPWindow.ji;15;_CPMenuWindow.jt;35348;objj_executeFile("Foundation/CPCharacterSet.j", NO);
 objj_executeFile("Foundation/CPIndexSet.j", NO);
 objj_executeFile("Foundation/CPTimer.j", NO);
 objj_executeFile("CPButton.j", YES);
@@ -8191,49 +8191,54 @@ _tokenizingCharacterSet = newValue;
     if (self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPTokenField").super_class }, "initWithFrame:", frame))
     {
         _selectedRange = CPMakeRange(0, 0);
-        _tokenScrollView = objj_msgSend(objj_msgSend(CPScrollView, "alloc"), "initWithFrame:", CGRectMakeZero());
-        objj_msgSend(_tokenScrollView, "setHasHorizontalScroller:", NO);
-        objj_msgSend(_tokenScrollView, "setHasVerticalScroller:", NO);
-        objj_msgSend(_tokenScrollView, "setAutoresizingMask:", CPViewWidthSizable | CPViewHeightSizable);
-        var contentView = objj_msgSend(objj_msgSend(CPView, "alloc"), "initWithFrame:", CGRectMakeZero());
-        objj_msgSend(contentView, "setAutoresizingMask:", CPViewWidthSizable);
-        objj_msgSend(_tokenScrollView, "setDocumentView:", contentView);
-        objj_msgSend(self, "addSubview:", _tokenScrollView);
-        _tokenIndex = 0;
-        _cachedCompletions = [];
         _completionDelay = objj_msgSend(CPTokenField, "defaultCompletionDelay");
         _tokenizingCharacterSet = objj_msgSend(objj_msgSend(self, "class"), "defaultTokenizingCharacterSet");
-        _autocompleteContainer = objj_msgSend(objj_msgSend(CPView, "alloc"), "initWithFrame:", CPRectMake(0.0, 0.0, frame.size.width, 92.0));
-        objj_msgSend(_autocompleteContainer, "setBackgroundColor:", objj_msgSend(_CPMenuWindow, "backgroundColorForBackgroundStyle:", _CPMenuWindowPopUpBackgroundStyle));
-        _autocompleteScrollView = objj_msgSend(objj_msgSend(CPScrollView, "alloc"), "initWithFrame:", CPRectMake(1.0, 1.0, frame.size.width - 2.0, 90.0));
-        objj_msgSend(_autocompleteScrollView, "setAutohidesScrollers:", YES);
-        objj_msgSend(_autocompleteScrollView, "setHasHorizontalScroller:", NO);
-        objj_msgSend(_autocompleteContainer, "addSubview:", _autocompleteScrollView);
-        _autocompleteView = objj_msgSend(objj_msgSend(CPTableView, "alloc"), "initWithFrame:", CPRectMakeZero());
-        var tableColumn = objj_msgSend(objj_msgSend(CPTableColumn, "alloc"), "initWithIdentifier:", CPTokenFieldTableColumnIdentifier);
-        objj_msgSend(tableColumn, "setResizingMask:", CPTableColumnAutoresizingMask);
-        objj_msgSend(_autocompleteView, "addTableColumn:", tableColumn);
-        objj_msgSend(_autocompleteView, "setDataSource:", self);
-        objj_msgSend(_autocompleteView, "setDelegate:", self);
-        objj_msgSend(_autocompleteView, "setAllowsMultipleSelection:", NO);
-        objj_msgSend(_autocompleteView, "setHeaderView:", nil);
-        objj_msgSend(_autocompleteView, "setCornerView:", nil);
-        objj_msgSend(_autocompleteView, "setRowHeight:", 30.0);
-        objj_msgSend(_autocompleteView, "setGridStyleMask:", CPTableViewSolidHorizontalGridLineMask);
-        objj_msgSend(_autocompleteView, "setBackgroundColor:", objj_msgSend(CPColor, "clearColor"));
-        objj_msgSend(_autocompleteView, "setGridColor:", objj_msgSend(CPColor, "colorWithRed:green:blue:alpha:", 242.0 / 255.0, 243.0 / 255.0, 245.0 / 255.0, 1.0));
-        objj_msgSend(_autocompleteScrollView, "setDocumentView:", _autocompleteView);
         objj_msgSend(self, "setBezeled:", YES);
+        objj_msgSend(self, "_init");
         objj_msgSend(self, "setObjectValue:", []);
         objj_msgSend(self, "setNeedsLayout");
     }
     return self;
 }
-},["id","CPRect"]), new objj_method(sel_getUid("_retrieveCompletions"), function $CPTokenField___retrieveCompletions(self, _cmd)
+},["id","CPRect"]), new objj_method(sel_getUid("_init"), function $CPTokenField___init(self, _cmd)
+{ with(self)
+{
+    var frame = objj_msgSend(self, "frame");
+    _tokenScrollView = objj_msgSend(objj_msgSend(CPScrollView, "alloc"), "initWithFrame:", CGRectMakeZero());
+    objj_msgSend(_tokenScrollView, "setHasHorizontalScroller:", NO);
+    objj_msgSend(_tokenScrollView, "setHasVerticalScroller:", NO);
+    objj_msgSend(_tokenScrollView, "setAutoresizingMask:", CPViewWidthSizable | CPViewHeightSizable);
+    var contentView = objj_msgSend(objj_msgSend(CPView, "alloc"), "initWithFrame:", CGRectMakeZero());
+    objj_msgSend(contentView, "setAutoresizingMask:", CPViewWidthSizable);
+    objj_msgSend(_tokenScrollView, "setDocumentView:", contentView);
+    objj_msgSend(self, "addSubview:", _tokenScrollView);
+    _cachedCompletions = [];
+    _autocompleteContainer = objj_msgSend(objj_msgSend(CPView, "alloc"), "initWithFrame:", CPRectMake(0.0, 0.0, frame.size.width, 92.0));
+    objj_msgSend(_autocompleteContainer, "setBackgroundColor:", objj_msgSend(_CPMenuWindow, "backgroundColorForBackgroundStyle:", _CPMenuWindowPopUpBackgroundStyle));
+    _autocompleteScrollView = objj_msgSend(objj_msgSend(CPScrollView, "alloc"), "initWithFrame:", CPRectMake(1.0, 1.0, frame.size.width - 2.0, 90.0));
+    objj_msgSend(_autocompleteScrollView, "setAutohidesScrollers:", YES);
+    objj_msgSend(_autocompleteScrollView, "setHasHorizontalScroller:", NO);
+    objj_msgSend(_autocompleteContainer, "addSubview:", _autocompleteScrollView);
+    _autocompleteView = objj_msgSend(objj_msgSend(CPTableView, "alloc"), "initWithFrame:", CPRectMakeZero());
+    var tableColumn = objj_msgSend(objj_msgSend(CPTableColumn, "alloc"), "initWithIdentifier:", CPTokenFieldTableColumnIdentifier);
+    objj_msgSend(tableColumn, "setResizingMask:", CPTableColumnAutoresizingMask);
+    objj_msgSend(_autocompleteView, "addTableColumn:", tableColumn);
+    objj_msgSend(_autocompleteView, "setDataSource:", self);
+    objj_msgSend(_autocompleteView, "setDelegate:", self);
+    objj_msgSend(_autocompleteView, "setAllowsMultipleSelection:", NO);
+    objj_msgSend(_autocompleteView, "setHeaderView:", nil);
+    objj_msgSend(_autocompleteView, "setCornerView:", nil);
+    objj_msgSend(_autocompleteView, "setRowHeight:", 30.0);
+    objj_msgSend(_autocompleteView, "setGridStyleMask:", CPTableViewSolidHorizontalGridLineMask);
+    objj_msgSend(_autocompleteView, "setBackgroundColor:", objj_msgSend(CPColor, "clearColor"));
+    objj_msgSend(_autocompleteView, "setGridColor:", objj_msgSend(CPColor, "colorWithRed:green:blue:alpha:", 242.0 / 255.0, 243.0 / 255.0, 245.0 / 255.0, 1.0));
+    objj_msgSend(_autocompleteScrollView, "setDocumentView:", _autocompleteView);
+}
+},["void"]), new objj_method(sel_getUid("_retrieveCompletions"), function $CPTokenField___retrieveCompletions(self, _cmd)
 { with(self)
 {
     var indexOfSelectedItem = 0;
-    _cachedCompletions = objj_msgSend(self, "tokenField:completionsForSubstring:indexOfToken:indexOfSelectedItem:", self, objj_msgSend(self, "_inputElement").value, _tokenIndex, indexOfSelectedItem);
+    _cachedCompletions = objj_msgSend(self, "tokenField:completionsForSubstring:indexOfToken:indexOfSelectedItem:", self, objj_msgSend(self, "_inputElement").value, 0, indexOfSelectedItem);
     objj_msgSend(_autocompleteView, "selectRowIndexes:byExtendingSelection:", objj_msgSend(CPIndexSet, "indexSetWithIndex:", indexOfSelectedItem), NO);
     objj_msgSend(_autocompleteView, "reloadData");
 }
@@ -8681,7 +8686,7 @@ var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_
 {
     if (objj_msgSend(objj_msgSend(self, "delegate"), "respondsToSelector:", sel_getUid("tokenField:completionsForSubstring:indexOfToken:indexOfSelectedItem:")))
     {
-        return objj_msgSend(objj_msgSend(self, "delegate"), "tokenField:completionsForSubstring:indexOfToken:indexOfSelectedItem:", tokenField, substring, _tokenIndex, selectedIndex);
+        return objj_msgSend(objj_msgSend(self, "delegate"), "tokenField:completionsForSubstring:indexOfToken:indexOfSelectedItem:", tokenField, substring, tokenIndex, selectedIndex);
     }
     return [];
 }
@@ -8799,6 +8804,34 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("themeAttributes"), fun
     return "tokenfield-token-close-button";
 }
 },["CPString"])]);
+}
+var CPTokenFieldTokenizingCharacterSetKey = "CPTokenFieldTokenizingCharacterSetKey",
+    CPTokenFieldCompletionDelayKey = "CPTokenFieldCompletionDelay";
+{
+var the_class = objj_getClass("CPTokenField")
+if(!the_class) throw new SyntaxError("*** Could not find definition for class \"CPTokenField\"");
+var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_getUid("initWithCoder:"), function $CPTokenField__initWithCoder_(self, _cmd, aCoder)
+{ with(self)
+{
+    self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPTokenField").super_class }, "initWithCoder:", aCoder);
+    if (self)
+    {
+        _tokenizingCharacterSet = objj_msgSend(aCoder, "decodeObjectForKey:", CPTokenFieldTokenizingCharacterSetKey) || objj_msgSend(objj_msgSend(self, "class"), "defaultTokenizingCharacterSet");
+        _completionDelay = objj_msgSend(aCoder, "decodeDoubleForKey:", CPTokenFieldCompletionDelayKey) || objj_msgSend(objj_msgSend(self, "class"), "defaultCompletionDelay");
+        objj_msgSend(self, "_init");
+        objj_msgSend(self, "setNeedsLayout");
+        objj_msgSend(self, "setNeedsDisplay:", YES);
+    }
+    return self;
+}
+},["id","CPCoder"]), new objj_method(sel_getUid("encodeWithCoder:"), function $CPTokenField__encodeWithCoder_(self, _cmd, aCoder)
+{ with(self)
+{
+    objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPTokenField").super_class }, "encodeWithCoder:", aCoder);
+    objj_msgSend(aCoder, "encodeInt:forKey:", _tokenizingCharacterSet, CPTokenFieldTokenizingCharacterSetKey);
+    objj_msgSend(aCoder, "encodeDouble:forKey:", _completionDelay, CPTokenFieldCompletionDelayKey);
+}
+},["void","CPCoder"])]);
 }
 
 p;17;CPViewAnimation.jt;7950;@STATIC;1.0;i;13;CPAnimation.jt;7913;objj_executeFile("CPAnimation.j", YES);

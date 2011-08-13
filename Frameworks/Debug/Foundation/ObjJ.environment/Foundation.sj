@@ -11615,7 +11615,7 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("sendSynchronousRequest
 },["CPData","CPURLRequest","{CPURLResponse}","id"])]);
 }
 
-p;16;CPCharacterSet.jt;34445;@STATIC;1.0;i;9;CPArray.ji;13;CPException.ji;10;CPObject.ji;10;CPString.ji;7;CPURL.jt;34353;objj_executeFile("CPArray.j", YES);
+p;16;CPCharacterSet.jt;37293;@STATIC;1.0;i;9;CPArray.ji;13;CPException.ji;10;CPObject.ji;10;CPString.ji;7;CPURL.jt;37201;objj_executeFile("CPArray.j", YES);
 objj_executeFile("CPException.j", YES);
 objj_executeFile("CPObject.j", YES);
 objj_executeFile("CPString.j", YES);
@@ -11743,6 +11743,26 @@ class_addMethods(meta_class, [new objj_method(sel_getUid("characterSetWithCharac
     return cs;
 }
 },["id","id"])]);
+}
+var CPCharacterSetInvertedKey = "CPCharacterSetInvertedKey";
+{
+var the_class = objj_getClass("CPCharacterSet")
+if(!the_class) throw new SyntaxError("*** Could not find definition for class \"CPCharacterSet\"");
+var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_getUid("initWithCoder:"), function $CPCharacterSet__initWithCoder_(self, _cmd, aCoder)
+{ with(self)
+{
+    if (self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("CPCharacterSet").super_class }, "init"))
+    {
+        _inverted = objj_msgSend(aCoder, "decodeBoolForKey:", CPCharacterSetInvertedKey);
+    }
+    return self;
+}
+},["id","CPCoder"]), new objj_method(sel_getUid("encodeWithCoder:"), function $CPCharacterSet__encodeWithCoder_(self, _cmd, aCoder)
+{ with(self)
+{
+    objj_msgSend(aCoder, "encodeBool:forKey:", _inverted, CPCharacterSetInvertedKey);
+}
+},["void","CPCoder"])]);
 }
 {var the_class = objj_allocateClassPair(CPCharacterSet, "_CPRangeCharacterSet"),
 meta_class = the_class.isa;class_addIvars(the_class, [new objj_ivar("_ranges")]);
@@ -11878,7 +11898,44 @@ class_addMethods(the_class, [new objj_method(sel_getUid("initWithString:"), func
             _string = objj_msgSend(_string, "stringByAppendingString:", s);
     }
 }
-},["void","CPString"])]);
+},["void","CPString"]), new objj_method(sel_getUid("isEqual:"), function $_CPStringContentCharacterSet__isEqual_(self, _cmd, aCharacterSet)
+{ with(self)
+{
+    if (self === aCharacterSet)
+        return YES;
+    if (!aCharacterSet || !objj_msgSend(aCharacterSet, "isKindOfClass:", objj_msgSend(self, "class")))
+        return NO;
+    return objj_msgSend(self, "_isEqualToStringContentCharacterSet:", aCharacterSet);
+}
+},["BOOL","CPCharacterSet"]), new objj_method(sel_getUid("_isEqualToStringContentCharacterSet:"), function $_CPStringContentCharacterSet___isEqualToStringContentCharacterSet_(self, _cmd, aCharacterSet)
+{ with(self)
+{
+    if (!aCharacterSet)
+        return NO;
+    return _string == aCharacterSet._string && _inverted == aCharacterSet._inverted;
+}
+},["BOOL","_CPStringContentCharacterSet"])]);
+}
+var _CPStringContentCharacterSetStringKey = "_CPStringContentCharacterSetStringKey";
+{
+var the_class = objj_getClass("_CPStringContentCharacterSet")
+if(!the_class) throw new SyntaxError("*** Could not find definition for class \"_CPStringContentCharacterSet\"");
+var meta_class = the_class.isa;class_addMethods(the_class, [new objj_method(sel_getUid("initWithCoder:"), function $_CPStringContentCharacterSet__initWithCoder_(self, _cmd, aCoder)
+{ with(self)
+{
+    if (self = objj_msgSendSuper({ receiver:self, super_class:objj_getClass("_CPStringContentCharacterSet").super_class }, "initWithCoder:", aCoder))
+    {
+        _string = objj_msgSend(aCoder, "decodeObjectForKey:", _CPStringContentCharacterSetStringKey)
+    }
+    return self;
+}
+},["id","CPCoder"]), new objj_method(sel_getUid("encodeWithCoder:"), function $_CPStringContentCharacterSet__encodeWithCoder_(self, _cmd, aCoder)
+{ with(self)
+{
+    objj_msgSendSuper({ receiver:self, super_class:objj_getClass("_CPStringContentCharacterSet").super_class }, "encodeWithCoder:", aCoder);
+    objj_msgSend(aCoder, "encodeObject:forKey:", _string, _CPStringContentCharacterSetStringKey);
+}
+},["void","CPCoder"])]);
 }
 _CPCharacterSetTrimAtBeginning = 1 << 1;
 _CPCharacterSetTrimAtEnd = 1 << 2;
